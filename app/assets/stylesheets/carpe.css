@@ -1,6 +1,7 @@
 body 
 {
 	font-family: 'Open Sans', sans-serif;
+	margin: 0px;
 }
 .carpe-font /* Has the Carpe cool font */
 {
@@ -8,6 +9,19 @@ body
 	font-weight: normal;
 	color: rgb(255, 116, 0);
 }
+.header-main
+{
+	background: rgb(56, 56, 56);
+	color: white;
+	height: 40px;
+	font-size: 20px;
+}
+.header-main a
+{
+	color: white;
+	text-decoration: none;
+}
+/* Some handy tools */
 .center-text
 {
 	text-align: center;
