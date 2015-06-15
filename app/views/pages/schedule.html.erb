@@ -1,5 +1,7 @@
 <%= render "shared/header" %>
-<div id="cont-hold">
+<%= javascript_include_tag "application"%>
+
+<br /><div id="cont-hold">
 	<h1 class="no-bold zero-bot">Your Schedule</h1>
 	<h3 class="no-bold zero-top">It all starts here. The scheduling revolution</h3>
 	
@@ -14,3 +16,21 @@
 		<div id="sch-days">M | T | W | Th | F | S | Su</div>
 	</div>
 </div>
+<script>
+$(function() {
+    $( document ).tooltip({
+      position: {
+        my: "center bottom-20",
+        at: "center top",
+        using: function( position, feedback ) {
+          $( this ).css( position );
+          $( "<div>" )
+            .addClass( "arrow" )
+            .addClass( feedback.vertical )
+            .addClass( feedback.horizontal )
+            .appendTo( this );
+        }
+      }
+    });
+  });
+</script>
