@@ -84,3 +84,13 @@ body
 {
 	font-weight: normal;
 }
+.zero-top
+{
+	margin-top: 0px;
+	padding-top: 0px;
+}
+.zero-bot
+{
+	margin-bottom: 0px;
+	padding-bottom: 0px;
+}
