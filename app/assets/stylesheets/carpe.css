@@ -20,7 +20,61 @@ body
 {
 	color: white;
 	text-decoration: none;
+	font-size: 18px;
 }
+#cont-hold
+{
+	width: 100%;
+	height: 90vh;
+	max-width: 1028px;
+	margin-left: auto;
+	margin-right: auto;
+}
+#sch-main
+{
+	width: 79%;
+	background: rgb(207, 207, 207);
+	height: 500px;
+	border-radius: 5px;
+	float: right;
+}
+#sch-sidebar
+{
+	width: 20%;
+	height: 500px;
+	background: rgb(207, 207, 207);
+	font-size: 24px;
+	border-radius: 5px;
+	float: left;
+}
+.sch-evnt
+{
+	width: 150px;
+	height: 100px;
+	background: white;
+	margin-left: auto;
+	margin-right: auto;
+	border-radius: 5px;
+	margin-top: 10px;
+	font-size: 16px;
+}
+.sch-class
+{
+	background: rgb(255, 115, 115);
+}
+.sch-work
+{
+	background: rgb(115,115,255);
+}
+.sch-play
+{
+	background: rgb(162, 98, 255);
+}
+.sch-hangout
+{
+	background: rgb(129, 253, 131);
+}
+
 /* Some handy tools */
 .center-text
 {
