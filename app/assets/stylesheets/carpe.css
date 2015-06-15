@@ -6,4 +6,13 @@ body
 {
 	font-family: 'Pacifico', cursive;
 	font-weight: normal;
+	color: rgb(255, 116, 0);
+}
+.center-text
+{
+	text-align: center;
+}
+.no-bold
+{
+	font-weight: normal;
 }
