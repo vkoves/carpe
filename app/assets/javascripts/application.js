@@ -15,4 +15,3 @@
 //= require turbolinks
 //= require_tree .
 //= require jquery-ui.min.js
-//= require vendor_javascripts
