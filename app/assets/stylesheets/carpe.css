@@ -2,6 +2,7 @@ body
 {
 	font-family: 'Open Sans', sans-serif;
 	margin: 0px;
+	width: 100%;
 }
 .carpe-font /* Has the Carpe cool font */
 {
@@ -52,8 +53,7 @@ body
 }
 .sch-evnt
 {
-	width: 90%;
-	max-width: 150px;
+	width: 150px;
 	height: 100px;
 	background: white;
 	margin-left: auto;
@@ -91,6 +91,13 @@ body
 .sch-hangout
 {
 	background: rgb(129, 253, 131);
+}
+.col-snap
+{
+	height: 94%;
+	width: 150px;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 /* Some handy tools */

@@ -15,17 +15,57 @@
 	</div>
 	<div id="sch-main">
 		<div id="sch-days">
-			<div class="sch-day-col">Monday</div>
-			<div class="sch-day-col">Tuesday</div>
-			<div class="sch-day-col">Wednesday</div>
-			<div class="sch-day-col">Thursday</div>
-			<div class="sch-day-col">Friday</div>
-			<div class="sch-day-col">Saturday</div>
-			<div class="sch-day-col">Sunday</div>
+			<div class="sch-day-col">Monday
+				<div class="col-snap evt-snap"></div>
+			</div>
+			<div class="sch-day-col">Tuesday
+				<div class="col-snap evt-snap"></div>
+			</div>
+			<div class="sch-day-col">Wednesday
+				<div class="col-snap evt-snap"></div>
+			</div>
+			<div class="sch-day-col">Thursday
+				<div class="col-snap evt-snap"></div>
+			</div>
+			<div class="sch-day-col">Friday
+				<div class="col-snap evt-snap"></div>
+			</div>
+			<div class="sch-day-col">Saturday
+				<div class="col-snap evt-snap"></div>
+			</div>
+			<div class="sch-day-col">Sunday
+				<div class="col-snap evt-snap"></div>
+			</div>
 		</div>
 	</div>
 </div>
 <script>
 $("#evnt-desc").tooltip();
-$(".sch-evnt").draggable();
+$(".sch-evnt").draggable({
+	containment: "window",
+	snap: ".evt-snap",
+	snapMode: "inner",
+	appendTo: ".sch-day-col",
+	stop: function( event, ui ) {
+		var a = $(this).clone();
+		$(this).html("WOW");
+	}
+});
+$(".col-snap").droppable({
+	drop: function( event, ui ) 
+	{
+    	//$(this).
+    	ui.draggable.css("color","white");
+    	var element = ui.draggable.detach();
+		$(this).append(element);
+		ui.draggable.css("left","0px");
+		$(this).parent().css("background","");
+	},
+	over: function( event, ui ) {
+		$(this).parent().css("background","yellow");
+	},
+	out: function( event, ui ) {
+		$(this).parent().css("background","");
+	}
+});
 </script>
