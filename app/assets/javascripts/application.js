@@ -14,5 +14,5 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
-//= require jquery.ui.touch-punch.min
 //= require jquery-ui.min
+//= require jquery.ui.touch-punch.min
