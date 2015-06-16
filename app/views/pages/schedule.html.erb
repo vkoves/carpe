@@ -40,21 +40,12 @@
 	</div>
 </div>
 <script>
+var sideHMTL;
 $("#evnt-desc").tooltip();
-$(".sch-evnt").draggable({
-	containment: "window",
-	snap: ".evt-snap",
-	snapMode: "inner",
-	appendTo: ".sch-day-col",
-	stop: function( event, ui ) {
-		var a = $(this).clone();
-		$(this).html("WOW");
-	}
-});
+addDrag(); //add dragging, recursively
 $(".col-snap").droppable({
 	drop: function( event, ui ) 
 	{
-    	//$(this).
     	ui.draggable.css("color","white");
     	var element = ui.draggable.detach();
 		$(this).append(element);
@@ -68,4 +59,27 @@ $(".col-snap").droppable({
 		$(this).parent().css("background","");
 	}
 });
+
+function addDrag()
+{
+	$("#sch-sidebar .sch-evnt").draggable({
+		containment: "window",
+		snap: ".evt-snap",
+		snapMode: "inner",
+		appendTo: ".sch-day-col",
+		revert: true,
+		revertDuration: 0,
+		start: function(event, ui)
+		{
+			sideHTML  = $("#sch-sidebar").html();
+		},
+		stop: function( event, ui ) 
+		{
+			var a = $(this).clone();
+			$(this).html("WOW");
+			$("#sch-sidebar").html(sideHTML);
+			addDrag();
+		}
+	});
+}
 </script>
