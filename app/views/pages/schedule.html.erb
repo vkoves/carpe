@@ -1,36 +1,31 @@
 <%= render "shared/header" %>
 <%= javascript_include_tag "application"%>
+<%= stylesheet_link_tag "jquery-ui.min" %>
 
 <br /><div id="cont-hold">
 	<h1 class="no-bold zero-bot">Your Schedule</h1>
 	<h3 class="no-bold zero-top">It all starts here. The scheduling revolution</h3>
 	
 	<div id="sch-sidebar">
-		Events
-		<div class="sch-evnt sch-class">Class</div>
+		<span id="evnt-desc" title="Drag these events onto the schedule to get started">Events</span>
+		<div class="sch-evnt sch-class" id="cs" title="Drag to add classes">Class</div>
 		<div class="sch-evnt sch-work">Work</div>
 		<div class="sch-evnt sch-play">Play</div>
 		<div class="sch-evnt sch-hangout">Hangout</div>
 	</div>
 	<div id="sch-main">
-		<div id="sch-days">M | T | W | Th | F | S | Su</div>
+		<div id="sch-days">
+			<div class="sch-day-col">Monday</div>
+			<div class="sch-day-col">Tuesday</div>
+			<div class="sch-day-col">Wednesday</div>
+			<div class="sch-day-col">Thursday</div>
+			<div class="sch-day-col">Friday</div>
+			<div class="sch-day-col">Saturday</div>
+			<div class="sch-day-col">Sunday</div>
+		</div>
 	</div>
 </div>
 <script>
-$(function() {
-    $( document ).tooltip({
-      position: {
-        my: "center bottom-20",
-        at: "center top",
-        using: function( position, feedback ) {
-          $( this ).css( position );
-          $( "<div>" )
-            .addClass( "arrow" )
-            .addClass( feedback.vertical )
-            .addClass( feedback.horizontal )
-            .appendTo( this );
-        }
-      }
-    });
-  });
+$("#evnt-desc").tooltip();
+$(".sch-evnt").draggable();
 </script>

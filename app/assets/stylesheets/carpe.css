@@ -24,8 +24,9 @@ body
 }
 #cont-hold
 {
-	width: 100%;
+	width: 96%;
 	height: 90vh;
+	min-width: 800px;
 	max-width: 1028px;
 	margin-left: auto;
 	margin-right: auto;
@@ -37,6 +38,8 @@ body
 	height: 500px;
 	border-radius: 5px;
 	float: right;
+	overflow-x: scroll;
+	overflow-y: hidden;
 }
 #sch-sidebar
 {
@@ -49,7 +52,8 @@ body
 }
 .sch-evnt
 {
-	width: 150px;
+	width: 90%;
+	max-width: 150px;
 	height: 100px;
 	background: white;
 	margin-left: auto;
@@ -57,6 +61,20 @@ body
 	border-radius: 5px;
 	margin-top: 10px;
 	font-size: 16px;
+}
+#sch-days
+{
+	height: 100%;
+	width: 1190px;
+}
+.sch-day-col
+{
+	height: 98%;
+	width: 160px;
+	float: left;
+	margin: 5px;
+	background: grey;
+	border-radius: 5px;
 }
 .sch-class
 {
