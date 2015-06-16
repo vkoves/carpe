@@ -40,26 +40,33 @@
 	</div>
 </div>
 <script>
-var sideHMTL;
-$("#evnt-desc").tooltip();
-addDrag(); //add dragging, recursively
-$(".col-snap").droppable({
-	drop: function( event, ui ) 
-	{
-    	ui.draggable.css("color","white");
-    	var element = ui.draggable.detach();
-		$(this).append(element);
-		ui.draggable.css("left","0px");
-		$(this).parent().css("background","");
-	},
-	over: function( event, ui ) {
-		$(this).parent().css("background","yellow");
-	},
-	out: function( event, ui ) {
-		$(this).parent().css("background","");
-	}
+$(document).ready(function()
+{
+	var sideHMTL; //the sidebar html for restoration upon drops
+	
+	$("#evnt-desc").tooltip(); //toss a tooltip on the events text
+	
+	addDrag(); //add dragging, recursively
+	
+	//make the columns droppable
+	$(".col-snap").droppable({
+		drop: function( event, ui ) 
+		{
+	    	var element = ui.draggable.detach();
+			$(this).append(element);
+			ui.draggable.css("left","0px");
+			$(this).parent().css("background","");
+		},
+		over: function( event, ui ) {
+			$(this).parent().css("background","rgb(255, 255, 151)");
+		},
+		out: function( event, ui ) {
+			$(this).parent().css("background","");
+		}
+	});	
 });
 
+//the dragging function
 function addDrag()
 {
 	$("#sch-sidebar .sch-evnt").draggable({
@@ -69,6 +76,7 @@ function addDrag()
 		appendTo: ".sch-day-col",
 		revert: true,
 		revertDuration: 0,
+		stack: ".sch-evnt",
 		start: function(event, ui)
 		{
 			sideHTML  = $("#sch-sidebar").html();
@@ -76,7 +84,6 @@ function addDrag()
 		stop: function( event, ui ) 
 		{
 			var a = $(this).clone();
-			$(this).html("WOW");
 			$("#sch-sidebar").html(sideHTML);
 			addDrag();
 		}
