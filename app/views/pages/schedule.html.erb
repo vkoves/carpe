@@ -8,32 +8,41 @@
 	
 	<div id="sch-sidebar">
 		<span id="evnt-desc" title="Drag these events onto the schedule to get started">Events</span>
-		<div class="sch-evnt sch-class" id="cs" title="Drag to add classes">Class</div>
+		<div id="sch-tiles">
+		<div class="sch-evnt sch-class">Class</div>
 		<div class="sch-evnt sch-work">Work</div>
 		<div class="sch-evnt sch-play">Play</div>
 		<div class="sch-evnt sch-hangout">Hangout</div>
+		</div>
 	</div>
 	<div id="sch-main">
 		<div id="sch-days">
-			<div class="sch-day-col">Monday
+			<div class="sch-day-col">
+				<span class="col-titler">Monday</span>
 				<div class="col-snap evt-snap"></div>
 			</div>
-			<div class="sch-day-col">Tuesday
+			<div class="sch-day-col">
+				<span class="col-titler">Tuesday</span>
 				<div class="col-snap evt-snap"></div>
 			</div>
-			<div class="sch-day-col">Wednesday
+			<div class="sch-day-col">
+				<span class="col-titler">Wednesday</span>
 				<div class="col-snap evt-snap"></div>
 			</div>
-			<div class="sch-day-col">Thursday
+			<div class="sch-day-col">
+				<span class="col-titler">Thursday</span>
 				<div class="col-snap evt-snap"></div>
 			</div>
-			<div class="sch-day-col">Friday
+			<div class="sch-day-col">
+				<span class="col-titler">Friday</span>
 				<div class="col-snap evt-snap"></div>
 			</div>
-			<div class="sch-day-col">Saturday
+			<div class="sch-day-col">
+				<span class="col-titler">Saturday</span>
 				<div class="col-snap evt-snap"></div>
 			</div>
-			<div class="sch-day-col">Sunday
+			<div class="sch-day-col">
+				<span class="col-titler">Sunday</span>
 				<div class="col-snap evt-snap"></div>
 			</div>
 		</div>
@@ -55,6 +64,8 @@ $(document).ready(function()
 	    	var element = ui.draggable.detach();
 			$(this).append(element);
 			ui.draggable.css("left","0px");
+			var topVal = parseFloat(ui.draggable.css("top"));
+			ui.draggable.css("top",topVal+6);
 			$(this).parent().css("background","");
 		},
 		over: function( event, ui ) {
@@ -64,6 +75,8 @@ $(document).ready(function()
 			$(this).parent().css("background","");
 		}
 	});	
+	
+	addDates();
 });
 
 //the dragging function
@@ -73,20 +86,40 @@ function addDrag()
 		containment: "window",
 		snap: ".evt-snap",
 		snapMode: "inner",
-		appendTo: ".sch-day-col",
-		revert: true,
+		appendTo: ".col-snap",
+		revert: "invalid",
 		revertDuration: 0,
 		stack: ".sch-evnt",
 		start: function(event, ui)
 		{
-			sideHTML  = $("#sch-sidebar").html();
+			sideHTML  = $("#sch-tiles").html();
 		},
 		stop: function( event, ui ) 
 		{
-			var a = $(this).clone();
-			$("#sch-sidebar").html(sideHTML);
+			$("#sch-tiles").html(sideHTML);
+			$(this).css("position","absolute");
 			addDrag();
 		}
+	});
+}
+
+function addDates()
+{
+	var currDate = new Date();
+	var day = currDate.getDay();
+	var date = currDate.getDate();
+	var dayOffset = day - 1;
+	var startDate;
+	
+	if(day == 0)
+		startDate = date - 6;
+	else
+		startDate = date - dayOffset;
+	
+	$(".sch-day-col").each(function(index, col)
+	{
+		$(col).children(".col-titler").prepend(startDate + " ");
+		startDate++;
 	});
 }
 </script>

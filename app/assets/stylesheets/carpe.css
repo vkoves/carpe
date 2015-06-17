@@ -53,11 +53,14 @@ body
 }
 .sch-evnt
 {
+	position: absolute;
 	width: 150px;
 	height: 100px;
 	background: white;
 	margin-left: auto;
 	margin-right: auto;
+	left: 0;
+	right: 0;
 	border-radius: 5px;
 	margin-top: 10px;
 	font-size: 16px;
@@ -69,6 +72,7 @@ body
 }
 .sch-day-col
 {
+	position: relative; /* Viktor added 1 am June 17 */
 	height: 98%;
 	width: 160px;
 	float: left;
@@ -86,23 +90,36 @@ body
 {
 	background: rgb(115,115,255);
 	border-bottom: solid 2px rgb(56, 56, 128);
+	top: 112px;
 }
 .sch-play
 {
 	background: rgb(162, 98, 255);
 	border-bottom: solid 2px rgb(104, 0, 255);
+	top: 224px;
 }
 .sch-hangout
 {
 	background: rgb(129, 253, 131);
 	border-bottom: solid 2px rgb(70, 140, 71);
+	top: 336px;
+}
+#sch-tiles
+{
+	position: relative;
+	margin-left: auto;
+	margin-right: auto;
+	width: 150px;
 }
 .col-snap
 {
+	position: absolute; /* Viktor added 1 am June 17 */
 	height: 94%;
 	width: 150px;
 	margin-left: auto;
 	margin-right: auto;
+	left: 0px;
+	right: 0px;
 }
 
 /* Some handy tools */
