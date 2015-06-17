@@ -9,10 +9,22 @@
 	<div id="sch-sidebar">
 		<span id="evnt-desc" title="Drag these events onto the schedule to get started">Events</span>
 		<div id="sch-tiles">
-		<div class="sch-evnt sch-class">Class</div>
-		<div class="sch-evnt sch-work">Work</div>
-		<div class="sch-evnt sch-play">Play</div>
-		<div class="sch-evnt sch-hangout">Hangout</div>
+		<div class="sch-evnt sch-class">
+			Class
+			<img class="sch-evnt-close" src="/assets/close.png" onclick="removeEvent(this);">
+		</div>
+		<div class="sch-evnt sch-work">
+			Work
+			<img class="sch-evnt-close" src="/assets/close.png" onclick="removeEvent(this);">
+		</div>
+		<div class="sch-evnt sch-play">
+			Play
+			<img class="sch-evnt-close" src="/assets/close.png" onclick="removeEvent(this);">
+		</div>
+		<div class="sch-evnt sch-hangout">
+			Hangout
+			<img class="sch-evnt-close" src="/assets/close.png" onclick="removeEvent(this);">
+		</div>
 		</div>
 	</div>
 	<div id="sch-main">
@@ -70,7 +82,7 @@ $(document).ready(function()
 	    	var element = ui.draggable.detach();
 			$(this).append(element);
 			ui.draggable.css("left","0px");
-			
+			ui.draggable.children(".sch-evnt-close").css("display","block");
 			$(this).parent().css("background","");
 		},
 		over: function( event, ui ) {
@@ -130,5 +142,10 @@ function addDates()
 		$(col).children(".col-titler").prepend(startDate + " ");
 		startDate++;
 	});
+}
+
+function removeEvent(elem)
+{
+	$(elem).parent().slideUp("normal", function() { $(this).remove(); } );
 }
 </script>
