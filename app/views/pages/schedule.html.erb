@@ -61,11 +61,16 @@ $(document).ready(function()
 	$(".col-snap").droppable({
 		drop: function( event, ui ) 
 		{
+			if(ui.draggable.parent().attr("id") == "sch-tiles")
+			{
+				var topVal = parseFloat(ui.draggable.css("top"));
+				ui.draggable.css("top",topVal+6);
+			}
+			
 	    	var element = ui.draggable.detach();
 			$(this).append(element);
 			ui.draggable.css("left","0px");
-			var topVal = parseFloat(ui.draggable.css("top"));
-			ui.draggable.css("top",topVal+6);
+			
 			$(this).parent().css("background","");
 		},
 		over: function( event, ui ) {
@@ -118,6 +123,10 @@ function addDates()
 	
 	$(".sch-day-col").each(function(index, col)
 	{
+		if(startDate == date) //if this is today
+		{
+			$(col).attr("id","sch-col-today");	
+		}
 		$(col).children(".col-titler").prepend(startDate + " ");
 		startDate++;
 	});

@@ -81,6 +81,10 @@ body
 	border-radius: 5px;
 	border-bottom: solid 2px rgb(48, 48, 48);
 }
+#sch-col-today
+{
+	background:   rgb(255, 255, 115);
+}
 .sch-class
 {
 	background: rgb(255, 115, 115);
