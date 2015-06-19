@@ -76,7 +76,15 @@ $(document).ready(function()
 			if(ui.draggable.parent().attr("id") == "sch-tiles")
 			{
 				var topVal = parseFloat(ui.draggable.css("top"));
-				ui.draggable.css("top",topVal+6);
+				topVal += 16;
+				if(topVal < 0) //make sure the event is not halfway off the top
+					topVal = 0;
+				else if(topVal > $(this).height() - ui.draggable.height()) //or bottom
+					topVal = $(this).height() - ui.draggable.height();
+				else
+					alert($(this).height());
+				ui.draggable.css("top",topVal);
+				
 			}
 			
 	    	var element = ui.draggable.detach();
@@ -92,6 +100,8 @@ $(document).ready(function()
 			$(this).parent().css("background","");
 		}
 	});	
+	
+	
 	
 	addDates();
 });
@@ -116,7 +126,13 @@ function addDrag()
 		{
 			$("#sch-tiles").html(sideHTML);
 			$(this).css("position","absolute");
+			$(this).css("margin-top","0px");
 			addDrag();
+			$(this).resizable({
+		    	handles: 'n, s',
+		    	minHeight: 25,
+		    	containment: "parent"
+			});
 		}
 	});
 }

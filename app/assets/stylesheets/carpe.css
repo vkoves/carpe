@@ -53,7 +53,7 @@ body
 }
 .sch-evnt
 {
-	position: absolute;
+	position: absolute !important;
 	width: 150px;
 	height: 100px;
 	background: white;
