@@ -103,27 +103,11 @@ $(document).ready(function()
 		},
 		over: function( event, ui ) {
 			$(this).parent().css("background","rgb(255, 255, 151)");
-			
-			/*
-			//Align to the columns internal grid
-			var topVal = parseFloat(ui.draggable.css("top"));
-			console.log("TOP VAL: " + topVal);
-			if((topVal + 16)%30 != 0)
-			{
-				gridNum = Math.floor((topVal + 16)/30);
-				console.log(gridNum);
-				topVal = -16; //(gridNum*30)+16;
-				ui.draggable.css("top",topVal);
-			}
-			
-			setTimeout(function()
-			{
-			//$(ui.draggable).draggable( "option", "grid", [ 1, 30 ] );
-			}, 2000); */
+			$(ui.draggable).draggable("option","gridOn", true);
 		},
 		out: function( event, ui ) {
 			$(this).parent().css("background","");
-			$(ui.draggable).draggable("option", "grid", false);
+			$(ui.draggable).draggable("option","gridOn", false);
 		}
 	});	
 	
@@ -145,6 +129,7 @@ function addDrag()
 		revertDuration: 0,
 		stack: ".sch-evnt",
 		opacity: 0.7,
+		gridOn: false,
 		stop: function(event, ui) 
 		{
 			$("#sch-tiles").html(sideHTML);
@@ -170,7 +155,7 @@ function addDrag()
 	        	var topRemainder = (ui.position.top + 16) % 30;
 	        else
 	        	var topRemainder = (ui.position.top) % 30;
-			
+			if($(this).draggable('option', 'gridOn'))	
 	        ui.position.top = ui.position.top - topRemainder;
 		}
 	});
