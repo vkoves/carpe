@@ -64,6 +64,7 @@
 $(document).ready(function()
 {
 	var sideHMTL; //the sidebar html for restoration upon drops
+	sideHTML  = $("#sch-tiles").html();
 	
 	$("#evnt-desc").tooltip(); //toss a tooltip on the events text
 	
@@ -81,9 +82,9 @@ $(document).ready(function()
 				{
 					topVal = 0;
 				}
-				else if(topVal > $(this).height() - ui.draggable.height()) //or bottom
+				else if(topVal > $(this).height() - ui.draggable.outerHeight()) //or bottom
 				{
-					topVal = $(this).height() - ui.draggable.height();
+					topVal = $(this).height() - ui.draggable.outerHeight();
 				}
 				ui.draggable.css("top",topVal);
 			}
@@ -96,14 +97,33 @@ $(document).ready(function()
 			$(ui.draggable).resizable({
 		    	handles: 'n, s',
 		    	minHeight: 25,
+		    	grid: [ 0, 30 ],
 		    	containment: "parent"
 			});
 		},
 		over: function( event, ui ) {
 			$(this).parent().css("background","rgb(255, 255, 151)");
+			
+			/*
+			//Align to the columns internal grid
+			var topVal = parseFloat(ui.draggable.css("top"));
+			console.log("TOP VAL: " + topVal);
+			if((topVal + 16)%30 != 0)
+			{
+				gridNum = Math.floor((topVal + 16)/30);
+				console.log(gridNum);
+				topVal = -16; //(gridNum*30)+16;
+				ui.draggable.css("top",topVal);
+			}
+			
+			setTimeout(function()
+			{
+			//$(ui.draggable).draggable( "option", "grid", [ 1, 30 ] );
+			}, 2000); */
 		},
 		out: function( event, ui ) {
 			$(this).parent().css("background","");
+			$(ui.draggable).draggable("option", "grid", false);
 		}
 	});	
 	
@@ -124,11 +144,8 @@ function addDrag()
 		revert: "invalid",
 		revertDuration: 0,
 		stack: ".sch-evnt",
-		start: function(event, ui)
-		{
-			sideHTML  = $("#sch-tiles").html();
-		},
-		stop: function( event, ui ) 
+		opacity: 0.7,
+		stop: function(event, ui) 
 		{
 			$("#sch-tiles").html(sideHTML);
 			$(this).css("position","absolute");
@@ -136,16 +153,25 @@ function addDrag()
 			addDrag();
 			
 			var topVal = parseFloat($(this).css("top"));
-			topVal += 16;
 			if(topVal < 0) //make sure the event is not halfway off the top
 			{
 				topVal = 0;
 			}
-			else if(topVal > $(this).parent().height() - $(this).height()) //or bottom
+			else if(topVal > $(this).parent().height() - $(this).outerHeight()) //or bottom
 			{
-				topVal = $(this).parent().height() - $(this).height();
+				topVal = $(this).parent().height() - $(this).outerHeight();
 			}
 			$(this).css("top",topVal);
+		},
+		drag: function(event, ui)
+		{
+			//custom grid stuff using drag
+	        if($(this).parent().attr("id") == "sch-tiles")
+	        	var topRemainder = (ui.position.top + 16) % 30;
+	        else
+	        	var topRemainder = (ui.position.top) % 30;
+			
+	        ui.position.top = ui.position.top - topRemainder;
 		}
 	});
 }
