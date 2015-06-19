@@ -71,20 +71,21 @@ $(document).ready(function()
 	
 	//make the columns droppable
 	$(".col-snap").droppable({
-		drop: function( event, ui ) 
+		drop: function( event, ui ) //called when event is dropped on a new column (not called on moving it in the column)
 		{
 			if(ui.draggable.parent().attr("id") == "sch-tiles")
 			{
 				var topVal = parseFloat(ui.draggable.css("top"));
 				topVal += 16;
 				if(topVal < 0) //make sure the event is not halfway off the top
+				{
 					topVal = 0;
+				}
 				else if(topVal > $(this).height() - ui.draggable.height()) //or bottom
+				{
 					topVal = $(this).height() - ui.draggable.height();
-				else
-					alert($(this).height());
+				}
 				ui.draggable.css("top",topVal);
-				
 			}
 			
 	    	var element = ui.draggable.detach();
@@ -92,6 +93,11 @@ $(document).ready(function()
 			ui.draggable.css("left","0px");
 			ui.draggable.children(".sch-evnt-close").css("display","block");
 			$(this).parent().css("background","");
+			$(ui.draggable).resizable({
+		    	handles: 'n, s',
+		    	minHeight: 25,
+		    	containment: "parent"
+			});
 		},
 		over: function( event, ui ) {
 			$(this).parent().css("background","rgb(255, 255, 151)");
@@ -128,11 +134,18 @@ function addDrag()
 			$(this).css("position","absolute");
 			$(this).css("margin-top","0px");
 			addDrag();
-			$(this).resizable({
-		    	handles: 'n, s',
-		    	minHeight: 25,
-		    	containment: "parent"
-			});
+			
+			var topVal = parseFloat($(this).css("top"));
+			topVal += 16;
+			if(topVal < 0) //make sure the event is not halfway off the top
+			{
+				topVal = 0;
+			}
+			else if(topVal > $(this).parent().height() - $(this).height()) //or bottom
+			{
+				topVal = $(this).parent().height() - $(this).height();
+			}
+			$(this).css("top",topVal);
 		}
 	});
 }
