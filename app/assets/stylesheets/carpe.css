@@ -69,7 +69,7 @@ body
 	-moz-box-sizing:border-box;
 	-webkit-box-sizing:border-box; */
 }
-.sch-evnt-close
+.sch-evnt-icon
 {
 	display: none;
 	position: absolute;
@@ -78,6 +78,17 @@ body
 	/* background: white; */
  	border-radius: 500px;
 	width: 20px;
+}
+.sch-evnt-close
+{
+	right: 3px;
+	top: 3px;
+}
+.sch-evnt-edit
+{
+	right: 20px;
+	top: 5px;
+	width: 18px;
 }
 #sch-days
 {

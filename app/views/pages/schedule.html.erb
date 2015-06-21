@@ -11,19 +11,24 @@
 		<div id="sch-tiles">
 		<div class="sch-evnt sch-class">
 			Class
-			<%= image_tag "close.png", :class => "sch-evnt-close", :onclick => "removeEvent(this);" %>
+			
+			<%= image_tag "quill.png", :class => "sch-evnt-edit sch-evnt-icon", :onclick => "editEvent(this);" %>
+			<%= image_tag "close.png", :class => "sch-evnt-close sch-evnt-icon", :onclick => "removeEvent(this);" %>
 		</div>
 		<div class="sch-evnt sch-work">
 			Work
-			<%= image_tag "close.png", :class => "sch-evnt-close", :onclick => "removeEvent(this);" %>
+			<%= image_tag "quill.png", :class => "sch-evnt-edit sch-evnt-icon", :onclick => "editEvent(this);" %>
+			<%= image_tag "close.png", :class => "sch-evnt-close sch-evnt-icon", :onclick => "removeEvent(this);" %>
 		</div>
 		<div class="sch-evnt sch-play">
 			Play
-			<%= image_tag "close.png", :class => "sch-evnt-close", :onclick => "removeEvent(this);" %>
+			<%= image_tag "quill.png", :class => "sch-evnt-edit sch-evnt-icon", :onclick => "editEvent(this);" %>
+			<%= image_tag "close.png", :class => "sch-evnt-close sch-evnt-icon", :onclick => "removeEvent(this);" %>
 		</div>
 		<div class="sch-evnt sch-hangout">
 			Hangout
-			<%= image_tag "close.png", :class => "sch-evnt-close", :onclick => "removeEvent(this);" %>
+			<%= image_tag "quill.png", :class => "sch-evnt-edit sch-evnt-icon", :onclick => "editEvent(this);" %>
+			<%= image_tag "close.png", :class => "sch-evnt-close sch-evnt-icon", :onclick => "removeEvent(this);" %>
 		</div>
 		</div>
 	</div>
@@ -61,6 +66,8 @@
 	</div>
 </div>
 <script>
+var gridHeight = 30; //the height of the grid of resizing and dragging
+
 $(document).ready(function()
 {
 	var sideHMTL; //the sidebar html for restoration upon drops
@@ -87,17 +94,17 @@ $(document).ready(function()
 					topVal = $(this).height() - ui.draggable.outerHeight();
 				}
 				ui.draggable.css("top",topVal);
+				ui.draggable.css("height", gridHeight-2);
 			}
 			
 	    	var element = ui.draggable.detach();
 			$(this).append(element);
 			ui.draggable.css("left","0px");
-			ui.draggable.children(".sch-evnt-close").css("display","block");
+			ui.draggable.children(".sch-evnt-icon").css("display","block");
 			$(this).parent().css("background","");
 			$(ui.draggable).resizable({
 		    	handles: 'n, s',
-		    	minHeight: 25,
-		    	grid: [ 0, 30 ],
+		    	grid: [ 0, gridHeight ],
 		    	containment: "parent"
 			});
 		},
@@ -110,8 +117,6 @@ $(document).ready(function()
 			$(ui.draggable).draggable("option","gridOn", false);
 		}
 	});	
-	
-	
 	
 	addDates();
 });
@@ -152,9 +157,9 @@ function addDrag()
 		{
 			//custom grid stuff using drag
 	        if($(this).parent().attr("id") == "sch-tiles")
-	        	var topRemainder = (ui.position.top + 16) % 30;
+	        	var topRemainder = (ui.position.top + 16) % gridHeight;
 	        else
-	        	var topRemainder = (ui.position.top) % 30;
+	        	var topRemainder = (ui.position.top) % gridHeight;
 			if($(this).draggable('option', 'gridOn'))	
 	        ui.position.top = ui.position.top - topRemainder;
 		}
