@@ -64,6 +64,7 @@ body
 	border-radius: 5px;
 	margin-top: 10px;
 	font-size: 16px;
+	overflow: hidden;
 	/* Box sizing to make the borders on the inside 
 	box-sizing:border-box;
 	-moz-box-sizing:border-box;
@@ -149,6 +150,14 @@ body
 	margin-right: auto;
 	left: 0px;
 	right: 0px;
+}
+.evnt-desc
+{
+	margin-left: 5px;
+	margin-right: 5px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+ 	overflow: hidden;
 }
 
 /* Some handy tools */
