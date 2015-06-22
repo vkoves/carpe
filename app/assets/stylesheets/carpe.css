@@ -189,7 +189,7 @@ body
 	margin-bottom: 0px;
 	padding-bottom: 0px;
 }
-.dis-sel
+.dis-sel, .ui-tooltip-content
 {
 	cursor: default;
 	-webkit-touch-callout: none;
