@@ -11,28 +11,28 @@
 		<div id="sch-tiles">
 		<div class="sch-evnt sch-class">
 			<div class="evnt-time">7:30</div>
-			<div class="evnt-title center-text dis-sel">Class</div>
+			<div class="evnt-title center-text dis-sel" contenteditable="true">Class</div>
 			<div class="evnt-desc dis-sel" title="">CS 331 with Professor Beckman. Location: E1 218</div>
 			<%= image_tag "quill.png", :class => "sch-evnt-edit sch-evnt-icon", :onclick => "editEvent(this);" %>
 			<%= image_tag "close.png", :class => "sch-evnt-close sch-evnt-icon", :onclick => "removeEvent(this);" %>
 		</div>
 		<div class="sch-evnt sch-work">
 			<div class="evnt-time">7:30</div>
-			<div class="evnt-title center-text dis-sel">Work</div>
+			<div class="evnt-title center-text dis-sel" contenteditable="true">Work</div>
 			<div class="evnt-desc dis-sel" title="">indigoBox Website Redesign at iit</div>
 			<%= image_tag "quill.png", :class => "sch-evnt-edit sch-evnt-icon", :onclick => "editEvent(this);" %>
 			<%= image_tag "close.png", :class => "sch-evnt-close sch-evnt-icon", :onclick => "removeEvent(this);" %>
 		</div>
 		<div class="sch-evnt sch-play">
 			<div class="evnt-time">7:30</div>
-			<div class="evnt-title center-text dis-sel">Play</div>
+			<div class="evnt-title center-text dis-sel" contenteditable="true">Play</div>
 			<div class="evnt-desc dis-sel">Oblivion - Play through first three story missions</div>
 			<%= image_tag "quill.png", :class => "sch-evnt-edit sch-evnt-icon", :onclick => "editEvent(this);" %>
 			<%= image_tag "close.png", :class => "sch-evnt-close sch-evnt-icon", :onclick => "removeEvent(this);" %>
 		</div>
 		<div class="sch-evnt sch-hangout">
 			<div class="evnt-time">7:30</div>
-			<div class="evnt-title center-text dis-sel">Hangout</div>
+			<div class="evnt-title center-text dis-sel" contenteditable="true">Hangout</div>
 			<div class="evnt-desc dis-sel">Spend time with Robert and Eileen at Bee and Tea</div>
 			<%= image_tag "quill.png", :class => "sch-evnt-edit sch-evnt-icon", :onclick => "editEvent(this);" %>
 			<%= image_tag "close.png", :class => "sch-evnt-close sch-evnt-icon", :onclick => "removeEvent(this);" %>
@@ -164,6 +164,16 @@ function addDrag()
 		{
 			$("#sch-tiles").html(sideHTML);
 			
+			$(".evnt-title").on("keydown",function(e){
+			    var key = e.keyCode || e.charCode;  // ie||others
+				//alert(key);
+			    if(key == 13)  // if enter key is pressed
+			    {
+					e.preventDefault();
+				    $(this).blur();  // lose focus	
+			    }
+			});
+			
 			$("#sch-tiles .evnt-desc").tooltip({
 				position: { my: "left+15 top", at: "left bottom"}
 			}); //toss a tooltip on the events text
@@ -182,8 +192,6 @@ function addDrag()
 				topVal = $(this).parent().height() - $(this).outerHeight();
 			}
 			$(this).css("top",topVal);
-			
-			
 		},
 		drag: function(event, ui)
 		{
@@ -243,6 +251,12 @@ function addDates()
 function removeEvent(elem)
 {
 	$(elem).parent().slideUp("normal", function() { $(this).remove(); } );
+}
+
+function editEvent(elem)
+{
+	$(elem).siblings(".evnt-title").trigger('focus');
+	document.execCommand('selectAll',false,null);
 }
 
 function setTitles()
