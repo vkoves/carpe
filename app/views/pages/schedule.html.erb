@@ -116,7 +116,7 @@ $(document).ready(function()
 	    	var element = ui.draggable.detach();
 			$(this).append(element);
 			ui.draggable.css("left","0px");
-			ui.draggable.children(".sch-evnt-icon").show();
+			//ui.draggable.children(".sch-evnt-icon").show();
 			$(this).parent().css("background","");
 			
 			$(ui.draggable).resizable({
@@ -154,7 +154,10 @@ function addDrag()
 		gridOn: false,
 		start: function(event, ui)
 		{
-			$(this).css("height", (gridHeight*3)-2);
+			var height = parseFloat($(this).css("height"));
+			//alert(height);
+			if((height+2)%gridHeight != 0)
+				$(this).css("height", (gridHeight*3)-2);
 			$(this).children(".evnt-time").show();
 		},
 		stop: function(event, ui) 
