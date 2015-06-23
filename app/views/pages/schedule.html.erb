@@ -111,7 +111,6 @@ $(document).ready(function()
 					topVal = $(this).height() - ui.draggable.outerHeight();
 				}
 				ui.draggable.css("top",topVal);
-				ui.draggable.css("height", (gridHeight*3)-2);
 			}
 			
 	    	var element = ui.draggable.detach();
@@ -153,6 +152,11 @@ function addDrag()
 		stack: ".sch-evnt",
 		opacity: 0.7,
 		gridOn: false,
+		start: function(event, ui)
+		{
+			$(this).css("height", (gridHeight*3)-2);
+			$(this).children(".evnt-time").show();
+		},
 		stop: function(event, ui) 
 		{
 			$("#sch-tiles").html(sideHTML);
@@ -177,10 +181,6 @@ function addDrag()
 			$(this).css("top",topVal);
 			
 			
-		},
-		start: function(event, ui)
-		{
-			$(this).children(".evnt-time").show();
 		},
 		drag: function(event, ui)
 		{
