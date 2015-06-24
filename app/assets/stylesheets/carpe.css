@@ -120,11 +120,19 @@ body
 	background: rgb(255, 115, 115);
 	border-bottom: solid 2px rgb(135, 54, 54);
 }
+.col-snap .sch-class:hover
+{
+	/* background: grey; */
+}
 .sch-work
 {
 	background: rgb(115,115,255);
 	border-bottom: solid 2px rgb(56, 56, 128);
 	top: 112px;
+}
+.col-snap .sch-work:hover
+{
+	/* background: grey; */
 }
 .sch-play
 {
@@ -132,11 +140,18 @@ body
 	border-bottom: solid 2px rgb(96, 67, 138);
 	top: 224px;
 }
+.col-snap .sch-play:hover
+{
+	/* background: grey; */}
 .sch-hangout
 {
 	background: rgb(129, 253, 131);
 	border-bottom: solid 2px rgb(70, 140, 71);
 	top: 336px;
+}
+.col-snap .sch-hangout:hover
+{
+	/* background: grey; */
 }
 #sch-tiles
 {
@@ -182,10 +197,28 @@ body
 	height: 21px;
 	overflow: hidden;
 }
+
+/* Overlay CSS */
 .ui-widget-overlay
 {
 	display: none;
-	z-index: 10000000000;
+	z-index: 1000;
+}
+.overlay-box
+{
+	display: none;
+	position: absolute;
+	top: 10%;
+	left: 0;
+	right: 0;
+	
+	background: rgb(230,230,230);
+	border-radius: 5px;
+	width: 500px;
+	height: 400px;
+	margin-left: auto;
+	margin-right: auto;
+	z-index: 1001;
 }
 
 /* Some handy tools */

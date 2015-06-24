@@ -2,9 +2,8 @@
 <%= javascript_include_tag "application"%>
 <%= stylesheet_link_tag "jquery-ui.min" %>
 
-<div class="ui-widget-overlay" onclick="$(this).hide();">
-	<div></div>
-</div>
+<div class="ui-widget-overlay" onclick="hideOverlay();"></div>
+<div class="overlay-box"></div>
 
 <br /><div id="cont-hold">
 	<h1 class="no-bold zero-bot">Your Schedule</h1>
@@ -13,28 +12,28 @@
 	<div id="sch-sidebar">
 		<span id="sidebar-title" title="Drag these events onto the schedule to get started">Events</span>
 		<div id="sch-tiles">
-		<div class="sch-evnt sch-class" onclick="clickEvent()">
+		<div class="sch-evnt sch-class" onclick="showOverlay()">
 			<div class="evnt-time">7:30</div>
 			<div class="evnt-title center-text dis-sel" contenteditable="true">Class</div>
 			<div class="evnt-desc dis-sel" title="">CS 331 with Professor Beckman. Location: E1 218</div>
 			<%= image_tag "quill.png", :class => "sch-evnt-edit sch-evnt-icon", :onclick => "editEvent(event, this);" %>
 			<%= image_tag "close.png", :class => "sch-evnt-close sch-evnt-icon", :onclick => "removeEvent(event, this);" %>
 		</div>
-		<div class="sch-evnt sch-work" onclick="clickEvent()">
+		<div class="sch-evnt sch-work" onclick="showOverlay()">
 			<div class="evnt-time">7:30</div>
 			<div class="evnt-title center-text dis-sel" contenteditable="true">Work</div>
 			<div class="evnt-desc dis-sel" title="">indigoBox Website Redesign at iit</div>
 			<%= image_tag "quill.png", :class => "sch-evnt-edit sch-evnt-icon", :onclick => "editEvent(event, this);" %>
 			<%= image_tag "close.png", :class => "sch-evnt-close sch-evnt-icon", :onclick => "removeEvent(event, this);" %>
 		</div>
-		<div class="sch-evnt sch-play" onclick="clickEvent()">
+		<div class="sch-evnt sch-play" onclick="showOverlay()">
 			<div class="evnt-time">7:30</div>
 			<div class="evnt-title center-text dis-sel" contenteditable="true">Play</div>
 			<div class="evnt-desc dis-sel">Oblivion - Play through first three story missions</div>
 			<%= image_tag "quill.png", :class => "sch-evnt-edit sch-evnt-icon", :onclick => "editEvent(event, this);" %>
 			<%= image_tag "close.png", :class => "sch-evnt-close sch-evnt-icon", :onclick => "removeEvent(event, this);" %>
 		</div>
-		<div class="sch-evnt sch-hangout" onclick="clickEvent()">
+		<div class="sch-evnt sch-hangout" onclick="showOverlay()">
 			<div class="evnt-time">7:30</div>
 			<div class="evnt-title center-text dis-sel" contenteditable="true">Hangout</div>
 			<div class="evnt-desc dis-sel">Spend time with Robert and Eileen at Bee and Tea</div>
@@ -170,6 +169,7 @@ function addDrag(selector)
 		revertDuration: 0,
 		stack: ".sch-evnt",
 		opacity: 0.7,
+		distance: 10,
 		gridOn: false,
 		start: function(event, ui)
 		{
@@ -290,9 +290,16 @@ function editEvent(event, elem)
 	document.execCommand('selectAll',false,null);
 }
 
-function clickEvent()
+function showOverlay()
 {
 	$(".ui-widget-overlay").show();
+	$(".overlay-box").show();
+}
+
+function hideOverlay()
+{
+	$(".ui-widget-overlay").hide();
+	$(".overlay-box").hide();	
 }
 
 function setTitles()
