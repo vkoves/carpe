@@ -3,7 +3,10 @@
 <%= stylesheet_link_tag "jquery-ui.min" %>
 
 <div class="ui-widget-overlay" onclick="hideOverlay();"></div>
-<div class="overlay-box"></div>
+<div class="overlay-box">
+	<div class="overlay-title">CS 331</div>
+	<div class="overlay-desc">Look at this young description of a CS 331 event that we are talking about in this place</div>
+</div>
 
 <br /><div id="cont-hold">
 	<h1 class="no-bold zero-bot">Your Schedule</h1>
@@ -12,28 +15,28 @@
 	<div id="sch-sidebar">
 		<span id="sidebar-title" title="Drag these events onto the schedule to get started">Events</span>
 		<div id="sch-tiles">
-		<div class="sch-evnt sch-class" onclick="showOverlay()">
+		<div class="sch-evnt sch-class" onclick="showOverlay(this)">
 			<div class="evnt-time">7:30</div>
 			<div class="evnt-title center-text dis-sel" contenteditable="true">Class</div>
 			<div class="evnt-desc dis-sel" title="">CS 331 with Professor Beckman. Location: E1 218</div>
 			<%= image_tag "quill.png", :class => "sch-evnt-edit sch-evnt-icon", :onclick => "editEvent(event, this);" %>
 			<%= image_tag "close.png", :class => "sch-evnt-close sch-evnt-icon", :onclick => "removeEvent(event, this);" %>
 		</div>
-		<div class="sch-evnt sch-work" onclick="showOverlay()">
+		<div class="sch-evnt sch-work" onclick="showOverlay(this)">
 			<div class="evnt-time">7:30</div>
 			<div class="evnt-title center-text dis-sel" contenteditable="true">Work</div>
 			<div class="evnt-desc dis-sel" title="">indigoBox Website Redesign at iit</div>
 			<%= image_tag "quill.png", :class => "sch-evnt-edit sch-evnt-icon", :onclick => "editEvent(event, this);" %>
 			<%= image_tag "close.png", :class => "sch-evnt-close sch-evnt-icon", :onclick => "removeEvent(event, this);" %>
 		</div>
-		<div class="sch-evnt sch-play" onclick="showOverlay()">
+		<div class="sch-evnt sch-play" onclick="showOverlay(this)">
 			<div class="evnt-time">7:30</div>
 			<div class="evnt-title center-text dis-sel" contenteditable="true">Play</div>
 			<div class="evnt-desc dis-sel">Oblivion - Play through first three story missions</div>
 			<%= image_tag "quill.png", :class => "sch-evnt-edit sch-evnt-icon", :onclick => "editEvent(event, this);" %>
 			<%= image_tag "close.png", :class => "sch-evnt-close sch-evnt-icon", :onclick => "removeEvent(event, this);" %>
 		</div>
-		<div class="sch-evnt sch-hangout" onclick="showOverlay()">
+		<div class="sch-evnt sch-hangout" onclick="showOverlay(this)">
 			<div class="evnt-time">7:30</div>
 			<div class="evnt-title center-text dis-sel" contenteditable="true">Hangout</div>
 			<div class="evnt-desc dis-sel">Spend time with Robert and Eileen at Bee and Tea</div>
@@ -290,10 +293,14 @@ function editEvent(event, elem)
 	document.execCommand('selectAll',false,null);
 }
 
-function showOverlay()
+function showOverlay(elem)
 {
 	$(".ui-widget-overlay").show();
 	$(".overlay-box").show();
+	var title = $(elem).children(".evnt-title").html();
+	var desc = $(elem).children(".evnt-desc").html();
+	$(".overlay-title").html(title);
+	$(".overlay-desc").html(desc);
 }
 
 function hideOverlay()
