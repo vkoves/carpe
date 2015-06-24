@@ -2,6 +2,10 @@
 <%= javascript_include_tag "application"%>
 <%= stylesheet_link_tag "jquery-ui.min" %>
 
+<div class="ui-widget-overlay" onclick="$(this).hide();">
+	<div></div>
+</div>
+
 <br /><div id="cont-hold">
 	<h1 class="no-bold zero-bot">Your Schedule</h1>
 	<h3 class="no-bold zero-top">It all starts here. The scheduling revolution</h3>
@@ -9,33 +13,33 @@
 	<div id="sch-sidebar">
 		<span id="sidebar-title" title="Drag these events onto the schedule to get started">Events</span>
 		<div id="sch-tiles">
-		<div class="sch-evnt sch-class">
+		<div class="sch-evnt sch-class" onclick="clickEvent()">
 			<div class="evnt-time">7:30</div>
 			<div class="evnt-title center-text dis-sel" contenteditable="true">Class</div>
 			<div class="evnt-desc dis-sel" title="">CS 331 with Professor Beckman. Location: E1 218</div>
-			<%= image_tag "quill.png", :class => "sch-evnt-edit sch-evnt-icon", :onclick => "editEvent(this);" %>
-			<%= image_tag "close.png", :class => "sch-evnt-close sch-evnt-icon", :onclick => "removeEvent(this);" %>
+			<%= image_tag "quill.png", :class => "sch-evnt-edit sch-evnt-icon", :onclick => "editEvent(event, this);" %>
+			<%= image_tag "close.png", :class => "sch-evnt-close sch-evnt-icon", :onclick => "removeEvent(event, this);" %>
 		</div>
-		<div class="sch-evnt sch-work">
+		<div class="sch-evnt sch-work" onclick="clickEvent()">
 			<div class="evnt-time">7:30</div>
 			<div class="evnt-title center-text dis-sel" contenteditable="true">Work</div>
 			<div class="evnt-desc dis-sel" title="">indigoBox Website Redesign at iit</div>
-			<%= image_tag "quill.png", :class => "sch-evnt-edit sch-evnt-icon", :onclick => "editEvent(this);" %>
-			<%= image_tag "close.png", :class => "sch-evnt-close sch-evnt-icon", :onclick => "removeEvent(this);" %>
+			<%= image_tag "quill.png", :class => "sch-evnt-edit sch-evnt-icon", :onclick => "editEvent(event, this);" %>
+			<%= image_tag "close.png", :class => "sch-evnt-close sch-evnt-icon", :onclick => "removeEvent(event, this);" %>
 		</div>
-		<div class="sch-evnt sch-play">
+		<div class="sch-evnt sch-play" onclick="clickEvent()">
 			<div class="evnt-time">7:30</div>
 			<div class="evnt-title center-text dis-sel" contenteditable="true">Play</div>
 			<div class="evnt-desc dis-sel">Oblivion - Play through first three story missions</div>
-			<%= image_tag "quill.png", :class => "sch-evnt-edit sch-evnt-icon", :onclick => "editEvent(this);" %>
-			<%= image_tag "close.png", :class => "sch-evnt-close sch-evnt-icon", :onclick => "removeEvent(this);" %>
+			<%= image_tag "quill.png", :class => "sch-evnt-edit sch-evnt-icon", :onclick => "editEvent(event, this);" %>
+			<%= image_tag "close.png", :class => "sch-evnt-close sch-evnt-icon", :onclick => "removeEvent(event, this);" %>
 		</div>
-		<div class="sch-evnt sch-hangout">
+		<div class="sch-evnt sch-hangout" onclick="clickEvent()">
 			<div class="evnt-time">7:30</div>
 			<div class="evnt-title center-text dis-sel" contenteditable="true">Hangout</div>
 			<div class="evnt-desc dis-sel">Spend time with Robert and Eileen at Bee and Tea</div>
-			<%= image_tag "quill.png", :class => "sch-evnt-edit sch-evnt-icon", :onclick => "editEvent(this);" %>
-			<%= image_tag "close.png", :class => "sch-evnt-close sch-evnt-icon", :onclick => "removeEvent(this);" %>
+			<%= image_tag "quill.png", :class => "sch-evnt-edit sch-evnt-icon", :onclick => "editEvent(event, this);" %>
+			<%= image_tag "close.png", :class => "sch-evnt-close sch-evnt-icon", :onclick => "removeEvent(event, this);" %>
 		</div>
 		</div>
 	</div>
@@ -74,6 +78,18 @@
 </div>
 <script>
 var gridHeight = 25; //the height of the grid of resizing and dragging
+var ctrlPressed = false;
+
+$(window).keydown(function(evt) {
+  if (evt.which == 17) { // ctrl
+    ctrlPressed = true;
+  }
+}).keyup(function(evt) {
+  if (evt.which == 17) { // ctrl
+    ctrlPressed = false;
+  }
+});
+
 
 $(document).ready(function()
 {
@@ -139,9 +155,12 @@ $(document).ready(function()
 });
 
 //the dragging function
-function addDrag()
+function addDrag(selector)
 {
-	$("#sch-sidebar .sch-evnt").draggable({
+	if (selector == null)
+		selector = "#sch-sidebar .sch-evnt";
+		
+	$(selector).draggable({
 		containment: "window",
 		snap: ".evt-snap",
 		snapMode: "inner",
@@ -159,6 +178,16 @@ function addDrag()
 			if((height+2)%gridHeight != 0)
 				$(this).css("height", (gridHeight*3)-2);
 			$(this).children(".evnt-time").show();
+			
+			if(ctrlPressed && $(this).parent().attr("id") != "sch-tiles")
+			{
+				var clone = $(ui.helper).clone();
+				clone.removeClass("ui-draggable ui-draggable-handle ui-resizable ui-draggable-dragging");  
+				clone.css("opacity","1");
+				clone.css("z-index","0");
+				$(this).parent().append(clone);
+				addDrag(clone);
+			}
 		},
 		stop: function(event, ui) 
 		{
@@ -248,15 +277,22 @@ function addDates()
 	});
 }
 
-function removeEvent(elem)
+function removeEvent(event, elem)
 {
+	event.stopImmediatePropagation();
 	$(elem).parent().slideUp("normal", function() { $(this).remove(); } );
 }
 
-function editEvent(elem)
+function editEvent(event, elem)
 {
+	event.stopImmediatePropagation();
 	$(elem).siblings(".evnt-title").trigger('focus');
 	document.execCommand('selectAll',false,null);
+}
+
+function clickEvent()
+{
+	$(".ui-widget-overlay").show();
 }
 
 function setTitles()
