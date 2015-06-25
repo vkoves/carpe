@@ -39,7 +39,7 @@
 		<div class="sch-evnt sch-hangout" onclick="showOverlay(this)">
 			<div class="evnt-time">7:30</div>
 			<div class="evnt-title center-text dis-sel" contenteditable="true">Hangout</div>
-			<div class="evnt-desc dis-sel">Spend time with Robert and Eileen at Bee and Tea</div>
+			<div class="evnt-desc dis-sel">Spend time with Robert and Eileen at Bee & Tea</div>
 			<%= image_tag "quill.png", :class => "sch-evnt-edit sch-evnt-icon", :onclick => "editEvent(event, this);" %>
 			<%= image_tag "close.png", :class => "sch-evnt-close sch-evnt-icon", :onclick => "removeEvent(event, this);" %>
 		</div>
@@ -135,6 +135,7 @@ $(document).ready(function()
 			$(this).append(element);
 			ui.draggable.css("left","0px");
 			//ui.draggable.children(".sch-evnt-icon").show();
+			ui.draggable.children(".evnt-desc").show();
 			$(this).parent().css("background","");
 			
 			$(ui.draggable).resizable({
@@ -313,7 +314,7 @@ function setTitles()
 {
 	$(".evnt-desc").each(function(index, desc)
 	{
-		$(desc).attr("title", $(desc).html());
+		$(desc).attr("title", $(desc).text());
 	});
 }
 </script>
