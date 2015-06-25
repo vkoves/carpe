@@ -231,6 +231,13 @@ body
 	margin-left: auto;
 	margin-right: auto;
 }
+.overlay-time
+{
+	position: absolute;
+	float: left;
+	margin-top: 19px;
+	margin-left: 20px;
+}
 
 /* Some handy tools */
 .center-text
