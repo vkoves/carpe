@@ -5,6 +5,7 @@ ruby '2.2.0'
 gem 'rails', '4.2.0'
 #MYSQL
 gem 'mysql2'
+gem 'sqlite3'
 # Use postgresql as the database for Active Record
 gem 'pg'
 gem 'rails_12factor', group: :production
