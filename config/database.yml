@@ -19,7 +19,9 @@ development:
   timeout: 5000
 
 production:
+  adapter: mysql2
   <<: *default
-  database: ruby-getting-started_production
+  database: carpe_main
+  #database: ruby-getting-started_production  
   username: viktor
   password: <%= ENV['RUBY-GETTING-STARTED_DATABASE_PASSWORD'] %>
