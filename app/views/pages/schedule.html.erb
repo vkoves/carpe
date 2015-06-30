@@ -187,12 +187,20 @@ function addDrag(selector)
 			
 			if(ctrlPressed && $(this).parent().attr("id") != "sch-tiles")
 			{
-				var clone = $(ui.helper).clone();
+				var clone = $(ui.helper).clone();;
+				$(this).parent().append(clone);
 				clone.removeClass("ui-draggable ui-draggable-handle ui-resizable ui-draggable-dragging");  
 				clone.css("opacity","1");
-				clone.css("z-index","0");
-				$(this).parent().append(clone);
+				clone.css("z-index","0")
+				clone.children('.ui-resizable-handle').remove();
+				
 				addDrag(clone);
+				$(clone).resizable({
+			    	handles: 'n, s',
+			    	grid: [ 0, gridHeight ],
+			    	containment: "parent"
+				});
+				
 			}
 		},
 		stop: function(event, ui) 
