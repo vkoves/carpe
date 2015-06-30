@@ -16,31 +16,31 @@
 	<div id="sch-sidebar">
 		<span id="sidebar-title" title="Drag these events onto the schedule to get started">Events</span>
 		<div id="sch-tiles">
-		<div class="sch-evnt sch-class" onclick="showOverlay(this)">
+		<div class="sch-evnt sch-class">
 			<div class="evnt-time">7:30</div>
 			<div class="evnt-title center-text dis-sel" contenteditable="true">Class</div>
-			<div class="evnt-desc dis-sel" title="">CS 331 with Professor Beckman. Location: E1 218</div>
+			<div class="evnt-desc dis-sel" onclick="showOverlay()">CS 331 with Professor Beckman. Location: E1 218</div>
 			<%= image_tag "quill.png", :class => "sch-evnt-edit sch-evnt-icon", :onclick => "editEvent(event, this);" %>
 			<%= image_tag "close.png", :class => "sch-evnt-close sch-evnt-icon", :onclick => "removeEvent(event, this);" %>
 		</div>
-		<div class="sch-evnt sch-work" onclick="showOverlay(this)">
+		<div class="sch-evnt sch-work">
 			<div class="evnt-time">7:30</div>
 			<div class="evnt-title center-text dis-sel" contenteditable="true">Work</div>
-			<div class="evnt-desc dis-sel" title="">indigoBox Website Redesign at iit</div>
+			<div class="evnt-desc dis-sel" onclick="showOverlay()">indigoBox Website Redesign at iit</div>
 			<%= image_tag "quill.png", :class => "sch-evnt-edit sch-evnt-icon", :onclick => "editEvent(event, this);" %>
 			<%= image_tag "close.png", :class => "sch-evnt-close sch-evnt-icon", :onclick => "removeEvent(event, this);" %>
 		</div>
-		<div class="sch-evnt sch-play" onclick="showOverlay(this)">
+		<div class="sch-evnt sch-play">
 			<div class="evnt-time">7:30</div>
 			<div class="evnt-title center-text dis-sel" contenteditable="true">Play</div>
-			<div class="evnt-desc dis-sel">Oblivion - Play through first three story missions</div>
+			<div class="evnt-desc dis-sel" onclick="showOverlay()">Oblivion - Play through first three story missions</div>
 			<%= image_tag "quill.png", :class => "sch-evnt-edit sch-evnt-icon", :onclick => "editEvent(event, this);" %>
 			<%= image_tag "close.png", :class => "sch-evnt-close sch-evnt-icon", :onclick => "removeEvent(event, this);" %>
 		</div>
-		<div class="sch-evnt sch-hangout" onclick="showOverlay(this)">
+		<div class="sch-evnt sch-hangout">
 			<div class="evnt-time">7:30</div>
 			<div class="evnt-title center-text dis-sel" contenteditable="true">Hangout</div>
-			<div class="evnt-desc dis-sel">Spend time with Robert and Eileen at Bee & Tea</div>
+			<div class="evnt-desc dis-sel" onclick="showOverlay()">Spend time with Robert and Eileen at Bee & Tea</div>
 			<%= image_tag "quill.png", :class => "sch-evnt-edit sch-evnt-icon", :onclick => "editEvent(event, this);" %>
 			<%= image_tag "close.png", :class => "sch-evnt-close sch-evnt-icon", :onclick => "removeEvent(event, this);" %>
 		</div>
@@ -200,7 +200,6 @@ function addDrag(selector)
 			    	grid: [ 0, gridHeight ],
 			    	containment: "parent"
 				});
-				
 			}
 		},
 		stop: function(event, ui) 

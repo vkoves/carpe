@@ -173,11 +173,17 @@ body
 .evnt-desc
 {
 	display: none;
-	margin-left: 5px;
-	margin-right: 5px;
+	width: 100%;
+	height: 100%;
+	margin-left: auto;
+	margin-right: auto;
 	white-space: nowrap;
 	text-overflow: ellipsis;
  	overflow: hidden;
+}
+.evnt-desc:hover
+{
+	/* background: grey; */
 }
 .evnt-time
 {
@@ -239,6 +245,13 @@ body
 	margin-left: 20px;
 }
 
+
+.ui-resizable-handle
+{
+	/* background-color: blue; */
+	height: 10px !important;
+}
+
 /* Some handy tools */
 .center-text
 {
@@ -258,7 +271,7 @@ body
 	margin-bottom: 0px;
 	padding-bottom: 0px;
 }
-.dis-sel, .ui-tooltip-content
+.dis-sel, .ui-tooltip-content, body
 {
 	cursor: default;
 	-webkit-touch-callout: none;
