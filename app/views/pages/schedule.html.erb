@@ -18,28 +18,28 @@
 		<div id="sch-tiles">
 		<div class="sch-evnt sch-class">
 			<div class="evnt-time">7:30</div>
-			<div class="evnt-title center-text dis-sel" contenteditable="true">Class</div>
-			<div class="evnt-desc dis-sel" onclick="showOverlay()">CS 331 with Professor Beckman. Location: E1 218</div>
+			<div class="evnt-title center-text dis-sel" contenteditable="true" onclick="showOverlay()">Class</div>
+			<div class="evnt-desc dis-sel" onclick="showOverlay()"	>CS 331 with Professor Beckman. Location: E1 218</div>
 			<%= image_tag "quill.png", :class => "sch-evnt-edit sch-evnt-icon", :onclick => "editEvent(event, this);" %>
 			<%= image_tag "close.png", :class => "sch-evnt-close sch-evnt-icon", :onclick => "removeEvent(event, this);" %>
 		</div>
 		<div class="sch-evnt sch-work">
 			<div class="evnt-time">7:30</div>
-			<div class="evnt-title center-text dis-sel" contenteditable="true">Work</div>
+			<div class="evnt-title center-text dis-sel" contenteditable="true" onclick="showOverlay()">Work</div>
 			<div class="evnt-desc dis-sel" onclick="showOverlay()">indigoBox Website Redesign at iit</div>
 			<%= image_tag "quill.png", :class => "sch-evnt-edit sch-evnt-icon", :onclick => "editEvent(event, this);" %>
 			<%= image_tag "close.png", :class => "sch-evnt-close sch-evnt-icon", :onclick => "removeEvent(event, this);" %>
 		</div>
 		<div class="sch-evnt sch-play">
 			<div class="evnt-time">7:30</div>
-			<div class="evnt-title center-text dis-sel" contenteditable="true">Play</div>
+			<div class="evnt-title center-text dis-sel" contenteditable="true" onclick="showOverlay()">Play</div>
 			<div class="evnt-desc dis-sel" onclick="showOverlay()">Oblivion - Play through first three story missions</div>
 			<%= image_tag "quill.png", :class => "sch-evnt-edit sch-evnt-icon", :onclick => "editEvent(event, this);" %>
 			<%= image_tag "close.png", :class => "sch-evnt-close sch-evnt-icon", :onclick => "removeEvent(event, this);" %>
 		</div>
 		<div class="sch-evnt sch-hangout">
 			<div class="evnt-time">7:30</div>
-			<div class="evnt-title center-text dis-sel" contenteditable="true">Hangout</div>
+			<div class="evnt-title center-text dis-sel" contenteditable="true" onclick="showOverlay()">Hangout</div>
 			<div class="evnt-desc dis-sel" onclick="showOverlay()">Spend time with Robert and Eileen at Bee & Tea</div>
 			<%= image_tag "quill.png", :class => "sch-evnt-edit sch-evnt-icon", :onclick => "editEvent(event, this);" %>
 			<%= image_tag "close.png", :class => "sch-evnt-close sch-evnt-icon", :onclick => "removeEvent(event, this);" %>
@@ -271,13 +271,25 @@ function addDates()
 	var currDate = new Date();
 	var day = currDate.getDay();
 	var date = currDate.getDate();
+	var month = currDate.getMonth();
+	var year = currDate.getYear();
 	var dayOffset = day - 1;
 	var startDate;
+	var lastCurrMonth = new Date(year, month + 1, 0);
+	var lastPrevMonth = new Date(year, month, 0);
+	var lastDateCurr = lastCurrMonth.getDate();
+	var lastDatePrev = lastPrevMonth.getDate();
+	
 	
 	if(day == 0)
 		startDate = date - 6;
 	else
 		startDate = date - dayOffset;
+	
+	
+	alert("START: " + startDate);
+	if(startDate < 0) //if the start is in the last month
+		startDate = lastDatePrev + startDate;
 	
 	$(".sch-day-col").each(function(index, col)
 	{
@@ -285,7 +297,12 @@ function addDates()
 		{
 			$(col).attr("id","sch-col-today");	
 		}
-		$(col).children(".col-titler").prepend(startDate + " ");
+		if(startDate <= lastDateCurr)
+		{
+			$(col).children(".col-titler").prepend(startDate + " ");
+			if(startDate == lastDateCurr) //if this is the last day in the month, reset the count
+				startDate = 0;
+		}
 		startDate++;
 	});
 }
