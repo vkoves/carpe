@@ -277,6 +277,7 @@ function addDates()
 	var lastPrevMonth = new Date(year, month, 0);
 	var lastDateCurr = lastCurrMonth.getDate();
 	var lastDatePrev = lastPrevMonth.getDate();
+	var lastMonth = false;
 	var monthNames = ["January", "February", "March", "April", "May", "June",
 	"July", "August", "September", "October", "November", "December"];
 	
@@ -286,7 +287,10 @@ function addDates()
 		startDate = date - dayOffset;
 	
 	if(startDate < 0) //if the start is in the last month
+	{
 		startDate = lastDatePrev + startDate;
+		lastMonth = true;
+	}
 	
 	$(".sch-day-col").each(function(index, col)
 	{
@@ -297,8 +301,12 @@ function addDates()
 		if(startDate <= lastDateCurr)
 		{
 			$(col).children(".col-titler").prepend("<div class='evnt-date'>" + startDate + "</div> ");
-			$(col).children(".col-titler").append("<br>" + monthNames[month]);
-			if(startDate == lastDateCurr) //if this is the last day in the month, reset the count
+			if(lastMonth)
+				$(col).children(".col-titler").append("<br>" + monthNames[month-1]);
+			else
+				$(col).children(".col-titler").append("<br>" + monthNames[month]);
+				
+			if((startDate == lastDateCurr && !lastMonth) || (startDate == lastDatePrev && lastMonth)) //if this is the last day in the month, reset the count
 			{
 				startDate = 0;
 				month++;
