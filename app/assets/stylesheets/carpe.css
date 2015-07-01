@@ -203,6 +203,13 @@ body
 	height: 21px;
 	overflow: hidden;
 }
+.evnt-date
+{
+	font-size: 24px;
+	float: left;
+	left: 30px;
+	position: relative;
+}
 
 /* Overlay CSS */
 .ui-widget-overlay
