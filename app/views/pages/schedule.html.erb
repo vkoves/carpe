@@ -143,7 +143,11 @@ $(document).ready(function()
 			$(ui.draggable).resizable({
 		    	handles: 'n, s',
 		    	grid: [ 0, gridHeight ],
-		    	containment: "parent"
+		    	containment: "parent",
+		    	resize: function(event, ui)
+		    	{
+		    		updateTime($(this), ui);
+		    	}
 			});
 		},
 		over: function( event, ui ) {
@@ -197,7 +201,11 @@ function addDrag(selector)
 				$(clone).resizable({
 			    	handles: 'n, s',
 			    	grid: [ 0, gridHeight ],
-			    	containment: "parent"
+			    	containment: "parent",
+			    	resize: function(event, ui)
+			    	{
+			    		updateTime($(this), ui);
+			    	}
 				});
 			}
 		},
@@ -235,6 +243,8 @@ function addDrag(selector)
 		},
 		drag: function(event, ui)
 		{
+			updateTime($(this), ui);
+			/*
 	        var timeDiv = $(this).children(".evnt-time");
 			var arr = timeDiv.html().split(":");
 
@@ -259,9 +269,38 @@ function addDrag(selector)
 	        }
 	        
 
-			timeDiv.html(arr.join(":"));
+			timeDiv.html(arr.join(":")); */
 		}
 	});
+}
+
+function updateTime(elem, ui)
+{
+	var timeDiv = $(elem).children(".evnt-time");
+	var arr = timeDiv.html().split(":");
+
+	//custom grid stuff using drag
+    if($(elem).parent().attr("id") == "sch-tiles")
+    {
+    	var topRemainder = (ui.position.top + 16) % gridHeight;
+		if($(elem).draggable('option', 'gridOn'))
+		{
+    		ui.position.top = ui.position.top - topRemainder;
+			arr[0] = (ui.position.top + 16)/gridHeight + 7;
+		}
+    }
+    else
+    {
+    	var topRemainder = (ui.position.top) % gridHeight;
+		if($(elem).draggable('option', 'gridOn'))
+     	{
+     		ui.position.top = ui.position.top - topRemainder;
+			arr[0] = ui.position.top/gridHeight + 7;
+    	}
+    }
+    
+
+	timeDiv.html(arr.join(":"));	
 }
 
 function addDates()
