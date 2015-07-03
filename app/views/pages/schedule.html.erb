@@ -18,29 +18,29 @@
 		<div id="sch-tiles">
 		<div class="sch-evnt sch-class">
 			<div class="evnt-time">7:30</div>
-			<div class="evnt-title center-text dis-sel" contenteditable="true" onclick="showOverlay()">Class</div>
-			<div class="evnt-desc dis-sel" onclick="showOverlay()"	>CS 331 with Professor Beckman. Location: E1 218</div>
+			<div class="evnt-title center-text dis-sel" contenteditable="true" onclick="showOverlay($(this).parent())">Class</div>
+			<div class="evnt-desc dis-sel" onclick="showOverlay($(this).parent())"	>CS 331 with Professor Beckman. Location: E1 218</div>
 			<%= image_tag "quill.png", :class => "sch-evnt-edit sch-evnt-icon", :onclick => "editEvent(event, this);" %>
 			<%= image_tag "close.png", :class => "sch-evnt-close sch-evnt-icon", :onclick => "removeEvent(event, this);" %>
 		</div>
 		<div class="sch-evnt sch-work">
 			<div class="evnt-time">7:30</div>
-			<div class="evnt-title center-text dis-sel" contenteditable="true" onclick="showOverlay()">Work</div>
-			<div class="evnt-desc dis-sel" onclick="showOverlay()">indigoBox Website Redesign at iit</div>
+			<div class="evnt-title center-text dis-sel" contenteditable="true" onclick="showOverlay($(this).parent())">Work</div>
+			<div class="evnt-desc dis-sel" onclick="showOverlay($(this).parent())">indigoBox Website Redesign at iit</div>
 			<%= image_tag "quill.png", :class => "sch-evnt-edit sch-evnt-icon", :onclick => "editEvent(event, this);" %>
 			<%= image_tag "close.png", :class => "sch-evnt-close sch-evnt-icon", :onclick => "removeEvent(event, this);" %>
 		</div>
 		<div class="sch-evnt sch-play">
 			<div class="evnt-time">7:30</div>
-			<div class="evnt-title center-text dis-sel" contenteditable="true" onclick="showOverlay()">Play</div>
-			<div class="evnt-desc dis-sel" onclick="showOverlay()">Oblivion - Play through first three story missions</div>
+			<div class="evnt-title center-text dis-sel" contenteditable="true" onclick="showOverlay($(this).parent())">Play</div>
+			<div class="evnt-desc dis-sel" onclick="showOverlay($(this).parent())">Oblivion - Play through first three story missions</div>
 			<%= image_tag "quill.png", :class => "sch-evnt-edit sch-evnt-icon", :onclick => "editEvent(event, this);" %>
 			<%= image_tag "close.png", :class => "sch-evnt-close sch-evnt-icon", :onclick => "removeEvent(event, this);" %>
 		</div>
 		<div class="sch-evnt sch-hangout">
 			<div class="evnt-time">7:30</div>
-			<div class="evnt-title center-text dis-sel" contenteditable="true" onclick="showOverlay()">Hangout</div>
-			<div class="evnt-desc dis-sel" onclick="showOverlay()">Spend time with Robert and Eileen at Bee & Tea</div>
+			<div class="evnt-title center-text dis-sel" contenteditable="true" onclick="showOverlay($(this).parent())">Hangout</div>
+			<div class="evnt-desc dis-sel" onclick="showOverlay($(this).parent())">Spend time with Robert and Eileen at Bee & Tea</div>
 			<%= image_tag "quill.png", :class => "sch-evnt-edit sch-evnt-icon", :onclick => "editEvent(event, this);" %>
 			<%= image_tag "close.png", :class => "sch-evnt-close sch-evnt-icon", :onclick => "removeEvent(event, this);" %>
 		</div>
@@ -244,32 +244,6 @@ function addDrag(selector)
 		drag: function(event, ui)
 		{
 			updateTime($(this), ui);
-			/*
-	        var timeDiv = $(this).children(".evnt-time");
-			var arr = timeDiv.html().split(":");
-
-			//custom grid stuff using drag
-	        if($(this).parent().attr("id") == "sch-tiles")
-	        {
-	        	var topRemainder = (ui.position.top + 16) % gridHeight;
-				if($(this).draggable('option', 'gridOn'))
-				{
-	        		ui.position.top = ui.position.top - topRemainder;
-					arr[0] = (ui.position.top + 16)/gridHeight + 7;
-				}
-	        }
-	        else
-	        {
-	        	var topRemainder = (ui.position.top) % gridHeight;
-				if($(this).draggable('option', 'gridOn'))
-		     	{
-		     		ui.position.top = ui.position.top - topRemainder;
-					arr[0] = ui.position.top/gridHeight + 7;
-	        	}
-	        }
-	        
-
-			timeDiv.html(arr.join(":")); */
 		}
 	});
 }
