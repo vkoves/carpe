@@ -10,6 +10,10 @@ body
 	font-weight: normal;
 	color: rgb(255, 116, 0);
 }
+.carpe-color
+{
+	color: rgb(255, 116, 0);
+}
 .header-main
 {
 	background: rgb(56, 56, 56);
@@ -22,6 +26,38 @@ body
 	color: white;
 	text-decoration: none;
 	font-size: 18px;
+}
+#user-name-panel
+{
+	float: right;
+	position: absolute;
+	top: 6px;
+ 	right: 0px;
+ 	padding-right: 10px;
+ 	height: 34px;
+}
+#user-name-panel:hover + #user-panel
+{
+	display: block;
+}
+#user-panel
+{
+	display: none;
+	position: absolute;
+	right: 0px;
+	top: 40px;
+	height: 200px;
+	width: 310px;
+	z-index: 10;
+	background-color: rgb(84, 84, 84);
+}
+#user-panel:hover
+{
+	display: block;
+}
+#user-panel a
+{
+	color: orange;
 }
 #cont-hold
 {
