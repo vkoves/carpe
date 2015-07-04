@@ -2,7 +2,7 @@
 	<span class="carpe-font">Carpe</span> | <a href="/">Home</a> | <a href="/schedule">Schedule</a>
 	<div id="user-name-panel" class="carpe-color">
 	<% if current_user %>
-		<% if current_user.name %><%= current_user.name %><% else %><% current_user.email %><% end %>
+		<% if current_user.name and !current_user.name.empty? %><%= current_user.name %><% else %><%= current_user.email %><% end %>
 			</div>
 		<div id="user-panel">
 		
