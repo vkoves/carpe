@@ -10,9 +10,9 @@ body
 	font-weight: normal;
 	color: rgb(255, 116, 0);
 }
-.carpe-color
+.carpe-color, .carpe-font a
 {
-	color: rgb(255, 116, 0);
+	color: rgb(255, 116, 0) !important;
 }
 .header-main
 {
@@ -34,6 +34,7 @@ body
 	top: 6px;
  	right: 0px;
  	padding-right: 10px;
+ 	padding-left: 10px;
  	height: 34px;
 }
 #user-name-panel:hover + #user-panel
@@ -296,6 +297,25 @@ body
 	height: 10px !important;
 }
 
+
+/* Sign up and sign in styling */
+label
+{
+	font-weight: bold;
+	float: left;
+}
+.text-input
+{
+	width: 200px;
+}
+.field
+{
+	width: 200px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 5px;
+}
+
 /* Some handy tools */
 .center-text
 {
@@ -304,6 +324,10 @@ body
 .no-bold
 {
 	font-weight: normal;
+}
+.no-float
+{
+	float: none;
 }
 .zero-top
 {
