@@ -78,6 +78,7 @@
 	</div>
 </div>
 <script>
+var sideHTML; // Instantiates sideHTML variable
 var gridHeight = 25; //the height of the grid of resizing and dragging
 var border = 2; //the border at the bottom for height stuff
 var ctrlPressed = false;
@@ -97,7 +98,8 @@ $(document).ready(function()
 {
 	setTitles();
 	
-	var sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
+	
+	sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
 	
 	$("#sidebar-title").tooltip({
 		position: { my: "left top", at: "left bottom"}	
