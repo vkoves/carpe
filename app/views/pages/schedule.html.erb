@@ -10,6 +10,12 @@
 <br /><div id="cont-hold">
 	<h1 class="no-bold zero-bot">Your Schedule</h1>
 	<h3 class="no-bold zero-top">It all starts here. The scheduling revolution</h3>
+	<br />
+	<p style="left:-24%;position:relative;">
+		<text class="sch-week-prev" onclick="addDates(new Date(refDate.getYear()+1900,refDate.getMonth(),refDate.getDate()-7))">Prev</text> 
+		&nbsp; 
+		<text class="sch-week-next" onclick="addDates(new Date(refDate.getYear()+1900,refDate.getMonth(),refDate.getDate()+7))">Next</text> <!-- <text> is not an actual tag, but this allows for direct styling and no excess spacing issues with <div> or <p> -->
+	</p>
 	
 	<div id="sch-sidebar">
 		<span id="sidebar-title" title="Drag these events onto the schedule to get started">Events</span>
@@ -45,6 +51,7 @@
 		</div>
 	</div>
 	<div id="sch-main">
+		
 		<div id="sch-days">
 			<div class="sch-day-col">
 				<span class="col-titler">Monday</span>
@@ -82,6 +89,9 @@ var sideHTML; // Instantiates sideHTML variable
 var gridHeight = 25; //the height of the grid of resizing and dragging
 var border = 2; //the border at the bottom for height stuff
 var ctrlPressed = false;
+var schHTML; // Instantiates schedule HTML variable, which will contain the "Mon-Sun" html on the main scheduler div.
+var refDate = new Date(); // Reference date for where the calendar is now, so that it can switch between weeks.
+
 
 $(window).keydown(function(evt) {
   if (evt.which == 17) { // ctrl
@@ -100,6 +110,7 @@ $(document).ready(function()
 	
 	
 	sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
+	schHTML = $("#sch-days").html(); //The HTML for the scheduler days layout, useful for when days are refreshed
 	
 	$("#sidebar-title").tooltip({
 		position: { my: "left top", at: "left bottom"}	
@@ -159,7 +170,7 @@ $(document).ready(function()
 		}
 	});	
 	
-	addDates();
+	addDates(new Date());
 });
 
 //the dragging function
@@ -276,9 +287,9 @@ function updateTime(elem, ui)
 	timeDiv.html(arr.join(":"));	
 }
 
-function addDates()
+function addDates(referenceDate)
 {
-	var currDate = new Date();
+	var currDate = referenceDate;
 	var day = currDate.getDay();
 	var date = currDate.getDate();
 	var month = currDate.getMonth();
@@ -292,6 +303,14 @@ function addDates()
 	var lastMonth = false;
 	var monthNames = ["January", "February", "March", "April", "May", "June",
 	"July", "August", "September", "October", "November", "December"];
+	var todayDate = new Date();
+	
+	
+	refDate = currDate;
+	lastReportedDate = date;
+	lastReportedMonth = month;
+	
+	$("#sch-days").html(schHTML); // Refresh the layout so that we can properly prepend and append text below here
 	
 	if(day == 0)
 		startDate = date - 6;
@@ -302,11 +321,12 @@ function addDates()
 	{
 		startDate = lastDatePrev + startDate;
 		lastMonth = true;
+		lastReportedMonth = month - 1;
 	}
 	
 	$(".sch-day-col").each(function(index, col)
 	{
-		if(startDate == date) //if this is today
+		if((startDate == date) && (referenceDate.toDateString() == todayDate.toDateString())) //if this is the same day of week, and is the correct week (is it today?)
 		{
 			$(col).attr("id","sch-col-today");	
 		}

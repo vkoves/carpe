@@ -88,6 +88,7 @@ body
 	border-radius: 5px;
 	float: left;
 }
+
 .sch-evnt
 {
 	position: absolute !important;
@@ -348,4 +349,25 @@ label
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+}
+
+
+
+
+/* Added by Robert until EOF */
+
+.sch-week-next {
+	
+}
+
+.sch-week-next:hover {
+	color:Orange;
+}
+
+.sch-week-prev {
+	
+}
+
+.sch-week-prev:hover {
+	color:Orange;
 }
