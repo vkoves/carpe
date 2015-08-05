@@ -124,6 +124,13 @@ $(document).ready(function()
 	
 	addDrag(); //add dragging, recursively
 	
+	colDroppable();
+	
+	addDates(new Date(), false);
+});
+
+function colDroppable()
+{
 	//make the columns droppable
 	$(".col-snap").droppable({
 		drop: function( event, ui ) //called when event is dropped on a new column (not called on moving it in the column)
@@ -168,10 +175,8 @@ $(document).ready(function()
 			$(this).parent().css("background","");
 			$(ui.draggable).draggable("option","gridOn", false);
 		}
-	});	
-	
-	addDates(new Date(), false);
-});
+	});
+}
 
 //the dragging function
 function addDrag(selector)
@@ -311,7 +316,10 @@ function addDates(referenceDate, refresh)
 	lastReportedMonth = month;
 	
 	if(refresh)
+	{
 		$("#sch-days").html(schHTML); // Refresh the layout so that we can properly prepend and append text below here
+		colDroppable();
+	}
 	
 	if(day == 0)
 		startDate = date - 6;
