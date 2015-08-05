@@ -11,11 +11,13 @@
 	<h1 class="no-bold zero-bot">Your Schedule</h1>
 	<h3 class="no-bold zero-top">It all starts here. The scheduling revolution</h3>
 	<br />
-	<p style="left:-24%;position:relative;">
-		<text class="sch-week-prev" onclick="addDates(new Date(refDate.getYear()+1900,refDate.getMonth(),refDate.getDate()-7))">Prev</text> 
+	
+	<div class="sch-but-holder">
+		<span class="sch-but sch-week-prev" onclick="addDates(new Date(refDate.getYear()+1900,refDate.getMonth(),refDate.getDate()-7), true)">Previous</span> 
 		&nbsp; 
-		<text class="sch-week-next" onclick="addDates(new Date(refDate.getYear()+1900,refDate.getMonth(),refDate.getDate()+7))">Next</text> <!-- <text> is not an actual tag, but this allows for direct styling and no excess spacing issues with <div> or <p> -->
-	</p>
+		<span class="sch-but sch-week-next" onclick="addDates(new Date(refDate.getYear()+1900,refDate.getMonth(),refDate.getDate()+7), true)">Next</span> 
+			<!-- <text> is not an actual tag, but this allows for direct styling and no excess spacing issues with <div> or <p> -->
+	</div>
 	
 	<div id="sch-sidebar">
 		<span id="sidebar-title" title="Drag these events onto the schedule to get started">Events</span>
@@ -124,6 +126,13 @@ $(document).ready(function()
 	
 	addDrag(); //add dragging, recursively
 	
+	colDroppable();
+	
+	addDates(new Date(), false);
+});
+
+function colDroppable()
+{
 	//make the columns droppable
 	$(".col-snap").droppable({
 		drop: function( event, ui ) //called when event is dropped on a new column (not called on moving it in the column)
@@ -168,10 +177,8 @@ $(document).ready(function()
 			$(this).parent().css("background","");
 			$(ui.draggable).draggable("option","gridOn", false);
 		}
-	});	
-	
-	addDates(new Date());
-});
+	});
+}
 
 //the dragging function
 function addDrag(selector)
@@ -287,7 +294,7 @@ function updateTime(elem, ui)
 	timeDiv.html(arr.join(":"));	
 }
 
-function addDates(referenceDate)
+function addDates(referenceDate, refresh)
 {
 	var currDate = referenceDate;
 	var day = currDate.getDay();
@@ -310,7 +317,11 @@ function addDates(referenceDate)
 	lastReportedDate = date;
 	lastReportedMonth = month;
 	
-	$("#sch-days").html(schHTML); // Refresh the layout so that we can properly prepend and append text below here
+	if(refresh)
+	{
+		$("#sch-days").html(schHTML); // Refresh the layout so that we can properly prepend and append text below here
+		colDroppable();
+	}
 	
 	if(day == 0)
 		startDate = date - 6;
