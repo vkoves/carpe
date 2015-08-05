@@ -356,18 +356,19 @@ label
 
 /* Added by Robert until EOF */
 
-.sch-week-next {
-	
-}
-
-.sch-week-next:hover {
-	color:Orange;
-}
-
 .sch-week-prev {
-	
+	float: left;
+	margin-left: 21%;
 }
 
 .sch-week-prev:hover {
-	color:Orange;
+	color: orange;
+}
+
+.sch-week-next {
+	float: right;
+}
+
+.sch-week-next:hover {
+	color: orange;
 }

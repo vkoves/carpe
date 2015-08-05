@@ -11,11 +11,13 @@
 	<h1 class="no-bold zero-bot">Your Schedule</h1>
 	<h3 class="no-bold zero-top">It all starts here. The scheduling revolution</h3>
 	<br />
-	<p style="left:-24%;position:relative;">
-		<text class="sch-week-prev" onclick="addDates(new Date(refDate.getYear()+1900,refDate.getMonth(),refDate.getDate()-7), true)">Prev</text> 
+	
+	<div>
+		<span class="sch-week-prev" onclick="addDates(new Date(refDate.getYear()+1900,refDate.getMonth(),refDate.getDate()-7), true)">Prev</span> 
 		&nbsp; 
-		<text class="sch-week-next" onclick="addDates(new Date(refDate.getYear()+1900,refDate.getMonth(),refDate.getDate()+7), true)">Next</text> <!-- <text> is not an actual tag, but this allows for direct styling and no excess spacing issues with <div> or <p> -->
-	</p>
+		<span class="sch-week-next" onclick="addDates(new Date(refDate.getYear()+1900,refDate.getMonth(),refDate.getDate()+7), true)">Next</span> 
+			<!-- <text> is not an actual tag, but this allows for direct styling and no excess spacing issues with <div> or <p> -->
+	</div>
 	
 	<div id="sch-sidebar">
 		<span id="sidebar-title" title="Drag these events onto the schedule to get started">Events</span>
