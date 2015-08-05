@@ -12,9 +12,9 @@
 	<h3 class="no-bold zero-top">It all starts here. The scheduling revolution</h3>
 	<br />
 	<p style="left:-24%;position:relative;">
-		<text class="sch-week-prev" onclick="addDates(new Date(refDate.getYear()+1900,refDate.getMonth(),refDate.getDate()-7))">Prev</text> 
+		<text class="sch-week-prev" onclick="addDates(new Date(refDate.getYear()+1900,refDate.getMonth(),refDate.getDate()-7), true)">Prev</text> 
 		&nbsp; 
-		<text class="sch-week-next" onclick="addDates(new Date(refDate.getYear()+1900,refDate.getMonth(),refDate.getDate()+7))">Next</text> <!-- <text> is not an actual tag, but this allows for direct styling and no excess spacing issues with <div> or <p> -->
+		<text class="sch-week-next" onclick="addDates(new Date(refDate.getYear()+1900,refDate.getMonth(),refDate.getDate()+7), true)">Next</text> <!-- <text> is not an actual tag, but this allows for direct styling and no excess spacing issues with <div> or <p> -->
 	</p>
 	
 	<div id="sch-sidebar">
@@ -170,7 +170,7 @@ $(document).ready(function()
 		}
 	});	
 	
-	addDates(new Date());
+	addDates(new Date(), false);
 });
 
 //the dragging function
@@ -287,7 +287,7 @@ function updateTime(elem, ui)
 	timeDiv.html(arr.join(":"));	
 }
 
-function addDates(referenceDate)
+function addDates(referenceDate, refresh)
 {
 	var currDate = referenceDate;
 	var day = currDate.getDay();
@@ -310,7 +310,8 @@ function addDates(referenceDate)
 	lastReportedDate = date;
 	lastReportedMonth = month;
 	
-	$("#sch-days").html(schHTML); // Refresh the layout so that we can properly prepend and append text below here
+	if(refresh)
+		$("#sch-days").html(schHTML); // Refresh the layout so that we can properly prepend and append text below here
 	
 	if(day == 0)
 		startDate = date - 6;
