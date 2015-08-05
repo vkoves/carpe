@@ -356,19 +356,28 @@ label
 
 /* Added by Robert until EOF */
 
+.sch-but {
+	background: #CFCFCF;
+	padding: 3px;
+	border-radius: 5px;
+	width: 100px;
+	border-bottom: solid 2px #646464;
+}
+
+.sch-but:hover {
+	margin-top: 1px;
+	background-color: #DEDEDE;
+}
+
+.sch-but-holder {
+	margin-bottom: 15px;
+}
+
 .sch-week-prev {
 	float: left;
 	margin-left: 21%;
 }
 
-.sch-week-prev:hover {
-	color: orange;
-}
-
 .sch-week-next {
 	float: right;
-}
-
-.sch-week-next:hover {
-	color: orange;
 }
