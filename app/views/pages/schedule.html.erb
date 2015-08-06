@@ -344,8 +344,10 @@ function addDates(referenceDate, refresh)
 		if(startDate <= lastDateCurr)
 		{
 			$(col).children(".col-titler").prepend("<div class='evnt-date'>" + startDate + "</div> ");
-			if(lastMonth)
-				$(col).children(".col-titler").append("<br><div class='evnt-fulldate'>;" + monthNames[month-1] + " " + startDate + ", " + year + "</div>");
+			if(lastMonth && ((month-1)>-1))
+				$(col).children(".col-titler").append("<br><div class='evnt-fulldate'>" + monthNames[month-1] + " " + startDate + ", " + year + "</div>");
+			else if (lastMonth &&((month-1)==-1))
+				$(col).children(".col-titler").append("<br><div class='evnt-fulldate'>" + monthNames[11] + " " + startDate + ", " + (year-1) + "</div>");
 			else
 				$(col).children(".col-titler").append("<br><div class='evnt-fulldate'>" + monthNames[month] + " " + startDate + ", " + year + "</div>");
 				
