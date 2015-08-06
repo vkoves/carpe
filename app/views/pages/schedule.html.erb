@@ -328,7 +328,7 @@ function addDates(referenceDate, refresh)
 	else
 		startDate = date - dayOffset;
 	
-	if(startDate < 0) //if the start is in the last month
+	if(startDate <= 0) //if the start is in the last month
 	{
 		startDate = lastDatePrev + startDate;
 		lastMonth = true;
@@ -341,7 +341,7 @@ function addDates(referenceDate, refresh)
 		{
 			$(col).attr("id","sch-col-today");	
 		}
-		if(startDate <= lastDateCurr)
+		if(startDate <= lastDateCurr+1)
 		{
 			$(col).children(".col-titler").prepend("<div class='evnt-date'>" + startDate + "</div> ");
 			if(lastMonth && ((month-1)>-1))
