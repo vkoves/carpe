@@ -246,7 +246,7 @@ body
 {
 	font-size: 24px;
 	float: left;
-	left: 20px;
+	left: 14px;
 	position: relative;
 }
 
@@ -381,3 +381,20 @@ label
 .sch-week-next {
 	float: right;
 }
+
+/* You can see my efforts in futility, if you so desire (not implemented yet)
+
+.col-titler {
+	float: left;
+	padding:5px;
+	width:90%;
+	left:10px;
+	text-align:left;
+}*/
+
+/*.evnt-fulldate {
+	font-size:14px;
+	text-align:left;
+	float:left;
+	margin-left:10px;
+}*/

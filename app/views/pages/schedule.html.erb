@@ -300,7 +300,7 @@ function addDates(referenceDate, refresh)
 	var day = currDate.getDay();
 	var date = currDate.getDate();
 	var month = currDate.getMonth();
-	var year = currDate.getYear();
+	var year = currDate.getFullYear();
 	var dayOffset = day - 1;
 	var startDate;
 	var lastCurrMonth = new Date(year, month + 1, 0);
@@ -345,9 +345,9 @@ function addDates(referenceDate, refresh)
 		{
 			$(col).children(".col-titler").prepend("<div class='evnt-date'>" + startDate + "</div> ");
 			if(lastMonth)
-				$(col).children(".col-titler").append("<br>" + monthNames[month-1]);
+				$(col).children(".col-titler").append("<br><div class='evnt-fulldate'>;" + monthNames[month-1] + " " + startDate + ", " + year + "</div>");
 			else
-				$(col).children(".col-titler").append("<br>" + monthNames[month]);
+				$(col).children(".col-titler").append("<br><div class='evnt-fulldate'>" + monthNames[month] + " " + startDate + ", " + year + "</div>");
 				
 			if((startDate == lastDateCurr && !lastMonth) || (startDate == lastDatePrev && lastMonth)) //if this is the last day in the month, reset the count
 			{
