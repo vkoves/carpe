@@ -415,18 +415,18 @@ function editCategory(event, elem){
 	event.stopImmediatePropagation();
 	$(elem).siblings(".evnt-title").trigger('focus');
 	document.execCommand('selectAll',false,null);
-	$(elem).siblings(".futureColors").append("<div style='display:inline-block;background-color:Red;width:25px;height:25px;'></div> ");
-	$(elem).siblings(".futureColors").append("<div style='display:inline-block;background-color:Orange;width:25px;height:25px;'></div> ");
-	$(elem).siblings(".futureColors").append("<div style='display:inline-block;background-color:Yellow;width:25px;height:25px;'></div> ");
-	$(elem).siblings(".futureColors").append("<div style='display:inline-block;background-color:Green;width:25px;height:25px;'></div><br/>");
-	$(elem).siblings(".futureColors").append("<div style='display:inline-block;background-color:Blue;width:25px;height:25px;'></div> ");
-	$(elem).siblings(".futureColors").append("<div style='display:inline-block;background-color:Indigo;width:25px;height:25px;'></div> ");
-	$(elem).siblings(".futureColors").append("<div style='display:inline-block;background-color:Violet;width:25px;height:25px;'></div> ");
-	$(elem).siblings(".futureColors").append("<div style='display:inline-block;background-color:Silver;width:25px;height:25px;'></div>");	
+	$(elem).siblings(".futureColors").append("<div style='display:inline-block;background-color:Red;width:25px;height:25px;' onclick='changeCategoryColor(event,this,\"Red\")'></div> ");
+	$(elem).siblings(".futureColors").append("<div style='display:inline-block;background-color:Orange;width:25px;height:25px;' onclick='changeCategoryColor(event,this,\"Orange\")'></div> ");
+	$(elem).siblings(".futureColors").append("<div style='display:inline-block;background-color:Yellow;width:25px;height:25px;' onclick='changeCategoryColor(event,this,\"Yellow\")'></div> ");
+	$(elem).siblings(".futureColors").append("<div style='display:inline-block;background-color:Green;width:25px;height:25px;' onclick='changeCategoryColor(event,this,\"Green\")'></div><br/>");
+	$(elem).siblings(".futureColors").append("<div style='display:inline-block;background-color:Blue;width:25px;height:25px;' onclick='changeCategoryColor(event,this,\"Blue\")'></div> ");
+	$(elem).siblings(".futureColors").append("<div style='display:inline-block;background-color:Indigo;width:25px;height:25px;' onclick='changeCategoryColor(event,this,\"Indigo\")'></div> ");
+	$(elem).siblings(".futureColors").append("<div style='display:inline-block;background-color:Violet;width:25px;height:25px;' onclick='changeCategoryColor(event,this,\"Violet\")'></div> ");
+	$(elem).siblings(".futureColors").append("<div style='display:inline-block;background-color:Silver;width:25px;height:25px;' onclick='changeCategoryColor(event,this,\"Silver\")'></div>");	
 }
 
 function changeCategoryColor(event,elem,col) {
-	
+	$(elem).parent().parent().css("background-color",col);
 }
 
 function delCategory(event, elem, id)
