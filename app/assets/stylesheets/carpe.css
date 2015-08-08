@@ -87,11 +87,13 @@ body
 	font-size: 24px;
 	border-radius: 5px;
 	float: left;
+	overflow:auto;
+	position:relative;
 }
 
 .sch-evnt
 {
-	position: absolute !important;
+	position: relative;
 	width: 150px;
 	height: 88px; /* This should be 90px - borders top and bottom */
 	background: white;
@@ -112,9 +114,23 @@ body
 {
 	display: block;
 }
+
+.col-snap .sch-cat-icon {
+	display:none;
+}
 .sch-evnt-icon
 {
 	display: none;
+	position: absolute;
+	right: 3px;
+	top: 3px;
+	/* background: white; */
+ 	border-radius: 500px;
+	width: 20px;
+}
+.sch-cat-icon
+{
+	/*display: none;*/
 	position: absolute;
 	right: 3px;
 	top: 3px;
@@ -132,6 +148,14 @@ body
 	right: 20px;
 	top: 5px;
 	width: 18px;
+}
+.sch-evnt-editCat {
+	left: 3px;
+	top:3px;
+}
+.sch-evnt-delCat {
+	left: 22px;
+	top:2px;
 }
 #sch-days
 {
@@ -380,6 +404,28 @@ label
 
 .sch-week-next {
 	float: right;
+}
+
+.category {
+	border-bottom: solid 2px rgb(135, 54, 54);
+	/*height:100px;
+	font-size:18px;*/
+}
+
+.cat-add {
+	background-color:White;
+	left:0%;
+	right:0%;
+	width:100%;
+	font-size:17px;
+	opacity:0.9;
+	height:24px;
+	bottom:0px;
+	position:absolute;
+}
+
+.cat-add:hover {
+	background-color:rgb(255,220,200);
 }
 
 /* You can see my efforts in futility, if you so desire (not implemented yet)

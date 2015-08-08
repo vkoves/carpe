@@ -1,0 +1,16 @@
+class Category < ActiveRecord::Base
+	if params[:new] == “t”
+		newCat = Category.new
+		newCat.user = current_user #set the user to the logged in user
+		newCat.save
+	elsif params[:dest] == “t”
+		id = params[:id]
+		Category.find_by_id(id).destroy
+	elsif params[:edit] == “t”
+	id = params[:id]
+	name = params[:name]
+	findCat = Category.find_by_id(id)
+	findCat.name = name
+	findCat.save	
+	end
+end

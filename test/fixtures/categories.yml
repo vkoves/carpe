@@ -3,7 +3,9 @@
 one:
   name: MyString
   color: MyString
+  user: MyString
 
 two:
   name: MyString
   color: MyString
+  user: MyString
