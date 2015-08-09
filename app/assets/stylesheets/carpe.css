@@ -87,8 +87,9 @@ body
 	font-size: 24px;
 	border-radius: 5px;
 	float: left;
-	overflow-x:hidden;
-	overflow-y:auto;
+	/*overflow-x:hidden;
+	overflow-y:auto;*/
+	overflow:hidden;
 	position:relative;
 }
 
