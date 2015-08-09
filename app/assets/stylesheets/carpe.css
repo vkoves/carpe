@@ -154,6 +154,12 @@ body
 .sch-evnt-editCat {
 	left: 3px;
 	top:3px;
+	display:inline;
+}
+.sch-evnt-saveCat {
+	right:4px;
+	top:0px;
+	display:none;
 }
 .sch-evnt-delCat {
 	left: 22px;

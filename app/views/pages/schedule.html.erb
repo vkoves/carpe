@@ -14,8 +14,10 @@
 		elsif params[:edit] == "t"
 			id = params[:id]
 			name = params[:name]
+			col = params[:col]
 			findCat = Category.find_by_id(id)
 			findCat.name = name
+			findCat.color = col
 			findCat.save	
 		end #all ruby blocks, including if statements, have to end with an end
 	end
@@ -81,6 +83,7 @@
 			<div class="evnt-time">7:30</div>
 			<div class="evnt-title center-text dis-sel" contenteditable="true" onclick="showOverlay($(this).parent())"><%= cat.name %></div>
 			<div class="evnt-desc dis-sel" onclick="showOverlay($(this).parent())">Oblivion - Play through first three story missions</div>
+			<%= image_tag "checkmark.png", :class => "sch-evnt-saveCat sch-cat-icon", :onclick => "saveCategory(event, this, #{cat.id});" %>
 			<%= image_tag "quill.png", :class => "sch-evnt-editCat sch-cat-icon", :onclick => "editCategory(event, this);" %>
 			<%= image_tag "close.png", :class => "sch-evnt-delCat sch-cat-icon", :onclick => "delCategory(event, this, #{cat.id});" %>
 			<%= image_tag "quill.png", :class => "sch-evnt-edit sch-evnt-icon", :onclick => "editEvent(event, this);" %>
@@ -411,22 +414,28 @@ function createCategory() {
 	//window.location.href = './schedule';
 }
 
-function editCategory(event, elem){
+function editCategory(event, elem, id){
 	event.stopImmediatePropagation();
+	$(elem).siblings(".sch-evnt-editCat").css("display","none");
+	$(elem).siblings(".sch-evnt-saveCat").css("display","inline");
 	$(elem).siblings(".evnt-title").trigger('focus');
 	document.execCommand('selectAll',false,null);
-	$(elem).siblings(".futureColors").append("<div style='display:inline-block;background-color:Red;width:25px;height:25px;' onclick='changeCategoryColor(event,this,\"Red\")'></div> ");
-	$(elem).siblings(".futureColors").append("<div style='display:inline-block;background-color:Orange;width:25px;height:25px;' onclick='changeCategoryColor(event,this,\"Orange\")'></div> ");
-	$(elem).siblings(".futureColors").append("<div style='display:inline-block;background-color:Yellow;width:25px;height:25px;' onclick='changeCategoryColor(event,this,\"Yellow\")'></div> ");
-	$(elem).siblings(".futureColors").append("<div style='display:inline-block;background-color:Green;width:25px;height:25px;' onclick='changeCategoryColor(event,this,\"Green\")'></div><br/>");
-	$(elem).siblings(".futureColors").append("<div style='display:inline-block;background-color:Blue;width:25px;height:25px;' onclick='changeCategoryColor(event,this,\"Blue\")'></div> ");
-	$(elem).siblings(".futureColors").append("<div style='display:inline-block;background-color:Indigo;width:25px;height:25px;' onclick='changeCategoryColor(event,this,\"Indigo\")'></div> ");
-	$(elem).siblings(".futureColors").append("<div style='display:inline-block;background-color:Violet;width:25px;height:25px;' onclick='changeCategoryColor(event,this,\"Violet\")'></div> ");
-	$(elem).siblings(".futureColors").append("<div style='display:inline-block;background-color:Silver;width:25px;height:25px;' onclick='changeCategoryColor(event,this,\"Silver\")'></div>");	
+	$(elem).siblings(".futureColors").append("<div style='display:inline-block;background-color:red;width:25px;height:25px;' onclick='changeCategoryColor(event,this,\"Red\")'></div> ");
+	$(elem).siblings(".futureColors").append("<div style='display:inline-block;background-color:orange;width:25px;height:25px;' onclick='changeCategoryColor(event,this,\"Orange\")'></div> ");
+	$(elem).siblings(".futureColors").append("<div style='display:inline-block;background-color:yellow;width:25px;height:25px;' onclick='changeCategoryColor(event,this,\"Yellow\")'></div> ");
+	$(elem).siblings(".futureColors").append("<div style='display:inline-block;background-color:green;width:25px;height:25px;' onclick='changeCategoryColor(event,this,\"Green\")'></div><br/>");
+	$(elem).siblings(".futureColors").append("<div style='display:inline-block;background-color:blue;width:25px;height:25px;' onclick='changeCategoryColor(event,this,\"Blue\")'></div> ");
+	$(elem).siblings(".futureColors").append("<div style='display:inline-block;background-color:indigo;width:25px;height:25px;' onclick='changeCategoryColor(event,this,\"Indigo\")'></div> ");
+	$(elem).siblings(".futureColors").append("<div style='display:inline-block;background-color:violet;width:25px;height:25px;' onclick='changeCategoryColor(event,this,\"Violet\")'></div> ");
+	$(elem).siblings(".futureColors").append("<div style='display:inline-block;background-color:silver;width:25px;height:25px;' onclick='changeCategoryColor(event,this,\"Silver\")'></div>");
 }
 
 function changeCategoryColor(event,elem,col) {
 	$(elem).parent().parent().css("background-color",col);
+}
+
+function saveCategory(event,elem,id) {
+	window.location.href = './schedule?edit=t&id=' + id + '&name=' + $(elem).siblings(".evnt-title").html() + '&col=' + $(elem).parent().css("background-color");
 }
 
 function delCategory(event, elem, id)
