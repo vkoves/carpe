@@ -8,9 +8,11 @@
 			newCat.color = params[:col]
 			newCat.name = params[:name]
 			newCat.save
+			controller.redirect_to "/schedule"
 		elsif params[:dest] == "t"
 			id = params[:id]
 			Category.find_by_id(id).destroy
+			controller.redirect_to "/schedule"
 		elsif params[:edit] == "t"
 			id = params[:id]
 			name = params[:name]
@@ -19,6 +21,7 @@
 			findCat.name = name
 			findCat.color = col
 			findCat.save	
+			controller.redirect_to "/schedule"
 		end #all ruby blocks, including if statements, have to end with an end
 	end
 %>
@@ -78,11 +81,11 @@
 		<!-- Actually, what we do know is really influenced a lot by the practice code Viktor supplied Robert.
 			You'll definitely be seeing traces (if not entire snippets) in here. -->
 			
-		<% Category.all.each do |cat| %>
-			<div class="sch-evnt category" style="background-color:<%= cat.color %>">
+		<% Category.all.each_with_index do |cat, index| %>
+			<div class="sch-evnt category" style="background-color:<%= cat.color %>; top: <%= 35*index %>px;">
 			<div class="evnt-time">7:30</div>
 			<div class="evnt-title center-text dis-sel" contenteditable="true" onclick="showOverlay($(this).parent())"><%= cat.name %></div>
-			<div class="evnt-desc dis-sel" onclick="showOverlay($(this).parent())">Oblivion - Play through first three story missions</div>
+			<div class="evnt-desc dis-sel" onclick="showOverlay($(this).parent())"></div>
 			<%= image_tag "checkmark.png", :class => "sch-evnt-saveCat sch-cat-icon", :onclick => "saveCategory(event, this, #{cat.id});" %>
 			<%= image_tag "quill.png", :class => "sch-evnt-editCat sch-cat-icon", :onclick => "editCategory(event, this);" %>
 			<%= image_tag "close.png", :class => "sch-evnt-delCat sch-cat-icon", :onclick => "delCategory(event, this, #{cat.id});" %>

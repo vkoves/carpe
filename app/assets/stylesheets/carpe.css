@@ -89,13 +89,12 @@ body
 	float: left;
 	/*overflow-x:hidden;
 	overflow-y:auto;*/
-	overflow:hidden;
 	position:relative;
 }
 
 .sch-evnt
 {
-	position: relative;
+	position: absolute;
 	width: 150px;
 	height: 88px; /* This should be 90px - borders top and bottom */
 	background: white;
@@ -416,6 +415,7 @@ label
 
 .category {
 	border-bottom: solid 2px rgb(135, 54, 54);
+	height: 25px;
 	/*height:100px;
 	font-size:18px;*/
 }
