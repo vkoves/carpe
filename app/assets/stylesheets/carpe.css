@@ -415,8 +415,7 @@ label
 
 .category {
 	border-bottom: solid 2px rgb(135, 54, 54);
-	height: 25px;
-	/*height:100px;
+	/*height:25px;
 	font-size:18px;*/
 }
 
@@ -434,6 +433,14 @@ label
 
 .cat-add:hover {
 	background-color:rgb(255,220,200);
+}
+
+.color-swatch {
+	display:inline-block;
+	width:23px;
+	height:23px;
+	border: solid 2px grey;
+	border-radius: 5px;
 }
 
 /* You can see my efforts in futility, if you so desire (not implemented yet)

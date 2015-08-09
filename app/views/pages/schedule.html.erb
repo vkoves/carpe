@@ -82,7 +82,7 @@
 			You'll definitely be seeing traces (if not entire snippets) in here. -->
 			
 		<% Category.all.each_with_index do |cat, index| %>
-			<div class="sch-evnt category" style="background-color:<%= cat.color %>; top: <%= 35*index %>px;">
+			<div class="sch-evnt category" style="background-color:<%= cat.color %>; top: <%= 105*index %>px;">
 			<div class="evnt-time">7:30</div>
 			<div class="evnt-title center-text dis-sel" contenteditable="true" onclick="showOverlay($(this).parent())"><%= cat.name %></div>
 			<div class="evnt-desc dis-sel" onclick="showOverlay($(this).parent())"></div>
@@ -423,14 +423,14 @@ function editCategory(event, elem, id){
 	$(elem).siblings(".sch-evnt-saveCat").css("display","inline");
 	$(elem).siblings(".evnt-title").trigger('focus');
 	document.execCommand('selectAll',false,null);
-	$(elem).siblings(".futureColors").append("<div style='display:inline-block;background-color:red;width:25px;height:25px;' onclick='changeCategoryColor(event,this,\"Red\")'></div> ");
-	$(elem).siblings(".futureColors").append("<div style='display:inline-block;background-color:orange;width:25px;height:25px;' onclick='changeCategoryColor(event,this,\"Orange\")'></div> ");
-	$(elem).siblings(".futureColors").append("<div style='display:inline-block;background-color:yellow;width:25px;height:25px;' onclick='changeCategoryColor(event,this,\"Yellow\")'></div> ");
-	$(elem).siblings(".futureColors").append("<div style='display:inline-block;background-color:green;width:25px;height:25px;' onclick='changeCategoryColor(event,this,\"Green\")'></div><br/>");
-	$(elem).siblings(".futureColors").append("<div style='display:inline-block;background-color:blue;width:25px;height:25px;' onclick='changeCategoryColor(event,this,\"Blue\")'></div> ");
-	$(elem).siblings(".futureColors").append("<div style='display:inline-block;background-color:indigo;width:25px;height:25px;' onclick='changeCategoryColor(event,this,\"Indigo\")'></div> ");
-	$(elem).siblings(".futureColors").append("<div style='display:inline-block;background-color:violet;width:25px;height:25px;' onclick='changeCategoryColor(event,this,\"Violet\")'></div> ");
-	$(elem).siblings(".futureColors").append("<div style='display:inline-block;background-color:silver;width:25px;height:25px;' onclick='changeCategoryColor(event,this,\"Silver\")'></div>");
+	$(elem).siblings(".futureColors").append("<div class='color-swatch' style='background-color: red;' onclick='changeCategoryColor(event,this,\"Red\")'></div> ");
+	$(elem).siblings(".futureColors").append("<div class='color-swatch' style='background-color:orange;' onclick='changeCategoryColor(event,this,\"Orange\")'></div> ");
+	$(elem).siblings(".futureColors").append("<div class='color-swatch' style='background-color:yellow;' onclick='changeCategoryColor(event,this,\"Yellow\")'></div> ");
+	$(elem).siblings(".futureColors").append("<div class='color-swatch' style='background-color:green;' onclick='changeCategoryColor(event,this,\"Green\")'></div><br/>");
+	$(elem).siblings(".futureColors").append("<div class='color-swatch' style='background-color:blue;' onclick='changeCategoryColor(event,this,\"Blue\")'></div> ");
+	$(elem).siblings(".futureColors").append("<div class='color-swatch' style='background-color:indigo;' onclick='changeCategoryColor(event,this,\"Indigo\")'></div> ");
+	$(elem).siblings(".futureColors").append("<div class='color-swatch' style='background-color:violet;' onclick='changeCategoryColor(event,this,\"Violet\")'></div> ");
+	$(elem).siblings(".futureColors").append("<div class='color-swatch' style='background-color:silver;' onclick='changeCategoryColor(event,this,\"Silver\")'></div>");
 }
 
 function changeCategoryColor(event,elem,col) {
