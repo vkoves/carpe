@@ -1,0 +1,7 @@
+class RemoveUserColumnFromCategories < ActiveRecord::Migration
+  def change
+    remove_column :categories, :remove_column, :string
+    remove_column :categories, :, :categories,
+    remove_column :categories, :, :user
+  end
+end
