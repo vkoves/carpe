@@ -1,4 +1,8 @@
 class PagesController < ApplicationController
   def schedule
+    
+  end
+  def catviewer
+
   end
 end

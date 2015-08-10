@@ -83,7 +83,8 @@
 		<!-- Actually, what we do know is really influenced a lot by the practice code Viktor supplied Robert.
 			You'll definitely be seeing traces (if not entire snippets) in here. -->
 			
-		<% Category.all.each_with_index do |cat, index| %>
+		<% if current_user
+		current_user.categories.each_with_index do |cat, index| %>
 			<div class="sch-evnt category" style="background-color:<%= cat.color %>; top: <%= 105*index %>px;">
 			<div class="evnt-time">7:30</div>
 			<div class="evnt-title center-text dis-sel" contenteditable="true" onclick="showOverlay($(this).parent())"><%= cat.name %></div>
@@ -97,7 +98,7 @@
 			
 			</div>
 		</div>
-		<% end %>
+		<% end end %>
 		
 		
 		

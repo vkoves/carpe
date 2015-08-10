@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get "/home" => 'home#index'
   get "/schedule" => 'pages#schedule'
   get "/userviewer" => 'pages#userviewer'
+  get "/catviewer" => 'pages#catviewer'
 
   root 'home#index'
 

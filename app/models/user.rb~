@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
 	devise :omniauthable
 	validates_presence_of :name
 
-	has_many :category
+	has_many :categories
 	
 	def self.find_for_google_oauth2(access_token, signed_in_resource=nil)
     data = access_token.info
