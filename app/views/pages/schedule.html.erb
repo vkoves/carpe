@@ -23,6 +23,8 @@
 			findCat.save	
 			controller.redirect_to "/schedule"
 		end #all ruby blocks, including if statements, have to end with an end
+	else 
+		controller.redirect_to user_session_path;
 	end
 %>
 
