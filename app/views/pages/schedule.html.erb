@@ -22,7 +22,12 @@
 			findCat.color = col
 			findCat.save	
 			controller.redirect_to "/schedule"
-		end #all ruby blocks, including if statements, have to end with an end
+		elsif params[:clearAll] == "t"
+			Category.all.each_with_index do |cat, index|
+				cat.destroy
+			end
+			controller.redirect_to "/schedule"
+		end	
 	else 
 		controller.redirect_to user_session_path;
 	end
