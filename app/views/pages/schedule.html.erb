@@ -53,7 +53,7 @@
 	</div>
 	
 	<div id="sch-sidebar">
-		<span id="sidebar-title" title="Drag these events onto the schedule to get started" onclick="createCategory();">Events</span>
+		<span id="sidebar-title" title="Drag a category onto the schedule to create a schedule item." onclick="createCategory();">Categories</span>
 			
 		<div id="sch-tiles">
 		<!-- <div class="sch-evnt sch-class">
@@ -109,7 +109,7 @@
 		
 		</div>
 		
-		<div class="cat-add" onclick="createCategory();">+ New Event</div>
+		<div class="cat-add" onclick="createCategory();">+ New Category</div>
 	</div>
 	<div id="sch-main">
 		
@@ -288,6 +288,8 @@ function addDrag(selector)
 		},
 		stop: function(event, ui) 
 		{
+			
+			
 			$("#sch-tiles").html(sideHTML);
 			
 			$(".evnt-title").on("keydown",function(e){
@@ -307,6 +309,11 @@ function addDrag(selector)
 			$(this).css("margin-top","0px");
 			addDrag();
 			
+			
+				$(this).children(".evnt-title").trigger('focus'); 
+				document.execCommand('selectAll',false,null); // Suggests to the user to change the schedule item title by making it editable upon drop here.
+			
+			
 			var topVal = parseFloat($(this).css("top"));
 			if(topVal < 0) //make sure the event is not halfway off the top
 			{
@@ -317,6 +324,7 @@ function addDrag(selector)
 				topVal = $(this).parent().height() - $(this).outerHeight();
 			}
 			$(this).css("top",topVal);
+			
 		},
 		drag: function(event, ui)
 		{
