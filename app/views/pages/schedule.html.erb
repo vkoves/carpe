@@ -312,6 +312,7 @@ function addDrag(selector)
 			
 				$(this).children(".evnt-title").trigger('focus'); 
 				document.execCommand('selectAll',false,null); // Suggests to the user to change the schedule item title by making it editable upon drop here.
+				document.execCommand('delete',false,null); // Suggests to the user to change the schedule item title by making it editable upon drop here.
 			
 			
 			var topVal = parseFloat($(this).css("top"));
