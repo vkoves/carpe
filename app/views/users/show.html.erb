@@ -6,7 +6,10 @@
 <h3>Friends</h3>
 <ul>
 	<% for friendship in @user.friendships %>
-		<li><a href="/u/<%= friendship.friend.id %>"><%= friendship.friend.name %></a></li>(<%= link_to "remove", friendships_path(:id => friendship.id), :method => :delete %>)
+		<li>
+			<a href="/u/<%= friendship.friend.id %>"><%= friendship.friend.name %></a>
+			(<%= link_to "remove", friendships_path(:id => friendship.id), :method => :delete %>)
+		</li>
 	<% end %>
 	<%# Inverse friends are when the other person added you, so conveniently, we can who added who. %>
 	<% for user in @user.inverse_friends %>
