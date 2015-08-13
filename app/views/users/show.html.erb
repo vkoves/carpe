@@ -5,7 +5,7 @@
 <% end %>
 <h3>Friends</h3>
 <ul>
-	<% for user in @user.friends %>
-		<li><%= user.name %></li>
+	<% for friendship in @user.friendships %>
+		<li><%= friendship.friend.name %></li>(<%= link_to "remove", friendships_path(:id => friendship.id), :method => :delete %>)
 	<% end %>
 </ul>
