@@ -8,6 +8,6 @@ class FriendshipsController < ApplicationController
   def destroy
     @friendship = current_user.friendships.find(params[:id])
     @friendship.destroy
-    redirect_to "/users/" + current_user.id.to_s
+    redirect_to "/u/" + current_user.id.to_s
   end
 end
