@@ -5,7 +5,7 @@
 		<% if current_user.name and !current_user.name.empty? %><%= current_user.name %><% else %><%= current_user.email %><% end %>
 			</div>
 		<div id="user-panel">
-		
+			<%= link_to 'View profile', "/users/" + current_user.id.to_s %><br>
 			<%= link_to 'Edit profile', edit_user_registration_path %>
 			<br>
 			Not you? <%= link_to "Sign out", destroy_user_session_path,:method => :delete %> 

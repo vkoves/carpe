@@ -4,7 +4,9 @@
 	<% if user.provider %>
 	| provider: <%= user.provider %> 
 	<% end %>
-	<%= link_to "Add Friend", friendships_path(:friend_id => user), :method => :post %>
+	<% if !current_user.friends.include? user and current_user and current_user != user %>
+		<%= link_to "Add Friend", friendships_path(:friend_id => user), :method => :post %>
+	<% end %>
 	<br>
 <% end %>
 <% if @users.empty? %>
