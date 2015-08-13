@@ -1,11 +1,12 @@
 <h1>User Viewer</h1>
-<% users = User.all %>
-<% users.each do |user| %>
+<% @users.each do |user| %>
 	User | id: <%= user.id %> | name: <%= user.name %> | email: <%= user.email %> 
 	<% if user.provider %>
 	| provider: <%= user.provider %> 
-	<% end %><br> 
+	<% end %>
+	<%= link_to "Add Friend", friendships_path(:friend_id => user), :method => :post %>
+	<br>
 <% end %>
-<% if users.empty? %>
+<% if @users.empty? %>
 Woops, there are no users in this db.
 <% end %>

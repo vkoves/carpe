@@ -1,0 +1,11 @@
+<h1><%= @user.name %></h1>
+
+<% if @user == current_user %>
+<h2>My Profile</h2>
+<% end %>
+<h3>Friends</h3>
+<ul>
+	<% for user in @user.friends %>
+		<li><%= user.name %></li>
+	<% end %>
+</ul>
