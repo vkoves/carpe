@@ -442,6 +442,17 @@ label
 	border: solid 2px grey;
 	border-radius: 5px;
 }
+.friend-listing {
+	position: relative;
+	width:50%;
+	left: 20%;
+	text-align: left;
+}
+.friend-status {
+	color: green;
+	font-size: 18px;
+	font-weight: bold;
+}
 
 /* You can see my efforts in futility, if you so desire (not implemented yet)
 

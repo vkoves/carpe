@@ -8,7 +8,7 @@
 		<% if !current_user.friends.include? user %>
 			<%= link_to "Add Friend", friendships_path(:friend_id => user), :method => :post %>
 		<% else %>
-			| Friend
+			| <span class="friend-status">Friend</span>
 		<% end %>
 	<% end %>
 	<br>
