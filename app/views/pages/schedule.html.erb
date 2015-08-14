@@ -291,6 +291,8 @@ function addDrag(selector)
 				clone.css("z-index","0")
 				clone.children('.ui-resizable-handle').remove();
 				
+				
+				
 				addDrag(clone);
 				$(clone).resizable({
 			    	handles: 'n, s',
@@ -301,6 +303,8 @@ function addDrag(selector)
 			    		updateTime($(this), ui);
 			    	}
 				});
+				
+				pushEventInfo(clone);
 			}
 			
 			else if(!ctrlPressed && $(this).parent().attr("id") == "sch-tiles") {
@@ -360,6 +364,7 @@ function addDrag(selector)
 				curEvnt = curEvent + 1;
 				$(this).children(".evnt-numID").html == curEvnt.toString();
 				schItemCategory.push(catBefore);
+				$(this).attr("id",catBefore);
 				schItemColor.push($(this).css("background-color"));
 				schItemStart.push($(this).children(".evnt-time").html());
 				schItemNames.push("");
@@ -379,6 +384,22 @@ function addDrag(selector)
 			updateTime($(this), ui);
 		}
 	});
+}
+
+function pushEventInfo(elem) {
+	var catBefore;
+	catBefore = $(elem).attr("id");
+	
+	curEvnt = curEvent + 1;
+	$(elem).children(".evnt-numID").html == curEvnt.toString();
+	schItemCategory.push(catBefore);
+	schItemColor.push($(elem).css("background-color"));
+	schItemStart.push($(elem).children(".evnt-time").html());
+	schItemNames.push($(elem).children(".evnt-title").html());
+	schItemDate.push($(elem).parent().siblings(".col-titler").children(".evnt-fulldate").html().split(',')[0]);
+	schItem.push(elem);
+	
+//	$(elem).siblings(".evnt-title").trigger('focus');
 }
 
 function updateTime(elem, ui)
