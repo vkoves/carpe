@@ -407,9 +407,7 @@ function updateTime(elem, ui)
     }
     
 
-	timeDiv.html(arr.join(":"));
-	
-	console.log("Hi, I can do science");	
+	timeDiv.html(arr.join(":"));	
 }
 
 function addDates(referenceDate, refresh)
@@ -499,10 +497,17 @@ function popEvents() {
 			//var clone = $(".sch-evnt").clone();
 			
 			var currentElem = schItem[j];
-			
+			$(".sch-evnt").css("margin-left","auto")
+			$(".sch-evnt").css("margin-right","auto")
+			$(".sch-evnt").css("left","0")
+			$(".sch-evnt").css("right","0")
 			$(".sch-day-col:eq(" + i + ")").append(currentElem);
+			$(".sch-evnt").css("margin-left","auto")
+			$(".sch-evnt").css("margin-right","auto")
+			$(".sch-evnt").css("left","0")
+			$(".sch-evnt").css("right","0")
 			updateTime($(".sch-evnt"),$(".sch-day-col"));
-			addDrag();	
+			addDrag(".sch-evnt");	
 			}
 		}
 	}
