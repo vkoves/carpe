@@ -304,7 +304,7 @@ function addDrag(selector)
 			    	}
 				});
 				
-				pushEventInfo(clone);
+				pushEventInfo(clone,$(this).attr("id"));
 			}
 			
 			else if(!ctrlPressed && $(this).parent().attr("id") == "sch-tiles") {
@@ -361,20 +361,10 @@ function addDrag(selector)
 			$(this).css("top",topVal);
 			
 			if (newSchItem) {
-				curEvnt = curEvent + 1;
-				$(this).children(".evnt-numID").html == curEvnt.toString();
-				schItemCategory.push(catBefore);
+				
 				$(this).attr("id",catBefore);
-				schItemColor.push($(this).css("background-color"));
-				schItemStart.push($(this).children(".evnt-time").html());
-				schItemNames.push("");
-				schItemDate.push($(this).parent().siblings(".col-titler").children(".evnt-fulldate").html().split(',')[0]);
-				schItem.push(this);
+				pushEventInfo(this,catBefore);
 				
-				/*console.log($(this).children(".evnt-time").html());
-				
-				console.log($(this).parent().siblings(".col-titler").children(".evnt-date").html());
-				console.log($(this).parent().siblings(".col-titler").children(".evnt-fulldate").html().split(',')[0]);*/
 			}
 			
 			
@@ -386,20 +376,25 @@ function addDrag(selector)
 	});
 }
 
-function pushEventInfo(elem) {
-	var catBefore;
-	catBefore = $(elem).attr("id");
+function pushEventInfo(elem, catBefore) {
 	
-	curEvnt = curEvent + 1;
+	// For some reason, these two lines are still important for cloned events.
+	// It's never great if you have to start your comment with "For some reason"...isn't it?
+	curEvnt = curEvent + 1; // Increments current event ID.
 	$(elem).children(".evnt-numID").html == curEvnt.toString();
+	
+	// Start pushing to temporary data...starting with category we get from the passed in catBefore parameter.
 	schItemCategory.push(catBefore);
 	schItemColor.push($(elem).css("background-color"));
 	schItemStart.push($(elem).children(".evnt-time").html());
 	schItemNames.push($(elem).children(".evnt-title").html());
 	schItemDate.push($(elem).parent().siblings(".col-titler").children(".evnt-fulldate").html().split(',')[0]);
+	
+	// Whereas the other lines actually split up the data (particularly useful later with POST requests),
+	// the following line pushes the entire HTML content of the schedule item.
+	// It's actually not too much, so it should not cause much drain here.
 	schItem.push(elem);
 	
-//	$(elem).siblings(".evnt-title").trigger('focus');
 }
 
 function updateTime(elem, ui)
@@ -497,38 +492,32 @@ function addDates(referenceDate, refresh)
 		startDate++;
 	});
 	
-	popEvents();
+	popEvents(); // After refreshing the dates, populate the...er...schedule items for this week. As you can see, the terminology still confuses some.
 	
 }
 
 function popEvents() {
 	var repDates = [];
-	var ids = [];
 	
 	$(".sch-day-col").each(function(index, col)
 	{
 		repDates.push($(col).children(".col-titler").children(".evnt-fulldate").html().split(',')[0]);
-	});
+	}); // Populate the date range array created above, so that we can match up what events have dates that fall in this range.
 	
 	for (var i = 0; i < repDates.length; i++) {
 		for (var j = 0; j < schItemCategory.length; j++) {
 			if (schItemDate[j] == repDates[i]) {
 				console.log(schItemDate[j] + " | " + repDates[i]);
 			
-			//var clone = $(".sch-evnt").clone();
-			
+			// So, this does not create a clone using the .clone() method...it was attempted before, though (the result was not optimal).
 			var currentElem = schItem[j];
-			$(".sch-evnt").css("margin-left","auto")
-			$(".sch-evnt").css("margin-right","auto")
-			$(".sch-evnt").css("left","0")
-			$(".sch-evnt").css("right","0")
 			$(".sch-day-col:eq(" + i + ")").append(currentElem);
 			$(".sch-evnt").css("margin-left","auto")
 			$(".sch-evnt").css("margin-right","auto")
 			$(".sch-evnt").css("left","0")
 			$(".sch-evnt").css("right","0")
 			updateTime($(".sch-evnt"),$(".sch-day-col"));
-			addDrag(".sch-evnt");	
+			addDrag(".sch-evnt"); // Re-enables the events to snap onto the date columns here.	
 			}
 		}
 	}
@@ -593,11 +582,6 @@ function editEvent(event, elem)
 	document.execCommand('selectAll',false,null);
 	$(elem).siblings(".sch-evnt-save").css("display","inline");
 	
-}
-
-function saveEvent(event, elem) {
-	var current = (int)($(elem).siblings(".evnt-numID").html());
-	schItemNames[current] = $(elem).siblings(".evnt-title").html();
 }
 
 function showOverlay(elem)
