@@ -92,6 +92,7 @@
 		current_user.categories.each_with_index do |cat, index| %>
 			<div class="sch-evnt category" style="background-color:<%= cat.color %>; top: <%= 105*index %>px;">
 			<div class="evnt-time">7:30</div>
+			<div class="evnt-numID">0</div>
 			<div class="evnt-title center-text dis-sel" contenteditable="true" onclick="showOverlay($(this).parent())"><%= cat.name %></div>
 			<div class="evnt-desc dis-sel" onclick="showOverlay($(this).parent())"></div>
 			<%= image_tag "checkmark.png", :class => "sch-evnt-saveCat sch-cat-icon", :onclick => "saveCategory(event, this, #{cat.id});" %>
@@ -99,6 +100,7 @@
 			<%= image_tag "close.png", :class => "sch-evnt-delCat sch-cat-icon", :onclick => "delCategory(event, this, #{cat.id});" %>
 			<%= image_tag "quill.png", :class => "sch-evnt-edit sch-evnt-icon", :onclick => "editEvent(event, this);" %>
 			<%= image_tag "close.png", :class => "sch-evnt-close sch-evnt-icon", :onclick => "removeEvent(event, this);" %>
+			
 			<div class="futureColors" style="position:absolute;padding-top:4px;width:100%;">
 			
 			</div>
@@ -154,6 +156,17 @@ var schHTML; // Instantiates schedule HTML variable, which will contain the "Mon
 var refDate = new Date(); // Reference date for where the calendar is now, so that it can switch between weeks.
 
 
+var schItemNames = [];
+var schItemStart = [];
+var schItemDate = [];
+var schItemCategory = [];
+var schItemColor = [];
+
+var schItem = [];
+
+var curEvent;
+
+
 $(window).keydown(function(evt) {
   if (evt.which == 17) { // ctrl
     ctrlPressed = true;
@@ -169,6 +182,7 @@ $(document).ready(function()
 {
 	setTitles();
 	
+	curEvent = 0;
 	
 	sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
 	schHTML = $("#sch-days").html(); //The HTML for the scheduler days layout, useful for when days are refreshed
@@ -242,6 +256,9 @@ function colDroppable()
 //the dragging function
 function addDrag(selector)
 {
+	var newSchItem = false;
+	var catBefore = "";
+	
 	if (selector == null)
 		selector = "#sch-sidebar .sch-evnt";
 		
@@ -287,11 +304,13 @@ function addDrag(selector)
 			}
 			
 			else if(!ctrlPressed && $(this).parent().attr("id") == "sch-tiles") {
+				catBefore = $(this).children(".evnt-title").html();
 				console.log($(this).innerHTML);
 				$(this).children(".evnt-title").trigger('focus'); 
 				document.execCommand('selectAll',false,null); // Suggests to the user to change the schedule item title by making it editable upon drop here.
 				document.execCommand('delete',false,null); // Suggests to the user to change the schedule item title by making it editable upon drop here.
 				$(this).children(".evnt-title").trigger('focus');
+				newSchItem = true;
 			}
 			
 		},
@@ -323,6 +342,7 @@ function addDrag(selector)
 				$(this).children(".evnt-title").trigger('focus'); 
 				document.execCommand('selectAll',false,null); // Suggests to the user to change the schedule item title by making it editable upon drop here.
 				//document.execCommand('delete',false,null);
+				$(this).children(".sch-evnt-save").css("display","inline");
 			}
 			
 			var topVal = parseFloat($(this).css("top"));
@@ -335,6 +355,23 @@ function addDrag(selector)
 				topVal = $(this).parent().height() - $(this).outerHeight();
 			}
 			$(this).css("top",topVal);
+			
+			if (newSchItem) {
+				curEvnt = curEvent + 1;
+				$(this).children(".evnt-numID").html == curEvnt.toString();
+				schItemCategory.push(catBefore);
+				schItemColor.push($(this).css("background-color"));
+				schItemStart.push($(this).children(".evnt-time").html());
+				schItemNames.push("");
+				schItemDate.push($(this).parent().siblings(".col-titler").children(".evnt-fulldate").html().split(',')[0]);
+				schItem.push(this);
+				
+				/*console.log($(this).children(".evnt-time").html());
+				
+				console.log($(this).parent().siblings(".col-titler").children(".evnt-date").html());
+				console.log($(this).parent().siblings(".col-titler").children(".evnt-fulldate").html().split(',')[0]);*/
+			}
+			
 			
 		},
 		drag: function(event, ui)
@@ -370,7 +407,9 @@ function updateTime(elem, ui)
     }
     
 
-	timeDiv.html(arr.join(":"));	
+	timeDiv.html(arr.join(":"));
+	
+	console.log("Hi, I can do science");	
 }
 
 function addDates(referenceDate, refresh)
@@ -438,6 +477,35 @@ function addDates(referenceDate, refresh)
 		}
 		startDate++;
 	});
+	
+	popEvents();
+	
+}
+
+function popEvents() {
+	var repDates = [];
+	var ids = [];
+	
+	$(".sch-day-col").each(function(index, col)
+	{
+		repDates.push($(col).children(".col-titler").children(".evnt-fulldate").html().split(',')[0]);
+	});
+	
+	for (var i = 0; i < repDates.length; i++) {
+		for (var j = 0; j < schItemCategory.length; j++) {
+			if (schItemDate[j] == repDates[i]) {
+				console.log(schItemDate[j] + " | " + repDates[i]);
+			
+			//var clone = $(".sch-evnt").clone();
+			
+			var currentElem = schItem[j];
+			
+			$(".sch-day-col:eq(" + i + ")").append(currentElem);
+			updateTime($(".sch-evnt"),$(".sch-day-col"));
+			addDrag();	
+			}
+		}
+	}
 }
 
 function createCategory() {
@@ -481,6 +549,15 @@ function removeEvent(event, elem)
 {
 	event.stopImmediatePropagation();
 	$(elem).parent().slideUp("normal", function() { $(this).remove(); } );
+	
+	var current = (int)($(elem).siblings(".evnt-numID").html());
+	
+	schItemCategory[current] = "";
+	schItemColor[current] = "";
+	schItemStart[current] = "";
+	schItemNames[current] = "";
+	schItemDate[current] = "";
+	
 }
 
 function editEvent(event, elem)
@@ -488,6 +565,13 @@ function editEvent(event, elem)
 	event.stopImmediatePropagation();
 	$(elem).siblings(".evnt-title").trigger('focus');
 	document.execCommand('selectAll',false,null);
+	$(elem).siblings(".sch-evnt-save").css("display","inline");
+	
+}
+
+function saveEvent(event, elem) {
+	var current = (int)($(elem).siblings(".evnt-numID").html());
+	schItemNames[current] = $(elem).siblings(".evnt-title").html();
 }
 
 function showOverlay(elem)

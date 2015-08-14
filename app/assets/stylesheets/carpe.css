@@ -10,6 +10,7 @@ body
 	font-weight: normal;
 	color: rgb(255, 116, 0);
 }
+
 .carpe-color, .carpe-font a
 {
 	color: rgb(255, 116, 0) !important;
@@ -149,6 +150,11 @@ body
 	right: 20px;
 	top: 5px;
 	width: 18px;
+}
+.sch-evnt-save {
+	right:4px;
+	top:20px;
+	display:none;
 }
 .sch-evnt-editCat {
 	left: 3px;
@@ -442,6 +448,12 @@ label
 	border: solid 2px grey;
 	border-radius: 5px;
 }
+
+.evnt-numID {
+	display:none;
+}
+
+
 
 /* You can see my efforts in futility, if you so desire (not implemented yet)
 
