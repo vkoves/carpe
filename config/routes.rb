@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
+  get "u/:id", to: "users#show"
+  get "/users", to: "users#index"
+   
   devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }
+
   get 'pages/schedule'
 
   get 'shared/_header'
@@ -10,6 +14,8 @@ Rails.application.routes.draw do
   get "/catviewer" => 'pages#catviewer'
 
   root 'home#index'
+  
+  resource :friendships
 
 	
 end

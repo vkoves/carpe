@@ -448,6 +448,17 @@ label
 	border: solid 2px grey;
 	border-radius: 5px;
 }
+.friend-listing {
+	position: relative;
+	width:50%;
+	left: 20%;
+	text-align: left;
+}
+.friend-status {
+	color: green;
+	font-size: 18px;
+	font-weight: bold;
+}
 
 .evnt-numID {
 	display:none;
