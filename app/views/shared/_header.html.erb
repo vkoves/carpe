@@ -1,14 +1,13 @@
 <div class="header-main">
-	<span class="carpe-font"><a href="/">Carpe</a></span> | <a href="/">Home</a> | <a href="/schedule">Schedule</a>
+	<span class="carpe-font"><a href="/"><%= image_tag "toplogo.png", :class => "carpeheader", :align => "left" %></a></span> &nbsp; <a href="/">Home</a> &nbsp; &nbsp; <a href="/schedule">Schedule</a>
 	<div id="user-name-panel" class="carpe-color">
 	<% if current_user %>
 		<% if current_user.name and !current_user.name.empty? %><%= current_user.name %><% else %><%= current_user.email %><% end %>
 			</div>
 		<div id="user-panel">
-			<%= link_to 'View profile', "/u/" + current_user.id.to_s %><br>
-			<%= link_to 'Edit profile', edit_user_registration_path %>
-			<br>
-			Not you? <%= link_to "Sign out", destroy_user_session_path,:method => :delete %> 
+			<%= link_to " View profile", "/u/" + current_user.id.to_s %>
+			<br><%= link_to " Edit profile", edit_user_registration_path %><br>
+			<%= link_to " Sign out", destroy_user_session_path,:method => :delete %> 
 		</div> 
 	<% else %>
 		<%= link_to "Sign up", new_user_registration_path %> or

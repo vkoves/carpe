@@ -17,14 +17,15 @@ body
 }
 .header-main
 {
-	background: rgb(56, 56, 56);
-	color: white;
+	background: rgb(242, 242, 242);
+	color: rgb(200, 200, 200);
 	height: 40px;
 	font-size: 20px;
+	text-align: left;
 }
 .header-main a
 {
-	color: white;
+	color: rgb(166, 166, 166);
 	text-decoration: none;
 	font-size: 18px;
 }
@@ -51,7 +52,10 @@ body
 	height: 200px;
 	width: 310px;
 	z-index: 10;
-	background-color: rgb(84, 84, 84);
+	background-color: rgb(230, 230, 230);
+	text-align:right;
+	padding:10px;
+	margin-bottom:10px;
 }
 #user-panel:hover
 {
@@ -464,6 +468,10 @@ label
 	display:none;
 }
 
+.carpeheader {
+	height:100%;
+	
+}
 
 
 /* You can see my efforts in futility, if you so desire (not implemented yet)
