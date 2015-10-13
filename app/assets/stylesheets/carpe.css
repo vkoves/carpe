@@ -504,11 +504,16 @@ label
 	border: solid 2px grey;
 	border-radius: 5px;
 }
+#friend-list {
+	list-style: none;
+}
 .friend-listing {
 	position: relative;
 	width:50%;
 	left: 20%;
 	text-align: left;
+	display: table-cell;
+	width: 100px;
 }
 .friend-status {
 	color: green;
@@ -555,4 +560,11 @@ label
 {
 	width: 100px;
 	float: left;
+}
+.page-container
+{
+	width: 80%;
+	max-width: 1220px;
+	margin-left: auto;
+	margin-right: auto;
 }
