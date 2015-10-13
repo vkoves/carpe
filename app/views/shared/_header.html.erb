@@ -6,6 +6,8 @@
 			<div id="user-avatar"><img src="<%= current_user.image_url %>"></div>
 		<% end%>
 		<% if current_user.name and !current_user.name.empty? %><%= current_user.name %><% else %><%= current_user.email %><% end %>
+		<br>
+		<div id="user-email"><%= current_user.email %></div>
 			</div>
 		<div id="user-panel">
 			<%= link_to " View profile", "/u/" + current_user.id.to_s %>
