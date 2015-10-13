@@ -91,7 +91,7 @@ body
 #sch-main
 {
 	width: 79%;
-	/*background: rgb(230, 230, 230);*/
+	background: rgb(230, 230, 230);
 	height: 505px;
 	border-radius: 5px;
 	float: right;
@@ -102,7 +102,7 @@ body
 {
 	width: 20%;
 	height: 505px;
-	/*background: rgb(253, 253, 253);*/
+	background: rgb(253, 253, 253);
 	font-size: 24px;
 	border-radius: 5px;
 	float: left;
