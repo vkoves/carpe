@@ -2,9 +2,13 @@
 	<span class="carpe-font"><a href="/"><%= image_tag "toplogo.png", :class => "carpeheader", :align => "left" %></a></span><span class="header-text"> &nbsp; <a href="/">Home</a> &nbsp; &nbsp; <a href="/schedule">Schedule</a></span>
 	<div id="user-name-panel" class="carpe-color">
 	<% if current_user %>
+		<div id="user-avatar">
 		<% if current_user.image_url %>
-			<div id="user-avatar"><img src="<%= current_user.image_url %>"></div>
+			<img src="<%= current_user.image_url %>">
+		<% else %>
+			<img src="http://www.gravatar.com/avatar/?d=mm">
 		<% end%>
+		</div>
 		<% if current_user.name and !current_user.name.empty? %><%= current_user.name %><% else %><%= current_user.email %><% end %>
 		<br>
 		<div id="user-email"><%= current_user.email %></div>
