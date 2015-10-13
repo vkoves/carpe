@@ -41,11 +41,14 @@ body
 }
 .header-main a
 {
-	color: rgb(166, 166, 166);
+	color: rgb(106, 106, 106);
 	text-decoration: none;
 	font-size: 18px;
-	padding-bottom:30px;
-	
+	transition: color 0.2s;	
+}
+.header-main a:hover
+{
+	color: orange;
 }
 #user-name-panel
 {
@@ -71,7 +74,7 @@ body
 	width: 310px;
 	z-index: 10;
 	background-color: rgb(230, 230, 230);
-	text-align:right;
+	text-align:center;
 	padding:10px;
 	margin-bottom:10px;
 }
