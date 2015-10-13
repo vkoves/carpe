@@ -33,7 +33,7 @@ body
 	position:absolute;
 }
 .header-logintext {
-	padding-top: 14px;
+	padding-top: g14px;
 	right:10px;
 	width:400px;
 	text-align:right;
@@ -542,4 +542,17 @@ label
 	float:left;
 	margin-left:20px;
 	color:Gray;
+}
+
+/* Friends page stuff */
+.avatar img
+{
+	border-radius: 100px;
+	width: 50px;
+	border: solid orange 2px;
+}
+.user-box
+{
+	width: 100px;
+	float: left;
 }

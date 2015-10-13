@@ -1,0 +1,14 @@
+<h1>Find Friends</h1>
+<% users = User.all %>
+<% users.each do |user| %>
+<div class="user-box">
+	<div class="avatar">
+		<% if user.image_url %>
+		<img src="<%= user.image_url%>">
+		<% else %>
+		<img src="http://www.gravatar.com/avatar/?d=mm">
+		<% end %>
+	</div>
+	<%= user.name %>
+</div>
+<% end %>
