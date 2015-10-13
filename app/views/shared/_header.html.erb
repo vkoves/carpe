@@ -2,6 +2,9 @@
 	<span class="carpe-font"><a href="/"><%= image_tag "toplogo.png", :class => "carpeheader", :align => "left" %></a></span><span class="header-text"> &nbsp; <a href="/">Home</a> &nbsp; &nbsp; <a href="/schedule">Schedule</a></span>
 	<div id="user-name-panel" class="carpe-color">
 	<% if current_user %>
+		<% if !current_user.image_url.empty? %>
+			<div id="user-avatar"><img src="<%= current_user.image_url %>"></div>
+		<% end%>
 		<% if current_user.name and !current_user.name.empty? %><%= current_user.name %><% else %><%= current_user.email %><% end %>
 			</div>
 		<div id="user-panel">

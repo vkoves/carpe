@@ -29,6 +29,7 @@ class User < ActiveRecord::Base
           email: data["email"],
           uid: access_token.uid ,
           password: Devise.friendly_token[0,20],
+          image_url: data["image"]
         )
       end
    end
