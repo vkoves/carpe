@@ -15,6 +15,10 @@ body
 {
 	color: rgb(255, 116, 0) !important;
 }
+.header-logintext {
+	top:-5px;
+	position:absolute;
+}
 .header-main
 {
 	background: rgb(242, 242, 242);
@@ -306,8 +310,10 @@ body
 .evnt-date
 {
 	font-size: 24px;
+	color:Orange;
 	float: left;
-	left: 14px;
+	left: 10px;
+	top:2px;
 	position: relative;
 }
 
@@ -494,7 +500,7 @@ label
 }
 
 
-/* You can see my efforts in futility, if you so desire (not implemented yet)
+/* You can see my efforts in futility, if you so desire (not implemented yet) */
 
 .col-titler {
 	float: left;
@@ -502,11 +508,12 @@ label
 	width:90%;
 	left:10px;
 	text-align:left;
-}*/
+}
 
-/*.evnt-fulldate {
+.evnt-fulldate {
 	font-size:14px;
 	text-align:left;
 	float:left;
-	margin-left:10px;
+	margin-left:20px;
+	color:Gray;
 }*/
