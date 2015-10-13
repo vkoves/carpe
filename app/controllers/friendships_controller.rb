@@ -6,8 +6,13 @@ class FriendshipsController < ApplicationController
   end
   
   def destroy
-    @friendship = current_user.friendships.find(params[:id])
-    @friendship.destroy
+    @friendship = Friendship.find(params[:id])
+    if @friendship.user_id == current_user.id or @friendship.friend_id == current_user.id
+      @friendship.destroy
+      flash[:alert] = "Friend removed."
+    else
+      flash[:alert] = "You aren't friends with that person, so you can't remove them!"
+    end
     redirect_to "/u/" + current_user.id.to_s
   end
 end

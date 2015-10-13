@@ -30,7 +30,12 @@
 				<img src="http://www.gravatar.com/avatar/?d=mm">
 			<% end %>
 		</div>			
-		</a><%= user.name %></li>
+		</a><%= user.name %>
+		<% friendship = Friendship.where(user_id: user.id, friend_id: current_user.id).first %>
+		<% if friendship %>
+		(<%= link_to "remove", friendships_path(:id => friendship.id), :method => :delete %>)
+		<% end %>
+		</li>
 	<% end %>
 </ul>
 <% if @user == current_user %>
