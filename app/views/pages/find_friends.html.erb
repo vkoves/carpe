@@ -11,6 +11,14 @@
 			<% end %>
 		</div>
 		<%= user.name %>
+		<br>
+		<% if current_user and current_user != user %>
+		<% if !current_user.friends.include? user %>
+			<%= link_to "Add Friend", friendships_path(:friend_id => user), :method => :post %>
+		<% else %>
+			<span class="friend-status">Friend</span>
+		<% end %>
+	<% end %>
 	</div>
 	<% end %>
 </div>
