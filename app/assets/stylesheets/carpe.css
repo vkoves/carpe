@@ -516,9 +516,8 @@ label
 	position: relative;
 	width:50%;
 	left: 20%;
-	text-align: left;
 	display: table-cell;
-	width: 100px;
+	width: 120px;
 }
 .friend-status {
 	color: green;
@@ -584,6 +583,7 @@ label
 .profile-avatar img
 {
 	width: 150px;
+	border-width: 3px;
 }
 #profile-header
 {
