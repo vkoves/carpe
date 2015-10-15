@@ -17,10 +17,12 @@
 //= require jquery-ui.min
 //= require jquery.ui.touch-punch.min
 
-
-$(document).ready(function()
-{
+var ready = function() {
+	console.log("Ready" + window.location.href );
 	$("#user-name-panel").click(function(){
 		$("#user-panel").slideToggle();
 	});
-});
+};
+
+$(document).ready(ready);
+$(document).on('page:load', ready);
