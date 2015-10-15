@@ -10,7 +10,7 @@
 </div>
 <div class="page-container">
 	<h3>Friends</h3>
-	<ul id="friend-list">
+	<div id="friend-list">
 		<% all_friends = [] %>
 		<% for fship in @user.friendships %>
 			<% all_friends.push([fship, fship.friend])%>
@@ -24,23 +24,35 @@
 		
 		<% for arr in all_friends %>
 			<% friendship = arr[0]; user = arr[1] %>
-			<li class="friend-listing"
-				<% if @user == current_user %> style="width: 220px" <% end%>>
-				<a href="/u/<%= user.id %>">
-					<div class="avatar">
-						<img src="<%= user.user_avatar(100) %>">
+			<% if @user == current_user %>
+				<div class="friend-listing" style="width: 350px">
+					<a href="/u/<%= user.id %>">
+						<div class="avatar" style="float: left">
+							<img src="<%= user.user_avatar(100) %>">
+						</div>
+					</a>
+					<div class="friend-details">
+						<span class="friend-name"><%= friendship.friend.name %></span><br>
+						<%= friend_count = user.friendships.count + user.inverse_friends.count %> Friends <br>
+						Friends since: <%= friendship.created_at.strftime("%b. %d, %Y")%> <br>
+						(<%= link_to "remove", friendships_path(:id => friendship.id), :method => :delete %>)
 					</div>
-				</a><%= friendship.friend.name %>
-				<% if @user == current_user %>
-					<br>
-					<%= friend_count = user.friendships.count + user.inverse_friends.count %> Friends <br>
-					Friends since: <%= friendship.created_at.strftime("%b. %d, %Y")%> <br>
-					(<%= link_to "remove", friendships_path(:id => friendship.id), :method => :delete %>)
-				<% end %>
-			</li>
+				</div>
+			<% else %>
+				<div class="friend-listing" style="width: 300px">
+					<a href="/u/<%= user.id %>">
+						<div class="avatar" style="float: left">
+							<img src="<%= user.user_avatar(100) %>">
+						</div>
+					</a>
+					<div class="friend-details">
+						<span class="friend-name"><%= friendship.friend.name %></span><br>
+					</div>
+				</div>
+			<% end %>
 		<% end %>
 
-	</ul>
+	</div>
 	<% if @user == current_user %>
 		<%= link_to "Find Friends", "/find_friends" %>
 	<% end %>
