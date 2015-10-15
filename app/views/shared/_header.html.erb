@@ -14,9 +14,9 @@
 		<div id="user-email"><%= current_user.email %></div>
 			</div>
 		<div id="user-panel">
-			<div><%= link_to " View profile", "/u/" + current_user.id.to_s %></div>
-			<div><%= link_to " Edit profile", edit_user_registration_path %></div>
-			<div><%= link_to " Sign out", destroy_user_session_path,:method => :delete %></div>
+			<%= link_to "/u/" + current_user.id.to_s do %><div>View Profile</div><% end %>
+			<%= link_to edit_user_registration_path do %><div>Edit Profile</div><% end %>
+			<%= link_to destroy_user_session_path,:method => :delete do %><div>Sign out</div><% end %>
 		</div> 
 	<% else %>
 		<span class="header-logintext">
