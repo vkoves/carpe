@@ -33,7 +33,8 @@
 				</a><%= friendship.friend.name %>
 				<% if @user == current_user %>
 					<br>
-					Friends since: <%= friendship.created_at.strftime("%b. %d, %Y")%>
+					<%= friend_count = user.friendships.count + user.inverse_friends.count %> Friends <br>
+					Friends since: <%= friendship.created_at.strftime("%b. %d, %Y")%> <br>
 					(<%= link_to "remove", friendships_path(:id => friendship.id), :method => :delete %>)
 				<% end %>
 			</li>
