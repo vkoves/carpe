@@ -95,6 +95,7 @@ body
 #user-avatar img
 {
 	height: 80%;
+    min-width: 40px;
 	border-radius: 35px;
 	border: solid orange 2px;
 	margin-top: 7%;
@@ -285,11 +286,15 @@ body
 #sch-tiles
 {
 	position: relative;
-	margin-left: auto;
-	margin-right: auto;
-	width: 150px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    height: 88.5%;
+    background-color: grey;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
-.col-snap
+.col-snap	
 {
 	position: absolute; /* Viktor added 1 am June 17 */
 	height: 450px;
