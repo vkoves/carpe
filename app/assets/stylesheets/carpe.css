@@ -524,6 +524,7 @@ label
 .friend-listing {
 	position: relative;
     width: 50%;
+    height: 120px;
     float: left;
 }
 .friend-status {
