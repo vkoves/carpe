@@ -306,11 +306,9 @@ function addDrag(selector)
 		{
 			
 			$(this).children(".sch-cat-icon").css('display','none');
-			var height = Math.round(parseFloat($(this).css("height")));
-			
+			var height = parseFloat($(this).css("height"));
 			if((height+2)%gridHeight != 0)
 				$(this).css("height", (gridHeight*3)-2);
-
 			$(this).children(".evnt-time").show();
 			
 			
@@ -395,6 +393,7 @@ function addDrag(selector)
 			else if(topVal > $(this).parent().height() - $(this).outerHeight()) //or bottom
 			{
 				topVal = $(this).parent().height() - $(this).outerHeight();
+				topVal = topVal - (topVal%gridHeight);
 			}
 			$(this).css("top",topVal);
 			
@@ -407,7 +406,7 @@ function addDrag(selector)
 		},
 		drag: function(event, ui)
 		{
-			updateTime($(this), ui); //IMPORTANT DRAG STUFF VIKTOR KOVES
+			updateTime($(this), ui);
 		}
 	});
 }
@@ -435,11 +434,13 @@ function pushEventInfo(elem, catBefore) {
 
 function updateTime(elem, ui, resize) //if we're resizing, don't change the position
 {
-	var timeDiv = $(elem).children(".evnt-time");
+	var timeDiv = ui.helper.children(".evnt-time");
 	var arr = timeDiv.html().split(":");
 
 	//custom grid stuff using drag
 	var offsetDiff = -Math.ceil($(".col-snap:first").offset().top);
+	if(resize)
+		offsetDiff = 0;
 	console.log("Offset difference: " + offsetDiff);
 	
 	var topRemainder = (ui.position.top + offsetDiff) % gridHeight;
