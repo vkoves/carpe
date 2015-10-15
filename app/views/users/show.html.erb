@@ -1,33 +1,42 @@
-<div class="page-container">
-<h1><%= @user.name %></h1>
 
-<h3>Friends</h3>
-<ul id="friend-list">
-	<% for friendship in @user.friendships %>
-		<li class="friend-listing">
-			<a href="/u/<%= friendship.friend.id %>">
+<div id="profile-header">
+	<div id="header-image"></div>
+	<div class="page-container">
+		<div class="profile-avatar avatar">
+			<img src=<%= @user.user_avatar(200)%>>
+		</div>
+		<h1 id="profile-name"><%= @user.name %></h1>
+	</div>
+</div>
+<div class="page-container">
+	<h3>Friends</h3>
+	<ul id="friend-list">
+		<% for friendship in @user.friendships %>
+			<li class="friend-listing">
+				<a href="/u/<%= friendship.friend.id %>">
+					<div class="avatar">
+					<img src="<%= friendship.friend.user_avatar(100) %>">
+					</div>
+				</a><%= friendship.friend.name %>
+				(<%= link_to "remove", friendships_path(:id => friendship.id), :method => :delete %>)
+			</li>
+		<% end %>
+		<%# Inverse friends are when the other person added you, so conveniently, we can who added who.
+		%>
+		<% for user in @user.inverse_friends %>
+			<li class="friend-listing"><a href="/u/<%= user.id %>">
 				<div class="avatar">
 				<img src="<%= user.user_avatar(100) %>">
-				</div>
-			</a><%= friendship.friend.name %>
+			</div>			
+			</a><%= user.name %>
+			<% friendship = Friendship.where(user_id: user.id, friend_id: current_user.id).first %>
+			<% if friendship %>
 			(<%= link_to "remove", friendships_path(:id => friendship.id), :method => :delete %>)
-		</li>
-	<% end %>
-	<%# Inverse friends are when the other person added you, so conveniently, we can who added who. %>
-	<% for user in @user.inverse_friends %>
-		<li class="friend-listing"><a href="/u/<%= user.id %>">
-			<div class="avatar">
-			<img src="<%= user.user_avatar(100) %>">
-		</div>			
-		</a><%= user.name %>
-		<% friendship = Friendship.where(user_id: user.id, friend_id: current_user.id).first %>
-		<% if friendship %>
-		(<%= link_to "remove", friendships_path(:id => friendship.id), :method => :delete %>)
+			<% end %>
+			</li>
 		<% end %>
-		</li>
+	</ul>
+	<% if @user == current_user %>
+		<%= link_to "Find Friends", "/find_friends" %>
 	<% end %>
-</ul>
-<% if @user == current_user %>
-	<%= link_to "Find Friends", "/find_friends" %>
-<% end %>
 </div>
