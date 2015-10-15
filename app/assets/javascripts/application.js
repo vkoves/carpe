@@ -20,8 +20,7 @@
 
 $(document).ready(function()
 {
-	
-$("#user-name-panel").click(function(){
-	$("#user-panel").toggle();
-});
+	$("#user-name-panel").click(function(){
+		$("#user-panel").slideToggle();
+	});
 });
