@@ -243,7 +243,7 @@ function colDroppable()
 		    	containment: "parent",
 		    	resize: function(event, ui)
 		    	{
-		    		updateTime($(this), ui);
+		    		updateTime($(this), ui, true);
 		    	}
 			});
 		},
@@ -287,12 +287,18 @@ function addDrag(selector)
 			$copy.children(".sch-cat-icon").css('display','none');
 			var height = parseFloat($copy.css("height"));
 			$copy.css("margin-top","0px");
-			if((height+2)%gridHeight != 0)
+			
+			if((height+2)%gridHeight != 0 && !inColumn($(this)))
+			{
 				$copy.css("height", (gridHeight*3)-2);
+			}
+				
 			$copy.children(".evnt-time").show();
 			
-			if($(this).parent().attr("class") == "col-snap evt-snap ui-droppable")
+			if(inColumn($(this)))
+			{
 				$(this).css("opacity", 0);
+			}
 				
 			return $copy;
 		},
@@ -300,9 +306,11 @@ function addDrag(selector)
 		{
 			
 			$(this).children(".sch-cat-icon").css('display','none');
-			var height = parseFloat($(this).css("height"));
+			var height = Math.round(parseFloat($(this).css("height")));
+			
 			if((height+2)%gridHeight != 0)
 				$(this).css("height", (gridHeight*3)-2);
+
 			$(this).children(".evnt-time").show();
 			
 			
@@ -345,6 +353,7 @@ function addDrag(selector)
 		stop: function(event, ui) 
 		{
 			//$(ui.draggable).css("background","green");
+			$(ui.helper).remove();
 			
 			$("#sch-tiles").html(sideHTML); //reset the sidebar
 			$(this).css("opacity", 1);
@@ -362,10 +371,12 @@ function addDrag(selector)
 				position: { my: "left+15 top", at: "left bottom"}
 			}); //toss a tooltip on the events text
 			
-			$(this).css('position', 'absolute');
-			$(this).css('top', ui.position.top - $(this).parent().offset().top);
-			console.log($(this).parent().position().top);
-
+			if(inColumn($(this)))
+			{
+				$(this).css('position', 'absolute');
+				$(this).css('top', ui.position.top - $(this).parent().offset().top);
+				console.log($(this).parent().position().top);
+			}
 			addDrag();
 			$(this).css("margin-top","0px");
 			if ($(this).children(".evnt-title").html() == "") {
@@ -387,7 +398,7 @@ function addDrag(selector)
 			}
 			$(this).css("top",topVal);
 			
-			if (newSchItem) {
+			if ($(this).parent().offset()) {
 				
 				$(this).attr("id",catBefore);
 				pushEventInfo(this,catBefore);
@@ -422,35 +433,22 @@ function pushEventInfo(elem, catBefore) {
 	
 }
 
-function updateTime(elem, ui)
+function updateTime(elem, ui, resize) //if we're resizing, don't change the position
 {
 	var timeDiv = $(elem).children(".evnt-time");
 	var arr = timeDiv.html().split(":");
 
 	//custom grid stuff using drag
-    if($(elem).parent().attr("id") == "sch-tiles")
-    {
-    	var offsetDiff = -Math.ceil($(".col-snap:first").offset().top);
-    	console.log("Offset difference: " + offsetDiff);
-    	
-    	
-    	var topRemainder = (ui.position.top + offsetDiff) % gridHeight;
-		if($(elem).draggable('option', 'gridOn'))
-		{
-    		ui.position.top = ui.position.top - topRemainder;
-			arr[0] = (ui.position.top)/gridHeight;
-		}
-    }
-    else
-    {
-    	var topRemainder = (ui.position.top) % gridHeight;
-		if($(elem).draggable('option', 'gridOn'))
-     	{
-     		ui.position.top = ui.position.top - topRemainder;
-			arr[0] = ui.position.top/gridHeight;
-    	}
-    }
-    
+	var offsetDiff = -Math.ceil($(".col-snap:first").offset().top);
+	console.log("Offset difference: " + offsetDiff);
+	
+	var topRemainder = (ui.position.top + offsetDiff) % gridHeight;
+	if($(elem).draggable('option', 'gridOn'))
+	{
+		if(!resize)
+			ui.position.top = ui.position.top - topRemainder;
+		arr[0] = (ui.position.top + offsetDiff)/gridHeight;
+	}
 
 	timeDiv.html(arr.join(":"));	
 }
@@ -640,5 +638,15 @@ function setTitles()
 	{
 		$(desc).attr("title", $(desc).text());
 	});
+}
+
+//returns whether the element is in a schedule element
+function inColumn(elem)
+{
+	var class_data = elem.parent().attr("class")
+	if(class_data && class_data.indexOf("col-snap evt-snap") > -1)
+		return true;
+	else
+		return false;
 }
 </script>
