@@ -225,12 +225,14 @@ function colDroppable()
 				{
 					topVal = $(this).height() - ui.draggable.outerHeight();
 				}
-				ui.draggable.css("top",topVal);
+				//ui.draggable.css("top",topVal);
+				console.log("Set top to " + topVal);
 			}
 			
 	    	var element = ui.draggable.detach();
 			$(this).append(element);
 			ui.draggable.css("left","0px");
+			element.css("top","0");
 			//ui.draggable.children(".sch-evnt-icon").show();
 			ui.draggable.children(".evnt-desc").show();
 			$(this).parent().css("background","");
@@ -275,6 +277,7 @@ function addDrag(selector)
 		revertDuration: 0,
 		stack: ".sch-evnt",
 		opacity: 0.7,
+		stack: "sch-evnt",
 		distance: 10,
 		gridOn: false,
 		scroll: false,
@@ -283,9 +286,14 @@ function addDrag(selector)
 			$copy = $(this).clone();
 			$copy.children(".sch-cat-icon").css('display','none');
 			var height = parseFloat($copy.css("height"));
+			$copy.css("margin-top","0px");
 			if((height+2)%gridHeight != 0)
 				$copy.css("height", (gridHeight*3)-2);
 			$copy.children(".evnt-time").show();
+			
+			if($(this).parent().attr("class") == "col-snap evt-snap ui-droppable")
+				$(this).css("opacity", 0);
+				
 			return $copy;
 		},
 		start: function(event, ui)
@@ -339,6 +347,7 @@ function addDrag(selector)
 			//$(ui.draggable).css("background","green");
 			
 			$("#sch-tiles").html(sideHTML); //reset the sidebar
+			$(this).css("opacity", 1);
 			
 			$(".evnt-title").on("keydown",function(e){
 			    var key = e.keyCode || e.charCode;  // ie||others
@@ -357,9 +366,8 @@ function addDrag(selector)
 			$(this).css('top', ui.position.top - $(this).parent().offset().top);
 			console.log($(this).parent().position().top);
 
-			$(this).css("margin-top","0px");
 			addDrag();
-			
+			$(this).css("margin-top","0px");
 			if ($(this).children(".evnt-title").html() == "") {
 				
 				$(this).children(".evnt-title").trigger('focus'); 
@@ -377,7 +385,7 @@ function addDrag(selector)
 			{
 				topVal = $(this).parent().height() - $(this).outerHeight();
 			}
-			//$(this).css("top",topVal);
+			$(this).css("top",topVal);
 			
 			if (newSchItem) {
 				
@@ -422,14 +430,15 @@ function updateTime(elem, ui)
 	//custom grid stuff using drag
     if($(elem).parent().attr("id") == "sch-tiles")
     {
-    	var offsetDiff = Math.round($(".sch-evnt.category:first").offset().top - $(".col-snap:first").offset().top);
+    	var offsetDiff = -Math.ceil($(".col-snap:first").offset().top);
     	console.log("Offset difference: " + offsetDiff);
     	
-    	var topRemainder = (ui.position.top - offsetDiff) % gridHeight;
+    	
+    	var topRemainder = (ui.position.top + offsetDiff) % gridHeight;
 		if($(elem).draggable('option', 'gridOn'))
 		{
     		ui.position.top = ui.position.top - topRemainder;
-			arr[0] = (ui.position.top - offsetDiff)/gridHeight;
+			arr[0] = (ui.position.top)/gridHeight;
 		}
     }
     else
