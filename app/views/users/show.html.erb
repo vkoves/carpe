@@ -32,7 +32,7 @@
 						</div>
 					</a>
 					<div class="friend-details">
-						<span class="friend-name"><%= friendship.friend.name %></span><br>
+						<span class="friend-name"><%= user.name %></span><br>
 						<%= friend_count = user.friendships.count + user.inverse_friends.count %> Friends <br>
 						Friends since: <%= friendship.created_at.strftime("%b. %d, %Y")%> <br>
 						(<%= link_to "remove", friendships_path(:id => friendship.id), :method => :delete %>)
@@ -46,7 +46,7 @@
 						</div>
 					</a>
 					<div class="friend-details">
-						<span class="friend-name"><%= friendship.friend.name %></span><br>
+						<span class="friend-name"><%= user.name %></span><br>
 					</div>
 				</div>
 			<% end %>
