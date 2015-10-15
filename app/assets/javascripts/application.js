@@ -20,7 +20,7 @@
 var ready = function() {
 	console.log("Ready" + window.location.href );
 	$("#user-name-panel").click(function(){
-		$("#user-panel").slideToggle();
+		$("#user-panel").slideToggle(300);
 	});
 };
 
