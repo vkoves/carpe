@@ -1,6 +1,8 @@
 <div class="page-container">
 <h1><%= @user.name %></h1>
 
+<h2>My Profile</h2>
+<img src=<%= @user.user_avatar(200)%>>
 <h3>Friends</h3>
 <ul id="friend-list">
 	<% for friendship in @user.friendships %>

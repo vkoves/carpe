@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
 	
 	def user_avatar(size) #returns a url to the avatar with the width in pixels
 	 if image_url
-	   return image_url.split("?")[0] + "sz=" + size.to_s
+	   return image_url.split("?")[0] + "?sz=" + size.to_s
 	 else
 	   return "http://www.gravatar.com/avatar/?d=mm"
 	 end
