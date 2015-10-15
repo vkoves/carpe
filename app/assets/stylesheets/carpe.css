@@ -645,6 +645,7 @@ label
 }
 a.default /* default link styling */
 {
+	position: relative;
 	padding: 3px 15px 3px 15px;
 	background: orange;
 	color: white;
@@ -656,4 +657,20 @@ a.default /* default link styling */
 a.default:hover
 {
 	background: #FFC14E;
+}
+a.default.red
+{
+	background: #FD1A1A;
+}
+a.default.red:hover
+{
+	background: #FF4A4A;
+}
+a.default.green
+{
+	background: #18B918;
+}
+a.default.green:hover
+{
+	background: #39DA39;
 }

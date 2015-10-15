@@ -5,12 +5,12 @@
 	<% users.each do |user| %>
 	<div class="user-box">
 		<div class="avatar">
-			<img src="<%= user.user_avatar(100) %>">
+			<a href="/u/<%= user.id %>"><img src="<%= user.user_avatar(100) %>"></a>
 		</div>
 		<div class="name"><%= user.name %></div>
 		<% if current_user and current_user != user %>
 		<% if !current_user.friends.include? user %>
-			<%= link_to "Add Friend", friendships_path(:friend_id => user), :method => :post, :class => "default" %>
+			<%= link_to "Add Friend", friendships_path(:friend_id => user), :method => :post, :class => "default green" %>
 		<% else %>
 			<span class="friend-status">Friend</span>
 		<% end %>

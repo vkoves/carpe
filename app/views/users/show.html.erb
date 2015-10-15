@@ -20,11 +20,12 @@
 							<img src="<%= user.user_avatar(100) %>">
 						</div>
 					</a>
-					<div class="friend-details">
+					<div class="friend-details" style="margin-top: -10px;">
 						<span class="friend-name"><%= user.name %></span><br>
 						<%= friend_count = user.friendships.count + user.inverse_friends.count %> Friends <br>
 						Friends since: <%= friendship.created_at.strftime("%b. %d, %Y")%> <br>
-						(<%= link_to "remove", friendships_path(:id => friendship.id), :method => :delete %>)
+						<%= link_to "Remove", friendships_path(:id => friendship.id), :method => :delete, 
+						:class => "default red", :style => "top: 5px;" %>
 					</div>
 				</div>
 			<% else %>
@@ -42,6 +43,6 @@
 		<% end %>
 	</div>
 	<% if @user == current_user %>
-		<%= link_to "Find Friends", "/find_friends" %>
+		<%= link_to "Find Friends", "/find_friends", :class => "default" %>
 	<% end %>
 </div>
