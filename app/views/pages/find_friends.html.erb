@@ -1,16 +1,16 @@
 <div class="page-container">
-	<h1>Find Friends</h1>
+	<h1 class="page-titler">Find your friends.</h1>
+	<h3 class="page-desc">We've listed some people you may know to start. If you can't find someone, you can search for them below.</h3>
 	<% users = User.all %>
 	<% users.each do |user| %>
 	<div class="user-box">
 		<div class="avatar">
 			<img src="<%= user.user_avatar(100) %>">
 		</div>
-		<%= user.name %>
-		<br>
+		<div class="name"><%= user.name %></div>
 		<% if current_user and current_user != user %>
 		<% if !current_user.friends.include? user %>
-			<%= link_to "Add Friend", friendships_path(:friend_id => user), :method => :post %>
+			<%= link_to "Add Friend", friendships_path(:friend_id => user), :method => :post, :class => "default" %>
 		<% else %>
 			<span class="friend-status">Friend</span>
 		<% end %>

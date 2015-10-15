@@ -574,12 +574,17 @@ label
 {
 	border-radius: 100px;
 	width: 80px;
-	border: solid orange 2px;
+	border: solid orange 3px;
 }
 .user-box
 {
-	width: 100px;
+	width: 120px;
 	float: left;
+}
+.user-box .name
+{
+	font-size: 16px;
+	margin-bottom: 7px;
 }
 .page-container
 {
@@ -621,4 +626,34 @@ label
 {
 	float: left;
 	color: white;
+}
+
+/* General page things */
+.page-titler
+{
+	color: orange;
+	font-weight: normal;
+	margin-bottom: 10px;
+}
+.page-desc
+{
+	color: grey;
+	font-weight: normal;
+	font-size: 1.3em;
+	margin-top: 0px;
+	margin-bottom: 30px;
+}
+a.default /* default link styling */
+{
+	padding: 3px 15px 3px 15px;
+	background: orange;
+	color: white;
+	text-decoration: none;
+	font-weight: bold;
+	border-radius: 3px;
+	transition: background 0.3s;
+}
+a.default:hover
+{
+	background: #FFC14E;
 }
