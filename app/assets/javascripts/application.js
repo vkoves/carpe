@@ -16,3 +16,12 @@
 //= require_tree .
 //= require jquery-ui.min
 //= require jquery.ui.touch-punch.min
+
+
+$(document).ready(function()
+{
+	
+$("#user-name-panel").click(function(){
+	$("#user-panel").toggle();
+});
+});

@@ -11,18 +11,7 @@
 <div class="page-container">
 	<h3>Friends</h3>
 	<div id="friend-list">
-		<% all_friends = [] %>
-		<% for fship in @user.friendships %>
-			<% all_friends.push([fship, fship.friend])%>
-		<% end %>
-		<%# Inverse friends are when the other person added you, so conveniently, we can who added who.
-		%>
-		<% for usr in @user.inverse_friends %>
-			<% friendship = Friendship.where(user_id: usr.id, friend_id: current_user.id).first %>
-			<% all_friends.push([friendship, usr])%>
-		<% end %>
-		
-		<% for arr in all_friends %>
+		<% for arr in @all_friends %>
 			<% friendship = arr[0]; user = arr[1] %>
 			<% if @user == current_user %>
 				<div class="friend-listing" style="width: 350px">
@@ -51,7 +40,6 @@
 				</div>
 			<% end %>
 		<% end %>
-
 	</div>
 	<% if @user == current_user %>
 		<%= link_to "Find Friends", "/find_friends" %>
