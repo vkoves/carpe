@@ -632,6 +632,22 @@ label
 {
 	float: left;
 	color: white;
+	margin-bottom: 0px;
+}
+#profile-friend
+{
+	position: relative;
+	float: left;
+	left: 10px;
+	top: 5px;
+}
+.friend-label
+{
+	background-color: #5B5BFF;
+    padding: 3px 15px 3px 15px;
+    border-radius: 3px;
+    color: white;
+    font-weight: bold;
 }
 
 /* General page things */

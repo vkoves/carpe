@@ -9,7 +9,7 @@
 		</div>
 		<div class="name"><%= user.name %></div>
 		<% if current_user and current_user != user %>
-		<% if !current_user.friends.include? user %>
+		<% if !current_user.is_friend?(user) %>
 			<%= link_to "Add Friend", friendships_path(:friend_id => user), :method => :post, :class => "default green" %>
 		<% else %>
 			<span class="friend-status">Friend</span>

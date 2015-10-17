@@ -5,7 +5,7 @@
 	| provider: <%= user.provider %> 
 	<% end %>
 	<% if current_user and current_user != user %>
-		<% if !current_user.friends.include? user %>
+		<% if !current_user.is_friends(user) %>
 			<%= link_to "Add Friend", friendships_path(:friend_id => user), :method => :post %>
 		<% else %>
 			| <span class="friend-status">Friend</span>

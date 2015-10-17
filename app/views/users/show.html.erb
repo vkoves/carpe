@@ -6,6 +6,16 @@
 			<img src=<%= @user.user_avatar(200)%>>
 		</div>
 		<h1 id="profile-name"><%= @user.name %></h1>
+		<br><br><br>
+		<% if @user != current_user %>
+			<div id="profile-friend">
+				<% if !current_user.is_friend?(@user) %>
+					<%= link_to "Add Friend", friendships_path(:friend_id => @user), :method => :post, :class => "default green" %>
+				<% else %>
+					<span class="friend-label">Friend</span>
+				<% end %>
+			</div>
+		<% end %>
 	</div>
 </div>
 <div class="page-container">
@@ -22,7 +32,7 @@
 					</a>
 					<div class="friend-details" style="margin-top: -10px;">
 						<span class="friend-name"><%= user.name %></span><br>
-						<%= friend_count = user.friendships.count + user.inverse_friends.count %> Friends <br>
+						<%= user.number_of_friends %> Friends <br>
 						Friends since: <%= friendship.created_at.strftime("%b. %d, %Y")%> <br>
 						<%= link_to "Remove", friendships_path(:id => friendship.id), :method => :delete, 
 						:class => "default red", :style => "top: 5px;" %>
