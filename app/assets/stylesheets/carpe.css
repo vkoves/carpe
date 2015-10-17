@@ -135,7 +135,7 @@ body
 	height: 76%;
 	border-radius: 5px;
 	float: right;
-	overflow-x: hidden;
+	overflow-x: auto;
 	overflow-y: hidden;
 }
 #sch-sidebar
@@ -237,7 +237,7 @@ body
 #sch-days
 {
 	height: 100%;
-	width: 1600px;
+	width: 1410px;
 	overflow:hidden;
 }
 .sch-day-col
