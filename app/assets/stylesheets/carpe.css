@@ -123,16 +123,16 @@ body
 {
 	width: 96%;
 	height: 90vh;
-	min-width: 800px;
-	max-width: 1028px;
+	/* min-width: 800px;
+	max-width: 1028px; */
 	margin-left: auto;
 	margin-right: auto;
 }
 #sch-main
 {
-	width: 79%;
-	background: rgb(230, 230, 230);
-	height: 505px;
+	width: calc(100% - 254px);
+	/* background: rgb(230, 230, 230); */
+	height: 76%;
 	border-radius: 5px;
 	float: right;
 	overflow-x: scroll;
@@ -140,8 +140,8 @@ body
 }
 #sch-sidebar
 {
-	width: 20%;
-	height: 505px;
+	width: 250px;
+	height: 76%;
 	background: rgb(253, 253, 253);
 	font-size: 24px;
 	border-radius: 5px;
@@ -237,22 +237,25 @@ body
 #sch-days
 {
 	height: 100%;
-	width: 1190px;
+	width: 210vh;
 }
 .sch-day-col
 {
 	position: relative; /* Viktor added 1 am June 17 */
-	height: 479px;
-	width: 160px;
+	height: 100%;
+	width: 200px;
 	float: left;
-	margin: 5px;
-	background: rgb(250, 250, 250);
-	/*border-radius: 5px;*/
-	border-bottom: solid 2px rgb(48, 48, 48);
+	min-width:160px;
+	/*margin-left: 20px;
+	margin-right:20px;*/
+	
+	background: url("./date-back.png");
+	/*border-radius: 5px;
+	border-bottom: solid 2px rgb(48, 48, 48); */
 }
 #sch-col-today
 {
-	background:   rgb(255, 255, 115);
+	background-color:   rgb(255, 255, 115);
 }
 .sch-class
 {
@@ -461,7 +464,7 @@ label
 
 
 
-/* Added by Robert until EOF */
+/* Added by Robert and Viktor until EOF */
 
 .sch-but {
 	background: #CFCFCF;
