@@ -15,10 +15,19 @@
 					<span class="friend-label">Friend</span>
 				<% end %>
 			</div>
+		<br><br>
 		<% end %>
+		<div id="profile-info">
+			<%= @user.friends_count %> Friends
+		</div>
 	</div>
 </div>
 <div class="page-container">
+	<br>
+	<div style="text-align: left">
+		Joined Carpe on <%= @user.created_at.strftime("%b. %d, %Y") %><br>
+		Last active: <%= @user.last_sign_in_at.strftime("%b. %d, %Y at %I:%M %P UTC") %>
+	</div>
 	<h3>Friends</h3>
 	<div id="friend-list">
 		<% for arr in @all_friends %>

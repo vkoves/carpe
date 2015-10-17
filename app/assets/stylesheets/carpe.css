@@ -641,6 +641,14 @@ label
 	left: 10px;
 	top: 5px;
 }
+#profile-info
+{
+	float: left;
+    color: white;
+    margin-left: 10px;
+    margin-top: -8px;
+    font-weight: bold;
+}
 .friend-label
 {
 	background-color: #5B5BFF;
