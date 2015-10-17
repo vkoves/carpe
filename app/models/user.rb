@@ -45,7 +45,7 @@ class User < ActiveRecord::Base
 	  end
 	end
 	
-	def number_of_friends()
+	def friends_count()
 	  return friendships.count + inverse_friends.count
 	end
 	
