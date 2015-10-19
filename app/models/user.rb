@@ -37,7 +37,7 @@ class User < ActiveRecord::Base
     return all_friends 
 	end
 	
-	def is_friend?(user)
+	def is_friend?(user) #returns whether the passed user is a friend of this user
 	  if friends.include? user or inverse_friends.include? user
 	    return true
 	  else
@@ -45,7 +45,11 @@ class User < ActiveRecord::Base
 	  end
 	end
 	
-	def friends_count()
+	def mutual_friends(user) #returns mutual friends with the passed in user
+	  return all_friendships & user.all_friendships
+	end
+	
+	def friends_count() #returns the number of friends the user has
 	  return friendships.count + inverse_friends.count
 	end
 	

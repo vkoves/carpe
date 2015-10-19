@@ -28,7 +28,11 @@
 		Joined Carpe on <%= @user.created_at.strftime("%b. %d, %Y") %><br>
 		Last active: <%= @user.last_sign_in_at.strftime("%b. %d, %Y at %I:%M %P UTC") %>
 	</div>
-	<h3>Friends</h3>
+	<h3>Friends
+		<% if @user != current_user %>
+			<span class="no-bold">(<%= current_user.mutual_friends(@user).count %> Mutual)</span>
+		<% end %>
+	</h3>
 	<div id="friend-list">
 		<% for arr in @all_friends %>
 			<% friendship = arr[0]; user = arr[1] %>
