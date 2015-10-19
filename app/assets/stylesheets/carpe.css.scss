@@ -623,10 +623,11 @@ label
 	height: 200px;
 	position: absolute;
 	z-index: -1;
-	background-image: url("https://wallpaperscraft.com/image/spring_blur_glass_storm_rain_drops_water_80956_3840x2400.jpg");
-    background-size: 100%;
+	background-image: image-url("water_Krakkened.png");
+	/* Source: url("https://wallpaperscraft.com/image/spring_blur_glass_storm_rain_drops_water_80956_3840x2400.jpg"); */
+    /* background-size: 100%;
     background-position: 20% 40%;
-    -webkit-filter: blur(0px) brightness(0.5);
+    -webkit-filter: blur(0px) brightness(0.5); */
 }
 #profile-name
 {
