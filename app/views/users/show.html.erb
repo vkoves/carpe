@@ -37,7 +37,7 @@
 		<% for arr in @all_friends %>
 			<% friendship = arr[0]; user = arr[1] %>
 			<% if @user == current_user %>
-				<div class="friend-listing" style="width: 350px">
+				<div class="friend-listing" style="width: 310px">
 					<a href="/u/<%= user.id %>">
 						<div class="avatar" style="float: left">
 							<img src="<%= user.user_avatar(100) %>">
