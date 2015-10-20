@@ -1,5 +1,9 @@
 <div class="header-main">
-	<span class="carpe-font"><a href="/"><%= image_tag "toplogo.png", :class => "carpeheader", :align => "left" %></a></span><span class="header-text"> &nbsp; <a href="/">Home</a> &nbsp; &nbsp; <a href="/schedule">Schedule</a></span>
+	<div id="header-mob-menu"><%= image_tag "menu.svg", :width => "35px" %></div>
+	<span class="carpe-font">
+		<a href="/"><%= image_tag "toplogo.png", :class => "carpeheader", :align => "left" %></a>
+	</span>
+	<span class="header-text"> &nbsp; <a href="/">Home</a> &nbsp; &nbsp; <a href="/schedule">Schedule</a></span>
 	<div id="user-name-panel" class="carpe-color">
 	<% if current_user %>
 		<div id="user-avatar">

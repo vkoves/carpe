@@ -31,6 +31,10 @@ body
 	padding-top:10px;
 	left:150px;
 	position:absolute;
+	white-space: nowrap;
+    overflow: hidden;
+    width: 50%;
+    transition: width 0.5s, margin-left 0.5s;
 }
 .header-logintext {
 	padding-top: 14px;
@@ -531,6 +535,7 @@ label
     width: 50%;
     height: 120px;
     float: left;
+    transition: margin-left 0.5s;
 }
 .friend-status {
 	color: green;
@@ -623,6 +628,25 @@ label
     background-position: 20% 40%;
     -webkit-filter: blur(0px) brightness(0.5); */
 }
+#header-mob-menu
+{
+	float: left;
+	background-color: #ED7D31;
+	height: 100%;
+	position: relative;
+    width: 0px;
+    margin-left: -20px;
+    left: 20px;
+	cursor: pointer;
+	overflow: hidden;
+    transition: width 0.5s;
+}
+#header-mob-menu img
+{
+	position: relative;
+	left: 10px;
+	top: 7px;
+}
 #profile-name
 {
 	float: left;
@@ -706,6 +730,7 @@ a.default.green:hover
 	max-width: 1220px;
 	margin-left: auto;
 	margin-right: auto;
+	transition: width 0.5s;
 }
 @media (max-width: 900px)
 {
@@ -713,4 +738,13 @@ a.default.green:hover
 	{
 		width: 95%;
 	}
+}
+@media (max-width: 660px)
+{
+	.friend-listing
+	{
+		margin-left: calc(50% - 155px);
+	}
+	.header-text {width: 0px; margin-left: 35px;}
+	#header-mob-menu {width: 55px;}
 }
