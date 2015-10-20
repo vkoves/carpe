@@ -22,7 +22,15 @@ var ready = function() {
 	$("#user-name-panel").click(function(){
 		$("#user-panel").slideToggle(300);
 	});
+	$("#header-mob-menu").click(function(){
+		$("#mobile-menu").slideToggle(300);
+	});
 };
+
+$(window).resize(function(){
+	if($( window ).width() > 660)
+		$("#mobile-menu").slideUp(300);
+});
 
 $(document).ready(ready);
 $(document).on('page:load', ready);

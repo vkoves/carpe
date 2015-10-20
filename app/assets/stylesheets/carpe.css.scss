@@ -639,7 +639,7 @@ label
     left: 20px;
 	cursor: pointer;
 	overflow: hidden;
-    transition: width 0.5s;
+    transition: width 1s;
 }
 #header-mob-menu img
 {
@@ -732,6 +732,25 @@ a.default.green:hover
 	margin-right: auto;
 	transition: width 0.5s;
 }
+
+#mobile-menu
+{
+	display: none;
+	position: absolute;
+    top: 50px;
+	background-color: #FF8C3D;
+    width: 90px;
+    height: 80px;
+	text-align: center;
+	transition: width 1s;
+}
+#mobile-menu div{
+	padding: 5px;
+}
+#mobile-menu a{
+	color: white;
+}
+
 @media (max-width: 900px)
 {
 	.page-container
@@ -747,4 +766,6 @@ a.default.green:hover
 	}
 	.header-text {width: 0px; margin-left: 35px;}
 	#header-mob-menu {width: 55px;}
+	#mobile-menu {width: 146px;}
 }
+

@@ -1,5 +1,9 @@
 <div class="header-main">
 	<div id="header-mob-menu"><%= image_tag "menu.svg", :width => "35px" %></div>
+	<div id="mobile-menu">
+		<div><a href="/">Home</a></div>
+		<div><a href="/schedule">Schedule</a></div>
+	</div>
 	<span class="carpe-font">
 		<a href="/"><%= image_tag "toplogo.png", :class => "carpeheader", :align => "left" %></a>
 	</span>
@@ -21,7 +25,7 @@
 			<%= link_to "/u/" + current_user.id.to_s do %><div>View Profile</div><% end %>
 			<%= link_to edit_user_registration_path do %><div>Edit Profile</div><% end %>
 			<%= link_to destroy_user_session_path,:method => :delete do %><div>Sign out</div><% end %>
-		</div> 
+		</div>
 	<% else %>
 		<span class="header-logintext">
 		<%= link_to "Sign up", new_user_registration_path %> or
