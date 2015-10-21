@@ -15,6 +15,11 @@ body
 {
 	color: rgb(255, 116, 0) !important;
 }
+#header-logo {
+  float: left;
+  height: 100%;
+  position: relative;
+}
 .header-logintext {
 	top:-5px;
 	position:absolute;
@@ -122,6 +127,14 @@ body
     font-size: 13px;
 
 }
+#menu-holder
+{
+  position: relative;
+  left: -35px;
+  transition: left 0.5s;
+}
+
+
 #cont-hold
 {
 	width: 96%;
@@ -629,22 +642,23 @@ label
 }
 #header-mob-menu
 {
-	float: left;
-	background-color: #ED7D31;
-	height: 100%;
-	position: relative;
-  width: 0px;
-  margin-left: -20px;
-  left: 20px;
-	cursor: pointer;
-	overflow: hidden;
-  transition: width 1s;
+  float: left;
+  position: relative;
+  background-color: #ED7D31;
+  height: 50px;
+  width: 65px;
+  margin-right: -30px;
+  cursor: pointer;
+  overflow: hidden;
+  left: -10px;
+  transition: left 0.25s;
 }
 #header-mob-menu img
 {
 	position: relative;
 	left: 10px;
 	top: 7px;
+	z-index: 1;
 }
 #profile-name
 {
@@ -764,7 +778,9 @@ a.default.green:hover
 		margin-left: calc(50% - 155px);
 	}
 	.header-text {width: 0px; opacity: 0;}
-	#header-mob-menu {width: 55px;}
+	/* #header-mob-menu {width: 55px;} */
+	#header-mob-menu {left: 0px;}
 	#mobile-menu {width: 146px;}
+	#menu-holder {left: 0px;}
 }
 

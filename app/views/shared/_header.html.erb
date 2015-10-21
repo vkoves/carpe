@@ -1,11 +1,13 @@
 <div class="header-main">
-	<div id="header-mob-menu"><%= image_tag "menu.svg", :width => "35px" %></div>
-	<div id="mobile-menu">
-		<div><a href="/">Home</a></div>
-		<div><a href="/schedule">Schedule</a></div>
-	</div>
-	<span class="carpe-font">
-		<a href="/"><%= image_tag "toplogo.png", :class => "carpeheader", :align => "left" %></a>
+	<span id="menu-holder">
+		<div id="header-mob-menu"><%= image_tag "menu.svg", :width => "35px" %></div>
+		<div id="mobile-menu">
+			<div><a href="/">Home</a></div>
+			<div><a href="/schedule">Schedule</a></div>
+		</div>
+		<span class="carpe-font" id="header-logo">
+			<a href="/"><%= image_tag "toplogo.png", :class => "carpeheader", :align => "left" %></a>
+		</span>
 	</span>
 	<span class="header-text"> &nbsp; <a href="/">Home</a> &nbsp; &nbsp; <a href="/schedule">Schedule</a></span>
 	<div id="user-name-panel" class="carpe-color">
