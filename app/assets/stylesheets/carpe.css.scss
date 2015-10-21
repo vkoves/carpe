@@ -32,9 +32,9 @@ body
 	left:150px;
 	position:absolute;
 	white-space: nowrap;
-    overflow: hidden;
-    width: 50%;
-    transition: width 0.5s, margin-left 0.5s;
+  overflow: hidden;
+  width: 50%;
+  transition: width 0.5s, opacity 0.5s;
 }
 .header-logintext {
 	padding-top: 14px;
@@ -62,7 +62,6 @@ body
  	padding-right: 20px;
  	padding-left: 10px;
  	height: 50px;
- 	cursor: pointer;
 }
 #user-panel
 {
@@ -82,8 +81,8 @@ body
 {
 	padding: 5px 10px 5px 10px;
 	width: 120px;
-    margin-left: auto;
-    margin-right: auto;
+  margin-left: auto;
+  margin-right: auto;
 	transition: background 0.2s;
 }
 #user-panel div:hover
@@ -634,12 +633,12 @@ label
 	background-color: #ED7D31;
 	height: 100%;
 	position: relative;
-    width: 0px;
-    margin-left: -20px;
-    left: 20px;
+  width: 0px;
+  margin-left: -20px;
+  left: 20px;
 	cursor: pointer;
 	overflow: hidden;
-    transition: width 1s;
+  transition: width 1s;
 }
 #header-mob-menu img
 {
@@ -764,7 +763,7 @@ a.default.green:hover
 	{
 		margin-left: calc(50% - 155px);
 	}
-	.header-text {width: 0px; margin-left: 35px;}
+	.header-text {width: 0px; opacity: 0;}
 	#header-mob-menu {width: 55px;}
 	#mobile-menu {width: 146px;}
 }

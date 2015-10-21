@@ -7,9 +7,9 @@
 		</div>
 		<h1 id="profile-name"><%= @user.name %></h1>
 		<br><br><br>
-		<% if !@profile %>
+		<% if current_user and !@profile %>
 			<div id="profile-friend">
-				<% if current_user and !current_user.is_friend?(@user) %>
+				<% if !current_user.is_friend?(@user) %>
 					<%= link_to "Add Friend", friendships_path(:friend_id => @user), :method => :post, :class => "default green" %>
 				<% else %>
 					<span class="friend-label">Friend</span>
