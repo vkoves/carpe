@@ -12,7 +12,7 @@
 		<% if !current_user.is_friend?(user) %>
 			<%= link_to "Add Friend", friendships_path(:friend_id => user), :method => :post, :class => "default green" %>
 		<% else %>
-			<span class="friend-status">Friend</span>
+			<span class="friend-label">Friend</span>
 		<% end %>
 	<% end %>
 	</div>

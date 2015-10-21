@@ -550,11 +550,6 @@ label
     float: left;
     transition: margin-left 0.5s;
 }
-.friend-status {
-	color: green;
-	font-size: 18px;
-	font-weight: bold;
-}
 .friend-details
 {
 	text-align: left;
@@ -603,6 +598,8 @@ label
 .user-box
 {
 	width: 120px;
+	height: 150px;
+	margin-bottom: 10px;
 	float: left;
 }
 .user-box .name
