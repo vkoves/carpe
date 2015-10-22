@@ -801,7 +801,7 @@ input.danger:hover
 }
 .google-sign-in
 {
-  background-color: whitesmoke;
+  background: whitesmoke;
   border: solid 2px #CACACA;
   border-radius: 5px;
   width: 190px;
@@ -810,6 +810,11 @@ input.danger:hover
   margin-right: auto;
   padding: 4px 5px 0px 5px;
   margin-top: -3px;
+  transition: background 0.3s;
+}
+.google-sign-in:hover
+{
+  background: #DCDCDC;
 }
 .google-sign-in a
 {
