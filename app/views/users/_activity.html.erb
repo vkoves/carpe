@@ -1,5 +1,6 @@
 <h2 class="no-bold">Activity</h2>
-<% @all_friends.each do |arr| %>
+<% ordered_friends = @all_friends.sort_by{|f| f[0].created_at}.reverse %>
+<% ordered_friends.each do |arr| %>
 	<div class="activity-listing">
 		<% fship = arr[0]; user = arr[1]%>
 		<a href="/u/<%= user.id %>">
