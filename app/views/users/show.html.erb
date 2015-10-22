@@ -22,6 +22,11 @@
 		<div id="profile-info">
 			<%= @user.friends_count %> Friends
 		</div>
+		<div id="profile-buttons">
+			<a href="?"><div class="<%= "curr" if !params[:p] %>">Friends</div></a>
+			<a href="?p=activity"><div class="<%= "curr" if params[:p] == "activity" %>">Activity</div></a>
+			<a href="?p=schedule"><div class="<%= "curr" if params[:p] == "schedule" %>">Schedule</div></a>
+		</div>
 	</div>
 </div>
 <div class="page-container">
@@ -30,11 +35,14 @@
 		Joined Carpe on <%= @user.created_at.strftime("%b. %d, %Y") %><br>
 		Last active: <%= @user.last_sign_in_at.strftime("%b. %d, %Y at %I:%M %P UTC") %>
 	</div>
-	<h3>Friends
+	<h2 class="no-bold">Friends
 		<% if current_user and !@profile %>
-			<span class="no-bold">(<%= current_user.mutual_friends(@user).count %> Mutual)</span>
+			<span style="font-size: 18px;">(
+				<a href="?p=mutual_friends" class="normal">
+					<%= current_user.mutual_friends(@user).count %> Mutual</a> )
+			</span>
 		<% end %>
-	</h3>
+	</h2>
 	<div id="friend-list">
 		<% for arr in @all_friends %>
 			<% friendship = arr[0]; user = arr[1] %>
