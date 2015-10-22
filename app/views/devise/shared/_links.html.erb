@@ -20,6 +20,6 @@
 
 <%- if devise_mapping.omniauthable? %>
   <%- resource_class.omniauth_providers.each do |provider| %>
-    <div class="link-default"><%= link_to "Sign in with #{provider.to_s.titleize}", omniauth_authorize_path(resource_name, provider), :class => "default" %><br /></div>
+    <div class="link-default"><%= link_to "Sign in with #{provider.to_s.titleize.split.first}", omniauth_authorize_path(resource_name, provider), :class => "default" %><br /></div>
   <% end -%>
 <% end -%>
