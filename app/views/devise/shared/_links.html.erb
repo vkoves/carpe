@@ -20,6 +20,18 @@
 
 <%- if devise_mapping.omniauthable? %>
   <%- resource_class.omniauth_providers.each do |provider| %>
-    <div class="link-default"><%= link_to "Sign in with #{provider.to_s.titleize.split.first}", omniauth_authorize_path(resource_name, provider), :class => "default" %><br /></div>
+  	<% if provider.to_s.titleize.split.first == "Google" %>
+	    <div class="google-sign-in">
+	    	<%= link_to  omniauth_authorize_path(resource_name, provider) do %>
+	    	<%= image_tag "google.png" %>
+	    	Sign in with Google
+	    	<% end %>
+		</div>
+	<% else %>
+     	<div class="link-default">
+			<%= link_to "Sign in with #{provider.to_s.titleize.split.first}", omniauth_authorize_path(resource_name, provider), :class => "default" %>
+		</div>
+    <% end%>
+    <br>
   <% end -%>
 <% end -%>
