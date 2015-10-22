@@ -779,10 +779,25 @@ input[type="submit"]
   color: orange;
   font-size: 18px;
   margin-top: 5px;
+  cursor: pointer;
 }
 input[type="submit"]:hover
 {
   color: #FF8500;
+}
+
+input.danger
+{
+  color: white;
+  background: red;
+  border-radius: 5px;
+  border-bottom: 1px white !important;
+  padding: 3px 15px 3px 15px;
+}
+input.danger:hover
+{
+  color: white;
+  background: #FF1515;
 }
 
 @media (max-width: 900px)
