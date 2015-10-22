@@ -10,7 +10,9 @@
 		<% if current_user and !@profile %>
 			<div id="profile-friend">
 				<% if !current_user.is_friend?(@user) %>
-					<%= link_to "Add Friend", friendships_path(:friend_id => @user), :method => :post, :class => "default green" %>
+					<div class="link-default">
+						<%= link_to "Add Friend", friendships_path(:friend_id => @user), :method => :post, :class => "default green" %>
+					</div
 				<% else %>
 					<span class="friend-label">Friend</span>
 				<% end %>
@@ -47,8 +49,10 @@
 						<span class="friend-name"><%= user.name %></span><br>
 						<%= user.friends_count %> Friends <br>
 						Friends since: <%= friendship.created_at.strftime("%b. %d, %Y")%> <br>
-						<%= link_to "Remove", friendships_path(:id => friendship.id), :method => :delete, 
-						:class => "default red", :style => "top: 5px;" %>
+						<div class="link-default">
+							<%= link_to "Remove", friendships_path(:id => friendship.id), :method => :delete, 
+							:class => "default red", :style => "top: 5px;" %>
+						</div>
 					</div>
 				</div>
 			<% else %>
@@ -66,6 +70,8 @@
 		<% end %>
 	</div>
 	<% if @user == current_user %>
+	<div class="link-default">
 		<%= link_to "Find Friends", "/find_friends", :class => "default" %>
+	</div>
 	<% end %>
 </div>
