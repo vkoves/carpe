@@ -431,12 +431,14 @@ body
 /* Sign up and sign in styling */
 label
 {
-	font-weight: bold;
 	float: left;
 }
 .text-input
 {
 	width: 200px;
+  height: 20px;
+  border: solid 1px #D8D8D8;
+  background-color: #F9F9F9;
 }
 .field
 {
@@ -703,6 +705,27 @@ label
 	margin-top: 0px;
 	margin-bottom: 30px;
 }
+
+
+#mobile-menu
+{
+  display: none;
+  position: absolute;
+  top: 50px;
+  background-color: #FF8C3D;
+  width: 113px;
+  height: 80px;
+  text-align: center;
+  transition: width 0.5s;
+}
+#mobile-menu div{
+  padding: 5px;
+}
+#mobile-menu a{
+  color: white;
+}
+
+
 div.link-default /*container for default links */
 {
   height: 30px;
@@ -749,22 +772,17 @@ a.default.green:hover
 	transition: width 0.5s;
 }
 
-#mobile-menu
+input[type="submit"]
 {
-	display: none;
-	position: absolute;
-  top: 50px;
-	background-color: #FF8C3D;
-  width: 113px;
-  height: 80px;
-  text-align: center;
-  transition: width 0.5s;
+  background: none;
+  border: none;
+  color: orange;
+  font-size: 18px;
+  margin-top: 5px;
 }
-#mobile-menu div{
-	padding: 5px;
-}
-#mobile-menu a{
-	color: white;
+input[type="submit"]:hover
+{
+  color: #FF8500;
 }
 
 @media (max-width: 900px)
