@@ -709,6 +709,24 @@ label
   background: #ED7D31;
 }
 
+.activity-listing
+{
+  height: 55px;
+  text-align: left;
+  margin: 10px;
+  padding: 5px 5px 5px 10px;
+  border-radius: 8px;
+  width: 100%;
+  background-color: #F3F3F3;
+  border: solid #CCCCCC 2px;
+}
+.activity-listing span
+{
+  position: relative;
+  left: 20px;
+  top: 10px;
+}
+
 .friend-label
 {
 	background-color: #5B5BFF;

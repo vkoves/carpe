@@ -1,0 +1,10 @@
+<h2 class="no-bold">Schedule</h2>
+<div style="background-color: grey; display: inline-block; padding-bottom: 10px;">
+<% categories = Category.where(user_id: @user.id) %>
+<% categories.each do |cat| %>
+	<div class="sch-evnt category" 
+		style="background-color: <%= cat.color %>; position: relative; float: left; margin-left: 10px;">
+	<%= cat.name %>
+	</div>
+<% end %>
+</div>

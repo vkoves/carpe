@@ -37,6 +37,10 @@
 	</div>
 	<% if params[:p] == "mutual_friends" %>
 		<%= render "mutual_friends_listing" %>
+	<% elsif params[:p] == "activity" %>
+		<%= render "activity" %>
+	<% elsif params[:p] == "schedule" %>
+		<%= render "schedule" %>
 	<% else %>
 		<%= render "friend_listing" %>
 	<% end %>

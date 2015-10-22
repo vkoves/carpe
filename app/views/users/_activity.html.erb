@@ -1,0 +1,11 @@
+<h2 class="no-bold">Activity</h2>
+<% @all_friends.each do |arr| %>
+	<div class="activity-listing">
+		<% fship = arr[0]; user = arr[1]%>
+		
+		<div class="avatar" style="float: left">
+			<img src="<%= user.user_avatar(50) %>" style="width: 50px;">
+		</div>
+		<span><%= @user.name %> became friends with <%= user.name %> on <%= fship.created_at.strftime("%b. %d, %Y") %></span>
+	</div>
+<% end %>
