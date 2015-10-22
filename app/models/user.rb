@@ -46,7 +46,7 @@ class User < ActiveRecord::Base
 	end
 	
 	def mutual_friends(user) #returns mutual friends with the passed in user
-	  return all_friendships.map{|f| f[0]} & user.all_friendships.map{|f| f[0]}
+	  return all_friendships.map{|f| f[1]} & user.all_friendships.map{|f| f[1]}
 	end
 	
 	def friends_count() #returns the number of friends the user has

@@ -1,0 +1,47 @@
+<h2 class="no-bold">Friends
+	<% if current_user and !@profile %>
+		<span style="font-size: 18px;">(
+			<a href="?p=mutual_friends" class="normal">
+				<%= current_user.mutual_friends(@user).count %> Mutual</a> )
+		</span>
+	<% end %>
+</h2>
+<div id="friend-list">
+	<% for arr in @all_friends %>
+		<% friendship = arr[0]; user = arr[1] %>
+		<% if @profile %>
+			<div class="friend-listing" style="width: 310px">
+				<a href="/u/<%= user.id %>">
+					<div class="avatar" style="float: left">
+						<img src="<%= user.user_avatar(100) %>">
+					</div>
+				</a>
+				<div class="friend-details" style="margin-top: -10px;">
+					<span class="friend-name"><%= user.name %></span><br>
+					<%= user.friends_count %> Friends <br>
+					Friends since: <%= friendship.created_at.strftime("%b. %d, %Y")%> <br>
+					<div class="link-default">
+						<%= link_to "Remove", friendships_path(:id => friendship.id), :method => :delete, 
+						:class => "default red", :style => "top: 5px;" %>
+					</div>
+				</div>
+			</div>
+		<% else %>
+			<div class="friend-listing" style="width: 300px">
+				<a href="/u/<%= user.id %>">
+					<div class="avatar" style="float: left">
+						<img src="<%= user.user_avatar(100) %>">
+					</div>
+				</a>
+				<div class="friend-details">
+					<span class="friend-name"><%= user.name %></span><br>
+				</div>
+			</div>
+		<% end %>
+	<% end %>
+</div>
+<% if @user == current_user %>
+<div class="link-default">
+	<%= link_to "Find Friends", "/find_friends", :class => "default" %>
+</div>
+<% end %>

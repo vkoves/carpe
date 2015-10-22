@@ -1,0 +1,20 @@
+<h2 class="no-bold">Mutual Friends</h2>
+<div id="friend-list">
+	<% for user in @mutual_friends %>
+			<div class="friend-listing" style="width: 300px">
+				<a href="/u/<%= user.id %>">
+					<div class="avatar" style="float: left">
+						<img src="<%= user.user_avatar(100) %>">
+					</div>
+				</a>
+				<div class="friend-details">
+					<span class="friend-name"><%= user.name %></span><br>
+				</div>
+			</div>
+	<% end %>
+</div>
+<% if @user == current_user %>
+<div class="link-default">
+	<%= link_to "Find Friends", "/find_friends", :class => "default" %>
+</div>
+<% end %>
