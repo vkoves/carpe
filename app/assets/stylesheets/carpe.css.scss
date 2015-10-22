@@ -832,6 +832,25 @@ input.danger:hover
   width: 35px;
 }
 
+/* Devise's error stuff when forms have errors */
+#error_explanation h2
+{
+    color: white;
+    font-weight: normal;
+    font-size: 20px;
+    margin-bottom: 5px;
+    background-color: #FF7272;
+    width: 40%;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 5px;
+}
+#error_explanation ul
+{
+  margin: 0px;
+  list-style: none;
+}
+
 .notice, .alert
 {
   width: auto;
