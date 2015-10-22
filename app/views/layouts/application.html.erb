@@ -18,10 +18,10 @@
 <%= render "shared/header" %>
 
 <% if notice %>
-  <p><%= notice %></p>
+  <span class="notice"><%= notice %></span>
 <% end %>
 <% if alert %>
-  <p><%= alert %></p>
+  <span class="alert"><%= alert %></span>
 <% end %>
 
 <%= yield %>

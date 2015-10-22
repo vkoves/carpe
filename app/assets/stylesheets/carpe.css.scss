@@ -809,6 +809,7 @@ input.danger:hover
   margin-left: auto;
   margin-right: auto;
   padding: 4px 5px 0px 5px;
+  margin-top: -3px;
 }
 .google-sign-in a
 {
@@ -824,6 +825,26 @@ input.danger:hover
   top: -8px;
   left: -40px;
   width: 35px;
+}
+
+.notice, .alert
+{
+  width: auto;
+  padding: 5px 15px 5px 15px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  position: relative;
+  top: 5px;
+}
+.notice
+{
+  background-color: #4BDC4B;
+  color: white;
+}
+.alert
+{
+  background-color: #FF4A4A;
+  color: white;
 }
 
 @media (max-width: 900px)
