@@ -909,8 +909,15 @@ input.danger:hover
   list-style: none;
 }
 
+.alert-holder
+{
+	position: absolute;
+	width: 100%;
+	top: 45px;
+}
 .notice, .alert
 {
+  display: inline-block;
   width: auto;
   padding: 5px 15px 5px 15px;
   border-bottom-left-radius: 5px;
