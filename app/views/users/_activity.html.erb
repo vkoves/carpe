@@ -1,13 +1,23 @@
 <h2 class="no-bold">Activity</h2>
 <% ordered_friends = @all_friends.sort_by{|f| f[0].created_at}.reverse %>
-<% ordered_friends.each do |arr| %>
-	<div class="activity-listing">
-		<% fship = arr[0]; user = arr[1]%>
-		<a href="/u/<%= user.id %>">
-		<div class="avatar" style="float: left">
-			<img src="<%= user.user_avatar(50) %>" style="width: 50px;">
+<% if ordered_friends.empty? %>
+	<span class="empty-text">
+		<% if @profile %>
+			Well this is awkward... it looks like you don't have any activity yet!
+		<% else %>
+			It looks like this user has no activity yet!
+		<% end %>
+	</span>
+<% else %>
+	<% ordered_friends.each do |arr| %>
+		<div class="activity-listing">
+			<% fship = arr[0]; user = arr[1]%>
+			<a href="/u/<%= user.id %>">
+			<div class="avatar" style="float: left">
+				<img src="<%= user.user_avatar(50) %>" style="width: 50px;">
+			</div>
+			</a>
+			<span><%= @user.name %> became friends with <%= user.name %> on <%= fship.created_at.strftime("%b. %d, %Y") %></span>
 		</div>
-		</a>
-		<span><%= @user.name %> became friends with <%= user.name %> on <%= fship.created_at.strftime("%b. %d, %Y") %></span>
-	</div>
+	<% end %>
 <% end %>

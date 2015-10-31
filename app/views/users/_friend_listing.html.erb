@@ -7,6 +7,15 @@
 	<% end %>
 </h2>
 <div id="friend-list">
+<% if @all_friends.empty? %>
+	<span class="empty-text">
+		<% if @profile %>
+			It looks awfully empty here... add some friends to fill it up!
+		<% else %>
+			It looks like <%= @user.name %> doesn't have any friends yet!
+		<% end %>
+	</span>
+<% else %>
 	<% for arr in @all_friends %>
 		<% friendship = arr[0]; user = arr[1] %>
 		<% if @profile %>
@@ -39,6 +48,7 @@
 			</div>
 		<% end %>
 	<% end %>
+<% end%>
 </div>
 <% if @user == current_user %>
 <div class="link-default">

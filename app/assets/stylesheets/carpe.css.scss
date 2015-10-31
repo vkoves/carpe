@@ -544,6 +544,7 @@ label
 }
 #friend-list {
 	display: table;
+	width: 100%;
 }
 .friend-listing {
 	position: relative;
@@ -725,6 +726,11 @@ label
   position: relative;
   left: 20px;
   top: 10px;
+}
+.empty-text
+{
+	position: relative;
+	top: -15px;
 }
 
 .friend-label
