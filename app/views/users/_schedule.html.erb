@@ -2,7 +2,13 @@
 
 <% categories = Category.where(user_id: @user.id) %>
 <% if categories.empty? %>
-	<h3 class="no-bold">Woops! It looks like <%= @user.name %> hasn't made any categories yet.</h3>
+	<span class="empty-text">
+		<% if @profile %>
+			It looks like you haven't made any categories yet!
+		<% else %>
+			Woops! It looks like <%= @user.name %> hasn't made any categories yet.
+		<% end%>
+	</span>
 <% else %>
 	<div style="background-color: grey; display: inline-block; padding-bottom: 10px; padding-right: 10px;">
 		<% categories.each do |cat| %>
