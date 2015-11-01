@@ -717,15 +717,18 @@ label
   margin: 10px;
   padding: 5px 5px 5px 10px;
   border-radius: 8px;
-  width: 100%;
+  width: 95%;
   background-color: #F3F3F3;
   border: solid #CCCCCC 2px;
+  margin-left: auto;
+  margin-right: auto;
 }
-.activity-listing span
+.activity-listing .text
 {
-  position: relative;
-  left: 20px;
-  top: 10px;
+	position: relative;
+	left: 10px;
+	width: 97%;
+	top: 5px;
 }
 .empty-text
 {

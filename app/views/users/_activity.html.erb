@@ -17,7 +17,7 @@
 				<img src="<%= user.user_avatar(50) %>" style="width: 50px;">
 			</div>
 			</a>
-			<span><%= @user.name %> became friends with <%= user.name %> on <%= fship.created_at.strftime("%b. %d, %Y") %></span>
+			<div class="text"><%= @user.name %> became friends with <%= user.name %> on <%= fship.created_at.strftime("%b. %d, %Y") %></div>
 		</div>
 	<% end %>
 <% end %>
