@@ -133,9 +133,12 @@ body
   position: relative;
   left: -35px;
   transition: left 0.5s;
+  height: 100%;
+  float: left;
 }
 
 
+/* SCHEDULE CSS */
 #cont-hold
 {
 	width: 96%;
@@ -420,73 +423,6 @@ body
 	margin-left: 20px;
 }
 
-
-.ui-resizable-handle
-{
-	/* background-color: blue; */
-	height: 10px !important;
-}
-
-
-/* Sign up and sign in styling */
-label
-{
-	float: left;
-}
-.text-input
-{
-	width: 200px;
-  height: 20px;
-  border: solid 1px #D8D8D8;
-  background-color: #F9F9F9;
-}
-.field
-{
-	width: 200px;
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: 5px;
-}
-
-/* Some handy tools */
-.center-text
-{
-	text-align: center;
-}
-.no-bold
-{
-	font-weight: normal;
-}
-.no-float
-{
-	float: none;
-}
-.zero-top
-{
-	margin-top: 0px;
-	padding-top: 0px;
-}
-.zero-bot
-{
-	margin-bottom: 0px;
-	padding-bottom: 0px;
-}
-.dis-sel, .ui-tooltip-content, body
-{
-	cursor: default;
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-}
-
-
-
-
-/* Added by Robert and Viktor until EOF */
-
 .sch-but {
 	background: #CFCFCF;
 	padding: 3px;
@@ -542,6 +478,52 @@ label
 	border: solid 2px grey;
 	border-radius: 5px;
 }
+/* You can see my efforts in futility, if you so desire (not implemented yet) */
+
+.col-titler {
+	float: left;
+	padding:5px;
+	width:90%;
+	left:10px;
+	text-align:left;
+}
+
+.evnt-fulldate {
+	font-size:14px;
+	text-align:left;
+	float:left;
+	margin-left:20px;
+	color:Gray;
+}
+
+.ui-resizable-handle
+{
+	/* background-color: blue; */
+	height: 10px !important;
+}
+
+/* END SCHEDULE STYLING */
+
+/* Sign up and sign in styling */
+label
+{
+	float: left;
+}
+.text-input
+{
+	width: 200px;
+  height: 20px;
+  border: solid 1px #D8D8D8;
+  background-color: #F9F9F9;
+}
+.field
+{
+	width: 200px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 5px;
+}
+
 #friend-list {
 	display: table;
 	width: 100%;
@@ -570,25 +552,6 @@ label
 
 .carpeheader {
 	height:100%;
-}
-
-
-/* You can see my efforts in futility, if you so desire (not implemented yet) */
-
-.col-titler {
-	float: left;
-	padding:5px;
-	width:90%;
-	left:10px;
-	text-align:left;
-}
-
-.evnt-fulldate {
-	font-size:14px;
-	text-align:left;
-	float:left;
-	margin-left:20px;
-	color:Gray;
 }
 
 /* Friends page stuff */
@@ -780,7 +743,7 @@ label
   color: white;
 }
 
-
+/* LINK STYLING */
 div.link-default /*container for default links */
 {
   height: 30px;
@@ -826,6 +789,7 @@ a.default.green:hover
 {
 	background: #39DA39;
 }
+/* END LINK STYLING */
 
 .page-container
 {
@@ -866,6 +830,8 @@ input.danger:hover
   color: white;
   background: #FF1515;
 }
+
+/* Google sign in button styling */
 .google-sign-in
 {
   background: whitesmoke;
@@ -965,3 +931,38 @@ input.danger:hover
 	#menu-holder {left: 0px;}
 }
 
+
+
+/* UTILITY STYLING - Some handy tools, should be kept at EOF */
+.center-text
+{
+	text-align: center;
+}
+.no-bold
+{
+	font-weight: normal;
+}
+.no-float
+{
+	float: none;
+}
+.zero-top
+{
+	margin-top: 0px;
+	padding-top: 0px;
+}
+.zero-bot
+{
+	margin-bottom: 0px;
+	padding-bottom: 0px;
+}
+.dis-sel, .ui-tooltip-content, body
+{
+	cursor: default;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
