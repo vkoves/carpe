@@ -190,10 +190,11 @@ label
 }
 .text-input
 {
-	width: 200px;
-  height: 20px;
-  border: solid 1px #D8D8D8;
-  background-color: #F9F9F9;
+	padding-left: 5px;
+	width: 195px;
+	height: 20px;
+	border: solid 1px #D8D8D8;
+	background-color: #F9F9F9;
 }
 .field
 {
