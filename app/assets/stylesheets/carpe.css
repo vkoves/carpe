@@ -4,6 +4,7 @@ body
 	margin: 0px;
 	width: 100%;
 	min-width: 400px;
+	box-sizing: border-box;
 }
 
 /* HEADER CSS */
@@ -237,8 +238,6 @@ label
 /* LINK STYLING */
 div.link-default /*container for default links */
 {
-  height: 30px;
-  margin: 5px;
 }
 a.normal /* boring link styling */
 {
@@ -249,7 +248,8 @@ a.normal:hover
 {
   text-decoration: underline;
 }
-a.default /* default link styling */
+a.default{text-decoration: none;}
+a.default * /* default link styling */
 {
 	position: relative;
 	padding: 3px 15px 3px 15px;
@@ -260,23 +260,23 @@ a.default /* default link styling */
 	border-radius: 3px;
 	transition: background 0.3s;
 }
-a.default:hover
+a.default *:hover
 {
 	background: #FFC14E;
 }
-a.default.red
+a.default.red *
 {
 	background: #FD1A1A;
 }
-a.default.red:hover
+a.default.red *:hover
 {
 	background: #FF4A4A;
 }
-a.default.green
+a.default.green *
 {
 	background: #18B918;
 }
-a.default.green:hover
+a.default.green *:hover
 {
 	background: #39DA39;
 }
@@ -354,6 +354,13 @@ input.danger:hover
   top: -8px;
   left: -40px;
   width: 35px;
+}
+.google-width
+{
+	width: 174px;
+    margin-left: auto;
+    margin-right: auto;
+    margin: 10px auto;
 }
 
 /* Devise's error stuff when forms have errors */

@@ -29,10 +29,10 @@
 					<span class="friend-name"><%= user.name %></span><br>
 					<%= user.friends_count %> Friends <br>
 					Friends since: <%= friendship.created_at.strftime("%b. %d, %Y")%> <br>
-					<div class="link-default">
-						<%= link_to "Remove", friendships_path(:id => friendship.id), :method => :delete, 
-						:class => "default red", :style => "top: 5px;" %>
-					</div>
+						<%= link_to friendships_path(:id => friendship.id), :method => :delete, :class => "default red",
+						:style => "position: relative; top: 5px;" do %>
+							<span>Remove</span>
+						<% end %>
 				</div>
 			</div>
 		<% else %>
@@ -51,7 +51,7 @@
 <% end%>
 </div>
 <% if @user == current_user %>
-<div class="link-default">
-	<%= link_to "Find Friends", "/find_friends", :class => "default" %>
-</div>
+	<%= link_to "/find_friends", :class => "default" do %>
+		<span>Find Friends</span>
+	<% end %>
 <% end %>
