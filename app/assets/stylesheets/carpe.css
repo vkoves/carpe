@@ -324,8 +324,9 @@ input.danger:hover
 }
 
 /* Google sign in button styling */
-.google-sign-in
+.google-sign-in div
 {
+  position: relative;
   background: whitesmoke;
   border: solid 2px #CACACA;
   border-radius: 5px;
@@ -337,23 +338,26 @@ input.danger:hover
   margin-top: -3px;
   transition: background 0.3s;
 }
-.google-sign-in:hover
+.google-sign-in span
+{
+  position: relative;
+  top: 3px;
+  left: 15px;
+}
+.google-sign-in div:hover
 {
   background: #DCDCDC;
 }
-.google-sign-in a
+.google-sign-in
 {
-  position: relative;
   text-decoration: none;
   color: #4285F5;
-  top: 3px;
-  left: 15px;
 }
 .google-sign-in img
 {
   position: absolute;
-  top: -8px;
-  left: -40px;
+  top: -1px;
+  left: 4px;
   width: 35px;
 }
 .google-width
