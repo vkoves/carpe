@@ -96,11 +96,11 @@
 			<div class="evnt-numID">0</div>
 			<div class="evnt-title center-text dis-sel" contenteditable="true" onclick="showOverlay($(this).parent())"><%= cat.name %></div>
 			<div class="evnt-desc dis-sel" onclick="showOverlay($(this).parent())"></div>
-			<%= image_tag "checkmark.png", :class => "sch-evnt-saveCat sch-cat-icon", :onclick => "saveCategory(event, this, #{cat.id});" %>
-			<%= image_tag "quill.png", :class => "sch-evnt-editCat sch-cat-icon", :onclick => "editCategory(event, this);" %>
-			<%= image_tag "close.png", :class => "sch-evnt-delCat sch-cat-icon", :onclick => "delCategory(event, this, #{cat.id});" %>
-			<%= image_tag "quill.png", :class => "sch-evnt-edit sch-evnt-icon", :onclick => "editEvent(event, this);" %>
-			<%= image_tag "close.png", :class => "sch-evnt-close sch-evnt-icon", :onclick => "removeEvent(event, this);" %>
+			<%= image_tag "checkmark-wht.png", :class => "sch-evnt-saveCat sch-cat-icon", :onclick => "saveCategory(event, this, #{cat.id});" %>
+			<%= image_tag "quill-wht.png", :class => "sch-evnt-editCat sch-cat-icon", :onclick => "editCategory(event, this);" %>
+			<%= image_tag "close-wht.png", :class => "sch-evnt-delCat sch-cat-icon", :onclick => "delCategory(event, this, #{cat.id});" %>
+			<%= image_tag "quill-wht.png", :class => "sch-evnt-edit sch-evnt-icon", :onclick => "editEvent(event, this);" %>
+			<%= image_tag "close-wht.png", :class => "sch-evnt-close sch-evnt-icon", :onclick => "removeEvent(event, this);" %>
 			
 			<div class="futureColors" style="position:absolute;padding-top:4px;width:100%;">
 			

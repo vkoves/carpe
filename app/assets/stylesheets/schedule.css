@@ -34,7 +34,7 @@
 .sch-evnt
 {
 	position: absolute;
-	width: 150px;
+	width: 190px;
 	height: 88px; /* This should be 90px - borders top and bottom */
 	background: white;
 	margin-left: auto;
@@ -192,10 +192,10 @@
 {
 	position: absolute; /* Viktor added 1 am June 17 */
 	height: 430px;
-	width: 150px;
+	width: 200px;
 	margin-left: auto;
 	margin-right: auto;
-	left: 0px;
+	left: -2px;
 	right: 0px;
 	bottom: 0px;
 }
@@ -310,7 +310,9 @@
 }
 
 .category {
-	border-bottom: solid 2px rgb(135, 54, 54);
+	box-shadow: 0.5px 0.5px 10px rgb(185, 185, 185);
+	border:solid 1px #EEE;
+	color:#FFF;
 	/*height:25px;
 	font-size:18px;*/
 }
