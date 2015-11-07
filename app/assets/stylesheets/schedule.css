@@ -111,8 +111,9 @@
 	display:none;
 }
 .sch-evnt-delCat {
-	left: 22px;
+	left: 20px;
 	top:2px;
+	
 }
 #sch-days
 {
@@ -214,23 +215,41 @@
 {
 	/* background: grey; */
 }
+.evnt-divider {
+	width:1px;
+	left:42px;
+	height:90%;
+	top:5%;
+	position:absolute;
+	/*position:relative;*/
+	
+	
+}
 .evnt-time
 {
 	display: none;
-	position: absolute;
+	position: relative;
 	float: left;
-	margin-left: 2px;
+	margin-left: 4px;
+	text-align:middle;
+	width:20px;
+	top: calc(50% - 13px);
 	margin-top: 3px;
 	font-size: 13px;
-	color: rgb(40, 40, 40);
+	color: rgb(240, 240, 240);
 }
 .evnt-title
 {
-	width: 50%;
-	margin-left: auto;
+	font-weight:bold;
+	width: 69%;
+	margin-left: 50px;
 	margin-right: auto;
 	height: 21px;
+	top: calc(50% - 12px);
+	text-align:left;
+	position:absolute;
 	overflow: hidden;
+	
 }
 .evnt-date
 {
