@@ -357,10 +357,13 @@ function addDrag(selector)
 				$(this).css("height", (gridHeight*3)-2);
 			$(this).children(".evnt-time").show();
 			
-			$(this).children(".evnt-title").trigger('focus'); 
-			document.execCommand('selectAll',false,null); // Suggests to the user to change the schedule item title by making it editable upon drop here.
-			document.execCommand('delete',false,null); // Suggests to the user to change the schedule item title by making it editable upon drop here.
-			$(this).children(".evnt-title").trigger('focus');
+			if($(this).css("opacity") == 1) //if opacity is zero, this thing was already in the schedule
+			{
+				$(this).children(".evnt-title").trigger('focus'); 
+				document.execCommand('selectAll',false,null); // Suggests to the user to change the schedule item title by making it editable upon drop here.
+				document.execCommand('delete',false,null); // Suggests to the user to change the schedule item title by making it editable upon drop here.
+				$(this).children(".evnt-title").trigger('focus');
+			}
 			
 			$("#sch-tiles").html(sideHTML); //reset the sidebar
 			$(this).css("opacity", 1);
@@ -386,13 +389,6 @@ function addDrag(selector)
 			}
 			addDrag();
 			$(this).css("margin-top","0px");
-			if ($(this).children(".evnt-title").html() == "") {
-				
-				$(this).children(".evnt-title").trigger('focus'); 
-				document.execCommand('selectAll',false,null); // Suggests to the user to change the schedule item title by making it editable upon drop here.
-				//document.execCommand('delete',false,null);
-				$(this).children(".sch-evnt-save").css("display","inline");
-			}
 			
 			var topVal = parseFloat($(this).css("top"));
 			if(topVal < 0) //make sure the event is not halfway off the top
@@ -431,7 +427,7 @@ function pushEventInfo(elem, catBefore) {
 	schItemCategory.push(catBefore);
 	schItemColor.push($(elem).css("background-color"));
 	schItemStart.push($(elem).children(".evnt-time").html());
-	schItemNames.push($(elem).children(".evnt-title").html());
+	schItemNames.push($(elem).children(".evnt-title").text());
 	schItemDate.push($(elem).parent().siblings(".col-titler").children(".evnt-fulldate").html().split(',')[0]);
 	
 	// Whereas the other lines actually split up the data (particularly useful later with POST requests),
