@@ -36,7 +36,7 @@
 	position: absolute;
 	width: 190px;
 	height: 88px; /* This should be 90px - borders top and bottom */
-	background: white;
+	background: #BDBDBD;
 	margin-left: auto;
 	margin-right: auto;
 	left: 0;
@@ -192,7 +192,7 @@
 .col-snap	
 {
 	position: absolute; /* Viktor added 1 am June 17 */
-	height: 430px;
+	height: calc(100% - 50px);
 	width: 200px;
 	margin-left: auto;
 	margin-right: auto;
