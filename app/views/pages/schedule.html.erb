@@ -98,12 +98,12 @@
 			<div class="evnt-title center-text dis-sel" contenteditable="true" onclick="showOverlay($(this).parent())"><%= cat.name %></div>
 			<div class="evnt-desc dis-sel" onclick="showOverlay($(this).parent())"></div>
 			
-			<%= image_tag "checkmark-wht.png", :class => "sch-evnt-saveCat sch-cat-icon", :onclick => "saveCategory(event, this, #{cat.id});" %>
-			<%= image_tag "quill-wht.png", :class => "sch-evnt-editCat sch-cat-icon", :onclick => "editCategory(event, this);" %>
-			<%= image_tag "close-wht.png", :class => "sch-evnt-delCat sch-cat-icon", :onclick => "delCategory(event, this, #{cat.id});" %>
-			<%= image_tag "quill-wht.png", :class => "sch-evnt-edit sch-evnt-icon", :onclick => "editEvent(event, this);" %>
-			<%= image_tag "close-wht.png", :class => "sch-evnt-close sch-evnt-icon", :onclick => "removeEvent(event, this);" %>
-			<%= image_tag "divider-wht2.png", :class => "evnt-divider" %>
+			<%= image_tag "checkmark-wht.png", :class => "sch-evnt-saveCat sch-cat-icon no-drag", :onclick => "saveCategory(event, this, #{cat.id});" %>
+			<%= image_tag "quill-wht.png", :class => "sch-evnt-editCat sch-cat-icon no-drag", :onclick => "editCategory(event, this);" %>
+			<%= image_tag "close-wht.png", :class => "sch-evnt-delCat sch-cat-icon no-drag", :onclick => "delCategory(event, this, #{cat.id});" %>
+			<%= image_tag "quill-wht.png", :class => "sch-evnt-edit sch-evnt-icon no-drag", :onclick => "editEvent(event, this);" %>
+			<%= image_tag "close-wht.png", :class => "sch-evnt-close sch-evnt-icon no-drag", :onclick => "removeEvent(event, this);" %>
+			<%= image_tag "divider-wht2.png", :class => "evnt-divider no-drag" %>
 			<div class="futureColors" style="position:absolute;padding-top:4px;width:100%;">
 			
 			</div>
@@ -308,11 +308,11 @@ function addDrag(selector)
 		start: function(event, ui)
 		{
 			
-			$(this).children(".sch-cat-icon").css('display','none');
+			$(ui.helper).children(".sch-cat-icon").css('display','none');
 			var height = parseFloat($(this).css("height"));
 			if((height+2)%gridHeight != 0)
-				$(this).css("height", (gridHeight*3)-2);
-			$(this).children(".evnt-time").show();
+				$(ui.helper).css("height", (gridHeight*3)-2);
+			$(ui.helper).children(".evnt-time").show();
 			
 			
 			if(ctrlPressed && $(this).parent().attr("id") != "sch-tiles")
@@ -352,6 +352,11 @@ function addDrag(selector)
 			//$(ui.draggable).css("background","green");
 			$(ui.helper).remove();
 			
+			$(this).children(".sch-cat-icon").css('display','none');
+			var height = parseFloat($(this).css("height"));
+			if((height+2)%gridHeight != 0)
+				$(this).css("height", (gridHeight*3)-2);
+			$(this).children(".evnt-time").show();
 			
 			$(this).children(".evnt-title").trigger('focus'); 
 			document.execCommand('selectAll',false,null); // Suggests to the user to change the schedule item title by making it editable upon drop here.
@@ -456,7 +461,7 @@ function updateTime(elem, ui, resize) //if we're resizing, don't change the posi
 		arr[0] = (ui.position.top + offsetDiff)/gridHeight;
 	}
 
-	timeDiv.html(arr.join(":"));	
+	timeDiv.html(arr.join(":"));
 }
 
 function addDates(referenceDate, refresh)

@@ -466,3 +466,9 @@ input.danger:hover
 	-ms-user-select: none;
 	user-select: none;
 }
+.no-drag /* prevents images from being draggable */
+{
+	user-drag: none; 
+	-moz-user-select: none;
+	-webkit-user-drag: none;
+}
