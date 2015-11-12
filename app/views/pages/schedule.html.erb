@@ -343,10 +343,6 @@ function addDrag(selector)
 			{
 				catBefore = $(this).children(".evnt-title").html();
 				console.log($(this).innerHTML);
-				$(this).children(".evnt-title").trigger('focus'); 
-				document.execCommand('selectAll',false,null); // Suggests to the user to change the schedule item title by making it editable upon drop here.
-				document.execCommand('delete',false,null); // Suggests to the user to change the schedule item title by making it editable upon drop here.
-				$(this).children(".evnt-title").trigger('focus');
 				newSchItem = true;
 			}
 			
@@ -355,6 +351,12 @@ function addDrag(selector)
 		{
 			//$(ui.draggable).css("background","green");
 			$(ui.helper).remove();
+			
+			
+			$(this).children(".evnt-title").trigger('focus'); 
+			document.execCommand('selectAll',false,null); // Suggests to the user to change the schedule item title by making it editable upon drop here.
+			document.execCommand('delete',false,null); // Suggests to the user to change the schedule item title by making it editable upon drop here.
+			$(this).children(".evnt-title").trigger('focus');
 			
 			$("#sch-tiles").html(sideHTML); //reset the sidebar
 			$(this).css("opacity", 1);
