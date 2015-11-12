@@ -462,6 +462,7 @@ function updateTime(elem, ui, resize) //if we're resizing, don't change the posi
 	}
 
 	timeDiv.html(arr.join(":"));
+	$(elem).children(".evnt-time").html(arr.join(":"));
 }
 
 function addDates(referenceDate, refresh)
