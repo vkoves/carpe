@@ -563,19 +563,22 @@ function createCategory() {
 }
 
 function editCategory(event, elem, id){
-	event.stopImmediatePropagation();
-	$(elem).siblings(".sch-evnt-editCat").css("display","none");
-	$(elem).siblings(".sch-evnt-saveCat").css("display","inline");
-	$(elem).siblings(".evnt-title").trigger('focus');
-	document.execCommand('selectAll',false,null);
-	$(elem).siblings(".futureColors").append("<div class='color-swatch' style='background-color: red;' onclick='changeCategoryColor(event,this,\"Red\")'></div> ");
-	$(elem).siblings(".futureColors").append("<div class='color-swatch' style='background-color:orange;' onclick='changeCategoryColor(event,this,\"Orange\")'></div> ");
-	$(elem).siblings(".futureColors").append("<div class='color-swatch' style='background-color:yellow;' onclick='changeCategoryColor(event,this,\"Yellow\")'></div> ");
-	$(elem).siblings(".futureColors").append("<div class='color-swatch' style='background-color:green;' onclick='changeCategoryColor(event,this,\"Green\")'></div><br/>");
-	$(elem).siblings(".futureColors").append("<div class='color-swatch' style='background-color:blue;' onclick='changeCategoryColor(event,this,\"Blue\")'></div> ");
-	$(elem).siblings(".futureColors").append("<div class='color-swatch' style='background-color:indigo;' onclick='changeCategoryColor(event,this,\"Indigo\")'></div> ");
-	$(elem).siblings(".futureColors").append("<div class='color-swatch' style='background-color:violet;' onclick='changeCategoryColor(event,this,\"Violet\")'></div> ");
-	$(elem).siblings(".futureColors").append("<div class='color-swatch' style='background-color:silver;' onclick='changeCategoryColor(event,this,\"Silver\")'></div>");
+	if($(elem).siblings(".futureColors").children().length == 0) //only add swatches if there are none
+	{
+		event.stopImmediatePropagation();
+		$(elem).siblings(".sch-evnt-editCat").css("display","none");
+		$(elem).siblings(".sch-evnt-saveCat").css("display","inline");
+		$(elem).siblings(".evnt-title").trigger('focus');
+		document.execCommand('selectAll',false,null);
+		$(elem).siblings(".futureColors").append("<div class='color-swatch' style='background-color: red;' onclick='changeCategoryColor(event,this,\"Red\")'></div> ");
+		$(elem).siblings(".futureColors").append("<div class='color-swatch' style='background-color:orange;' onclick='changeCategoryColor(event,this,\"Orange\")'></div> ");
+		$(elem).siblings(".futureColors").append("<div class='color-swatch' style='background-color:yellow;' onclick='changeCategoryColor(event,this,\"Yellow\")'></div> ");
+		$(elem).siblings(".futureColors").append("<div class='color-swatch' style='background-color:green;' onclick='changeCategoryColor(event,this,\"Green\")'></div><br/>");
+		$(elem).siblings(".futureColors").append("<div class='color-swatch' style='background-color:blue;' onclick='changeCategoryColor(event,this,\"Blue\")'></div> ");
+		$(elem).siblings(".futureColors").append("<div class='color-swatch' style='background-color:indigo;' onclick='changeCategoryColor(event,this,\"Indigo\")'></div> ");
+		$(elem).siblings(".futureColors").append("<div class='color-swatch' style='background-color:violet;' onclick='changeCategoryColor(event,this,\"Violet\")'></div> ");
+		$(elem).siblings(".futureColors").append("<div class='color-swatch' style='background-color:silver;' onclick='changeCategoryColor(event,this,\"Silver\")'></div>");
+	}
 }
 
 function changeCategoryColor(event,elem,col) {
