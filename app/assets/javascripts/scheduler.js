@@ -504,6 +504,7 @@ function hideOverlay()
 {
 	$(".ui-widget-overlay").hide();
 	$(".overlay-box").hide();
+	$(".cat-overlay-box").css("display","none");
 }
 
 function setTitles()
