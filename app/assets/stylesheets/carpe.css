@@ -200,14 +200,26 @@ body
 {
 	position: absolute;
     height: 140px;
-    width: 200px;
+    width: 250px;
     top: 50px;
-    right: 65px;
+    right: 15px;
 	background: rgb(230, 230, 230);
 	display: none;	
 	z-index: 1;
 	padding: 5px 5px 5px 10px;
 	color: rgb(106, 106, 106);
+}
+#notif-panel .notif #user-avatar img
+{
+	height: 100%;
+	min-width: 0px;
+	margin-top: 0px;
+}
+#notif-panel .notif #user-avatar
+{
+	float: left;
+	margin-left: 0px;
+	margin-right: 5px;
 }
 .bell-hold #num
 {

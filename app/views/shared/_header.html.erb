@@ -21,6 +21,11 @@
 		<div id="notif-panel">
 			<% notif.each do |n| %>
 				<div class="notif">
+					<a href="/u/<%= n.user_id %>"">
+						<div id="user-avatar">
+							<img src="<%= n.friend.user_avatar(90) %>">
+						</div>
+					</a>
 					<span><%= n.friend.name %></span>
 					<div class="confirm"></div>
 					<div class="deny"></div>
@@ -31,11 +36,7 @@
 	<div id="user-name-panel" class="carpe-color">
 	<% if current_user %>
 		<div id="user-avatar">
-		<% if current_user.image_url %>
-			<img src="<%= current_user.image_url %>">
-		<% else %>
-			<img src="http://www.gravatar.com/avatar/?d=mm">
-		<% end%>
+			<img src="<%= current_user.user_avatar(90) %>">
 		</div>
 		<% if current_user.name and !current_user.name.empty? %><%= current_user.name %><% else %><%= current_user.email %><% end %>
 		<br>
