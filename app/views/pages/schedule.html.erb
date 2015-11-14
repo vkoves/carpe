@@ -9,10 +9,10 @@
 	<div class="overlay-desc">Look at this young description of a CS 331 event that we are talking about in this place</div>
 </div>
 
-<div class="cat-overlay-box">
+<div class="cat-overlay-box" data-id="" >
 	<div class="catTopOverlay">
-		<span class="catOverlayTitle"></span>		
-		<%= image_tag "checkmark-wht.png", :class => "sch-evnt-saveCat sch-cat-icon no-drag", :onclick => "saveCategory(event, this);" %>
+		<span class="catOverlayTitle" contenteditable=true ></span>		
+		<%= image_tag "checkmark-wht.png", :class => "sch-cat-icon no-drag", :onclick => "saveCategory(event, this, $('.cat-overlay-box').attr('data-id'));" %>
 		<%= image_tag "close-wht.png", :class => "sch-evnt-close sch-evnt-icon no-drag", :onclick => "delCategory(event, this);" %>
 	</div>
 	<div class="catRemainderOverlay">
@@ -40,13 +40,13 @@
 			
 		<div id="sch-tiles">
 			<% current_user.categories.each_with_index do |cat, index| %>
-				<div class="sch-evnt category" style="background-color:<%= cat.color %>; top: <%= 105*index %>px;">
+				<div class="sch-evnt category" data-id="<%= cat.id %>" style="background-color:<%= cat.color %>; top: <%= 105*index %>px;">
 					<div class="evnt-time">7:30</div>
 					<div class="evnt-numID">0</div>
 					<div class="evnt-title center-text dis-sel" contenteditable="true" onclick="showOverlay($(this).parent())"><%= cat.name %></div>
 					<div class="evnt-desc dis-sel" onclick="showOverlay($(this).parent())"></div>
 					
-					<%= image_tag "checkmark-wht.png", :class => "sch-evnt-saveCat sch-cat-icon no-drag", :onclick => "saveCategory(event, this, #{cat.id});" %>
+					
 					<%= image_tag "quill-wht.png", :class => "sch-evnt-editCat sch-cat-icon no-drag", :onclick => "editCategory(event, this, #{cat.id}, \"#{cat.name}\", \"#{cat.color}\");" %>
 					<%= image_tag "close-wht.png", :class => "sch-evnt-delCat sch-cat-icon no-drag", :onclick => "delCategory(event, this, #{cat.id});" %>
 					<%= image_tag "quill-wht.png", :class => "sch-evnt-edit sch-evnt-icon no-drag", :onclick => "editEvent(event, this);" %>
