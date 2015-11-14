@@ -414,7 +414,7 @@ function createCategory() {
 }
 
 function editCategory(event, elem, id, name, col){
-	if($(elem).siblings(".futureColors").children().length == 0) //only add swatches if there are none
+	if($(".futureColors").children().length == 0) //only add swatches if there are none
 	{
 		event.stopImmediatePropagation();
 		$(elem).siblings(".sch-evnt-editCat").css("display","none");
