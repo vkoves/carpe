@@ -474,17 +474,20 @@ function editEvent(event, elem)
 
 function showOverlay(elem)
 {
-	$(".ui-widget-overlay").show();
-	$(".overlay-box").show();
-	var title = $(elem).children(".evnt-title").html();
-	var desc = $(elem).children(".evnt-desc").html();
-	var time = $(elem).children(".evnt-time").html();
-	var arr = time.split(":");
-	arr[0] = parseInt(arr[0])+$(elem).outerHeight()/gridHeight;
-	var endTime = arr.join(":");
-	$(".overlay-title").html(title);
-	$(".overlay-desc").html(desc);
-	$(".overlay-time").html(time + " - " + endTime);
+	if(inColumn(elem))
+	{
+		$(".ui-widget-overlay").show();
+		$(".overlay-box").show();
+		var title = $(elem).children(".evnt-title").html();
+		var desc = $(elem).children(".evnt-desc").html();
+		var time = $(elem).children(".evnt-time").html();
+		var arr = time.split(":");
+		arr[0] = parseInt(arr[0])+$(elem).outerHeight()/gridHeight;
+		var endTime = arr.join(":");
+		$(".overlay-title").html(title);
+		$(".overlay-desc").html(desc);
+		$(".overlay-time").html(time + " - " + endTime);
+	}
 }
 
 function hideOverlay()
