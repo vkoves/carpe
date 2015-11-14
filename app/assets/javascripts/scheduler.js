@@ -413,7 +413,7 @@ function createCategory() {
 	//window.location.href = './schedule';
 }
 
-function editCategory(event, elem, id){
+function editCategory(event, elem, id, name, col){
 	if($(elem).siblings(".futureColors").children().length == 0) //only add swatches if there are none
 	{
 		event.stopImmediatePropagation();
@@ -429,6 +429,16 @@ function editCategory(event, elem, id){
 		$(elem).siblings(".futureColors").append("<div class='color-swatch' style='background-color:indigo;' onclick='changeCategoryColor(event,this,\"Indigo\")'></div> ");
 		$(elem).siblings(".futureColors").append("<div class='color-swatch' style='background-color:violet;' onclick='changeCategoryColor(event,this,\"Violet\")'></div> ");
 		$(elem).siblings(".futureColors").append("<div class='color-swatch' style='background-color:silver;' onclick='changeCategoryColor(event,this,\"Silver\")'></div>");
+		
+		var nameR = name;
+		
+		$(".ui-widget-overlay").show();
+		$(".cat-overlay-box").css("display","block");
+		$(".catTopOverlay").css("background-color",col)
+		$(".cat-overlay-box").css("border","solid 2px " + col)
+		//$(".cat-overlay-box").css("box-shadow","0px 0px 16px " + col)
+		$(".catOverlayTitle").html(nameR);
+		
 	}
 }
 
@@ -453,7 +463,7 @@ function removeEvent(event, elem)
 	event.stopImmediatePropagation();
 	$(elem).parent().slideUp("normal", function() { $(this).remove(); } );
 	
-	var current = (int)($(elem).siblings(".evnt-numID").html());
+	var current = ($(elem).siblings(".evnt-numID").html());
 	
 	schItemCategory[current] = "";
 	schItemColor[current] = "";
