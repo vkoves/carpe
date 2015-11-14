@@ -179,12 +179,54 @@ body
 #mobile-menu a{
   color: white;
 }
-img.bell
+/* notification stuffz */
+.bell-hold
 {
 	position: absolute;
-	top: 14px;
+	top: 9px;
 	right: 240px;
 	width: 25px;
+	height: 25px;
+	padding: 5px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+.bell-hold img{width: 25px;}
+.bell-hold:hover
+{
+	background-color: #D0D0D0;
+}
+#notif-panel
+{
+	position: absolute;
+    height: 140px;
+    width: 200px;
+    top: 50px;
+    right: 60px;
+	background: rgb(230, 230, 230);
+	display: none;	
+	z-index: 1;
+	padding: 5px 10px;
+	color: rgb(106, 106, 106);
+}
+#notif-panel span{float: left;}
+#notif-panel .confirm, #notif-panel .deny
+{
+	width: 30px;
+    border: solid 2px white;
+    height: 30px;
+    border-radius: 100%;
+    display: inline-block;
+    float: right;
+}
+#notif-panel .confirm
+{
+	background-color: #00AF00;
+	margin-left: 5px;
+}
+#notif-panel .deny
+{
+	background-color: #FF4242;
 }
 /* END HEADER CSS */
 

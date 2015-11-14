@@ -21,6 +21,11 @@ var ready = function() {
 	console.log("Ready" + window.location.href );
 	$("#user-name-panel").click(function(){
 		$("#user-panel").slideToggle(300);
+		$("#notif-panel").slideUp(300);
+	});
+	$(".bell-hold").click(function(){
+		$("#notif-panel").slideToggle(300);
+		$("#user-panel").slideUp(300);
 	});
 	$("#header-mob-menu").click(function(){
 		$("#mobile-menu").slideToggle(300);

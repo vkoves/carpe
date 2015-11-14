@@ -10,9 +10,21 @@
 		</span>
 	</div>
 	<span class="header-text"> &nbsp; <a href="/">Home</a> &nbsp; &nbsp; <a href="/schedule">My Schedule</a></span>
+	<% if current_user %>
+		<div class="bell-hold"><%= image_tag "bellg.svg", class: "bell" %></div>
+		<div id="notif-panel">
+			<% notif = current_user.friendships.where(:confirmed => nil) %>
+			<% notif.each do |n| %>
+				<span><%= n.friend.name %></span>
+				<div class="hold">
+				<div class="confirm"></div>
+				<div class="deny"></div>
+				</div>
+			<% end %>
+		</div>		
+	<% end %>
 	<div id="user-name-panel" class="carpe-color">
 	<% if current_user %>
-		<%= image_tag "bellg.svg", class: "bell" %>
 		<div id="user-avatar">
 		<% if current_user.image_url %>
 			<img src="<%= current_user.image_url %>">
