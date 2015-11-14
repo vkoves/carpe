@@ -179,6 +179,13 @@ body
 #mobile-menu a{
   color: white;
 }
+img.bell
+{
+	position: absolute;
+	top: 14px;
+	right: 240px;
+	width: 25px;
+}
 /* END HEADER CSS */
 
 

@@ -12,6 +12,7 @@
 	<span class="header-text"> &nbsp; <a href="/">Home</a> &nbsp; &nbsp; <a href="/schedule">My Schedule</a></span>
 	<div id="user-name-panel" class="carpe-color">
 	<% if current_user %>
+		<%= image_tag "bellg.svg", class: "bell" %>
 		<div id="user-avatar">
 		<% if current_user.image_url %>
 			<img src="<%= current_user.image_url %>">
