@@ -15,10 +15,10 @@
 		<div id="notif-panel">
 			<% notif = current_user.friendships.where(:confirmed => nil) %>
 			<% notif.each do |n| %>
-				<span><%= n.friend.name %></span>
-				<div class="hold">
-				<div class="confirm"></div>
-				<div class="deny"></div>
+				<div class="notif">
+					<span><%= n.friend.name %></span>
+					<div class="confirm"></div>
+					<div class="deny"></div>
 				</div>
 			<% end %>
 		</div>		

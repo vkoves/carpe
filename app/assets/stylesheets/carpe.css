@@ -209,7 +209,14 @@ body
 	padding: 5px 10px;
 	color: rgb(106, 106, 106);
 }
-#notif-panel span{float: left;}
+#notif-panel .notif{padding: 3px 0px;height: 34px;}
+#notif-panel span
+{
+	float: left;
+	font-size: 18px;
+	position: relative;
+	top: 5px;
+}
 #notif-panel .confirm, #notif-panel .deny
 {
 	width: 30px;
