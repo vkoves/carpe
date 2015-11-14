@@ -21,7 +21,7 @@
 		<div id="notif-panel">
 			<% notif.each do |n| %>
 				<div class="notif">
-					<a href="/u/<%= n.user_id %>"">
+					<a href="/u/<%= n.friend_id %>"">
 						<div id="user-avatar">
 							<img src="<%= n.friend.user_avatar(90) %>">
 						</div>
