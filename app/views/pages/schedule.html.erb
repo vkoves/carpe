@@ -9,6 +9,19 @@
 	<div class="overlay-desc">Look at this young description of a CS 331 event that we are talking about in this place</div>
 </div>
 
+<div class="cat-overlay-box">
+	<div class="catTopOverlay">
+		<span class="catOverlayTitle"></span>		
+		<%= image_tag "checkmark-wht.png", :class => "sch-evnt-saveCat sch-cat-icon no-drag", :onclick => "saveCategory(event, this);" %>
+		<%= image_tag "close-wht.png", :class => "sch-evnt-close sch-evnt-icon no-drag", :onclick => "delCategory(event, this);" %>
+	</div>
+	<div class="catRemainderOverlay">
+		<div class="futureColors"></div>
+	</div>
+</div>
+
+
+
 <br>
 <div id="cont-hold">
 	<h1 class="no-bold zero-bot">Your Schedule</h1>
@@ -34,13 +47,13 @@
 					<div class="evnt-desc dis-sel" onclick="showOverlay($(this).parent())"></div>
 					
 					<%= image_tag "checkmark-wht.png", :class => "sch-evnt-saveCat sch-cat-icon no-drag", :onclick => "saveCategory(event, this, #{cat.id});" %>
-					<%= image_tag "quill-wht.png", :class => "sch-evnt-editCat sch-cat-icon no-drag", :onclick => "editCategory(event, this);" %>
+					<%= image_tag "quill-wht.png", :class => "sch-evnt-editCat sch-cat-icon no-drag", :onclick => "editCategory(event, this, #{cat.id}, \"#{cat.name}\", \"#{cat.color}\");" %>
 					<%= image_tag "close-wht.png", :class => "sch-evnt-delCat sch-cat-icon no-drag", :onclick => "delCategory(event, this, #{cat.id});" %>
 					<%= image_tag "quill-wht.png", :class => "sch-evnt-edit sch-evnt-icon no-drag", :onclick => "editEvent(event, this);" %>
 					<%= image_tag "close-wht.png", :class => "sch-evnt-close sch-evnt-icon no-drag", :onclick => "removeEvent(event, this);" %>
 					<%= image_tag "divider-wht2.png", :class => "evnt-divider no-drag" %>
 					
-					<div class="futureColors"></div>
+					
 				</div>
 			<% end %>
 		</div>

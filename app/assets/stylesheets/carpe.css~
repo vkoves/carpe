@@ -1,0 +1,473 @@
+body 
+{
+	font-family: 'Open Sans', sans-serif;
+	margin: 0px;
+	width: 100%;
+	min-width: 400px;
+	box-sizing: border-box;
+}
+
+/* HEADER CSS */
+.carpe-font /* Has the Carpe cool font */
+{
+	font-family: 'Pacifico', cursive;
+	font-weight: normal;
+	color: rgb(255, 116, 0);
+}
+
+.carpe-color, .carpe-font a
+{
+	color: rgb(255, 116, 0) !important;
+}
+#header-logo {
+  float: left;
+  height: 100%;
+  position: relative;
+}
+.header-logintext {
+	top:-5px;
+	position:absolute;
+}
+.header-main
+{
+	background: rgb(242, 242, 242);
+	color: rgb(200, 200, 200);
+	height: 50px;
+	font-size: 20px;
+	text-align: left;
+}
+.header-text {
+	padding-top:10px;
+	left:150px;
+	position:absolute;
+	white-space: nowrap;
+  overflow: hidden;
+  width: 50%;
+  transition: width 0.5s, opacity 0.5s;
+}
+.header-logintext {
+	padding-top: 14px;
+	right:10px;
+	width:400px;
+	text-align:right;
+	position:absolute;
+}
+.header-main a
+{
+	color: rgb(106, 106, 106);
+	text-decoration: none;
+	font-size: 18px;
+	transition: color 0.2s;	
+}
+.header-main a:hover
+{
+	color: orange;
+}
+#user-name-panel
+{
+	float: right;
+	position: relative;
+ 	right: 0px;
+ 	padding-right: 20px;
+ 	padding-left: 10px;
+ 	height: 50px;
+}
+#user-panel
+{
+	display: none;
+	position: absolute;
+	right: 0px;
+	top: 50px;
+	height: 110px;
+	width: 270px;
+	z-index: 10;
+	background-color: rgb(230, 230, 230);
+	text-align:center;
+	padding:10px 0px;
+	margin-bottom:10px;
+}
+#user-panel div
+{
+	padding: 5px 10px 5px 10px;
+	width: 250px;
+	margin-left: auto;
+	margin-right: auto;
+	transition: background 0.2s;
+}
+#user-panel div:hover
+{
+	background: white;
+}
+#user-panel div:hover > a
+{
+	color: orange;
+}
+#user-avatar
+{
+	float: right;
+    position: relative;
+    height: 100%;
+    margin-left: 10px;
+}
+#user-avatar img:hover
+{
+	box-shadow: 0px 0px 3px grey;
+}
+#user-avatar img
+{
+	height: 80%;
+    min-width: 40px;
+	border-radius: 35px;
+	border: solid orange 2px;
+	margin-top: 7%;
+}
+#user-email
+{
+	float: left;
+	position: absolute;
+    top: 24px;
+    color: grey;
+    right: 80px;
+    font-size: 13px;
+}
+#menu-holder
+{
+  position: relative;
+  left: -35px;
+  transition: left 0.5s;
+  height: 100%;
+  float: left;
+}
+.carpeheader {
+	height:100%;
+}
+#header-mob-menu
+{
+  float: left;
+  position: relative;
+  background-color: #ED7D31;
+  height: 50px;
+  width: 65px;
+  margin-right: -30px;
+  cursor: pointer;
+  overflow: hidden;
+  left: -10px;
+  transition: left 0.25s;
+}
+#header-mob-menu img
+{
+	position: relative;
+	left: 10px;
+	top: 7px;
+	z-index: 1;
+}
+#mobile-menu
+{
+  display: none;
+  position: absolute;
+  top: 50px;
+  background-color: #FF8C3D;
+  width: 113px;
+  height: 80px;
+  text-align: center;
+  transition: width 0.5s;
+}
+#mobile-menu div{
+  padding: 5px;
+}
+#mobile-menu a{
+  color: white;
+}
+/* END HEADER CSS */
+
+
+
+
+/* Sign up and sign in styling */
+label
+{
+	float: left;
+}
+.text-input
+{
+	padding-left: 5px;
+	width: 195px;
+	height: 20px;
+	border: solid 1px #D8D8D8;
+	background-color: #F9F9F9;
+}
+.field
+{
+	width: 200px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 5px;
+}
+
+
+.avatar img
+{
+	border-radius: 100px;
+	width: 80px;
+	border: solid orange 3px;
+}
+.friend-label
+{
+	background-color: #5B5BFF;
+    padding: 3px 15px 3px 15px;
+    border-radius: 3px;
+    color: white;
+    font-weight: bold;
+}
+
+/* General page things */
+.page-titler
+{
+	color: orange;
+	font-weight: normal;
+	margin-bottom: 10px;
+}
+.page-desc
+{
+	color: grey;
+	font-weight: normal;
+	font-size: 1.3em;
+	margin-top: 0px;
+	margin-bottom: 30px;
+}
+
+/* LINK STYLING */
+div.link-default /*container for default links */
+{
+}
+a.normal /* boring link styling */
+{
+  color: #313131;
+  text-decoration: none;
+}
+a.normal:hover
+{
+  text-decoration: underline;
+}
+a.default{text-decoration: none;}
+a.default * /* default link styling */
+{
+	position: relative;
+	padding: 3px 15px 3px 15px;
+	background: orange;
+	color: white;
+	text-decoration: none;
+	font-weight: bold;
+	border-radius: 3px;
+	transition: background 0.3s;
+}
+a.default *:hover
+{
+	background: #FFC14E;
+}
+a.default.red *
+{
+	background: #FD1A1A;
+}
+a.default.red *:hover
+{
+	background: #FF4A4A;
+}
+a.default.green *
+{
+	background: #18B918;
+}
+a.default.green *:hover
+{
+	background: #39DA39;
+}
+/* END LINK STYLING */
+
+.page-container
+{
+	position: relative;
+	height: 100%;
+	width: 80%;
+	max-width: 1220px;
+	margin-left: auto;
+	margin-right: auto;
+	transition: width 0.5s;
+}
+
+input[type="submit"]
+{
+  font-family: 'Open Sans', sans-serif;
+  background: none;
+  border: none;
+  color: orange;
+  font-size: 20px;
+  margin-top: 5px;
+  cursor: pointer;
+}
+input[type="submit"]:hover
+{
+  color: #FF8500;
+}
+
+input.danger
+{
+  color: white;
+  background: red;
+  border-radius: 5px;
+  border-bottom: 1px white !important;
+  padding: 3px 15px 3px 15px;
+}
+input.danger:hover
+{
+  color: white;
+  background: #FF1515;
+}
+
+/* Google sign in button styling */
+.google-sign-in div
+{
+  position: relative;
+  background: whitesmoke;
+  border: solid 2px #CACACA;
+  border-radius: 5px;
+  width: 190px;
+  height: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 4px 5px 0px 5px;
+  margin-top: -3px;
+  transition: background 0.3s;
+}
+.google-sign-in span
+{
+  position: relative;
+  top: 3px;
+  left: 15px;
+}
+.google-sign-in div:hover
+{
+  background: #DCDCDC;
+}
+.google-sign-in
+{
+  text-decoration: none;
+  color: #4285F5;
+}
+.google-sign-in img
+{
+  position: absolute;
+  top: -1px;
+  left: 4px;
+  width: 35px;
+}
+.google-width
+{
+	width: 174px;
+    margin-left: auto;
+    margin-right: auto;
+    margin: 10px auto;
+}
+
+/* Devise's error stuff when forms have errors */
+#error_explanation h2
+{
+    color: white;
+    font-weight: normal;
+    font-size: 20px;
+    margin-bottom: 5px;
+    background-color: #FF7272;
+    width: 40%;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 5px;
+}
+#error_explanation ul
+{
+  margin: 0px;
+  list-style: none;
+}
+
+.alert-holder
+{
+	position: absolute;
+	width: 100%;
+	top: 45px;
+}
+.notice, .alert
+{
+  display: inline-block;
+  width: auto;
+  padding: 5px 15px 5px 15px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  position: relative;
+  top: 5px;
+}
+.notice
+{
+  background-color: #4BDC4B;
+  color: white;
+}
+.alert
+{
+  background-color: #FF4A4A;
+  color: white;
+}
+
+@media (max-width: 900px)
+{
+	.page-container
+	{
+		width: 95%;
+	}
+}
+@media (max-width: 660px)
+{
+	.header-text {width: 0px; opacity: 0;}
+	/* #header-mob-menu {width: 55px;} */
+	#header-mob-menu {left: 0px;}
+	#mobile-menu {width: 146px;}
+	#menu-holder {left: 0px;}
+}
+
+
+
+/* UTILITY STYLING - Some handy tools, should be kept at EOF */
+.center-text
+{
+	text-align: center;
+}
+.no-bold
+{
+	font-weight: normal;
+}
+.no-float
+{
+	float: none;
+}
+.zero-top
+{
+	color:Orange;
+	text-align:left;
+	margin-top: 0px;
+	position:relative;
+	float:left;
+height:150px;
+	font-size:34px;
+	padding-top: -5px;
+}
+.zero-bot
+{
+	margin-bottom: 0px;
+	padding-bottom: 0px;
+}
+.dis-sel, .ui-tooltip-content, body
+{
+	cursor: default;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
