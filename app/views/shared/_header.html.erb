@@ -11,9 +11,14 @@
 	</div>
 	<span class="header-text"> &nbsp; <a href="/">Home</a> &nbsp; &nbsp; <a href="/schedule">My Schedule</a></span>
 	<% if current_user %>
-		<div class="bell-hold"><%= image_tag "bellg.svg", class: "bell" %></div>
-		<div id="notif-panel">
+		<div class="bell-hold">
 			<% notif = current_user.friendships.where(:confirmed => nil) %>
+			<% if notif.size > 0 %>
+				<div id="num"><%= notif.size %></div>
+			<% end %>
+			<%= image_tag "bellg.svg", class: "bell" %>
+		</div>
+		<div id="notif-panel">
 			<% notif.each do |n| %>
 				<div class="notif">
 					<span><%= n.friend.name %></span>

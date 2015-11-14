@@ -202,12 +202,28 @@ body
     height: 140px;
     width: 200px;
     top: 50px;
-    right: 60px;
+    right: 65px;
 	background: rgb(230, 230, 230);
 	display: none;	
 	z-index: 1;
-	padding: 5px 10px;
+	padding: 5px 5px 5px 10px;
 	color: rgb(106, 106, 106);
+}
+.bell-hold #num
+{
+	position: absolute;
+    border-radius: 100%;
+    background-color: orange;
+    width: 16px;
+    height: 15px;
+    font-size: 11px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    top: 20px;
+    left: 22px;
+    padding-bottom: 2px;
+    padding-right: 1px;
 }
 #notif-panel .notif{padding: 3px 0px;height: 34px;}
 #notif-panel span
