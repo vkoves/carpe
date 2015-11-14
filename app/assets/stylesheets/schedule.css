@@ -265,6 +265,8 @@
 .ui-widget-overlay
 {
 	display: none;
+	opacity: 0.5;
+	background-color: #000;
 	z-index: 1000;
 }
 .overlay-box
@@ -406,8 +408,8 @@
 	right: 0;
 	
 	background: rgb(240,240,240);
-	box-shadow: 0px 0px 16px #EEEEEE;
-	border:solid rgb(255,255,255) 2px;
+	box-shadow: 0px 0px 16px #999;
+	/*border:solid rgb(255,255,255) 2px;*/
 	width: 500px;
 	height: 400px;
 	margin-left: auto;

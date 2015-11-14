@@ -435,7 +435,7 @@ function editCategory(event, elem, id, name, col){
 		$(".ui-widget-overlay").show();
 		$(".cat-overlay-box").css("display","block");
 		$(".catTopOverlay").css("background-color",col)
-		$(".cat-overlay-box").css("border","solid 2px " + col)
+		//$(".cat-overlay-box").css("border","solid 2px " + col)
 		//$(".cat-overlay-box").css("box-shadow","0px 0px 16px " + col)
 		$(".catOverlayTitle").html(nameR);
 		
