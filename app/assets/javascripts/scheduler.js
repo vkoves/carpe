@@ -414,13 +414,14 @@ function createCategory() {
 }
 
 function editCategory(event, elem, id, name, col){
-	if($(".futureColors").children().length == 0) //only add swatches if there are none
-	{
+	
 		event.stopImmediatePropagation();
 		$(elem).siblings(".sch-evnt-editCat").css("display","none");
 		$(elem).siblings(".sch-evnt-saveCat").css("display","inline");
 		$(elem).siblings(".catOverlayTitle").trigger('focus');
 		document.execCommand('selectAll',false,null);
+		if($(".futureColors").children().length == 0) //only add swatches if there are none
+		{
 		$(".futureColors").append("<div class='color-swatch' style='background-color: red;' onclick='changeCategoryColor(event,this,\"Red\")'></div> ");
 		$(".futureColors").append("<div class='color-swatch' style='background-color:orange;' onclick='changeCategoryColor(event,this,\"Orange\")'></div> ");
 		$(".futureColors").append("<div class='color-swatch' style='background-color:yellow;' onclick='changeCategoryColor(event,this,\"Yellow\")'></div> ");
@@ -429,7 +430,7 @@ function editCategory(event, elem, id, name, col){
 		$(".futureColors").append("<div class='color-swatch' style='background-color:indigo;' onclick='changeCategoryColor(event,this,\"Indigo\")'></div> ");
 		$(".futureColors").append("<div class='color-swatch' style='background-color:violet;' onclick='changeCategoryColor(event,this,\"Violet\")'></div> ");
 		$(".futureColors").append("<div class='color-swatch' style='background-color:silver;' onclick='changeCategoryColor(event,this,\"Silver\")'></div>");
-		
+		}
 		var nameR = name;
 		
 		$(".ui-widget-overlay").show();
@@ -440,7 +441,7 @@ function editCategory(event, elem, id, name, col){
 		$(".catOverlayTitle").html(nameR);
 		$(".cat-overlay-box").attr("data-id",id);
 		
-	}
+	
 }
 
 function changeCategoryColor(event,elem,col) {
