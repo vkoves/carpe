@@ -6,14 +6,18 @@ class UsersController < ApplicationController
   def show
     @user = User.find_by_id(params[:id]) #fetch the user by the URL passed id
     @profile = false
-    if current_user and current_user == @user #this is the user looking at their own profile
-      @profile = true
-    end
-    
-    if params[:p] == "mutual_friends"
-      @mutual_friends = current_user.mutual_friends(@user)
+    if @user
+      if current_user and current_user == @user #this is the user looking at their own profile
+        @profile = true
+      end
+      
+      if params[:p] == "mutual_friends"
+        @mutual_friends = current_user.mutual_friends(@user)
+      else
+        @all_friends = @user.all_friendships #and fetch all of the user's friends
+      end
     else
-      @all_friends = @user.all_friendships #and fetch all of the user's friends
+      redirect_to "/404"
     end
   end
 end
