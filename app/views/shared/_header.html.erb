@@ -12,7 +12,7 @@
 	<span class="header-text"> &nbsp; <a href="/">Home</a> &nbsp; &nbsp; <a href="/schedule">My Schedule</a></span>
 	<% if current_user %>
 		<div class="bell-hold">
-			<% notif = current_user.friendships.where(:confirmed => nil) %>
+			<% notif = current_user.inverse_friendships.where(:confirmed => nil) %>
 			<% if notif.size > 0 %>
 				<div id="num"><%= notif.size %></div>
 			<% end %>
@@ -21,9 +21,9 @@
 		<div id="notif-panel">
 			<% notif.each do |n| %>
 				<div class="notif">
-					<a href="/u/<%= n.friend_id %>"">
+					<a href="/u/<%= n.user_id %>"">
 						<div id="user-avatar">
-							<img src="<%= n.friend.user_avatar(90) %>">
+							<img src="<%= User.find(n.user_id).user_avatar(90) %>">
 						</div>
 					</a>
 					<span><%= n.friend.name %></span>
