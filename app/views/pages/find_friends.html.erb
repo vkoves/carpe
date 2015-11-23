@@ -37,12 +37,15 @@
 		</div>
 		<div class="name"><%= user.name %></div>
 		<% if current_user and current_user != user %>
-			<% if !current_user.is_friend?(user) %>
+			<% status = current_user.friend_status(user) %>
+			<% if status == nil #not friends %>
 				<%= link_to friendships_path(:friend_id => user), :method => :post, :class => "default green" do %>
 					<span>Add Friend</span>
 				<% end %>
-			<% else %>
+			<% elsif status == "friend" %>
 				<span class="friend-label">Friend</span>
+			<% elsif status == "pending" || status == "denied" %>
+				<span class="friend-label">Pending...</span>
 			<% end %>
 		<% end %>
 		</div>

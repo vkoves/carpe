@@ -42,11 +42,32 @@ class User < ActiveRecord::Base
 	end
 	
 	def is_friend?(user) #returns whether the passed user is a friend of this user
-	  if friends.include? user or inverse_friends.include? user
+	  friendship = (Friendship.where(user_id: user.id, friend_id: id) || Friendship.where(user_id: id, friend_id: user.id))[0]
+	  
+    if friendship and friendship.confirmed
 	    return true
 	  else
 	    return false
 	  end
+	end
+	
+	def friend_status(user)
+	  friendship = (Friendship.where(user_id: user.id, friend_id: id))[0]
+    if !friendship
+      friendship = (Friendship.where(user_id: id, friend_id: user.id))[0]
+    end
+    
+    if friendship
+      if friendship.confirmed == true
+        return "friend"
+      elsif friendship.confirmed == false
+        return "denied"
+      else
+        return "pending"
+      end  
+    else
+      return nil
+    end
 	end
 	
 	def mutual_friends(user) #returns mutual friends with the passed in user
@@ -54,7 +75,7 @@ class User < ActiveRecord::Base
 	end
 	
 	def friends_count() #returns the number of friends the user has
-	  return friendships.count + inverse_friends.count
+	  return all_friendships().count
 	end
 	
 	def self.find_for_google_oauth2(access_token, signed_in_resource=nil)
