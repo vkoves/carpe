@@ -18,7 +18,7 @@ var curEvent;
 
 var readied = false;
 
-
+//No longer needed, as we check for ctrl on click
 $(window).keydown(function(evt) {
   if (evt.which == 17) { // ctrl
     //ctrlPressed = true;
@@ -407,6 +407,8 @@ function popEvents() {
 	{
 		repDates.push($(col).children(".col-titler").children(".evnt-fulldate").html().split(',')[0]);
 	}); // Populate the date range array created above, so that we can match up what events have dates that fall in this range.
+	
+	console.log(schItem);
 	
 	for (var i = 0; i < repDates.length; i++) {
 		for (var j = 0; j < schItemCategory.length; j++) {
