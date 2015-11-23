@@ -27,7 +27,7 @@
 								<img src="<%= User.find(n.user_id).user_avatar(90) %>">
 							</div>
 						</a>
-						<span><%= n.friend.name %></span>
+						<span><%= User.find(n.user_id).name %></span>
 						<%= link_to "/confirm_friend?id=" + n.id.to_s, :method => :post do %>
 							<div class="confirm"></div>
 						<% end %>
