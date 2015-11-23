@@ -21,11 +21,11 @@ var readied = false;
 
 $(window).keydown(function(evt) {
   if (evt.which == 17) { // ctrl
-    ctrlPressed = true;
+    //ctrlPressed = true;
   }
 }).keyup(function(evt) {
   if (evt.which == 17) { // ctrl
-    ctrlPressed = false;
+    //ctrlPressed = false;
   }
 });
 
@@ -130,6 +130,13 @@ function addDrag(selector)
 	
 	if (selector == null)
 		selector = "#sch-sidebar .sch-evnt";
+		
+	$(selector).mousedown(function(event) {
+	if(event.ctrlKey)
+		ctrlPressed = true;
+	else
+		ctrlPressed = false;
+	});
 		
 	$(selector).draggable({
 		containment: "window",
