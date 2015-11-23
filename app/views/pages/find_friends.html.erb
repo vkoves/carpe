@@ -15,8 +15,19 @@
 </style>
 <div class="page-container">
 	<h1 class="page-titler">Find your friends.</h1>
-	<h3 class="page-desc">We've listed some people you may know to start. If you can't find someone, you can search for them below.</h3>
-	<% users = User.all %>
+	<h3 class="page-desc">
+		We've listed some people you may know to start. If you can't find someone, you can search for them below.
+		<%= form_tag("/search_users", method: "get") do %>
+		  <%= text_field_tag(:q, params[:q]) %>
+		  <%= submit_tag("Search") %>
+		<% end %>
+	</h3>
+	<% if @users != nil
+		users = @users 
+	else 
+		users = User.all
+	end %>
+	<% if users.size > 0 %>
 	<% users.each do |user| %>
 	<div class="user-box">
 		<div class="avatar">
@@ -24,14 +35,17 @@
 		</div>
 		<div class="name"><%= user.name %></div>
 		<% if current_user and current_user != user %>
-		<% if !current_user.is_friend?(user) %>
-			<%= link_to friendships_path(:friend_id => user), :method => :post, :class => "default green" do %>
-				<span>Add Friend</span>
+			<% if !current_user.is_friend?(user) %>
+				<%= link_to friendships_path(:friend_id => user), :method => :post, :class => "default green" do %>
+					<span>Add Friend</span>
+				<% end %>
+			<% else %>
+				<span class="friend-label">Friend</span>
 			<% end %>
-		<% else %>
-			<span class="friend-label">Friend</span>
 		<% end %>
+		</div>
 	<% end %>
-	</div>
+	<% else %>
+		No users found with that name!
 	<% end %>
 </div>

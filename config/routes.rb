@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   get "/userviewer" => 'pages#userviewer'
   get "/catviewer" => 'pages#catviewer'
   get "/find_friends" => 'pages#find_friends'
+  get "/search_users" => 'users#search'
   post "/deny_friend" => 'friendships#deny'
   post "/confirm_friend" => 'friendships#confirm'
   

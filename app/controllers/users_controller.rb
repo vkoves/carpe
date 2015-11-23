@@ -20,4 +20,10 @@ class UsersController < ApplicationController
       redirect_to "/404"
     end
   end
+  
+  def search
+    q = params[:q] 
+    @users = User.where('name LIKE ?', "%#{q}%")
+     render :template => "pages/find_friends"
+  end
 end
