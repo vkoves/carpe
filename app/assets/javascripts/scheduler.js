@@ -315,7 +315,8 @@ function updateTime(elem, ui, resize) //if we're resizing, don't change the posi
 	var offsetDiff = -Math.ceil($(".col-snap:first").offset().top);
 	if(resize)
 		offsetDiff = 0;
-	console.log("Offset difference: " + offsetDiff);
+		
+	//console.log("Offset difference: " + offsetDiff);
 	
 	var topRemainder = (ui.position.top + offsetDiff) % gridHeight;
 	if($(elem).draggable('option', 'gridOn'))
