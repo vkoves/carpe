@@ -19,21 +19,25 @@
 			<%= image_tag "bellg.svg", class: "bell" %>
 		</div>
 		<div id="notif-panel">
-			<% notif.each do |n| %>
-				<div class="notif">
-					<a href="/u/<%= n.user_id %>">
-						<div id="user-avatar">
-							<img src="<%= User.find(n.user_id).user_avatar(90) %>">
-						</div>
-					</a>
-					<span><%= n.friend.name %></span>
-					<%= link_to "/confirm_friend?id=" + n.id.to_s, :method => :post do %>
-						<div class="confirm"></div>
-					<% end %>
-					<%= link_to "/deny_friend?id=" + n.id.to_s, :method => :post do %>
-						<div class="deny"></div>
-					<% end %>
-				</div>
+			<% if notif.size > 0%>
+				<% notif.each do |n| %>
+					<div class="notif">
+						<a href="/u/<%= n.user_id %>">
+							<div id="user-avatar">
+								<img src="<%= User.find(n.user_id).user_avatar(90) %>">
+							</div>
+						</a>
+						<span><%= n.friend.name %></span>
+						<%= link_to "/confirm_friend?id=" + n.id.to_s, :method => :post do %>
+							<div class="confirm"></div>
+						<% end %>
+						<%= link_to "/deny_friend?id=" + n.id.to_s, :method => :post do %>
+							<div class="deny"></div>
+						<% end %>
+					</div>
+				<% end %>
+			<% else %>
+				<span style="font-size: 14px;">You don't have any notifications at the moment!</span>
 			<% end %>
 		</div>		
 	<% end %>
