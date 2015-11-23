@@ -21,14 +21,18 @@
 		<div id="notif-panel">
 			<% notif.each do |n| %>
 				<div class="notif">
-					<a href="/u/<%= n.user_id %>"">
+					<a href="/u/<%= n.user_id %>">
 						<div id="user-avatar">
 							<img src="<%= User.find(n.user_id).user_avatar(90) %>">
 						</div>
 					</a>
 					<span><%= n.friend.name %></span>
-					<div class="confirm"></div>
-					<div class="deny"></div>
+					<%= link_to "/confirm_friend?id=" + n.id.to_s, :method => :post do %>
+						<div class="confirm"></div>
+					<% end %>
+					<%= link_to "/deny_friend?id=" + n.id.to_s, :method => :post do %>
+						<div class="deny"></div>
+					<% end %>
 				</div>
 			<% end %>
 		</div>		

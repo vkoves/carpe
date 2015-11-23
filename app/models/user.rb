@@ -25,13 +25,17 @@ class User < ActiveRecord::Base
 	def all_friendships() #returns an array of all friendships and friends for easy printing
     all_friends = []
     for fship in friendships
-      all_friends.push([fship, fship.friend])
+      if fship.confirmed
+        all_friends.push([fship, fship.friend])
+      end
     end 
     
     # Inverse friends are when the other person added you, so conveniently, we can who added who.
     for usr in inverse_friends 
-      friendship = Friendship.where(user_id: usr.id, friend_id: id).first 
-      all_friends.push([friendship, usr])
+      friendship = Friendship.where(user_id: usr.id, friend_id: id).first
+      if friendship.confirmed
+        all_friends.push([friendship, usr])
+      end
     end
     
     return all_friends 

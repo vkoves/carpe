@@ -13,7 +13,9 @@ Rails.application.routes.draw do
   get "/userviewer" => 'pages#userviewer'
   get "/catviewer" => 'pages#catviewer'
   get "/find_friends" => 'pages#find_friends'
-
+  post "/deny_friend" => 'friendships#deny'
+  post "/confirm_friend" => 'friendships#confirm'
+  
   root 'home#index'
   
   resource :friendships
