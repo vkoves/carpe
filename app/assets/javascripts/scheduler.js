@@ -51,6 +51,15 @@ $(document).ready(function()
 			position: { my: "left+15 top", at: "left bottom"}
 		}); //toss a tooltip on the events text
 		
+		$(".catOverlayTitle").on("keydown",function(e){
+		    var key = e.keyCode || e.charCode;  // ie||others
+		    if(key == 13)  // if enter key is pressed
+		    {
+				e.preventDefault();
+			    $(this).blur();  // lose focus	
+		    }
+		});
+		
 		addDrag(); //add dragging, recursively
 		
 		colDroppable();
