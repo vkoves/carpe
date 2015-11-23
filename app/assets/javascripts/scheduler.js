@@ -322,6 +322,7 @@ function updateTime(elem, ui, resize) //if we're resizing, don't change the posi
 	$(elem).children(".evnt-time").html(arr.join(":"));
 }
 
+//called by next and previous buttons on click
 function addDates(referenceDate, refresh)
 {
 	var currDate = referenceDate;
@@ -407,12 +408,12 @@ function popEvents() {
 			
 			// So, this does not create a clone using the .clone() method...it was attempted before, though (the result was not optimal).
 			var currentElem = schItem[j];
-			$(".sch-day-col:eq(" + i + ")").append(currentElem);
+			$(".sch-day-col:eq(" + i + ") .col-snap").append(currentElem);
 			$(".sch-evnt").css("margin-left","auto");
 			$(".sch-evnt").css("margin-right","auto");
 			$(".sch-evnt").css("left","0");
 			$(".sch-evnt").css("right","0");
-			updateTime($(".sch-evnt"),$(".sch-day-col"));
+			//updateTime($(".sch-evnt"),$(".sch-day-col"));
 			addDrag(".sch-evnt"); // Re-enables the events to snap onto the date columns here.	
 			}
 		}
