@@ -22,8 +22,12 @@ class UsersController < ApplicationController
   end
   
   def search
-    q = params[:q] 
-    @users = User.where('name LIKE ?', "%#{q}%")
-     render :template => "pages/find_friends"
+    q = params[:q].strip
+
+    if q != "" #only search if it's not silly
+      @users = User.where('name LIKE ?', "%#{q}%")
+    end
+    
+    render :template => "pages/find_friends"
   end
 end
