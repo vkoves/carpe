@@ -486,10 +486,11 @@ input.danger:hover
   border-bottom-right-radius: 5px;
   position: relative;
   top: 5px;
+  font-weight: bold;
 }
 .notice
 {
-  background-color: #4BDC4B;
+  background-color: #3EBB3E;
   color: white;
 }
 .alert
