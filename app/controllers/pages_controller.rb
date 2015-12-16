@@ -31,4 +31,19 @@ class PagesController < ApplicationController
       redirect_to user_session_path;
     end
   end
+  
+  def save_events #save events
+    text = params.to_s
+
+    params[:map].each do |key, obj|
+        evnt = Event.new();
+        evnt.name = obj["name"]
+        evnt.user = current_user
+        evnt.date = DateTime.parse(obj["datetime"])
+        evnt.category_id = obj["cat_id"].to_i
+        evnt.save
+    end
+
+    render :text => text
+  end
 end

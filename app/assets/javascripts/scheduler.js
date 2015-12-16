@@ -12,18 +12,6 @@ var curEvent;
 
 var readied = false;
 
-//No longer needed, as we check for ctrl on click
-$(window).keydown(function(evt) {
-  if (evt.which == 17) { // ctrl
-    //ctrlPressed = true;
-  }
-}).keyup(function(evt) {
-  if (evt.which == 17) { // ctrl
-    //ctrlPressed = false;
-  }
-});
-
-
 $(document).ready(function()
 {
 	if(!readied)
@@ -242,7 +230,8 @@ function addDrag(selector)
 			    if(key == 13)  // if enter key is pressed
 			    {
 					e.preventDefault();
-				    $(this).blur();  // lose focus	
+				    $(this).blur();  // lose focus
+				    pushEventInfo($(this).parent(),catBefore, $(this).parent().attr("evnt-temp-id")); //and save again
 			    }
 			});
 			
@@ -292,33 +281,6 @@ function addDrag(selector)
     		updateTime($(this), ui, true);
     	}
 	});
-}
-
-function pushEventInfo(elem, catBefore, eId) {
-	
-	// For some reason, these two lines are still important for cloned events.
-	// It's never great if you have to start your comment with "For some reason"...isn't it?
-	curEvnt = curEvent + 1; // Increments current event ID.
-	$(elem).children(".evnt-numID").html == curEvnt.toString();
-	
-	var dateE = $(elem).parent().siblings(".col-titler").children(".evnt-fulldate").html();
-	var event_obj ={element: elem, color: $(elem).css("background-color"), date: dateE};
-	currEventsMap[eId] = event_obj;
-	console.log(currEventsMap);
-	
-	// Start pushing to temporary data...starting with category we get from the passed in catBefore parameter.
-	//schItemCategory.push(catBefore);
-	//schItemColor.push($(elem).css("background-color"));
-	//schItemStart.push($(elem).children(".evnt-time").html());
-	//schItemNames.push($(elem).children(".evnt-title").text());
-	//schItemDate.push($(elem).parent().siblings(".col-titler").children(".evnt-fulldate").html().split(',')[0]);
-	
-	// Whereas the other lines actually split up the data (particularly useful later with POST requests),
-	// the following line pushes the entire HTML content of the schedule item.
-	// It's actually not too much, so it should not cause much drain here.
-	
-	//schItem.push(elem);
-	
 }
 
 function updateTime(elem, ui, resize) //if we're resizing, don't change the position
@@ -416,6 +378,30 @@ function addDates(referenceDate, refresh)
 	
 }
 
+function pushEventInfo(elem, catBefore, eId)
+{
+	var dateE = $(elem).parent().siblings(".col-titler").children(".evnt-fulldate").html();
+	var nameE = $(elem).children(".evnt-title").text();
+	var startTime = $(elem).children(".evnt-time").html();
+	var catId = $(elem).attr("data-id");	
+	var event_obj = {element: elem, date: dateE, datetime: dateE+" "+startTime, name: nameE, cat_id: catId};
+	currEventsMap[eId] = event_obj;
+	console.log(currEventsMap);
+	
+	// Start pushing to temporary data...starting with category we get from the passed in catBefore parameter.
+	//schItemCategory.push(catBefore);
+	//schItemColor.push($(elem).css("background-color"));
+	//schItemStart.push($(elem).children(".evnt-time").html());
+	//schItemNames.push($(elem).children(".evnt-title").text());
+	//schItemDate.push($(elem).parent().siblings(".col-titler").children(".evnt-fulldate").html().split(',')[0]);
+	
+	// Whereas the other lines actually split up the data (particularly useful later with POST requests),
+	// the following line pushes the entire HTML content of the schedule item.
+	// It's actually not too much, so it should not cause much drain here.
+	
+	//schItem.push(elem);
+}
+
 function popEvents() {
 	var repDates = [];
 	
@@ -456,13 +442,61 @@ function popEvents() {
 	}
 }
 
-function createCategory() {
+function removeEvent(event, elem)
+{
+	event.stopImmediatePropagation();
+	$(elem).parent().slideUp("normal", function() { $(this).remove(); } );
+	
+	var current = ($(elem).siblings(".evnt-numID").html());
+	
+	//schItemCategory[current] = "";
+	//schItemColor[current] = "";
+	//schItemStart[current] = "";
+	//schItemNames[current] = "";
+	//schItemDate[current] = "";
+	
+}
+
+function editEvent(event, elem)
+{
+	event.stopImmediatePropagation();
+	$(elem).siblings(".evnt-title").trigger('focus');
+	document.execCommand('selectAll',false,null);
+	$(elem).siblings(".sch-evnt-save").css("display","inline");
+}
+
+function saveEvents()
+{
+	//create a new hashmap with only the data we need to pass (excluse the HTML element basically)
+	var newEventsMap = {};
+	for (var eventIndex in currEventsMap) //do a foreach since this is a hashmap
+	{
+		eventObj = currEventsMap[eventIndex];
+		var event_obj = {date: eventObj.date, datetime: eventObj.datetime, name: eventObj.name, cat_id: eventObj.cat_id};
+		currEventsMap[eventIndex] = event_obj;
+	}
+		
+	var arr  = JSON.parse(JSON.stringify(currEventsMap));
+	$.ajax({
+	    url: "/save_events",
+	    type: "POST",
+	    data: {map: arr, text: "testificates"},
+	    success: function(resp)
+	    { 
+	    	console.log("Resp: \"" + resp + "\"");
+	    	console.log("Save complete.");
+	    }
+	});
+}
+
+function createCategory()
+{
 	window.location.href = './schedule?new=t&name=Untitled';
 	//window.location.href = './schedule';
 }
 
-function editCategory(event, elem, id, name, col){
-	
+function editCategory(event, elem, id, name, col)
+{
 		event.stopImmediatePropagation();
 		$(elem).siblings(".sch-evnt-editCat").css("display","none");
 		$(elem).siblings(".sch-evnt-saveCat").css("display","inline");
@@ -492,11 +526,13 @@ function editCategory(event, elem, id, name, col){
 	
 }
 
-function changeCategoryColor(event,elem,col) {
+function changeCategoryColor(event,elem,col)
+{
 	$(".catTopOverlay").css("background-color",col);
 }
 
-function saveCategory(event,elem,id) {
+function saveCategory(event,elem,id)
+{
 	window.location.href = './schedule?edit=t&id=' + id + '&name=' + $(".catOverlayTitle").html() + '&col=' + $(".catTopOverlay").css("background-color");
 }
 
@@ -508,28 +544,6 @@ function delCategory(event, elem, id)
 	//window.location.href = './schedule';
 }
 
-function removeEvent(event, elem)
-{
-	event.stopImmediatePropagation();
-	$(elem).parent().slideUp("normal", function() { $(this).remove(); } );
-	
-	var current = ($(elem).siblings(".evnt-numID").html());
-	
-	//schItemCategory[current] = "";
-	//schItemColor[current] = "";
-	//schItemStart[current] = "";
-	//schItemNames[current] = "";
-	//schItemDate[current] = "";
-	
-}
-
-function editEvent(event, elem)
-{
-	event.stopImmediatePropagation();
-	$(elem).siblings(".evnt-title").trigger('focus');
-	document.execCommand('selectAll',false,null);
-	$(elem).siblings(".sch-evnt-save").css("display","inline");
-}
 
 function showOverlay(elem)
 {

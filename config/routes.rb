@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   get "/search_users" => 'users#search'
   post "/deny_friend" => 'friendships#deny'
   post "/confirm_friend" => 'friendships#confirm'
+  post "/save_events" => 'pages#save_events'
   
   root 'home#index'
   

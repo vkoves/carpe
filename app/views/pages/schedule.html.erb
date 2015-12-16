@@ -31,6 +31,7 @@
 		&nbsp; 
 		<span class="sch-but sch-week-next" onclick="addDates(new Date(refDate.getYear()+1900,refDate.getMonth(),refDate.getDate()+7), true)">Next</span> 
 			<!-- <text> is not an actual tag, but this allows for direct styling and no excess spacing issues with <div> or <p> -->
+		<span onclick="saveEvents()">Save</span>
 	</div>
 	
 	<div id="sch-sidebar">
@@ -94,3 +95,8 @@
 		</div>
 	</div>
 </div>
+
+<script>
+	var js_obj = <%= raw current_user.events.to_json %>;
+	console.log(js_obj);
+</script>
