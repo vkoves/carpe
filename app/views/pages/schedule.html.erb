@@ -97,6 +97,19 @@
 </div>
 
 <script>
-	var js_obj = <%= raw current_user.events.to_json %>;
-	console.log(js_obj);
+	var eventsLoaded = <%= raw current_user.events.to_json %>;
+	
+	for(var i = 0; i < eventsLoaded.length; i++)
+	{
+		var evnt = eventsLoaded[i];
+		var catParent = $("#sch-tiles .sch-evnt[data-id='" + evnt["category_id"] + "']");
+		pushEventInfo(catParent.clone(), catParent.attr("data-id"), i);
+		var dateE = new Date("" + eventsLoaded[i].date);
+		console.log(dateE);
+		var dateString = monthNames[dateE.getMonth()] + " " + dateE.getDate() + ", " + dateE.getFullYear();
+		currEventsMap[i].date = dateString;
+	}
+	
+	console.log("EVENTS LOADED!");
+	console.log(eventsLoaded);
 </script>

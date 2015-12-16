@@ -12,6 +12,10 @@ var curEvent;
 
 var readied = false;
 
+
+var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+	"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
 $(document).ready(function()
 {
 	if(!readied)
@@ -322,8 +326,6 @@ function addDates(referenceDate, refresh)
 	var lastDateCurr = lastCurrMonth.getDate();
 	var lastDatePrev = lastPrevMonth.getDate();
 	var lastMonth = false;
-	var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-	"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 	var todayDate = new Date();
 	
 	
