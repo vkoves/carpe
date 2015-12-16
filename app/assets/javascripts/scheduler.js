@@ -276,15 +276,19 @@ function addDrag(selector)
 		}
 	});
 	
-	$(selector).resizable({
-    	handles: 'n, s',
-    	grid: [ 0, gridHeight ],
-    	containment: "parent",
-    	resize: function(event, ui)
-    	{
-    		updateTime($(this), ui, true);
-    	}
-	});
+	if(selector != "#sch-sidebar .sch-evnt")
+	{
+		console.log("SEL " + selector);
+		$(selector).resizable({
+	    	handles: 'n, s',
+	    	grid: [ 0, gridHeight ],
+	    	containment: "parent",
+	    	resize: function(event, ui)
+	    	{
+	    		updateTime($(this), ui, true);
+	    	}
+		});
+	}
 }
 
 function updateTime(elem, ui, resize) //if we're resizing, don't change the position
@@ -385,8 +389,17 @@ function pushEventInfo(elem, catBefore, eId)
 	var dateE = $(elem).parent().siblings(".col-titler").children(".evnt-fulldate").html();
 	var nameE = $(elem).children(".evnt-title").text();
 	var startTime = $(elem).children(".evnt-time").html();
+	var dateTime 
+	try
+	{
+		dateTime = new Date(dateE+" "+startTime).toISOString();
+	}
+	catch(err)
+	{
+		dateTime = "";
+	}
 	var catId = $(elem).attr("data-id");	
-	var event_obj = {element: elem, date: dateE, datetime: dateE+" "+startTime, name: nameE, cat_id: catId};
+	var event_obj = {element: elem, date: dateE, datetime: dateTime, name: nameE, cat_id: catId};
 	currEventsMap[eId] = event_obj;
 	console.log(currEventsMap);
 	
@@ -412,7 +425,6 @@ function popEvents() {
 		repDates.push($(col).children(".col-titler").children(".evnt-fulldate").html());
 	}); // Populate the date range array created above, so that we can match up what events have dates that fall in this range.
 	
-	console.log(repDates);
 	//console.log(schItem);
 
 
@@ -421,11 +433,8 @@ function popEvents() {
 		for (var eventIndex in currEventsMap) //do a foreach since this is a hashmap
 		{
 			eventObj = currEventsMap[eventIndex];
-			console.log(eventObj);
 			if (eventObj.date == repDates[i]) 
 			{
-				console.log(eventObj.date + " | " + repDates[i]);
-				
 				// So, this does not create a clone using the .clone() method...it was attempted before, though (the result was not optimal).
 				var currentElem = eventObj.element;
 				$(".sch-day-col:eq(" + i + ") .col-snap").append(currentElem);
@@ -434,14 +443,10 @@ function popEvents() {
 				$(".sch-evnt").css("left","0");
 				$(".sch-evnt").css("right","0");
 				//updateTime($(".sch-evnt"),$(".sch-day-col"));
-				addDrag(".sch-evnt"); // Re-enables the events to snap onto the date columns here.	
-			}
-			else
-			{
-				console.log(eventObj.date + " | " + repDates[i]);
 			}
 		}
 	}
+	addDrag(".col-snap .sch-evnt"); // Re-enables the events to snap onto the date columns here.	
 }
 
 function removeEvent(event, elem)
@@ -588,4 +593,34 @@ function inColumn(elem)
 		return true;
 	else
 		return false;
+}
+
+function placeInSchedule(elem, hours)
+{
+	$(elem).children(".sch-cat-icon").css('display','none');
+	var height = parseFloat($(elem).css("height"));
+	if((height+2)%gridHeight != 0)
+		$(elem).css("height", (gridHeight*3)-2);
+	$(elem).children(".evnt-time").show();
+	
+	
+	$(elem).children(".evnt-title").on("keydown",function(e){
+	    var key = e.keyCode || e.charCode;  // ie||others
+	    if(key == 13)  // if enter key is pressed
+	    {
+			e.preventDefault();
+		    $(this).blur();  // lose focus
+		    pushEventInfo($(this).parent(),$(this).parent().attr("data-id"), $(this).parent().attr("evnt-temp-id")); //and save again
+	    }
+	});
+	
+	$("#sch-tiles .evnt-desc").tooltip({
+		position: { my: "left+15 top", at: "left bottom"}
+	}); //toss a tooltip on the events text
+	
+	$(elem).css('position', 'absolute');
+	$(elem).css("margin-top","0px");
+	
+	var topVal = gridHeight*hours;
+	$(elem).css("top",topVal);
 }

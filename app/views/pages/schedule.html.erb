@@ -103,11 +103,17 @@
 	{
 		var evnt = eventsLoaded[i];
 		var catParent = $("#sch-tiles .sch-evnt[data-id='" + evnt["category_id"] + "']");
-		pushEventInfo(catParent.clone(), catParent.attr("data-id"), i);
-		var dateE = new Date("" + eventsLoaded[i].date);
+		var clone = catParent.clone();
+		console.log(eventsLoaded[i].date);
+		var dateE = new Date(eventsLoaded[i].date);
+		clone.children(".evnt-title").text(eventsLoaded[i].name); 
+		clone.children(".evnt-time").text(dateE.getHours() + ":" + dateE.getMinutes()).show();
+		pushEventInfo(clone, catParent.attr("data-id"), i);
 		console.log(dateE);
 		var dateString = monthNames[dateE.getMonth()] + " " + dateE.getDate() + ", " + dateE.getFullYear();
 		currEventsMap[i].date = dateString;
+		currEventsMap[i].datetime = eventsLoaded[i].date;
+		placeInSchedule(clone, dateE.getHours());
 	}
 	
 	console.log("EVENTS LOADED!");
