@@ -5,14 +5,8 @@ var ctrlPressed = false;
 var schHTML; // Instantiates schedule HTML variable, which will contain the "Mon-Sun" html on the main scheduler div.
 var refDate = new Date(); // Reference date for where the calendar is now, so that it can switch between weeks.
 
-
-var schItemNames = [];
-var schItemStart = [];
-var schItemDate = [];
-var schItemCategory = [];
-var schItemColor = [];
-
-var schItem = [];
+var currEventsMap = {};
+var eventTempId = 0; //the temp id
 
 var curEvent;
 
@@ -192,7 +186,12 @@ function addDrag(selector)
 				clone.css("z-index","0");
 				clone.children('.ui-resizable-handle').remove();
 				
+				//the clone needs a new temp id, but in reality, this is the clone
+				$(this).attr("evnt-temp-id", eventTempId);
+				eventTempId++;
 				
+				pushEventInfo($(this),$(this).attr("id"), $(this).attr("evnt-temp-id"));
+				pushEventInfo(clone,$(this).attr("id"), $(clone).attr("evnt-temp-id"));
 				
 				addDrag(clone);
 				$(clone).resizable({
@@ -205,7 +204,7 @@ function addDrag(selector)
 			    	}
 				});
 				
-				pushEventInfo(clone,$(this).attr("id"));
+				
 			}
 			else if(!ctrlPressed && $(this).parent().attr("id") == "sch-tiles") 
 			{
@@ -226,12 +225,13 @@ function addDrag(selector)
 				$(this).css("height", (gridHeight*3)-2);
 			$(this).children(".evnt-time").show();
 			
-			if($(this).css("opacity") == 1) //if opacity is zero, this thing was already in the schedule
+			if($(this).css("opacity") == 1) //if opacity is 1, this is a new event
 			{
 				$(this).children(".evnt-title").trigger('focus'); 
 				document.execCommand('selectAll',false,null); // Suggests to the user to change the schedule item title by making it editable upon drop here.
 				document.execCommand('delete',false,null); // Suggests to the user to change the schedule item title by making it editable upon drop here.
-				$(this).children(".evnt-title").trigger('focus');
+				$(this).attr("evnt-temp-id", eventTempId);
+				eventTempId++;
 			}
 			
 			$("#sch-tiles").html(sideHTML); //reset the sidebar
@@ -271,11 +271,10 @@ function addDrag(selector)
 			}
 			$(this).css("top",topVal);
 			
-			if ($(this).parent().offset()) {
-				
+			if ($(this).parent().offset()) 
+			{
 				$(this).attr("id",catBefore);
-				pushEventInfo(this,catBefore);
-				
+				pushEventInfo(this,catBefore, $(this).attr("evnt-temp-id"));
 			}
 		},
 		drag: function(event, ui)
@@ -285,24 +284,30 @@ function addDrag(selector)
 	});
 }
 
-function pushEventInfo(elem, catBefore) {
+function pushEventInfo(elem, catBefore, eId) {
 	
 	// For some reason, these two lines are still important for cloned events.
 	// It's never great if you have to start your comment with "For some reason"...isn't it?
 	curEvnt = curEvent + 1; // Increments current event ID.
 	$(elem).children(".evnt-numID").html == curEvnt.toString();
 	
+	var dateE = $(elem).parent().siblings(".col-titler").children(".evnt-fulldate").html();
+	var event_obj ={element: elem, color: $(elem).css("background-color"), date: dateE};
+	currEventsMap[eId] = event_obj;
+	console.log(currEventsMap);
+	
 	// Start pushing to temporary data...starting with category we get from the passed in catBefore parameter.
-	schItemCategory.push(catBefore);
-	schItemColor.push($(elem).css("background-color"));
-	schItemStart.push($(elem).children(".evnt-time").html());
-	schItemNames.push($(elem).children(".evnt-title").text());
-	schItemDate.push($(elem).parent().siblings(".col-titler").children(".evnt-fulldate").html().split(',')[0]);
+	//schItemCategory.push(catBefore);
+	//schItemColor.push($(elem).css("background-color"));
+	//schItemStart.push($(elem).children(".evnt-time").html());
+	//schItemNames.push($(elem).children(".evnt-title").text());
+	//schItemDate.push($(elem).parent().siblings(".col-titler").children(".evnt-fulldate").html().split(',')[0]);
 	
 	// Whereas the other lines actually split up the data (particularly useful later with POST requests),
 	// the following line pushes the entire HTML content of the schedule item.
 	// It's actually not too much, so it should not cause much drain here.
-	schItem.push(elem);
+	
+	//schItem.push(elem);
 	
 }
 
@@ -406,25 +411,36 @@ function popEvents() {
 	
 	$(".sch-day-col").each(function(index, col)
 	{
-		repDates.push($(col).children(".col-titler").children(".evnt-fulldate").html().split(',')[0]);
+		repDates.push($(col).children(".col-titler").children(".evnt-fulldate").html());
 	}); // Populate the date range array created above, so that we can match up what events have dates that fall in this range.
 	
-	console.log(schItem);
-	
-	for (var i = 0; i < repDates.length; i++) {
-		for (var j = 0; j < schItemCategory.length; j++) {
-			if (schItemDate[j] == repDates[i]) {
-				console.log(schItemDate[j] + " | " + repDates[i]);
-			
-			// So, this does not create a clone using the .clone() method...it was attempted before, though (the result was not optimal).
-			var currentElem = schItem[j];
-			$(".sch-day-col:eq(" + i + ") .col-snap").append(currentElem);
-			$(".sch-evnt").css("margin-left","auto");
-			$(".sch-evnt").css("margin-right","auto");
-			$(".sch-evnt").css("left","0");
-			$(".sch-evnt").css("right","0");
-			//updateTime($(".sch-evnt"),$(".sch-day-col"));
-			addDrag(".sch-evnt"); // Re-enables the events to snap onto the date columns here.	
+	console.log(repDates);
+	//console.log(schItem);
+
+
+	for (var i = 0; i < repDates.length; i++)
+	{
+		for (var eventIndex in currEventsMap) //do a foreach since this is a hashmap
+		{
+			eventObj = currEventsMap[eventIndex];
+			console.log(eventObj);
+			if (eventObj.date == repDates[i]) 
+			{
+				console.log(eventObj.date + " | " + repDates[i]);
+				
+				// So, this does not create a clone using the .clone() method...it was attempted before, though (the result was not optimal).
+				var currentElem = eventObj.element;
+				$(".sch-day-col:eq(" + i + ") .col-snap").append(currentElem);
+				$(".sch-evnt").css("margin-left","auto");
+				$(".sch-evnt").css("margin-right","auto");
+				$(".sch-evnt").css("left","0");
+				$(".sch-evnt").css("right","0");
+				//updateTime($(".sch-evnt"),$(".sch-day-col"));
+				addDrag(".sch-evnt"); // Re-enables the events to snap onto the date columns here.	
+			}
+			else
+			{
+				console.log(eventObj.date + " | " + repDates[i]);
 			}
 		}
 	}
@@ -444,14 +460,14 @@ function editCategory(event, elem, id, name, col){
 		document.execCommand('selectAll',false,null);
 		if($(".futureColors").children().length == 0) //only add swatches if there are none
 		{
-		$(".futureColors").append("<div class='color-swatch' style='background-color: red;' onclick='changeCategoryColor(event,this,\"Red\")'></div> ");
-		$(".futureColors").append("<div class='color-swatch' style='background-color:orange;' onclick='changeCategoryColor(event,this,\"Orange\")'></div> ");
-		$(".futureColors").append("<div class='color-swatch' style='background-color:yellow;' onclick='changeCategoryColor(event,this,\"Yellow\")'></div> ");
-		$(".futureColors").append("<div class='color-swatch' style='background-color:green;' onclick='changeCategoryColor(event,this,\"Green\")'></div><br/>");
-		$(".futureColors").append("<div class='color-swatch' style='background-color:blue;' onclick='changeCategoryColor(event,this,\"Blue\")'></div> ");
-		$(".futureColors").append("<div class='color-swatch' style='background-color:indigo;' onclick='changeCategoryColor(event,this,\"Indigo\")'></div> ");
-		$(".futureColors").append("<div class='color-swatch' style='background-color:violet;' onclick='changeCategoryColor(event,this,\"Violet\")'></div> ");
-		$(".futureColors").append("<div class='color-swatch' style='background-color:silver;' onclick='changeCategoryColor(event,this,\"Silver\")'></div>");
+			$(".futureColors").append("<div class='color-swatch' style='background-color: red;' onclick='changeCategoryColor(event,this,\"Red\")'></div> ");
+			$(".futureColors").append("<div class='color-swatch' style='background-color:orange;' onclick='changeCategoryColor(event,this,\"Orange\")'></div> ");
+			$(".futureColors").append("<div class='color-swatch' style='background-color:yellow;' onclick='changeCategoryColor(event,this,\"Yellow\")'></div> ");
+			$(".futureColors").append("<div class='color-swatch' style='background-color:green;' onclick='changeCategoryColor(event,this,\"Green\")'></div><br/>");
+			$(".futureColors").append("<div class='color-swatch' style='background-color:blue;' onclick='changeCategoryColor(event,this,\"Blue\")'></div> ");
+			$(".futureColors").append("<div class='color-swatch' style='background-color:indigo;' onclick='changeCategoryColor(event,this,\"Indigo\")'></div> ");
+			$(".futureColors").append("<div class='color-swatch' style='background-color:violet;' onclick='changeCategoryColor(event,this,\"Violet\")'></div> ");
+			$(".futureColors").append("<div class='color-swatch' style='background-color:silver;' onclick='changeCategoryColor(event,this,\"Silver\")'></div>");
 		}
 		var nameR = name;
 		
@@ -489,11 +505,11 @@ function removeEvent(event, elem)
 	
 	var current = ($(elem).siblings(".evnt-numID").html());
 	
-	schItemCategory[current] = "";
-	schItemColor[current] = "";
-	schItemStart[current] = "";
-	schItemNames[current] = "";
-	schItemDate[current] = "";
+	//schItemCategory[current] = "";
+	//schItemColor[current] = "";
+	//schItemStart[current] = "";
+	//schItemNames[current] = "";
+	//schItemDate[current] = "";
 	
 }
 
@@ -503,7 +519,6 @@ function editEvent(event, elem)
 	$(elem).siblings(".evnt-title").trigger('focus');
 	document.execCommand('selectAll',false,null);
 	$(elem).siblings(".sch-evnt-save").css("display","inline");
-	
 }
 
 function showOverlay(elem)
