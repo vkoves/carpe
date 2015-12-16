@@ -13,6 +13,7 @@ class User < ActiveRecord::Base
 	validates_presence_of :name
 
 	has_many :categories
+	has_many :events
 	
 	def user_avatar(size) #returns a url to the avatar with the width in pixels
 	 if image_url
