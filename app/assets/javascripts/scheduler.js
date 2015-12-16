@@ -282,6 +282,16 @@ function addDrag(selector)
 			updateTime($(this), ui);
 		}
 	});
+	
+	$(selector).resizable({
+    	handles: 'n, s',
+    	grid: [ 0, gridHeight ],
+    	containment: "parent",
+    	resize: function(event, ui)
+    	{
+    		updateTime($(this), ui, true);
+    	}
+	});
 }
 
 function pushEventInfo(elem, catBefore, eId) {
