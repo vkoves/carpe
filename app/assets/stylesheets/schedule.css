@@ -459,13 +459,13 @@
 	width:100%;
 }
 /* Let's get this party started */
-::-webkit-scrollbar {
+#sch-main::-webkit-scrollbar, #sch-tiles::-webkit-scrollbar {
     width: 14px;
     height: 14px;
 }
  
 /* Track */
-::-webkit-scrollbar-track {
+#sch-main::-webkit-scrollbar-track, #sch-tiles::-webkit-scrollbar-track {
     /* -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); */
     background: rgba(100,100,100,0.2);
     -webkit-border-radius: 12px;
@@ -473,12 +473,12 @@
 }
  
 /* Handle */
-::-webkit-scrollbar-thumb {
+#sch-main::-webkit-scrollbar-thumb, #sch-tiles::-webkit-scrollbar-thumb {
     -webkit-border-radius: 10px;
     border-radius: 10px;
     background: rgba(255,140,43,0.8); 
 }
-::-webkit-scrollbar-thumb:window-inactive {
+#sch-main::-webkit-scrollbar-thumb:window-inactive {
 	/* background: rgba(255,0,0,0.4); */
 }
 
