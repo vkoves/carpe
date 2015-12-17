@@ -437,6 +437,7 @@ function removeEvent(event, elem)
 
 function editEvent(event, elem)
 {
+	$(elem).siblings(".evnt-title").attr("contenteditable", "true");
 	event.stopImmediatePropagation();
 	$(elem).siblings(".evnt-title").trigger('focus');
 	document.execCommand('selectAll',false,null);
