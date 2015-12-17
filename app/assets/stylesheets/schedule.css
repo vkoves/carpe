@@ -33,6 +33,7 @@
 
 .sch-evnt
 {
+	transition: box-shadow 0.3s, border-color: 0.3s;
 	position: absolute;
 	width: 190px;
 	height: 88px; /* This should be 90px - borders top and bottom */
@@ -51,6 +52,12 @@
 .col-snap .sch-evnt:hover > .sch-evnt-icon
 {
 	display: block;
+	opacity: 1;
+}
+.col-snap .sch-evnt:hover
+{
+	box-shadow: 0px 0px 5px rgb(0, 0, 0);
+	border-color: rgba(0,0,0,0);
 }
 #sidebar-title {
 	font-size:18px;
@@ -64,8 +71,9 @@
 }
 .sch-evnt-icon
 {
-	display: none;
 	position: absolute;
+	opacity: 0;
+	transition: opacity 0.3s;
 	right: 3px;
 	top: 3px;
 	/* background: white; */

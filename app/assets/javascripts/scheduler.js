@@ -233,6 +233,7 @@ function addDrag(selector)
 			
 			if($(this).css("opacity") == 1) //if opacity is 1, this is a new event
 			{
+				$(this).children(".evnt-title").attr("contenteditable", "true");
 				$(this).children(".evnt-title").trigger('focus'); 
 				document.execCommand('selectAll',false,null); // Suggests to the user to change the schedule item title by making it editable upon drop here.
 				document.execCommand('delete',false,null); // Suggests to the user to change the schedule item title by making it editable upon drop here.
@@ -560,7 +561,8 @@ function delCategory(event, elem, id)
 
 function showOverlay(elem)
 {
-	if(inColumn(elem))
+	var editingEvent = $(document.activeElement).hasClass("evnt-title");
+	if(inColumn(elem) && !editingEvent)
 	{
 		$(".ui-widget-overlay").show();
 		$(".overlay-box").show();

@@ -39,7 +39,7 @@
 			
 		<div id="sch-tiles">
 			<% current_user.categories.each_with_index do |cat, index| %>
-				<div class="sch-evnt category" data-id="<%= cat.id %>" style="background-color:<%= cat.color %>; top: <%= 105*index %>px;">
+				<div class="sch-evnt category" data-id="<%= cat.id %>" style="background-color:<%= cat.color %>; top: <%= 105*index %>px;" onclick="showOverlay($(this))">
 					<div class="evnt-time">7:30</div>
 					<div class="evnt-numID">0</div>
 					<div class="evnt-title center-text dis-sel" contenteditable="false" onclick="showOverlay($(this).parent())"><%= cat.name %></div>
