@@ -33,14 +33,13 @@
 
 .sch-evnt
 {
-	transition: box-shadow 0.3s, border-color: 0.3s;
+	transition: box-shadow 0.3s, border-color 0.3s;
 	position: absolute;
 	width: 190px;
 	height: 88px; /* This should be 90px - borders top and bottom */
 	background: #BDBDBD;
 	left: 0;
 	right: 0;
-	/* border-radius: 5px;*/
 	margin-top: 10px;
 	font-size: 16px;
 	overflow: hidden;
