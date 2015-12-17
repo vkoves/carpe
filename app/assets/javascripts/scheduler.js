@@ -111,6 +111,20 @@ function colDroppable()
 //the dragging function
 function addDrag(selector)
 {
+	$(".evnt-title").on("keydown",function(e){
+	    var key = e.keyCode || e.charCode;  // ie||others
+	    if(key == 13)  // if enter key is pressed
+	    {
+			e.preventDefault();
+		    $(this).blur();  // lose focus
+		    pushEventInfo($(this).parent(),catBefore, $(this).parent().attr("evnt-temp-id")); //and save again
+	    }
+	})
+	.focusout(function() { //so that clicking outsinde an event title also saves
+		pushEventInfo($(this).parent(),catBefore, $(this).parent().attr("evnt-temp-id")); //and save again
+	});
+	
+	
 	var newSchItem = false;
 	var catBefore = "";
 	
@@ -228,16 +242,6 @@ function addDrag(selector)
 			
 			$("#sch-tiles").html(sideHTML); //reset the sidebar
 			$(this).css("opacity", 1);
-			
-			$(".evnt-title").on("keydown",function(e){
-			    var key = e.keyCode || e.charCode;  // ie||others
-			    if(key == 13)  // if enter key is pressed
-			    {
-					e.preventDefault();
-				    $(this).blur();  // lose focus
-				    pushEventInfo($(this).parent(),catBefore, $(this).parent().attr("evnt-temp-id")); //and save again
-			    }
-			});
 			
 			$("#sch-tiles .evnt-desc").tooltip({
 				position: { my: "left+15 top", at: "left bottom"}
@@ -384,39 +388,6 @@ function addDates(referenceDate, refresh)
 	
 }
 
-function pushEventInfo(elem, catBefore, eId)
-{
-	var dateE = $(elem).parent().siblings(".col-titler").children(".evnt-fulldate").html();
-	var nameE = $(elem).children(".evnt-title").text();
-	var startTime = $(elem).children(".evnt-time").html();
-	var dateTime 
-	try
-	{
-		dateTime = new Date(dateE+" "+startTime).toISOString();
-	}
-	catch(err)
-	{
-		dateTime = "";
-	}
-	var catId = $(elem).attr("data-id");	
-	var event_obj = {element: elem, date: dateE, datetime: dateTime, name: nameE, cat_id: catId};
-	currEventsMap[eId] = event_obj;
-	console.log(currEventsMap);
-	
-	// Start pushing to temporary data...starting with category we get from the passed in catBefore parameter.
-	//schItemCategory.push(catBefore);
-	//schItemColor.push($(elem).css("background-color"));
-	//schItemStart.push($(elem).children(".evnt-time").html());
-	//schItemNames.push($(elem).children(".evnt-title").text());
-	//schItemDate.push($(elem).parent().siblings(".col-titler").children(".evnt-fulldate").html().split(',')[0]);
-	
-	// Whereas the other lines actually split up the data (particularly useful later with POST requests),
-	// the following line pushes the entire HTML content of the schedule item.
-	// It's actually not too much, so it should not cause much drain here.
-	
-	//schItem.push(elem);
-}
-
 function popEvents() {
 	var repDates = [];
 	
@@ -454,7 +425,7 @@ function removeEvent(event, elem)
 	event.stopImmediatePropagation();
 	$(elem).parent().slideUp("normal", function() { $(this).remove(); } );
 	
-	var current = ($(elem).siblings(".evnt-numID").html());
+	var eId = $(elem).attr("evnt-temp-id");
 	
 	//schItemCategory[current] = "";
 	//schItemColor[current] = "";
@@ -472,6 +443,40 @@ function editEvent(event, elem)
 	$(elem).siblings(".sch-evnt-save").css("display","inline");
 }
 
+function pushEventInfo(elem, catBefore, eId)
+{
+	var dateE = $(elem).parent().siblings(".col-titler").children(".evnt-fulldate").html();
+	var nameE = $(elem).children(".evnt-title").text();
+	var startTime = $(elem).children(".evnt-time").html();
+	var eventId = $(elem).attr("event-id");
+	var dateTime;
+	try
+	{
+		dateTime = new Date(dateE+" "+startTime).toISOString();
+	}
+	catch(err)
+	{
+		dateTime = "";
+	}
+	var catId = $(elem).attr("data-id");	
+	var event_obj = {element: elem, date: dateE, datetime: dateTime, name: nameE, cat_id: catId, event_id: eventId};
+	currEventsMap[eId] = event_obj;
+	console.log(currEventsMap);
+	
+	// Start pushing to temporary data...starting with category we get from the passed in catBefore parameter.
+	//schItemCategory.push(catBefore);
+	//schItemColor.push($(elem).css("background-color"));
+	//schItemStart.push($(elem).children(".evnt-time").html());
+	//schItemNames.push($(elem).children(".evnt-title").text());
+	//schItemDate.push($(elem).parent().siblings(".col-titler").children(".evnt-fulldate").html().split(',')[0]);
+	
+	// Whereas the other lines actually split up the data (particularly useful later with POST requests),
+	// the following line pushes the entire HTML content of the schedule item.
+	// It's actually not too much, so it should not cause much drain here.
+	
+	//schItem.push(elem);
+}
+
 function saveEvents()
 {
 	//create a new hashmap with only the data we need to pass (excluse the HTML element basically)
@@ -479,11 +484,11 @@ function saveEvents()
 	for (var eventIndex in currEventsMap) //do a foreach since this is a hashmap
 	{
 		eventObj = currEventsMap[eventIndex];
-		var event_obj = {date: eventObj.date, datetime: eventObj.datetime, name: eventObj.name, cat_id: eventObj.cat_id};
-		currEventsMap[eventIndex] = event_obj;
+		var event_obj = {date: eventObj.date, datetime: eventObj.datetime, name: eventObj.name, cat_id: eventObj.cat_id, event_id: eventObj.event_id};
+		newEventsMap[eventIndex] = event_obj;
 	}
 		
-	var arr  = JSON.parse(JSON.stringify(currEventsMap));
+	var arr  = JSON.parse(JSON.stringify(newEventsMap));
 	$.ajax({
 	    url: "/save_events",
 	    type: "POST",

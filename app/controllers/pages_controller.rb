@@ -36,7 +36,11 @@ class PagesController < ApplicationController
     text = params.to_s
 
     params[:map].each do |key, obj|
-        evnt = Event.new();
+        if(obj["event_id"])
+          evnt = Event.find(obj["event_id"].to_i)
+        else
+          evnt = Event.new();
+        end
         evnt.name = obj["name"]
         evnt.user = current_user
         evnt.date = DateTime.parse(obj["datetime"])

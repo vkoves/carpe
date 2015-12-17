@@ -108,14 +108,16 @@
 		var dateE = new Date(eventsLoaded[i].date);
 		clone.children(".evnt-title").text(eventsLoaded[i].name); 
 		clone.children(".evnt-time").text(dateE.getHours() + ":" + dateE.getMinutes()).show();
+		clone.attr("event-id", eventsLoaded[i].id);
 		pushEventInfo(clone, catParent.attr("data-id"), i);
 		console.log(dateE);
 		var dateString = monthNames[dateE.getMonth()] + " " + dateE.getDate() + ", " + dateE.getFullYear();
 		currEventsMap[i].date = dateString;
 		currEventsMap[i].datetime = eventsLoaded[i].date;
 		placeInSchedule(clone, dateE.getHours());
+		
+		eventTempId++;
 	}
 	
-	console.log("EVENTS LOADED!");
-	console.log(eventsLoaded);
+	console.log(currEventsMap);
 </script>
