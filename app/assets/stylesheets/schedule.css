@@ -321,11 +321,13 @@
 	padding: 3px;
 	border-radius: 5px;
 	width: 100px;
-	border-bottom: solid 2px #646464;
+	border-bottom: solid 3px #646464;
+	cursor: pointer;
 }
 
 .sch-but:hover {
 	margin-top: 1px;
+	border-width: 2px;
 	background-color: #DEDEDE;
 }
 
@@ -360,6 +362,7 @@
 	height:24px;
 	bottom:0px;
 	position:absolute;
+	cursor: pointer;
 }
 
 .cat-add:hover {
