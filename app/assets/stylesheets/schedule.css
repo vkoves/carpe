@@ -43,7 +43,8 @@
 	margin-top: 10px;
 	font-size: 16px;
 	overflow: hidden;
-	/* Box sizing to make the borders on the inside 
+	cursor: grab;
+	cursor: move;	/* Box sizing to make the borders on the inside 
 	box-sizing:border-box;
 	-moz-box-sizing:border-box;
 	-webkit-box-sizing:border-box; */
