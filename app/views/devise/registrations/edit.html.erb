@@ -34,16 +34,16 @@
     <%= f.password_field :current_password, class: "text-input", autocomplete: "off" %>
   </div>
 
-  <div class="actions">
     <%= f.submit "Update" %>
-  </div>
 <% end %>
 
+<div class="cancel-box">
 <h3 class="no-bold zero-bot">Cancel my account</h3>
 
 <p class="zero-bot" style="margin-top: 10px;">Unhappy? 
 	<%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, :class => "danger" %>
 </p>
+</div>
 
 <div class="link-default">
 	<%= link_to :back, :class=>"default" do %>

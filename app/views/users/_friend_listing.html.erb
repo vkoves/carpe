@@ -1,8 +1,13 @@
 <h2 class="no-bold">Friends
 	<% if current_user and !@profile %>
 		<span style="font-size: 18px;">(
-			<a href="?p=mutual_friends" class="normal">
-				<%= current_user.mutual_friends(@user).count %> Mutual</a> )
+			<% mut = current_user.mutual_friends(@user).count %>
+			<% if mut > 0 #only link if there are some %>
+				<a href="?p=mutual_friends" class="normal">	<%= mut %> Mutual </a>
+			<% else %>
+				<%= mut %> Mutual
+			<% end %>
+			)
 		</span>
 	<% end %>
 </h2>

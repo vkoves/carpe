@@ -303,6 +303,19 @@ label
     color: white;
     font-weight: bold;
 }
+.cancel-box
+{
+	background-color: #FFB2B2;
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 10px;
+    padding: 5px 0px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    color: #1D1D1D;
+    border: dashed red 2px;
+}
 
 /* General page things */
 .page-titler
@@ -380,17 +393,21 @@ a.default.green *:hover
 
 input[type="submit"]
 {
-  font-family: 'Open Sans', sans-serif;
-  background: none;
-  border: none;
-  color: orange;
-  font-size: 20px;
-  margin-top: 5px;
-  cursor: pointer;
+	font-family: 'Open Sans', sans-serif;
+	border: none;
+	color: white;
+	font-size: 20px;
+	margin-top: 10px;
+	cursor: pointer;
+	background: orange;
+	padding: 3px 15px 3px 15px;
+	border-radius: 4px;
+	font-weight: 600;
+	transition: background 0.3s;
 }
 input[type="submit"]:hover
 {
-  color: #FF8500;
+	background: #FFC14E;
 }
 
 input.danger
