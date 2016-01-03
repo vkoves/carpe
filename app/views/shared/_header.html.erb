@@ -19,7 +19,8 @@
 			<%= image_tag "bellg.svg", class: "bell" %>
 		</div>
 		<div id="notif-panel">
-			<% if notif.size > 0%>
+			<% if notif.size > 0 %>
+				Friend Requests
 				<% notif.each do |n| %>
 					<div class="notif">
 						<a href="/u/<%= n.user_id %>">
