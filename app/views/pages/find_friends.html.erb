@@ -35,7 +35,11 @@
 		<div class="avatar">
 			<a href="/u/<%= user.id %>"><img src="<%= user.user_avatar(100) %>"></a>
 		</div>
-		<div class="name"><%= user.name %></div>
+		<div class="name">
+			<%= user.name %><br>
+			<% mut = current_user.mutual_friends(user).count %>
+			<%= mut %> mutual
+		</div>
 		<% if current_user and current_user != user %>
 			<% status = current_user.friend_status(user) %>
 			<% if status == nil #not friends %>

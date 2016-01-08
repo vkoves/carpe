@@ -3,13 +3,21 @@
 		<div id="header-mob-menu"><%= image_tag "menu.svg", :width => "35" %></div>
 		<div id="mobile-menu">
 			<div><a href="/">Home</a></div>
-			<div><a href="/schedule">My Schedule</a></div>
+			<% if current_user %>
+				<div><a href="/schedule">My Schedule</a></div>
+			<% end %>
 		</div>
 		<span class="carpe-font" id="header-logo">
 			<a href="/"><%= image_tag "toplogo.png", :class => "carpeheader" %></a>
 		</span>
 	</div>
-	<span class="header-text"> &nbsp; <a href="/">Home</a> &nbsp; &nbsp; <a href="/schedule">My Schedule</a></span>
+	<span class="header-text">
+		&nbsp; 
+		<a href="/">Home</a> &nbsp; &nbsp; 
+		<% if current_user %>
+			<a href="/schedule">My Schedule</a>
+		<% end %>
+	</span>
 	<% if current_user %>
 		<div class="bell-hold">
 			<% notif = current_user.inverse_friendships.where(:confirmed => nil) %>
@@ -19,7 +27,8 @@
 			<%= image_tag "bellg.svg", class: "bell" %>
 		</div>
 		<div id="notif-panel">
-			<% if notif.size > 0%>
+			<% if notif.size > 0 %>
+				Friend Requests
 				<% notif.each do |n| %>
 					<div class="notif">
 						<a href="/u/<%= n.user_id %>">

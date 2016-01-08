@@ -15,6 +15,9 @@ class User < ActiveRecord::Base
 	has_many :categories
 	has_many :events
 	
+	def destroy
+	end
+	
 	def user_avatar(size) #returns a url to the avatar with the width in pixels
 	 if image_url
 	   return image_url.split("?")[0] + "?sz=" + size.to_s

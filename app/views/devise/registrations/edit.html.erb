@@ -17,6 +17,10 @@
     <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
   <% end %>
 
+<% if current_user.provider %>
+	<br>
+	Since you are logged in with another provider, you don't have to give your password to make changes. <br>
+<% else %>
   <div class="field">
     <%= f.label :password %> <br>
     <!--<i>(leave blank if you don't want to change it)</i><br>-->
@@ -33,6 +37,7 @@
     <!-- <i>(we need your current password to confirm your changes)</i><br> -->
     <%= f.password_field :current_password, class: "text-input", autocomplete: "off" %>
   </div>
+<% end %>
 
     <%= f.submit "Update" %>
 <% end %>
