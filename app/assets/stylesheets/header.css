@@ -1,0 +1,248 @@
+/* Header CSS */
+
+#header-logo {
+  float: left;
+  height: 100%;
+  position: relative;
+}
+.header-logintext {
+	top:-5px;
+	position:absolute;
+}
+.header-main
+{
+	background: rgb(242, 242, 242);
+	color: rgb(200, 200, 200);
+	height: 50px;
+	font-size: 20px;
+	text-align: left;
+}
+.header-text {
+	padding-top:10px;
+	left:150px;
+	position:absolute;
+	white-space: nowrap;
+  overflow: hidden;
+  width: 50%;
+  transition: width 0.5s, opacity 0.5s;
+}
+.header-logintext {
+	padding-top: 14px;
+	right:10px;
+	width:400px;
+	text-align:right;
+	position:absolute;
+}
+.header-main a
+{
+	color: rgb(106, 106, 106);
+	text-decoration: none;
+	font-size: 18px;
+	transition: color 0.2s;	
+}
+.header-main a:hover
+{
+	color: orange;
+}
+
+#user-name-panel
+{
+	float: right;
+	position: relative;
+ 	right: 0px;
+ 	padding-right: 20px;
+ 	padding-left: 10px;
+ 	height: 50px;
+ 	cursor: pointer;
+}
+#user-panel
+{
+	display: none;
+	position: absolute;
+	right: 0px;
+	top: 50px;
+	height: 110px;
+	width: 270px;
+	z-index: 10;
+	background-color: rgb(230, 230, 230);
+	text-align:center;
+	padding:10px 0px;
+	margin-bottom:10px;
+}
+#user-panel div
+{
+	padding: 5px 10px 5px 10px;
+	width: 250px;
+	margin-left: auto;
+	margin-right: auto;
+	transition: background 0.2s;
+}
+#user-panel div:hover
+{
+	background: white;
+}
+#user-panel div:hover > a
+{
+	color: orange;
+}
+#user-avatar
+{
+	float: right;
+    position: relative;
+    height: 100%;
+    margin-left: 10px;
+}
+#user-avatar img:hover
+{
+	box-shadow: 0px 0px 3px grey;
+}
+#user-avatar img
+{
+	height: 80%;
+    min-width: 40px;
+	border-radius: 35px;
+	border: solid orange 2px;
+	margin-top: 7%;
+}
+#user-email
+{
+	float: left;
+	position: absolute;
+    top: 24px;
+    color: grey;
+    right: 80px;
+    font-size: 13px;
+}
+#menu-holder
+{
+  position: relative;
+  left: -35px;
+  transition: left 0.5s;
+  height: 100%;
+  float: left;
+}
+.carpeheader {
+	height:100%;
+}
+#header-mob-menu
+{
+  float: left;
+  position: relative;
+  background-color: #ED7D31;
+  height: 50px;
+  width: 65px;
+  margin-right: -30px;
+  cursor: pointer;
+  overflow: hidden;
+  left: -10px;
+  transition: left 0.25s;
+}
+#header-mob-menu img
+{
+	position: relative;
+	left: 10px;
+	top: 7px;
+	z-index: 1;
+}
+#mobile-menu
+{
+  display: none;
+  position: absolute;
+  z-index: 1;
+  top: 50px;
+  background-color: #FF8C3D;
+  width: 113px;
+  height: 80px;
+  text-align: center;
+  transition: width 0.5s;
+}
+#mobile-menu div{
+  padding: 5px;
+}
+#mobile-menu a{
+  color: white;
+}
+/* notification stuffz */
+.bell-hold
+{
+	position: absolute;
+	top: 9px;
+	right: 240px;
+	width: 25px;
+	height: 25px;
+	padding: 5px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+.bell-hold img{width: 25px;}
+.bell-hold:hover
+{
+	background-color: #D0D0D0;
+}
+#notif-panel
+{
+	position: absolute;
+    width: 350px;
+    top: 50px;
+    right: 15px;
+	background: rgb(230, 230, 230);
+	display: none;	
+	z-index: 1;
+	padding: 5px 5px 5px 10px;
+	color: rgb(106, 106, 106);
+}
+#notif-panel .notif #user-avatar img
+{
+	height: 100%;
+	min-width: 0px;
+	margin-top: 0px;
+}
+#notif-panel .notif #user-avatar
+{
+	float: left;
+	margin-left: 0px;
+	margin-right: 5px;
+}
+.bell-hold #num
+{
+	position: absolute;
+    border-radius: 100%;
+    background-color: orange;
+    width: 16px;
+    height: 15px;
+    font-size: 11px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    top: 20px;
+    left: 22px;
+    padding-bottom: 2px;
+    padding-right: 1px;
+}
+#notif-panel .notif{padding: 3px 0px;height: 34px;}
+#notif-panel span
+{
+	float: left;
+	font-size: 18px;
+	position: relative;
+	top: 5px;
+}
+#notif-panel .confirm, #notif-panel .deny
+{
+	width: 30px;
+    border: solid 2px white;
+    height: 30px;
+    border-radius: 100%;
+    display: inline-block;
+    float: right;
+}
+#notif-panel .confirm
+{
+	background-color: #00AF00;
+	margin-left: 5px;
+}
+#notif-panel .deny
+{
+	background-color: #FF4242;
+}
+/* END HEADER CSS */
