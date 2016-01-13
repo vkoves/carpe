@@ -1,6 +1,8 @@
 class PagesController < ApplicationController
   def schedule
     if current_user
+      @user = current_user
+      
       if params[:new] == "t"
         newCat = Category.new
         newCat.user = current_user #set the user to the logged in user

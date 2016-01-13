@@ -138,6 +138,9 @@ function colDroppable()
 //the dragging function
 function addDrag(selector)
 {
+	if(readOnly)
+		return;
+	
 	$(".evnt-title").on("keydown",function(e){
 	    var key = e.keyCode || e.charCode;  // ie||others
 	    if(key == 13)  // if enter key is pressed
