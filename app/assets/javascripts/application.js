@@ -18,7 +18,7 @@
 //= require jquery.ui.touch-punch.min
 
 var ready = function() {
-	console.log("Ready" + window.location.href );
+	console.log("Ready " + window.location.href );
 	$("#user-name-panel").click(function(){
 		$("#user-panel").slideToggle(300);
 		$("#notif-panel").slideUp(300);
@@ -32,7 +32,8 @@ var ready = function() {
 	});
 };
 
-$(window).resize(function(){
+$(window).resize(function()
+{
 	if($( window ).width() > 660)
 		$("#mobile-menu").slideUp(300);
 });

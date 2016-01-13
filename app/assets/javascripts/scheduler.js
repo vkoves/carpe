@@ -16,10 +16,36 @@ var readied = false;
 var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
 	"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-$(document).ready(function()
+$(document).ready(scheduleReady);
+$(document).on('page:load', scheduleReady);
+
+function scheduleReady()
 {
 	if(!readied)
 	{
+		for(var i = 0; i < eventsLoaded.length; i++)
+		{
+			var evnt = eventsLoaded[i];
+			var catParent = $("#sch-tiles .sch-evnt[data-id='" + evnt["category_id"] + "']");
+			var clone = catParent.clone();
+			console.log(eventsLoaded[i].date);
+			var dateE = new Date(eventsLoaded[i].date);
+			clone.children(".evnt-title").text(eventsLoaded[i].name); 
+			clone.children(".evnt-time").text(dateE.getHours() + ":" + dateE.getMinutes()).show();
+			clone.attr("event-id", eventsLoaded[i].id);
+			pushEventInfo(clone, catParent.attr("data-id"), i);
+			console.log(dateE);
+			var dateString = monthNames[dateE.getMonth()] + " " + dateE.getDate() + ", " + dateE.getFullYear();
+			currEventsMap[i].date = dateString;
+			currEventsMap[i].datetime = eventsLoaded[i].date;
+			placeInSchedule(clone, dateE.getHours());
+			
+			eventTempId++;
+		}
+		
+		console.log("Events loaded!");
+		
+		console.log("Readying schedule");
 		setTitles();
 		
 		curEvent = 0;
@@ -54,8 +80,9 @@ $(document).ready(function()
 		
 		addDates(new Date(), false);
 		readied = true;
+		console.log("Schedule ready!");
 	}
-});
+}
 
 function colDroppable()
 {
@@ -344,6 +371,7 @@ function addDates(referenceDate, refresh)
 	
 	if(refresh)
 	{
+		console.log("REFRESHING!");
 		$("#sch-days").html(schHTML); // Refresh the layout so that we can properly prepend and append text below here
 		colDroppable();
 	}
@@ -386,10 +414,13 @@ function addDates(referenceDate, refresh)
 	});
 	
 	popEvents(); // After refreshing the dates, populate the...er...schedule items for this week. As you can see, the terminology still confuses some.
-	
 }
 
-function popEvents() {
+function popEvents()
+{
+	console.log("Populating events");
+	console.log(currEventsMap);
+	
 	var repDates = [];
 	
 	$(".sch-day-col").each(function(index, col)
@@ -433,7 +464,6 @@ function removeEvent(event, elem)
 	//schItemStart[current] = "";
 	//schItemNames[current] = "";
 	//schItemDate[current] = "";
-	
 }
 
 function editEvent(event, elem)
@@ -511,33 +541,31 @@ function createCategory()
 
 function editCategory(event, elem, id, name, col)
 {
-		event.stopImmediatePropagation();
-		$(elem).siblings(".sch-evnt-editCat").css("display","none");
-		$(elem).siblings(".sch-evnt-saveCat").css("display","inline");
-		$(elem).siblings(".catOverlayTitle").trigger('focus');
-		document.execCommand('selectAll',false,null);
-		if($(".futureColors").children().length == 0) //only add swatches if there are none
-		{
-			$(".futureColors").append("<div class='color-swatch' style='background-color: red;' onclick='changeCategoryColor(event,this,\"Red\")'></div> ");
-			$(".futureColors").append("<div class='color-swatch' style='background-color:orange;' onclick='changeCategoryColor(event,this,\"Orange\")'></div> ");
-			$(".futureColors").append("<div class='color-swatch' style='background-color:yellow;' onclick='changeCategoryColor(event,this,\"Yellow\")'></div> ");
-			$(".futureColors").append("<div class='color-swatch' style='background-color:green;' onclick='changeCategoryColor(event,this,\"Green\")'></div><br/>");
-			$(".futureColors").append("<div class='color-swatch' style='background-color:blue;' onclick='changeCategoryColor(event,this,\"Blue\")'></div> ");
-			$(".futureColors").append("<div class='color-swatch' style='background-color:indigo;' onclick='changeCategoryColor(event,this,\"Indigo\")'></div> ");
-			$(".futureColors").append("<div class='color-swatch' style='background-color:violet;' onclick='changeCategoryColor(event,this,\"Violet\")'></div> ");
-			$(".futureColors").append("<div class='color-swatch' style='background-color:silver;' onclick='changeCategoryColor(event,this,\"Silver\")'></div>");
-		}
-		var nameR = name;
-		
-		$(".ui-widget-overlay").show();
-		$(".cat-overlay-box").css("display","block");
-		$(".catTopOverlay").css("background-color",col);
-		//$(".cat-overlay-box").css("border","solid 2px " + col)
-		//$(".cat-overlay-box").css("box-shadow","0px 0px 16px " + col)
-		$(".catOverlayTitle").html(nameR);
-		$(".cat-overlay-box").attr("data-id",id);
-		
+	event.stopImmediatePropagation();
+	$(elem).siblings(".sch-evnt-editCat").css("display","none");
+	$(elem).siblings(".sch-evnt-saveCat").css("display","inline");
+	$(elem).siblings(".catOverlayTitle").trigger('focus');
+	document.execCommand('selectAll',false,null);
+	if($(".futureColors").children().length == 0) //only add swatches if there are none
+	{
+		$(".futureColors").append("<div class='color-swatch' style='background-color: red;' onclick='changeCategoryColor(event,this,\"Red\")'></div> ");
+		$(".futureColors").append("<div class='color-swatch' style='background-color:orange;' onclick='changeCategoryColor(event,this,\"Orange\")'></div> ");
+		$(".futureColors").append("<div class='color-swatch' style='background-color:yellow;' onclick='changeCategoryColor(event,this,\"Yellow\")'></div> ");
+		$(".futureColors").append("<div class='color-swatch' style='background-color:green;' onclick='changeCategoryColor(event,this,\"Green\")'></div><br/>");
+		$(".futureColors").append("<div class='color-swatch' style='background-color:blue;' onclick='changeCategoryColor(event,this,\"Blue\")'></div> ");
+		$(".futureColors").append("<div class='color-swatch' style='background-color:indigo;' onclick='changeCategoryColor(event,this,\"Indigo\")'></div> ");
+		$(".futureColors").append("<div class='color-swatch' style='background-color:violet;' onclick='changeCategoryColor(event,this,\"Violet\")'></div> ");
+		$(".futureColors").append("<div class='color-swatch' style='background-color:silver;' onclick='changeCategoryColor(event,this,\"Silver\")'></div>");
+	}
+	var nameR = name;
 	
+	$(".ui-widget-overlay").show();
+	$(".cat-overlay-box").css("display","block");
+	$(".catTopOverlay").css("background-color",col);
+	//$(".cat-overlay-box").css("border","solid 2px " + col)
+	//$(".cat-overlay-box").css("box-shadow","0px 0px 16px " + col)
+	$(".catOverlayTitle").html(nameR);
+	$(".cat-overlay-box").attr("data-id",id);
 }
 
 function changeCategoryColor(event,elem,col)
