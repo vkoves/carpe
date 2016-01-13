@@ -13,7 +13,7 @@
 	<div class="catTopOverlay">
 		<span class="catOverlayTitle" contenteditable=true ></span>		
 		<%= image_tag "checkmark-wht.png", :class => "sch-cat-icon no-drag", :onclick => "saveCategory(event, this, $('.cat-overlay-box').attr('data-id'));" %>
-		<%= image_tag "close-wht.png", :class => "sch-evnt-close sch-evnt-icon no-drag", :onclick => "delCategory(event, this);" %>
+		
 	</div>
 	<div class="catRemainderOverlay">
 		<div class="futureColors"></div>
@@ -30,7 +30,7 @@
 		<span class="sch-but sch-week-prev" onclick="addDates(new Date(refDate.getYear()+1900,refDate.getMonth(),refDate.getDate()-7), true)">Previous</span> 
 		&nbsp; 
 		<span class="sch-but sch-week-next" onclick="addDates(new Date(refDate.getYear()+1900,refDate.getMonth(),refDate.getDate()+7), true)">Next</span> 
-			<!-- <text> is not an actual tag, but this allows for direct styling and no excess spacing issues with <div> or <p> -->
+			
 		<span onclick="saveEvents()">Save</span>
 	</div>
 	
