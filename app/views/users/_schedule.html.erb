@@ -1,21 +1,121 @@
 <h2 class="no-bold">Schedule</h2>
 
-<% categories = Category.where(user_id: @user.id) %>
-<% if categories.empty? %>
-	<span class="empty-text">
-		<% if @profile %>
-			It looks like you haven't made any categories yet!
-		<% else %>
-			Woops! It looks like <%= @user.name %> hasn't made any categories yet.
-		<% end%>
-	</span>
-<% else %>
-	<div style="background-color: grey; display: inline-block; padding-bottom: 10px; padding-right: 10px;">
-		<% categories.each do |cat| %>
-			<div class="sch-evnt category" 
-				style="background-color: <%= cat.color %>; position: relative; float: left; margin-left: 10px;">
-			<%= cat.name %>
-			</div>
-		<% end %>
+<%= stylesheet_link_tag "jquery-ui.min" %>
+<%= stylesheet_link_tag "schedule" %>
+<%= javascript_include_tag "scheduler" %>
+
+<div class="ui-widget-overlay" onclick="hideOverlay();"></div>
+<div class="overlay-box">
+	<div class="overlay-time">10:00am - 12:00pm</div>
+	<div class="overlay-title">CS 331</div>
+	<div class="overlay-desc">Look at this young description of a CS 331 event that we are talking about in this place</div>
+</div>
+
+<div class="cat-overlay-box" data-id="" >
+	<div class="catTopOverlay">
+		<span class="catOverlayTitle" contenteditable=true ></span>		
+		<%= image_tag "checkmark-wht.png", :class => "sch-cat-icon no-drag", :onclick => "saveCategory(event, this, $('.cat-overlay-box').attr('data-id'));" %>
+		<%= image_tag "close-wht.png", :class => "sch-evnt-close sch-evnt-icon no-drag", :onclick => "delCategory(event, this);" %>
 	</div>
-<% end %>
+	<div class="catRemainderOverlay">
+		<div class="futureColors"></div>
+	</div>
+</div>
+
+<br>
+<div id="cont-hold">
+	<div class="sch-but-holder">
+		<span class="sch-but sch-week-prev" onclick="addDates(new Date(refDate.getYear()+1900,refDate.getMonth(),refDate.getDate()-7), true)">Previous</span> 
+		&nbsp; 
+		<span class="sch-but sch-week-next" onclick="addDates(new Date(refDate.getYear()+1900,refDate.getMonth(),refDate.getDate()+7), true)">Next</span> 
+			<!-- <text> is not an actual tag, but this allows for direct styling and no excess spacing issues with <div> or <p> -->
+		<!-- <span onclick="saveEvents()">Save</span> -->
+	</div>
+	
+	<div id="sch-sidebar">
+		<span id="sidebar-title" title="Drag a category onto the schedule to create a schedule item." onclick="createCategory();">Categories</span>
+			
+		<div id="sch-tiles">
+			<% @user.categories.each_with_index do |cat, index| %>
+				<div class="sch-evnt category" data-id="<%= cat.id %>" style="background-color:<%= cat.color %>; top: <%= 105*index %>px;" onclick="showOverlay($(this))">
+					<div class="evnt-time">7:30</div>
+					<div class="evnt-numID">0</div>
+					<div class="evnt-title center-text dis-sel" contenteditable="false" onclick="showOverlay($(this).parent())"><%= cat.name %></div>
+					<div class="evnt-desc dis-sel" onclick="showOverlay($(this).parent())"></div>
+					
+					
+					<%= image_tag "quill-wht.png", :class => "sch-evnt-editCat sch-cat-icon no-drag", :onclick => "editCategory(event, this, #{cat.id}, \"#{cat.name}\", \"#{cat.color}\");" %>
+					<%= image_tag "close-wht.png", :class => "sch-evnt-delCat sch-cat-icon no-drag", :onclick => "delCategory(event, this, #{cat.id});" %>
+					<%= image_tag "quill-wht.png", :class => "sch-evnt-edit sch-evnt-icon no-drag", :onclick => "editEvent(event, this);" %>
+					<%= image_tag "close-wht.png", :class => "sch-evnt-close sch-evnt-icon no-drag", :onclick => "removeEvent(event, this);" %>
+					<%= image_tag "divider-wht2.png", :class => "evnt-divider no-drag" %>
+					
+					
+				</div>
+			<% end %>
+		</div>
+		
+		<div class="cat-add" onclick="createCategory();">+ New Category</div>
+	</div>
+	
+	<%= image_tag "divider-orng.png", :height => "505px", :style => "float: left;" %>
+	
+	<div id="sch-main">
+		<div id="sch-days">
+			<div class="sch-day-col">
+				<span class="col-titler"><span class="evnt-day">Monday</span></span>
+				<div class="col-snap evt-snap"></div>
+			</div>
+			<div class="sch-day-col">
+				<span class="col-titler"><span class="evnt-day">Tuesday</span></span>
+				<div class="col-snap evt-snap"></div>
+			</div>
+			<div class="sch-day-col">
+				<span class="col-titler"><span class="evnt-day">Wednesday</span></span>
+				<div class="col-snap evt-snap"></div>
+			</div>
+			<div class="sch-day-col">
+				<span class="col-titler"><span class="evnt-day">Thursday</span></span>
+				<div class="col-snap evt-snap"></div>
+			</div>
+			<div class="sch-day-col">
+				<span class="col-titler"><span class="evnt-day">Friday</span></span>
+				<div class="col-snap evt-snap"></div>
+			</div>
+			<div class="sch-day-col">
+				<span class="col-titler"><span class="evnt-day">Saturday</span></span>
+				<div class="col-snap evt-snap"></div>
+			</div>
+			<div class="sch-day-col">
+				<span class="col-titler"><span class="evnt-day">Sunday</span></span>
+				<div class="col-snap evt-snap"></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	var eventsLoaded = <%= raw @user.events.to_json %>;
+	
+	for(var i = 0; i < eventsLoaded.length; i++)
+	{
+		var evnt = eventsLoaded[i];
+		var catParent = $("#sch-tiles .sch-evnt[data-id='" + evnt["category_id"] + "']");
+		var clone = catParent.clone();
+		console.log(eventsLoaded[i].date);
+		var dateE = new Date(eventsLoaded[i].date);
+		clone.children(".evnt-title").text(eventsLoaded[i].name); 
+		clone.children(".evnt-time").text(dateE.getHours() + ":" + dateE.getMinutes()).show();
+		clone.attr("event-id", eventsLoaded[i].id);
+		pushEventInfo(clone, catParent.attr("data-id"), i);
+		console.log(dateE);
+		var dateString = monthNames[dateE.getMonth()] + " " + dateE.getDate() + ", " + dateE.getFullYear();
+		currEventsMap[i].date = dateString;
+		currEventsMap[i].datetime = eventsLoaded[i].date;
+		placeInSchedule(clone, dateE.getHours());
+		
+		eventTempId++;
+	}
+	
+	console.log(currEventsMap);
+</script>
