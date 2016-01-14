@@ -16,7 +16,9 @@
 	<span class="header-text">
 		&nbsp; 
 		<a href="/">Home</a> &nbsp; &nbsp; 
-		<% if current_user %>
+		<% if current_user and current_page?('/schedule') %>
+			<a href="/schedule" style="color: orange;">My Schedule</a>
+		<% elsif current_user %>
 			<a href="/schedule">My Schedule</a>
 		<% end %>
 	</span>
