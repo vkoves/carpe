@@ -8,6 +8,10 @@
     <%= f.text_field :name, class: "text-input", autofocus: true %>
   </div>
 
+<% if current_user.provider %>
+	<br>
+	Since you are logged in with another provider, you don't have to give your password to make changes. <br>
+<% else %>
   <div class="field">
     <%= f.label :email %><br />
     <%= f.email_field :email, class: "text-input", autofocus: true %>
@@ -16,18 +20,14 @@
   <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
     <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
   <% end %>
-
-<% if current_user.provider %>
-	<br>
-	Since you are logged in with another provider, you don't have to give your password to make changes. <br>
-<% else %>
+  
   <div class="field">
     <%= f.label :image_url %><br />
     <%= f.text_field :image_url, class: "text-input", autofocus: true %>
   </div>
 
 	<div class="pass-holder">
-		Password 
+		Change Password 
 		<span class="def-button" 
 			style="font-size: 14px; margin-left: 10px;"
 			onclick="$('#pass-hider').toggle();">
