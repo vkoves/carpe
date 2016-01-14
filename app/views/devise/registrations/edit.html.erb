@@ -26,19 +26,29 @@
     <%= f.text_field :image_url, class: "text-input", autofocus: true %>
   </div>
 
-  <div class="field">
-    <%= f.label :password %> <br>
-    <!--<i>(leave blank if you don't want to change it)</i><br>-->
-    <%= f.password_field :password, class: "text-input", autocomplete: "off" %>
-  </div>
+	<div class="pass-holder">
+		Password 
+		<span class="def-button" 
+			style="font-size: 14px; margin-left: 10px;"
+			onclick="$('#pass-hider').toggle();">
+			Edit
+		</span>
+		<div id="pass-hider" style="display: none;">
+		  <div class="field">
+		    <%= f.label :password %> <br>
+		    <!--<i>(leave blank if you don't want to change it)</i><br>-->
+		    <%= f.password_field :password, class: "text-input", autocomplete: "off" %>
+		  </div>
+		
+		  <div class="field" style="margin-bottom: 5px;">
+		    <%= f.label :password_confirmation %><br />
+		    <%= f.password_field :password_confirmation, class: "text-input", autocomplete: "off" %>
+		  </div>
+		</div>
+	</div>
 
   <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, class: "text-input", autocomplete: "off" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :current_password %><br> 
+    <%= f.label :current_password, class: "required"%><br> 
     <!-- <i>(we need your current password to confirm your changes)</i><br> -->
     <%= f.password_field :current_password, class: "text-input", autocomplete: "off" %>
   </div>

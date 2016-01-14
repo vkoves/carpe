@@ -69,6 +69,17 @@ label
     color: #1D1D1D;
     border: dashed red 2px;
 }
+.pass-holder
+{
+	background: #E6E6E6;
+    padding: 5px;
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 5px;
+    border: solid #C1C1C1;
+    margin-top: 10px;
+}
 
 /* General page things */
 .page-titler
@@ -144,7 +155,7 @@ a.default.green *:hover
 	transition: width 0.5s;
 }
 
-input[type="submit"]
+input[type="submit"], .def-button
 {
 	font-family: 'Open Sans', sans-serif;
 	border: none;
@@ -161,6 +172,14 @@ input[type="submit"]
 input[type="submit"]:hover
 {
 	background: #FFC14E;
+}
+label.required::after
+{
+	content: "*";
+	color: red;
+	margin-left: 2px;
+	font-weight: bold;
+	font-size: 18px;
 }
 
 input.danger
