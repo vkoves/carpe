@@ -415,6 +415,10 @@ function addDates(referenceDate, refresh)
 			{
 				startDate = 0;
 				month++;
+				if (month == 12) {
+					year++;
+					month = 0;
+				}
 			}
 		}
 		startDate++;
