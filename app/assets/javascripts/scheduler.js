@@ -23,27 +23,31 @@ function scheduleReady()
 {
 	if(!readied)
 	{
-		for(var i = 0; i < eventsLoaded.length; i++)
+		if (typeof eventsLoaded !== 'undefined')
 		{
-			var evnt = eventsLoaded[i];
-			var catParent = $("#sch-tiles .sch-evnt[data-id='" + evnt["category_id"] + "']");
-			var clone = catParent.clone();
-			console.log(eventsLoaded[i].date);
-			var dateE = new Date(eventsLoaded[i].date);
-			clone.children(".evnt-title").text(eventsLoaded[i].name); 
-			clone.children(".evnt-time").text(dateE.getHours() + ":" + dateE.getMinutes()).show();
-			clone.attr("event-id", eventsLoaded[i].id);
-			pushEventInfo(clone, catParent.attr("data-id"), i);
-			console.log(dateE);
-			var dateString = monthNames[dateE.getMonth()] + " " + dateE.getDate() + ", " + dateE.getFullYear();
-			currEventsMap[i].date = dateString;
-			currEventsMap[i].datetime = eventsLoaded[i].date;
-			placeInSchedule(clone, dateE.getHours());
+		    // the variable is defined
+			for(var i = 0; i < eventsLoaded.length; i++)
+			{
+				var evnt = eventsLoaded[i];
+				var catParent = $("#sch-tiles .sch-evnt[data-id='" + evnt["category_id"] + "']");
+				var clone = catParent.clone();
+				console.log(eventsLoaded[i].date);
+				var dateE = new Date(eventsLoaded[i].date);
+				clone.children(".evnt-title").text(eventsLoaded[i].name); 
+				clone.children(".evnt-time").text(dateE.getHours() + ":" + dateE.getMinutes()).show();
+				clone.attr("event-id", eventsLoaded[i].id);
+				pushEventInfo(clone, catParent.attr("data-id"), i);
+				console.log(dateE);
+				var dateString = monthNames[dateE.getMonth()] + " " + dateE.getDate() + ", " + dateE.getFullYear();
+				currEventsMap[i].date = dateString;
+				currEventsMap[i].datetime = eventsLoaded[i].date;
+				placeInSchedule(clone, dateE.getHours());
+				
+				eventTempId++;
+			}
 			
-			eventTempId++;
+			console.log("Events loaded!");
 		}
-		
-		console.log("Events loaded!");
 		
 		console.log("Readying schedule");
 		setTitles();
@@ -138,7 +142,7 @@ function colDroppable()
 //the dragging function
 function addDrag(selector)
 {
-	if(readOnly)
+	if(typeof readOnly !== 'undefined' && readOnly)
 		return;
 	
 	$(".evnt-title").on("keydown",function(e){

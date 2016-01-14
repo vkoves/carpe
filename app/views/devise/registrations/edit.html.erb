@@ -22,6 +22,11 @@
 	Since you are logged in with another provider, you don't have to give your password to make changes. <br>
 <% else %>
   <div class="field">
+    <%= f.label :image_url %><br />
+    <%= f.text_field :image_url, class: "text-input", autofocus: true %>
+  </div>
+
+  <div class="field">
     <%= f.label :password %> <br>
     <!--<i>(leave blank if you don't want to change it)</i><br>-->
     <%= f.password_field :password, class: "text-input", autocomplete: "off" %>
