@@ -16,6 +16,8 @@ Rails.application.routes.draw do
   
   get "/promote" => 'pages#promote'
   
+  get "/admin" => 'pages#admin'
+  
   get "/search_users" => 'users#search'
   post "/deny_friend" => 'friendships#deny'
   post "/confirm_friend" => 'friendships#confirm'

@@ -1,0 +1,19 @@
+<h2 class="no-bold">Admin Panel</h2>
+<h4 class="no-bold">Admins</h4>
+<% @users = User.where(admin: true) %>
+<% @users.each do |user| %>
+<div style="width: 200px; margin-left: auto; margin-right: auto;     width: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 56px;
+    background: gainsboro;
+    padding: 5px;
+    border-radius: 5px;">
+	<a href="/u/<%= user.id %>">
+		<div class="avatar" style="float: left">
+			<img style="width: 50px;" src="<%= user.user_avatar(100) %>">
+		</div>
+	</a>
+	<div style="position: relative; top: 15px; font-weight: 600;"><%= user.name %></div>
+</div>
+<% end %>

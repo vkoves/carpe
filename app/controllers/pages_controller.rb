@@ -64,4 +64,11 @@ class PagesController < ApplicationController
     end
     redirect_to "/"
   end
+  
+  def admin
+    if !current_user or !current_user.admin
+      redirect_to "/"
+    end
+  end
+  
 end
