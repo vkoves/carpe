@@ -57,8 +57,11 @@ class PagesController < ApplicationController
   end
   
   def promote
-    current_user.admin = true
-    current_user.save
+    @user = User.find(params[:id])
+    if(current_user and current_user.admin)
+      @user.admin = true
+      @user.save
+    end
     redirect_to "/"
   end
 end
