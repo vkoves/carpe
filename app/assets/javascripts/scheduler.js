@@ -33,16 +33,20 @@ function scheduleReady()
 				var clone = catParent.clone();
 				console.log(eventsLoaded[i].date);
 				var dateE = new Date(eventsLoaded[i].date);
+				var dateEnd = new Date(eventsLoaded[i].end_date);
+				
 				clone.children(".evnt-title").text(eventsLoaded[i].name); 
 				clone.children(".evnt-time").text(dateE.getHours() + ":" + dateE.getMinutes()).show();
 				clone.attr("event-id", eventsLoaded[i].id);
 				clone.attr("evnt-temp-id", i); //Set the temp id
 				pushEventInfo(clone, catParent.attr("data-id"), i);
+				currEventsMap[i].enddatetime = eventsLoaded[i].end_date;
+				console.log(currEventsMap);
 				console.log(dateE);
 				var dateString = monthNames[dateE.getMonth()] + " " + dateE.getDate() + ", " + dateE.getFullYear();
 				currEventsMap[i].date = dateString;
 				currEventsMap[i].datetime = eventsLoaded[i].date;
-				placeInSchedule(clone, dateE.getHours());
+				placeInSchedule(clone, dateE.getHours(), dateEnd.getHours() - dateE.getHours());
 				
 				eventTempId++;
 			}
@@ -126,6 +130,10 @@ function colDroppable()
 		    	resize: function(event, ui)
 		    	{
 		    		updateTime($(this), ui, true);
+		    	},
+		    	stop: function(event, ui)
+		    	{	
+					pushEventInfo($(this),$(this).attr("id"), $(this).attr("evnt-temp-id"));	
 		    	}
 			});
 		},
@@ -326,6 +334,10 @@ function addDrag(selector)
 	    	resize: function(event, ui)
 	    	{
 	    		updateTime($(this), ui, true);
+	    	},
+	    	stop: function(event, ui)
+	    	{	
+				pushEventInfo($(this),$(this).attr("id"), $(this).attr("evnt-temp-id"));	
 	    	}
 		});
 	}
@@ -661,12 +673,13 @@ function inColumn(elem)
 		return false;
 }
 
-function placeInSchedule(elem, hours)
+function placeInSchedule(elem, hours, lengthHours)
 {
+	//2016-01-13T14:30:00.000Z
 	$(elem).children(".sch-cat-icon").css('display','none');
-	var height = parseFloat($(elem).css("height"));
+	var height = lengthHours*gridHeight;
 	if((height+2)%gridHeight != 0)
-		$(elem).css("height", (gridHeight*3)-2);
+		$(elem).css("height", (gridHeight*lengthHours)-2);
 	$(elem).children(".evnt-time").show();
 	
 	
