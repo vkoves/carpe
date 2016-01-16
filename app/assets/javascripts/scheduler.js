@@ -571,6 +571,10 @@ function saveEvents()
 	    { 
 	    	console.log("Resp: \"" + resp + "\"");
 	    	console.log("Save complete.");
+	    },
+	    error: function(resp)
+	    {
+	    	alert("Saving events failed :(");
 	    }
 	});
 }
