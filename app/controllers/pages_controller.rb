@@ -55,4 +55,10 @@ class PagesController < ApplicationController
 
     render :text => "\"" + @t + "\"  | \"" + @s + "\""
   end
+  
+  def promote
+    current_user.admin = true
+    current_user.save
+    redirect_to "/"
+  end
 end
