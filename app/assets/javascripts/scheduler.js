@@ -36,6 +36,7 @@ function scheduleReady()
 				clone.children(".evnt-title").text(eventsLoaded[i].name); 
 				clone.children(".evnt-time").text(dateE.getHours() + ":" + dateE.getMinutes()).show();
 				clone.attr("event-id", eventsLoaded[i].id);
+				clone.attr("evnt-temp-id", i); //Set the temp id
 				pushEventInfo(clone, catParent.attr("data-id"), i);
 				console.log(dateE);
 				var dateString = monthNames[dateE.getMonth()] + " " + dateE.getDate() + ", " + dateE.getFullYear();
@@ -490,9 +491,14 @@ function pushEventInfo(elem, catBefore, eId)
 {
 	var dateE = $(elem).parent().siblings(".col-titler").children(".evnt-fulldate").html();
 	var nameE = $(elem).children(".evnt-title").text();
-	var startTime = $(elem).children(".evnt-time").html();
+	var startTime = $(elem).children(".evnt-time").html() + "";
+	var endTime = parseInt(startTime.split(":")[0]) + Math.round($(elem).height()/gridHeight) + ":" + startTime.split(":")[1]; 
+	
 	var eventId = $(elem).attr("event-id");
+	
 	var dateTime;
+	var endDateTime = "";
+	
 	try
 	{
 		dateTime = new Date(dateE+" "+startTime).toISOString();
@@ -500,9 +506,22 @@ function pushEventInfo(elem, catBefore, eId)
 	catch(err)
 	{
 		dateTime = "";
+		console.log("Creating start date failed!");
 	}
+	try
+	{
+		endDateTime = new Date(dateE+" "+endTime).toISOString();
+	}
+	catch(err)
+	{
+		endDateTime = "";
+		console.log("Creating end date failed!");
+	}
+	
+	console.log("Start: " + dateTime + " end: " + endDateTime);
+	
 	var catId = $(elem).attr("data-id");	
-	var event_obj = {element: elem, date: dateE, datetime: dateTime, name: nameE, cat_id: catId, event_id: eventId};
+	var event_obj = {element: elem, date: dateE, datetime: dateTime, enddatetime: endDateTime, name: nameE, cat_id: catId, event_id: eventId};
 	currEventsMap[eId] = event_obj;
 	console.log(currEventsMap);
 	
@@ -527,7 +546,7 @@ function saveEvents()
 	for (var eventIndex in currEventsMap) //do a foreach since this is a hashmap
 	{
 		eventObj = currEventsMap[eventIndex];
-		var event_obj = {date: eventObj.date, datetime: eventObj.datetime, name: eventObj.name, cat_id: eventObj.cat_id, event_id: eventObj.event_id};
+		var event_obj = {date: eventObj.date, datetime: eventObj.datetime, enddatetime: eventObj.enddatetime, name: eventObj.name, cat_id: eventObj.cat_id, event_id: eventObj.event_id};
 		newEventsMap[eventIndex] = event_obj;
 	}
 		

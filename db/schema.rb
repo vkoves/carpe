@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(version: 20160114061654) do
     t.datetime "updated_at",  null: false
     t.integer  "user_id"
     t.integer  "category_id"
-    t.date     "end_date"
+    t.datetime "end_date"
   end
 
   add_index "events", ["category_id"], name: "index_events_on_category_id"

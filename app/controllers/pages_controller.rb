@@ -43,13 +43,16 @@ class PagesController < ApplicationController
         else
           evnt = Event.new();
         end
-        evnt.name = obj["name"]
+        evnt.name = obj["name"] 
         evnt.user = current_user
         evnt.date = DateTime.parse(obj["datetime"])
+        evnt.end_date = DateTime.parse(obj["enddatetime"])
+        @t = obj["enddatetime"]
+        @s = obj["datetime"]
         evnt.category_id = obj["cat_id"].to_i
         evnt.save
     end
 
-    render :text => text
+    render :text => "\"" + @t + "\"  | \"" + @s + "\""
   end
 end
