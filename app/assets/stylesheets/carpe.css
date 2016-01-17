@@ -113,6 +113,7 @@ a.normal:hover
 a.default{text-decoration: none;}
 a.default *, span.default /* default link styling */
 {
+	cursor: pointer;
 	position: relative;
 	padding: 3px 15px 3px 15px;
 	background: orange;
