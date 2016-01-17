@@ -29,12 +29,12 @@
 	<% end %>
 	
 	<div class="sch-but-holder">
-		<span class="sch-but sch-week-prev" onclick="addDates(new Date(refDate.getYear()+1900,refDate.getMonth(),refDate.getDate()-7), true)">Previous</span> 
+		<span class="default sch-week-prev" onclick="addDates(new Date(refDate.getYear()+1900,refDate.getMonth(),refDate.getDate()-7), true)">Previous</span> 
 		&nbsp; 
-		<span class="sch-but sch-week-next" onclick="addDates(new Date(refDate.getYear()+1900,refDate.getMonth(),refDate.getDate()+7), true)">Next</span> 
+		<span class="default sch-week-next" onclick="addDates(new Date(refDate.getYear()+1900,refDate.getMonth(),refDate.getDate()+7), true)">Next</span> 
 		
 		<% if !@read_only %>	
-			<span onclick="saveEvents()">Save</span>
+			<span class="default green" id="sch-save" onclick="saveEvents()">Save</span>
 		<% end %>
 	</div>
 	

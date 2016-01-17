@@ -111,7 +111,7 @@ a.normal:hover
   text-decoration: underline;
 }
 a.default{text-decoration: none;}
-a.default * /* default link styling */
+a.default *, .default /* default link styling */
 {
 	position: relative;
 	padding: 3px 15px 3px 15px;
@@ -122,23 +122,23 @@ a.default * /* default link styling */
 	border-radius: 3px;
 	transition: background 0.3s;
 }
-a.default *:hover
+a.default *:hover, span.default:hover
 {
 	background: #FFC14E;
 }
-a.default.red *
+a.default.red *, span.default.red
 {
 	background: #FD1A1A;
 }
-a.default.red *:hover
+a.default.red *:hover, span.default.red:hover
 {
 	background: #FF4A4A;
 }
-a.default.green *
+a.default.green *, span.default.green
 {
 	background: #18B918;
 }
-a.default.green *:hover
+a.default.green *:hover, span.default.green:hover
 {
 	background: #39DA39;
 }
