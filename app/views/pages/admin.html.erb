@@ -1,3 +1,4 @@
+<% content_for :title do %> - Admin<% end %>
 <h2 class="no-bold">Admin Panel</h2>
 <h4 class="no-bold">Admins</h4>
 <% @users = User.where(admin: true) %>
