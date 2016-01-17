@@ -5,7 +5,7 @@
 		<% if @profile %>
 			Well this is awkward... it looks like you don't have any activity yet!
 		<% else %>
-			It looks like this user has no activity yet!
+			It looks like <%= @user.name.split(" ")[0] %> doesn't have any activity yet.
 		<% end %>
 	</span>
 <% else %>

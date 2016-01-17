@@ -17,7 +17,7 @@
 		<% if @profile %>
 			It looks awfully empty here... add some friends to fill it up!
 		<% else %>
-			It looks like <%= @user.name %> doesn't have any friends yet!
+			It looks like <%= @user.name.split(" ")[0] %> doesn't have any friends yet.
 		<% end %>
 	</span>
 <% else %>
