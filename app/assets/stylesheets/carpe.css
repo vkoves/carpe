@@ -111,7 +111,7 @@ a.normal:hover
   text-decoration: underline;
 }
 a.default{text-decoration: none;}
-a.default *, .default /* default link styling */
+a.default *, span.default /* default link styling */
 {
 	position: relative;
 	padding: 3px 15px 3px 15px;
