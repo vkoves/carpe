@@ -47,6 +47,11 @@ label
 	border-radius: 100px;
 	width: 80px;
 	border: solid orange 3px;
+	transition: box-shadow 0.25s;
+}
+.avatar img:hover
+{
+	box-shadow: 0px 2px 2px #777;
 }
 .friend-label
 {
