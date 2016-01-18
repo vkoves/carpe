@@ -97,6 +97,7 @@
 	left: 10px;
 	width: 97%;
 	top: 5px;
+	margin-left: 50px;
 }
 .empty-text
 {
@@ -113,6 +114,7 @@
     width: 50%;
     height: 120px;
     float: left;
+    padding: 10px 20px;
     transition: margin-left 0.5s;
 }
 .friend-details
@@ -123,7 +125,7 @@
 }
 .friend-name
 {
-	font-size: 28px;
+	font-size: 24px;
 }
 
 @media (max-width: 660px)
