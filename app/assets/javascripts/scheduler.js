@@ -242,17 +242,7 @@ function addDrag(selector)
 				pushEventInfo($(this),$(this).attr("id"), $(this).attr("evnt-temp-id"));
 				pushEventInfo(clone,$(this).attr("id"), $(clone).attr("evnt-temp-id"));
 				
-				addDrag(clone);
-				$(clone).resizable({
-			    	handles: 'n, s',
-			    	grid: [ 0, gridHeight ],
-			    	containment: "parent",
-			    	resize: function(event, ui)
-			    	{
-			    		updateTime($(this), ui);
-			    	}
-				});
-				
+				addDrag(clone);				
 				
 			}
 			else if(!ctrlPressed && $(this).parent().attr("id") == "sch-tiles") 
