@@ -1,6 +1,19 @@
 <%= stylesheet_link_tag "jquery-ui.min" %>
 <%= stylesheet_link_tag "schedule" %>
 <%= javascript_include_tag "scheduler" %>
+<% if @read_only %>
+<style>
+.sch-cat-icon
+{
+	display: none !important;
+}
+.sch-evnt
+{
+	cursor: default !important;
+}
+</style>
+<% end %>
+
 
 <div class="ui-widget-overlay" onclick="hideOverlay();"></div>
 <div class="overlay-box">
