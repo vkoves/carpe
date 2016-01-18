@@ -55,6 +55,7 @@
 		<span id="sidebar-title" title="Drag a category onto the schedule to create a schedule item." onclick="createCategory();">Categories</span>
 			
 		<div id="sch-tiles">
+			<div id="sch-tiles-inside">
 			<% @user.categories.each_with_index do |cat, index| %>
 				<div class="sch-evnt category" data-id="<%= cat.id %>" style="background-color:<%= cat.color %>; top: <%= 105*index %>px;" onclick="showOverlay($(this))">
 					<div class="evnt-time">7:30</div>
@@ -72,6 +73,7 @@
 					
 				</div>
 			<% end %>
+			</div>
 		</div>
 		
 		<div class="cat-add" onclick="createCategory();">+ New Category</div>
