@@ -1,7 +1,9 @@
 <% content_for :title do %> - Admin<% end %>
 <h2 class="no-bold">Admin Panel</h2>
-<h4 class="no-bold">Admins</h4>
+<h4>Info</h4>
 <a href="/users" class="default"><span>View Users</span></a><br><br>
+
+<h4>Admins</h4>
 <% @users = User.where(admin: true) %>
 <% @users.each do |user| %>
 <div style="width: 200px; margin-left: auto; margin-right: auto;     width: 200px;

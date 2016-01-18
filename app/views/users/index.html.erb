@@ -16,7 +16,10 @@
 }
 </style>
 <div class="page-container">
-	<h1 class="page-titler">Users</h1>
+	<h1 class="page-titler">Users
+	<% if current_user and current_user.admin %>
+		<a href="/admin" class="default" style="position: relative; top: -5px; left: 5px; font-size: 14px;"><span>Admin Panel</span></a>
+	<% end %></h1>
 	<% users = User.all %>	
 	<% if users.size > 0 %>
 	<% users = users.sort_by{|u| -current_user.mutual_friends(u).count }%>
