@@ -475,8 +475,7 @@ function removeEvent(event, elem)
 	var tempId = $(elem).parent().attr("evnt-temp-id");
 	
 	//remove map
-	currEventsMap[tempId] = null;
-	eventTempId--;
+	delete currEventsMap[tempId];
 	console.log("eid " + eId);
 	
 	if(!eId)
