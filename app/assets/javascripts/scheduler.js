@@ -476,7 +476,9 @@ function removeEvent(event, elem)
 	
 	//remove map
 	currEventsMap[tempId] = null;
+	eventTempId--;
 	console.log("eid " + eId);
+	
 	if(!eId)
 	{
 		return;
