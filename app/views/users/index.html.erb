@@ -44,6 +44,15 @@
 					<span class="friend-label">Friend</span>
 				<% elsif status == "pending" || status == "denied" %>
 					<span class="friend-label">Pending...</span>
+				<% end %><br><br>
+				<% if user.admin and user != current_user %>
+					<a href="/promote?id=<%= user.id %>&de=true" class="default red">
+						<span>Demote</span>
+					</a>
+				<% elsif user != current_user %>
+					<a href="/promote?id=<%= user.id %>" class="default">
+						<span>Promote</span>
+					</a>
 				<% end %>
 			</div>
 	<% end %>

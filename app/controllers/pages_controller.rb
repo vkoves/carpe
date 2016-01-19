@@ -67,10 +67,14 @@ class PagesController < ApplicationController
   def promote
     @user = User.find(params[:id])
     if(current_user and current_user.admin)
-      @user.admin = true
+      if params[:de] == "true" #if demoting
+        @user.admin = false
+      else
+        @user.admin = true
+      end
       @user.save
     end
-    redirect_to "/"
+    redirect_to "/users"
   end
   
   def admin
