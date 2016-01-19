@@ -151,8 +151,6 @@
   z-index: 1;
   top: 50px;
   background-color: #FF8C3D;
-  width: 113px;
-  height: 80px;
   text-align: center;
   transition: width 0.5s;
 }
