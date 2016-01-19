@@ -471,13 +471,31 @@ function removeEvent(event, elem)
 	event.stopImmediatePropagation();
 	$(elem).parent().slideUp("normal", function() { $(this).remove(); } );
 	
-	var eId = $(elem).attr("evnt-temp-id");
+	var eId = $(elem).parent().attr("event-id");
+	var tempId = $(elem).parent().attr("evnt-temp-id");
 	
-	//schItemCategory[current] = "";
-	//schItemColor[current] = "";
-	//schItemStart[current] = "";
-	//schItemNames[current] = "";
-	//schItemDate[current] = "";
+	//remove map
+	currEventsMap[tempId] = null;
+	console.log("eid " + eId);
+	if(!eId)
+	{
+		return;
+	}
+	
+	$.ajax({
+	    url: "/delete_event",
+	    type: "POST",
+	    data: {id: eId},
+	    success: function(resp)
+	    { 
+	    	console.log("Resp: \"" + resp + "\"");
+	    	console.log("Delete complete.");
+	    },
+	    error: function(resp)
+	    {
+	    	alert("Deleting event failed :/");
+	    }
+	});	
 }
 
 function editEvent(event, elem)

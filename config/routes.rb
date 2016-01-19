@@ -21,7 +21,10 @@ Rails.application.routes.draw do
   get "/search_users" => 'users#search'
   post "/deny_friend" => 'friendships#deny'
   post "/confirm_friend" => 'friendships#confirm'
+  
+  #Event backend commands
   post "/save_events" => 'pages#save_events'
+  post "/delete_event" => 'pages#delete_event'
   
   root 'home#index'
   

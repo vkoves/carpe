@@ -56,6 +56,14 @@ class PagesController < ApplicationController
     render :text => "\"" + @t + "\"  | \"" + @s + "\""
   end
   
+  def delete_event #delete events
+    event = Event.find(params[:id])
+    event.destroy
+    event.save
+    
+    render :text => "Event deleted."
+  end
+  
   def promote
     @user = User.find(params[:id])
     if(current_user and current_user.admin)
