@@ -5,6 +5,7 @@ body
 	width: 100%;
 	min-width: 400px;
 	box-sizing: border-box;
+	padding-bottom: 10px;
 }
 
 /* HEADER + POSSIBLE OTHER USE CSS */
