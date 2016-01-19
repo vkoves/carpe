@@ -12,10 +12,10 @@ var curEvent;
 
 var readied = false;
 
+//Three letter month abbreviations
+var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-	"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
+//Run schedule ready when the page is loaded. Either fresh or from turbo links
 $(document).ready(scheduleReady);
 $(document).on('page:load', scheduleReady);
 
@@ -48,6 +48,7 @@ function scheduleReady()
 				currEventsMap[i].datetime = eventsLoaded[i].date;
 				placeInSchedule(clone, dateE.getHours(), dateEnd.getHours() - dateE.getHours());
 				
+				//increment the temp id
 				eventTempId++;
 			}
 			
@@ -62,16 +63,10 @@ function scheduleReady()
 		sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
 		schHTML = $("#sch-days").html(); //The HTML for the scheduler days layout, useful for when days are refreshed
 		
+		//toss a tooltip on the sidebar, explaining how stuff works
 		$("#sidebar-title").tooltip({
 			position: { my: "left top", at: "left bottom"}	
-		}); //toss a tooltip on the events text
-		
-		
-		//Add tooltips, which are also in add drag
-		$(".evnt-desc").tooltip({
-			position: { my: "left+15 top", at: "left bottom"}
-		}); //toss a tooltip on the events text
-		
+		});
 		
 		//When editing category title, defocus on enter
 		$(".catOverlayTitle").on("keydown",function(e){
@@ -163,8 +158,8 @@ function addDrag(selector)
 		    pushEventInfo($(this).parent(),catBefore, $(this).parent().attr("evnt-temp-id")); //and save again
 	    }
 	})
-	.focusout(function() { //so that clicking outsinde an event title also saves
-		pushEventInfo($(this).parent(),catBefore, $(this).parent().attr("evnt-temp-id")); //and save again
+	.focusout(function() { //so that clicking outside an event title also saves
+		pushEventInfo($(this).parent(),catBefore, $(this).parent().attr("evnt-temp-id")); //save event
 	});
 	
 	
@@ -277,15 +272,10 @@ function addDrag(selector)
 			$("#sch-tiles").html(sideHTML); //reset the sidebar
 			$(this).css("opacity", 1);
 			
-			$("#sch-tiles .evnt-desc").tooltip({
-				position: { my: "left+15 top", at: "left bottom"}
-			}); //toss a tooltip on the events text
-			
 			if(inColumn($(this)))
 			{
 				$(this).css('position', 'absolute');
 				$(this).css('top', ui.position.top - $(this).parent().offset().top);
-				console.log($(this).parent().position().top);
 			}
 			addDrag();
 			$(this).css("margin-top","0px");
@@ -316,7 +306,6 @@ function addDrag(selector)
 	
 	if(selector != "#sch-sidebar .sch-evnt")
 	{
-		console.log("SEL " + selector);
 		$(selector).resizable({
 	    	handles: 'n, s',
 	    	grid: [ 0, gridHeight ],
@@ -432,7 +421,6 @@ function addDates(referenceDate, refresh)
 
 function popEvents()
 {
-	console.log("Populating events");
 	console.log(currEventsMap);
 	
 	var repDates = [];
@@ -476,7 +464,6 @@ function removeEvent(event, elem)
 	
 	//remove map
 	delete currEventsMap[tempId];
-	console.log("eid " + eId);
 	
 	if(!eId)
 	{
@@ -545,19 +532,6 @@ function pushEventInfo(elem, catBefore, eId)
 	var event_obj = {element: elem, date: dateE, datetime: dateTime, enddatetime: endDateTime, name: nameE, cat_id: catId, event_id: eventId};
 	currEventsMap[eId] = event_obj;
 	console.log(currEventsMap);
-	
-	// Start pushing to temporary data...starting with category we get from the passed in catBefore parameter.
-	//schItemCategory.push(catBefore);
-	//schItemColor.push($(elem).css("background-color"));
-	//schItemStart.push($(elem).children(".evnt-time").html());
-	//schItemNames.push($(elem).children(".evnt-title").text());
-	//schItemDate.push($(elem).parent().siblings(".col-titler").children(".evnt-fulldate").html().split(',')[0]);
-	
-	// Whereas the other lines actually split up the data (particularly useful later with POST requests),
-	// the following line pushes the entire HTML content of the schedule item.
-	// It's actually not too much, so it should not cause much drain here.
-	
-	//schItem.push(elem);
 }
 
 function saveEvents()
@@ -591,7 +565,6 @@ function saveEvents()
 function createCategory()
 {
 	window.location.href = './schedule?new=t&name=Untitled';
-	//window.location.href = './schedule';
 }
 
 function editCategory(event, elem, id, name, col)
@@ -635,10 +608,7 @@ function saveCategory(event,elem,id)
 
 function delCategory(event, elem, id)
 {
-	/*event.stopImmediatePropagation();
-	$(elem).parent().slideUp("normal", function() { $(this).remove(); } );*/
 	window.location.href = './schedule?dest=t&id=' + id;
-	//window.location.href = './schedule';
 }
 
 
@@ -686,29 +656,14 @@ function inColumn(elem)
 		return false;
 }
 
+//Setup properties of a place schedule item from the db, setting position and height
 function placeInSchedule(elem, hours, lengthHours)
 {
-	//2016-01-13T14:30:00.000Z
 	$(elem).children(".sch-cat-icon").css('display','none');
 	var height = lengthHours*gridHeight;
 	if((height+2)%gridHeight != 0)
 		$(elem).css("height", (gridHeight*lengthHours)-2);
 	$(elem).children(".evnt-time").show();
-	
-	
-	$(elem).children(".evnt-title").on("keydown",function(e){
-	    var key = e.keyCode || e.charCode;  // ie||others
-	    if(key == 13)  // if enter key is pressed
-	    {
-			e.preventDefault();
-		    $(this).blur();  // lose focus
-		    pushEventInfo($(this).parent(),$(this).parent().attr("data-id"), $(this).parent().attr("evnt-temp-id")); //and save again
-	    }
-	});
-	
-	$("#sch-tiles .evnt-desc").tooltip({
-		position: { my: "left+15 top", at: "left bottom"}
-	}); //toss a tooltip on the events text
 	
 	$(elem).css('position', 'absolute');
 	$(elem).css("margin-top","0px");

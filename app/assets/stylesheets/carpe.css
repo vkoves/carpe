@@ -250,7 +250,7 @@ input.danger:hover
 	width: 174px;
     margin-left: auto;
     margin-right: auto;
-    margin: 10px auto;
+	margin-bottom: 10px;
 }
 
 /* Devise's error stuff when forms have errors */
@@ -311,9 +311,9 @@ input.danger:hover
 {
 	.header-text {width: 0px; opacity: 0;}
 	/* #header-mob-menu {width: 55px;} */
-	#header-mob-menu {left: 0px;}
+	#header-mob-menu {left: 0px !important;}
 	#mobile-menu {width: 146px;}
-	#menu-holder {left: 0px;}
+	#menu-holder {left: 0px !important;}
 }
 
 
