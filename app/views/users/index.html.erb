@@ -14,6 +14,10 @@
 	font-size: 16px;
 	margin-bottom: 7px;
 }
+.default, .friend-label
+{
+	margin-bottom: 5px;
+}
 </style>
 <div class="page-container">
 	<h1 class="page-titler">Users
@@ -44,7 +48,7 @@
 					<span class="friend-label">Friend</span>
 				<% elsif status == "pending" || status == "denied" %>
 					<span class="friend-label">Pending...</span>
-				<% end %><br><br>
+				<% end %>
 				<% if user.admin and user != current_user %>
 					<a href="/promote?id=<%= user.id %>&de=true" class="default red">
 						<span>Demote</span>

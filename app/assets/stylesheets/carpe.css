@@ -60,6 +60,7 @@ label
     border-radius: 3px;
     color: white;
     font-weight: bold;
+    display: inline-block;
 }
 .cancel-box
 {
@@ -115,9 +116,14 @@ a.normal:hover
 {
   text-decoration: underline;
 }
-a.default{text-decoration: none;}
+a.default
+{
+	text-decoration: none;
+	display: inline-block;
+}
 a.default *, span.default /* default link styling */
 {
+	display: inline-block;
 	cursor: pointer;
 	position: relative;
 	padding: 3px 15px 3px 15px;
