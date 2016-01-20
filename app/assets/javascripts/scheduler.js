@@ -223,13 +223,16 @@ function addDrag(selector)
 			
 			if(ctrlPressed && $(this).parent().attr("id") != "sch-tiles")
 			{
-				var clone = $(ui.helper).clone();;
+				var clone = $(ui.helper).clone();
 				$(this).parent().append(clone);
 				clone.removeClass("ui-draggable ui-draggable-handle ui-resizable ui-draggable-dragging");  
 				clone.css("opacity","1");
 				clone.css("z-index","0");
 				clone.children('.ui-resizable-handle').remove();
 				
+				//clear event id
+				$(this).removeAttr("event-id");
+
 				//the clone needs a new temp id, but in reality, this is the clone
 				$(this).attr("evnt-temp-id", eventTempId);
 				eventTempId++;
