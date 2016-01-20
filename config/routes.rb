@@ -26,6 +26,9 @@ Rails.application.routes.draw do
   post "/save_events" => 'pages#save_events'
   post "/delete_event" => 'pages#delete_event'
   
+  post "/create_category" => 'pages#create_category'
+  post "/delete_category" => 'pages#delete_category'
+  
   root 'home#index'
   
   resource :friendships

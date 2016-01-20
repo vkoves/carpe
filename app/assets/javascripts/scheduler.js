@@ -587,7 +587,51 @@ function saveEvents()
 
 function createCategory()
 {
-	window.location.href = './schedule?new=t&name=Untitled';
+	//window.location.href = './schedule?new=t&name=Untitled';
+	$.ajax({
+	    url: "/create_category",
+	    type: "POST",
+	    data: {name: "Untitled", user_id: userId},
+	    success: function(resp)
+	    { 
+	    	console.log(resp);
+	    	console.log("Create category complete.");
+	    	var newCat = $("#cat-template").clone();
+	    	$("#sch-tiles-inside").append(newCat);
+	    	newCat.show();
+	    	newCat.css("top", 105*($("#sch-tiles-inside .sch-evnt.category").length-2));
+	    	newCat.attr("data-id", resp.id);
+	    	newCat.find(".evnt-title").text(resp.name);
+	    	newCat.find(".sch-evnt-editCat").click(function(){editCategory(event, this, resp.id, ""+resp.name, ""+resp.color);});
+	    	newCat.find(".sch-evnt-delCat").click(function(){delCategory(event, this, resp.id);});
+	    	addDrag();
+	    	sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
+	    },
+	    error: function(resp)
+	    {
+	    	alert("Creating category failed :(");
+	    }
+	});
+}
+
+function delCategory(event, elem, id)
+{
+	//window.location.href = './schedule?dest=t&id=' + id;
+	$.ajax({
+	    url: "/delete_category",
+	    type: "POST",
+	    data: {id: id},
+	    success: function(resp)
+	    { 
+	    	console.log("Resp: \"" + resp + "\"");
+	    	console.log("Delete category complete.");
+	    },
+	    error: function(resp)
+	    {
+	    	alert("Deleting category failed :(");
+	    }
+	});
+	$(elem).parent().slideUp();
 }
 
 function editCategory(event, elem, id, name, col)
@@ -628,12 +672,6 @@ function saveCategory(event,elem,id)
 {
 	window.location.href = './schedule?edit=t&id=' + id + '&name=' + $(".catOverlayTitle").html() + '&col=' + $(".catTopOverlay").css("background-color");
 }
-
-function delCategory(event, elem, id)
-{
-	window.location.href = './schedule?dest=t&id=' + id;
-}
-
 
 function showOverlay(elem)
 {

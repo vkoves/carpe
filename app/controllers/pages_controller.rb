@@ -34,6 +34,20 @@ class PagesController < ApplicationController
     end
   end
   
+  def create_category
+    @cat = Category.new
+    @cat.color = params[:color]
+    @cat.user = User.find(params[:user_id])
+    @cat.name = params[:name]
+    @cat.save
+    render json: @cat
+  end
+  
+  def delete_category
+    Category.find(params[:id]).destroy
+    render :text => "Category destroyed"
+  end
+  
   def save_events #save events
     text = params.to_s
 

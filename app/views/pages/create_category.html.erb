@@ -1,0 +1,11 @@
+<div class="sch-evnt category" data-id="<%= @cat.id %>" style="background-color:<%= @cat.color %>; top: <%= 105*current_user.categories.size %>px;" onclick="showOverlay($(this))">
+	<div class="evnt-time">7:30</div>
+	<div class="evnt-numID">0</div>
+	<div class="evnt-title center-text dis-sel" contenteditable="false" onclick="showOverlay($(this).parent())"><%= @cat.name %></div>
+	<div class="evnt-desc dis-sel" onclick="showOverlay($(this).parent())"></div>
+	<%= image_tag "quill-wht.png", :class => "sch-evnt-editCat sch-cat-icon no-drag", :onclick => "editCategory(event, this, #{@cat.id}, \"#{@cat.name}\", \"#{@cat.color}\");" %>
+	<%= image_tag "close-wht.png", :class => "sch-evnt-delCat sch-cat-icon no-drag", :onclick => "delCategory(event, this, #{@cat.id});" %>
+	<%= image_tag "quill-wht.png", :class => "sch-evnt-edit sch-evnt-icon no-drag", :onclick => "editEvent(event, this);" %>
+	<%= image_tag "close-wht.png", :class => "sch-evnt-close sch-evnt-icon no-drag", :onclick => "removeEvent(event, this);" %>
+	<%= image_tag "divider-wht2.png", :class => "evnt-divider no-drag" %>
+</div>
