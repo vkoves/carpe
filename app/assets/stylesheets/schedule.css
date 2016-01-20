@@ -137,6 +137,10 @@
 	/*border-radius: 5px;
 	border-bottom: solid 2px rgb(48, 48, 48); */
 }
+.sch-day-col.over /* Hover class */
+{
+	background: rgb(255, 255, 151);
+}
 #sch-col-today
 {
 	background-color:   rgb(255, 255, 115);
@@ -260,7 +264,8 @@
 	text-align:left;
 	position:absolute;
 	overflow: hidden;
-	
+	cursor: grab;
+	cursor: move;	
 }
 .evnt-date
 {

@@ -80,13 +80,15 @@ function scheduleReady()
 		
 		$(".repeat-option").click(function()
 		{
+			//highlight the newly selected option
 			$(".repeat-option").removeClass("red");
 			$(this).addClass("red");
 
+			//get the text of the button
 			var repType = $(this).text().toLowerCase();
-			currEvent.attr("rep-type", repType); //set the repeat type attribute
+			currEvent.attr("rep-type", repType); //and set the repeat type attribute
 			
-			
+			//then update the repeat type without going through push event info
 			var eventObj = currEventsMap[currEvent.attr("evnt-temp-id")];
 			eventObj.repeat = repType;
 			currEventsMap[currEvent.attr("evnt-temp-id")] = eventObj;
@@ -150,11 +152,11 @@ function colDroppable()
 			});
 		},
 		over: function( event, ui ) {
-			$(this).parent().css("background","rgb(255, 255, 151)");
+			$(this).parent().addClass("over");
 			$(ui.draggable).draggable("option","gridOn", true);
 		},
 		out: function( event, ui ) {
-			$(this).parent().css("background","");
+			$(this).parent().removeClass("over");
 			$(ui.draggable).draggable("option","gridOn", false);
 		}
 	});
