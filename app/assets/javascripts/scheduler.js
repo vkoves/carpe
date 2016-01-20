@@ -89,11 +89,13 @@ function scheduleReady()
 			currEvent.attr("rep-type", repType); //and set the repeat type attribute
 			
 			//then update the repeat type without going through push event info
-			var eventObj = currEventsMap[currEvent.attr("evnt-temp-id")];
-			eventObj.repeat = repType;
-			currEventsMap[currEvent.attr("evnt-temp-id")] = eventObj;
+			currEventsMap[currEvent.attr("evnt-temp-id")].repeat = repType;
 			console.log("Repeat type updated");
 			console.log(currEventsMap);
+			
+			//remove all of this element
+			$(".sch-evnt[evnt-temp-id='" + currEvent.attr("evnt-temp-id") + "']").remove();
+			populateEvents();
 		});
 		
 		addDrag(); //add dragging, recursively
@@ -272,10 +274,10 @@ function addDrag(selector)
 			}
 			
 		},
-		stop: function(event, ui) 
+		stop: function(event, ui)  //on drag end
 		{
-			//$(ui.draggable).css("background","green");
 			$(ui.helper).remove();
+			
 			
 			$(this).children(".sch-cat-icon").css('display','none');
 			var height = parseFloat($(this).css("height"));
@@ -319,7 +321,7 @@ function addDrag(selector)
 			if ($(this).parent().offset()) 
 			{
 				$(this).attr("id",catBefore);
-				pushEventInfo(this,catBefore, $(this).attr("evnt-temp-id"));
+				pushEventInfo($(this),catBefore, $(this).attr("evnt-temp-id"));
 			}
 		},
 		drag: function(event, ui)
@@ -340,7 +342,7 @@ function addDrag(selector)
 	    	},
 	    	stop: function(event, ui)
 	    	{	
-				pushEventInfo($(this),$(this).attr("id"), $(this).attr("evnt-temp-id"));	
+				pushEventInfo($(this),$(this).attr("id"), $(this).attr("evnt-temp-id"));
 	    	}
 		});
 	}
@@ -440,32 +442,31 @@ function addDates(referenceDate, refresh)
 		startDate++;
 	});
 	
-	popEvents(); // After refreshing the dates, populate the...er...schedule items for this week. As you can see, the terminology still confuses some.
+	populateEvents(); // After refreshing the dates, populate the...er...schedule items for this week. As you can see, the terminology still confuses some.
 }
 
-function popEvents()
+function populateEvents()
 {
-	console.log(currEventsMap);
-	
-	var repDates = [];
+	var currentDates = []; //the dates that are visible in the current week
 	
 	$(".sch-day-col").each(function(index, col)
 	{
-		repDates.push($(col).children(".col-titler").children(".evnt-fulldate").html());
+		currentDates.push($(col).children(".col-titler").children(".evnt-fulldate").html());
 	}); // Populate the date range array created above, so that we can match up what events have dates that fall in this range.
 	
-	//console.log(schItem);
 
-
-	for (var i = 0; i < repDates.length; i++)
+	for (var i = 0; i < currentDates.length; i++)
 	{
 		for (var eventIndex in currEventsMap) //do a foreach since this is a hashmap
 		{
 			eventObj = currEventsMap[eventIndex];
-			if (eventObj.date == repDates[i]) 
+			var date = new Date(currentDates[i]);
+			if (eventObj.date == currentDates[i]
+				|| eventObj.repeat == "daily"
+				|| (eventObj.repeat == "weekly" && date.getDay() == new Date(eventObj.datetime).getDay()))
 			{
 				// So, this does not create a clone using the .clone() method...it was attempted before, though (the result was not optimal).
-				var currentElem = eventObj.element;
+				var currentElem = eventObj.element.clone();
 				$(".sch-day-col:eq(" + i + ") .col-snap").append(currentElem);
 				$(".sch-evnt").css("margin-left","auto");
 				$(".sch-evnt").css("margin-right","auto");
@@ -554,11 +555,14 @@ function pushEventInfo(elem, catBefore, eId)
 	
 	console.log("Start: " + dateTime + " end: " + endDateTime);
 	
-	var catId = $(elem).attr("data-id");	
+	var catId = $(elem).attr("data-id");
 	var event_obj = {element: elem, repeat: repeatType, date: dateE, datetime: dateTime, enddatetime: endDateTime, 
 		name: nameE, cat_id: catId, event_id: eventId};
 	currEventsMap[eId] = event_obj;
 	console.log(currEventsMap);
+	
+	//Find all same elements and apply change
+	$(".sch-evnt[evnt-temp-id='" + $(elem).attr("evnt-temp-id") + "']").attr("style", $(elem).attr("style"));
 }
 
 function saveEvents()
