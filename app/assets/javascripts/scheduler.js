@@ -8,7 +8,7 @@ var refDate = new Date(); // Reference date for where the calendar is now, so th
 var currEventsMap = {};
 var eventTempId = 0; //the temp id
 
-var curEvent;
+var currEvent; //the event being currently edited
 
 var readied = false;
 
@@ -23,13 +23,13 @@ function scheduleReady()
 {
 	if(!readied)
 	{
-		if (typeof eventsLoaded !== 'undefined')
+		//Load in events
+		if (typeof eventsLoaded !== 'undefined') //if eventsLoaded is defined
 		{
-		    // the variable is defined
-			for(var i = 0; i < eventsLoaded.length; i++)
+			for(var i = 0; i < eventsLoaded.length; i++) //loop through it
 			{
-				var evnt = eventsLoaded[i];
-				var catParent = $("#sch-tiles .sch-evnt[data-id='" + evnt["category_id"] + "']");
+				var evnt = eventsLoaded[i]; //fetch the event at the current index
+				var catParent = $("#sch-tiles .sch-evnt[data-id='" + evnt["category_id"] + "']"); //fetch the category
 				var clone = catParent.clone();
 				console.log(eventsLoaded[i].date);
 				var dateE = new Date(eventsLoaded[i].date);
@@ -39,10 +39,12 @@ function scheduleReady()
 				clone.children(".evnt-time").text(dateE.getHours() + ":" + dateE.getMinutes()).show();
 				clone.attr("event-id", eventsLoaded[i].id);
 				clone.attr("evnt-temp-id", i); //Set the temp id
+				clone.attr("rep-type", eventsLoaded[i].repeat);
+				
+				console.log("Event loading...");
 				pushEventInfo(clone, catParent.attr("data-id"), i);
+				
 				currEventsMap[i].enddatetime = eventsLoaded[i].end_date;
-				console.log(currEventsMap);
-				console.log(dateE);
 				var dateString = monthNames[dateE.getMonth()] + " " + dateE.getDate() + ", " + dateE.getFullYear();
 				currEventsMap[i].date = dateString;
 				currEventsMap[i].datetime = eventsLoaded[i].date;
@@ -57,8 +59,6 @@ function scheduleReady()
 		
 		console.log("Readying schedule");
 		setTitles();
-		
-		curEvent = 0;
 		
 		sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
 		schHTML = $("#sch-days").html(); //The HTML for the scheduler days layout, useful for when days are refreshed
@@ -76,6 +76,22 @@ function scheduleReady()
 				e.preventDefault();
 			    $(this).blur();  // lose focus	
 		    }
+		});
+		
+		$(".repeat-option").click(function()
+		{
+			$(".repeat-option").removeClass("red");
+			$(this).addClass("red");
+
+			var repType = $(this).text().toLowerCase();
+			currEvent.attr("rep-type", repType); //set the repeat type attribute
+			
+			
+			var eventObj = currEventsMap[currEvent.attr("evnt-temp-id")];
+			eventObj.repeat = repType;
+			currEventsMap[currEvent.attr("evnt-temp-id")] = eventObj;
+			console.log("Repeat type updated");
+			console.log(currEventsMap);
 		});
 		
 		addDrag(); //add dragging, recursively
@@ -128,6 +144,7 @@ function colDroppable()
 		    	},
 		    	stop: function(event, ui)
 		    	{	
+		    		console.log("Ui Draggable resize stop");
 					pushEventInfo($(this),$(this).attr("id"), $(this).attr("evnt-temp-id"));	
 		    	}
 			});
@@ -148,13 +165,20 @@ function addDrag(selector)
 {
 	if(typeof readOnly !== 'undefined' && readOnly)
 		return;
+		
+	var newSchItem = false;
+	var catBefore = "";
 	
-	$(".evnt-title").on("keydown",function(e){
+	if (selector == null)
+		selector = "#sch-sidebar .sch-evnt";
+	
+	$(selector).find(".evnt-title").on("keydown",function(e){
 	    var key = e.keyCode || e.charCode;  // ie||others
 	    if(key == 13)  // if enter key is pressed
 	    {
 			e.preventDefault();
 		    $(this).blur();  // lose focus
+		    console.log("Keydown");
 		    pushEventInfo($(this).parent(),catBefore, $(this).parent().attr("evnt-temp-id")); //and save again
 	    }
 	})
@@ -163,11 +187,6 @@ function addDrag(selector)
 	});
 	
 	
-	var newSchItem = false;
-	var catBefore = "";
-	
-	if (selector == null)
-		selector = "#sch-sidebar .sch-evnt";
 		
 	$(selector).mousedown(function(event) {
 	if(event.ctrlKey)
@@ -507,6 +526,8 @@ function pushEventInfo(elem, catBefore, eId)
 	
 	var eventId = $(elem).attr("event-id");
 	
+	var repeatType = $(elem).attr("rep-type");
+	
 	var dateTime;
 	var endDateTime = "";
 	
@@ -532,23 +553,16 @@ function pushEventInfo(elem, catBefore, eId)
 	console.log("Start: " + dateTime + " end: " + endDateTime);
 	
 	var catId = $(elem).attr("data-id");	
-	var event_obj = {element: elem, date: dateE, datetime: dateTime, enddatetime: endDateTime, name: nameE, cat_id: catId, event_id: eventId};
+	var event_obj = {element: elem, repeat: repeatType, date: dateE, datetime: dateTime, enddatetime: endDateTime, 
+		name: nameE, cat_id: catId, event_id: eventId};
 	currEventsMap[eId] = event_obj;
 	console.log(currEventsMap);
 }
 
 function saveEvents()
 {
-	//create a new hashmap with only the data we need to pass (excluse the HTML element basically)
-	var newEventsMap = {};
-	for (var eventIndex in currEventsMap) //do a foreach since this is a hashmap
-	{
-		eventObj = currEventsMap[eventIndex];
-		var event_obj = {date: eventObj.date, datetime: eventObj.datetime, enddatetime: eventObj.enddatetime, name: eventObj.name, cat_id: eventObj.cat_id, event_id: eventObj.event_id};
-		newEventsMap[eventIndex] = event_obj;
-	}
-		
-	var arr  = JSON.parse(JSON.stringify(newEventsMap));
+	//JSON encode our hashmap
+	var arr  = JSON.parse(JSON.stringify(currEventsMap));
 	$.ajax({
 	    url: "/save_events",
 	    type: "POST",
@@ -618,8 +632,18 @@ function delCategory(event, elem, id)
 function showOverlay(elem)
 {
 	var editingEvent = $(document.activeElement).hasClass("evnt-title");
+	
 	if(inColumn(elem) && !editingEvent)
 	{
+		currEvent = elem; //Set the current event to the event being edited
+		
+		
+		$(".repeat-option").removeClass("red");
+		if($(elem).attr("rep-type"))
+		{
+			$("#repeat-" + $(elem).attr("rep-type")).addClass("red");
+		}
+		
 		$(".ui-widget-overlay").show();
 		$(".overlay-box").show();
 		var title = $(elem).children(".evnt-title").html();
@@ -637,6 +661,7 @@ function showOverlay(elem)
 function hideOverlay()
 {
 	$(".ui-widget-overlay").hide();
+	$("#repeat-menu").hide();
 	$(".overlay-box").hide();
 	$(".cat-overlay-box").css("display","none");
 }

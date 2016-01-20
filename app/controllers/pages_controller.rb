@@ -45,6 +45,7 @@ class PagesController < ApplicationController
         end
         evnt.name = obj["name"] 
         evnt.user = current_user
+        evnt.repeat = obj["repeat"]
         evnt.date = DateTime.parse(obj["datetime"])
         evnt.end_date = DateTime.parse(obj["enddatetime"])
         @t = obj["enddatetime"]
@@ -53,7 +54,7 @@ class PagesController < ApplicationController
         evnt.save
     end
 
-    render :text => "\"" + @t + "\"  | \"" + @s + "\""
+    render :text => "\"" + @t + "\"  | \"" + @s
   end
   
   def delete_event #delete events
