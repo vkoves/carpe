@@ -253,8 +253,7 @@ function addDrag(selector)
 				$(ui.helper).css("height", (gridHeight*3)-2);
 			$(ui.helper).children(".evnt-time").show();
 			
-			
-			if(ctrlPressed && $(this).parent().attr("id") != "sch-tiles")
+			if(ctrlPressed && $(this).parent().attr("id") != "sch-tiles-inside")
 			{
 				var clone = $(ui.helper).clone();
 				$(this).parent().append(clone);
@@ -278,6 +277,7 @@ function addDrag(selector)
 			}
 			else if(!ctrlPressed && $(this).parent().attr("id") == "sch-tiles") 
 			{
+				console.log("Does this run?");
 				catBefore = $(this).children(".evnt-title").html();
 				console.log($(this).innerHTML);
 				newSchItem = true;
@@ -609,7 +609,7 @@ function createCategory()
 	    	var newCat = $("#cat-template").clone();
 	    	$("#sch-tiles-inside").append(newCat);
 	    	newCat.show();
-	    	newCat.css("top", 105*($("#sch-tiles-inside .sch-evnt.category").length-2));
+	    	//newCat.css("top", 105*($("#sch-tiles-inside .sch-evnt.category").length-2));
 	    	newCat.attr("data-id", resp.id);
 	    	newCat.find(".evnt-title").text(resp.name);
 	    	newCat.find(".sch-evnt-editCat").click(function(){editCategory(event, this, resp.id, ""+resp.name, ""+resp.color);});
