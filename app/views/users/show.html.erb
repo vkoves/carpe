@@ -5,7 +5,13 @@
 <% end %>
 
 <div id="profile-header">
-	<div id="header-image-blur" style="background-image:url(<%= @user.user_avatar(200)%>);"></div>
+	
+	<% if @user.image_url %>
+		<div id="header-image-blur" style="background-image:url(<%= @user.user_avatar(200)%>);"></div>
+	<% else %>
+		<div id="header-image"></div>
+	<% end %>
+
 	<div class="page-container">
 		<div class="profile-avatar avatar">
 			<img src=<%= @user.user_avatar(200)%>>
