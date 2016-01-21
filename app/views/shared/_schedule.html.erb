@@ -40,6 +40,12 @@
 		
 	</div>
 	<div class="catRemainderOverlay">
+		<div id="cat-privacy">
+			Privacy: 
+			<span id="public" class="default">Public</span>
+			<span id="friends" class="default">Friends</span>
+			<span id="private" class="default">Private</span>
+		</div>
 		<div class="futureColors"></div>
 	</div>
 </div>
@@ -79,7 +85,8 @@
 					<%= image_tag "divider-wht2.png", :class => "evnt-divider no-drag" %>
 				</div>
 				<% @user.categories.each_with_index do |cat, index| %>
-					<div class="sch-evnt category" data-id="<%= cat.id %>" style="background-color:<%= cat.color %>; top: <%= 105*index %>px;" onclick="showOverlay($(this))">
+					<div class="sch-evnt category" data-id="<%= cat.id %>" privacy="<%= cat.privacy %>"
+						style="background-color:<%= cat.color %>; top: <%= 105*index %>px;" onclick="showOverlay($(this))">
 						<div class="evnt-time">7:30</div>
 						<div class="evnt-numID">0</div>
 						<div class="evnt-title center-text dis-sel" contenteditable="false" onclick="showOverlay($(this).parent())"><%= cat.name %></div>

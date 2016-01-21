@@ -44,6 +44,9 @@ class PagesController < ApplicationController
     if(params[:user_id])
       @cat.user = User.find(params[:user_id])
     end
+    if(params[:privacy])
+      @cat.privacy = params[:privacy]
+    end
     @cat.name = params[:name]
     @cat.save
     render json: @cat

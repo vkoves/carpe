@@ -9,6 +9,7 @@ var currEventsMap = {};
 var eventTempId = 0; //the temp id
 
 var currEvent; //the event being currently edited
+var currCategory; //the category being currently edited
 
 var readied = false;
 
@@ -96,6 +97,15 @@ function scheduleReady()
 			//remove all of this element
 			$(".sch-evnt[evnt-temp-id='" + currEvent.attr("evnt-temp-id") + "']").remove();
 			populateEvents();
+		});
+		
+		$("#cat-privacy span").click(function()
+		{
+			//highlight the newly recent option
+			$("#cat-privacy span").removeClass("red");
+			$(this).addClass("red");
+			
+			currCategory.attr("privacy", $(this).text().toLowerCase());
 		});
 		
 		addDrag(); //add dragging, recursively
@@ -640,7 +650,7 @@ function saveCategory(event,elem,id)
 	$.ajax({
 	    url: "/create_category",
 	    type: "POST",
-	    data: {name: $(".catOverlayTitle").html(), id: id, color: $(".catTopOverlay").css("background-color")},
+	    data: {name: $(".catOverlayTitle").html(), id: id, color: $(".catTopOverlay").css("background-color"), privacy: currCategory.attr("privacy")},
 	    success: function(resp)
 	    { 
 	    	console.log(resp);
@@ -664,6 +674,15 @@ function saveCategory(event,elem,id)
 
 function editCategory(event, elem, id, name, col)
 {
+	currCategory = $(elem).parent();
+	
+	$("#cat-privacy span").removeClass("red");
+	if(currCategory.attr("privacy"))
+	{
+		$("#cat-privacy #" + currCategory.attr("privacy")).addClass("red");
+	}
+	
+	
 	event.stopImmediatePropagation();
 	$(elem).siblings(".sch-evnt-editCat").css("display","none");
 	$(elem).siblings(".sch-evnt-saveCat").css("display","inline");
@@ -685,8 +704,6 @@ function editCategory(event, elem, id, name, col)
 	$(".ui-widget-overlay").show();
 	$(".cat-overlay-box").css("display","block");
 	$(".catTopOverlay").css("background-color",col);
-	//$(".cat-overlay-box").css("border","solid 2px " + col)
-	//$(".cat-overlay-box").css("box-shadow","0px 0px 16px " + col)
 	$(".catOverlayTitle").html(nameR);
 	$(".cat-overlay-box").attr("data-id",id);
 }
