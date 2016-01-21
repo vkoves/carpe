@@ -180,8 +180,6 @@ function addDrag(selector)
 	if(typeof readOnly !== 'undefined' && readOnly) //don't add drag if this is read only
 		return;
 		
-	var catBefore = "";
-	
 	if (selector == null)
 		selector = "#sch-sidebar .sch-evnt";
 	
@@ -276,12 +274,6 @@ function addDrag(selector)
 				addDrag(clone);				
 				
 			}
-			else if(!ctrlPressed && $(this).parent().attr("id") == "sch-tiles-inside") 
-			{
-				console.log("Does this run?");
-				catBefore = $(this).children(".evnt-title").html();
-				console.log($(this).innerHTML);
-			}
 		},
 		stop: function(event, ui)  //on drag end
 		{
@@ -329,7 +321,6 @@ function addDrag(selector)
 			
 			if ($(this).parent().offset()) 
 			{
-				$(this).attr("id",catBefore);
 				pushEventInfo($(this));
 			}
 		},

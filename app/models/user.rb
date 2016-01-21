@@ -85,6 +85,10 @@ class User < ActiveRecord::Base
 	end
 	
 	def get_events(user) #get events that are acessible to the user
+	 if user == self
+	   return events
+	 end
+	 
 	 arr = [];
 	 
 	 events.each do |e|
