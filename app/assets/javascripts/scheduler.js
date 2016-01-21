@@ -478,10 +478,6 @@ function populateEvents()
 				// So, this does not create a clone using the .clone() method...it was attempted before, though (the result was not optimal).
 				var currentElem = eventObj.element.clone();
 				$(".sch-day-col:eq(" + i + ") .col-snap").append(currentElem);
-				$(".sch-evnt").css("margin-left","auto");
-				$(".sch-evnt").css("margin-right","auto");
-				$(".sch-evnt").css("left","0");
-				$(".sch-evnt").css("right","0");
 				//updateTime($(".sch-evnt"),$(".sch-day-col"));
 			}
 		}
@@ -657,12 +653,10 @@ function saveCategory(event,elem,id)
 	    	console.log("Update category complete.");
 	    	
 	    	//Hide category editing panel
-	    	$(".ui-widget-overlay").hide();
-			$(".cat-overlay-box").hide();
+	    	$(".ui-widget-overlay, .cat-overlay-box").hide();
 			
-			//Update name
-			$("#sch-sidebar .sch-evnt[data-id=" + id + "]").find(".evnt-title").html($(".catOverlayTitle").html());
-			$(".sch-evnt[data-id=" + id + "]").css("background-color", $(".catTopOverlay").css("background-color"));
+			$("#sch-sidebar .sch-evnt[data-id=" + id + "]").find(".evnt-title").html($(".catOverlayTitle").html()); //Update name in sidebar
+			$(".sch-evnt[data-id=" + id + "]").css("background-color", $(".catTopOverlay").css("background-color")); //Update color of events
 			sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
 	    },
 	    error: function(resp)
@@ -674,37 +668,22 @@ function saveCategory(event,elem,id)
 
 function editCategory(event, elem, id, name, col)
 {
-	currCategory = $(elem).parent();
+	currCategory = $(elem).parent(); //set the current category
 	
+	//Select the proper privacy button
 	$("#cat-privacy span").removeClass("red");
 	if(currCategory.attr("privacy"))
 	{
 		$("#cat-privacy #" + currCategory.attr("privacy")).addClass("red");
 	}
 	
-	
 	event.stopImmediatePropagation();
-	$(elem).siblings(".sch-evnt-editCat").css("display","none");
-	$(elem).siblings(".sch-evnt-saveCat").css("display","inline");
-	$(elem).siblings(".catOverlayTitle").trigger('focus');
+	$(".catOverlayTitle").trigger('focus');
 	document.execCommand('selectAll',false,null);
-	if($(".futureColors").children().length == 0) //only add swatches if there are none
-	{
-		$(".futureColors").append("<div class='color-swatch' style='background-color: red;' onclick='changeCategoryColor(event,this,\"Red\")'></div> ");
-		$(".futureColors").append("<div class='color-swatch' style='background-color:orange;' onclick='changeCategoryColor(event,this,\"Orange\")'></div> ");
-		$(".futureColors").append("<div class='color-swatch' style='background-color:yellow;' onclick='changeCategoryColor(event,this,\"Yellow\")'></div> ");
-		$(".futureColors").append("<div class='color-swatch' style='background-color:green;' onclick='changeCategoryColor(event,this,\"Green\")'></div><br/>");
-		$(".futureColors").append("<div class='color-swatch' style='background-color:blue;' onclick='changeCategoryColor(event,this,\"Blue\")'></div> ");
-		$(".futureColors").append("<div class='color-swatch' style='background-color:indigo;' onclick='changeCategoryColor(event,this,\"Indigo\")'></div> ");
-		$(".futureColors").append("<div class='color-swatch' style='background-color:violet;' onclick='changeCategoryColor(event,this,\"Violet\")'></div> ");
-		$(".futureColors").append("<div class='color-swatch' style='background-color:silver;' onclick='changeCategoryColor(event,this,\"Silver\")'></div>");
-	}
-	var nameR = name;
 	
-	$(".ui-widget-overlay").show();
-	$(".cat-overlay-box").css("display","block");
+	$(".ui-widget-overlay, .cat-overlay-box").show();
 	$(".catTopOverlay").css("background-color",col);
-	$(".catOverlayTitle").html(nameR);
+	$(".catOverlayTitle").html(name);
 	$(".cat-overlay-box").attr("data-id",id);
 }
 
@@ -721,7 +700,7 @@ function showOverlay(elem)
 	{
 		currEvent = elem; //Set the current event to the event being edited
 		
-		
+		//Select the proper repeat button
 		$(".repeat-option").removeClass("red");
 		if($(elem).attr("rep-type"))
 		{
@@ -744,10 +723,8 @@ function showOverlay(elem)
 
 function hideOverlay()
 {
-	$(".ui-widget-overlay").hide();
-	$("#repeat-menu").hide();
-	$(".overlay-box").hide();
-	$(".cat-overlay-box").css("display","none");
+	//Hide overlay, the repeat menu and category and event overlays
+	$(".ui-widget-overlay, #repeat-menu, .overlay-box, .cat-overlay-box").hide();
 }
 
 function setTitles()
