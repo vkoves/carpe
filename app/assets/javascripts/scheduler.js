@@ -603,8 +603,10 @@ function createCategory()
 	    	//newCat.css("top", 105*($("#sch-tiles-inside .sch-evnt.category").length-2));
 	    	newCat.attr("data-id", resp.id);
 	    	newCat.find(".evnt-title").text(resp.name);
-	    	newCat.find(".sch-evnt-editCat").click(function(){editCategory(event, this, resp.id, ""+resp.name, resp.color);});
-	    	newCat.find(".sch-evnt-delCat").click(function(){delCategory(event, this, resp.id);});
+	    	newCat.find(".sch-evnt-editCat").attr("onclick", 'editCategory(event, this, "' + resp.id + '", "'+resp.name+'", "' + resp.color + '");');
+	    	newCat.find(".sch-evnt-delCat").attr("onclick", 'delCategory(event, this,"' + resp.id + '");');
+	    	//newCat.find(".sch-evnt-editCat").click(function(){editCategory(event, this, resp.id, ""+resp.name, resp.color);});
+	    	//newCat.find(".sch-evnt-delCat").click(function(){delCategory(event, this, resp.id);});
 	    	addDrag();
 	    	sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
 	    },
