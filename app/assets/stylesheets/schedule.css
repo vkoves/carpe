@@ -268,6 +268,11 @@
 	cursor: grab;
 	cursor: move;	
 }
+/* Give editable text fields proper cursor */
+.evnt-title:focus, .catOverlayTitle:focus
+{
+	cursor: text !important;
+}
 .evnt-date
 {
 	font-size: 24px;

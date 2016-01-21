@@ -190,12 +190,14 @@ function addDrag(selector)
 	    if(key == 13)  // if enter key is pressed
 	    {
 			e.preventDefault();
+			$(this).parent().draggable("enable");
 		    $(this).blur();  // lose focus
 		    console.log("Keydown");
 		    pushEventInfo($(this).parent()); //and save again
 	    }
 	})
 	.focusout(function() { //so that clicking outside an event title also saves
+		$(this).parent().draggable("enable");
 		pushEventInfo($(this).parent()); //save event
 	});
 	
@@ -516,6 +518,8 @@ function removeEvent(event, elem)
 
 function editEvent(event, elem)
 {
+	$(elem).parent().draggable("disable"); //disable dragging while editing the event text
+	
 	$(elem).siblings(".evnt-title").attr("contenteditable", "true");
 	event.stopImmediatePropagation();
 	$(elem).siblings(".evnt-title").trigger('focus');
@@ -523,15 +527,17 @@ function editEvent(event, elem)
 	$(elem).siblings(".sch-evnt-save").css("display","inline");
 }
 
+//Push information about the passed event to the hashmap for saving
 function pushEventInfo(elem)
 {
-	var eId = $(elem).attr("evnt-temp-id");
+	var eId = $(elem).attr("evnt-temp-id"); //the temp id used in the hashmap
+	var eventId = $(elem).attr("event-id"); //the permanent event id used in the database
+	
 	var dateE = $(elem).parent().siblings(".col-titler").children(".evnt-fulldate").html();
 	var nameE = $(elem).children(".evnt-title").text();
 	var startTime = $(elem).children(".evnt-time").html() + "";
 	var endTime = parseInt(startTime.split(":")[0]) + Math.round($(elem).height()/gridHeight) + ":" + startTime.split(":")[1]; 
 	
-	var eventId = $(elem).attr("event-id");
 	
 	var repeatType = $(elem).attr("rep-type");
 	
