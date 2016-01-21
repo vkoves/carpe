@@ -509,7 +509,12 @@
 .overlay-box #repeat-menu
 {
 	display: none;
-	margin-top: 10px;
+	position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    top: 50px;
 }
 
 

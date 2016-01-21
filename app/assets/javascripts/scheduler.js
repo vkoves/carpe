@@ -717,7 +717,7 @@ function showOverlay(elem)
 {
 	var editingEvent = $(document.activeElement).hasClass("evnt-title");
 	
-	if(inColumn(elem) && !editingEvent)
+	if(inColumn(elem) && !editingEvent && !readOnly)
 	{
 		currEvent = elem; //Set the current event to the event being edited
 		
