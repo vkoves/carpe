@@ -29,7 +29,8 @@
     background-position: 20% 40%;
     -webkit-filter: blur(0px) brightness(0.5); */
 }
-#header-image-blur {
+#header-image-blur
+{
     width: 110%;
     top: -16px;
     left: -5%;
@@ -42,12 +43,18 @@
     clip: rect(16px,160000px,216px,16px);
     background-blend-mode: initial;
     -webkit-filter: blur(10px) brightness(0.7);
-    }
+}
+#profile-text
+{
+	float:left;
+    text-align: left;
+}
 #profile-name
 {
 	float: left;
 	color: white;
 	margin-bottom: 0px;
+	width: 100%;
 }
 #profile-name a
 {
@@ -56,18 +63,17 @@
 }
 #profile-friend
 {
-	position: relative;
 	float: left;
-	left: 10px;
-	top: 5px;
+    width: 100%;
+    margin-left: 10px;
+    margin-bottom: 5px;
 }
 #profile-info
 {
 	float: left;
     color: white;
-    margin-left: 10px;
-    margin-top: -8px;
     font-weight: bold;
+    margin-left: 10px;
 }
 #profile-buttons
 {
