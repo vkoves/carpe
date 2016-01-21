@@ -43,7 +43,7 @@ function scheduleReady()
 				clone.attr("rep-type", eventsLoaded[i].repeat);
 				
 				console.log("Event loading...");
-				pushEventInfo(clone, catParent.attr("data-id"), i);
+				pushEventInfo(clone);
 				
 				currEventsMap[i].enddatetime = eventsLoaded[i].end_date;
 				var dateString = monthNames[dateE.getMonth()] + " " + dateE.getDate() + ", " + dateE.getFullYear();
@@ -159,7 +159,7 @@ function colDroppable()
 		    	stop: function(event, ui)
 		    	{	
 		    		console.log("Ui Draggable resize stop");
-					pushEventInfo($(this),$(this).attr("id"), $(this).attr("evnt-temp-id"));	
+					pushEventInfo($(this));	
 		    	}
 			});
 		},
@@ -177,10 +177,9 @@ function colDroppable()
 //the dragging function
 function addDrag(selector)
 {
-	if(typeof readOnly !== 'undefined' && readOnly)
+	if(typeof readOnly !== 'undefined' && readOnly) //don't add drag if this is read only
 		return;
 		
-	var newSchItem = false;
 	var catBefore = "";
 	
 	if (selector == null)
@@ -193,11 +192,11 @@ function addDrag(selector)
 			e.preventDefault();
 		    $(this).blur();  // lose focus
 		    console.log("Keydown");
-		    pushEventInfo($(this).parent(),catBefore, $(this).parent().attr("evnt-temp-id")); //and save again
+		    pushEventInfo($(this).parent()); //and save again
 	    }
 	})
 	.focusout(function() { //so that clicking outside an event title also saves
-		pushEventInfo($(this).parent(),catBefore, $(this).parent().attr("evnt-temp-id")); //save event
+		pushEventInfo($(this).parent()); //save event
 	});
 	
 	
@@ -269,20 +268,18 @@ function addDrag(selector)
 				$(this).attr("evnt-temp-id", eventTempId);
 				eventTempId++;
 				
-				pushEventInfo($(this),$(this).attr("id"), $(this).attr("evnt-temp-id"));
-				pushEventInfo(clone,$(this).attr("id"), $(clone).attr("evnt-temp-id"));
+				pushEventInfo($(this));
+				pushEventInfo(clone);
 				
 				addDrag(clone);				
 				
 			}
-			else if(!ctrlPressed && $(this).parent().attr("id") == "sch-tiles") 
+			else if(!ctrlPressed && $(this).parent().attr("id") == "sch-tiles-inside") 
 			{
 				console.log("Does this run?");
 				catBefore = $(this).children(".evnt-title").html();
 				console.log($(this).innerHTML);
-				newSchItem = true;
 			}
-			
 		},
 		stop: function(event, ui)  //on drag end
 		{
@@ -331,7 +328,7 @@ function addDrag(selector)
 			if ($(this).parent().offset()) 
 			{
 				$(this).attr("id",catBefore);
-				pushEventInfo($(this),catBefore, $(this).attr("evnt-temp-id"));
+				pushEventInfo($(this));
 			}
 		},
 		drag: function(event, ui)
@@ -352,7 +349,7 @@ function addDrag(selector)
 	    	},
 	    	stop: function(event, ui)
 	    	{	
-				pushEventInfo($(this),$(this).attr("id"), $(this).attr("evnt-temp-id"));
+				pushEventInfo($(this));
 	    	}
 		});
 	}
@@ -526,8 +523,9 @@ function editEvent(event, elem)
 	$(elem).siblings(".sch-evnt-save").css("display","inline");
 }
 
-function pushEventInfo(elem, catBefore, eId)
+function pushEventInfo(elem)
 {
+	var eId = $(elem).attr("evnt-temp-id");
 	var dateE = $(elem).parent().siblings(".col-titler").children(".evnt-fulldate").html();
 	var nameE = $(elem).children(".evnt-title").text();
 	var startTime = $(elem).children(".evnt-time").html() + "";
