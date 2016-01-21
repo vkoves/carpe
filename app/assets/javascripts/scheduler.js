@@ -634,6 +634,33 @@ function delCategory(event, elem, id)
 	$(elem).parent().slideUp();
 }
 
+function saveCategory(event,elem,id)
+{
+	//window.location.href = './schedule?edit=t&id=' + id + '&name=' + $(".catOverlayTitle").html() + '&col=' + $(".catTopOverlay").css("background-color");
+	$.ajax({
+	    url: "/create_category",
+	    type: "POST",
+	    data: {name: $(".catOverlayTitle").html(), id: id, color: $(".catTopOverlay").css("background-color")},
+	    success: function(resp)
+	    { 
+	    	console.log(resp);
+	    	console.log("Update category complete.");
+	    	
+	    	//Hide category editing panel
+	    	$(".ui-widget-overlay").hide();
+			$(".cat-overlay-box").hide();
+			
+			//Update name
+			$("#sch-sidebar .sch-evnt[data-id=" + id + "]").find(".evnt-title").html($(".catOverlayTitle").html());
+			$(".sch-evnt[data-id=" + id + "]").css("background-color", $(".catTopOverlay").css("background-color"));
+	    },
+	    error: function(resp)
+	    {
+	    	alert("Updating category failed :(");
+	    }
+	});
+}
+
 function editCategory(event, elem, id, name, col)
 {
 	event.stopImmediatePropagation();
@@ -666,11 +693,6 @@ function editCategory(event, elem, id, name, col)
 function changeCategoryColor(event,elem,col)
 {
 	$(".catTopOverlay").css("background-color",col);
-}
-
-function saveCategory(event,elem,id)
-{
-	window.location.href = './schedule?edit=t&id=' + id + '&name=' + $(".catOverlayTitle").html() + '&col=' + $(".catTopOverlay").css("background-color");
 }
 
 function showOverlay(elem)

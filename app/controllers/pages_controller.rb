@@ -35,9 +35,15 @@ class PagesController < ApplicationController
   end
   
   def create_category
-    @cat = Category.new
+    if params[:id]
+      @cat = Category.find(params[:id])    
+    else
+      @cat = Category.new
+    end
     @cat.color = params[:color]
-    @cat.user = User.find(params[:user_id])
+    if(params[:user_id])
+      @cat.user = User.find(params[:user_id])
+    end
     @cat.name = params[:name]
     @cat.save
     render json: @cat
