@@ -84,6 +84,18 @@ class User < ActiveRecord::Base
 	  return all_friendships().count
 	end
 	
+	def get_events(user) #get events that are acessible to the user
+	 arr = [];
+	 
+	 events.each do |e|
+	   if e.category.has_access(user)
+	     arr.push(e)
+	   end
+	 end
+	 
+	 return arr
+	end
+	
 	def self.find_for_google_oauth2(access_token, signed_in_resource=nil)
     data = access_token.info
     user = User.where(:provider => access_token.provider, :uid => access_token.uid ).first

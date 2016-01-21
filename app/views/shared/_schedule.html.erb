@@ -158,7 +158,7 @@
 	<% else %>
 		var readOnly = false;
 	<% end %>
-	var eventsLoaded = <%= raw @user.events.to_json %>;
+	var eventsLoaded = <%= raw @user.get_events(current_user).to_json %>;
 	<% current_user ? id = current_user.id : id = -1 %>
 	var userId = <%= id %>;
 </script>
