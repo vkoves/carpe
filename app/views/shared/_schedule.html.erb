@@ -85,6 +85,7 @@
 					<%= image_tag "divider-wht2.png", :class => "evnt-divider no-drag" %>
 				</div>
 				<% @user.categories.each_with_index do |cat, index| %>
+					<% if @user == current_user or cat.has_access(current_user) %>
 					<div class="sch-evnt category" data-id="<%= cat.id %>" privacy="<%= cat.privacy %>"
 						style="background-color:<%= cat.color %>; top: <%= 105*index %>px;" onclick="showOverlay($(this))">
 						<div class="evnt-time">7:30</div>
@@ -97,6 +98,7 @@
 						<%= image_tag "close-wht.png", :class => "sch-evnt-close sch-evnt-icon no-drag", :onclick => "removeEvent(event, this);" %>
 						<%= image_tag "divider-wht2.png", :class => "evnt-divider no-drag" %>
 					</div>
+					<% end %>
 				<% end %>
 			</div>
 		</div>
