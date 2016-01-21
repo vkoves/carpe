@@ -28,6 +28,7 @@
     /* background-size: 100%;
     background-position: 20% 40%;
     -webkit-filter: blur(0px) brightness(0.5); */
+
 }
 #header-image-blur
 {
@@ -39,10 +40,12 @@
     z-index: -1;
     /* background-image: url(https://lh5.googleusercontent.com/-O0da35K3TG8/AAAAAAAAAAI/AAAAAAAAAdI/-Vqg-ZuvaDg/photo.jpg?sz=200); */
     background-size: cover;
-    background-position-y: 50%;
+    background-position: 0 50%;
     clip: rect(16px,160000px,216px,16px);
     background-blend-mode: initial;
     -webkit-filter: blur(10px) brightness(0.7);
+    -moz-filter: blur(10px) brightness(0.7); 
+    filter: blur(10px) brightness(0.7);
 }
 #profile-text
 {
