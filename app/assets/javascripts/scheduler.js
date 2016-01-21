@@ -653,6 +653,7 @@ function saveCategory(event,elem,id)
 			//Update name
 			$("#sch-sidebar .sch-evnt[data-id=" + id + "]").find(".evnt-title").html($(".catOverlayTitle").html());
 			$(".sch-evnt[data-id=" + id + "]").css("background-color", $(".catTopOverlay").css("background-color"));
+			sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
 	    },
 	    error: function(resp)
 	    {
