@@ -44,7 +44,8 @@
 	font-size: 16px;
 	overflow: hidden;
 	cursor: grab;
-	cursor: move;	/* Box sizing to make the borders on the inside 
+	cursor: move;
+	/* Box sizing to make the borders on the inside 
 	box-sizing:border-box;
 	-moz-box-sizing:border-box;
 	-webkit-box-sizing:border-box; */
@@ -473,9 +474,10 @@
 	width:100%;
 }
 /* Let's get this party started */
+/* I'll supply the turnips. */
 #sch-main::-webkit-scrollbar, #sch-tiles::-webkit-scrollbar {
-    width: 14px;
-    height: 14px;
+    width: 9px;
+    height: 9px;
 }
  
 /* Track */
