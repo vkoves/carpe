@@ -153,11 +153,7 @@
 </div>
 
 <script>
-	<% if @read_only %>
-		var readOnly = true;
-	<% else %>
-		var readOnly = false;
-	<% end %>
+	var readOnly = 	<%= @read_only ? true : false %>;
 	var eventsLoaded = <%= raw @user.get_events(current_user).to_json %>;
 	<% current_user ? id = current_user.id : id = -1 %>
 	var userId = <%= id %>;

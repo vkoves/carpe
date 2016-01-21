@@ -85,8 +85,8 @@ class User < ActiveRecord::Base
 	end
 	
 	def get_events(user) #get events that are acessible to the user
-	 if user == self
-	   return events
+	 if user == self #if a user is trying to view their own events
+	   return events #return all events
 	 end
 	 
 	 arr = [];
