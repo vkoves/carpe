@@ -603,7 +603,7 @@ function createCategory()
 	    	//newCat.css("top", 105*($("#sch-tiles-inside .sch-evnt.category").length-2));
 	    	newCat.attr("data-id", resp.id);
 	    	newCat.find(".evnt-title").text(resp.name);
-	    	newCat.find(".sch-evnt-editCat").click(function(){editCategory(event, this, resp.id, ""+resp.name, ""+resp.color);});
+	    	newCat.find(".sch-evnt-editCat").click(function(){editCategory(event, this, resp.id, ""+resp.name, resp.color);});
 	    	newCat.find(".sch-evnt-delCat").click(function(){delCategory(event, this, resp.id);});
 	    	addDrag();
 	    	sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
@@ -677,8 +677,13 @@ function editCategory(event, elem, id, name, col)
 	document.execCommand('selectAll',false,null);
 	
 	$(".ui-widget-overlay, .cat-overlay-box").show();
-	$(".catTopOverlay").css("background-color",col);
-	$(".catOverlayTitle").html(name);
+
+	if(col)
+		$(".catTopOverlay").css("background-color",col);
+	else
+		$(".catTopOverlay").css("background-color","");
+
+	$(".catOverlayTitle").html($(currCategory).find(".evnt-title").text());
 	$(".cat-overlay-box").attr("data-id",id);
 }
 
