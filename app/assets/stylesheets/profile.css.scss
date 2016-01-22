@@ -132,17 +132,26 @@
 	top: -15px;
 }
 
-#friend-list {
-	display: table;
+#friend-list
+{
 	width: 100%;
+	text-align: center;
 }
-.friend-listing {
+.friend-listing
+{
 	position: relative;
     width: 50%;
-    height: 120px;
-    float: left;
-    padding: 10px 20px;
-    transition: margin-left 0.5s;
+	height: 120px;
+	margin: 10px;
+	padding: 0px 10px;
+	transition: margin-left 0.5s;
+	display: inline-block;
+	background: #E0E0E0;
+	border-radius: 5px;
+}
+.friend-listing .avatar
+{
+	margin-top: 10px;
 }
 .friend-details
 {
@@ -154,7 +163,7 @@
 {
 	font-size: 24px;
 }
-
+/*
 @media (max-width: 660px)
 {
 	.friend-listing
@@ -162,3 +171,4 @@
 		margin-left: calc(50% - 155px);
 	}
 }
+*/

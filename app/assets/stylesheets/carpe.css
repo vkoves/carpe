@@ -317,7 +317,26 @@ input.danger:hover
 	#menu-holder {left: 0px !important;}
 }
 
+/* 
+ * TO BE SORTED 
+ */
 
+.user-box
+{
+	width: 120px;
+	margin-bottom: 10px;
+	float: left;
+	padding: 10px 5px 5px 5px;
+	min-height: 210px;
+	background: #E0E0E0;
+	margin: 5px;
+	border-radius: 5px;
+}
+.user-box .name
+{
+	font-size: 16px;
+	margin-bottom: 7px;
+}
 
 /* UTILITY STYLING - Some handy tools, should be kept at EOF */
 .center-text

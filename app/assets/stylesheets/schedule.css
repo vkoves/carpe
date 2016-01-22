@@ -206,8 +206,7 @@
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: 10px;
-    margin-bottom: 30px;
-    height: 100%;
+    margin-bottom: 10px;
 }
 .col-snap	
 {
@@ -347,6 +346,7 @@
 
 .sch-but-holder {
 	margin-bottom: 15px;
+	padding: 0px 5px;
 }
 
 .sch-week-prev {
