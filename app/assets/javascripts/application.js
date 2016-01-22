@@ -13,9 +13,11 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
-//= require_tree .
 //= require jquery-ui.min
 //= require jquery.ui.touch-punch.min
+// Removed to prevent schedule js being loaded everywhere
+// require_tree .
+
 
 var ready = function() {
 	console.log("Ready " + window.location.href );
