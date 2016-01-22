@@ -510,9 +510,21 @@
 	/* background: rgba(255,0,0,0.4); */
 }
 
+.overlay-box #close
+{
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	width: 22px;
+	padding: 2px 1px 2px 3px;
+	border-radius: 50px;
+	text-align: center;
+}
 .overlay-box #repeat
 {
-	position: absolute; top: 15px; right: 10px;
+	position: absolute;
+	top: 40px; 
+	right: 10px;
 }
 .overlay-box #repeat-menu
 {
@@ -522,7 +534,7 @@
     margin-right: auto;
     left: 0;
     right: 0;
-    top: 50px;
+    top: 80px;
 }
 
 
