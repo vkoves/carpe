@@ -60,6 +60,10 @@ class PagesController < ApplicationController
   def save_events #save events
     text = params.to_s
 
+    unless params[:map] #if there is no map param defined
+      render :text => "No events to save!" and return #say so and return
+    end
+    
     params[:map].each do |key, obj|
         if(obj["event_id"])
           evnt = Event.find(obj["event_id"].to_i)
