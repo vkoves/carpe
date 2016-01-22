@@ -6,9 +6,12 @@
   <link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
   <style>
+  	/* Inline styling in case rails is completely unresponsive */
   	body
   	{
   		font-family: 'Open Sans', sans-serif;
+  		margin: 0px;
+  		background: #FF7400;
   	}
   	.carpe-font /* Has the Carpe cool font */
 	{
@@ -24,15 +27,30 @@
 	}
 	.page-container
 	{
-		width: 80%;
-		text-align: center;
-		margin-left: auto;
-		margin-right: auto;
+	    width: 80%;
+	    max-width: 900px;
+	    text-align: center;
+	    margin-left: auto;
+	    margin-right: auto;
+	    background: #F1F1F1;
+	    height: auto;
+	    margin-top: 50px;
+	    padding-bottom: 50px;
+	    box-shadow: 0px 0px 20px #676767;
 	}
 	.titler
 	{
 		font-weight: bold;
 		font-size: 48px;
+		color: dimgrey;
+	}
+	#description
+	{
+		color: dimgrey;
+		font-size: 24px;
+		width: 80%;
+	    margin-left: auto;
+	    margin-right: auto;
 	}
   </style>
 </head>
@@ -42,7 +60,7 @@
   <div class="page-container">
   	<div class="carpe-font"><a href="/">Carpe</a></div>
   	<div class="titler">404 - Page Not Found</div>
-  	<div>We couldn't find that page! Check for mispellings or head back to the <a href="/">homepage</a></div>
+  	<div id="description">We couldn't find that page! Check for mispellings or head back to the <a href="/">homepage</a></div>
   </div>
 </body>
 </html>
