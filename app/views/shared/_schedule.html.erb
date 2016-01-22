@@ -77,7 +77,7 @@
 				<div id="cat-template" class="sch-evnt category" style="display: none">
 					<div class="evnt-time">7:30</div>
 					<div class="evnt-numID">0</div>
-					<div class="evnt-title center-text dis-sel" contenteditable="false"></div>
+					<div class="evnt-title center-text dis-sel" contenteditable="false" onclick="editEvent(event, this);"></div>
 					<div class="evnt-desc dis-sel"></div>
 					<%= image_tag "quill-wht.png", :class => "sch-evnt-editCat sch-cat-icon no-drag", :onclick => "" %>
 					<%= image_tag "close-wht.png", :class => "sch-evnt-delCat sch-cat-icon no-drag", :onclick => "" %>
@@ -91,7 +91,7 @@
 						style="background-color:<%= cat.color %>; /*top: <%= 105*index %>*/">
 						<div class="evnt-time">7:30</div>
 						<div class="evnt-numID">0</div>
-						<div class="evnt-title center-text dis-sel" contenteditable="false"><%= cat.name %></div>
+						<div class="evnt-title center-text dis-sel" contenteditable="false" onclick="editEvent(event, this);"><%= cat.name %></div>
 						<div class="evnt-desc dis-sel"></div>
 						<%= image_tag "quill-wht.png", :class => "sch-evnt-editCat sch-cat-icon no-drag", :onclick => "editCategory(event, this, #{cat.id}, \"#{cat.name}\", \"#{cat.color}\");" %>
 						<%= image_tag "close-wht.png", :class => "sch-evnt-delCat sch-cat-icon no-drag", :onclick => "delCategory(event, this, #{cat.id});" %>

@@ -511,11 +511,16 @@ function removeEvent(event, elem)
 
 function editEvent(event, elem)
 {
+	//return if this is in the sidebar
+	if(!inColumn($(elem).parent()) || $(elem).is(":focus"))
+		return;
+	
+	console.log("Editing event");
 	$(elem).parent().draggable("disable"); //disable dragging while editing the event text
 	
-	$(elem).siblings(".evnt-title").attr("contenteditable", "true");
+	$(elem).attr("contenteditable", "true");
 	event.stopImmediatePropagation();
-	$(elem).siblings(".evnt-title").trigger('focus');
+	$(elem).trigger('focus');
 	document.execCommand('selectAll',false,null);
 	$(elem).siblings(".sch-evnt-save").css("display","inline");
 }
