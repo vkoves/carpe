@@ -11,12 +11,8 @@
 #sch-main
 {
 	width: calc(100% - 254px);
-	/* background: rgb(230, 230, 230); */
 	height: 76%;
-	border-radius: 5px;
 	float: right;
-	overflow-x: auto;
-	overflow-y: hidden;
 }
 #sch-sidebar
 {
@@ -29,7 +25,14 @@
 	float: left;
 	position:relative;
 }
-
+#sch-holder
+{
+	width: 100%;
+    height: 93%;
+    border-radius: 5px;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
 .sch-evnt
 {
 	transition: box-shadow 0.3s, border-color 0.3s;
@@ -487,13 +490,13 @@
 }
 /* Let's get this party started */
 /* I'll supply the turnips. */
-#sch-main::-webkit-scrollbar, #sch-tiles::-webkit-scrollbar {
+#sch-holder::-webkit-scrollbar, #sch-tiles::-webkit-scrollbar {
     width: 9px;
     height: 9px;
 }
  
 /* Track */
-#sch-main::-webkit-scrollbar-track, #sch-tiles::-webkit-scrollbar-track {
+#sch-holder::-webkit-scrollbar-track, #sch-tiles::-webkit-scrollbar-track {
     /* -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); */
     background: rgba(100,100,100,0.2);
     -webkit-border-radius: 12px;
@@ -501,12 +504,12 @@
 }
  
 /* Handle */
-#sch-main::-webkit-scrollbar-thumb, #sch-tiles::-webkit-scrollbar-thumb {
+#sch-holder::-webkit-scrollbar-thumb, #sch-tiles::-webkit-scrollbar-thumb {
     -webkit-border-radius: 10px;
     border-radius: 10px;
     background: rgba(255,140,43,0.8); 
 }
-#sch-main::-webkit-scrollbar-thumb:window-inactive {
+#sch-holder::-webkit-scrollbar-thumb:window-inactive {
 	/* background: rgba(255,0,0,0.4); */
 }
 
