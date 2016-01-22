@@ -162,6 +162,8 @@ function colDroppable()
 					pushEventInfo($(this));	
 		    	}
 			});
+			
+			$(this).parent().removeClass("over"); //dehighlight on drop
 		},
 		over: function( event, ui ) {
 			$(this).parent().addClass("over");
