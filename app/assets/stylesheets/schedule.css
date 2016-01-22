@@ -22,12 +22,11 @@
 {
 	width: 250px;
 	height: 76%;
-	background: rgb(253, 253, 253);
+	background: rgb(239, 239, 239);
+	/* background: rgb(253, 253, 253); */
 	font-size: 24px;
 	border-radius: 5px;
 	float: left;
-	/*overflow-x:hidden;
-	overflow-y:auto;*/
 	position:relative;
 }
 
@@ -184,13 +183,18 @@
 {
 	/* background: grey; */
 }
+#side-desc
+{
+	font-size: 15px;
+	color: grey;
+}
 #sch-tiles
 {
 	position: relative;
     margin-left: auto;
     margin-right: auto;
     width: 100%;
-    height: calc(100% - 57px);
+	height: calc(100% - 98px);
     overflow-y: auto;
     overflow-x: hidden;
     /*background: gainsboro;*/
@@ -347,7 +351,6 @@
 
 .sch-week-prev {
 	float: left;
-	margin-left: 21%;
 }
 
 .sch-week-next {

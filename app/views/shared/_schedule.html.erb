@@ -68,19 +68,9 @@
 		<br>
 	<% end %>
 	
-	<div class="sch-but-holder">
-		<span class="default sch-week-prev" onclick="addDates(new Date(refDate.getYear()+1900,refDate.getMonth(),refDate.getDate()-7), true)">Previous</span> 
-		&nbsp; 
-		<span class="default sch-week-next" onclick="addDates(new Date(refDate.getYear()+1900,refDate.getMonth(),refDate.getDate()+7), true)">Next</span> 
-		
-		<% if !@read_only %>	
-			<span class="default green" id="sch-save" onclick="saveEvents()">Save</span>
-		<% end %>
-	</div>
-	
 	<div id="sch-sidebar">
 		<span id="sidebar-title" title="Drag a category onto the schedule to create a schedule item." onclick="createCategory();">Categories</span>
-			
+		<div id="side-desc">Drag a category onto the schedule to create a schedule item.</div>
 		<div id="sch-tiles">
 			<div id="sch-tiles-inside">
 				<div id="cat-template" class="sch-evnt category" style="display: none" onclick="showOverlay($(this))">
@@ -119,6 +109,16 @@
 	<%= image_tag "divider-orng.png", :height => "505px", :style => "float: left;" %>
 	
 	<div id="sch-main">
+		<div class="sch-but-holder">
+			<span class="default sch-week-prev" onclick="addDates(new Date(refDate.getYear()+1900,refDate.getMonth(),refDate.getDate()-7), true)">Previous</span> 
+			&nbsp; 
+			<span class="default sch-week-next" onclick="addDates(new Date(refDate.getYear()+1900,refDate.getMonth(),refDate.getDate()+7), true)">Next</span> 
+			
+			<% if !@read_only %>	
+				<span class="default green" id="sch-save" onclick="saveEvents()">Save</span>
+			<% end %>
+		</div>
+		
 		<div id="sch-days">
 			<div class="sch-day-col">
 				<span class="col-titler"><span class="evnt-day">Monday</span></span>

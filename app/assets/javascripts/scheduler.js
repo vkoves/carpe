@@ -611,6 +611,7 @@ function createCategory()
 	    	//newCat.find(".sch-evnt-delCat").click(function(){delCategory(event, this, resp.id);});
 	    	addDrag();
 	    	sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
+	    	newCat.find(".sch-evnt-editCat").click();
 	    },
 	    error: function(resp)
 	    {
