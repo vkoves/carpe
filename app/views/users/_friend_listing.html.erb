@@ -40,7 +40,7 @@
 						<% end %>
 				</div>
 			</div>
-		<% else %>
+		<% elsif user != current_user %>
 			<div class="friend-listing" style="width: 300px; height: auto;">
 				<a href="/u/<%= user.id %>">
 					<div class="avatar" style="float: left">
