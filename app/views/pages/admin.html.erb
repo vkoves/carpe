@@ -6,13 +6,7 @@
 <h4>Admins</h4>
 <% @users = User.where(admin: true) %>
 <% @users.each do |user| %>
-<div style="width: 200px; margin-left: auto; margin-right: auto;     width: 200px;
-    margin-left: auto;
-    margin-right: auto;
-    height: 56px;
-    background: gainsboro;
-    padding: 5px 10px;
-    border-radius: 5px; margin-bottom: 10px;">
+<div class="grey-box" style="width: 200px; margin-left: auto; margin-right: auto; width: 200px; height: 56px; padding: 5px 10px; border-radius: 5px; margin-bottom: 10px;">
 	<a href="/u/<%= user.id %>">
 		<div class="avatar" style="float: left">
 			<img style="width: 50px;" src="<%= user.user_avatar(100) %>">
