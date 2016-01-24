@@ -110,11 +110,4 @@ class PagesController < ApplicationController
       redirect_to "/"
     end
   end
-  
-  def find_friends
-    if !current_user
-      flash[:alert] = "You have to be signed in to find friends!"
-      redirect_to "/users/sign_in"
-    end 
-  end
 end

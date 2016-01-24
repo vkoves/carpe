@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   get "/schedule" => 'pages#schedule'
   get "/userviewer" => 'pages#userviewer'
   get "/catviewer" => 'pages#catviewer'
-  get "/find_friends" => 'pages#find_friends'
+  get "/find_friends" => 'users#find_friends'
   
   get "/promote" => 'pages#promote'
   
