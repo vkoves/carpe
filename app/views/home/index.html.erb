@@ -7,4 +7,14 @@
 <% if current_user and current_user.admin %>
 <a href="/admin" class="default"><span>Admin Panel</span></a>
 <% end %>
-
+<% if current_user and current_user.admin #only print this sandbox things for the el33ts %>
+	<br>
+	<% @events = current_user.events.where(:date => DateTime.now.beginning_of_day...DateTime.now.end_of_day)%>
+	<% @events.each do |e| %>
+		<%= e.name %>
+		<% if e.date < DateTime.now and e.end_date > DateTime.now %>
+			NOW!
+		<% end %>
+		<br>
+	<% end %>
+<% end %>
