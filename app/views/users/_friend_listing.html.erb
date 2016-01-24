@@ -40,7 +40,7 @@
 						<% end %>
 				</div>
 			</div>
-		<% elsif user != current_user %>
+		<% elsif %>
 			<div class="friend-listing" style="width: 300px; height: auto;">
 				<a href="/u/<%= user.id %>">
 					<div class="avatar" style="float: left">
@@ -52,16 +52,18 @@
 					<% mut = current_user.mutual_friends(user).count %>
 					<span style="position: relative; top: -3px;"><%= mut %> mutual friends</span>
 					<br>
-						<% status = current_user.friend_status(user) %>
+					<% if user == current_user %>
+						<% break %>					<% end %>
+					<% status = current_user.friend_status(user) %>
 					<% if status == nil #not friends %>
-					<%= link_to friendships_path(:friend_id => user), :method => :post, :class => "default green" do %>
-						<span>Add Friend</span>
+						<%= link_to friendships_path(:friend_id => user), :method => :post, :class => "default green" do %>
+							<span>Add Friend</span>
+						<% end %>
+					<% elsif status == "friend" %>
+						<span class="friend-label">Friend</span>
+					<% elsif status == "pending" || status == "denied" %>
+						<span class="friend-label">Pending...</span>
 					<% end %>
-				<% elsif status == "friend" %>
-					<span class="friend-label">Friend</span>
-				<% elsif status == "pending" || status == "denied" %>
-					<span class="friend-label">Pending...</span>
-				<% end %>
 				</div>
 			</div>
 		<% end %>
