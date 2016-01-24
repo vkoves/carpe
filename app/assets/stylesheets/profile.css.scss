@@ -140,8 +140,8 @@
 .friend-listing
 {
 	position: relative;
-    width: 50%;
-	height: 120px;
+    width: 300px;
+	height: auto;
 	margin: 10px;
 	padding: 0px 10px;
 	transition: margin-left 0.5s;
@@ -150,15 +150,33 @@
 	border-radius: 5px;
 	box-shadow: 1px 1px 1px silver;
 }
+.friend-listing.profile
+{
+	width: 310px;
+    padding: 10px 20px;
+}
+.friend-listing.profile .friend-details
+{
+	position: relative;
+	top: -5px;
+	margin-top: 0px;
+}
+.friend-listing #mutual-friends
+{
+	position: relative;
+	top: -3px;
+}
 .friend-listing .avatar
 {
 	margin-top: 10px;
+	float: left;
 }
 .friend-details
 {
 	text-align: left;
 	float: left;
 	margin-left: 10px;
+	margin-top: 7px;
 }
 .friend-name
 {
