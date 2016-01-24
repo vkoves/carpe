@@ -17,14 +17,19 @@
 	font-size: 20px;
 	text-align: left;
 }
-.header-text {
+.header-text
+{
 	padding-top:10px;
 	left:150px;
 	position:absolute;
 	white-space: nowrap;
-  overflow: hidden;
-  width: 50%;
-  transition: width 0.5s, opacity 0.5s;
+	overflow: hidden;
+	width: 50%;
+	transition: width 0.5s, opacity 0.5s;
+}
+.header-text .active
+{
+	color: orange;
 }
 .header-logintext {
 	padding-top: 14px;

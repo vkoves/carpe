@@ -398,6 +398,11 @@
 	height:23px;
 	border: solid 2px grey;
 	border-radius: 5px;
+	cursor: pointer;
+}
+.color-swatch:hover
+{
+	box-shadow: 0px 0px 5px grey;
 }
 /* You can see my efforts in futility, if you so desire (not implemented yet) */
 

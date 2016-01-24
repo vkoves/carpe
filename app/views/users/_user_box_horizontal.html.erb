@@ -13,7 +13,7 @@
 			:style => "position: relative; top: 5px;" do %>
 				<span>Remove</span>
 			<% end %>
-		<% else %>
+		<% elsif current_user %>
 			<% mut = current_user.mutual_friends(user).count %>
 			<span id="mutual-friends"><%= mut %> mutual friends</span>
 			<br>

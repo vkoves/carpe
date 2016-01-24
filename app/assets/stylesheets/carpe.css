@@ -333,6 +333,10 @@ input.danger:hover
     border-radius: 5px;
     box-shadow: 1px 1px 1px silver; 
 }
+.user-box .default, .user-box .friend-label
+{
+	margin-bottom: 5px;
+}
 .user-box .name
 {
 	font-size: 16px;

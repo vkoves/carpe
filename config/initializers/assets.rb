@@ -9,6 +9,7 @@ Rails.application.config.assets.version = '1.0'
 Rails.application.config.assets.precompile += %w( carpe.css )
 Rails.application.config.assets.precompile += %w( schedule.css )
 Rails.application.config.assets.precompile += %w( profile.css )
+Rails.application.config.assets.precompile += %w( login.css )
 Rails.application.config.assets.precompile += %w( jquery-ui.min.css )
 Rails.application.config.assets.precompile += %w( header.css )
 Rails.application.config.assets.precompile += %w( scheduler.js )

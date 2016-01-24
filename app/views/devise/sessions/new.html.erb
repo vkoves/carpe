@@ -1,58 +1,5 @@
 <!-- The login page -->
-<style>
-#left, #right
-{
-	margin-top: 100px;
-}
-#left
-{
-	width: 50%;
-	float: left;
-	text-align: right;
-}
-#right
-{
-    width: 174px;
-    margin-right: calc(50% - 194px);
-	float: right;
-}
-#left h1
-{
-	color: orange;
-	font-size: 36px;
-	margin-bottom: 10px;
-}
-#left h5
-{
-	color: grey;
-	font-size: 16px;
-	margin-top: 0px;
-}
-.text-field label{color: orange;}
-@media (max-width: 800px)
-{
-	#right
-	{
-		width: 45%;
-		margin-right: 5%;
-		float: right;
-	}
-}
-@media (max-width: 600px)
-{
-	#left, #right
-	{
-		width: 100%;
-		text-align: center;
-		margin-top: 0px;
-		float: none;
-		
-	max-width: 400px;
-	margin-left: auto;
-	margin-right: auto;
-	}
-}
-</style>
+<%= stylesheet_link_tag "login" %>
 <div id="left">
 	<h1>Welcome back!</h1>
 	<h5>Enter your email address and password,<br> and we'll unlock the door for you.</h5>
