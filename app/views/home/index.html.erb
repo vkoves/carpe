@@ -15,7 +15,7 @@
 		<% @events = user.events.where(:date => DateTime.now.beginning_of_day...DateTime.now.end_of_day)%>
 		<% @events.each do |e| %>
 			<% if e.date < DateTime.now and e.end_date > DateTime.now %>
-				busy with <%= e.name %><br>
+				busy with <%= e.name %>
 				<% free = false %>
 			<% end %>
 		<% end %>
