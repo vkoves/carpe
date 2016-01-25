@@ -36,8 +36,10 @@ function scheduleReady()
 				var dateE = new Date(eventsLoaded[i].date);
 				var dateEnd = new Date(eventsLoaded[i].end_date);
 				
-				clone.children(".evnt-title").text(eventsLoaded[i].name); 
-				clone.children(".evnt-time").text(dateE.getHours() + ":" + dateE.getMinutes()).show();
+				clone.children(".evnt-title").text(eventsLoaded[i].name);
+				var time = dateE.getHours() + ":" + dateE.getMinutes(); 
+				clone.children(".evnt-time").text(convertTo12Hour([dateE.getHours(), dateE.getMinutes()])).show();
+				clone.attr("time", time);
 				clone.attr("event-id", eventsLoaded[i].id);
 				clone.attr("evnt-temp-id", i); //Set the temp id
 				clone.attr("rep-type", eventsLoaded[i].repeat);
@@ -319,7 +321,9 @@ function addDrag(selector)
 				topVal = $(this).parent().height() - $(this).outerHeight();
 				topVal = topVal - (topVal%gridHeight);
 			}
+
 			$(this).css("top",topVal);
+			updateTime(this, ui);
 			
 			if ($(this).parent().offset()) 
 			{
@@ -353,7 +357,8 @@ function addDrag(selector)
 function updateTime(elem, ui, resize) //if we're resizing, don't change the position
 {
 	var timeDiv = ui.helper.children(".evnt-time");
-	var arr = timeDiv.html().split(":");
+	var arr = ui.helper.attr("time").split(":");
+	//var arr = timeDiv.html().split(":");
 
 	//custom grid stuff using drag
 	var offsetDiff = -Math.ceil($(".col-snap:first").offset().top);
@@ -370,8 +375,25 @@ function updateTime(elem, ui, resize) //if we're resizing, don't change the posi
 		arr[0] = (ui.position.top + offsetDiff)/gridHeight;
 	}
 
-	timeDiv.html(arr.join(":"));
-	$(elem).children(".evnt-time").html(arr.join(":"));
+	$(elem).attr("time", arr.join(":")); //set the time attr using military
+	timeDiv.html(convertTo12Hour(arr));
+	$(elem).children(".evnt-time").html(convertTo12Hour(arr));
+}
+
+function convertTo12Hour(timeArr)
+{
+	if(timeArr[0] >= 12)
+	{
+		if(timeArr[0] > 12)
+			timeArr[0] -= 12;
+		return timeArr.join(":") + " PM";
+	}
+	else
+	{
+		if(timeArr[0] == 0)
+			timeArr[0] = 12;
+		return timeArr.join(":") + " AM";
+	}
 }
 
 //called by next and previous buttons on click
@@ -533,7 +555,7 @@ function pushEventInfo(elem)
 	
 	var dateE = $(elem).parent().siblings(".col-titler").children(".evnt-fulldate").html();
 	var nameE = $(elem).children(".evnt-title").text();
-	var startTime = $(elem).children(".evnt-time").html() + "";
+	var startTime = $(elem).attr("time");
 	var endTime = parseInt(startTime.split(":")[0]) + Math.round($(elem).height()/gridHeight) + ":" + startTime.split(":")[1]; 
 	
 	

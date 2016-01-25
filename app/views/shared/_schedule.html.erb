@@ -74,7 +74,7 @@
 		<div id="side-desc">Drag a category onto the schedule to create a schedule item.</div>
 		<div id="sch-tiles">
 			<div id="sch-tiles-inside">
-				<div id="cat-template" class="sch-evnt category" style="display: none">
+				<div id="cat-template" class="sch-evnt category" time="0:30" style="display: none">
 					<div class="evnt-time">7:30</div>
 					<div class="evnt-numID">0</div>
 					<div class="evnt-title center-text dis-sel" contenteditable="false" onclick="editEvent(event, this);"></div>
@@ -87,7 +87,7 @@
 				</div>
 				<% @user.categories.each_with_index do |cat, index| %>
 					<% if @user == current_user or cat.has_access(current_user) %>
-					<div class="sch-evnt category" data-id="<%= cat.id %>" privacy="<%= cat.privacy %>"
+					<div class="sch-evnt category" time="0:30" data-id="<%= cat.id %>" privacy="<%= cat.privacy %>"
 						style="background-color:<%= cat.color %>; /*top: <%= 105*index %>*/">
 						<div class="evnt-time">7:30</div>
 						<div class="evnt-numID">0</div>
