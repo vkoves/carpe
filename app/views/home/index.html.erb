@@ -16,7 +16,7 @@
 		<% @events.each do |e| %>
 			<% if e.date < DateTime.now and e.end_date > DateTime.now %>
 				busy with <%= e.name %><br>
-				<% free = fals	e %>
+				<% free = false %>
 			<% end %>
 		<% end %>
 		<%= free ? "free" : "" %>
