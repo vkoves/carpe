@@ -1,11 +1,12 @@
 var sideHTML; // Instantiates sideHTML variable
+var schHTML; // Instantiates schedule HTML variable, which will contain the "Mon-Sun" html on the main scheduler div.
+
 var gridHeight = 25; //the height of the grid of resizing and dragging
 var border = 2; //the border at the bottom for height stuff
 var ctrlPressed = false;
-var schHTML; // Instantiates schedule HTML variable, which will contain the "Mon-Sun" html on the main scheduler div.
 var refDate = new Date(); // Reference date for where the calendar is now, so that it can switch between weeks.
 
-var currEventsMap = {};
+var currEventsMap = {}; //map of all the events in the frontend
 var eventTempId = 0; //the temp id
 
 var currEvent; //the event being currently edited
@@ -32,7 +33,6 @@ function scheduleReady()
 				var evnt = eventsLoaded[i]; //fetch the event at the current index
 				var catParent = $("#sch-tiles .sch-evnt[data-id='" + evnt["category_id"] + "']"); //fetch the category
 				var clone = catParent.clone();
-				console.log(eventsLoaded[i].date);
 				var dateE = new Date(eventsLoaded[i].date);
 				var dateEnd = new Date(eventsLoaded[i].end_date);
 				
@@ -44,8 +44,7 @@ function scheduleReady()
 				clone.attr("evnt-temp-id", i); //Set the temp id
 				clone.attr("rep-type", eventsLoaded[i].repeat);
 				
-				console.log("Event loading...");
-				pushEventInfo(clone);
+				pushEventInfo(clone, true);
 				
 				currEventsMap[i].enddatetime = eventsLoaded[i].end_date;
 				var dateString = monthNames[dateE.getMonth()] + " " + dateE.getDate() + ", " + dateE.getFullYear();
@@ -126,10 +125,11 @@ function colDroppable()
 	$(".col-snap").droppable({
 		drop: function( event, ui ) //called when event is dropped on a new column (not called on moving it in the column)
 		{
-			if(ui.draggable.parent().attr("id") == "sch-tiles")
+			if(ui.draggable.parent().attr("id") == "sch-tiles") //if this is a new event
 			{
 				var topVal = parseFloat(ui.draggable.css("top"));
 				topVal += 16;
+				
 				if(topVal < 0) //make sure the event is not halfway off the top
 				{
 					topVal = 0;
@@ -138,42 +138,25 @@ function colDroppable()
 				{
 					topVal = $(this).height() - ui.draggable.outerHeight();
 				}
-				//ui.draggable.css("top",topVal);
-				console.log("Set top to " + topVal);
 			}
 			
 	    	var element = ui.draggable.detach();
 			$(this).append(element);
 			ui.draggable.css("left","0px");
 			element.css("top","0");
-			//ui.draggable.children(".sch-evnt-icon").show();
 			ui.draggable.children(".evnt-desc").show();
-			$(this).parent().css("background","");
-			
-			$(ui.draggable).resizable({
-		    	handles: 'n, s',
-		    	grid: [ 0, gridHeight ],
-		    	containment: "parent",
-		    	resize: function(event, ui)
-		    	{
-		    		updateTime($(this), ui, true);
-		    	},
-		    	stop: function(event, ui)
-		    	{	
-		    		console.log("Ui Draggable resize stop");
-					pushEventInfo($(this));	
-		    	}
-			});
 			
 			$(this).parent().removeClass("over"); //dehighlight on drop
 		},
-		over: function( event, ui ) {
-			$(this).parent().addClass("over");
-			$(ui.draggable).draggable("option","gridOn", true);
+		over: function( event, ui )
+		{
+			$(this).parent().addClass("over"); //highlight
+			$(ui.draggable).draggable("option","gridOn", true); //and enable vertical grid
 		},
-		out: function( event, ui ) {
-			$(this).parent().removeClass("over");
-			$(ui.draggable).draggable("option","gridOn", false);
+		out: function( event, ui )
+		{
+			$(this).parent().removeClass("over"); //unhighlight
+			$(ui.draggable).draggable("option","gridOn", false); //and disable grid
 		}
 	});
 }
@@ -298,6 +281,7 @@ function addDrag(selector)
 				document.execCommand('delete',false,null); // Suggests to the user to change the schedule item title by making it editable upon drop here.
 				$(this).attr("evnt-temp-id", eventTempId);
 				eventTempId++;
+				addResizing($(this)); //since the sidebar events don't have resizing, we have to add it on stop
 			}
 			
 			$("#sch-tiles").html(sideHTML); //reset the sidebar
@@ -336,15 +320,22 @@ function addDrag(selector)
 		}
 	});
 	
-	if(selector != "#sch-sidebar .sch-evnt")
+	addResizing(selector);
+}
+
+function addResizing(selector)
+{
+	if(selector != "#sch-sidebar .sch-evnt") //as long as the selector is not for the sidebar
 	{
-		$(selector).resizable({
+		$(selector).resizable( //make the items resizable
+		{
 	    	handles: 'n, s',
 	    	grid: [ 0, gridHeight ],
 	    	containment: "parent",
 	    	resize: function(event, ui)
 	    	{
 	    		updateTime($(this), ui, true);
+	    		console.log("Resize");
 	    	},
 	    	stop: function(event, ui)
 	    	{	
@@ -368,16 +359,20 @@ function updateTime(elem, ui, resize) //if we're resizing, don't change the posi
 	//console.log("Offset difference: " + offsetDiff);
 	
 	var topRemainder = (ui.position.top + offsetDiff) % gridHeight;
-	if($(elem).draggable('option', 'gridOn'))
+	
+	//Take care of grid snapping
+	if($(elem).draggable('option', 'gridOn') || resize) //only update time if we are snapping in a column or are resizing
 	{
 		if(!resize)
 			ui.position.top = ui.position.top - topRemainder;
 		arr[0] = (ui.position.top + offsetDiff)/gridHeight;
 	}
+		
 
 	$(elem).attr("time", arr.join(":")); //set the time attr using military
-	timeDiv.html(convertTo12Hour(arr));
-	$(elem).children(".evnt-time").html(convertTo12Hour(arr));
+	arr = convertTo12Hour(arr);
+	timeDiv.html(arr);
+	$(elem).children(".evnt-time").html(arr);
 }
 
 function convertTo12Hour(timeArr)
@@ -548,47 +543,49 @@ function editEvent(event, elem)
 }
 
 //Push information about the passed event to the hashmap for saving
-function pushEventInfo(elem)
+function pushEventInfo(elem, ignoreDateTime)
 {
 	var eId = $(elem).attr("evnt-temp-id"); //the temp id used in the hashmap
 	var eventId = $(elem).attr("event-id"); //the permanent event id used in the database
+	var dateE = $(elem).parent().siblings(".col-titler").children(".evnt-fulldate").html(); //the date the elem is on
+	var nameE = $(elem).children(".evnt-title").text(); //the name of the event
+	var startTime = $(elem).attr("time"); //the starting time of the event
+	var endTime = parseInt(startTime.split(":")[0]) + Math.round($(elem).height()/gridHeight) + ":" + startTime.split(":")[1];  //the ending time
+	var catId = $(elem).attr("data-id"); //the id of the category in the database
+	var repeatType = $(elem).attr("rep-type"); //the repeat type of the element
 	
-	var dateE = $(elem).parent().siblings(".col-titler").children(".evnt-fulldate").html();
-	var nameE = $(elem).children(".evnt-title").text();
-	var startTime = $(elem).attr("time");
-	var endTime = parseInt(startTime.split(":")[0]) + Math.round($(elem).height()/gridHeight) + ":" + startTime.split(":")[1]; 
-	
-	
-	var repeatType = $(elem).attr("rep-type");
-	
-	var dateTime;
-	var endDateTime = "";
-	
-	try
+	if(!ignoreDateTime) //if the date and time will be set after, don't bother with it
 	{
-		dateTime = new Date(dateE+" "+startTime).toISOString();
-	}
-	catch(err)
-	{
-		dateTime = "";
-		console.log("Creating start date failed!");
-	}
-	try
-	{
-		endDateTime = new Date(dateE+" "+endTime).toISOString();
-	}
-	catch(err)
-	{
-		endDateTime = "";
-		console.log("Creating end date failed!");
+		var dateTime, endDateTime = "";
+		
+		try
+		{
+			dateTime = new Date(dateE+" "+startTime).toISOString();
+		}
+		catch(err)
+		{
+			dateTime = "";
+			console.log(err);
+			console.log("Creating start date failed!");
+		}
+		try
+		{
+			endDateTime = new Date(dateE+" "+endTime).toISOString();
+		}
+		catch(err)
+		{
+			endDateTime = "";
+			console.log(err);
+			console.log("Creating end date failed!");
+		}
+		console.log("Start: " + dateTime + " end: " + endDateTime);
 	}
 	
-	console.log("Start: " + dateTime + " end: " + endDateTime);
-	
-	var catId = $(elem).attr("data-id");
 	var event_obj = {element: elem, repeat: repeatType, date: dateE, datetime: dateTime, enddatetime: endDateTime, 
 		name: nameE, cat_id: catId, event_id: eventId};
+		
 	currEventsMap[eId] = event_obj;
+	
 	console.log(currEventsMap);
 	
 	//Find all same elements and apply change
@@ -629,13 +626,10 @@ function createCategory()
 	    	var newCat = $("#cat-template").clone();
 	    	$("#sch-tiles-inside").append(newCat);
 	    	newCat.show();
-	    	//newCat.css("top", 105*($("#sch-tiles-inside .sch-evnt.category").length-2));
 	    	newCat.attr("data-id", resp.id);
 	    	newCat.find(".evnt-title").text(resp.name);
 	    	newCat.find(".sch-evnt-editCat").attr("onclick", 'editCategory(event, this, "' + resp.id + '", "'+resp.name+'", "' + resp.color + '");');
 	    	newCat.find(".sch-evnt-delCat").attr("onclick", 'delCategory(event, this,"' + resp.id + '");');
-	    	//newCat.find(".sch-evnt-editCat").click(function(){editCategory(event, this, resp.id, ""+resp.name, resp.color);});
-	    	//newCat.find(".sch-evnt-delCat").click(function(){delCategory(event, this, resp.id);});
 	    	addDrag();
 	    	sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
 	    	newCat.find(".sch-evnt-editCat").click();
@@ -710,11 +704,15 @@ function editCategory(event, elem, id, name, col)
 	
 	$(".ui-widget-overlay, .cat-overlay-box").show();
 
-	if(col)
+	if(col && col != "null") //check for null string from ruby
+	{
 		$(".catTopOverlay").css("background-color",col);
-	else
+	}
+	else //if the color was null or empty remove the background-color
+	{
 		$(".catTopOverlay").css("background-color","");
-
+	}
+	
 	$(".catOverlayTitle").html($(currCategory).find(".evnt-title").text());
 	$(".cat-overlay-box").attr("data-id",id);
 }
