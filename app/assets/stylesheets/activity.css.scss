@@ -1,6 +1,7 @@
 #greeting {
 	height:200px;
 	background-image:image-url('greeting.png');
+	padding:0px;
 }
 
 #sidebar {
@@ -11,7 +12,7 @@
 	height:calc(100% - 50px);
 	top:50px;
 	background-color:rgb(255,255,255);
-	
+
 }
 
 .greet-text {
@@ -22,16 +23,18 @@
 	margin-left:20px;
 	margin-top:10px;
 	text-align:left;
+	width:60%;
+
 }
 
 .greet-subt {
-	float:left;
-	margin-left:20px;
+	
+	padding:0;
 	font-weight:400;
 	font-size:20px;
 	color:#444444;
 	text-align:left;
-	margin-top:10px;
+	
 }
 
 .greet-a {
