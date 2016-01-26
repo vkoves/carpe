@@ -1,3 +1,5 @@
+
+
 <div class="friend-listing <%= @profile ? "profile" : "" %>">
 	<a href="/u/<%= user.id %>">
 		<div class="avatar">
@@ -33,7 +35,7 @@
 				<% @events = user.events.where(:date => DateTime.now.beginning_of_day...DateTime.now.end_of_day)%>
 				<% @events.each do |e| %>
 					<% if e.date < DateTime.now and e.end_date > DateTime.now %>
-						Busy with <a href="/u/<%= user.id %>?p=schedule"><%= e.name %></a>
+						Busy with <a class="simple" href="/u/<%= user.id %>?p=schedule"><%= e.name %></a>
 						<% free = false %>
 					<% end %>
 				<% end %>
