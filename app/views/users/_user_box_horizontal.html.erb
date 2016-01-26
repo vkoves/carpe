@@ -29,15 +29,15 @@
 					<span class="friend-label">Pending...</span>
 				<% end %>
 			<% else %>
-				<%= user.name %> is 
+				 
 				<% @events = user.events.where(:date => DateTime.now.beginning_of_day...DateTime.now.end_of_day)%>
 				<% @events.each do |e| %>
 					<% if e.date < DateTime.now and e.end_date > DateTime.now %>
-						busy with <%= e.name %>
+						Busy with <%= e.name %>
 						<% free = false %>
 					<% end %>
 				<% end %>
-				<%= free ? "free" : "" %>
+				<%= free ? "Currently free" : "" %>
 			<% end %>
 		<% end %>
 	</div>
