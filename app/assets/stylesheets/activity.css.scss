@@ -1,0 +1,40 @@
+#greeting {
+	height:200px;
+	background-image:image-url('greeting.png');
+}
+
+#sidebar {
+	right:0px;
+	position:fixed;
+	max-width:400px;
+	width:40%;
+	height:calc(100% - 50px);
+	top:50px;
+	background-color:rgb(255,255,255);
+	
+}
+
+.greet-text {
+	font-weight: 300;
+	font-size:40px;
+	color:Orange;
+	float:left;
+	margin-left:20px;
+	margin-top:10px;
+	text-align:left;
+}
+
+.greet-subt {
+	float:left;
+	margin-left:20px;
+	font-weight:400;
+	font-size:20px;
+	color:#444444;
+	text-align:left;
+	margin-top:10px;
+}
+
+.greet-a {
+	text-decoration:none;
+	color:Orange;
+}

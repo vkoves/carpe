@@ -1,24 +1,46 @@
 <% content_for :title do %> - Welcome<% end %>
-<h1 class="no-bold" style="margin-bottom: -20px;">
-	Welcome to <span class="carpe-font" style="font-size: 54px;">Carpe</span>
-</h1>
-<h2 class="no-bold">Scheduling redefined for the modern age</h2>
-<p>Cleaner, simpler, Carpe.</p>
+<%= stylesheet_link_tag "activity" %>
+<%= stylesheet_link_tag "profile" %>
+
+<!-- GET RID OF THIS ROBERT -->
+<% current_user.admin = true %>
+
+<% if !current_user || !current_user.admin %>
+	<h1 class="no-bold" style="margin-bottom: -20px;">
+		Welcome to <span class="carpe-font" style="font-size: 54px;">Carpe</span>
+	</h1>
+	<h2 class="no-bold">Scheduling redefined for the modern age</h2>
+	<p>Cleaner, simpler, Carpe.</p>
+<% end %>
+
 <% if current_user and current_user.admin %>
-<a href="/admin" class="default"><span>Admin Panel</span></a>
-<% end %>
-<% if current_user and current_user.admin #only print this sandbox things for the el33ts %>
-	<% current_user.all_friendships.each do |arr| %>
-		<% friendship = arr[0]; user = arr[1]; free = true %>
-		<br>
-		<%= user.name %> is 
-		<% @events = user.events.where(:date => DateTime.now.beginning_of_day...DateTime.now.end_of_day)%>
-		<% @events.each do |e| %>
-			<% if e.date < DateTime.now and e.end_date > DateTime.now %>
-				busy with <%= e.name %>
-				<% free = false %>
-			<% end %>
-		<% end %>
-		<%= free ? "free" : "" %>
-	<% end%>
-<% end %>
+	
+	<div id="greeting">
+		<span class="greet-text">
+		
+		Hello again, <%= current_user.name.split(" ")[0] %>!
+		</span><br />
+
+		<span class="greet-subt">
+		Check out the new sidebar. It's a quick way to know if your friends are free or not.
+		<br /><a href="/schedule" class="greet-a">You can also just go directly to your schedule.</a></span>
+	</div>
+
+
+
+	<div id="sidebar"> 
+		
+		<% if current_user and current_user.admin #only print this sandbox things for the el33ts %>
+
+			<div id="friend-list">
+			<% current_user.all_friendships.each do |arr| %>
+				<% friendship = arr[0]; user = arr[1]; free = true %>
+				<%= render "users/user_box_horizontal", user: user, friendship: friendship, free: free %>
+			</div>
+			<% end%>
+		<% end %>	
+	</div>
+
+	<a href="/admin" class="default"><span>Admin Panel</span></a>
+	<% end %>
+	
