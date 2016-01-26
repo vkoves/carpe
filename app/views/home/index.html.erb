@@ -2,7 +2,7 @@
 <%= stylesheet_link_tag "activity" %>
 <%= stylesheet_link_tag "profile" %>
 
- 
+
 
 <% if !current_user || !current_user.admin %>
 	<h1 class="no-bold" style="margin-bottom: -20px;">
@@ -19,9 +19,9 @@
 		
 		Hello again, <%= current_user.name.split(" ")[0] %>!
 		
-		<span class="greet-subt"><br />
+		<div class="greet-subt"><br />
 		Check out the new sidebar, a quick way to know if your friends are free or not.
-		<br /><a href="/schedule" class="greet-a">You can also just go directly to your schedule.</a></span>
+		<br /><a href="/schedule" class="greet-a">You can also just go directly to your schedule.</a></div>
 
 
 		</span><br />
