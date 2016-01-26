@@ -1,9 +1,12 @@
-
-
 <div class="friend-listing <%= @profile ? "profile" : "" %>">
 	<a href="/u/<%= user.id %>">
+		
 		<div class="avatar">
-			<img src="<%= user.user_avatar(100) %>">
+			<% if @home %>
+				<img src="<%= user.user_avatar(60) %>" style="width:60px">
+			<% else %>
+				<img src="<%= user.user_avatar(100) %>">
+			<% end %>
 		</div>
 	</a>
 	<div class="friend-details">
