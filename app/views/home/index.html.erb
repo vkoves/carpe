@@ -2,9 +2,6 @@
 <%= stylesheet_link_tag "activity" %>
 <%= stylesheet_link_tag "profile" %>
 
-<!-- GET RID OF THIS ROBERT -->
-<% current_user.admin = true %>
-
 <% if !current_user || !current_user.admin %>
 	<h1 class="no-bold" style="margin-bottom: -20px;">
 		Welcome to <span class="carpe-font" style="font-size: 54px;">Carpe</span>
@@ -40,8 +37,8 @@
 			<% current_user.all_friendships.each do |arr| %>
 				<% friendship = arr[0]; user = arr[1]; free = true %>
 				<%= render "users/user_box_horizontal", user: user, friendship: friendship, free: free %>
-			</div>
-			<% end%>
+			
+			<% end%></div>
 		<% end %>	
 	</div>
 
