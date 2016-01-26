@@ -1,4 +1,9 @@
+
+<% if @home %>
+<div class="friend-listing <%= @profile ? "profile" : "" %>" style="margin:5px">
+<% else %>
 <div class="friend-listing <%= @profile ? "profile" : "" %>">
+<% end %>
 	<a href="/u/<%= user.id %>">
 		
 		<div class="avatar">
@@ -9,7 +14,9 @@
 			<% end %>
 		</div>
 	</a>
+	
 	<div class="friend-details">
+
 		<span class="friend-name"><%= user.name %></span><br>
 		<% if @profile%>
 			<%= user.friends_count %> Friends <br>
