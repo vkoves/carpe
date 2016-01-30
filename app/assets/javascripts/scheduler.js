@@ -122,30 +122,12 @@ function scheduleReady()
 function colDroppable()
 {
 	//make the columns droppable
-	$(".col-snap").droppable({
+	$(".col-snap").droppable(
+	{
 		drop: function( event, ui ) //called when event is dropped on a new column (not called on moving it in the column)
 		{
-			if(ui.draggable.parent().attr("id") == "sch-tiles") //if this is a new event
-			{
-				var topVal = parseFloat(ui.draggable.css("top"));
-				topVal += 16;
-				
-				if(topVal < 0) //make sure the event is not halfway off the top
-				{
-					topVal = 0;
-				}
-				else if(topVal > $(this).height() - ui.draggable.outerHeight()) //or bottom
-				{
-					topVal = $(this).height() - ui.draggable.outerHeight();
-				}
-			}
-			
 	    	var element = ui.draggable.detach();
-			$(this).append(element);
-			ui.draggable.css("left","0px");
-			element.css("top","0");
-			ui.draggable.children(".evnt-desc").show();
-			
+			$(this).append(element); //append to the column
 			$(this).parent().removeClass("over"); //dehighlight on drop
 		},
 		over: function( event, ui )
@@ -186,16 +168,17 @@ function addDrag(selector)
 		pushEventInfo($(this).parent()); //save event
 	});
 	
-	
-		
-	$(selector).mousedown(function(event) {
-	if(event.ctrlKey)
-		ctrlPressed = true;
-	else
-		ctrlPressed = false;
+	//when the mouse is pressed on the events, check for control	
+	$(selector).mousedown(function(event)
+	{
+		if(event.ctrlKey)
+			ctrlPressed = true;
+		else
+			ctrlPressed = false;
 	});
 		
-	$(selector).draggable({
+	$(selector).draggable(
+	{
 		containment: "window",
 		snap: ".evt-snap",
 		snapMode: "inner",
@@ -221,14 +204,11 @@ function addDrag(selector)
 			if((height+border)%gridHeight != 0)
 				$(ui.helper).css("height", (gridHeight*3)-border);
 			
-			if(ctrlPressed && $(this).parent().attr("id") != "sch-tiles-inside")
+			if(ctrlPressed && $(this).parent().attr("id") != "sch-tiles-inside") //if this is an existing event and control is pressed
 			{
-				var clone = $(ui.helper).clone();
+				var clone = $(ui.helper).clone(); //create a clone
 				$(this).parent().append(clone);
-				clone.removeClass("ui-draggable ui-draggable-handle ui-resizable ui-draggable-dragging");  
-				clone.css("opacity","1");
-				clone.css("z-index","0");
-				clone.children('.ui-resizable-handle').remove();
+				clone.css("opacity","1"); //set the clone to be fully opaque, as it'll be 0.7 opacity by default from dragging
 				
 				//clear event id
 				$(this).removeAttr("event-id");
@@ -240,7 +220,8 @@ function addDrag(selector)
 				pushEventInfo($(this));
 				pushEventInfo(clone);
 				
-				addDrag(clone);				
+				clone.removeClass("ui-draggable ui-draggable-handle ui-resizable ui-draggable-dragging"); //remove dragging stuff
+				addDrag(clone); //and redo draggin
 			}
 		},
 		stop: function(event, ui)  //on drag end
@@ -692,6 +673,7 @@ function delCategory(event, elem, id)
 	    success: function(resp)
 	    { 
 	    	console.log("Delete category complete.");
+			sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
 	    },
 	    error: function(resp)
 	    {
