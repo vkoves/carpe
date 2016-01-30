@@ -205,7 +205,7 @@
     overflow-x: hidden;
     /*background: gainsboro;*/
 }
-#sch-tiles .sch-evnt-icon
+#sch-tiles .sch-evnt-icon, #sch-tiles .evnt-time
 {
 	display: none;}
 #sch-tiles .sch-evnt
@@ -259,7 +259,6 @@
 }
 .evnt-time
 {
-	display: none;
 	position: relative;
 	float: left;
 	margin-left: 4px;

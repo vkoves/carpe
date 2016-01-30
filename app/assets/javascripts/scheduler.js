@@ -201,45 +201,25 @@ function addDrag(selector)
 		snapMode: "inner",
 		appendTo: "body",
 		cancel: "img",
-		revert: "invalid",
 		revertDuration: 0,
-		stack: ".sch-evnt",
 		opacity: 0.7,
-		stack: "sch-evnt",
 		distance: 10,
 		gridOn: false,
 		scroll: false,
+		revert: "invalid",
 		helper: function()
 		{
 			$copy = $(this).clone();
-			$copy.children(".sch-cat-icon").css('display','none');
 			
-			
-			var height = parseFloat($copy.css("height"));
-			if((height+border)%gridHeight != 0 && !inColumn($(this)))
-			{
-				$copy.css("height", (gridHeight*3)-border);
-			}
-				
-			$copy.children(".evnt-time").show();
-			
-			if(inColumn($(this)))
-			{
-				$(this).css("opacity", 0); //hide the original element if we are moving an item
-			}
+			if(inColumn($(this))) //if this is a current element				$(this).css("opacity", 0); //hide the original while we are moving the helper
 				
 			return $copy;
 		},
 		start: function(event, ui)
 		{
-			
-			$(ui.helper).children(".sch-cat-icon").css('display','none');
-			
 			var height = parseFloat($(this).css("height"));
 			if((height+border)%gridHeight != 0)
 				$(ui.helper).css("height", (gridHeight*3)-border);
-			
-			$(ui.helper).children(".evnt-time").show();
 			
 			if(ctrlPressed && $(this).parent().attr("id") != "sch-tiles-inside")
 			{
@@ -261,15 +241,11 @@ function addDrag(selector)
 				pushEventInfo(clone);
 				
 				addDrag(clone);				
-				
 			}
 		},
 		stop: function(event, ui)  //on drag end
 		{
 			$(ui.helper).remove();
-			
-			
-			$(this).children(".sch-cat-icon").css('display','none');
 			
 			var height = parseFloat($(this).css("height"));
 			if((height+border)%gridHeight != 0)
@@ -347,51 +323,32 @@ function addResizing(selector)
 	}
 }
 
-function updateTime(elem, ui, resize) //if we're resizing, don't change the position
+//Change time while items are being dragged or resized, and also snap to a vertical grid
+function updateTime(elem, ui, resize) //if we're resizing, don't snap, just update time
 {
-	var timeDiv = ui.helper.children(".evnt-time");
 	var arr = ui.helper.attr("time").split(":");
-	//var arr = timeDiv.html().split(":");
-
-	//custom grid stuff using drag
-	var offsetDiff = -Math.ceil($(".col-snap:first").offset().top);
-	if(resize)
-		offsetDiff = 0;
-		
-	//console.log("Offset difference: " + offsetDiff);
-	
-	var topRemainder = (ui.position.top + offsetDiff) % gridHeight;
 	
 	//Take care of grid snapping
 	if($(elem).draggable('option', 'gridOn') || resize) //only update time if we are snapping in a column or are resizing
 	{
+		var offsetDiff = -Math.ceil($(".col-snap:first").offset().top);
+		if(resize)
+			offsetDiff = 0;
+		
 		if(!resize)
+		{
+			var topRemainder = (ui.position.top + offsetDiff) % gridHeight;
 			ui.position.top = ui.position.top - topRemainder;
+		}
 		arr[0] = (ui.position.top + offsetDiff)/gridHeight;
 	}
 		
-
 	$(elem).attr("time", arr.join(":")); //set the time attr using military
-	arr = convertTo12Hour(arr);
-	timeDiv.html(arr);
-	$(elem).children(".evnt-time").html(arr);
+	arr = convertTo12Hour(arr); //then convert to 12 hour
+	ui.helper.children(".evnt-time").html(arr); //and set the helper time
+	$(elem).children(".evnt-time").html(arr); //as well as the element
 }
 
-function convertTo12Hour(timeArr)
-{
-	if(timeArr[0] >= 12)
-	{
-		if(timeArr[0] > 12)
-			timeArr[0] -= 12;
-		return timeArr.join(":") + " PM";
-	}
-	else
-	{
-		if(timeArr[0] == 0)
-			timeArr[0] = 12;
-		return timeArr.join(":") + " AM";
-	}
-}
 
 //called by next and previous buttons on click
 function addDates(referenceDate, refresh)
@@ -496,38 +453,6 @@ function populateEvents()
 	addDrag(".col-snap .sch-evnt"); // Re-enables the events to snap onto the date columns here.	
 }
 
-function removeEvent(event, elem)
-{
-	event.stopImmediatePropagation();
-	$(elem).parent().slideUp("normal", function() { $(this).remove(); } );
-	
-	var eId = $(elem).parent().attr("event-id");
-	var tempId = $(elem).parent().attr("evnt-temp-id");
-	
-	//remove map
-	delete currEventsMap[tempId];
-	
-	if(!eId)
-	{
-		return;
-	}
-	
-	$.ajax({
-	    url: "/delete_event",
-	    type: "POST",
-	    data: {id: eId},
-	    success: function(resp)
-	    { 
-	    	console.log("Resp: \"" + resp + "\"");
-	    	console.log("Delete complete.");
-	    },
-	    error: function(resp)
-	    {
-	    	alert("Deleting event failed :/");
-	    }
-	});	
-}
-
 function editEvent(event, elem)
 {
 	//return if this is in the sidebar
@@ -563,22 +488,13 @@ function pushEventInfo(elem, ignoreDateTime)
 		try
 		{
 			dateTime = new Date(dateE+" "+startTime).toISOString();
-		}
-		catch(err)
-		{
-			dateTime = "";
-			console.log(err);
-			console.log("Creating start date failed!");
-		}
-		try
-		{
 			endDateTime = new Date(dateE+" "+endTime).toISOString();
 		}
 		catch(err)
 		{
+			dateTime = "";
 			endDateTime = "";
-			console.log(err);
-			console.log("Creating end date failed!");
+			console.log("Creating datetimes failed!");
 		}
 		console.log("Start: " + dateTime + " end: " + endDateTime);
 	}
@@ -588,105 +504,11 @@ function pushEventInfo(elem, ignoreDateTime)
 		
 	currEventsMap[eId] = event_obj;
 	
-	console.log(currEventsMap);
-	
 	//Find all same elements and apply change
 	$(".sch-evnt[evnt-temp-id='" + $(elem).attr("evnt-temp-id") + "']").attr("style", $(elem).attr("style"));
 }
 
-function saveEvents()
-{
-	//JSON encode our hashmap
-	var arr  = JSON.parse(JSON.stringify(currEventsMap));
-	$.ajax({
-	    url: "/save_events",
-	    type: "POST",
-	    data: {map: arr, text: "testificates"},
-	    success: function(resp)
-	    { 
-	    	console.log("Resp: \"" + resp + "\"");
-	    	console.log("Save complete.");
-	    },
-	    error: function(resp)
-	    {
-	    	alert("Saving events failed :(");
-	    }
-	});
-}
 
-function createCategory()
-{
-	//window.location.href = './schedule?new=t&name=Untitled';
-	$.ajax({
-	    url: "/create_category",
-	    type: "POST",
-	    data: {name: "Untitled", user_id: userId},
-	    success: function(resp)
-	    { 
-	    	console.log(resp);
-	    	console.log("Create category complete.");
-	    	var newCat = $("#cat-template").clone();
-	    	$("#sch-tiles-inside").append(newCat);
-	    	newCat.show();
-	    	newCat.attr("data-id", resp.id);
-	    	newCat.find(".evnt-title").text(resp.name);
-	    	newCat.find(".sch-evnt-editCat").attr("onclick", 'editCategory(event, this, "' + resp.id + '", "'+resp.name+'", "' + resp.color + '");');
-	    	newCat.find(".sch-evnt-delCat").attr("onclick", 'delCategory(event, this,"' + resp.id + '");');
-	    	addDrag();
-	    	sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
-	    	newCat.find(".sch-evnt-editCat").click();
-	    },
-	    error: function(resp)
-	    {
-	    	alert("Creating category failed :(");
-	    }
-	});
-}
-
-function delCategory(event, elem, id)
-{
-	//window.location.href = './schedule?dest=t&id=' + id;
-	$.ajax({
-	    url: "/delete_category",
-	    type: "POST",
-	    data: {id: id},
-	    success: function(resp)
-	    { 
-	    	console.log("Resp: \"" + resp + "\"");
-	    	console.log("Delete category complete.");
-	    },
-	    error: function(resp)
-	    {
-	    	alert("Deleting category failed :(");
-	    }
-	});
-	$(elem).parent().slideUp();
-}
-
-function saveCategory(event,elem,id)
-{
-	$.ajax({
-	    url: "/create_category",
-	    type: "POST",
-	    data: {name: $(".catOverlayTitle").html(), id: id, color: $(".catTopOverlay").css("background-color"), privacy: currCategory.attr("privacy")},
-	    success: function(resp)
-	    { 
-	    	console.log(resp);
-	    	console.log("Update category complete.");
-	    	
-	    	//Hide category editing panel
-	    	$(".ui-widget-overlay, .cat-overlay-box").hide();
-			
-			$("#sch-sidebar .sch-evnt[data-id=" + id + "]").find(".evnt-title").html($(".catOverlayTitle").html()); //Update name in sidebar
-			$(".sch-evnt[data-id=" + id + "]").css("background-color", $(".catTopOverlay").css("background-color")); //Update color of events
-			sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
-	    },
-	    error: function(resp)
-	    {
-	    	alert("Updating category failed :(");
-	    }
-	});
-}
 
 function editCategory(event, elem, id, name, col)
 {
@@ -706,23 +528,15 @@ function editCategory(event, elem, id, name, col)
 	$(".ui-widget-overlay, .cat-overlay-box").show();
 
 	if(col && col != "null") //check for null string from ruby
-	{
 		$(".catTopOverlay").css("background-color",col);
-	}
 	else //if the color was null or empty remove the background-color
-	{
 		$(".catTopOverlay").css("background-color","");
-	}
 	
 	$(".catOverlayTitle").html($(currCategory).find(".evnt-title").text());
 	$(".cat-overlay-box").attr("data-id",id);
 }
 
-function changeCategoryColor(event,elem,col)
-{
-	$(".catTopOverlay").css("background-color",col);
-}
-
+//show the event editing overlay
 function showOverlay(elem)
 {
 	var editingEvent = $(document.activeElement).hasClass("evnt-title");
@@ -767,6 +581,175 @@ function setTitles()
 	});
 }
 
+function changeCategoryColor(event,elem,col)
+{
+	$(".catTopOverlay").css("background-color",col);
+}
+
+//Setup properties of a place schedule item from the db, setting position and height
+function placeInSchedule(elem, hours, lengthHours)
+{
+	var height = lengthHours*gridHeight;
+	if((height+border)%gridHeight != 0)
+		$(elem).css("height", (gridHeight*lengthHours)-border);
+
+	$(elem).children(".evnt-time").show();
+	
+	var topVal = gridHeight*hours;
+	$(elem).css("top",topVal);
+}
+
+/****************************/
+/*** JSON SERVER METHODS ****/
+/****************************/
+
+function saveEvents()
+{
+	//JSON encode our hashmap
+	var arr  = JSON.parse(JSON.stringify(currEventsMap));
+	$.ajax({
+	    url: "/save_events",
+	    type: "POST",
+	    data: {map: arr, text: "testificates"},
+	    success: function(resp)
+	    { 
+	    	console.log("Save complete.");
+	    },
+	    error: function(resp)
+	    {
+	    	alert("Saving events failed :(");
+	    }
+	});
+}
+
+function removeEvent(event, elem)
+{
+	event.stopImmediatePropagation();
+	$(elem).parent().slideUp("normal", function() { $(this).remove(); } );
+	
+	var eId = $(elem).parent().attr("event-id");
+	var tempId = $(elem).parent().attr("evnt-temp-id");
+	
+	//remove map
+	delete currEventsMap[tempId];
+	
+	if(!eId)
+	{
+		return;
+	}
+	
+	$.ajax({
+	    url: "/delete_event",
+	    type: "POST",
+	    data: {id: eId},
+	    success: function(resp)
+	    { 
+	    	console.log("Delete complete.");
+	    },
+	    error: function(resp)
+	    {
+	    	alert("Deleting event failed :/");
+	    }
+	});	
+}
+
+function createCategory()
+{
+	//window.location.href = './schedule?new=t&name=Untitled';
+	$.ajax({
+	    url: "/create_category",
+	    type: "POST",
+	    data: {name: "Untitled", user_id: userId},
+	    success: function(resp)
+	    { 
+	    	console.log("Create category complete.");
+
+	    	var newCat = $("#cat-template").clone();
+	    	$("#sch-tiles-inside").append(newCat);
+	    	newCat.show();
+	    	newCat.attr("data-id", resp.id);
+	    	newCat.find(".evnt-title").text(resp.name);
+	    	newCat.find(".sch-evnt-editCat").attr("onclick", 'editCategory(event, this, "' + resp.id + '", "'+resp.name+'", "' + resp.color + '");');
+	    	newCat.find(".sch-evnt-delCat").attr("onclick", 'delCategory(event, this,"' + resp.id + '");');
+	    	addDrag();
+	    	sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
+	    	newCat.find(".sch-evnt-editCat").click();
+	    },
+	    error: function(resp)
+	    {
+	    	alert("Creating category failed :(");
+	    }
+	});
+}
+
+function delCategory(event, elem, id)
+{
+	//window.location.href = './schedule?dest=t&id=' + id;
+	$.ajax({
+	    url: "/delete_category",
+	    type: "POST",
+	    data: {id: id},
+	    success: function(resp)
+	    { 
+	    	console.log("Delete category complete.");
+	    },
+	    error: function(resp)
+	    {
+	    	alert("Deleting category failed :(");
+	    }
+	});
+	$(elem).parent().slideUp();
+}
+
+function saveCategory(event,elem,id)
+{
+	$.ajax({
+	    url: "/create_category",
+	    type: "POST",
+	    data: {name: $(".catOverlayTitle").html(), id: id, color: $(".catTopOverlay").css("background-color"), privacy: currCategory.attr("privacy")},
+	    success: function(resp)
+	    { 
+	    	console.log("Update category complete.");
+	    	
+	    	//Hide category editing panel
+	    	hideOverlay();
+	    	
+			$("#sch-sidebar .sch-evnt[data-id=" + id + "]").find(".evnt-title").html($(".catOverlayTitle").html()); //Update name in sidebar
+			$(".sch-evnt[data-id=" + id + "]").css("background-color", $(".catTopOverlay").css("background-color")); //Update color of events
+			sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
+	    },
+	    error: function(resp)
+	    {
+	    	alert("Updating category failed :(");
+	    }
+	});
+}
+
+/****************************/
+/* END JSON SERVER METHODS **/
+/****************************/
+
+/****************************/
+/***** HELPER METHODS *******/
+/****************************/
+
+//converts an array [hour, minutes] from 24 hour to 12 hour time
+function convertTo12Hour(timeArr)
+{
+	if(timeArr[0] >= 12)
+	{
+		if(timeArr[0] > 12)
+			timeArr[0] -= 12;
+		return timeArr.join(":") + " PM";
+	}
+	else
+	{
+		if(timeArr[0] == 0)
+			timeArr[0] = 12;
+		return timeArr.join(":") + " AM";
+	}
+}
+
 //returns whether the element is in a schedule element
 function inColumn(elem)
 {
@@ -777,16 +760,6 @@ function inColumn(elem)
 		return false;
 }
 
-//Setup properties of a place schedule item from the db, setting position and height
-function placeInSchedule(elem, hours, lengthHours)
-{
-	$(elem).children(".sch-cat-icon").css('display','none');
-	var height = lengthHours*gridHeight;
-	if((height+border)%gridHeight != 0)
-		$(elem).css("height", (gridHeight*lengthHours)-border);
-
-	$(elem).children(".evnt-time").show();
-	
-	var topVal = gridHeight*hours;
-	$(elem).css("top",topVal);
-}
+/****************************/
+/*** END HELPER METHODS *****/
+/****************************/
