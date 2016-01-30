@@ -42,7 +42,6 @@
 	background: #BDBDBD;
 	left: 0;
 	right: 0;
-	margin-top: 10px;
 	font-size: 16px;
 	overflow: hidden;
 	cursor: grab;
@@ -51,6 +50,10 @@
 	box-sizing:border-box;
 	-moz-box-sizing:border-box;
 	-webkit-box-sizing:border-box; */
+}
+.col-snap .sch-evnt
+{
+	position: absolute;
 }
 .col-snap .sch-evnt:hover > .sch-evnt-icon
 {
@@ -205,6 +208,10 @@
 #sch-tiles .sch-evnt-icon
 {
 	display: none;}
+#sch-tiles .sch-evnt
+{
+	margin-top: 10px;
+}
 #sch-tiles-inside
 {
 	position: relative;

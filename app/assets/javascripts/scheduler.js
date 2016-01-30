@@ -213,19 +213,19 @@ function addDrag(selector)
 		{
 			$copy = $(this).clone();
 			$copy.children(".sch-cat-icon").css('display','none');
-			var height = parseFloat($copy.css("height"));
-			$copy.css("margin-top","0px");
 			
-			if((height+2)%gridHeight != 0 && !inColumn($(this)))
+			
+			var height = parseFloat($copy.css("height"));
+			if((height+border)%gridHeight != 0 && !inColumn($(this)))
 			{
-				$copy.css("height", (gridHeight*3)-2);
+				$copy.css("height", (gridHeight*3)-border);
 			}
 				
 			$copy.children(".evnt-time").show();
 			
 			if(inColumn($(this)))
 			{
-				$(this).css("opacity", 0);
+				$(this).css("opacity", 0); //hide the original element if we are moving an item
 			}
 				
 			return $copy;
@@ -234,9 +234,11 @@ function addDrag(selector)
 		{
 			
 			$(ui.helper).children(".sch-cat-icon").css('display','none');
+			
 			var height = parseFloat($(this).css("height"));
-			if((height+2)%gridHeight != 0)
-				$(ui.helper).css("height", (gridHeight*3)-2);
+			if((height+border)%gridHeight != 0)
+				$(ui.helper).css("height", (gridHeight*3)-border);
+			
 			$(ui.helper).children(".evnt-time").show();
 			
 			if(ctrlPressed && $(this).parent().attr("id") != "sch-tiles-inside")
@@ -268,9 +270,11 @@ function addDrag(selector)
 			
 			
 			$(this).children(".sch-cat-icon").css('display','none');
+			
 			var height = parseFloat($(this).css("height"));
-			if((height+2)%gridHeight != 0)
-				$(this).css("height", (gridHeight*3)-2);
+			if((height+border)%gridHeight != 0)
+				$(this).css("height", (gridHeight*3)-border);
+				
 			$(this).children(".evnt-time").show();
 			
 			if($(this).css("opacity") == 1) //if opacity is 1, this is a new event
@@ -289,11 +293,9 @@ function addDrag(selector)
 			
 			if(inColumn($(this)))
 			{
-				$(this).css('position', 'absolute');
 				$(this).css('top', ui.position.top - $(this).parent().offset().top);
 			}
 			addDrag();
-			$(this).css("margin-top","0px");
 			
 			var topVal = parseFloat($(this).css("top"));
 			if(topVal < 0) //make sure the event is not halfway off the top
@@ -663,7 +665,6 @@ function delCategory(event, elem, id)
 
 function saveCategory(event,elem,id)
 {
-	//window.location.href = './schedule?edit=t&id=' + id + '&name=' + $(".catOverlayTitle").html() + '&col=' + $(".catTopOverlay").css("background-color");
 	$.ajax({
 	    url: "/create_category",
 	    type: "POST",
@@ -781,12 +782,10 @@ function placeInSchedule(elem, hours, lengthHours)
 {
 	$(elem).children(".sch-cat-icon").css('display','none');
 	var height = lengthHours*gridHeight;
-	if((height+2)%gridHeight != 0)
-		$(elem).css("height", (gridHeight*lengthHours)-2);
+	if((height+border)%gridHeight != 0)
+		$(elem).css("height", (gridHeight*lengthHours)-border);
+
 	$(elem).children(".evnt-time").show();
-	
-	$(elem).css('position', 'absolute');
-	$(elem).css("margin-top","0px");
 	
 	var topVal = gridHeight*hours;
 	$(elem).css("top",topVal);
