@@ -67,7 +67,7 @@ function scheduleReady()
 		
 		//toss a tooltip on the sidebar, explaining how stuff works
 		$("#sidebar-title").tooltip({
-			position: { my: "left top", at: "left bottom"}	
+			position: { my: "left top", at: "left bottom"}
 		});
 		
 		//When editing category title, defocus on enter
@@ -119,6 +119,7 @@ function scheduleReady()
 	}
 }
 
+//Add droppable onto columns
 function colDroppable()
 {
 	//make the columns droppable
@@ -210,11 +211,9 @@ function addDrag(selector)
 				$(this).parent().append(clone);
 				clone.css("opacity","1"); //set the clone to be fully opaque, as it'll be 0.7 opacity by default from dragging
 				
-				//clear event id
-				$(this).removeAttr("event-id");
+				$(this).removeAttr("event-id"); //clear event id
 
-				//the clone needs a new temp id, but in reality, this is the clone
-				$(this).attr("evnt-temp-id", eventTempId);
+				$(this).attr("evnt-temp-id", eventTempId); //the clone needs a new temp id, but in reality, this is the clone
 				eventTempId++;
 				
 				pushEventInfo($(this));
@@ -226,14 +225,10 @@ function addDrag(selector)
 		},
 		stop: function(event, ui)  //on drag end
 		{
-			$(ui.helper).remove();
-			
 			var height = parseFloat($(this).css("height"));
 			if((height+border)%gridHeight != 0)
 				$(this).css("height", (gridHeight*3)-border);
 				
-			$(this).children(".evnt-time").show();
-			
 			if($(this).css("opacity") == 1) //if opacity is 1, this is a new event
 			{
 				$(this).children(".evnt-title").attr("contenteditable", "true");
@@ -282,6 +277,7 @@ function addDrag(selector)
 	addResizing(selector);
 }
 
+//add resizing for schedule events that are new
 function addResizing(selector)
 {
 	if(selector != "#sch-sidebar .sch-evnt") //as long as the selector is not for the sidebar
@@ -332,14 +328,12 @@ function updateTime(elem, ui, resize) //if we're resizing, don't snap, just upda
 
 
 //called by next and previous buttons on click
-function addDates(referenceDate, refresh)
+function addDates(currDate, refresh)
 {
-	var currDate = referenceDate;
 	var day = currDate.getDay();
 	var date = currDate.getDate();
 	var month = currDate.getMonth();
 	var year = currDate.getFullYear();
-	var dayOffset = day - 1;
 	var startDate;
 	var lastCurrMonth = new Date(year, month + 1, 0);
 	var lastPrevMonth = new Date(year, month, 0);
@@ -350,8 +344,6 @@ function addDates(referenceDate, refresh)
 	
 	
 	refDate = currDate;
-	lastReportedDate = date;
-	lastReportedMonth = month;
 	
 	if(refresh)
 	{
@@ -363,18 +355,17 @@ function addDates(referenceDate, refresh)
 	if(day == 0)
 		startDate = date - 6;
 	else
-		startDate = date - dayOffset;
+		startDate = date - day - 1;
 	
 	if(startDate <= 0) //if the start is in the last month
 	{
 		startDate = lastDatePrev + startDate;
 		lastMonth = true;
-		lastReportedMonth = month - 1;
 	}
 	
 	$(".sch-day-col").each(function(index, col)
 	{
-		if((startDate == date) && (referenceDate.toDateString() == todayDate.toDateString())) //if this is the same day of week, and is the correct week (is it today?)
+		if((startDate == date) && (currDate.toDateString() == todayDate.toDateString())) //if this is the same day of week, and is the correct week (is it today?)
 		{
 			$(col).attr("id","sch-col-today");	
 		}
@@ -404,6 +395,7 @@ function addDates(referenceDate, refresh)
 	populateEvents(); // After refreshing the dates, populate the...er...schedule items for this week. As you can see, the terminology still confuses some.
 }
 
+//Populate the events in the current week from the hashmap
 function populateEvents()
 {
 	var currentDates = []; //the dates that are visible in the current week
@@ -424,16 +416,15 @@ function populateEvents()
 				|| eventObj.repeat == "daily"
 				|| (eventObj.repeat == "weekly" && date.getDay() == new Date(eventObj.datetime).getDay()))
 			{
-				// So, this does not create a clone using the .clone() method...it was attempted before, though (the result was not optimal).
 				var currentElem = eventObj.element.clone();
 				$(".sch-day-col:eq(" + i + ") .col-snap").append(currentElem);
-				//updateTime($(".sch-evnt"),$(".sch-day-col"));
 			}
 		}
 	}
 	addDrag(".col-snap .sch-evnt"); // Re-enables the events to snap onto the date columns here.	
 }
 
+//Edit an event's text inline (without the overlay)
 function editEvent(event, elem)
 {
 	//return if this is in the sidebar
@@ -489,8 +480,7 @@ function pushEventInfo(elem, ignoreDateTime)
 	$(".sch-evnt[evnt-temp-id='" + $(elem).attr("evnt-temp-id") + "']").attr("style", $(elem).attr("style"));
 }
 
-
-
+//Edit a category using the category overlay
 function editCategory(event, elem, id, name, col)
 {
 	currCategory = $(elem).parent(); //set the current category
@@ -533,8 +523,7 @@ function showOverlay(elem)
 			$("#repeat-" + $(elem).attr("rep-type")).addClass("red");
 		}
 		
-		$(".ui-widget-overlay").show();
-		$(".overlay-box").show();
+		$(".ui-widget-overlay, .overlay-box").show();
 		var title = $(elem).children(".evnt-title").html();
 		var desc = $(elem).children(".evnt-desc").html();
 		var time = $(elem).attr("time");
@@ -548,6 +537,7 @@ function showOverlay(elem)
 	}
 }
 
+//Hide any type of overlay
 function hideOverlay()
 {
 	//Hide overlay, the repeat menu and category and event overlays
@@ -562,9 +552,10 @@ function setTitles()
 	});
 }
 
-function changeCategoryColor(event,elem,col)
+//Update the color of the category overlay from a color being picked
+function changeCategoryColor(color)
 {
-	$(".catTopOverlay").css("background-color",col);
+	$(".catTopOverlay").css("background-color",color);
 }
 
 //Setup properties of a place schedule item from the db, setting position and height
@@ -611,8 +602,7 @@ function removeEvent(event, elem)
 	var eId = $(elem).parent().attr("event-id");
 	var tempId = $(elem).parent().attr("evnt-temp-id");
 	
-	//remove map
-	delete currEventsMap[tempId];
+	delete currEventsMap[tempId]; //remove event map
 	
 	if(!eId)
 	{
@@ -636,7 +626,6 @@ function removeEvent(event, elem)
 
 function createCategory()
 {
-	//window.location.href = './schedule?new=t&name=Untitled';
 	$.ajax({
 	    url: "/create_category",
 	    type: "POST",
@@ -665,7 +654,6 @@ function createCategory()
 
 function delCategory(event, elem, id)
 {
-	//window.location.href = './schedule?dest=t&id=' + id;
 	$.ajax({
 	    url: "/delete_category",
 	    type: "POST",
@@ -693,8 +681,7 @@ function saveCategory(event,elem,id)
 	    { 
 	    	console.log("Update category complete.");
 	    	
-	    	//Hide category editing panel
-	    	hideOverlay();
+	    	hideOverlay(); //Hide category editing panel
 	    	
 			$("#sch-sidebar .sch-evnt[data-id=" + id + "]").find(".evnt-title").html($(".catOverlayTitle").html()); //Update name in sidebar
 			$(".sch-evnt[data-id=" + id + "]").css("background-color", $(".catTopOverlay").css("background-color")); //Update color of events
@@ -744,4 +731,21 @@ function inColumn(elem)
 
 /****************************/
 /*** END HELPER METHODS *****/
+/****************************/
+
+/****************************/
+/**** HTML TIED METHODS *****/
+/****************************/
+
+//Used by the next and previous buttons
+function moveWeek(forward)
+{
+	if(forward) //if next button
+		addDates(new Date(refDate.getYear()+1900,refDate.getMonth(),refDate.getDate()+7), true); //move forward
+	else //otherwise
+		addDates(new Date(refDate.getYear()+1900,refDate.getMonth(),refDate.getDate()-7), true); //move back
+}
+
+/****************************/
+/***** END HTML METHODS *****/
 /****************************/

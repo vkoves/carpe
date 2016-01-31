@@ -48,15 +48,15 @@
 			<span id="private" class="default">Private</span>
 		</div>
 		<div class="futureColors">
-			<div class="color-swatch" style="background-color: red;" onclick="changeCategoryColor(event,this,'Red')"></div>
-			<div class="color-swatch" style="background-color:orange;" onclick="changeCategoryColor(event,this,'Orange')"></div>
-			<div class="color-swatch" style="background-color:yellow;" onclick="changeCategoryColor(event,this,'Yellow')"></div>
-			<div class="color-swatch" style="background-color:green;" onclick="changeCategoryColor(event,this,'Green')"></div>
+			<div class="color-swatch" style="background-color: red;" onclick="changeCategoryColor('Red')"></div>
+			<div class="color-swatch" style="background-color:orange;" onclick="changeCategoryColor('Orange')"></div>
+			<div class="color-swatch" style="background-color:yellow;" onclick="changeCategoryColor('Yellow')"></div>
+			<div class="color-swatch" style="background-color:green;" onclick="changeCategoryColor('Green')"></div>
 			<br>
-			<div class="color-swatch" style="background-color:blue;" onclick="changeCategoryColor(event,this,'Blue')"></div>
-			<div class="color-swatch" style="background-color:indigo;" onclick="changeCategoryColor(event,this,'Indigo')"></div>
-			<div class="color-swatch" style="background-color:violet;" onclick="changeCategoryColor(event,this,'Violet')"></div>
-			<div class="color-swatch" style="background-color:silver;" onclick="changeCategoryColor(event,this,'Silver')"></div>
+			<div class="color-swatch" style="background-color:blue;" onclick="changeCategoryColor('Blue')"></div>
+			<div class="color-swatch" style="background-color:indigo;" onclick="changeCategoryColor('Indigo')"></div>
+			<div class="color-swatch" style="background-color:violet;" onclick="changeCategoryColor('Violet')"></div>
+			<div class="color-swatch" style="background-color:silver;" onclick="changeCategoryColor('Silver')"></div>
 		</div>
 	</div>
 </div>
@@ -110,9 +110,9 @@
 	
 	<div id="sch-main">
 		<div class="sch-but-holder">
-			<span class="default sch-week-prev" onclick="addDates(new Date(refDate.getYear()+1900,refDate.getMonth(),refDate.getDate()-7), true)">Previous</span> 
+			<span class="default sch-week-prev" onclick="moveWeek(false)">Previous</span> 
 			&nbsp; 
-			<span class="default sch-week-next" onclick="addDates(new Date(refDate.getYear()+1900,refDate.getMonth(),refDate.getDate()+7), true)">Next</span> 
+			<span class="default sch-week-next" onclick="moveWeek(true)">Next</span> 
 			
 			<% if !@read_only %>	
 				<span class="default green" id="sch-save" onclick="saveEvents()">Save</span>
