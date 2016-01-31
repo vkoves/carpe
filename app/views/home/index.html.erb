@@ -10,36 +10,24 @@
 	<p>Cleaner, simpler, Carpe.</p>
 <% end %>
 
-<% if current_user and current_user.admin %>
-	
+<% if current_user %>
 	<div id="greeting">
 		<span class="greet-text">
-		
-		Hello again, <%= current_user.name.split(" ")[0] %>!
-		
-		<div class="greet-subt"><br />
-		Check out the new sidebar, a quick way to know if your friends are free or not.
-		<br /><a href="/schedule" class="greet-a">You can also just go directly to your schedule.</a></div>
-
-
-		</span><br />
-
-		
+			Hello again, <%= current_user.name.split(" ")[0] %>!
+			<div class="greet-subt"><br />
+				Check out the new sidebar, a quick way to know if your friends are free or not.<br>
+				<a href="/schedule" class="greet-a">You can also just go directly to your schedule.</a>
+			</div>
+		</span>
+		<br>
 	</div>
-
-
 
 	<div id="sidebar"> 
-		
-		<% if current_user and current_user.admin #only print this sandbox things for the el33ts %>
-
 			<div id="friend-list">
-			<% current_user.all_friendships.each do |arr| %>
-				<% friendship = arr[0]; user = arr[1]; free = true %>
-				<%= render "users/user_box_horizontal", user: user, friendship: friendship, free: free %>
-			
-			<% end%></div>
-		<% end %>	
+				<% current_user.all_friendships.each do |arr| %>
+					<% friendship = arr[0]; user = arr[1]; free = true %>
+					<%= render "users/user_box_horizontal", user: user, friendship: friendship, free: free %>
+				<% end%>
+			</div>
 	</div>
-	<% end %>
-	
+<% end %>
