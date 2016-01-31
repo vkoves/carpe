@@ -371,13 +371,17 @@ function addDates(currDate, refresh)
 		}
 		if(startDate <= lastDateCurr+1)
 		{
-			$(col).children(".col-titler").prepend("<div class='evnt-date'>" + startDate + "</div> ");
+			var fullDate = "";
+			
 			if(lastMonth && ((month-1)>-1))
-				$(col).children(".col-titler").append("<br><div class='evnt-fulldate'>" + monthNames[month-1] + " " + startDate + ", " + year + "</div>");
+				fullDate = monthNames[month-1] + " " + startDate + ", " + year;
 			else if (lastMonth &&((month-1)==-1))
-				$(col).children(".col-titler").append("<br><div class='evnt-fulldate'>" + monthNames[11] + " " + startDate + ", " + (year-1) + "</div>");
+				fullDate = monthNames[11] + " " + startDate + ", " + (year-1);
 			else
-				$(col).children(".col-titler").append("<br><div class='evnt-fulldate'>" + monthNames[month] + " " + startDate + ", " + year + "</div>");
+				fullDate = monthNames[month] + " " + startDate + ", " + year;
+			
+			$(col).children(".col-titler").prepend("<div class='evnt-date'>" + startDate + "</div> "); //prepend the numeric date (e.g. 25)
+			$(col).children(".col-titler").append("<div class='evnt-fulldate'>" + fullDate + "</div>"); //append the long form date to columns
 				
 			if((startDate == lastDateCurr && !lastMonth) || (startDate == lastDatePrev && lastMonth)) //if this is the last day in the month, reset the count
 			{
