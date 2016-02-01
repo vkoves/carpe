@@ -455,7 +455,8 @@
 }
 
 
-.cat-overlay-box {
+.cat-overlay-box
+{
 	display: none;
 	position: absolute;
 	top: 30%;
@@ -473,15 +474,17 @@
 }
 .cat-overlay-box .sch-cat-icon
 {
+	display: block;
 	width: 30px;
 	height: 30px;
 	top: 10px;
 	right: 10px;
 }
-.catTopOverlay {
+.catTopOverlay
+{
 	height: 90px;
 	width:100%;
-	background-color:Gray;
+	background-color:grey;
 	position:absolute;
 	top:0px;
 	left: 0;

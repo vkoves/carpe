@@ -148,7 +148,7 @@ function colDroppable()
 		out: function( event, ui )
 		{
 			$(this).parent().removeClass("over"); //unhighlight
-			$(ui.draggable).draggable("option","gridOn", false); //and disable grid
+			//$(ui.draggable).draggable("option","gridOn", false); //and disable grid
 		}
 	});
 }
@@ -245,7 +245,7 @@ function addDrag(selector)
 }
 
 //Called on event stop, aka let go
-function handlePosition(elem, ui)
+function handlePosition(elem, ui) //if
 {
 	var topVal = ui.position.top - $(elem).parent().offset().top;
 	if(topVal < 0) //make sure the event is not halfway off the top
@@ -257,6 +257,7 @@ function handlePosition(elem, ui)
 		topVal = $(elem).parent().height() - $(elem).outerHeight();
 		topVal = topVal - (topVal%gridHeight);
 	}
+
 	$(elem).css("top",topVal);
 }
 
@@ -317,7 +318,7 @@ function addResizing(selector)
 //Change time while items are being dragged or resized, and also snap to a vertical grid
 function updateTime(elem, ui, resize) //if we're resizing, don't snap, just update time
 {
-	var arr = ui.helper.attr("time").split(":");
+	var arr = ui.helper.attr("time").split(":"); //fetch the time from the helper
 	
 	//Take care of grid snapping
 	if($(elem).draggable('option', 'gridOn') || resize) //only update time if we are snapping in a column or are resizing
@@ -333,7 +334,7 @@ function updateTime(elem, ui, resize) //if we're resizing, don't snap, just upda
 		}
 		arr[0] = (ui.position.top + offsetDiff)/gridHeight;
 	}
-		
+	
 	$(elem).attr("time", arr.join(":")); //set the time attr using military
 	arr = convertTo12Hour(arr); //then convert to 12 hour
 	ui.helper.children(".evnt-time").html(arr); //and set the helper time
