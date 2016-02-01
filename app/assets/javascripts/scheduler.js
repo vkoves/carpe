@@ -35,9 +35,10 @@ function scheduleReady()
 				var clone = catParent.clone();
 				var dateE = new Date(eventsLoaded[i].date);
 				var dateEnd = new Date(eventsLoaded[i].end_date);
+				var time = dateE.getHours() + ":" + dateE.getMinutes();
+				var dateString = monthNames[dateE.getMonth()] + " " + dateE.getDate() + ", " + dateE.getFullYear();
 				
 				clone.children(".evnt-title").text(eventsLoaded[i].name);
-				var time = dateE.getHours() + ":" + dateE.getMinutes(); 
 				clone.children(".evnt-time").text(convertTo12Hour([dateE.getHours(), dateE.getMinutes()])).show();
 				clone.attr("time", time);
 				clone.attr("event-id", eventsLoaded[i].id);
@@ -47,19 +48,15 @@ function scheduleReady()
 				pushEventInfo(clone, true);
 				
 				currEventsMap[i].enddatetime = eventsLoaded[i].end_date;
-				var dateString = monthNames[dateE.getMonth()] + " " + dateE.getDate() + ", " + dateE.getFullYear();
 				currEventsMap[i].date = dateString;
 				currEventsMap[i].datetime = eventsLoaded[i].date;
 				placeInSchedule(clone, dateE.getHours(), dateEnd.getHours() - dateE.getHours());
 				
-				//increment the temp id
-				eventTempId++;
+				
+				eventTempId++; //increment the temp id
 			}
-			
-			console.log("Events loaded!");
 		}
 		
-		console.log("Readying schedule");
 		setTitles();
 		
 		sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
@@ -201,55 +198,27 @@ function addDrag(selector)
 		},
 		start: function(event, ui)
 		{
-			var height = parseFloat($(this).css("height"));
-			if((height+border)%gridHeight != 0)
-				$(ui.helper).css("height", (gridHeight*3)-border);
+			setHeight(this, ui.helper, 3);
 			
 			if(ctrlPressed && $(this).parent().attr("id") != "sch-tiles-inside") //if this is an existing event and control is pressed
 			{
-				var clone = $(ui.helper).clone(); //create a clone
-				$(this).parent().append(clone);
-				clone.css("opacity","1"); //set the clone to be fully opaque, as it'll be 0.7 opacity by default from dragging
-				
-				$(this).removeAttr("event-id"); //clear event id
-
-				$(this).attr("evnt-temp-id", eventTempId); //the clone needs a new temp id, but in reality, this is the clone
-				eventTempId++;
-				
-				pushEventInfo($(this));
-				pushEventInfo(clone);
-				
-				clone.removeClass("ui-draggable ui-draggable-handle ui-resizable ui-draggable-dragging"); //remove dragging stuff
-				addDrag(clone); //and redo draggin
+				handleClone(this, ui);
 			}
 		},
 		stop: function(event, ui)  //on drag end
 		{
-			var height = parseFloat($(this).css("height"));
-			if((height+border)%gridHeight != 0)
-				$(this).css("height", (gridHeight*3)-border);
+			if(!inColumn($(this))) //if this event was not placed
+				return; //return
 				
 			if($(this).css("opacity") == 1) //if opacity is 1, this is a new event
-			{
-				$(this).children(".evnt-title").attr("contenteditable", "true");
-				$(this).children(".evnt-title").trigger('focus'); 
-				document.execCommand('selectAll',false,null); // Suggests to the user to change the schedule item title by making it editable upon drop here.
-				document.execCommand('delete',false,null); // Suggests to the user to change the schedule item title by making it editable upon drop here.
-				$(this).attr("evnt-temp-id", eventTempId);
-				eventTempId++;
-				addResizing($(this)); //since the sidebar events don't have resizing, we have to add it on stop
-			}
+				handleNewEvent(this);
+			
+			setHeight(this, this, 3);
 			
 			$("#sch-tiles").html(sideHTML); //reset the sidebar
-			$(this).css("opacity", 1);
+			$(this).css("opacity", 1); //undo the setting opacity to zero
 			
-			if(inColumn($(this)))
-			{
-				$(this).css('top', ui.position.top - $(this).parent().offset().top);
-			}
-			addDrag();
-			
-			var topVal = parseFloat($(this).css("top"));
+			var topVal = ui.position.top - $(this).parent().offset().top;
 			if(topVal < 0) //make sure the event is not halfway off the top
 			{
 				topVal = 0;
@@ -259,14 +228,10 @@ function addDrag(selector)
 				topVal = $(this).parent().height() - $(this).outerHeight();
 				topVal = topVal - (topVal%gridHeight);
 			}
-
 			$(this).css("top",topVal);
-			updateTime(this, ui);
 			
-			if ($(this).parent().offset()) 
-			{
-				pushEventInfo($(this));
-			}
+			pushEventInfo($(this));
+			addDrag(); //add drag to the sidebar again
 		},
 		drag: function(event, ui)
 		{
@@ -275,6 +240,37 @@ function addDrag(selector)
 	});
 	
 	addResizing(selector);
+}
+
+//Called when creating a clone
+function handleClone(elem, ui)
+{
+	var clone = $(ui.helper).clone(); //create a clone
+	$(elem).parent().append(clone);
+	clone.css("opacity","1"); //set the clone to be fully opaque, as it'll be 0.7 opacity by default from dragging
+	
+	$(elem).removeAttr("event-id"); //clear event id
+
+	$(elem).attr("evnt-temp-id", eventTempId); //the clone needs a new temp id, but in reality, this is the clone
+	eventTempId++;
+	
+	pushEventInfo($(elem));
+	pushEventInfo(clone);
+	
+	clone.removeClass("ui-draggable ui-draggable-handle ui-resizable ui-draggable-dragging"); //remove dragging stuff
+	addDrag(clone); //and redo draggin
+}
+
+//called on new events dragged from the sidebar
+function handleNewEvent(elem)
+{
+	$(elem).children(".evnt-title").attr("contenteditable", "true");
+	$(elem).children(".evnt-title").trigger('focus'); 
+	document.execCommand('selectAll',false,null); // Suggests to the user to change the schedule item title by making it editable upon drop here.
+	document.execCommand('delete',false,null); // Suggests to the user to change the schedule item title by making it editable upon drop here.
+	$(elem).attr("evnt-temp-id", eventTempId);
+	eventTempId++;
+	addResizing($(elem)); //since the sidebar events don't have resizing, we have to add it on stop
 }
 
 //add resizing for schedule events that are new
@@ -335,13 +331,9 @@ function addDates(currDate, refresh)
 	var month = currDate.getMonth();
 	var year = currDate.getFullYear();
 	var startDate;
-	var lastCurrMonth = new Date(year, month + 1, 0);
-	var lastPrevMonth = new Date(year, month, 0);
-	var lastDateCurr = lastCurrMonth.getDate();
-	var lastDatePrev = lastPrevMonth.getDate();
+	var lastDateCurr = new Date(year, month, 0).getDate();
+	var lastDatePrev = new Date(year, month, 0).getDate();
 	var lastMonth = false;
-	var todayDate = new Date();
-	
 	
 	refDate = currDate;
 	
@@ -365,7 +357,7 @@ function addDates(currDate, refresh)
 	
 	$(".sch-day-col").each(function(index, col)
 	{
-		if((startDate == date) && (currDate.toDateString() == todayDate.toDateString())) //if this is the same day of week, and is the correct week (is it today?)
+		if((startDate == date) && (currDate.toDateString() == new Date().toDateString())) //if this is the same day of week, and is the correct week (is it today?)
 		{
 			$(col).attr("id","sch-col-today");	
 		}
@@ -565,14 +557,8 @@ function changeCategoryColor(color)
 //Setup properties of a place schedule item from the db, setting position and height
 function placeInSchedule(elem, hours, lengthHours)
 {
-	var height = lengthHours*gridHeight;
-	if((height+border)%gridHeight != 0)
-		$(elem).css("height", (gridHeight*lengthHours)-border);
-
-	$(elem).children(".evnt-time").show();
-	
-	var topVal = gridHeight*hours;
-	$(elem).css("top",topVal);
+	$(elem).css("height", (gridHeight*lengthHours)-border); //set the height using the length in hours
+	$(elem).css("top", gridHeight*hours); //set the top position by gridHeight times the hour
 }
 
 /****************************/
@@ -662,12 +648,13 @@ function deleteCategory(event, elem, id)
 	    url: "/delete_category",
 	    type: "POST",
 	    data: {id: id},
-	    success: function(resp)
+	    success: function(resp) //after the server says the delete worked
 	    { 
 	    	console.log("Delete category complete.");
-			$(elem).parent().slideUp("normal", function() {
-				$(this).remove();
-				sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
+			$(elem).parent().slideUp("normal", function() //slide up the div, hiding it
+			{
+				$(this).remove(); //and when that's done, remove the div
+				sideHTML = $("#sch-tiles").html(); //and save the sidebar html for restoration upon drops
 			});
 	    },
 	    error: function(resp)
@@ -686,9 +673,7 @@ function saveCategory(event,elem,id)
 	    success: function(resp)
 	    { 
 	    	console.log("Update category complete.");
-	    	
 	    	hideOverlay(); //Hide category editing panel
-	    	
 			$("#sch-sidebar .sch-evnt[data-id=" + id + "]").find(".evnt-title").html($(".catOverlayTitle").html()); //Update name in sidebar
 			$(".sch-evnt[data-id=" + id + "]").css("background-color", $(".catTopOverlay").css("background-color")); //Update color of events
 			sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
@@ -733,6 +718,13 @@ function inColumn(elem)
 		return true;
 	else
 		return false;
+}
+
+function setHeight(getElem, setElem, hoursLength) //get the height of getElem and set the height of setElem if the height is not a proper height (divisible by gridheight)
+{
+	var height = parseFloat($(getElem).css("height"));
+	if((height+border)%gridHeight != 0)
+		$(setElem).css("height", (gridHeight*hoursLength)-border);
 }
 
 /****************************/
