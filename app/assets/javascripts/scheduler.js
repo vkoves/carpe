@@ -31,49 +31,7 @@ function scheduleReady()
 		sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
 		schHTML = $("#sch-days").html(); //The HTML for the scheduler days layout, useful for when days are refreshed
 		
-		//toss a tooltip on the sidebar, explaining how stuff works
-		$("#sidebar-title").tooltip({
-			position: { my: "left top", at: "left bottom"}
-		});
-		
-		//When editing category title, defocus on enter
-		$(".catOverlayTitle").on("keydown",function(e){
-		    var key = e.keyCode || e.charCode;  // ie||others
-		    if(key == 13)  // if enter key is pressed
-		    {
-				e.preventDefault();
-			    $(this).blur();  // lose focus	
-		    }
-		});
-		
-		$(".repeat-option").click(function()
-		{
-			//highlight the newly selected option
-			$(".repeat-option").removeClass("red");
-			$(this).addClass("red");
-
-			//get the text of the button
-			var repType = $(this).text().toLowerCase();
-			currEvent.attr("rep-type", repType); //and set the repeat type attribute
-			
-			//then update the repeat type without going through push event info
-			currEventsMap[currEvent.attr("evnt-temp-id")].repeat = repType;
-			console.log("Repeat type updated");
-			console.log(currEventsMap);
-			
-			//remove all of this element
-			$(".sch-evnt[evnt-temp-id='" + currEvent.attr("evnt-temp-id") + "']").remove();
-			populateEvents();
-		});
-		
-		$("#cat-privacy span").click(function()
-		{
-			//highlight the newly recent option
-			$("#cat-privacy span").removeClass("red");
-			$(this).addClass("red");
-			
-			currCategory.attr("privacy", $(this).text().toLowerCase());
-		});
+		addStartingListeners(); //add the event listeners
 		
 		addDrag(); //add dragging, recursively
 		
@@ -83,6 +41,48 @@ function scheduleReady()
 		readied = true;
 		console.log("Schedule ready!");
 	}
+}
+
+function addStartingListeners()
+{
+	//When editing category title, defocus on enter
+	$(".catOverlayTitle").on("keydown",function(e){
+	    var key = e.keyCode || e.charCode;  // ie||others
+	    if(key == 13)  // if enter key is pressed
+	    {
+			e.preventDefault();
+		    $(this).blur();  // lose focus	
+	    }
+	});
+	
+	$(".repeat-option").click(function()
+	{
+		//highlight the newly selected option
+		$(".repeat-option").removeClass("red");
+		$(this).addClass("red");
+
+		//get the text of the button
+		var repType = $(this).text().toLowerCase();
+		currEvent.attr("rep-type", repType); //and set the repeat type attribute
+		
+		//then update the repeat type without going through push event info
+		currEventsMap[currEvent.attr("evnt-temp-id")].repeat = repType;
+		console.log("Repeat type updated");
+		console.log(currEventsMap);
+		
+		//remove all of this element
+		$(".sch-evnt[evnt-temp-id='" + currEvent.attr("evnt-temp-id") + "']").remove();
+		populateEvents();
+	});
+	
+	$("#cat-privacy span").click(function()
+	{
+		//highlight the newly recent option
+		$("#cat-privacy span").removeClass("red");
+		$(this).addClass("red");
+		
+		currCategory.attr("privacy", $(this).text().toLowerCase());
+	});
 }
 
 function loadInitialEvents() //load events into the hashmap
@@ -222,17 +222,7 @@ function addDrag(selector)
 			$("#sch-tiles").html(sideHTML); //reset the sidebar
 			$(this).css("opacity", 1); //undo the setting opacity to zero
 			
-			var topVal = ui.position.top - $(this).parent().offset().top;
-			if(topVal < 0) //make sure the event is not halfway off the top
-			{
-				topVal = 0;
-			}
-			else if(topVal > $(this).parent().height() - $(this).outerHeight()) //or bottom
-			{
-				topVal = $(this).parent().height() - $(this).outerHeight();
-				topVal = topVal - (topVal%gridHeight);
-			}
-			$(this).css("top",topVal);
+			handlePosition(this, ui);
 			
 			pushEventInfo($(this));
 			addDrag(); //add drag to the sidebar again
@@ -244,6 +234,22 @@ function addDrag(selector)
 	});
 	
 	addResizing(selector);
+}
+
+//Called on event stop, aka let go
+function handlePosition(elem, ui)
+{
+	var topVal = ui.position.top - $(elem).parent().offset().top;
+	if(topVal < 0) //make sure the event is not halfway off the top
+	{
+		topVal = 0;
+	}
+	else if(topVal > $(elem).parent().height() - $(elem).outerHeight()) //or bottom
+	{
+		topVal = $(elem).parent().height() - $(elem).outerHeight();
+		topVal = topVal - (topVal%gridHeight);
+	}
+	$(elem).css("top",topVal);
 }
 
 //Called when creating a clone
