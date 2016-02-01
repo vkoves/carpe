@@ -644,7 +644,7 @@ function createCategory()
 	    	newCat.attr("data-id", resp.id);
 	    	newCat.find(".evnt-title").text(resp.name);
 	    	newCat.find(".sch-evnt-editCat").attr("onclick", 'editCategory(event, this, "' + resp.id + '", "'+resp.name+'", "' + resp.color + '");');
-	    	newCat.find(".sch-evnt-delCat").attr("onclick", 'delCategory(event, this,"' + resp.id + '");');
+	    	newCat.find(".sch-evnt-delCat").attr("onclick", 'deleteCategory(event, this,"' + resp.id + '");');
 	    	addDrag();
 	    	sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
 	    	newCat.find(".sch-evnt-editCat").click();
@@ -656,7 +656,7 @@ function createCategory()
 	});
 }
 
-function delCategory(event, elem, id)
+function deleteCategory(event, elem, id)
 {
 	$.ajax({
 	    url: "/delete_category",
@@ -665,14 +665,16 @@ function delCategory(event, elem, id)
 	    success: function(resp)
 	    { 
 	    	console.log("Delete category complete.");
-			sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
+			$(elem).parent().slideUp("normal", function() {
+				$(this).remove();
+				sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
+			});
 	    },
 	    error: function(resp)
 	    {
 	    	alert("Deleting category failed :(");
 	    }
 	});
-	$(elem).parent().slideUp();
 }
 
 function saveCategory(event,elem,id)
