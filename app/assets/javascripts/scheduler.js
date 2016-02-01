@@ -357,11 +357,14 @@ function addDates(currDate, refresh)
 	if(day == 0)
 		startDate = date - 6;
 	else
-		startDate = date - day - 1;
+		startDate = date - day + 1;
+		
+	console.log("Start " + date);
 	
 	if(startDate <= 0) //if the start is in the last month
 	{
 		startDate = lastDatePrev + startDate;
+		console.log(startDate);
 		lastMonth = true;
 	}
 	
