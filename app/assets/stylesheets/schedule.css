@@ -3,19 +3,22 @@
 {
 	width: 96%;
 	height: 90vh;
+	margin-top: 10px;
 	margin-left: auto;
 	margin-right: auto;
 }
 #sch-main
 {
 	width: calc(100% - 254px);
-	height: 76%;
+	height: 90%;
+	max-height: 710px;
 	float: right;
 }
 #sch-sidebar
 {
 	width: 250px;
-	height: 76%;
+	height: 90%;
+	max-height: 710px;
 	background: rgb(239, 239, 239);
 	font-size: 24px;
 	border-radius: 5px;
@@ -220,12 +223,14 @@
 {
 	position: absolute; /* Viktor added 1 am June 17 */
 	height: calc(100% - 50px);
+	max-height: 600px;
 	width: 192px;
 	margin-left: auto;
 	margin-right: auto;
 	left: -1px;
 	right: 0px;
-	bottom: 0px;
+	top: 50px;
+	/* bottom: 0px; */
 }
 .evnt-desc
 {

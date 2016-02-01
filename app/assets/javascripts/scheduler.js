@@ -83,6 +83,14 @@ function addStartingListeners()
 		
 		currCategory.attr("privacy", $(this).text().toLowerCase());
 	});
+	
+	$(document).keyup(function(e) //add event listener to close overlays on pressing escape
+	{
+		if (e.keyCode == 27) // escape key maps to keycode `27`
+		{
+			hideOverlay();
+		}
+	});
 }
 
 function loadInitialEvents() //load events into the hashmap
@@ -359,12 +367,9 @@ function addDates(currDate, refresh)
 	else
 		startDate = date - day + 1;
 		
-	console.log("Start " + date);
-	
 	if(startDate <= 0) //if the start is in the last month
 	{
 		startDate = lastDatePrev + startDate;
-		console.log(startDate);
 		lastMonth = true;
 	}
 	
