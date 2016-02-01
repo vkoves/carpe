@@ -3,19 +3,18 @@ var schHTML; // Instantiates schedule HTML variable, which will contain the "Mon
 
 var gridHeight = 25; //the height of the grid of resizing and dragging
 var border = 2; //the border at the bottom for height stuff
-var ctrlPressed = false;
+var ctrlPressed = false; //is the control key presed? Updated upon clicking an event
 var refDate = new Date(); // Reference date for where the calendar is now, so that it can switch between weeks.
 
 var currEventsMap = {}; //map of all the events in the frontend
-var eventTempId = 0; //the temp id
+var eventTempId = 0; //the temp id that each event has
 
 var currEvent; //the event being currently edited
 var currCategory; //the category being currently edited
 
-var readied = false;
+var readied = false; //whether the ready function has been called
 
-//Three letter month abbreviations
-var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]; //Three letter month abbreviations
 
 //Run schedule ready when the page is loaded. Either fresh or from turbo links
 $(document).ready(scheduleReady);
@@ -25,37 +24,7 @@ function scheduleReady()
 {
 	if(!readied)
 	{
-		//Load in events
-		if (typeof eventsLoaded !== 'undefined') //if eventsLoaded is defined
-		{
-			for(var i = 0; i < eventsLoaded.length; i++) //loop through it
-			{
-				var evnt = eventsLoaded[i]; //fetch the event at the current index
-				var catParent = $("#sch-tiles .sch-evnt[data-id='" + evnt["category_id"] + "']"); //fetch the category
-				var clone = catParent.clone();
-				var dateE = new Date(eventsLoaded[i].date);
-				var dateEnd = new Date(eventsLoaded[i].end_date);
-				var time = dateE.getHours() + ":" + dateE.getMinutes();
-				var dateString = monthNames[dateE.getMonth()] + " " + dateE.getDate() + ", " + dateE.getFullYear();
-				
-				clone.children(".evnt-title").text(eventsLoaded[i].name);
-				clone.children(".evnt-time").text(convertTo12Hour([dateE.getHours(), dateE.getMinutes()])).show();
-				clone.attr("time", time);
-				clone.attr("event-id", eventsLoaded[i].id);
-				clone.attr("evnt-temp-id", i); //Set the temp id
-				clone.attr("rep-type", eventsLoaded[i].repeat);
-				
-				pushEventInfo(clone, true);
-				
-				currEventsMap[i].enddatetime = eventsLoaded[i].end_date;
-				currEventsMap[i].date = dateString;
-				currEventsMap[i].datetime = eventsLoaded[i].date;
-				placeInSchedule(clone, dateE.getHours(), dateEnd.getHours() - dateE.getHours());
-				
-				
-				eventTempId++; //increment the temp id
-			}
-		}
+		loadInitialEvents();
 		
 		setTitles();
 		
@@ -113,6 +82,41 @@ function scheduleReady()
 		addDates(new Date(), false);
 		readied = true;
 		console.log("Schedule ready!");
+	}
+}
+
+function loadInitialEvents() //load events into the hashmap
+{
+	//Load in events
+	if (typeof eventsLoaded !== 'undefined') //if eventsLoaded is defined
+	{
+		for(var i = 0; i < eventsLoaded.length; i++) //loop through it
+		{
+			var evnt = eventsLoaded[i]; //fetch the event at the current index
+			var catParent = $("#sch-tiles .sch-evnt[data-id='" + evnt["category_id"] + "']"); //fetch the category
+			var clone = catParent.clone();
+			var dateE = new Date(eventsLoaded[i].date);
+			var dateEnd = new Date(eventsLoaded[i].end_date);
+			var time = dateE.getHours() + ":" + dateE.getMinutes();
+			var dateString = monthNames[dateE.getMonth()] + " " + dateE.getDate() + ", " + dateE.getFullYear();
+			
+			clone.children(".evnt-title").text(eventsLoaded[i].name);
+			clone.children(".evnt-time").text(convertTo12Hour([dateE.getHours(), dateE.getMinutes()])).show();
+			clone.attr("time", time);
+			clone.attr("event-id", eventsLoaded[i].id);
+			clone.attr("evnt-temp-id", i); //Set the temp id
+			clone.attr("rep-type", eventsLoaded[i].repeat);
+			
+			pushEventInfo(clone, true);
+			
+			currEventsMap[i].enddatetime = eventsLoaded[i].end_date;
+			currEventsMap[i].date = dateString;
+			currEventsMap[i].datetime = eventsLoaded[i].date;
+			placeInSchedule(clone, dateE.getHours(), dateEnd.getHours() - dateE.getHours());
+			
+			
+			eventTempId++; //increment the temp id
+		}
 	}
 }
 
