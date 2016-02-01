@@ -3,8 +3,6 @@
 {
 	width: 96%;
 	height: 90vh;
-	/* min-width: 800px;
-	max-width: 1028px; */
 	margin-left: auto;
 	margin-right: auto;
 }
@@ -19,7 +17,6 @@
 	width: 250px;
 	height: 76%;
 	background: rgb(239, 239, 239);
-	/* background: rgb(253, 253, 253); */
 	font-size: 24px;
 	border-radius: 5px;
 	float: left;
@@ -46,10 +43,6 @@
 	overflow: hidden;
 	cursor: grab;
 	cursor: move;
-	/* Box sizing to make the borders on the inside 
-	box-sizing:border-box;
-	-moz-box-sizing:border-box;
-	-webkit-box-sizing:border-box; */
 }
 .col-snap .sch-evnt
 {
@@ -72,11 +65,13 @@
 	color:rgb(100,100,100);
 }
 
-.col-snap .sch-cat-icon {
-	display:none;
+#sch-tiles .sch-cat-icon
+{
+	display: block;
 }
 .sch-evnt-icon, .sch-cat-icon
 {
+	display: none;
 	position: absolute;
 	opacity: 0;
 	transition: opacity 0.3s;
@@ -101,26 +96,26 @@
 	top: 5px;
 	width: 18px;
 }
-.sch-evnt-save {
+.sch-evnt-save
+{
 	right:4px;
 	top:20px;
 	display:none;
 }
-.sch-evnt-editCat {
+.sch-evnt-editCat
+{
 	left: 3px;
 	top:3px;
-	display:inline;
 }
-.sch-evnt-saveCat {
+.sch-evnt-saveCat
+{
 	right:4px;
 	top:0px;
-	display:none;
-	
 }
-.sch-evnt-delCat {
+.sch-evnt-delCat
+{
 	left: 20px;
 	top:2px;
-	
 }
 #sch-days
 {
@@ -247,15 +242,13 @@
 {
 	/* background: grey; */
 }
-.evnt-divider {
+.evnt-divider
+{
 	width:1px;
 	left:42px;
 	height:90%;
 	top:5%;
 	position:absolute;
-	/*position:relative;*/
-	
-	
 }
 .evnt-time
 {
@@ -283,7 +276,7 @@
 	transition: all 0.3s;
 	cursor: pointer;
 }
-.col-snap .evnt-title:hover
+.col-snap .evnt-title:hover, .col-snap .evnt-title:focus
 {
 	background: rgba(0,0,0,0.25);
 	box-shadow: 0px 0px 3px black;
