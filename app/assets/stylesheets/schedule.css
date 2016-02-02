@@ -306,6 +306,7 @@
 {
 	display: none;
 	opacity: 0.5;
+	background: none;
 	background-color: #000;
 	z-index: 1000;
 }
@@ -558,6 +559,19 @@
     left: 0;
     right: 0;
     top: 80px;
+}
+#week-date
+{
+	position: relative;
+    top: -2px;
+    width: 80px;
+    height: 20px;
+    padding-left: 10px;
+    color: #4E4E4E;
+}
+#ui-datepicker-div
+{
+	margin-top: 5px;
 }
 
 
