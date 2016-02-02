@@ -45,6 +45,8 @@ function scheduleReady()
 
 function addStartingListeners()
 {
+	$("#week-date").datepicker();
+	
 	//When editing category title, defocus on enter
 	$(".catOverlayTitle").on("keydown",function(e){
 	    var key = e.keyCode || e.charCode;  // ie||others
