@@ -46,6 +46,10 @@ function scheduleReady()
 function addStartingListeners()
 {
 	$("#week-date").datepicker();
+	$("#week-date").change(function()
+	{
+		addDates(new Date($(this).val()), true);
+	});
 	
 	//When editing category title, defocus on enter
 	$(".catOverlayTitle").on("keydown",function(e){
