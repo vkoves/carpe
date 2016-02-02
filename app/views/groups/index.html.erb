@@ -1,0 +1,6 @@
+<br>
+<% @groups.each do |group| %>
+	Group: <%= group.name %>, Role: <%= UsersGroup.where(user_id: current_user.id, group_id: group.id).first.role %><br>
+<% end %>
+<br>
+<a href="/groups/create?name='New Group'" class="default"><span>Create Group</span</a>

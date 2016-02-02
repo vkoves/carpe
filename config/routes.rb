@@ -13,6 +13,9 @@ Rails.application.routes.draw do
   get "/userviewer" => 'pages#userviewer'
   get "/find_friends" => 'users#find_friends'
   
+  get "/groups" => 'groups#index'
+  get "/groups/create" => 'groups#create'
+  
   get "/promote" => 'pages#promote'
   
   get "/admin" => 'pages#admin'

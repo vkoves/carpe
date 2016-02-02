@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160120155518) do
+ActiveRecord::Schema.define(version: 20160202061244) do
 
   create_table "categories", force: :cascade do |t|
     t.string   "name"
@@ -47,6 +47,17 @@ ActiveRecord::Schema.define(version: 20160120155518) do
     t.boolean  "confirmed"
   end
 
+  create_table "groups", force: :cascade do |t|
+    t.integer  "supplier_id"
+    t.string   "name"
+    t.text     "description"
+    t.string   "image_url"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "groups", ["supplier_id"], name: "index_groups_on_supplier_id"
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -69,5 +80,14 @@ ActiveRecord::Schema.define(version: 20160120155518) do
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+
+  create_table "users_groups", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "group_id"
+    t.string  "role"
+  end
+
+  add_index "users_groups", ["group_id"], name: "index_users_groups_on_group_id"
+  add_index "users_groups", ["user_id"], name: "index_users_groups_on_user_id"
 
 end
