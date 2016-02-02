@@ -16,4 +16,8 @@ class GroupsController < ApplicationController
     Group.destroy(params[:id])
     redirect_to "/groups"
   end
+  
+  def show
+    @group = Group.find(params[:id])
+  end
 end

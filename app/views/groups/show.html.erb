@@ -1,0 +1,5 @@
+<%= stylesheet_link_tag "profile" %>
+<h1><%= @group.name %></h1>
+<% @group.users.each do |user| %>
+	<%= render "/users/user_box_horizontal", user: user %>
+<% end %>
