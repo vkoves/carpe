@@ -11,4 +11,9 @@ class GroupsController < ApplicationController
     @user_group.save
     redirect_to "/groups"
   end
+  
+  def destroy
+    Group.destroy(params[:id])
+    redirect_to "/groups"
+  end
 end
