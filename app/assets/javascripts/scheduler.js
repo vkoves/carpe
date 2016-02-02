@@ -45,10 +45,15 @@ function scheduleReady()
 
 function addStartingListeners()
 {
-	$("#week-date").datepicker();
-	$("#week-date").change(function()
+	$("#week-date").datepicker( //show the datepicker when clicking on the field
 	{
-		addDates(new Date($(this).val()), true);
+		firstDay: 1, //set Monday as the first day
+	});
+	$("#week-date").datepicker('setDate', 'today'); //set the date to today
+	
+	$("#week-date").change(function() //when the date for the shown week is changed
+	{
+		addDates(new Date($(this).val()), true); //update what is visible
 	});
 	
 	//When editing category title, defocus on enter
