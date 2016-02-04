@@ -477,7 +477,10 @@ function pushEventInfo(elem, ignoreDateTime)
 	var nameE = $(elem).children(".evnt-title").text(); //the name of the event
 	var startTime = $(elem).attr("time"); //the starting time of the event
 	console.log("Star time: " + startTime);
-	var endTime = parseInt(startTime.split(":")[0]) + Math.round($(elem).height()/gridHeight) + ":" + startTime.split(":")[1];  //the ending time
+	if(startTime)
+		var endTime = parseInt(startTime.split(":")[0]) + Math.round($(elem).height()/gridHeight) + ":" + startTime.split(":")[1];  //the ending time
+	else
+		var endTime = 0;
 	var catId = $(elem).attr("data-id"); //the id of the category in the database
 	var repeatType = $(elem).attr("rep-type"); //the repeat type of the element
 	
