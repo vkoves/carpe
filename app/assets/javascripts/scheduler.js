@@ -122,6 +122,7 @@ function loadInitialEvents() //load events into the hashmap
 			clone.children(".evnt-title").text(eventsLoaded[i].name);
 			clone.children(".evnt-time").text(convertTo12Hour([dateE.getHours(), dateE.getMinutes()])).show();
 			clone.attr("time", time);
+			console.log(time);
 			clone.attr("event-id", eventsLoaded[i].id);
 			clone.attr("evnt-temp-id", i); //Set the temp id
 			clone.attr("rep-type", eventsLoaded[i].repeat);
@@ -475,6 +476,7 @@ function pushEventInfo(elem, ignoreDateTime)
 	var dateE = $(elem).parent().siblings(".col-titler").children(".evnt-fulldate").html(); //the date the elem is on
 	var nameE = $(elem).children(".evnt-title").text(); //the name of the event
 	var startTime = $(elem).attr("time"); //the starting time of the event
+	console.log("Star time: " + startTime);
 	var endTime = parseInt(startTime.split(":")[0]) + Math.round($(elem).height()/gridHeight) + ":" + startTime.split(":")[1];  //the ending time
 	var catId = $(elem).attr("data-id"); //the id of the category in the database
 	var repeatType = $(elem).attr("rep-type"); //the repeat type of the element
