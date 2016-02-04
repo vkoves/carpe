@@ -20,7 +20,11 @@
 				<% if @upcoming_events and @upcoming_events.length > 0 %>
 					<h3 class="zero-bot">Upcoming Events</h3>
 					<% @upcoming_events.each do |event| %>
-						<%= local_time_ago(event.date) %> | <%= event.name %><br>
+						<div class="home-event-tile">
+							<div class="square" style="background: <%= event.category.color %>"><%= event.category.name %></div>
+							<div class="tile-text"><%= local_time_ago(event.date) %> | <%= event.name %></div>
+							<br>
+						</div>
 					<% end %>
 				<% end %>
 			</div>

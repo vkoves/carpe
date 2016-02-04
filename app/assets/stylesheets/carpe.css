@@ -352,6 +352,25 @@ input.danger:hover
     border-radius: 5px;
     box-shadow: 1px 1px 1px silver;
 }
+.square
+{
+	float: left;
+    margin-top: 5px;
+    margin-right: 10px;
+    padding: 5px 10px;
+    color: white;
+}
+.home-event-tile
+{
+	height: 50px;
+}
+.home-event-tile .tile-text
+{
+	position: relative;
+	top: 10px;
+}
+
+/* END TO BE SORTED */
 
 /* UTILITY STYLING - Some handy tools, should be kept at EOF */
 .center-text
