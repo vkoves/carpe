@@ -17,6 +17,18 @@ class GroupsController < ApplicationController
     redirect_to "/groups"
   end
   
+  def update
+    @group = Group.find(params[:id])
+    @group.update_attributes(params.require(:group).permit(:name))
+    @group.save
+    redirect_to "/groups"
+    #render :text => @group.name
+  end
+  
+  def edit
+    @group = Group.find(params[:id])
+  end
+  
   def show
     @group = Group.find(params[:id])
   end

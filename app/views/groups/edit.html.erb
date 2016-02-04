@@ -1,0 +1,5 @@
+<%= form_for(@group, url: group_path(@group), :method => :POST) do |f| %>
+	<%= f.label :name %>
+	<%= f.text_field :name %>
+	<%= f.submit "Save" %>
+<% end %>

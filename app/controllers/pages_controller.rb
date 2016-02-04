@@ -53,7 +53,7 @@ class PagesController < ApplicationController
   end
   
   def delete_category
-    Category.find(params[:id]).destroy
+    Category.destroy(params[:id])
     render :text => "Category destroyed"
   end
   
@@ -85,10 +85,7 @@ class PagesController < ApplicationController
   end
   
   def delete_event #delete events
-    event = Event.find(params[:id])
-    event.destroy
-    event.save
-    
+    Event.destroy(params[:id])
     render :text => "Event deleted."
   end
   
