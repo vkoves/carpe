@@ -14,10 +14,10 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require jquery-ui
+//= require jquery.ui.touch-punch.min
+//= require local_time
 
 // require jquery-ui.min
-//= require jquery.ui.touch-punch.min
-
 // Removed to prevent schedule js being loaded everywhere
 // require_tree .
 

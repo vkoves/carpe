@@ -41,7 +41,6 @@
 					<span class="friend-label">Pending...</span>
 				<% end %>
 			<% else %>
-				 
 				<% @events = user.events.where(:date => DateTime.now.beginning_of_day...DateTime.now.end_of_day)%>
 				<% @events.each do |e| %>
 					<% if e.date < DateTime.now and e.end_date > DateTime.now %>
