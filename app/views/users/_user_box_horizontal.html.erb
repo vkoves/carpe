@@ -44,7 +44,10 @@
 				<% @events = user.events.where(:date => DateTime.now.beginning_of_day...DateTime.now.end_of_day)%>
 				<% @events.each do |e| %>
 					<% if e.date < DateTime.now and e.end_date > DateTime.now %>
-						Busy with <a class="simple" href="/u/<%= user.id %>?p=schedule"><%= e.name %></a>
+						Busy 
+						<% if e.category.has_access(current_user) %>
+							with <a class="simple" href="/u/<%= user.id %>?p=schedule"><%= e.name %></a>
+						<% end %>
 						<% free = false %>
 					<% end %>
 				<% end %>
