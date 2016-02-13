@@ -82,7 +82,7 @@ class User < ActiveRecord::Base
 	  event_instances = self.events.where(:date => start_date_time...end_date_time, :repeat => nil)
 
     #then repeating events
-    self.events.where("repeat IS NOT NULL").each do |rep_event| #get all repeating events
+    self.events.where.not(repeat: nil).each do |rep_event| #get all repeating events
       event_instances.concat(rep_event.events_in_range(start_date_time, end_date_time)) #and add them to the event array
     end
 
