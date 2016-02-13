@@ -441,7 +441,9 @@ function populateEvents()
 			var date = new Date(currentDates[i]);
 			if (eventObj.date == currentDates[i]
 				|| eventObj.repeat == "daily"
-				|| (eventObj.repeat == "weekly" && date.getDay() == new Date(eventObj.datetime).getDay()))
+				|| (eventObj.repeat == "weekly" && date.getDay() == new Date(eventObj.datetime).getDay())
+				|| (eventObj.repeat == "monthly" && date.getDate() == new Date(eventObj.datetime).getDate())
+				|| (eventObj.repeat == "yearly" && date.getDate() == new Date(eventObj.datetime).getDate() && date.getMonth() == new Date(eventObj.datetime).getMonth()))
 			{
 				var currentElem = eventObj.element.clone();
 				$(".sch-day-col:eq(" + i + ") .col-snap").append(currentElem);
