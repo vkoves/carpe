@@ -41,11 +41,7 @@
 					<span class="friend-label">Pending...</span>
 				<% end %>
 			<% else %>
-				<% @events = user.events.where(:date => DateTime.now.beginning_of_day...DateTime.now.end_of_day) %>
-				<% user.events.where("repeat IS NOT NULL").each do |rep_event| #get all repeating events
-			      	@events.concat(rep_event.events_in_range(DateTime.now.beginning_of_day, DateTime.now.end_of_day))
-      			end %>
-      			<% @events = @events.uniq #purge duplicates where the repeat elements are also the base %>
+				<% @events = user.events_in_range(DateTime.now.beginning_of_day, DateTime.now.end_of_day) %>
 				<% @events.each do |e| %>
 					<% if e.date < DateTime.now and e.end_date > DateTime.now %>
 						<% if free %>
