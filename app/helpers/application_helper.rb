@@ -9,10 +9,10 @@ module ApplicationHelper
       hours_diff = ((datetime - now)/1.hour).round;
       minutes_diff = ((datetime - now)/1.minute).round;
         
-      if(minutes_diff.abs < 60) #we need minutes
-        if(minutes_diff > 0) #future
+      if(minutes_diff.abs < 60) #we need to use minutes
+        if(minutes_diff > 0) #in the future
           return pluralize(minutes_diff, 'minute') + " from now"
-        else
+        else #in the past
           return pluralize(minutes_diff.abs, 'minute') + " ago"
         end
       end
@@ -51,9 +51,8 @@ module ApplicationHelper
       end
     end
     
-    
-    if(start_caps)
-      time_format[0] = time_format[0,1].upcase
+    if(start_caps) #if this needs capitalization to start
+      time_format[0] = time_format[0,1].upcase #then capitalize the first char of the format
     end
     
     #if we haven't returned with a language based time, run formatting
