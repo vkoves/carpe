@@ -22,7 +22,7 @@
 					<% @upcoming_events.each do |event| %>
 						<div class="home-event-tile">
 							<div class="square" style="background: <%= event.category.color %>"><%= event.category.name %></div>
-							<div class="tile-text"><%= local_time_ago(event.date) %> | <%= event.name %></div>
+							<div class="tile-text"><%= relative_time_ago(event.date) %> | <%= event.name %></div>
 							<br>
 						</div>
 					<% end %>

@@ -49,4 +49,3 @@ end
 gem 'devise'
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
-gem 'local_time'
