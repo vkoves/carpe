@@ -11,42 +11,42 @@ module ApplicationHelper
         
       if(minutes_diff.abs < 60) #we need minutes
         if(minutes_diff > 0) #future
-          return minutes_diff.to_s + " minutes from now"
+          return pluralize(minutes_diff, 'minute') + " from now"
         else
-          return minutes_diff.abs.to_s + " minutes ago"
+          return pluralize(minutes_diff.abs, 'minute') + " ago"
         end
       end
       
       if(hours_diff > 0) #in the future
         if(hours_diff < 5) #less than five hours away
-          return  hours_diff.to_s + " hours from now"
+          return  pluralize(hours_diff, 'hour') + " from now"
         else
-          time_format = "today at %l:%M %p" #datetime.strftime("today at %l:%M %p")
+          time_format = "today at %l:%M %p"
         end
       else #in the past
         if(hours_diff.abs < 5) #less than five hours away
-          return  hours_diff.abs.to_s + " hours ago"
+          return  pluralize(hours_diff.abs, 'hour') + " ago"
         else
-          time_format = "today at %l:%M %p" #datetime.strftime("today at %l:%M %p")
+          time_format = "today at %l:%M %p"
         end
       end
     elsif(datetime.to_date == tomorrow.to_date) #It's tomorrow
-      time_format = "tomorrow at %l:%M %p" #datetime.strftime("tomorrow at %l:%M %p")
+      time_format = "tomorrow at %l:%M %p"
     elsif(datetime.to_date == yesterday.to_date) #It's yesterday
-      time_format = "yesterday at %l:%M %p" #datetime.strftime("yesterday at %l:%M %p")
+      time_format = "yesterday at %l:%M %p"
     else
       days_diff = ((datetime - now)/1.day).round;
       if(days_diff > 0) #in the future
         if(days_diff < 7) #in the next week
-          time_format = "on %A at %l:%M %p" #datetime.strftime("on %A at %l:%M %p")
+          time_format = "on %A at %l:%M %p"
         else
-          return days_diff.to_s + " days from now"
+          return pluralize(days_diff, 'day') + " from now"
         end
       else #in the past
         if(days_diff.abs < 7) #in the past week
-          time_format = "last %A at %l:%M %p" #datetime.strftime("last %A at %l:%M %p")
+          time_format = "last %A at %l:%M %p"
         else
-          return days_diff.abs.to_s + " days ago"
+          return pluralize(days_diff.abs, 'day') + " ago"
         end
       end
     end
