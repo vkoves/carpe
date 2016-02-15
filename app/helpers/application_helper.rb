@@ -1,6 +1,6 @@
 module ApplicationHelper
   def relative_time_ago (datetime)
-    datetime = datetime.localtime
+    datetime = datetime.utc.localtime
     now = Time.now.localtime
     tomorrow = Time.now.tomorrow.localtime
     yesterday = Time.now.yesterday.localtime
