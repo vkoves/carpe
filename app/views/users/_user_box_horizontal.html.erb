@@ -43,7 +43,7 @@
 			<% else %>
 				<% @events = user.events_in_range(DateTime.now.beginning_of_day, DateTime.now.end_of_day) %>
 				<% @events.each do |e| %>
-					<% if e.date < DateTime.now and e.end_date > DateTime.now %>
+					<% if e.current? %>
 						<% if free %>
 							Busy 
 							<% if e.category.has_access(current_user) %>

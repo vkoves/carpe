@@ -28,4 +28,13 @@ class Event < ActiveRecord::Base
      end
      return arr
   end
+  
+  #returns whether the event is currently going on
+  def current?
+    if self.date.past? and self.end_date.future? #if it started some time ago and ends some time from now
+      return true #then this is indeed current
+    else #otherwise
+      return false #it is not
+    end
+  end
 end

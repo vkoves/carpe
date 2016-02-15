@@ -7,6 +7,16 @@ module ApplicationHelper
     
     if(datetime.to_date == now.to_date) #It's today!
       hours_diff = ((datetime - now)/1.hour).round;
+      minutes_diff = ((datetime - now)/1.minute).round;
+        
+      if(minutes_diff.abs < 60) #we need minutes
+        if(minutes_diff > 0) #future
+          return minutes_diff.to_s + " minutes from now"
+        else
+          return minutes_diff.abs.to_s + " minutes ago"
+        end 
+      end
+      
       if(hours_diff > 0) #in the future
         if(hours_diff < 5) #less than five hours away
           return  hours_diff.to_s + " hours from now"
@@ -40,5 +50,24 @@ module ApplicationHelper
         end
       end
     end
+  end
+  
+  #For getting times about an event
+  def relative_event_time(event)
+    
+    #Start by figuring out the proper tense of the language
+    if(event.date.past?)
+      start_string = "Started "
+    else
+      start_string = "Starting "
+    end
+    if(event.end_date.past?)
+      end_string = ", ended "
+    else
+      end_string = ", ending "
+    end
+    
+    #Then just return relative 
+    return start_string + relative_time_ago(event.date) + end_string + relative_time_ago(event.end_date)
   end
 end

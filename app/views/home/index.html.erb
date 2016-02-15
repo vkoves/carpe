@@ -18,11 +18,20 @@
 				Check out the new sidebar, a quick way to know if your friends are free or not.<br>
 				<a href="/schedule" class="greet-a">You can also just go directly to your schedule.</a>
 				<% if @upcoming_events and @upcoming_events.length > 0 %>
-					<h3 class="zero-bot">Upcoming Events</h3>
+					<h3 class="zero-bot">Current Events</h3>
 					<% @upcoming_events.each do |event| %>
+						<% next if event.end_date.past? #skip events that have ended %>
 						<div class="home-event-tile">
 							<div class="square" style="background: <%= event.category.color %>"><%= event.category.name %></div>
-							<div class="tile-text"><%= relative_time_ago(event.date) %> | <%= event.name %></div>
+							<div class="tile-text">
+								<b><%= event.name%></b> |
+								<% if event.current? #print full info about current events %>
+									<%= relative_event_time(event) %>
+								<% else #and print start for future events %>
+									<% time_string = relative_time_ago(event.date) %>
+									<%= time_string.slice(0,1).capitalize + time_string.slice(1..-1) %> <!-- Capitalize first letter -->
+								<% end %>
+							</div>
 							<br>
 						</div>
 					<% end %>
