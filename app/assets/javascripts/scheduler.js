@@ -116,13 +116,14 @@ function loadInitialEvents() //load events into the hashmap
 			var clone = catParent.clone();
 			var dateE = new Date(eventsLoaded[i].date);
 			var dateEnd = new Date(eventsLoaded[i].end_date);
-			var time = dateE.getHours() + ":" + dateE.getMinutes();
+			var paddedMinutes= (dateE.getMinutes() < 10? '0' : '') + dateE.getMinutes(); //add zero the the beginning of minutes if less than 10
+			var time = dateE.getHours() + ":" + paddedMinutes;
 			var dateString = monthNames[dateE.getMonth()] + " " + dateE.getDate() + ", " + dateE.getFullYear();
 			
 			clone.children(".evnt-title").text(eventsLoaded[i].name);
-			clone.children(".evnt-time").text(convertTo12Hour([dateE.getHours(), dateE.getMinutes()])).show();
+			clone.children(".evnt-time.top").text(convertTo12Hour([dateE.getHours(), paddedMinutes])).show();
+			clone.children(".evnt-time.bot").text(convertTo12Hour([dateEnd.getHours(), paddedMinutes])).show();
 			clone.attr("time", time);
-			console.log(time);
 			clone.attr("event-id", eventsLoaded[i].id);
 			clone.attr("evnt-temp-id", i); //Set the temp id
 			clone.attr("rep-type", eventsLoaded[i].repeat);
@@ -132,8 +133,8 @@ function loadInitialEvents() //load events into the hashmap
 			currEventsMap[i].enddatetime = eventsLoaded[i].end_date;
 			currEventsMap[i].date = dateString;
 			currEventsMap[i].datetime = eventsLoaded[i].date;
-			placeInSchedule(clone, dateE.getHours(), dateEnd.getHours() - dateE.getHours());
-			
+			var hoursDiff = Math.abs(dateEnd - dateE) / 36e5; //calculate the difference of hours
+			placeInSchedule(clone, dateE.getHours(), hoursDiff);
 			
 			eventTempId++; //increment the temp id
 		}
@@ -331,7 +332,7 @@ function addResizing(selector)
 function updateTime(elem, ui, resize) //if we're resizing, don't snap, just update time
 {
 	var arr = ui.helper.attr("time").split(":"); //fetch the time from the helper
-	
+
 	//Take care of grid snapping
 	if($(elem).draggable('option', 'gridOn') || resize) //only update time if we are snapping in a column or are resizing
 	{
@@ -347,10 +348,22 @@ function updateTime(elem, ui, resize) //if we're resizing, don't snap, just upda
 		arr[0] = (ui.position.top + offsetDiff)/gridHeight;
 	}
 	
+	var end_arr = arr.slice(0); //set end array
+	var hoursLength = $(elem).outerHeight()/gridHeight;
+	if(hoursLength % 1 != 0) //if decimal
+		hoursLength = 3;
+	end_arr[0] = arr[0] + hoursLength; //and add the height
+	
 	$(elem).attr("time", arr.join(":")); //set the time attr using military
 	arr = convertTo12Hour(arr); //then convert to 12 hour
-	ui.helper.children(".evnt-time").html(arr); //and set the helper time
-	$(elem).children(".evnt-time").html(arr); //as well as the element
+	
+	//set Start time
+	ui.helper.children(".evnt-time.top").html(arr); //and set the helper time
+	$(elem).children(".evnt-time.top").html(arr); //as well as the element
+	
+	end_arr = convertTo12Hour(end_arr);
+	ui.helper.children(".evnt-time.bot").html(end_arr); //and set the helper time
+	$(elem).children(".evnt-time.bot").html(end_arr); //as well as the element
 }
 
 
@@ -478,9 +491,8 @@ function pushEventInfo(elem, ignoreDateTime)
 	var dateE = $(elem).parent().siblings(".col-titler").children(".evnt-fulldate").html(); //the date the elem is on
 	var nameE = $(elem).children(".evnt-title").text(); //the name of the event
 	var startTime = $(elem).attr("time"); //the starting time of the event
-	console.log("Star time: " + startTime);
 	if(startTime)
-		var endTime = parseInt(startTime.split(":")[0]) + Math.round($(elem).height()/gridHeight) + ":" + startTime.split(":")[1];  //the ending time
+		var endTime = parseInt(startTime.split(":")[0]) + Math.round($(elem).outerHeight()/gridHeight) + ":" + startTime.split(":")[1];  //the ending time
 	else
 		var endTime = 0;
 	var catId = $(elem).attr("data-id"); //the id of the category in the database
@@ -594,6 +606,7 @@ function changeCategoryColor(color)
 //Setup properties of a place schedule item from the db, setting position and height
 function placeInSchedule(elem, hours, lengthHours)
 {
+	console.log("Length: " + lengthHours);
 	$(elem).css("height", (gridHeight*lengthHours)-border); //set the height using the length in hours
 	$(elem).css("top", gridHeight*hours); //set the top position by gridHeight times the hour
 }
@@ -737,12 +750,20 @@ function convertTo12Hour(timeArr)
 	{
 		if(timeArr[0] > 12)
 			timeArr[0] -= 12;
+			
+		if(timeArr[0] == 0)
+			timeArr[0] == "00";
+			
 		return timeArr.join(":") + " PM";
 	}
 	else
 	{
 		if(timeArr[0] == 0)
 			timeArr[0] = 12;
+			
+		if(timeArr[0] == 0)
+			timeArr[0] == "00";
+			
 		return timeArr.join(":") + " AM";
 	}
 }

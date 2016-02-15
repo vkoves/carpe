@@ -250,28 +250,36 @@
 .evnt-divider
 {
 	width:1px;
-	left:42px;
+	left:48px;
 	height:90%;
 	top:5%;
 	position:absolute;
 }
 .evnt-time
 {
-	position: relative;
+	position: absolute;
 	float: left;
-	margin-left: 4px;
-	width:20px;
-	top: calc(50% - 13px);
+	margin-left: 2px;
 	margin-top: 3px;
-	font-size: 13px;
+	width:50px;
+	text-align: left;
+	font-size: 10px;
 	color: rgb(240, 240, 240);
 	line-height: 1;
+}
+.evnt-time.top
+{
+	top: 2px;
+}
+.evnt-time.bot
+{
+	bottom: 4px;
 }
 .evnt-title
 {
 	font-weight:bold;
 	width: 69%;
-	margin-left: 50px;
+	margin-left: 52px;
 	margin-right: auto;
 	height: 21px;
 	top: calc(50% - 12px);
