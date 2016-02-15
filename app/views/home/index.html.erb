@@ -29,7 +29,6 @@
 									<%= relative_event_time(event) %>
 								<% else #and print start for future events %>
 									<%= time_string = relative_time_ago(event.date, true) %>
-									date: <%= event.date %> | <%= event.date.utc.localtime %> |
 								<% end %>
 							</div>
 							<br>
