@@ -28,9 +28,8 @@
 								<% if event.current? #print full info about current events %>
 									<%= relative_event_time(event) %>
 								<% else #and print start for future events %>
-									<% time_string = relative_time_ago(event.date) %>
+									<%= time_string = relative_time_ago(event.date, true) %>
 									date: <%= event.date %> | <%= event.date.utc.localtime %> |
-									<%= time_string.slice(0,1).capitalize + time_string.slice(1..-1) %> <!-- Capitalize first letter -->
 								<% end %>
 							</div>
 							<br>

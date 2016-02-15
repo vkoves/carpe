@@ -1,5 +1,5 @@
 module ApplicationHelper
-  def relative_time_ago (datetime)
+  def relative_time_ago (datetime, start_caps)
     datetime = datetime.utc.localtime
     now = Time.now.localtime
     tomorrow = Time.now.tomorrow.localtime
@@ -14,42 +14,51 @@ module ApplicationHelper
           return minutes_diff.to_s + " minutes from now"
         else
           return minutes_diff.abs.to_s + " minutes ago"
-        end 
+        end
       end
       
       if(hours_diff > 0) #in the future
         if(hours_diff < 5) #less than five hours away
           return  hours_diff.to_s + " hours from now"
         else
-          return datetime.strftime("today at %l:%M %p")
+          time_format = "today at %l:%M %p" #datetime.strftime("today at %l:%M %p")
         end
       else #in the past
         if(hours_diff.abs < 5) #less than five hours away
           return  hours_diff.abs.to_s + " hours ago"
         else
-          return datetime.strftime("today at %l:%M %p")
+          time_format = "today at %l:%M %p" #datetime.strftime("today at %l:%M %p")
         end
       end
     elsif(datetime.to_date == tomorrow.to_date) #It's tomorrow
-      return datetime.strftime("tomorrow at %l:%M %p")
+      time_format = "tomorrow at %l:%M %p" #datetime.strftime("tomorrow at %l:%M %p")
     elsif(datetime.to_date == yesterday.to_date) #It's yesterday
-      return datetime.strftime("yesterday at %l:%M %p")
+      time_format = "yesterday at %l:%M %p" #datetime.strftime("yesterday at %l:%M %p")
     else
       days_diff = ((datetime - now)/1.day).round;
       if(days_diff > 0) #in the future
         if(days_diff < 7) #in the next week
-          return datetime.strftime("on %A at %l:%M %p")
+          time_format = "on %A at %l:%M %p" #datetime.strftime("on %A at %l:%M %p")
         else
           return days_diff.to_s + " days from now"
         end
       else #in the past
         if(days_diff.abs < 7) #in the past week
-          return datetime.strftime("last %A at %l:%M %p")
+          time_format = "last %A at %l:%M %p" #datetime.strftime("last %A at %l:%M %p")
         else
           return days_diff.abs.to_s + " days ago"
         end
       end
     end
+    
+    
+    if(start_caps)
+      time_format[0] = time_format[0,1].upcase
+    end
+    
+    #if we haven't returned with a language based time, run formatting
+    return local_time(datetime, time_format) #datetime.strftime("today at %l:%M %p")
+    
   end
   
   #For getting times about an event
@@ -68,6 +77,6 @@ module ApplicationHelper
     end
     
     #Then just return relative 
-    return start_string + relative_time_ago(event.date) + end_string + relative_time_ago(event.end_date)
+    return start_string + relative_time_ago(event.date, false) + end_string + relative_time_ago(event.end_date, false)
   end
 end
