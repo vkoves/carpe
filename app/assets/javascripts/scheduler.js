@@ -188,6 +188,8 @@ function loadInitialEvents() //load events into the hashmap
 			currEventsMap[i].date = dateString;
 			currEventsMap[i].datetime = eventsLoaded[i].date;
 			var hoursDiff = Math.floor(Math.abs(dateEnd - dateE) / 36e5); //calculate the difference of hours
+			if (hoursDiff == 0)
+				hoursDiff = 1;
 			placeInSchedule(clone, dateE.getHours(), hoursDiff);
 			
 			eventTempId++; //increment the temp id
