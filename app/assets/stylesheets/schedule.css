@@ -260,7 +260,6 @@
 	position: absolute;
 	float: left;
 	margin-left: 2px;
-	margin-top: 3px;
 	width:50px;
 	text-align: left;
 	font-size: 10px;
@@ -269,11 +268,11 @@
 }
 .evnt-time.top
 {
-	top: 2px;
+	top: 5%;
 }
 .evnt-time.bot
 {
-	bottom: 4px;
+	bottom: 6%;
 }
 .evnt-title
 {
