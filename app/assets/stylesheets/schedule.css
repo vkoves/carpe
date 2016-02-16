@@ -385,7 +385,7 @@
 }
 
 .category {
-	box-shadow: 0.5px 0.5px 10px rgb(185, 185, 185);
+	/* box-shadow: 0.5px 0.5px 10px rgb(185, 185, 185); */
 	border:solid 1px #EEE;
 	color:#FFF;
 	/*height:25px;
