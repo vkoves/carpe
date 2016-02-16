@@ -95,6 +95,60 @@ function addStartingListeners()
 		currCategory.attr("privacy", $(this).text().toLowerCase());
 	});
 	
+	$("#time-start").change(function()
+	{
+		//TODO: Fix this not working across different days (try noon in your local time)
+		var eventObj = currEventsMap[currEvent.attr("evnt-temp-id")];
+		
+		var dateE = $(currEvent).parent().siblings(".col-titler").children(".evnt-fulldate").html(); //the date the elem is on
+		
+		var val = $(this).val();
+		var end_val = $("#time-end").val();
+		
+		dateTime = new Date(dateE+" "+val);
+		endDateTime = new Date(dateTime.getTime());
+		endDateTime.setHours(dateTime.getHours() + currEvent.outerHeight());
+		var endTimeRead = new Date(dateE+" "+end_val);
+		console.log("End read: " + endTimeRead);
+		endDateTime.setMinutes(endTimeRead.getMinutes());
+	
+		$(currEvent).attr("time", dateTime.getHours() + ":" + paddedMinutes(dateTime));
+		$(currEvent).css("top", gridHeight*dateTime.getHours()); //set the top position by gridHeight times the hour
+		
+		$(currEvent).children(".evnt-time.top").text(convertTo12Hour([dateTime.getHours(), paddedMinutes(dateTime)])).show();
+		$(currEvent).children(".evnt-time.bot").text(convertTo12Hour([endDateTime.getHours(), paddedMinutes(endDateTime)])).show();
+		
+		pushEventInfo(currEvent);
+	});
+	
+	$("#time-end").change(function()
+	{
+		//TODO: Fix this not working across different days (try noon in your local time)
+		var eventObj = currEventsMap[currEvent.attr("evnt-temp-id")];
+		
+		var dateE = $(currEvent).parent().siblings(".col-titler").children(".evnt-fulldate").html(); //the date the elem is on
+		
+		var val = $(this).val();
+		var start_val = $("#time-start").val();
+		
+		dateTime = new Date(dateE+" "+val);
+		startDateTime = new Date(dateTime.getTime());
+		startDateTime.setHours(dateTime.getHours() - currEvent.outerHeight());
+		var startTimeRead = new Date(dateE+" "+start_val);
+		startDateTime.setMinutes(startTimeRead.getMinutes());
+	
+		$(currEvent).attr("time", startDateTime.getHours() + ":" + paddedMinutes(startDateTime));
+		$(currEvent).css("top", gridHeight*startDateTime.getHours()); //set the height by gridHeight times the hour
+		
+		$(currEvent).children(".evnt-time.bot").text(convertTo12Hour([dateTime.getHours(), paddedMinutes(dateTime)])).show();
+		$(currEvent).children(".evnt-time.top").text(convertTo12Hour([startDateTime.getHours(), paddedMinutes(startDateTime)])).show();
+		
+		pushEventInfo(currEvent);
+		console.log("Forcing end date time: " + dateTime.toISOString());
+		console.log(eventObj);
+		currEventsMap[currEvent.attr("evnt-temp-id")].enddatetime = dateTime.toISOString();
+	});
+	
 	$(document).keyup(function(e) //add event listener to close overlays on pressing escape
 	{
 		if (e.keyCode == 27) // escape key maps to keycode `27`
@@ -116,13 +170,13 @@ function loadInitialEvents() //load events into the hashmap
 			var clone = catParent.clone();
 			var dateE = new Date(eventsLoaded[i].date);
 			var dateEnd = new Date(eventsLoaded[i].end_date);
-			var paddedMinutes= (dateE.getMinutes() < 10? '0' : '') + dateE.getMinutes(); //add zero the the beginning of minutes if less than 10
-			var time = dateE.getHours() + ":" + paddedMinutes;
+			var paddedMins = paddedMinutes(dateE);
+			var time = dateE.getHours() + ":" + paddedMins;
 			var dateString = monthNames[dateE.getMonth()] + " " + dateE.getDate() + ", " + dateE.getFullYear();
 			
 			clone.children(".evnt-title").text(eventsLoaded[i].name);
-			clone.children(".evnt-time.top").text(convertTo12Hour([dateE.getHours(), paddedMinutes])).show();
-			clone.children(".evnt-time.bot").text(convertTo12Hour([dateEnd.getHours(), paddedMinutes])).show();
+			clone.children(".evnt-time.top").text(convertTo12Hour([dateE.getHours(), paddedMins])).show();
+			clone.children(".evnt-time.bot").text(convertTo12Hour([dateEnd.getHours(), paddedMinutes(dateEnd)])).show();
 			clone.attr("time", time);
 			clone.attr("event-id", eventsLoaded[i].id);
 			clone.attr("evnt-temp-id", i); //Set the temp id
@@ -133,7 +187,7 @@ function loadInitialEvents() //load events into the hashmap
 			currEventsMap[i].enddatetime = eventsLoaded[i].end_date;
 			currEventsMap[i].date = dateString;
 			currEventsMap[i].datetime = eventsLoaded[i].date;
-			var hoursDiff = Math.abs(dateEnd - dateE) / 36e5; //calculate the difference of hours
+			var hoursDiff = Math.floor(Math.abs(dateEnd - dateE) / 36e5); //calculate the difference of hours
 			placeInSchedule(clone, dateE.getHours(), hoursDiff);
 			
 			eventTempId++; //increment the temp id
@@ -349,10 +403,11 @@ function updateTime(elem, ui, resize) //if we're resizing, don't snap, just upda
 	}
 	
 	var end_arr = arr.slice(0); //set end array
-	var hoursLength = $(elem).outerHeight()/gridHeight;
-	if(hoursLength % 1 != 0) //if decimal
-		hoursLength = 3;
-	end_arr[0] = arr[0] + hoursLength; //and add the height
+	var hoursLength = $(elem).outerHeight()/gridHeight; //find the length in hours
+	if(hoursLength % 1 != 0) //if it's a decimal, we know this is a new event
+		hoursLength = 3; //so set the default size
+		
+	end_arr[0] = arr[0] + hoursLength; //and add the height to the hours of the end time
 	
 	$(elem).attr("time", arr.join(":")); //set the time attr using military
 	arr = convertTo12Hour(arr); //then convert to 12 hour
@@ -511,7 +566,7 @@ function pushEventInfo(elem, ignoreDateTime)
 		{
 			dateTime = "";
 			endDateTime = "";
-			console.log("Creating datetimes failed!");
+			console.log("Creating datetimes failed! Start: " + dateE+" "+startTime + " & end: " + dateE + " " + endTime);
 		}
 		console.log("Start: " + dateTime + " end: " + endDateTime);
 	}
@@ -578,7 +633,9 @@ function showOverlay(elem)
 		$(".overlay-title").html(title);
 		$(".overlay-desc").html(desc);
 
-		$(".overlay-time").html(convertTo12Hour(time.split(":")) + " - " + convertTo12Hour(endTime.split(":")));
+		//$(".overlay-time").html(convertTo12Hour(time.split(":")) + " - " + convertTo12Hour(endTime.split(":")));
+		$("#time-start").val(convertTo12Hour(time.split(":")));
+		$("#time-end").val(convertTo12Hour(endTime.split(":")));
 	}
 }
 
@@ -783,6 +840,12 @@ function setHeight(getElem, setElem, hoursLength) //get the height of getElem an
 	var height = parseFloat($(getElem).css("height"));
 	if((height+border)%gridHeight != 0)
 		$(setElem).css("height", (gridHeight*hoursLength)-border);
+}
+
+function paddedMinutes(date)
+{
+	var minutes = (date.getMinutes() < 10? '0' : '') + date.getMinutes(); //add zero the the beginning of minutes if less than 10
+	return minutes;
 }
 
 /****************************/

@@ -352,6 +352,10 @@
 	margin-top: 19px;
 	margin-left: 20px;
 }
+.overlay-time input
+{
+	width: 70px;
+}
 
 .sch-but {
 	background: #CFCFCF;

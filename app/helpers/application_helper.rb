@@ -1,9 +1,9 @@
 module ApplicationHelper
   def relative_time_ago (datetime, start_caps)
-    datetime = datetime.utc.localtime
-    now = Time.now.localtime
-    tomorrow = Time.now.tomorrow.localtime
-    yesterday = Time.now.yesterday.localtime
+    datetime = datetime.utc.in_time_zone("Central Time (US & Canada)")
+    now = Time.now.in_time_zone("Central Time (US & Canada)")
+    tomorrow = Time.now.tomorrow.in_time_zone("Central Time (US & Canada)")
+    yesterday = Time.now.yesterday.in_time_zone("Central Time (US & Canada)")
     
     if(datetime.to_date == now.to_date) #It's today!
       hours_diff = ((datetime - now)/1.hour).round;
@@ -76,6 +76,6 @@ module ApplicationHelper
     end
     
     #Then just return relative 
-    return start_string + relative_time_ago(event.date, false) + end_string + relative_time_ago(event.end_date, false)
+    return raw start_string + relative_time_ago(event.date, false) + end_string + relative_time_ago(event.end_date, false)
   end
 end
