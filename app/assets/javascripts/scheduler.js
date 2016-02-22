@@ -39,6 +39,8 @@ function scheduleReady()
 		
 		addDates(new Date(), false);
 		readied = true;
+		
+		$(".col-snap").css("height", gridHeight*24);
 		console.log("Schedule ready!");
 	}
 }

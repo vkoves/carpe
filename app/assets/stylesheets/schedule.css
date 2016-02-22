@@ -31,7 +31,7 @@
     height: 93%;
     border-radius: 5px;
     overflow-x: auto;
-    overflow-y: hidden;
+    overflow-y: auto;
 }
 .sch-evnt
 {
@@ -124,7 +124,6 @@
 {
 	height: 100%;
 	width: 1410px;
-	overflow:hidden;
 }
 .sch-day-col
 {
@@ -230,6 +229,7 @@
 	left: -1px;
 	right: 0px;
 	top: 50px;
+	padding-bottom: 1px;
 	/* bottom: 0px; */
 }
 .evnt-desc
@@ -281,7 +281,7 @@
 	margin-left: 52px;
 	margin-right: auto;
 	height: 21px;
-	top: calc(50% - 12px);
+	top: calc(50% - 11px);
 	text-align:left;
 	position:absolute;
 	overflow: hidden;
