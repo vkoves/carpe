@@ -40,7 +40,9 @@ function scheduleReady()
 		addDates(new Date(), false);
 		readied = true;
 		
-		$(".col-snap").css("height", gridHeight*24);
+		$(".col-snap").css("height", gridHeight*24); //set drop columns
+		$(".sch-day-col").css("height", gridHeight*24 + 50); //set day columns, which have the divider line
+		
 		console.log("Schedule ready!");
 	}
 }
