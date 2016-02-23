@@ -3,7 +3,7 @@
 	<a href="/group/<%= group.id %>">View Group</a>
 	<a href="/group/<%= group.id %>/edit">Edit Group</a>
 	Group: <%= group.name %>, 
-	Role: <%= UsersGroup.where(user_id: current_user.id, group_id: group.id).first.role %>
+	Role: <%= UsersGroup.where(user_id: current_user.id, group_id: group.id).first.role || "normal" %>
 	<a href="/groups/destroy?id=<%= group.id %>" class="default red"><span>Delete Group</span></a>
 	<br>
 <% end %>

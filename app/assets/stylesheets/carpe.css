@@ -369,6 +369,14 @@ input.danger:hover
 	position: relative;
 	top: 10px;
 }
+/* Thin forms like editing groups */
+form.thin
+{
+	width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+}
 
 /* END TO BE SORTED */
 

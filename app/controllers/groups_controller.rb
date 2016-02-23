@@ -9,7 +9,7 @@ class GroupsController < ApplicationController
     @user_group = UsersGroup.where(user_id: current_user.id, group_id: @group.id).first
     @user_group.role = "owner"
     @user_group.save
-    redirect_to "/groups"
+    redirect_to group_path(@group)
   end
   
   def destroy
@@ -21,7 +21,7 @@ class GroupsController < ApplicationController
     @group = Group.find(params[:id])
     @group.update_attributes(params.require(:group).permit(:name))
     @group.save
-    redirect_to "/groups"
+    redirect_to group_path(@group)
     #render :text => @group.name
   end
   
@@ -31,5 +31,19 @@ class GroupsController < ApplicationController
   
   def show
     @group = Group.find(params[:id])
+  end
+  
+  def add_users
+    @group = Group.find(params[:id])
+    if params[:uid]
+      user = User.find(params[:uid])
+      if(params[:del]) #remove the user
+        @group.users.delete(user)
+      elsif !@group.users.include? user #add the user
+        @group.users.append(user)
+      end
+      redirect_to group_path(@group)
+    end
+    @all_friends = current_user.all_friendships #and fetch all of the user's friendss
   end
 end

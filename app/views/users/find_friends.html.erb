@@ -22,7 +22,7 @@
 		<% status = current_user.friend_status(user) %>
 		<% if current_user != user and status != "friend"  %>
 			
-			<%= render "user_box", user: user, status: status %>
+			<%= render "shared/user_box", user: user, status: status %>
 			
 			
 		<% end %>

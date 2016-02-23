@@ -1,0 +1,10 @@
+<% content_for :title do %> - Manage Users<% end %>
+<div class="page-container">
+	<h1 class="zero-bot"><%= link_to(@group.name, group_path(@group)) %></h1>
+	<h2 class="page-titler zero-top">Manage Users</h2>
+	<% @all_friends.each do |arr| %>
+		<% status = arr[0] %>
+		<% user = arr[1] %>
+			<%= render "shared/user_box", user: user, status: status %>
+	<% end %>
+</div>

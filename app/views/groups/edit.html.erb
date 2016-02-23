@@ -1,5 +1,9 @@
-<%= form_for(@group, url: group_path(@group), :method => :POST) do |f| %>
-	<%= f.label :name %>
-	<%= f.text_field :name %>
-	<%= f.submit "Save" %>
+<h2 class="page-titler">Edit <%= @group.name %></h2>
+<%= form_for(@group, url: group_path(@group), :method => :POST, :html => {:class => 'thin'}) do |f| %>
+	<%= f.label :name %><br>
+	<%= f.text_field :name %><br>
+	<%= f.submit "Save" %><br><br>
+	<%= link_to group_path(@group), class: "default red" do %>
+		<span>Cancel</span>
+	<% end %>
 <% end %>

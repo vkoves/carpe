@@ -2,11 +2,13 @@
 	<div class="avatar">
 		<a href="/u/<%= user.id %>"><img src="<%= user.user_avatar(100) %>"></a>
 	</div>
+	
 	<div class="name">
 		<%= user.name %><br>
 		<% mut = current_user.mutual_friends(user).count %>
 		<%= mut %> mutual
 	</div>
+	
 	<% if user == current_user %>
 		<span class="friend-label">You</span>
 	<% elsif status == nil #not friends %>
@@ -20,6 +22,7 @@
 	<% end %>
 	
 	<% if @show_promote %>
+		<!-- Show promotion and demotion admin buttons -->
 		<% if user.admin and user != current_user %>
 			<a href="/promote?id=<%= user.id %>&de=true" class="default red">
 				<span>Demote</span>
@@ -29,5 +32,16 @@
 				<span>Promote</span>
 			</a>
 		<% end %>
+	<% end %>
+	
+	<% if @group and !@group.users.include? user %>
+		<!-- Show adding and removing from group -->
+		<a href="?uid=<%= user.id %>" class="default">
+			<span>Add</span>
+		</a>
+	<% elsif @group %>
+		<a href="?uid=<%= user.id %>&del=t" class="default red">
+			<span>Remove</span>
+		</a>
 	<% end %>
 </div>

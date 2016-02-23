@@ -4,26 +4,27 @@ Rails.application.routes.draw do
    
   devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks", :registrations => "users/registrations" }
 
-  get 'pages/schedule'
-
-  get 'shared/_header'
-
+  #General page routes
   get "/home" => 'home#index'
   get "/schedule" => 'pages#schedule'
   get "/userviewer" => 'pages#userviewer'
   get "/find_friends" => 'users#find_friends'
+  get 'pages/schedule'
   
+  #Group Rotes
   get "/groups" => 'groups#index'
   get "/groups/create" => 'groups#create'
   get "/groups/destroy" => 'groups#destroy'
+  get "/groups/add-users/:id" => 'groups#add_users'
   get "/group/:id" => 'groups#show', :as => :group
   get "/group/:id/edit" => 'groups#edit'
   post "/group/:id" => 'groups#update'
   
+  #Admin Routes
   get "/promote" => 'pages#promote'
-  
   get "/admin" => 'pages#admin'
   
+  #User Routes
   get "/search_users" => 'users#search'
   post "/deny_friend" => 'friendships#deny'
   post "/confirm_friend" => 'friendships#confirm'

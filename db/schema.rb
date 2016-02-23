@@ -48,15 +48,12 @@ ActiveRecord::Schema.define(version: 20160202061244) do
   end
 
   create_table "groups", force: :cascade do |t|
-    t.integer  "supplier_id"
     t.string   "name"
     t.text     "description"
     t.string   "image_url"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
-
-  add_index "groups", ["supplier_id"], name: "index_groups_on_supplier_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false

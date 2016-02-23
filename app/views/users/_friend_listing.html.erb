@@ -23,7 +23,7 @@
 <% else %>
 	<% for arr in @all_friends %>
 		<% friendship = arr[0]; user = arr[1] %>
-		<%= render "user_box_horizontal", user: user, friendship: friendship %>
+		<%= render "shared/user_box_horizontal", user: user, friendship: friendship %>
 	<% end %>
 <% end%>
 </div>

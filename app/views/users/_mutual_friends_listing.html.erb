@@ -6,7 +6,7 @@
 <% else %>
 	<div id="friend-list">
 		<% for user in @mutual_friends %>
-			<%= render "user_box_horizontal", user: user %>
+			<%= render "shared/user_box_horizontal", user: user %>
 		<% end %>
 	</div>
 <% end %>
