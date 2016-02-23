@@ -29,7 +29,7 @@ $(document).on('page:load', scheduleReady);
 //written with help from: 
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript
 
-var ScheduleItem = function()
+function ScheduleItem()
 {
 	//console.log("Schedule item instantiating");
 	
