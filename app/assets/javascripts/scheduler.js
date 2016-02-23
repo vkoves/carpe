@@ -29,7 +29,7 @@ $(document).on('page:load', scheduleReady);
 //written with help from: 
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript
 
-function ScheduleItem()
+function ScheduleItem() //The
 {
 	//console.log("Schedule item instantiating");
 	
@@ -46,9 +46,7 @@ function ScheduleItem()
 	
 	this.lengthInHours =  function() //returns an integer of the length of the event hours
 	{
-		var one_hour = 1000*60*60; //1000 ms/sec * 60 sec/min * 60 min/hr
-		var diff = this.endDateTime.getTime() - this.startDateTime.getTime();
-		return Math.round(diff/one_hour);
+		return differenceInHours(this.startDateTime, this.endDateTime);
 	};
 	
 	this.destroy = function() //deletes the schedule item from the frontend
@@ -57,10 +55,87 @@ function ScheduleItem()
 		delete scheduleItems[this.tempId]; //then delete from the scheduleItems map
 	};
 	
-	this.element = function() //returns the HTML element for this schedule item
+	this.setStartDateTime = function(newStartDateTime, resize) //if resize is true, we do not move the end time
+	{
+		setDateTime(true, newStartDateTime, this, resize);
+	};
+	
+	this.setEndDateTime = function(newEndDateTime, resize) //if resize, we don't move the start time
+	{
+		setDateTime(false, newEndDateTime, this, resize);
+	};
+	
+	this.setName = function(newName)
+	{
+		console.log("Set name to: " + newName);
+		this.name = newName;
+	};
+	
+	this.dragComplete = function(elem, resize)
+	{
+		var dateString = elem.parent().siblings(".col-titler").children(".evnt-fulldate").html();
+		var offsetDiff = -Math.ceil($(".col-snap:first").offset().top);
+		var hours = (parseInt(elem.css("top")))/gridHeight;
+		var newDate = new Date(dateString + " " + hours + ":" + paddedMinutes(this.startDateTime));
+		this.setStartDateTime(newDate, resize);
+	};
+	
+	this.resizeComplete = function(elem)
+	{
+		this.dragComplete(elem, true);
+		var endDT = new Date(this.startDateTime.getTime());
+		endDT.setHours(endDT.getHours() + (elem.outerHeight()/gridHeight));
+		this.endDateTime = endDT;	
+	};
+	
+	this.element = function() //returns the HTML element for this schedule item, or elements if it is repeating
 	{
 		return $(".sch-evnt[evnt-temp-id="+ this.tempId + "]");
 	};
+	
+	//HELPERS
+	function setDateTime(isStart, dateTime, schItem, resize) //pass in whether this is start time, the date time, and this for scoping
+	{
+		var elem = schItem.element();
+		
+		if(isStart)
+		{
+			var topDT = dateTime;
+			var change = differenceInHours(schItem.startDateTime, topDT); //see how much the time was changed
+			var botDT = new Date(schItem.endDateTime.getTime());
+			botDT.setHours(schItem.endDateTime.getHours() + change);
+		}
+		else
+		{
+			var botDT = dateTime;
+			var change = differenceInHours(schItem.endDateTime, botDT); //see how much the time was changed
+			var topDT = new Date(schItem.startDateTime.getTime());
+			topDT.setHours(schItem.startDateTime.getHours() + change);
+		}
+		
+		console.log("Change: " + change);
+		
+		if(isStart || !resize) //only set the startDateTime if we are not resizing or starting
+			schItem.startDateTime = topDT;
+	
+		if(!isStart || !resize) //only set the bottom stuff if this is setting the end time or we are not resizing
+		{
+			schItem.endDateTime = botDT;
+			elem.children(".evnt-time.bot").text(convertTo12Hour([botDT.getHours(), paddedMinutes(botDT)])).show();
+		}
+		
+		elem.attr("time", topDT.getHours() + ":" + paddedMinutes(topDT));
+		elem.css("top", gridHeight*topDT.getHours()); //set the top position by gridHeight times the hour
+		
+		elem.children(".evnt-time.top").text(convertTo12Hour([topDT.getHours(), paddedMinutes(topDT)])).show();
+	}
+	
+	function differenceInHours(start, end)
+	{
+		var one_hour = 1000*60*60; //1000 ms/sec * 60 sec/min * 60 min/hr
+		var diff = end.getTime() - start.getTime();
+		return Math.round(diff/one_hour);
+	}
 };
 
 /****************************/
@@ -159,6 +234,10 @@ function addStartingListeners()
 		var end_val = $("#time-end").val();
 		
 		dateTime = new Date(dateE+" "+val);
+		
+		scheduleItems[currEvent.attr("evnt-temp-id")].setStartDateTime(dateTime);
+		
+		/*
 		endDateTime = new Date(dateTime.getTime());
 		endDateTime.setHours(dateTime.getHours() + currEvent.outerHeight());
 		var endTimeRead = new Date(dateE+" "+end_val);
@@ -170,6 +249,7 @@ function addStartingListeners()
 		
 		$(currEvent).children(".evnt-time.top").text(convertTo12Hour([dateTime.getHours(), paddedMinutes(dateTime)])).show();
 		$(currEvent).children(".evnt-time.bot").text(convertTo12Hour([endDateTime.getHours(), paddedMinutes(endDateTime)])).show();
+		*/
 		
 		pushEventInfo(currEvent);
 	});
@@ -185,6 +265,10 @@ function addStartingListeners()
 		var start_val = $("#time-start").val();
 		
 		dateTime = new Date(dateE+" "+val);
+		
+		scheduleItems[currEvent.attr("evnt-temp-id")].setEndDateTime(dateTime);
+		
+		/*
 		startDateTime = new Date(dateTime.getTime());
 		startDateTime.setHours(dateTime.getHours() - currEvent.outerHeight());
 		var startTimeRead = new Date(dateE+" "+start_val);
@@ -195,6 +279,7 @@ function addStartingListeners()
 		
 		$(currEvent).children(".evnt-time.bot").text(convertTo12Hour([dateTime.getHours(), paddedMinutes(dateTime)])).show();
 		$(currEvent).children(".evnt-time.top").text(convertTo12Hour([startDateTime.getHours(), paddedMinutes(startDateTime)])).show();
+		*/
 		
 		pushEventInfo(currEvent);
 		console.log("Forcing end date time: " + dateTime.toISOString());
@@ -303,11 +388,17 @@ function addDrag(selector)
 			$(this).parent().draggable("enable");
 		    $(this).blur();  // lose focus
 		    console.log("Keydown");
+		    
+		    scheduleItems[$(this).parent().attr("evnt-temp-id")].setName($(this).text());
+		    
 		    pushEventInfo($(this).parent()); //and save again
 	    }
 	})
 	.focusout(function() { //so that clicking outside an event title also saves
 		$(this).parent().draggable("enable");
+		
+		scheduleItems[$(this).parent().attr("evnt-temp-id")].setName($(this).text());
+		
 		pushEventInfo($(this).parent()); //save event
 	});
 	
@@ -352,11 +443,16 @@ function addDrag(selector)
 		},
 		stop: function(event, ui)  //on drag end
 		{
+			var newItem = false;
+			
 			if(!inColumn($(this))) //if this event was not placed
 				return; //return
 				
 			if($(this).css("opacity") == 1) //if opacity is 1, this is a new event
+			{
 				handleNewEvent(this);
+				newItem = true;
+			}
 			
 			setHeight(this, this, 3);
 			
@@ -364,6 +460,10 @@ function addDrag(selector)
 			$(this).css("opacity", 1); //undo the setting opacity to zero
 			
 			handlePosition(this, ui);
+			if(!newItem) //if this is not a new item
+				scheduleItems[$(this).attr("evnt-temp-id")].dragComplete($(this)); //say it's been moved
+			else //otherwise
+				scheduleItems[$(this).attr("evnt-temp-id")].resizeComplete($(this)); //say it's been resized, to read all properties
 			
 			pushEventInfo($(this));
 			addDrag(); //add drag to the sidebar again
@@ -416,6 +516,17 @@ function handleClone(elem, ui)
 //called on new events dragged from the sidebar
 function handleNewEvent(elem)
 {
+	var schItem = new ScheduleItem();
+	schItem.startDateTime = new Date();
+	schItem.startDateTime.setMinutes(0);
+	schItem.endDateTime = new Date();
+	schItem.name = "";
+	schItem.eventId = null;
+	schItem.categoryId = $(elem).attr("data-id");
+	schItem.repeatType = "";
+	schItem.tempId = eventTempId;
+	scheduleItems[eventTempId] = schItem;
+	
 	$(elem).children(".evnt-title").attr("contenteditable", "true");
 	$(elem).children(".evnt-title").trigger('focus'); 
 	document.execCommand('selectAll',false,null); // Suggests to the user to change the schedule item title by making it editable upon drop here.
@@ -442,6 +553,7 @@ function addResizing(selector)
 	    	},
 	    	stop: function(event, ui)
 	    	{	
+				scheduleItems[$(this).attr("evnt-temp-id")].resizeComplete($(this));
 				pushEventInfo($(this));
 	    	}
 		});
