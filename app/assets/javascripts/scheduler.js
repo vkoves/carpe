@@ -392,7 +392,8 @@ function addResizing(selector)
 function updateTime(elem, ui, resize) //if we're resizing, don't snap, just update time
 {
 	var arr = ui.helper.attr("time").split(":"); //fetch the time from the helper
-
+	var end_arr = ui.helper.children(".evnt-time.bot").text().split(" ")[0].split(":");
+	
 	//Take care of grid snapping
 	if($(elem).draggable('option', 'gridOn') || resize) //only update time if we are snapping in a column or are resizing
 	{
@@ -408,7 +409,7 @@ function updateTime(elem, ui, resize) //if we're resizing, don't snap, just upda
 		arr[0] = (ui.position.top + offsetDiff)/gridHeight;
 	}
 	
-	var end_arr = arr.slice(0); //set end array
+	//var end_arr = arr.slice(0); //set end array
 	var hoursLength = $(elem).outerHeight()/gridHeight; //find the length in hours
 	if(hoursLength % 1 != 0) //if it's a decimal, we know this is a new event
 		hoursLength = 3; //so set the default size
