@@ -7,7 +7,8 @@ var ctrlPressed = false; //is the control key presed? Updated upon clicking an e
 var refDate = new Date(); // Reference date for where the calendar is now, so that it can switch between weeks.
 
 var currEventsMap = {}; //map of all the events in the frontend
-var eventTempId = 0; //the temp id that each event has
+var scheduleItems = {}; //the map of all schedule item objects
+var eventTempId = 0; //the temp id that the next event will have, incremented on each event creation or load
 
 var currEvent; //the event being currently edited
 var currCategory; //the category being currently edited
@@ -19,6 +20,54 @@ var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep",
 //Run schedule ready when the page is loaded. Either fresh or from turbo links
 $(document).ready(scheduleReady);
 $(document).on('page:load', scheduleReady);
+
+
+/****************************/
+/******* PROTOTYPES *********/
+/****************************/
+
+//written with help from: 
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript
+
+var ScheduleItem = function()
+{
+	//console.log("Schedule item instantiating");
+	
+	this.categoryId; //the id of the associated category
+	this.eventId; //the id of the event in the db
+	this.tempId; //the id of the event in the hashmap
+	
+	this.startDateTime; //the start date and time, as a js Date()
+	this.endDateTime; //the end date and time
+	this.repeatType; //the repeat type as a string
+	
+	this.name; //the name of the event
+	this.description; //the event description
+	
+	this.lengthInHours =  function() //returns an integer of the length of the event hours
+	{
+		var one_hour = 1000*60*60; //1000 ms/sec * 60 sec/min * 60 min/hr
+		var diff = this.endDateTime.getTime() - this.startDateTime.getTime();
+		return Math.round(diff/one_hour);
+	};
+	
+	this.destroy = function() //deletes the schedule item from the frontend
+	{
+		this.element().slideUp("normal", function() { $(this).remove(); }); //slide up the element and remove after that is done
+		delete scheduleItems[this.tempId]; //then delete from the scheduleItems map
+	};
+	
+	this.element = function() //returns the HTML element for this schedule item
+	{
+		return $(".sch-evnt[evnt-temp-id="+ this.tempId + "]");
+	};
+};
+
+/****************************/
+/*****  END PROTOTYPES ******/
+/****************************/
+
+
 
 function scheduleReady()
 {
@@ -170,27 +219,38 @@ function loadInitialEvents() //load events into the hashmap
 		for(var i = 0; i < eventsLoaded.length; i++) //loop through it
 		{
 			var evnt = eventsLoaded[i]; //fetch the event at the current index
+			
+			var schItem = new ScheduleItem();
+			schItem.startDateTime = new Date(evnt.date);
+			schItem.endDateTime = new Date(evnt.end_date);
+			schItem.name = evnt.name;
+			schItem.eventId = evnt.id;
+			schItem.categoryId = evnt.category_id;
+			schItem.repeatType = evnt.repeat;
+			schItem.tempId = i;
+			scheduleItems[i] = schItem;
+			
+			
 			var catParent = $("#sch-tiles .sch-evnt[data-id='" + evnt["category_id"] + "']"); //fetch the category
 			var clone = catParent.clone();
-			var dateE = new Date(eventsLoaded[i].date);
-			var dateEnd = new Date(eventsLoaded[i].end_date);
-			var paddedMins = paddedMinutes(dateE);
-			var time = dateE.getHours() + ":" + paddedMins;
+			var dateE = new Date(evnt.date);
+			var dateEnd = new Date(evnt.end_date);
+			var time = dateE.getHours() + ":" + paddedMinutes(dateE);
 			var dateString = monthNames[dateE.getMonth()] + " " + dateE.getDate() + ", " + dateE.getFullYear();
 			
-			clone.children(".evnt-title").text(eventsLoaded[i].name);
-			clone.children(".evnt-time.top").text(convertTo12Hour([dateE.getHours(), paddedMins])).show();
+			clone.children(".evnt-title").text(evnt.name);
+			clone.children(".evnt-time.top").text(convertTo12Hour([dateE.getHours(), paddedMinutes(dateE)])).show();
 			clone.children(".evnt-time.bot").text(convertTo12Hour([dateEnd.getHours(), paddedMinutes(dateEnd)])).show();
 			clone.attr("time", time);
-			clone.attr("event-id", eventsLoaded[i].id);
+			clone.attr("event-id", evnt.id);
 			clone.attr("evnt-temp-id", i); //Set the temp id
-			clone.attr("rep-type", eventsLoaded[i].repeat);
+			clone.attr("rep-type", evnt.repeat);
 			
 			pushEventInfo(clone, true);
 			
-			currEventsMap[i].enddatetime = eventsLoaded[i].end_date;
+			currEventsMap[i].enddatetime = evnt.end_date;
 			currEventsMap[i].date = dateString;
-			currEventsMap[i].datetime = eventsLoaded[i].date;
+			currEventsMap[i].datetime = evnt.date;
 			var hoursDiff = Math.floor(Math.abs(dateEnd - dateE) / 36e5); //calculate the difference of hours
 			if (hoursDiff == 0)
 				hoursDiff = 1;
@@ -670,7 +730,7 @@ function changeCategoryColor(color)
 //Setup properties of a place schedule item from the db, setting position and height
 function placeInSchedule(elem, hours, lengthHours)
 {
-	console.log("Length: " + lengthHours);
+	//console.log("Length: " + lengthHours);
 	$(elem).css("height", (gridHeight*lengthHours)-border); //set the height using the length in hours
 	$(elem).css("top", gridHeight*hours); //set the top position by gridHeight times the hour
 }
