@@ -59,6 +59,7 @@ class PagesController < ApplicationController
   
   def save_events #save events
     text = params.to_s
+    new_event_ids = {}
 
     unless params[:map] #if there is no map param defined
       render :text => "No events to save!" and return #say so and return
@@ -68,7 +69,7 @@ class PagesController < ApplicationController
         if(obj["event_id"])
           evnt = Event.find(obj["event_id"].to_i)
         else
-          evnt = Event.new();
+          evnt = Event.new()
         end
         evnt.name = obj["name"] 
         evnt.user = current_user
@@ -79,9 +80,13 @@ class PagesController < ApplicationController
         @s = obj["datetime"]
         evnt.category_id = obj["cat_id"].to_i
         evnt.save
+
+        unless obj["event_id"]
+          new_event_ids[obj["temp_id"]] = evnt.id
+        end
     end
 
-    render :text => "\"" + @t + "\"  | \"" + @s
+    render :json => new_event_ids
   end
   
   def delete_event #delete events

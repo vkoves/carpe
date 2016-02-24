@@ -67,7 +67,6 @@ function ScheduleItem() //The
 	
 	this.setName = function(newName)
 	{
-		console.log("Set name to: " + newName);
 		this.name = newName;
 	};
 	
@@ -124,13 +123,13 @@ function ScheduleItem() //The
 			elem.children(".evnt-time.bot").text(convertTo12Hour([botDT.getHours(), paddedMinutes(botDT)])).show();
 		}
 		
-		elem.attr("time", topDT.getHours() + ":" + paddedMinutes(topDT));
+		elem.attr("time", topDT.getHours() + ":" + paddedMinutes(topDT)); //set the time attribute
 		elem.css("top", gridHeight*topDT.getHours()); //set the top position by gridHeight times the hour
-		
+
 		elem.children(".evnt-time.top").text(convertTo12Hour([topDT.getHours(), paddedMinutes(topDT)])).show();
 	}
 	
-	function differenceInHours(start, end)
+	function differenceInHours(start, end) //return the difference in hours between two dates
 	{
 		var one_hour = 1000*60*60; //1000 ms/sec * 60 sec/min * 60 min/hr
 		var diff = end.getTime() - start.getTime();
@@ -141,8 +140,6 @@ function ScheduleItem() //The
 /****************************/
 /*****  END PROTOTYPES ******/
 /****************************/
-
-
 
 function scheduleReady()
 {
@@ -166,7 +163,7 @@ function scheduleReady()
 		
 		$(".col-snap").css("height", gridHeight*24); //set drop columns
 		$(".sch-day-col").css("height", gridHeight*24 + 50); //set day columns, which have the divider line
-		
+
 		console.log("Schedule ready!");
 	}
 }
@@ -206,6 +203,8 @@ function addStartingListeners()
 		
 		//then update the repeat type without going through push event info
 		currEventsMap[currEvent.attr("evnt-temp-id")].repeat = repType;
+		scheduleItems[currEvent.attr("evnt-temp-id")].repeat = repType;
+		
 		console.log("Repeat type updated");
 		console.log(currEventsMap);
 		
@@ -243,7 +242,7 @@ function addStartingListeners()
 		var endTimeRead = new Date(dateE+" "+end_val);
 		console.log("End read: " + endTimeRead);
 		endDateTime.setMinutes(endTimeRead.getMinutes());
-	
+		
 		$(currEvent).attr("time", dateTime.getHours() + ":" + paddedMinutes(dateTime));
 		$(currEvent).css("top", gridHeight*dateTime.getHours()); //set the top position by gridHeight times the hour
 		
@@ -751,7 +750,7 @@ function pushEventInfo(elem, ignoreDateTime)
 	}
 	
 	var event_obj = {element: elem, repeat: repeatType, date: dateE, datetime: dateTime, enddatetime: endDateTime, 
-		name: nameE, cat_id: catId, event_id: eventId};
+		name: nameE, cat_id: catId, event_id: eventId, temp_id: eId};
 		
 	currEventsMap[eId] = event_obj;
 	
@@ -860,8 +859,16 @@ function saveEvents()
 	    type: "POST",
 	    data: {map: arr, text: "testificates"},
 	    success: function(resp)
-	    { 
+	    {
 	    	console.log("Save complete.");
+	    	
+	    	for(var key in resp)
+	    	{
+	    		currEventsMap[key].event_id = resp[key];
+	    		$(".sch-evnt[evnt-temp-id="+ key + "]")	.attr("event-id", resp[key]);
+	    		scheduleItems[key].eventId = resp[key];
+	    		console.log(key + " | " + resp[key]);
+	    	}
 	    },
 	    error: function(resp)
 	    {
