@@ -19,8 +19,11 @@
 				<a href="/schedule" class="greet-a">You can also just go directly to your schedule.</a>
 				<% if @upcoming_events and @upcoming_events.length > 0 %>
 					<h3 class="zero-bot">Current Events</h3>
+					<% printed = 0 %>
 					<% @upcoming_events.each do |event| %>
 						<% next if event.end_date.past? #skip events that have ended %>
+						<% break if printed >= 10 %>
+						<% printed += 1 %>
 						<div class="home-event-tile">
 							<div class="square" style="background: <%= event.category.color %>"><%= event.category.name %></div>
 							<div class="tile-text">
