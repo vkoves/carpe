@@ -44,7 +44,11 @@
 		<br>
 	</div>
 
-	<div id="sidebar"> 
+	
+	<div id="sidebar-button">
+		<<
+	</div>
+	<div id="sidebar">
 			<div id="friend-list">
 				<% current_user.all_friendships.each do |arr| %>
 					<% friendship = arr[0]; user = arr[1]; free = true %>
