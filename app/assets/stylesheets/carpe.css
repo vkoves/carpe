@@ -275,9 +275,16 @@ input.danger:hover
 
 .alert-holder
 {
+	/*
 	position: absolute;
 	width: 100%;
-	top: 45px;
+	top: 45px; */
+	position: relative;
+	width: 100%;
+	top: -5px;
+    z-index: 100;
+    height: 20px;
+    text-align: center;
 }
 .notice, .alert
 {
