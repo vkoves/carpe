@@ -363,11 +363,14 @@ input.danger:hover
 .home-event-tile
 {
 	height: 50px;
+	display: inline-block;
+	width: 100%;
 }
 .home-event-tile .tile-text
 {
 	position: relative;
-	top: 10px;
+	top: 2px;
+	line-height: 1.1;
 }
 /* Thin forms like editing groups */
 form.thin
