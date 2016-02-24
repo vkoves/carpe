@@ -48,7 +48,7 @@ var ready = function()
 		else
 		{
 			$("#sidebar-button").css("right", "0%");
-			$("#sidebar").css("right", "-350px");
+			$("#sidebar").css("right", "-340px");
 		}
 	});
 };

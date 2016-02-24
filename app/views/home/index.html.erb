@@ -24,7 +24,7 @@
 						<% next if event.end_date.past? #skip events that have ended %>
 						<% break if printed >= 10 %>
 						<% printed += 1 %>
-						<div class="home-event-tile">
+						<div class="home-event-tile <%= "current" if event.current? %>">
 							<div class="square" style="background: <%= event.category.color %>"><%= event.category.name %></div>
 							<div class="tile-text">
 								<b><%= event.name%></b><br>
@@ -35,6 +35,7 @@
 								<% end %>
 							</div>
 						</div>
+						<br>
 					<% end %>
 				<% end %>
 			</div>
