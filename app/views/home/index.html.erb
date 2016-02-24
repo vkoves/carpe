@@ -14,7 +14,7 @@
 	<div id="greeting">
 		<span class="greet-text">
 			Hello again, <%= current_user.name.split(" ")[0] %>!
-			<div class="greet-subt"><br />
+			<div class="greet-subt">
 				Check out the new sidebar, a quick way to know if your friends are free or not.<br>
 				<a href="/schedule" class="greet-a">You can also just go directly to your schedule.</a>
 				<% if @upcoming_events and @upcoming_events.length > 0 %>

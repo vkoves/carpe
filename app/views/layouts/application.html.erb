@@ -18,14 +18,17 @@
 <body class="center-text">
 <%= render "shared/header" %>
 
-<div class="alert-holder">
-<% if notice %>
-  <span class="notice"><%= notice %></span>
+<% if notice or alert %>
+	<div class="alert-holder">
+		<% if notice %>
+			<span class="notice"><%= notice %></span>
+		<% end %>
+		
+		<% if alert %>
+			<span class="alert"><%= alert %></span>
+		<% end %>
+	</div>
 <% end %>
-<% if alert %>
-  <span class="alert"><%= alert %></span>
-<% end %>
-</div>
 
 <%= yield %>
 
