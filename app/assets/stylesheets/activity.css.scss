@@ -1,14 +1,15 @@
-#greeting {
+#greeting
+{
 	height:200px;
 	/* background-image:image-url('greeting.png');*/
-	padding:0px;
-	
+	padding:0px;	
 	right:400px;
 	left:0px;
 	position:absolute;
 }
 
-#sidebar {
+#sidebar
+{
 	padding-top:5px;
 	right:0px;
 	position:fixed;
@@ -23,7 +24,8 @@
 	overflow:auto;
 }
 
-.greet-text {
+.greet-text
+{
 	font-weight: 300;
 	font-size:40px;
 	color:Orange;
@@ -32,20 +34,28 @@
 	margin-top:10px;
 	text-align:left;
 	width:100%;
-
 }
 
-.greet-subt {
-	
+.greet-subt
+{
 	padding:0;
 	font-weight:400;
 	font-size:20px;
 	color:#444444;
 	text-align:left;
-	
 }
 
-.greet-a {
+.greet-a
+{
 	text-decoration:none;
 	color:Orange;
+}
+
+
+@media (max-width: 750px)
+{
+	#greeting
+	{
+		width: 50%;
+	}	
 }
