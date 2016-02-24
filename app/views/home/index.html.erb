@@ -46,12 +46,14 @@
 	<div id="sidebar-button">
 		<<
 	</div>
-	<div id="sidebar">
+	<div id="sidebar-cont">
+		<div id="sidebar">
 			<div id="friend-list">
 				<% current_user.all_friendships.each do |arr| %>
 					<% friendship = arr[0]; user = arr[1]; free = true %>
 					<%= render "shared/user_box_horizontal", user: user, friendship: friendship, free: free %>
 				<% end%>
 			</div>
+		</div>
 	</div>
 <% end %>

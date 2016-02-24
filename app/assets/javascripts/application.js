@@ -48,7 +48,7 @@ var ready = function()
 		else
 		{
 			$("#sidebar-button").css("right", "0%");
-			$("#sidebar").css("right", "-340px");
+			$("#sidebar").css("right", "-350px");
 		}
 	});
 };
@@ -60,10 +60,9 @@ $(window).resize(function()
 		$("#mobile-menu").slideUp(300);
 		$("#sidebar").css("right", "0%");
 	}
-	else
+	else if(parseInt($("#sidebar").css("right")) >= 0)
 	{
-		$("#sidebar").css("right", "-340px");
-		$("#sidebar-button").css("right", "0%");
+		$("#sidebar-button").css("right", "340px");
 	}
 });
 
