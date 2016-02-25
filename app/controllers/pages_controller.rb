@@ -77,6 +77,7 @@ class PagesController < ApplicationController
         evnt.date = DateTime.parse(obj["datetime"])
         evnt.end_date = DateTime.parse(obj["enddatetime"])
         evnt.description = obj["description"] || ""
+        evnt.location = obj["location"] || ""
         @t = obj["enddatetime"]
         @s = obj["datetime"]
         evnt.category_id = obj["cat_id"].to_i

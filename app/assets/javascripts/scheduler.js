@@ -43,6 +43,7 @@ function ScheduleItem() //The
 	
 	this.name; //the name of the event
 	this.description; //the event description
+	this.location; //the event location
 	
 	this.lengthInHours =  function() //returns an integer of the length of the event hours
 	{
@@ -293,6 +294,13 @@ function addStartingListeners()
 		scheduleItems[currEvent.attr("evnt-temp-id")].description = $(this).text();
 	});
 	
+	$("#overlay-loc").focusout(function()
+	{
+		console.log("Location is chachchahahahchangin");
+		currEventsMap[currEvent.attr("evnt-temp-id")].location = $(this).text();
+		scheduleItems[currEvent.attr("evnt-temp-id")].location = $(this).text();
+	});
+	
 	$(document).keyup(function(e) //add event listener to close overlays on pressing escape
 	{
 		if (e.keyCode == 27) // escape key maps to keycode `27`
@@ -344,6 +352,7 @@ function loadInitialEvents() //load events into the hashmap
 			currEventsMap[i].date = dateString;
 			currEventsMap[i].datetime = evnt.date;
 			currEventsMap[i].description = evnt.description;
+			currEventsMap[i].location = evnt.location;
 			var hoursDiff = Math.floor(Math.abs(dateEnd - dateE) / 36e5); //calculate the difference of hours
 			if (hoursDiff == 0)
 				hoursDiff = 1;
@@ -825,13 +834,14 @@ function showOverlay(elem)
 		$(".ui-widget-overlay, .overlay-box").show();
 		var title = $(elem).children(".evnt-title").html();
 		var desc = currEventsMap[$(elem).attr("evnt-temp-id")].description;
+		var loc = currEventsMap[$(elem).attr("evnt-temp-id")].location;
 		var time = $(elem).attr("time");
 		var arr = time.split(":");
 		arr[0] = parseInt(arr[0])+$(elem).outerHeight()/gridHeight;
 		var endTime = arr.join(":");
 		$(".overlay-title").html(title);
 		$("#overlay-desc").html(desc);
-		$("#overlay-loc").html("");
+		$("#overlay-loc").html(loc);
 
 		//$(".overlay-time").html(convertTo12Hour(time.split(":")) + " - " + convertTo12Hour(endTime.split(":")));
 		$("#time-start").val(convertTo12Hour(time.split(":")));
