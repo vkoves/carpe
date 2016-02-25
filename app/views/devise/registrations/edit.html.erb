@@ -10,7 +10,7 @@
 
 <% if current_user.provider %>
 	<br>
-	Since you are logged in with another provider, you don't have to give your password to make changes. <br>
+	Since you are logged in with another provider, <br> you don't have to give your password to make changes. <br>
 <% else %>
   <div class="field">
     <%= f.label :email %><br />
@@ -58,10 +58,8 @@
 <% end %>
 
 <div class="cancel-box">
-<h3 class="zero-bot zero-top">Cancel my account</h3>
-
-<p class="zero-bot" style="margin-top: 10px;">Unhappy? 
-	<%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, :class => "danger" %>
+<p class="zero-bot" style="margin-top: 10px;">
+	<%= button_to "Delete my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, :class => "danger" %>
 </p>
 </div>
 
