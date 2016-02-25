@@ -164,13 +164,26 @@ function scheduleReady()
 		
 		$(".col-snap").css("height", gridHeight*24); //set drop columns
 		$(".sch-day-col").css("height", gridHeight*24 + 50); //set day columns, which have the divider line
-
+		
+		if(readOnly) //allow viewing of all events with single click
+		{
+			$(".edit, #repeat").remove();
+			$("#overlay-loc, #overlay-desc").attr("contenteditable", "false");
+			$("#time-start, #time-end").attr("readonly", true);
+			$(".col-snap .sch-evnt").click(function(){
+				console.log("Test");
+				showOverlay($(this));
+			});
+		}
+		
 		console.log("Schedule ready!");
 	}
 }
 
 function addStartingListeners()
 {
+	
+	
 	$("#week-date").datepicker( //show the datepicker when clicking on the field
 	{
 		firstDay: 1, //set Monday as the first day
@@ -820,7 +833,7 @@ function showOverlay(elem)
 {
 	var editingEvent = $(document.activeElement).hasClass("evnt-title");
 	
-	if(inColumn(elem) && !editingEvent && !readOnly)
+	if(inColumn(elem) && !editingEvent)
 	{
 		currEvent = elem; //Set the current event to the event being edited
 		

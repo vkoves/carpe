@@ -347,25 +347,49 @@
 	font-size: 24px;
 	margin-top: 10px;
 }
+.small-title
+{
+	color: #6B6B6B;
+    text-align: left;
+    margin-left: 30px;
+    margin-top: 5px;
+    margin-bottom: 3px;
+}
+.small-title .edit
+{
+	    color: #eb8f00;
+    text-decoration: underline;
+}
 #overlay-desc, #overlay-loc
 {
-	min-height: 30px;
-    background: #B6B6B6;
+	min-height: 22px;
     margin-left: 30px;
     margin-right: 30px;
-    margin-top: 10px;
-    border: solid 2px grey;
+    padding: 3px;
+}
+#overlay-desc:focus, #overlay-loc:focus
+{
+	background: #D3CECE;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px rgba(0,0,0,0.5) inset;
 }
 .overlay-time
 {
 	position: absolute;
 	float: left;
 	margin-top: 19px;
-	margin-left: 20px;
+	margin-left: 30px;
 }
 .overlay-time input
 {
 	width: 70px;
+	font-size: 14px;
+}
+input[readonly="readonly"]
+{
+	background: transparent;
+    border: none;
+    width: 60px;
 }
 
 .sch-but {
@@ -571,7 +595,8 @@
 .overlay-box #repeat
 {
 	position: relative;
-	top: 5px; 
+	top: 5px;
+	margin-bottom: 15px;
 }
 .overlay-box #repeat-menu
 {
@@ -581,7 +606,7 @@
     margin-right: auto;
     left: 0;
     right: 0;
-    margin-top: 15px;
+    margin-bottom: 15px;
 }
 #week-date
 {
