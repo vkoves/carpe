@@ -503,6 +503,18 @@ function handleClone(elem, ui)
 	$(elem).removeAttr("event-id"); //clear event id
 
 	$(elem).attr("evnt-temp-id", eventTempId); //the clone needs a new temp id, but in reality, this is the clone
+	
+	var schItem = new ScheduleItem();
+	var oldItem = scheduleItems[$(clone).attr("evnt-temp-id")];
+	schItem.startDateTime = oldItem.startDateTime;
+	schItem.endDateTime = oldItem.endDateTime;
+	schItem.name = oldItem.name;
+	schItem.eventId = null;
+	schItem.categoryId = oldItem.categoryId;
+	schItem.repeatType = "";
+	schItem.tempId = eventTempId;
+	scheduleItems[eventTempId] = schItem;
+	
 	eventTempId++;
 	
 	pushEventInfo($(elem));
