@@ -286,6 +286,13 @@ function addStartingListeners()
 		currEventsMap[currEvent.attr("evnt-temp-id")].enddatetime = dateTime.toISOString();
 	});
 	
+	$("#overlay-desc").focusout(function()
+	{
+		console.log("Chachachachangin");
+		currEventsMap[currEvent.attr("evnt-temp-id")].description = $(this).text();
+		scheduleItems[currEvent.attr("evnt-temp-id")].description = $(this).text();
+	});
+	
 	$(document).keyup(function(e) //add event listener to close overlays on pressing escape
 	{
 		if (e.keyCode == 27) // escape key maps to keycode `27`
@@ -329,12 +336,14 @@ function loadInitialEvents() //load events into the hashmap
 			clone.attr("event-id", evnt.id);
 			clone.attr("evnt-temp-id", i); //Set the temp id
 			clone.attr("rep-type", evnt.repeat);
+			clone.children(".evnt-desc").html(evnt.description);
 			
 			pushEventInfo(clone, true);
 			
 			currEventsMap[i].enddatetime = evnt.end_date;
 			currEventsMap[i].date = dateString;
 			currEventsMap[i].datetime = evnt.date;
+			currEventsMap[i].description = evnt.description;
 			var hoursDiff = Math.floor(Math.abs(dateEnd - dateE) / 36e5); //calculate the difference of hours
 			if (hoursDiff == 0)
 				hoursDiff = 1;
@@ -815,13 +824,14 @@ function showOverlay(elem)
 		
 		$(".ui-widget-overlay, .overlay-box").show();
 		var title = $(elem).children(".evnt-title").html();
-		var desc = $(elem).children(".evnt-desc").html();
+		var desc = currEventsMap[$(elem).attr("evnt-temp-id")].description;
 		var time = $(elem).attr("time");
 		var arr = time.split(":");
 		arr[0] = parseInt(arr[0])+$(elem).outerHeight()/gridHeight;
 		var endTime = arr.join(":");
 		$(".overlay-title").html(title);
-		$(".overlay-desc").html(desc);
+		$("#overlay-desc").html(desc);
+		$("#overlay-loc").html("");
 
 		//$(".overlay-time").html(convertTo12Hour(time.split(":")) + " - " + convertTo12Hour(endTime.split(":")));
 		$("#time-start").val(convertTo12Hour(time.split(":")));
