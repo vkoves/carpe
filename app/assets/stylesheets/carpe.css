@@ -314,6 +314,10 @@ input.danger:hover
 	{
 		width: 95%;
 	}
+	#users-search
+	{
+		display: none;
+	}
 }
 @media (max-width: 660px)
 {

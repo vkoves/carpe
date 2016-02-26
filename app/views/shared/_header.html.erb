@@ -18,6 +18,9 @@
 		<a href="/">Home</a> &nbsp; &nbsp; 
 		<% if current_user %>
 			<a href="/schedule" class="<%= current_page?('/schedule') ? 'active' : ''%>">My Schedule</a>
+			<%= form_tag("/search_users", method: "get", id: "users-search") do %>
+			  <%= text_field_tag(:q, nil, placeholder: "Search People") %>
+			<% end %>
 		<% end %>
 	</span>
 	<% if current_user %>

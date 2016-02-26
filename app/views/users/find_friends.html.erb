@@ -4,7 +4,7 @@
 	<h1 class="page-titler">Find your friends.</h1>
 	<h3 class="page-desc">
 		We've listed some people you may know to start. If you can't find someone, you can search for them below.
-		<%= form_tag("/search_users", method: "get") do %>
+		<%= form_tag("/find_friends", method: "get") do %>
 		  <%= text_field_tag(:q, params[:q]) %>
 		  <%= submit_tag("Search") %>
 		<% end %>

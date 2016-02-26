@@ -28,13 +28,20 @@ class UsersController < ApplicationController
       @users = User.where('name LIKE ?', "%#{q}%")
     end
     
-    render :template => "users/find_friends"
   end
   
   def find_friends
     if !current_user
       flash[:alert] = "You have to be signed in to find friends!"
       redirect_to "/users/sign_in"
-    end 
+    end
+    
+    if params[:q]
+      q = params[:q].strip
+  
+      if q != "" #only search if it's not silly
+        @users = User.where('name LIKE ?', "%#{q}%")
+      end
+    end
   end
 end
