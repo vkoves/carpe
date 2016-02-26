@@ -28,7 +28,7 @@ class UsersController < ApplicationController
       @users = User.where('name LIKE ?', "%#{q}%")
     end
     
-    render :template => "pages/find_friends"
+    render :template => "users/find_friends"
   end
   
   def find_friends
