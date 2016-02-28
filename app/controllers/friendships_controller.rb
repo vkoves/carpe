@@ -22,6 +22,12 @@ class FriendshipsController < ApplicationController
     if @friendship.friend_id == current_user.id #make sure the user receiving is the one accepting
       @friendship.confirmed = true;
       @friendship.save
+      
+      notif = Notification.new()
+      notif.sender = current_user
+      notif.receiver = @friendship.user #the person creating the friendship should get this notification
+      notif.message = " accepted your friend request!"
+      notif.save
     end
     redirect_to "/u/" + current_user.id.to_s
   end

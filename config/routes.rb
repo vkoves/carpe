@@ -36,6 +36,9 @@ Rails.application.routes.draw do
   post "/create_category" => 'pages#create_category'
   post "/delete_category" => 'pages#delete_category'
   
+  #Other backend stuff
+  post "/read_notifications" => 'notifications#read_all'
+  
   root 'home#index'
   
   resource :friendships

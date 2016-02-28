@@ -30,15 +30,32 @@ var ready = function()
 		$("#user-panel").slideToggle(300);
 		$("#notif-panel").slideUp(300);
 	});
+	
 	$(".bell-hold").click(function()
 	{
 		$("#notif-panel").slideToggle(300);
 		$("#user-panel").slideUp(300);
+		
+		$.ajax({
+	    url: "/read_notifications",
+	    type: "POST",
+	    success: function(resp)
+	    {
+	    	console.log("All notifications marked as read.");
+	    	$(".bell-hold #num").fadeOut();
+	    },
+	    error: function(resp)
+	    {
+	    	console.log("Marking notifications as read failed :(");
+	    }
 	});
+	});
+	
 	$("#header-mob-menu").click(function()
 	{
 		$("#mobile-menu").slideToggle(300);
 	});
+	
 	$("#sidebar-button").click(function()
 	{
 		if(parseInt($("#sidebar").css("right")) < 0)		{

@@ -230,6 +230,10 @@
 	position: relative;
 	top: 5px;
 }
+.notif span
+{
+	font-size: 14px !important;
+}
 #notif-panel .confirm, #notif-panel .deny
 {
 	width: 30px;

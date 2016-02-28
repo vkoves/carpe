@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
   has_many :inverse_friends, :through => :inverse_friendships, :source => :user
   has_many :users_groups
   has_many :groups, :through => :users_groups
+  has_many :notifications, :class_name => 'Notification', :foreign_key => 'receiver_id'
   
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable

@@ -25,29 +25,43 @@
 	</span>
 	<% if current_user %>
 		<div class="bell-hold">
-			<% notif = current_user.inverse_friendships.where(:confirmed => nil) %>
-			<% if notif.size > 0 %>
-				<div id="num"><%= notif.size %></div>
+			<% friend_requests = current_user.inverse_friendships.where(:confirmed => nil) %>
+			<% notif_general = current_user.notifications.where(:viewed => false) %>
+			<% notif_size = notif_general.size + friend_requests.size %>
+			<% if notif_size > 0 %>
+				<div id="num"><%= notif_size %></div>
 			<% end %>
 			<%= image_tag "bellg.svg", class: "bell" %>
 		</div>
 		<div id="notif-panel">
-			<% if notif.size > 0 %>
-				Friend Requests
-				<% notif.each do |n| %>
-					<div class="notif">
-						<a href="/u/<%= n.user_id %>">
+			<% if notif_size > 0 %>
+				<% if friend_requests.size > 0 %>
+					Friend Requests
+					<% friend_requests.each do |n| %>
+						<div class="notif">
+							<a href="/u/<%= n.user_id %>">
+								<div id="user-avatar">
+									<img src="<%= User.find(n.user_id).user_avatar(90) %>">
+								</div>
+							</a>
+							<span><%= User.find(n.user_id).name %></span>
+							<%= link_to "/confirm_friend?id=" + n.id.to_s, :method => :post do %>
+								<div class="confirm"></div>
+							<% end %>
+							<%= link_to "/deny_friend?id=" + n.id.to_s, :method => :post do %>
+								<div class="deny"></div>
+							<% end %>
+						</div>
+					<% end %>
+				<% end %>
+				<% notif_general.each do |n| %>
+					<div class="notif general">
+						<a href="/u/<%= n.sender_id %>">
 							<div id="user-avatar">
-								<img src="<%= User.find(n.user_id).user_avatar(90) %>">
+								<img src="<%= n.sender.user_avatar(90) %>">
 							</div>
 						</a>
-						<span><%= User.find(n.user_id).name %></span>
-						<%= link_to "/confirm_friend?id=" + n.id.to_s, :method => :post do %>
-							<div class="confirm"></div>
-						<% end %>
-						<%= link_to "/deny_friend?id=" + n.id.to_s, :method => :post do %>
-							<div class="deny"></div>
-						<% end %>
+						<span><%= n.sender.name %> <%= n.message %></span>
 					</div>
 				<% end %>
 			<% else %>
@@ -58,6 +72,7 @@
 					<a href="/find_friends" style="font-size: 14px; padding-bottom: 10px; color:Orange;">You can find them here.</a> </span>
 				</div>
 			<% end %>
+			
 		</div>		
 	<% end %>
 	<div id="user-name-panel" class="carpe-color">
