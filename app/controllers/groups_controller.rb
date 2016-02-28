@@ -41,6 +41,11 @@ class GroupsController < ApplicationController
         @group.users.delete(user)
       elsif !@group.users.include? user #add the user
         @group.users.append(user)
+        notif = Notification.new()
+        notif.sender = current_user
+        notif.receiver = user #the person creating the friendship should get this notification
+        notif.message = " added you to the group " + @group.name
+        notif.save
       end
       redirect_to group_path(@group)
     end
