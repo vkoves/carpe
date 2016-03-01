@@ -304,23 +304,27 @@ function addStartingListeners()
 		console.log("Chachachachangin");
 		currEventsMap[currEvent.attr("evnt-temp-id")].description = $(this).text();
 		scheduleItems[currEvent.attr("evnt-temp-id")].description = $(this).text();
-	});
+		removeHighlight();
+	}).click(highlightCurrent);
 	
 	$("#overlay-loc").focusout(function()
 	{
 		console.log("Location is chachchahahahchangin");
 		currEventsMap[currEvent.attr("evnt-temp-id")].location = $(this).text();
 		scheduleItems[currEvent.attr("evnt-temp-id")].location = $(this).text();
-	});
+		removeHighlight();
+	}).click(highlightCurrent);
 	
 	$("#edit-desc").click(function()
 	{
 		$('#overlay-desc').focus();
+		highlightCurrent();
 	});
 	
 	$("#edit-loc").click(function()
 	{
 		$('#overlay-loc').focus();
+		highlightCurrent();
 	});
 	
 	$(document).keyup(function(e) //add event listener to close overlays on pressing escape
