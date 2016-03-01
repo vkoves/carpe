@@ -2,15 +2,13 @@
 <%= stylesheet_link_tag "activity" %>
 <%= stylesheet_link_tag "profile" %>
 
-<% if !current_user || !current_user.admin %>
+<% if !current_user %>
 	<h1 class="no-bold" style="margin-bottom: -20px;">
 		Welcome to <span class="carpe-font" style="font-size: 54px;">Carpe</span>
 	</h1>
 	<h2 class="no-bold">Scheduling redefined for the modern age</h2>
 	<p>Cleaner, simpler, Carpe.</p>
-<% end %>
-
-<% if current_user %>
+<% elsif current_user %>
 	<div id="greeting">
 		<span class="greet-text">
 			Hello again, <%= current_user.name.split(" ")[0] %>!
