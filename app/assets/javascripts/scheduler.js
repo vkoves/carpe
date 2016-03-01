@@ -88,13 +88,18 @@ function ScheduleItem() //The
 		this.endDateTime = endDT;	
 	};
 	
+	this.updateHeight = function()
+	{
+		this.element().css("height", gridHeight*this.lengthInHours());
+	};
+	
 	this.element = function() //returns the HTML element for this schedule item, or elements if it is repeating
 	{
 		return $(".sch-evnt[evnt-temp-id="+ this.tempId + "]");
 	};
 	
 	//HELPERS
-	function setDateTime(isStart, dateTime, schItem, resize) //pass in whether this is start time, the date time, and this for scoping
+	function setDateTime(isStart, dateTime, schItem, resize) //pass in whether this is start time, the date time, and whether this is resizing
 	{
 		var elem = schItem.element();
 		
@@ -116,7 +121,11 @@ function ScheduleItem() //The
 		console.log("Change: " + change);
 		
 		if(isStart || !resize) //only set the startDateTime if we are not resizing or starting
+		{
 			schItem.startDateTime = topDT;
+			elem.css("top", gridHeight*topDT.getHours()); //set the top position by gridHeight times the hour
+			elem.children(".evnt-time.top").text(convertTo12Hour([topDT.getHours(), paddedMinutes(topDT)])).show();
+		}
 	
 		if(!isStart || !resize) //only set the bottom stuff if this is setting the end time or we are not resizing
 		{
@@ -125,9 +134,6 @@ function ScheduleItem() //The
 		}
 		
 		elem.attr("time", topDT.getHours() + ":" + paddedMinutes(topDT)); //set the time attribute
-		elem.css("top", gridHeight*topDT.getHours()); //set the top position by gridHeight times the hour
-
-		elem.children(".evnt-time.top").text(convertTo12Hour([topDT.getHours(), paddedMinutes(topDT)])).show();
 	}
 	
 	function differenceInHours(start, end) //return the difference in hours between two dates
@@ -247,21 +253,8 @@ function addStartingListeners()
 		
 		dateTime = new Date(dateE+" "+val);
 		
-		scheduleItems[currEvent.attr("evnt-temp-id")].setStartDateTime(dateTime);
-		
-		/*
-		endDateTime = new Date(dateTime.getTime());
-		endDateTime.setHours(dateTime.getHours() + currEvent.outerHeight());
-		var endTimeRead = new Date(dateE+" "+end_val);
-		console.log("End read: " + endTimeRead);
-		endDateTime.setMinutes(endTimeRead.getMinutes());
-		
-		$(currEvent).attr("time", dateTime.getHours() + ":" + paddedMinutes(dateTime));
-		$(currEvent).css("top", gridHeight*dateTime.getHours()); //set the top position by gridHeight times the hour
-		
-		$(currEvent).children(".evnt-time.top").text(convertTo12Hour([dateTime.getHours(), paddedMinutes(dateTime)])).show();
-		$(currEvent).children(".evnt-time.bot").text(convertTo12Hour([endDateTime.getHours(), paddedMinutes(endDateTime)])).show();
-		*/
+		scheduleItems[currEvent.attr("evnt-temp-id")].setStartDateTime(dateTime, true);
+		scheduleItems[currEvent.attr("evnt-temp-id")].updateHeight();
 		
 		pushEventInfo(currEvent);
 	});
@@ -278,20 +271,8 @@ function addStartingListeners()
 		
 		dateTime = new Date(dateE+" "+val);
 		
-		scheduleItems[currEvent.attr("evnt-temp-id")].setEndDateTime(dateTime);
-		
-		/*
-		startDateTime = new Date(dateTime.getTime());
-		startDateTime.setHours(dateTime.getHours() - currEvent.outerHeight());
-		var startTimeRead = new Date(dateE+" "+start_val);
-		startDateTime.setMinutes(startTimeRead.getMinutes());
-	
-		$(currEvent).attr("time", startDateTime.getHours() + ":" + paddedMinutes(startDateTime));
-		$(currEvent).css("top", gridHeight*startDateTime.getHours()); //set the height by gridHeight times the hour
-		
-		$(currEvent).children(".evnt-time.bot").text(convertTo12Hour([dateTime.getHours(), paddedMinutes(dateTime)])).show();
-		$(currEvent).children(".evnt-time.top").text(convertTo12Hour([startDateTime.getHours(), paddedMinutes(startDateTime)])).show();
-		*/
+		scheduleItems[currEvent.attr("evnt-temp-id")].setEndDateTime(dateTime, true);
+		scheduleItems[currEvent.attr("evnt-temp-id")].updateHeight();
 		
 		pushEventInfo(currEvent);
 		console.log("Forcing end date time: " + dateTime.toISOString());
