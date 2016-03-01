@@ -169,10 +169,10 @@
 </div>
 
 <script>
-	const readOnly = 	<%= @read_only ? true : false %>;
-	const eventsLoaded = <%= raw @user.get_events(current_user).to_json %>;
+	var readOnly = 	<%= @read_only ? true : false %>;
+	var eventsLoaded = <%= raw @user.get_events(current_user).to_json %>;
 	<% current_user ? id = current_user.id : id = -1 %>
-	const userId = <%= id %>;
+	var userId = <%= id %>;
 	<% current_user and current_user.admin ? admn = true : admn = false %>
-	const admin = <%= admn %>;
+	var admin = <%= admn %>;
 </script>
