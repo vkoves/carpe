@@ -17,7 +17,7 @@
 			<img src=<%= @user.user_avatar(200)%>>
 		</div>
 		<div id="profile-text">
-			<h1 id="profile-name"><a href="?"><%= @user.name %></a></h1>
+			<h1 id="profile-name" class="zero-top zero-bot"><a href="?"><%= @user.name %></a></h1>
 			<% if current_user and !@profile %>
 				<div id="profile-friend">
 					<% status = current_user.friend_status(@user) %>
@@ -35,11 +35,11 @@
 			<div id="profile-info">
 				<%= @user.friends_count %> Friends
 			</div>
-			<div id="profile-buttons">
-				<a href="?"><div class="<%= "curr" if !params[:p] %>">Friends</div></a>
-				<a href="?p=activity"><div class="<%= "curr" if params[:p] == "activity" %>">Activity</div></a>
-				<a href="?p=schedule"><div class="<%= "curr" if params[:p] == "schedule" %>">Schedule</div></a>
-			</div>
+		</div>
+		<div id="profile-buttons">
+			<a href="?"><div class="<%= "curr" if !params[:p] %>">Friends</div></a>
+			<a href="?p=activity"><div class="<%= "curr" if params[:p] == "activity" %>">Activity</div></a>
+			<a href="?p=schedule"><div class="<%= "curr" if params[:p] == "schedule" %>">Schedule</div></a>
 		</div>
 	</div>
 </div>

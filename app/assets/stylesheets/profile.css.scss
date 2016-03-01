@@ -56,14 +56,22 @@
 }
 #profile-text
 {
-	float:left;
+	position: relative;
+    left: -70px;
+    top: 22px;
+    z-index: -1;
+    float: left;
     text-align: left;
+    margin-top: 22px;
+    background: rgba(0,0,0,0.5);
+    padding: 5px 0px 10px 80px;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
 }
 #profile-name
 {
 	float: left;
 	color: white;
-	margin-bottom: 0px;
 	width: 100%;
 }
 #profile-name a
