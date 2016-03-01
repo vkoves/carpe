@@ -407,11 +407,12 @@ form.thin
 {
 	position: fixed;
     top: 60px;
+    left: -130px;
+	z-index: 1;
     background: #ED7D31;
     color: white;
-	padding: 5px 25px 5px 15px;
+	padding: 5px 25px 5px 25px;
     border-radius: 5px;
-    left: -110px;
     font-weight: bold;
     transition: left 0.5s;
 }
