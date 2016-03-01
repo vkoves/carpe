@@ -403,7 +403,22 @@ form.thin
     margin-right: auto;
     text-align: left;
 }
-
+#bug-submission
+{
+	position: fixed;
+    top: 60px;
+    background: #ED7D31;
+    color: white;
+	padding: 5px 25px 5px 15px;
+    border-radius: 5px;
+    left: -110px;
+    font-weight: bold;
+    transition: left 0.5s;
+}
+#bug-submission:hover
+{
+	left: -5px;
+}
 /* END TO BE SORTED */
 
 /* UTILITY STYLING - Some handy tools, should be kept at EOF */
