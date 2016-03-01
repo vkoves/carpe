@@ -864,9 +864,9 @@ function setTitles()
 }
 
 //Update the color of the category overlay from a color being picked
-function changeCategoryColor(color)
+function changeCategoryColor(elem)
 {
-	$(".catTopOverlay").css("background-color",color);
+	$(".catTopOverlay").css("background-color",$(elem).css("background-color"));
 }
 
 //Setup properties of a place schedule item from the db, setting position and height
