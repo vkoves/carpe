@@ -37,12 +37,12 @@
 	</div>
 	<div class="small-title">
 		Description: 
-		<span class="edit" onclick="$('#overlay-desc').focus()">Edit</span>
+		<span id="edit-desc" class="edit">Edit</span>
 	</div>
 	<div id="overlay-desc" contenteditable="true">Description goes here</div>
 	<div class="small-title">
 		Location:
-		<span class="edit" onclick="$('#overlay-loc').focus()">Edit</span>
+		<span id="edit-loc" class="edit" onclick="$('#overlay-loc').focus()">Edit</span>
 	</div>
 	<div id="overlay-loc" contenteditable="true">Location goes here</div>
 </div>
@@ -169,8 +169,10 @@
 </div>
 
 <script>
-	var readOnly = 	<%= @read_only ? true : false %>;
-	var eventsLoaded = <%= raw @user.get_events(current_user).to_json %>;
+	const readOnly = 	<%= @read_only ? true : false %>;
+	const eventsLoaded = <%= raw @user.get_events(current_user).to_json %>;
 	<% current_user ? id = current_user.id : id = -1 %>
-	var userId = <%= id %>;
+	const userId = <%= id %>;
+	<% current_user and current_user.admin ? admn = true : admn = false %>
+	const admin = <%= admn %>;
 </script>

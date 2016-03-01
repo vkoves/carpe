@@ -171,7 +171,6 @@ function scheduleReady()
 			$("#overlay-loc, #overlay-desc").attr("contenteditable", "false");
 			$("#time-start, #time-end").attr("readonly", true);
 			$(".col-snap .sch-evnt").click(function(){
-				console.log("Test");
 				showOverlay($(this));
 			});
 		}
@@ -314,6 +313,16 @@ function addStartingListeners()
 		scheduleItems[currEvent.attr("evnt-temp-id")].location = $(this).text();
 	});
 	
+	$("#edit-desc").click(function()
+	{
+		$('#overlay-desc').focus();
+	});
+	
+	$("#edit-loc").click(function()
+	{
+		$('#overlay-loc').focus();
+	});
+	
 	$(document).keyup(function(e) //add event listener to close overlays on pressing escape
 	{
 		if (e.keyCode == 27) // escape key maps to keycode `27`
@@ -424,12 +433,16 @@ function addDrag(selector)
 		    pushEventInfo($(this).parent()); //and save again
 	    }
 	})
-	.focusout(function() { //so that clicking outside an event title also saves
+	.focusout(function() 
+	{ 
+		//so that clicking outside an event title also saves
 		$(this).parent().draggable("enable");
 		
 		scheduleItems[$(this).parent().attr("evnt-temp-id")].setName($(this).text());
 		
 		pushEventInfo($(this).parent()); //save event
+		
+		removeHighlight();
 	});
 	
 	//when the mouse is pressed on the events, check for control	
@@ -571,7 +584,7 @@ function handleNewEvent(elem)
 	
 	$(elem).children(".evnt-title").attr("contenteditable", "true");
 	$(elem).children(".evnt-title").trigger('focus'); 
-	document.execCommand('selectAll',false,null); // Suggests to the user to change the schedule item title by making it editable upon drop here.
+	highlightCurrent(); // Suggests to the user to change the schedule item title by making it editable upon drop here.
 	document.execCommand('delete',false,null); // Suggests to the user to change the schedule item title by making it editable upon drop here.
 	$(elem).attr("evnt-temp-id", eventTempId);
 	eventTempId++;
@@ -755,7 +768,7 @@ function editEvent(event, elem)
 	$(elem).attr("contenteditable", "true");
 	event.stopImmediatePropagation();
 	$(elem).trigger('focus');
-	document.execCommand('selectAll',false,null);
+	highlightCurrent();
 	$(elem).siblings(".sch-evnt-save").css("display","inline");
 }
 
@@ -846,8 +859,8 @@ function showOverlay(elem)
 		
 		$(".ui-widget-overlay, .overlay-box").show();
 		var title = $(elem).children(".evnt-title").html();
-		var desc = currEventsMap[$(elem).attr("evnt-temp-id")].description;
-		var loc = currEventsMap[$(elem).attr("evnt-temp-id")].location;
+		var desc = currEventsMap[$(elem).attr("evnt-temp-id")].description || "";
+		var loc = currEventsMap[$(elem).attr("evnt-temp-id")].location || "";
 		var time = $(elem).attr("time");
 		var arr = time.split(":");
 		arr[0] = parseInt(arr[0])+$(elem).outerHeight()/gridHeight;
@@ -1077,6 +1090,17 @@ function paddedMinutes(date)
 {
 	var minutes = (date.getMinutes() < 10? '0' : '') + date.getMinutes(); //add zero the the beginning of minutes if less than 10
 	return minutes;
+}
+
+//removes cursor highlight
+function removeHighlight()
+{
+	window.getSelection().removeAllRanges();
+}
+
+function highlightCurrent()
+{
+	document.execCommand('selectAll',false,null);
 }
 
 /****************************/

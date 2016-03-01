@@ -61,7 +61,8 @@
 	box-shadow: 0px 0px 5px rgb(0, 0, 0);
 	border-color: rgba(0,0,0,0);
 }
-#sidebar-title {
+#sidebar-title
+{
 	font-size:18px;
 	font-weight:900;
 	text-align:right;
@@ -346,6 +347,7 @@
 {
 	font-size: 24px;
 	margin-top: 10px;
+	min-height: 33px;
 }
 .small-title
 {

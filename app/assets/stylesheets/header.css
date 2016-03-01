@@ -104,8 +104,8 @@
 }
 #user-avatar img
 {
-	height: 80%;
-    min-width: 40px;
+	height: 40px;
+    width: 40px;
 	border-radius: 35px;
 	border: solid orange 2px;
 	margin-top: 7%;

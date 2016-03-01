@@ -36,19 +36,24 @@ var ready = function()
 		$("#notif-panel").slideToggle(300);
 		$("#user-panel").slideUp(300);
 		
-		$.ajax({
-	    url: "/read_notifications",
-	    type: "POST",
-	    success: function(resp)
-	    {
-	    	console.log("All notifications marked as read.");
-	    	$(".bell-hold #num").fadeOut();
-	    },
-	    error: function(resp)
-	    {
-	    	console.log("Marking notifications as read failed :(");
-	    }
-	});
+		if($(".bell-hold #num").is(":visible")) //if the notification count is visible
+		{
+			//send a request indicating notifications were read
+			$.ajax(
+			{
+			    url: "/read_notifications",
+			    type: "POST",
+			    success: function(resp)
+			    {
+			    	console.log("All notifications marked as read.");
+			    	$(".bell-hold #num").fadeOut();
+			    },
+			    error: function(resp)
+			    {
+			    	console.log("Marking notifications as read failed :(");
+			    }
+			});
+		}
 	});
 	
 	$("#header-mob-menu").click(function()
