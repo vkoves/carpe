@@ -118,7 +118,7 @@ function ScheduleItem() //The
 			topDT.setHours(schItem.startDateTime.getHours() + change);
 		}
 		
-		console.log("Change: " + change);
+		//console.log("Change: " + change);
 		
 		if(isStart || !resize) //only set the startDateTime if we are not resizing or starting
 		{
@@ -180,8 +180,6 @@ function scheduleReady()
 				showOverlay($(this));
 			});
 		}
-		
-		console.log("Schedule ready!");
 	}
 }
 
@@ -223,9 +221,6 @@ function addStartingListeners()
 		//then update the repeat type without going through push event info
 		currEventsMap[currEvent.attr("evnt-temp-id")].repeat = repType;
 		scheduleItems[currEvent.attr("evnt-temp-id")].repeat = repType;
-		
-		console.log("Repeat type updated");
-		console.log(currEventsMap);
 		
 		//remove all of this element
 		$(".sch-evnt[evnt-temp-id='" + currEvent.attr("evnt-temp-id") + "']").remove();
@@ -275,14 +270,11 @@ function addStartingListeners()
 		scheduleItems[currEvent.attr("evnt-temp-id")].updateHeight();
 		
 		pushEventInfo(currEvent);
-		console.log("Forcing end date time: " + dateTime.toISOString());
-		console.log(eventObj);
 		currEventsMap[currEvent.attr("evnt-temp-id")].enddatetime = dateTime.toISOString();
 	});
 	
 	$("#overlay-desc").focusout(function()
 	{
-		console.log("Chachachachangin");
 		currEventsMap[currEvent.attr("evnt-temp-id")].description = $(this).text();
 		scheduleItems[currEvent.attr("evnt-temp-id")].description = $(this).text();
 		removeHighlight();
@@ -290,7 +282,6 @@ function addStartingListeners()
 	
 	$("#overlay-loc").focusout(function()
 	{
-		console.log("Location is chachchahahahchangin");
 		currEventsMap[currEvent.attr("evnt-temp-id")].location = $(this).text();
 		scheduleItems[currEvent.attr("evnt-temp-id")].location = $(this).text();
 		removeHighlight();
@@ -411,7 +402,6 @@ function addDrag(selector)
 			e.preventDefault();
 			$(this).parent().draggable("enable");
 		    $(this).blur();  // lose focus
-		    console.log("Keydown");
 		    
 		    scheduleItems[$(this).parent().attr("evnt-temp-id")].setName($(this).text());
 		    
@@ -589,7 +579,6 @@ function addResizing(selector)
 	    	resize: function(event, ui)
 	    	{
 	    		updateTime($(this), ui, true);
-	    		console.log("Resize");
 	    	},
 	    	stop: function(event, ui)
 	    	{	
@@ -747,7 +736,6 @@ function editEvent(event, elem)
 	if(!inColumn($(elem).parent()) || $(elem).is(":focus"))
 		return;
 	
-	console.log("Editing event");
 	$(elem).parent().draggable("disable"); //disable dragging while editing the event text
 	
 	$(elem).attr("contenteditable", "true");
@@ -787,7 +775,7 @@ function pushEventInfo(elem, ignoreDateTime)
 			endDateTime = "";
 			console.log("Creating datetimes failed! Start: " + dateE+" "+startTime + " & end: " + dateE + " " + endTime);
 		}
-		console.log("Start: " + dateTime + " end: " + endDateTime);
+		//console.log("Start: " + dateTime + " end: " + endDateTime);
 	}
 	
 	var event_obj = {element: elem, repeat: repeatType, date: dateE, datetime: dateTime, enddatetime: endDateTime, 
@@ -910,7 +898,6 @@ function saveEvents()
 	    		currEventsMap[key].event_id = resp[key];
 	    		$(".sch-evnt[evnt-temp-id="+ key + "]")	.attr("event-id", resp[key]);
 	    		scheduleItems[key].eventId = resp[key];
-	    		console.log(key + " | " + resp[key]);
 	    	}
 	    },
 	    error: function(resp)
