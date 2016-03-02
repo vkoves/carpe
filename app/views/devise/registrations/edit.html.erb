@@ -1,70 +1,78 @@
-<h2 class="no-bold zero-bot">Edit Profile</h2>
-
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= devise_error_messages! %>
-
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name, class: "text-input", autofocus: true %>
-  </div>
-
-<% if current_user.provider %>
-	<br>
-	Since you are logged in with another provider, <br> you don't have to give your password to make changes. <br>
-<% else %>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, class: "text-input", autofocus: true %>
-  </div>
-
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-  <% end %>
-  
-  <div class="field">
-    <%= f.label :image_url %><br />
-    <%= f.text_field :image_url, class: "text-input", autofocus: true %>
-  </div>
-
-	<div class="pass-holder">
-		Change Password 
-		<span class="def-button" 
-			style="font-size: 14px; margin-left: 10px;"
-			onclick="$('#pass-hider').toggle();">
-			Edit
-		</span>
-		<div id="pass-hider" style="display: none;">
-		  <div class="field">
-		    <%= f.label :password %> <br>
-		    <!--<i>(leave blank if you don't want to change it)</i><br>-->
-		    <%= f.password_field :password, class: "text-input", autocomplete: "off" %>
-		  </div>
-		
-		  <div class="field" style="margin-bottom: 5px;">
-		    <%= f.label :password_confirmation %><br />
-		    <%= f.password_field :password_confirmation, class: "text-input", autocomplete: "off" %>
-		  </div>
-		</div>
+<div class="left" style="float: left; width: 50%; text-align: right; padding-top: 100px;">
+	<div class="avatar">
+		<img src="<%= current_user.user_avatar(150) %>" style="width: 150px; height: 150px;">
 	</div>
-
-  <div class="field">
-    <%= f.label :current_password, class: "required"%><br> 
-    <!-- <i>(we need your current password to confirm your changes)</i><br> -->
-    <%= f.password_field :current_password, class: "text-input", autocomplete: "off" %>
-  </div>
-<% end %>
-
-    <%= f.submit "Update" %>
-<% end %>
-
-<div class="cancel-box">
-<p class="zero-bot" style="margin-top: 10px;">
-	<%= button_to "Delete my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, :class => "danger" %>
-</p>
+	<h2 class="zero-top"><%= current_user.name %></h2>
 </div>
-
-<div class="link-default">
-	<%= link_to :back, :class=>"default" do %>
-		<span>Back</span>
+<div class="right" style="float: left; width: 320px; margin-left: 30px;">
+	<h2 class="no-bold zero-bot">Edit Profile</h2>
+	
+	<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+	  <%= devise_error_messages! %>
+	
+	  <div class="field">
+	    <%= f.label :name %><br />
+	    <%= f.text_field :name, class: "text-input", autofocus: true %>
+	  </div>
+	
+	<% if current_user.provider %>
+		<br>
+		Since you are logged in with another provider, <br> you don't have to give your password to make changes. <br>
+	<% else %>
+	  <div class="field">
+	    <%= f.label :email %><br />
+	    <%= f.email_field :email, class: "text-input", autofocus: true %>
+	  </div>
+	
+	  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+	    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+	  <% end %>
+	  
+	  <div class="field">
+	    <%= f.label :image_url %><br />
+	    <%= f.text_field :image_url, class: "text-input", autofocus: true %>
+	  </div>
+	
+		<div class="pass-holder">
+			Change Password 
+			<span class="def-button" 
+				style="font-size: 14px; margin-left: 10px;"
+				onclick="$('#pass-hider').toggle();">
+				Edit
+			</span>
+			<div id="pass-hider" style="display: none;">
+			  <div class="field">
+			    <%= f.label :password %> <br>
+			    <!--<i>(leave blank if you don't want to change it)</i><br>-->
+			    <%= f.password_field :password, class: "text-input", autocomplete: "off" %>
+			  </div>
+			
+			  <div class="field" style="margin-bottom: 5px;">
+			    <%= f.label :password_confirmation %><br />
+			    <%= f.password_field :password_confirmation, class: "text-input", autocomplete: "off" %>
+			  </div>
+			</div>
+		</div>
+	
+	  <div class="field">
+	    <%= f.label :current_password, class: "required"%><br> 
+	    <!-- <i>(we need your current password to confirm your changes)</i><br> -->
+	    <%= f.password_field :current_password, class: "text-input", autocomplete: "off" %>
+	  </div>
 	<% end %>
+	
+	    <%= f.submit "Update" %>
+	<% end %>
+	
+	<div class="cancel-box">
+	<p class="zero-bot" style="margin-top: 10px;">
+		<%= button_to "Delete my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, :class => "danger" %>
+	</p>
+	</div>
+	
+	<div class="link-default">
+		<%= link_to :back, :class=>"default" do %>
+			<span>Back</span>
+		<% end %>
+	</div>
 </div>
