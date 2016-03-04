@@ -6,7 +6,6 @@ var border = 2; //the border at the bottom for height stuff
 var ctrlPressed = false; //is the control key presed? Updated upon clicking an event
 var refDate = new Date(); // Reference date for where the calendar is now, so that it can switch between weeks.
 
-//var currEventsMap = {}; //map of all the events in the frontend
 var scheduleItems = {}; //the map of all schedule item objects
 var eventTempId = 0; //the temp id that the next event will have, incremented on each event creation or load
 
@@ -219,7 +218,6 @@ function addStartingListeners()
 		currEvent.attr("rep-type", repType); //and set the repeat type attribute
 
 		//then update the repeat type without going through push event info
-		//currEventsMap[currEvent.attr("evnt-temp-id")].repeat = repType;
 		scheduleItems[currEvent.attr("evnt-temp-id")].repeat = repType;
 
 		//remove all of this element
@@ -250,7 +248,6 @@ function addStartingListeners()
 		scheduleItems[currEvent.attr("evnt-temp-id")].setStartDateTime(dateTime, true);
 		scheduleItems[currEvent.attr("evnt-temp-id")].updateHeight();
 
-		//pushEventInfo(currEvent);
 	});
 
 	$("#time-end").change(function()
@@ -267,20 +264,16 @@ function addStartingListeners()
 		scheduleItems[currEvent.attr("evnt-temp-id")].setEndDateTime(dateTime, true);
 		scheduleItems[currEvent.attr("evnt-temp-id")].updateHeight();
 
-		//pushEventInfo(currEvent);
-		//currEventsMap[currEvent.attr("evnt-temp-id")].enddatetime = dateTime.toISOString();
 	});
 
 	$("#overlay-desc").focusout(function()
 	{
-		currEventsMap[currEvent.attr("evnt-temp-id")].description = $(this).text();
 		scheduleItems[currEvent.attr("evnt-temp-id")].description = $(this).text();
 		removeHighlight();
 	}).click(highlightCurrent);
 
 	$("#overlay-loc").focusout(function()
 	{
-		currEventsMap[currEvent.attr("evnt-temp-id")].location = $(this).text();
 		scheduleItems[currEvent.attr("evnt-temp-id")].location = $(this).text();
 		removeHighlight();
 	}).click(highlightCurrent);
@@ -343,13 +336,7 @@ function loadInitialEvents() //load events into the hashmap
 
 			scheduleItems[i].tempElement = clone; //Store the element
 
-			//pushEventInfo(clone, true);
 
-			/* currEventsMap[i].enddatetime = evnt.end_date;
-			currEventsMap[i].date = dateString;
-			currEventsMap[i].datetime = evnt.date;
-			currEventsMap[i].description = evnt.description;
-			currEventsMap[i].location = evnt.location; */
 
 			var hoursDiff = Math.floor(Math.abs(dateEnd - dateE) / 36e5); //calculate the difference of hours
 			if (hoursDiff == 0)
@@ -405,7 +392,6 @@ function addDrag(selector)
 
 		    scheduleItems[$(this).parent().attr("evnt-temp-id")].setName($(this).text());
 
-		    //pushEventInfo($(this).parent()); //and save again
 	    }
 	})
 	.focusout(function()
@@ -415,7 +401,6 @@ function addDrag(selector)
 
 		scheduleItems[$(this).parent().attr("evnt-temp-id")].setName($(this).text());
 
-		//pushEventInfo($(this).parent()); //save event
 
 		removeHighlight();
 	});
@@ -484,7 +469,6 @@ function addDrag(selector)
 			else //otherwise
 				scheduleItems[$(this).attr("evnt-temp-id")].resizeComplete($(this)); //say it's been resized, to read all properties
 
-			//pushEventInfo($(this));
 			addDrag(); //add drag to the sidebar again
 		},
 		drag: function(event, ui)
@@ -537,8 +521,6 @@ function handleClone(elem, ui)
 
 	eventTempId++;
 
-	//pushEventInfo($(elem));
-	//pushEventInfo(clone);
 
 	clone.removeClass("ui-draggable ui-draggable-handle ui-resizable ui-draggable-dragging"); //remove dragging stuff
 	addDrag(clone); //and redo draggin
@@ -584,7 +566,6 @@ function addResizing(selector)
 	    	stop: function(event, ui)
 	    	{
 				scheduleItems[$(this).attr("evnt-temp-id")].resizeComplete($(this));
-				//pushEventInfo($(this));
 	    	}
 		});
 	}
@@ -747,49 +728,6 @@ function editEvent(event, elem)
 	highlightCurrent();
 	$(elem).siblings(".sch-evnt-save").css("display","inline");
 }
-
-//Push information about the passed event to the hashmap for saving
-/*
-function pushEventInfo(elem, ignoreDateTime)
-{
-	var eId = $(elem).attr("evnt-temp-id"); //the temp id used in the hashmap
-	var eventId = $(elem).attr("event-id"); //the permanent event id used in the database
-	var dateE = $(elem).parent().siblings(".col-titler").children(".evnt-fulldate").html(); //the date the elem is on
-	var nameE = $(elem).children(".evnt-title").text(); //the name of the event
-	var startTime = $(elem).attr("time"); //the starting time of the event
-	if(startTime)
-		var endTime = parseInt(startTime.split(":")[0]) + Math.round($(elem).outerHeight()/gridHeight) + ":" + startTime.split(":")[1];  //the ending time
-	else
-		var endTime = 0;
-	var catId = $(elem).attr("data-id"); //the id of the category in the database
-	var repeatType = $(elem).attr("rep-type"); //the repeat type of the element
-
-	if(!ignoreDateTime) //if the date and time will be set after, don't bother with it
-	{
-		var dateTime, endDateTime = "";
-
-		try
-		{
-			dateTime = new Date(dateE+" "+startTime).toISOString();
-			endDateTime = new Date(dateE+" "+endTime).toISOString();
-		}
-		catch(err)
-		{
-			dateTime = "";
-			endDateTime = "";
-			console.log("Creating datetimes failed! Start: " + dateE+" "+startTime + " & end: " + dateE + " " + endTime);
-		}
-		//console.log("Start: " + dateTime + " end: " + endDateTime);
-	}
-
-	var event_obj = {element: elem, repeat: repeatType, date: dateE, datetime: dateTime, enddatetime: endDateTime,
-		name: nameE, cat_id: catId, event_id: eventId, temp_id: eId};
-
-	currEventsMap[eId] = event_obj;
-
-	//Find all same elements and apply change
-	$(".sch-evnt[evnt-temp-id='" + $(elem).attr("evnt-temp-id") + "']").attr("style", $(elem).attr("style"));
-} */
 
 //Edit a category using the category overlay
 function editCategory(event, elem, id, name, col)
