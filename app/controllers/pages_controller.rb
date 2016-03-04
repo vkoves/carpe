@@ -66,7 +66,7 @@ class PagesController < ApplicationController
     end
 
     params[:map].each do |key, obj|
-        unless obj["eventId"].empty?
+        unless obj["eventId"].empty? #if this is an existing item
           evnt = Event.find(obj["eventId"].to_i)
         else
           evnt = Event.new()
@@ -81,7 +81,7 @@ class PagesController < ApplicationController
         evnt.category_id = obj["categoryId"].to_i
         evnt.save
 
-        unless obj["eventId"]
+        if obj["eventId"].empty? #if this is not an existing event
           new_event_ids[obj["tempId"]] = evnt.id
         end
     end

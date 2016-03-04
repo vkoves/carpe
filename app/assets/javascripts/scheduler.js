@@ -898,7 +898,6 @@ function saveEvents()
 
 	    	for(var key in resp)
 	    	{
-	    		currEventsMap[key].event_id = resp[key];
 	    		$(".sch-evnt[evnt-temp-id="+ key + "]")	.attr("event-id", resp[key]);
 	    		scheduleItems[key].eventId = resp[key];
 	    	}
@@ -918,7 +917,7 @@ function removeEvent(event, elem)
 	var eId = $(elem).parent().attr("event-id");
 	var tempId = $(elem).parent().attr("evnt-temp-id");
 
-	delete currEventsMap[tempId]; //remove event map
+	delete scheduleItems[tempId]; //remove event map
 
 	if(!eId)
 	{
