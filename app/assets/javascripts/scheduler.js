@@ -6,7 +6,7 @@ var border = 2; //the border at the bottom for height stuff
 var ctrlPressed = false; //is the control key presed? Updated upon clicking an event
 var refDate = new Date(); // Reference date for where the calendar is now, so that it can switch between weeks.
 
-var currEventsMap = {}; //map of all the events in the frontend
+//var currEventsMap = {}; //map of all the events in the frontend
 var scheduleItems = {}; //the map of all schedule item objects
 var eventTempId = 0; //the temp id that the next event will have, incremented on each event creation or load
 
@@ -219,7 +219,7 @@ function addStartingListeners()
 		currEvent.attr("rep-type", repType); //and set the repeat type attribute
 
 		//then update the repeat type without going through push event info
-		currEventsMap[currEvent.attr("evnt-temp-id")].repeat = repType;
+		//currEventsMap[currEvent.attr("evnt-temp-id")].repeat = repType;
 		scheduleItems[currEvent.attr("evnt-temp-id")].repeat = repType;
 
 		//remove all of this element
@@ -239,7 +239,6 @@ function addStartingListeners()
 	$("#time-start").change(function()
 	{
 		//TODO: Fix this not working across different days (try noon in your local time)
-		var eventObj = currEventsMap[currEvent.attr("evnt-temp-id")];
 
 		var dateE = $(currEvent).parent().siblings(".col-titler").children(".evnt-fulldate").html(); //the date the elem is on
 
@@ -251,13 +250,12 @@ function addStartingListeners()
 		scheduleItems[currEvent.attr("evnt-temp-id")].setStartDateTime(dateTime, true);
 		scheduleItems[currEvent.attr("evnt-temp-id")].updateHeight();
 
-		pushEventInfo(currEvent);
+		//pushEventInfo(currEvent);
 	});
 
 	$("#time-end").change(function()
 	{
 		//TODO: Fix this not working across different days (try noon in your local time)
-		var eventObj = currEventsMap[currEvent.attr("evnt-temp-id")];
 
 		var dateE = $(currEvent).parent().siblings(".col-titler").children(".evnt-fulldate").html(); //the date the elem is on
 
@@ -269,8 +267,8 @@ function addStartingListeners()
 		scheduleItems[currEvent.attr("evnt-temp-id")].setEndDateTime(dateTime, true);
 		scheduleItems[currEvent.attr("evnt-temp-id")].updateHeight();
 
-		pushEventInfo(currEvent);
-		currEventsMap[currEvent.attr("evnt-temp-id")].enddatetime = dateTime.toISOString();
+		//pushEventInfo(currEvent);
+		//currEventsMap[currEvent.attr("evnt-temp-id")].enddatetime = dateTime.toISOString();
 	});
 
 	$("#overlay-desc").focusout(function()
@@ -327,7 +325,6 @@ function loadInitialEvents() //load events into the hashmap
 			schItem.tempId = i;
 			scheduleItems[i] = schItem;
 
-
 			var catParent = $("#sch-tiles .sch-evnt[data-id='" + evnt["category_id"] + "']"); //fetch the category
 			var clone = catParent.clone();
 			var dateE = new Date(evnt.date);
@@ -344,13 +341,16 @@ function loadInitialEvents() //load events into the hashmap
 			clone.attr("rep-type", evnt.repeat);
 			clone.children(".evnt-desc").html(evnt.description);
 
-			pushEventInfo(clone, true);
+			scheduleItems[i].tempElement = clone; //Store the element
 
-			currEventsMap[i].enddatetime = evnt.end_date;
+			//pushEventInfo(clone, true);
+
+			/* currEventsMap[i].enddatetime = evnt.end_date;
 			currEventsMap[i].date = dateString;
 			currEventsMap[i].datetime = evnt.date;
 			currEventsMap[i].description = evnt.description;
-			currEventsMap[i].location = evnt.location;
+			currEventsMap[i].location = evnt.location; */
+
 			var hoursDiff = Math.floor(Math.abs(dateEnd - dateE) / 36e5); //calculate the difference of hours
 			if (hoursDiff == 0)
 				hoursDiff = 1;
@@ -405,7 +405,7 @@ function addDrag(selector)
 
 		    scheduleItems[$(this).parent().attr("evnt-temp-id")].setName($(this).text());
 
-		    pushEventInfo($(this).parent()); //and save again
+		    //pushEventInfo($(this).parent()); //and save again
 	    }
 	})
 	.focusout(function()
@@ -415,7 +415,7 @@ function addDrag(selector)
 
 		scheduleItems[$(this).parent().attr("evnt-temp-id")].setName($(this).text());
 
-		pushEventInfo($(this).parent()); //save event
+		//pushEventInfo($(this).parent()); //save event
 
 		removeHighlight();
 	});
@@ -484,7 +484,7 @@ function addDrag(selector)
 			else //otherwise
 				scheduleItems[$(this).attr("evnt-temp-id")].resizeComplete($(this)); //say it's been resized, to read all properties
 
-			pushEventInfo($(this));
+			//pushEventInfo($(this));
 			addDrag(); //add drag to the sidebar again
 		},
 		drag: function(event, ui)
@@ -537,8 +537,8 @@ function handleClone(elem, ui)
 
 	eventTempId++;
 
-	pushEventInfo($(elem));
-	pushEventInfo(clone);
+	//pushEventInfo($(elem));
+	//pushEventInfo(clone);
 
 	clone.removeClass("ui-draggable ui-draggable-handle ui-resizable ui-draggable-dragging"); //remove dragging stuff
 	addDrag(clone); //and redo draggin
@@ -584,7 +584,7 @@ function addResizing(selector)
 	    	stop: function(event, ui)
 	    	{
 				scheduleItems[$(this).attr("evnt-temp-id")].resizeComplete($(this));
-				pushEventInfo($(this));
+				//pushEventInfo($(this));
 	    	}
 		});
 	}
@@ -712,17 +712,19 @@ function populateEvents()
 
 	for (var i = 0; i < currentDates.length; i++)
 	{
-		for (var eventIndex in currEventsMap) //do a foreach since this is a hashmap
+		for (var eventIndex in scheduleItems) //do a foreach since this is a hashmap
 		{
-			eventObj = currEventsMap[eventIndex];
+			eventObj = scheduleItems[eventIndex];
 			var date = new Date(currentDates[i]);
-			if (eventObj.date == currentDates[i]
+			var itemDate = eventObj.startDateTime;
+
+			if (itemDate.toDateString() == date.toDateString()
 				|| eventObj.repeat == "daily"
-				|| (eventObj.repeat == "weekly" && date.getDay() == new Date(eventObj.datetime).getDay())
-				|| (eventObj.repeat == "monthly" && date.getDate() == new Date(eventObj.datetime).getDate())
-				|| (eventObj.repeat == "yearly" && date.getDate() == new Date(eventObj.datetime).getDate() && date.getMonth() == new Date(eventObj.datetime).getMonth()))
+				|| (eventObj.repeat == "weekly" && date.getDay() == itemDate.getDay())
+				|| (eventObj.repeat == "monthly" && date.getDate() == itemDate.getDate())
+				|| (eventObj.repeat == "yearly" && date.getDate() == itemDate.getDate() && date.getMonth() == itemDate.getMonth()))
 			{
-				var currentElem = eventObj.element.clone();
+				var currentElem = eventObj.tempElement.clone();
 				$(".sch-day-col:eq(" + i + ") .col-snap").append(currentElem);
 			}
 		}
@@ -747,6 +749,7 @@ function editEvent(event, elem)
 }
 
 //Push information about the passed event to the hashmap for saving
+/*
 function pushEventInfo(elem, ignoreDateTime)
 {
 	var eId = $(elem).attr("evnt-temp-id"); //the temp id used in the hashmap
@@ -786,7 +789,7 @@ function pushEventInfo(elem, ignoreDateTime)
 
 	//Find all same elements and apply change
 	$(".sch-evnt[evnt-temp-id='" + $(elem).attr("evnt-temp-id") + "']").attr("style", $(elem).attr("style"));
-}
+} */
 
 //Edit a category using the category overlay
 function editCategory(event, elem, id, name, col)
@@ -823,6 +826,7 @@ function showOverlay(elem)
 	if(inColumn(elem) && !editingEvent)
 	{
 		currEvent = elem; //Set the current event to the event being edited
+		var item = scheduleItems[elem.attr("evnt-temp-id")];
 
 		//Select the proper repeat button
 		$(".repeat-option").removeClass("red");
@@ -832,16 +836,13 @@ function showOverlay(elem)
 		}
 
 		$(".ui-widget-overlay, .overlay-box").show();
-		var title = $(elem).children(".evnt-title").html();
-		var desc = currEventsMap[$(elem).attr("evnt-temp-id")].description || "";
-		var loc = currEventsMap[$(elem).attr("evnt-temp-id")].location || "";
 
-		var item = scheduleItems[elem.attr("evnt-temp-id")];
+		$(".overlay-title").html(item.name);
+		$("#overlay-desc").html(item.description || "");
+		$("#overlay-loc").html(item.location || "");
+
 		var startArr = [item.startDateTime.getHours(), paddedMinutes(item.startDateTime)];
 		var endArr = [item.endDateTime.getHours(), paddedMinutes(item.endDateTime)];
-		$(".overlay-title").html(title);
-		$("#overlay-desc").html(desc);
-		$("#overlay-loc").html(loc);
 
 		//$(".overlay-time").html(convertTo12Hour(time.split(":")) + " - " + convertTo12Hour(endTime.split(":")));
 		$("#time-start").val(convertTo12Hour(startArr));
@@ -885,7 +886,8 @@ function placeInSchedule(elem, hours, lengthHours)
 function saveEvents()
 {
 	//JSON encode our hashmap
-	var arr  = JSON.parse(JSON.stringify(currEventsMap));
+	var arr  = JSON.parse(JSON.stringify(scheduleItems));
+
 	$.ajax({
 	    url: "/save_events",
 	    type: "POST",

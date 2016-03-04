@@ -2,7 +2,7 @@ class PagesController < ApplicationController
   def schedule
     if current_user
       @user = current_user
-      
+
       if params[:new] == "t"
         newCat = Category.new
         newCat.user = current_user #set the user to the logged in user
@@ -21,22 +21,22 @@ class PagesController < ApplicationController
         findCat = Category.find_by_id(id)
         findCat.name = name
         findCat.color = col
-        findCat.save  
+        findCat.save
         redirect_to "/schedule"
       elsif params[:clearAll] == "t"
         Category.all.each_with_index do |cat, index|
           cat.destroy
         end
         redirect_to "/schedule"
-      end 
-    else 
+      end
+    else
       redirect_to user_session_path;
     end
   end
-  
+
   def create_category
     if params[:id]
-      @cat = Category.find(params[:id])    
+      @cat = Category.find(params[:id])
     else
       @cat = Category.new
     end
@@ -51,12 +51,12 @@ class PagesController < ApplicationController
     @cat.save
     render json: @cat
   end
-  
+
   def delete_category
     Category.destroy(params[:id])
     render :text => "Category destroyed"
   end
-  
+
   def save_events #save events
     text = params.to_s
     new_event_ids = {}
@@ -64,38 +64,36 @@ class PagesController < ApplicationController
     unless params[:map] #if there is no map param defined
       render :text => "No events to save!" and return #say so and return
     end
-    
+
     params[:map].each do |key, obj|
-        if(obj["event_id"])
-          evnt = Event.find(obj["event_id"].to_i)
+        unless obj["eventId"].empty?
+          evnt = Event.find(obj["eventId"].to_i)
         else
           evnt = Event.new()
         end
-        evnt.name = obj["name"] 
+        evnt.name = obj["name"]
         evnt.user = current_user
         evnt.repeat = obj["repeat"]
-        evnt.date = DateTime.parse(obj["datetime"])
-        evnt.end_date = DateTime.parse(obj["enddatetime"])
+        evnt.date = DateTime.parse(obj["startDateTime"])
+        evnt.end_date = DateTime.parse(obj["endDateTime"])
         evnt.description = obj["description"] || ""
         evnt.location = obj["location"] || ""
-        @t = obj["enddatetime"]
-        @s = obj["datetime"]
-        evnt.category_id = obj["cat_id"].to_i
+        evnt.category_id = obj["categoryId"].to_i
         evnt.save
 
-        unless obj["event_id"]
-          new_event_ids[obj["temp_id"]] = evnt.id
+        unless obj["eventId"]
+          new_event_ids[obj["tempId"]] = evnt.id
         end
     end
 
     render :json => new_event_ids
   end
-  
+
   def delete_event #delete events
     Event.destroy(params[:id])
     render :text => "Event deleted."
   end
-  
+
   def promote
     @user = User.find(params[:id])
     if(current_user and current_user.admin)
@@ -108,7 +106,7 @@ class PagesController < ApplicationController
     end
     redirect_to "/users"
   end
-  
+
   def admin
     if !current_user or !current_user.admin
       redirect_to "/"
