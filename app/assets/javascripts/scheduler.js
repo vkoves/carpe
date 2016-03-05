@@ -218,7 +218,7 @@ function addStartingListeners()
 		currEvent.attr("rep-type", repType); //and set the repeat type attribute
 
 		//then update the repeat type without going through push event info
-		scheduleItems[currEvent.attr("evnt-temp-id")].repeat = repType;
+		scheduleItems[currEvent.attr("evnt-temp-id")].repeatType = repType;
 
 		//remove all of this element
 		$(".sch-evnt[evnt-temp-id='" + currEvent.attr("evnt-temp-id") + "']").remove();
