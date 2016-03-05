@@ -700,10 +700,10 @@ function populateEvents()
 			var itemDate = eventObj.startDateTime;
 
 			if (itemDate.toDateString() == date.toDateString()
-				|| eventObj.repeat == "daily"
-				|| (eventObj.repeat == "weekly" && date.getDay() == itemDate.getDay())
-				|| (eventObj.repeat == "monthly" && date.getDate() == itemDate.getDate())
-				|| (eventObj.repeat == "yearly" && date.getDate() == itemDate.getDate() && date.getMonth() == itemDate.getMonth()))
+				|| eventObj.repeatType == "daily"
+				|| (eventObj.repeatType == "weekly" && date.getDay() == itemDate.getDay())
+				|| (eventObj.repeatType == "monthly" && date.getDate() == itemDate.getDate())
+				|| (eventObj.repeatType == "yearly" && date.getDate() == itemDate.getDate() && date.getMonth() == itemDate.getMonth()))
 			{
 				var currentElem = eventObj.tempElement.clone();
 				$(".sch-day-col:eq(" + i + ") .col-snap").append(currentElem);
