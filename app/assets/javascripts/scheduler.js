@@ -538,6 +538,7 @@ function handleNewEvent(elem)
 	schItem.categoryId = $(elem).attr("data-id");
 	schItem.repeatType = "";
 	schItem.tempId = eventTempId;
+	schItem.tempElement = elem;
 	scheduleItems[eventTempId] = schItem;
 
 	$(elem).children(".evnt-title").attr("contenteditable", "true");
