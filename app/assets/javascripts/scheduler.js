@@ -529,6 +529,7 @@ function handleClone(elem, ui)
 //called on new events dragged from the sidebar
 function handleNewEvent(elem)
 {
+	console.log("Test");
 	var schItem = new ScheduleItem();
 	schItem.startDateTime = new Date();
 	schItem.startDateTime.setMinutes(0);
@@ -538,7 +539,7 @@ function handleNewEvent(elem)
 	schItem.categoryId = $(elem).attr("data-id");
 	schItem.repeatType = "";
 	schItem.tempId = eventTempId;
-	schItem.tempElement = elem;
+	schItem.tempElement = $(elem);
 	scheduleItems[eventTempId] = schItem;
 
 	$(elem).children(".evnt-title").attr("contenteditable", "true");
@@ -706,10 +707,11 @@ function populateEvents()
 				|| (eventObj.repeatType == "monthly" && date.getDate() == itemDate.getDate())
 				|| (eventObj.repeatType == "yearly" && date.getDate() == itemDate.getDate() && date.getMonth() == itemDate.getMonth()))
 			{
+				console.log(eventIndex);
 				var currentElem = eventObj.tempElement.clone();
 				$(".sch-day-col:eq(" + i + ") .col-snap").append(currentElem);
-			}
-		}
+
+}		}
 	}
 	addDrag(".col-snap .sch-evnt"); // Re-enables the events to snap onto the date columns here.
 }
