@@ -73,7 +73,7 @@ class PagesController < ApplicationController
         end
         evnt.name = obj["name"]
         evnt.user = current_user
-        evnt.repeat = obj["repeat"]
+        evnt.repeat = obj["repeatType"]
         evnt.date = DateTime.parse(obj["startDateTime"])
         evnt.end_date = DateTime.parse(obj["endDateTime"])
         evnt.description = obj["description"] || ""
