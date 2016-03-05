@@ -833,6 +833,11 @@ function saveEvents()
 	    success: function(resp)
 	    {
 	    	console.log("Save complete.");
+	    	$("#sch-save").addClass("active");
+	    	setTimeout(function()
+	    	{
+	    		$("#sch-save").removeClass("active");
+	    	}, 1500);
 
 	    	for(var key in resp)
 	    	{

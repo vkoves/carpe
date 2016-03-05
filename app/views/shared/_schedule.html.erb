@@ -22,7 +22,7 @@
 <div class="ui-widget-overlay" onclick="hideOverlay();"></div>
 <div class="overlay-box">
 	<div class="overlay-time">
-		<input id="time-start" type="text" value="10:00am"></input> - 
+		<input id="time-start" type="text" value="10:00am"></input> -
 		<input id="time-end" type="text" value="12:00pm"></input>
 	</div>
 	<!-- <div class="overlay-time">10:00am - 12:00pm</div> -->
@@ -36,7 +36,7 @@
 		<span id="repeat-yearly" class="default repeat-option">Yearly</span>
 	</div>
 	<div class="small-title">
-		Description: 
+		Description:
 		<span id="edit-desc" class="edit">Edit</span>
 	</div>
 	<div id="overlay-desc" contenteditable="true">Description goes here</div>
@@ -49,13 +49,13 @@
 
 <div class="cat-overlay-box" data-id="" >
 	<div class="catTopOverlay">
-		<span class="catOverlayTitle" contenteditable=true ></span>		
+		<span class="catOverlayTitle" contenteditable=true ></span>
 		<%= image_tag "checkmark-wht.png", :class => "sch-cat-icon no-drag", :onclick => "saveCategory(event, this, $('.cat-overlay-box').attr('data-id'));" %>
-		
+
 	</div>
 	<div class="catRemainderOverlay">
 		<div id="cat-privacy">
-			Privacy: 
+			Privacy:
 			<span id="public" class="default">Public</span>
 			<span id="friends" class="default">Friends</span>
 			<span id="private" class="default">Private</span>
@@ -79,7 +79,7 @@
 		<h1 class="no-bold zero-bot zero-top">My Schedule</h1>
 		<br>
 	<% end %>
-	
+
 	<div id="sch-sidebar">
 		<span id="sidebar-title" title="Drag a category onto the schedule to create a schedule item." onclick="createCategory();">Categories</span>
 		<div id="side-desc">Drag a category onto the schedule to create a schedule item.</div>
@@ -116,23 +116,25 @@
 				<% end %>
 			</div>
 		</div>
-		
+
 		<div class="cat-add" onclick="createCategory();">+ New Category</div>
 	</div>
-	
+
 	<%= image_tag "divider-orng.png", :height => "505px", :style => "float: left;" %>
-	
+
 	<div id="sch-main">
 		<div class="sch-but-holder">
-			<span class="default sch-week-prev" onclick="moveWeek(false)">Previous</span> 
-			&nbsp; 
-			<span class="default sch-week-next" onclick="moveWeek(true)">Next</span> 
+			<span class="default sch-week-prev" onclick="moveWeek(false)">Previous</span>
+			&nbsp;
+			<span class="default sch-week-next" onclick="moveWeek(true)">Next</span>
 			<input id="week-date" type="text"></input>
-			<% if !@read_only %>	
-				<span class="default green" id="sch-save" onclick="saveEvents()">Save Events</span>
+			<% if !@read_only %>
+				<span class="default green" id="sch-save" onclick="saveEvents()">Save Events
+					<%= image_tag "checkmark-wht.png", id: "save-checkmark" %>
+				</span>
 			<% end %>
 		</div>
-		
+
 		<div id="sch-holder">
 			<div id="sch-days">
 				<div class="sch-day-col">
