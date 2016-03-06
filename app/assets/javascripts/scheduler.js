@@ -46,7 +46,7 @@ function ScheduleItem() //The
 
 	this.lengthInHours =  function() //returns an integer of the length of the event hours
 	{
-		return differenceInHours(this.startDateTime, this.endDateTime);
+		return differenceInHours(this.startDateTime, this.endDateTime, true);
 	};
 
 	this.destroy = function() //deletes the schedule item from the frontend
@@ -135,11 +135,14 @@ function ScheduleItem() //The
 		elem.attr("time", topDT.getHours() + ":" + paddedMinutes(topDT)); //set the time attribute
 	}
 
-	function differenceInHours(start, end) //return the difference in hours between two dates
+	function differenceInHours(start, end, round) //return the difference in hours between two dates
 	{
 		var one_hour = 1000*60*60; //1000 ms/sec * 60 sec/min * 60 min/hr
 		var diff = end.getTime() - start.getTime();
-		return Math.round(diff/one_hour);
+		if(round)
+			return Math.round(diff/one_hour);
+		else
+			return diff/one_hour;
 	}
 };
 
@@ -630,7 +633,6 @@ function addDates(currDate, refresh)
 
 	if(refresh)
 	{
-		console.log("REFRESHING!");
 		$("#sch-days").html(schHTML); // Refresh the layout so that we can properly prepend and append text below here
 		colDroppable();
 	}
@@ -707,7 +709,6 @@ function populateEvents()
 				|| (eventObj.repeatType == "monthly" && date.getDate() == itemDate.getDate())
 				|| (eventObj.repeatType == "yearly" && date.getDate() == itemDate.getDate() && date.getMonth() == itemDate.getMonth()))
 			{
-				console.log(eventIndex);
 				var currentElem = eventObj.tempElement.clone();
 				$(".sch-day-col:eq(" + i + ") .col-snap").append(currentElem);
 
