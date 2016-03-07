@@ -1,12 +1,12 @@
 <br>
 <% @groups.each do |group| %>
-<div>
+<div class="group-cont">
 	<a href="/group/<%= group.id %>"><%= group.name %></a>
 	<a href="/group/<%= group.id %>/edit">Edit Group</a>
 	Role: <%= UsersGroup.where(user_id: current_user.id, group_id: group.id).first.role || "normal" %>
 	<a href="/groups/destroy?id=<%= group.id %>" class="default red"><span>Delete Group</span></a>
 	<% group.users.each do |user| %>
-		<div class="avatar">
+		<div class="avatar small">
 			<%= link_to(user) do %>
 				<img src="<%= user.user_avatar(100) %>">
 			<% end %>
