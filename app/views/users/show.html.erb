@@ -5,7 +5,7 @@
 <% end %>
 
 <div id="profile-header">
-	
+
 	<% if @user.image_url.present? %>
 		<div id="header-image-blur" style="background-image:url(<%= @user.user_avatar(200)%>);"></div>
 	<% else %>
@@ -46,8 +46,8 @@
 <div class="page-container">
 	<br>
 	<div style="text-align: left">
-		Joined Carpe on <%= @user.created_at.strftime("%b. %d, %Y") %><br>
-		Last active: <%= @user.last_sign_in_at.strftime("%b. %d, %Y at %I:%M %P UTC") %>
+		Joined Carpe: <%= relative_time_ago(@user.created_at, true) %> <br>
+		Last active: <%= relative_time_ago(@user.last_sign_in_at, true) %>
 	</div>
 	<% if params[:p] == "mutual_friends" %>
 		<%= render "mutual_friends_listing" %>

@@ -29,7 +29,7 @@
 	z-index: -1;
 	background-image: image-url("water_Krakkened.png");
 	background-color: #848484; /* As a backup if the image is stupid */
-	
+
 	/* Source: url("https://wallpaperscraft.com/image/spring_blur_glass_storm_rain_drops_water_80956_3840x2400.jpg"); */
     /* background-size: 100%;
     background-position: 20% 40%;
@@ -50,15 +50,15 @@
     clip: rect(16px,160000px,216px,16px);
     background-blend-mode: initial;
     -webkit-filter: blur(10px) brightness(0.7);
-    -moz-filter: blur(10px) brightness(0.7); 
+    -moz-filter: blur(10px) brightness(0.7);
     filter: blur(10px) brightness(0.7);
-    
+
 }
 #profile-text
 {
 	position: relative;
     margin-left: -70px;
-    top: 22px;
+    top: 12px;
     z-index: -1;
     float: left;
     text-align: left;
