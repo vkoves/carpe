@@ -140,7 +140,7 @@ function ScheduleItem() //The
 		var one_hour = 1000*60*60; //1000 ms/sec * 60 sec/min * 60 min/hr
 		var diff = end.getTime() - start.getTime();
 		if(round)
-			return end.getHours() - start.getHours();//Math.round(diff/one_hour);
+			return (end.getHours() - start.getHours()) || 1;//Math.round(diff/one_hour);
 		else
 			return diff/one_hour;
 	}
