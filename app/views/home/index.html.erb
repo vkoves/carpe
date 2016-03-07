@@ -25,7 +25,12 @@
 						<div class="home-event-tile <%= "current" if event.current? %>">
 							<div class="square" style="background: <%= event.category.color %>"><%= event.category.name %></div>
 							<div class="tile-text">
-								<b><%= event.name%></b><br>
+								<% unless event.name.empty? %>
+								<b><%= event.name%></b>
+								<% else %>
+								<i>Untitled</i>
+								<% end %>
+								<br>
 								<% if event.current? #print full info about current events %>
 									<%= relative_event_time(event) %>
 								<% else #and print start for future events %>
@@ -41,7 +46,7 @@
 		<br>
 	</div>
 
-	
+
 	<div id="sidebar-button">
 		<<
 	</div>
