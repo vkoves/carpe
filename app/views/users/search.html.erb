@@ -5,17 +5,17 @@
 	<h3 class="page-desc">
 		Looking for someone? Type their name!
 		<%= form_tag("/search_users", method: "get") do %>
-		  <%= text_field_tag(:q, params[:q]) %>
+		  <%= text_field_tag(:q, params[:q], id: "users-search-input") %>
 		  <%= submit_tag("Search") %>
 		<% end %>
 	</h3>
 	<% if @users != nil %>
-		<% users = @users %> 
+		<% users = @users %>
 		<h3>Showing results for "<%= params[:q] %>"</h3>
-	<% else 
+	<% else
 		users = User.all
 	end %>
-	
+
 	<% if users.size > 0 %>
 		<% users.each do |user| %>
 			<% if user != current_user%>

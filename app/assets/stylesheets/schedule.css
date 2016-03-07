@@ -635,7 +635,7 @@ input[readonly="readonly"]
 }
 #sch-save
 {
-	transition: padding-right 0.5s;
+	transition: padding-right 0.5s, background 0.3s;
 }
 #sch-save.active
 {
