@@ -140,7 +140,7 @@ function ScheduleItem() //The
 		var one_hour = 1000*60*60; //1000 ms/sec * 60 sec/min * 60 min/hr
 		var diff = end.getTime() - start.getTime();
 		if(round)
-			return Math.round(diff/one_hour);
+			return end.getHours() - start.getHours();//Math.round(diff/one_hour);
 		else
 			return diff/one_hour;
 	}
@@ -339,12 +339,7 @@ function loadInitialEvents() //load events into the hashmap
 
 			scheduleItems[i].tempElement = clone; //Store the element
 
-
-
-			var hoursDiff = Math.floor(Math.abs(dateEnd - dateE) / 36e5); //calculate the difference of hours
-			if (hoursDiff == 0)
-				hoursDiff = 1;
-			placeInSchedule(clone, dateE.getHours(), hoursDiff);
+			placeInSchedule(clone, dateE.getHours(), scheduleItems[i].lengthInHours());
 
 			eventTempId++; //increment the temp id
 		}

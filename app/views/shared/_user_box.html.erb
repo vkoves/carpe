@@ -1,14 +1,16 @@
 <div class="user-box">
 	<div class="avatar">
-		<a href="/u/<%= user.id %>"><img src="<%= user.user_avatar(100) %>"></a>
+		<%= link_to(user) do %>
+			<img src="<%= u.user_avatar(100) %>">
+		<% end %>
 	</div>
-	
+
 	<div class="name">
 		<%= user.name %><br>
 		<% mut = current_user.mutual_friends(user).count %>
 		<%= mut %> mutual
 	</div>
-	
+
 	<% if user == current_user %>
 		<span class="friend-label">You</span>
 	<% elsif status == nil #not friends %>
@@ -20,7 +22,7 @@
 	<% elsif status == "pending" || status == "denied" %>
 		<span class="friend-label">Pending...</span>
 	<% end %>
-	
+
 	<% if @show_promote %>
 		<!-- Show promotion and demotion admin buttons -->
 		<% if user.admin and user != current_user %>
@@ -33,7 +35,7 @@
 			</a>
 		<% end %>
 	<% end %>
-	
+
 	<% if @group and !@group.users.include? user %>
 		<!-- Show adding and removing from group -->
 		<a href="?uid=<%= user.id %>" class="default">

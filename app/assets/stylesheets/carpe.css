@@ -1,4 +1,4 @@
-body 
+body
 {
 	font-family: 'Open Sans', sans-serif;
 	margin: 0px;
@@ -52,7 +52,7 @@ label
 	transition: box-shadow 0.25s;
 	background: white;
 }
-a .avatar img:hover
+a .avatar img:hover, .avatar a img:hover
 {
 	box-shadow: 0px 2px 2px #777;
 }
@@ -330,8 +330,8 @@ input.danger:hover
 	#menu-holder {left: 0px !important;}
 }
 
-/* 
- * TO BE SORTED 
+/*
+ * TO BE SORTED
  */
 
 .user-box
@@ -344,7 +344,7 @@ input.danger:hover
     background: #F5F5F5;
     margin: 5px;
     border-radius: 5px;
-    box-shadow: 1px 1px 1px silver; 
+    box-shadow: 1px 1px 1px silver;
 }
 .user-box .default, .user-box .friend-label
 {
@@ -457,7 +457,7 @@ form.thin
 }
 .no-drag /* prevents images from being draggable */
 {
-	user-drag: none; 
+	user-drag: none;
 	-moz-user-select: none;
 	-webkit-user-drag: none;
 }
