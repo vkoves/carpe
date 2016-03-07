@@ -77,6 +77,7 @@ function ScheduleItem() //The
 		var hours = (parseInt(elem.css("top")))/gridHeight;
 		var newDate = new Date(dateString + " " + hours + ":" + paddedMinutes(this.startDateTime));
 		this.setStartDateTime(newDate, resize);
+		this.tempElement = elem;
 	};
 
 	this.resizeComplete = function(elem)
@@ -706,8 +707,8 @@ function populateEvents()
 			{
 				var currentElem = eventObj.tempElement.clone();
 				$(".sch-day-col:eq(" + i + ") .col-snap").append(currentElem);
-
-}		}
+			}
+		}
 	}
 	addDrag(".col-snap .sch-evnt"); // Re-enables the events to snap onto the date columns here.
 }
