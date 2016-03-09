@@ -14,12 +14,12 @@
 		</span>
 	</div>
 	<span class="header-text">
-		&nbsp; 
-		<a href="/">Home</a> &nbsp; &nbsp; 
+		&nbsp;
+		<a href="/">Home</a> &nbsp; &nbsp;
 		<% if current_user %>
 			<a href="/schedule" class="<%= current_page?('/schedule') ? 'active' : ''%>">My Schedule</a>
 			<%= form_tag("/search_users", method: "get", id: "users-search") do %>
-			  <%= text_field_tag(:q, nil, placeholder: "Search people") %>
+			  <%= text_field_tag(:q, nil, placeholder: "Search people", autocomplete: "off") %>
 			<% end %>
 		<% end %>
 	</span>
@@ -58,7 +58,7 @@
 				<div style="text-align:center;">
 					<%= image_tag "SegoeUIEmoji-People.png" %>
 					<span style="font-size: 18px; padding-bottom: 10px;">You have no friend requests right now.</span><br/>
-					<span style="font-size: 14px; padding-bottom: 10px;">Looking for someone? &nbsp; 
+					<span style="font-size: 14px; padding-bottom: 10px;">Looking for someone? &nbsp;
 					<a href="/find_friends" style="font-size: 14px; padding-bottom: 10px; color:Orange;">You can find them here.</a> </span>
 				</div> -->
 			<% end %>
@@ -72,7 +72,7 @@
 					<div><%= n.sender.name %> <%= n.message %></div>
 				</div>
 			<% end %>
-		</div>		
+		</div>
 	<% end %>
 	<div id="user-name-panel" class="carpe-color">
 	<% if current_user %>
@@ -98,7 +98,7 @@
 	<% else %>
 		<span class="header-logintext">
 		<%= link_to "Sign up", new_user_registration_path %> or
-		<%= link_to "Sign in", new_user_session_path %> <!-- | --> 
+		<%= link_to "Sign in", new_user_session_path %> <!-- | -->
 		<%#= link_to "Sign in with Google", user_omniauth_authorize_path(:google_oauth2) %>
 		</span>
 		</div>

@@ -197,7 +197,8 @@
 }
 #notif-panel .notif #user-avatar img
 {
-	height: 100%;
+	height: 36px;
+	width: 36px;
 	min-width: 0px;
 	margin-top: 0px;
 }
@@ -247,15 +248,21 @@
     border-radius: 100%;
     display: inline-block;
     float: right;
+    background-size: 100%;
+    background-repeat: no-repeat;
 }
 #notif-panel .confirm
 {
 	background-color: #00AF00;
 	margin-left: 5px;
+	background-image: image-url("checkmark-wht.png");
 }
 #notif-panel .deny
 {
 	background-color: #FF4242;
+	background-image: image-url("closeThick-wht.svg");
+	background-size: 60%;
+    background-position: 50%;
 }
 #users-search
 {
