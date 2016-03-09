@@ -619,10 +619,11 @@ input[readonly="readonly"]
 #week-date
 {
 	position: relative;
-    top: 1px;
+    top: -1px;
     width: 75px;
     height: 20px;
-    padding: 4px 25px 1px 10px;
+    padding: 3px 30px 2px 10px;
+	font-family: 'Open Sans', sans-serif;
     font-size: 14px;
     color: #999999;
     background-image: image-url("calendar.svg");
