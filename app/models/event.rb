@@ -1,14 +1,14 @@
 class Event < ActiveRecord::Base
   belongs_to :user
   belongs_to :category
-  
+
   def events_in_range(start_datetime, end_datetime) #returns the repeat copies of the event
      arr = []
-     if repeat
+     if repeat and !repeat.empty?
       dates = (start_datetime...end_datetime).to_a #create an array of all dates in the range
-       
+
       if repeat == "daily" #use all dates
-        #do nothing!     
+        #do nothing!
       elsif repeat == "weekly"
         dates = dates.select{|i| i.wday == date.wday}
       elsif repeat == "monthly"
@@ -16,7 +16,7 @@ class Event < ActiveRecord::Base
       elsif repeat == "yearly"
         dates = dates.select{|i| i.yday == date.yday}
       end
-      
+
       dates.each do |date| #go through all the dates
         newEvent = self.dup #duplicate the base element without creating a database clone
         newEvent.date = self.date.change(day: date.day, month: date.month, year: date.year) #and determine the new start date
@@ -28,7 +28,7 @@ class Event < ActiveRecord::Base
      end
      return arr
   end
-  
+
   #returns whether the event is currently going on
   def current?
     if self.date.past? and self.end_date.future? #if it started some time ago and ends some time from now
