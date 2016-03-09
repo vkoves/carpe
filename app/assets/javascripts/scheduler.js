@@ -528,7 +528,6 @@ function handleClone(elem, ui)
 //called on new events dragged from the sidebar
 function handleNewEvent(elem)
 {
-	console.log("Test");
 	var schItem = new ScheduleItem();
 	schItem.startDateTime = new Date();
 	schItem.startDateTime.setMinutes(0);
@@ -637,11 +636,6 @@ function addDates(currDate, refresh)
 		startDate = date - 6;
 	else
 		startDate = date - day + 1;
-
-	console.log("Startdate: " + startDate);
-	console.log("lastDatePrev: " + lastDatePrev);
-	console.log("lastDateCurr: " + lastDateCurr);
-	console.log("mo:" + month);
 
 	if(startDate <= 0) //if the start is in the last month
 	{
