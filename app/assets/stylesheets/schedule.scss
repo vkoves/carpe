@@ -591,9 +591,14 @@ input[readonly="readonly"]
 	top: 5px;
 	right: 5px;
 	width: 22px;
+	height: 22px;
 	padding: 2px 1px 2px 3px;
 	border-radius: 50px;
 	text-align: center;
+	background-image: image-url("closeThick-wht.svg");
+	background-repeat: no-repeat;
+	background-size: 60%;
+    background-position: 50%;
 }
 .overlay-box #repeat
 {
