@@ -282,6 +282,7 @@
 }
 .evnt-title
 {
+	font-size: 14px;
 	font-weight:bold;
 	width: 69%;
 	margin-left: 52px;
@@ -293,6 +294,10 @@
 	overflow: hidden;
 	transition: all 0.3s;
 	cursor: pointer;
+}
+#sch-tiles .evnt-title
+{
+	font-size: 16px;
 }
 .col-snap .evnt-title:hover, .col-snap .evnt-title:focus
 {
@@ -640,7 +645,36 @@ input[readonly="readonly"]
 }
 #ui-datepicker-div
 {
+	font-family: 'Open Sans', sans-serif;
 	margin-top: 5px;
+}
+.ui-datepicker th
+{
+	padding: .4em .3em;
+	color: #595959;
+}
+/*
+.ui-datepicker-calendar tbody td a
+{
+	transition: all 0.2s;
+} */
+#ui-datepicker-div .ui-state-default
+{
+	color: #BBBBBB;
+	background: #F9F9F9;
+}
+#ui-datepicker-div .ui-state-active, #ui-datepicker-div .ui-state-hover
+{
+	color: #ED7D31;
+	background: #FFFFFF;
+}
+#ui-datepicker-div .ui-state-highlight
+{
+	background: #FFF4E1;
+}
+.ui-datepicker .ui-datepicker-header
+{
+	background: orange;
 }
 #save-checkmark
 {
