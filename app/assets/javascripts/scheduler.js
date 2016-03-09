@@ -621,7 +621,7 @@ function addDates(currDate, refresh)
 	var month = currDate.getMonth();
 	var year = currDate.getFullYear();
 	var startDate;
-	var lastDateCurr = new Date(year, month, 0).getDate();
+	var lastDateCurr = new Date(year, month+1, 0).getDate(); //get the last date of the current month by getting the day before 1 on the next month
 	var lastDatePrev = new Date(year, month, 0).getDate();
 	var lastMonth = false;
 
@@ -637,6 +637,11 @@ function addDates(currDate, refresh)
 		startDate = date - 6;
 	else
 		startDate = date - day + 1;
+
+	console.log("Startdate: " + startDate);
+	console.log("lastDatePrev: " + lastDatePrev);
+	console.log("lastDateCurr: " + lastDateCurr);
+	console.log("mo:" + month);
 
 	if(startDate <= 0) //if the start is in the last month
 	{
@@ -711,6 +716,13 @@ function populateEvents()
 		}
 	}
 	addDrag(".col-snap .sch-evnt"); // Re-enables the events to snap onto the date columns here.
+
+	if(readOnly)
+	{
+		$(".col-snap .sch-evnt").click(function(){
+			showOverlay($(this));
+		});
+	}
 }
 
 //Edit an event's text inline (without the overlay)
@@ -1009,6 +1021,12 @@ function paddedMinutes(date)
 	return minutes;
 }
 
+function paddedNumber(num)
+{
+	var paddedNum = (num < 10? '0' : '') + num; //add zero the the beginning of minutes if less than 10
+	return paddedNum;
+}
+
 //removes cursor highlight
 function removeHighlight()
 {
@@ -1031,10 +1049,17 @@ function highlightCurrent()
 //Used by the next and previous buttons
 function moveWeek(forward)
 {
+	var newDate;
+
 	if(forward) //if next button
-		addDates(new Date(refDate.getYear()+1900,refDate.getMonth(),refDate.getDate()+7), true); //move forward
+		newDate = new Date(refDate.getYear()+1900,refDate.getMonth(),refDate.getDate()+7)
 	else //otherwise
-		addDates(new Date(refDate.getYear()+1900,refDate.getMonth(),refDate.getDate()-7), true); //move back
+		newDate = new Date(refDate.getYear()+1900,refDate.getMonth(),refDate.getDate()-7);
+
+	addDates(newDate, true); //move back
+
+	//And update the date thing. Recall that javascript get month starts at 0 with January, so we append 1 for humans
+	$("#week-date").val(paddedNumber(newDate.getMonth() + 1) + "/" + paddedNumber(newDate.getDate()) + "/" + newDate.getFullYear());
 }
 
 /****************************/
