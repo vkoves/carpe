@@ -22,8 +22,8 @@ class Event < ActiveRecord::Base
         newEvent.date = self.date.change(day: date.day, month: date.month, year: date.year) #and determine the new start date
         newEvent.end_date = newEvent.date + (self.end_date - self.date) #determine proper end datetime by adding event duration to the proper start
 
-        if newEvent.date.utc.in_time_zone("Central Time (US & Canada)").dst? != Time.now.utc.in_time_zone("Central Time (US & Canada)").dst? #if the date is in daylight savings, but we are not, or vice versa
-          if newEvent.date.utc.in_time_zone("Central Time (US & Canada)").dst?
+        if self.date.utc.in_time_zone("Central Time (US & Canada)").dst? != Time.now.utc.in_time_zone("Central Time (US & Canada)").dst? #if the date is in daylight savings, but we are not, or vice versa
+          if self.date.utc.in_time_zone("Central Time (US & Canada)").dst?
             newEvent.date = newEvent.date + 1.hour
             newEvent.end_date = newEvent.end_date + 1.hour
           else
