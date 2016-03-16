@@ -21,6 +21,17 @@ class Event < ActiveRecord::Base
         newEvent = self.dup #duplicate the base element without creating a database clone
         newEvent.date = self.date.change(day: date.day, month: date.month, year: date.year) #and determine the new start date
         newEvent.end_date = newEvent.date + (self.end_date - self.date) #determine proper end datetime by adding event duration to the proper start
+
+        if newEvent.date.dst? != Time.now.dst? #if the date is in daylight savings, but we are not, or vice versa
+          if newEvent.date.dst?
+            newEvent.date = newEvent.date + 1.hour
+            newEvent.end_date = newEvent.end_date + 1.hour
+          else
+            newEvent.date = newEvent.date - 1.hour
+            newEvent.end_date = newEvent.end_date - 1.hour
+          end
+        end
+
         arr.append(newEvent) #append to output array
       end
      else
