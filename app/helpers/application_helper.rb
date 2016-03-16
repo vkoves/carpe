@@ -2,6 +2,15 @@ module ApplicationHelper
   def relative_time_ago (datetime, start_caps)
     datetime = datetime.utc.in_time_zone("Central Time (US & Canada)")
     now = Time.now.in_time_zone("Central Time (US & Canada)")
+
+    if datetime.dst? != now.dst? #if the date is in daylight savings, but we are not, or vice versa
+      if datetime.dst?
+        datetime = datetime + 1.hour
+      else
+        datetime = datetime - 1.hour
+      end
+    end
+
     tomorrow = Time.now.tomorrow.in_time_zone("Central Time (US & Canada)")
     yesterday = Time.now.yesterday.in_time_zone("Central Time (US & Canada)")
 

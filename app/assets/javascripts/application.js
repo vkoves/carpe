@@ -80,6 +80,7 @@ var ready = function()
 	$(function() {
 	  $("#users-search input[type=text]").tokenInput("/search_users.json", {
 	    crossDomain: false,
+	    placeholder: "Search people",
 	    onAdd: function(value)
 	    {
 	    	console.log(value); //returns the JSON object of the selected user
