@@ -157,8 +157,6 @@ function scheduleReady()
 	{
 		loadInitialEvents();
 
-		setTitles();
-
 		sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
 		schHTML = $("#sch-days").html(); //The HTML for the scheduler days layout, useful for when days are refreshed
 
@@ -320,6 +318,8 @@ function loadInitialEvents() //load events into the hashmap
 			schItem.eventId = evnt.id;
 			schItem.categoryId = evnt.category_id;
 			schItem.repeatType = evnt.repeat;
+			schItem.description = evnt.description;
+			schItem.location = evnt.location;
 			schItem.tempId = i;
 			scheduleItems[i] = schItem;
 
@@ -798,14 +798,6 @@ function hideOverlay()
 {
 	//Hide overlay, the repeat menu and category and event overlays
 	$(".ui-widget-overlay, #repeat-menu, .overlay-box, .cat-overlay-box").hide();
-}
-
-function setTitles()
-{
-	$(".evnt-desc").each(function(index, desc)
-	{
-		$(desc).attr("title", $(desc).text());
-	});
 }
 
 //Update the color of the category overlay from a color being picked

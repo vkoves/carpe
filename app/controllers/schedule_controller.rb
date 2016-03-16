@@ -87,6 +87,7 @@ class ScheduleController < ApplicationController
     end
 
     render :json => new_event_ids
+    #render :json => params[:map] #useful for seeing what data was passed
   end
 
   def delete_event #delete events
