@@ -176,5 +176,5 @@
 	<% current_user ? id = current_user.id : id = -1 %>
 	var userId = <%= id %>;
 	<% current_user and current_user.admin ? admn = true : admn = false %>
-	var admin = <%= admn %>;
+	var admin = <%= admn ? true : false %>;
 </script>
