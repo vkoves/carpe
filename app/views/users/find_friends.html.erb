@@ -10,21 +10,18 @@
 		<% end %>
 	</h3>
 	<% if @users != nil %>
-		<% users = @users %> 
+		<% users = @users %>
 		<h3>Showing results for "<%= params[:q] %>"</h3>
-	<% else 
+	<% else
 		users = User.all
 	end %>
-	
+
 	<% if users.size > 0 %>
 	<% users = users.sort_by{|u| -current_user.mutual_friends(u).count }%>
 	<% users.each do |user| %>
 		<% status = current_user.friend_status(user) %>
 		<% if current_user != user and status != "friend"  %>
-			
 			<%= render "shared/user_box", user: user, status: status %>
-			
-			
 		<% end %>
 	<% end %>
 	<% else %>
