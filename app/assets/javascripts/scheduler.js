@@ -219,6 +219,7 @@ function addStartingListeners()
 
 		//get the text of the button
 		var repType = $(this).text().toLowerCase();
+		console.log("Rep type is " + repType);
 		currEvent.attr("rep-type", repType); //and set the repeat type attribute
 
 		//then update the repeat type without going through push event info
@@ -774,10 +775,8 @@ function showOverlay(elem)
 
 		//Select the proper repeat button
 		$(".repeat-option").removeClass("red");
-		if($(elem).attr("rep-type"))
-		{
-			$("#repeat-" + $(elem).attr("rep-type")).addClass("red");
-		}
+		var rep = item.repeatType || "none";
+		$("#repeat-" + rep).addClass("red");
 
 		$(".ui-widget-overlay, .overlay-box").show();
 
