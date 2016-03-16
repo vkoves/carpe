@@ -18,19 +18,21 @@ module ApplicationHelper
         end
       end
 
-      if(hours_diff > 0) #in the future
-        if(hours_diff < 5) #less than five hours away
-          return  pluralize(hours_diff, 'hour') + " from now"
-        else
-          time_format = "today at %l:%M %p"
-        end
-      else #in the past
-        if(hours_diff.abs < 5) #less than five hours away
-          return  pluralize(hours_diff.abs, 'hour') + " ago"
-        else
-          time_format = "today at %l:%M %p"
-        end
-      end
+      time_format = "%l:%M %p" #anything today that's not an hour away, say this
+
+      # if(hours_diff > 0) #in the future
+      #   if(hours_diff < 5) #less than five hours away
+      #     return  pluralize(hours_diff, 'hour') + " from now"
+      #   else
+      #     time_format = "today at %l:%M %p"
+      #   end
+      # else #in the past
+      #   if(hours_diff.abs < 5) #less than five hours away
+      #     return  pluralize(hours_diff.abs, 'hour') + " ago"
+      #   else
+      #     time_format = "today at %l:%M %p"
+      #   end
+      # end
     elsif(datetime.to_date == tomorrow.to_date) #It's tomorrow
       time_format = "tomorrow at %l:%M %p"
     elsif(datetime.to_date == yesterday.to_date) #It's yesterday
@@ -46,7 +48,7 @@ module ApplicationHelper
         end
       elsif(days_diff > 0) #in the future
         if(days_diff < 7) #in the next week
-          time_format = "on %A at %l:%M %p"
+          time_format = "%A at %l:%M %p"
         else
           return pluralize(days_diff, 'day') + " from now"
         end
@@ -80,7 +82,7 @@ module ApplicationHelper
     if(event.end_date.past?)
       end_string = ", ended "
     else
-      end_string = ", ending "
+      end_string = ", ends "
     end
 
     #Then just return relative

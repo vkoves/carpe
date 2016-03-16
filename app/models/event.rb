@@ -15,6 +15,8 @@ class Event < ActiveRecord::Base
         dates = dates.select{|i| i.mday == date.mday}
       elsif repeat == "yearly"
         dates = dates.select{|i| i.yday == date.yday}
+      else #this event doesn't repeat!
+        dates = dates.select{|i| i.to_date == date.to_date}
       end
 
       dates.each do |date| #go through all the dates
