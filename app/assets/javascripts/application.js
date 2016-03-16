@@ -16,6 +16,7 @@
 //= require jquery-ui
 //= require jquery.ui.touch-punch.min
 //= require local_time
+//= require jquery.tokeninput
 
 // require jquery-ui.min
 // Removed to prevent schedule js being loaded everywhere
@@ -30,12 +31,12 @@ var ready = function()
 		$("#user-panel").slideToggle(300);
 		$("#notif-panel").slideUp(300);
 	});
-	
+
 	$(".bell-hold").click(function()
 	{
 		$("#notif-panel").slideToggle(300);
 		$("#user-panel").slideUp(300);
-		
+
 		if($(".bell-hold #num").is(":visible")) //if the notification count is visible
 		{
 			//send a request indicating notifications were read
@@ -55,15 +56,16 @@ var ready = function()
 			});
 		}
 	});
-	
+
 	$("#header-mob-menu").click(function()
 	{
 		$("#mobile-menu").slideToggle(300);
 	});
-	
+
 	$("#sidebar-button").click(function()
 	{
-		if(parseInt($("#sidebar").css("right")) < 0)		{
+		if(parseInt($("#sidebar").css("right")) < 0)
+		{
 			$("#sidebar-button").css("right", "340px");
 			$("#sidebar").css("right", "0%");
 		}
@@ -72,6 +74,18 @@ var ready = function()
 			$("#sidebar-button").css("right", "0%");
 			$("#sidebar").css("right", "-340px");
 		}
+	});
+
+	//Tokenizer shenanigans
+	$(function() {
+	  $("#users-search input[type=text]").tokenInput("/search_users.json", {
+	    crossDomain: false,
+	    onAdd: function(value)
+	    {
+	    	console.log(value); //returns the JSON object of the selected user
+	    	location.href = "/u/" + value.id;
+	    }
+	  });
 	});
 };
 

@@ -14,4 +14,5 @@ Rails.application.config.assets.precompile += %w( jquery-ui.min.css )
 Rails.application.config.assets.precompile += %w( header.css )
 Rails.application.config.assets.precompile += %w( activity.css )
 Rails.application.config.assets.precompile += %w( scheduler.js )
-
+Rails.application.config.assets.precompile += %w( token-input-facebook.css )
+Rails.application.config.assets.precompile += %w( token-input.css )

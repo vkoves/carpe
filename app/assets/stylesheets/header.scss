@@ -277,7 +277,7 @@
     font-family: 'Open Sans', sans-serif;
     padding-left: 10px;
     padding-right: 30px;
-    width: 120px;
+    width: 120px !important;
     border-radius: 4px;
     box-shadow: 0px 0px 1px #CECECE;
     border: solid 1px #CECECE;
@@ -288,10 +288,30 @@
     background-position: 97% 45%;
     transition: width 0.4s;
 }
+.token-input-input-token input
+{
+	border: none;
+	background: transparent;
+}
 #users-search input:focus
 {
 	outline: none;
-	width: 170px;
+	width: 170px !important;
 	border-color: #C0BABA;
 }
+#users-search ul
+{
+	padding: 0;
+	margin: 0;
+}
+#users-search li, .token-input-dropdown li
+{
+	list-style: none;
+}
+.token-input-dropdown
+{
+	background: lightgrey;
+	width: 220px;
+}
+
 /* END HEADER CSS */
