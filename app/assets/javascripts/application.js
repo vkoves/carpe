@@ -84,6 +84,12 @@ var ready = function()
 	    {
 	    	console.log(value); //returns the JSON object of the selected user
 	    	location.href = "/u/" + value.id;
+	    },
+	    resultsFormatter(element)
+	    {
+	    	console.log(element);
+	    	img_url = element.image_url || "http://www.gravatar.com/avatar/?d=mm";
+	    	return "<li>" + "<div class='avatar search-avatar'><img src='" + img_url + "'></div><div class='name'>" + element.name + "</div></li>";
 	    }
 	  });
 	});

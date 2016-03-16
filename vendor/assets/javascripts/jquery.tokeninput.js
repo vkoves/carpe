@@ -192,11 +192,11 @@ $.TokenList = function (input, url_or_data, settings) {
         .attr("id", settings.idPrefix + input.id)
         .focus(function () {
             if (settings.tokenLimit === null || settings.tokenLimit !== token_count) {
-                show_dropdown_hint();
+                show_dropdown();
             }
         })
         .blur(function () {
-            //hide_dropdown();
+            hide_dropdown();
             //$(this).val("");
         })
         .bind("keyup keydown blur update", resize_input)
@@ -632,8 +632,9 @@ $.TokenList = function (input, url_or_data, settings) {
 
     // Hide and clear the results dropdown
     function hide_dropdown () {
-        dropdown.hide().empty();
-        selected_dropdown_item = null;
+        //dropdown.hide().empty();
+        dropdown.hide();
+        //selected_dropdown_item = null;
     }
 
     function show_dropdown() {
