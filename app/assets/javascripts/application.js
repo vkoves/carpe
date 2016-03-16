@@ -81,14 +81,14 @@ var ready = function()
 	  $("#users-search input[type=text]").tokenInput("/search_users.json", {
 	    crossDomain: false,
 	    placeholder: "Search people",
+	    searchDelay: 0,
+	    animateDropdown: false,
 	    onAdd: function(value)
 	    {
-	    	console.log(value); //returns the JSON object of the selected user
 	    	location.href = "/u/" + value.id;
 	    },
 	    resultsFormatter: function(element)
 	    {
-	    	console.log(element);
 	    	img_url = element.image_url || "http://www.gravatar.com/avatar/?d=mm";
 	    	return "<li>" + "<div class='avatar search-avatar'><img src='" + img_url + "'></div><div class='name'>" + element.name + "</div></li>";
 	    }

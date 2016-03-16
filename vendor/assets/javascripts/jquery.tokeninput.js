@@ -199,6 +199,11 @@ $.TokenList = function (input, url_or_data, settings) {
             hide_dropdown();
             //$(this).val("");
         })
+        .keyup(function()
+        {
+            if($(this).val().length == 0)
+                hide_dropdown();
+        })
         .bind("keyup keydown blur update", resize_input)
         .keydown(function (event) {
             var previous_token;
@@ -244,6 +249,7 @@ $.TokenList = function (input, url_or_data, settings) {
                     break;
 
                 case KEY.BACKSPACE:
+                    console.log("BACKSPACE: " + $(this).val().length);
                     previous_token = input_token.prev();
 
                     if(!$(this).val().length) {
@@ -650,7 +656,7 @@ $.TokenList = function (input, url_or_data, settings) {
 
     function show_dropdown_searching () {
         if(settings.searchingText) {
-            dropdown.html("<p>"+settings.searchingText+"</p>");
+            //dropdown.html("<p>"+settings.searchingText+"</p>");
             show_dropdown();
         }
     }

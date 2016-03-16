@@ -29,9 +29,13 @@ class UsersController < ApplicationController
     end
 
     if q != "" #only search if it's not silly
-      @users = User.where('name LIKE ?', "%#{q}%")
+      if request.path_parameters[:format] == 'json'
+        @users = User.where('name LIKE ?', "%#{q}%").limit(10)
+      else
+        @users = User.where('name LIKE ?', "%#{q}%")
+      end
     else
-      @users = User.all
+      @users = User.last(10)
     end
 
     respond_to do |format|
