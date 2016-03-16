@@ -202,7 +202,7 @@ $.TokenList = function (input, url_or_data, settings) {
         .keyup(function()
         {
             if($(this).val().length == 0)
-                hide_dropdown();
+                dropdown.hide().empty();
         })
         .bind("keyup keydown blur update", resize_input)
         .keydown(function (event) {
