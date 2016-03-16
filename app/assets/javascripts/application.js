@@ -76,7 +76,7 @@ var ready = function()
 		}
 	});
 
-	//Tokenizer shenanigans
+	//Tokenizer s0henanigans
 	$(function() {
 	  $("#users-search input[type=text]").tokenInput("/search_users.json", {
 	    crossDomain: false,
@@ -85,7 +85,7 @@ var ready = function()
 	    	console.log(value); //returns the JSON object of the selected user
 	    	location.href = "/u/" + value.id;
 	    },
-	    resultsFormatter(element)
+	    resultsFormatter: function(element)
 	    {
 	    	console.log(element);
 	    	img_url = element.image_url || "http://www.gravatar.com/avatar/?d=mm";
