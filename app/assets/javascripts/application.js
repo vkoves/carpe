@@ -110,6 +110,33 @@ var ready = function()
 		}
 	});
 
+	//Promote buttons
+	$(".promotion span").parent().bind('ajax:success', function(event, data, status, xhr){
+		if(data && data["action"] && data["action"] == "promote")
+		{
+			console.log(data);
+			console.log($(this).attr("uid"));
+			console.log(data["uid"]);
+			if($(this).attr("uid") == parseInt(data["uid"]))
+			{
+				var href = $(this).attr("href");
+				var span = $(this).find("span");
+				if($(this).hasClass("red"))
+				{
+					$(this).attr("href", href.split("&")[0]);
+					fadeToText(span, "Promote");
+				}
+				else
+				{
+					$(this).attr("href", href + "&de=true");
+					fadeToText(span, "Demote");
+				}
+				$(this).toggleClass("red");
+
+			}
+		}
+	});
+
 
 	//Tokenizer shenanigans
 	$(function() {
@@ -179,8 +206,10 @@ function friendRequestAction(fid, confirm)
 	}, 150);
 }
 
-function fadeToText(elem, newText)
+function fadeToText(elem, newText, duration) //the element to fade on, the new text, and an optional duration
 {
+	var dur = duration || 500; //default duration of 500ms
+
 	var width_orig = Math.ceil(parseInt(elem.css("width"))); //round up the current width
 	var color_orig = elem.css("color"); //get the starting color
 
@@ -189,9 +218,9 @@ function fadeToText(elem, newText)
 	elem.css("min-width", width_orig); //and set the min width to the original width
 	elem.css("white-space", "nowrap");
 
-	elem.animate({'color': "rgba(0,0,0,0)"}, {duration: 500, queue: false, complete: function () //then animate to transparent
+	elem.animate({'color': "rgba(0,0,0,0)"}, {duration: dur/2, queue: false, complete: function () //then animate to transparent
 	{
 	    $(this).text(newText); //instantly change the text
-	    elem.animate({'color': color_orig, 'max-width': 500, 'min-width': 0},{duration: 500, queue: false}); //and animate back
+	    elem.animate({'color': color_orig, 'max-width': 500, 'min-width': 0},{duration: dur/2, queue: false}); //and animate back
 	}});
 }

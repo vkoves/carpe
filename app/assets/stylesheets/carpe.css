@@ -355,7 +355,7 @@ input.danger:hover
 {
 	margin-bottom: 5px;
 }
-.user-box .default span, .user-box .friend-label
+.user-box .default span, .user-box .friend-label, .user-box span.default
 {
 	width: 100px;
 }

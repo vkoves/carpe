@@ -15,15 +15,17 @@
 
 	<% if @show_promote %>
 		<!-- Show promotion and demotion admin buttons -->
-		<% if user.admin and user != current_user %>
-			<a href="/promote?id=<%= user.id %>&de=true" class="default red">
-				<span>Demote</span>
-			</a>
-		<% elsif user != current_user %>
-			<a href="/promote?id=<%= user.id %>" class="default">
-				<span>Promote</span>
-			</a>
-		<% end %>
+		<div class="promotion">
+			<% if user.admin and user != current_user %>
+				<%= link_to "/promote?id=" + user.id.to_s + "&de=true", :class => "default red", :remote => true, "uid" => user.id.to_s do %>
+					<span>Demote</span>
+				<% end %>
+			<% elsif user != current_user %>
+				<%= link_to "/promote?id=" + user.id.to_s, :class => "default", :remote => true, "uid" => user.id.to_s do %>
+					<span>Promote</span>
+				<% end %>
+			<% end %>
+		</div>
 	<% end %>
 
 	<% if @group and !@group.users.include? user %>

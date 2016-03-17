@@ -9,7 +9,9 @@ class PagesController < ApplicationController
       end
       @user.save
     end
-    redirect_to "/users"
+
+    #redirect_to "/users"
+    render :json => {"action" => "promote", "uid" => params[:id]}
   end
 
   def admin #admin page

@@ -38,12 +38,12 @@
 				Friend Requests
 				<% friend_requests.each do |n| %>
 					<div class="notif" fid="<%= n.id %>">
-						<a href="/u/<%= n.user_id %>">
+						<%= link_to(n.user) do %>
 							<div id="user-avatar">
-								<img src="<%= User.find(n.user_id).user_avatar(90) %>">
+								<img src="<%= n.user.user_avatar(90) %>">
 							</div>
-						</a>
-						<span><%= User.find(n.user_id).name %></span>
+						<% end %>
+						<span><%= n.user.name %></span>
 						<%= link_to "/confirm_friend?id=" + n.id.to_s, :method => :post, :remote => true do %>
 							<div class="confirm"></div>
 						<% end %>
