@@ -27,9 +27,11 @@ class FriendshipsController < ApplicationController
       notif.sender = current_user
       notif.receiver = @friendship.user #the person creating the friendship should get this notification
       notif.message = " accepted your friend request!"
-      notif.save
+      #notif.save
     end
-    redirect_to "/u/" + current_user.id.to_s
+
+    #redirect_to "/u/" + current_user.id.to_s
+    render :json => {"action" => "confirm_friend", "fid" => params[:id]}
   end
 
   def deny #mark a friendship as not confirmed
@@ -39,6 +41,8 @@ class FriendshipsController < ApplicationController
       @friendship.confirmed = false;
       @friendship.save
     end
-    redirect_to "/u/" + current_user.id.to_s
+
+    #redirect_to "/u/" + current_user.id.to_s
+    render :json => {"action" => "deny_friend", "fid" => params[:id]}
   end
 end

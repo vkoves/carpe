@@ -37,17 +37,17 @@
 			<% if friend_requests.size > 0 %>
 				Friend Requests
 				<% friend_requests.each do |n| %>
-					<div class="notif">
+					<div class="notif" fid="<%= n.id %>">
 						<a href="/u/<%= n.user_id %>">
 							<div id="user-avatar">
 								<img src="<%= User.find(n.user_id).user_avatar(90) %>">
 							</div>
 						</a>
 						<span><%= User.find(n.user_id).name %></span>
-						<%= link_to "/confirm_friend?id=" + n.id.to_s, :method => :post do %>
+						<%= link_to "/confirm_friend?id=" + n.id.to_s, :method => :post, :remote => true do %>
 							<div class="confirm"></div>
 						<% end %>
-						<%= link_to "/deny_friend?id=" + n.id.to_s, :method => :post do %>
+						<%= link_to "/deny_friend?id=" + n.id.to_s, :method => :post, :remote => true do %>
 							<div class="deny"></div>
 						<% end %>
 					</div>

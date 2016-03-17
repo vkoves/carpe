@@ -76,28 +76,42 @@ var ready = function()
 		}
 	});
 
+	//Add friend button front end
 	$(".friend-button").bind('ajax:success', function(event, data, status, xhr){
 		if(data)
 		{
-			console.log("Data: " + data);
 			var newElem = $(".friend-button[uid=" + data + "]");
-			console.log(newElem);
 			friendRequest(newElem);
 		}
-		else
-			alert("Something went wrong submitting the friend request!");
 	});
 
+	//Delete friend button front end
 	$(".friend-remove").bind('ajax:success', function(event, data, status, xhr){
 		if(data)
 		{
-			console.log(data);
-			$(".friend-remove[fid=" + data + "]").parents(".friend-listing").fadeOut();
+			$(".friend-remove[fid=" + data + "]").parents(".friend-listing").fadeOut(); //and remove friend listing
 		}
-
 	});
 
-	//Tokenizer s0henanigans
+	//Deny friend request
+	$(".notif .deny").parent().bind('ajax:success', function(event, data, status, xhr){
+		if(data && data["action"] && data["action"] == "deny_friend")
+		{
+			friendRequestAction(data["fid"], false);
+		}
+	});
+
+
+	//Accept friend request
+	$(".notif .confirm").parent().bind('ajax:success', function(event, data, status, xhr){
+		if(data && data["action"] && data["action"] == "confirm_friend")
+		{
+			friendRequestAction(data["fid"], true);
+		}
+	});
+
+
+	//Tokenizer shenanigans
 	$(function() {
 	  $("#users-search input[type=text]").tokenInput("/search_users.json", {
 	    crossDomain: false,
@@ -147,6 +161,22 @@ function friendRequest(elem)
 	//Sadly this is the easiest way to make this work. Classes just don't cut it here
 	span.animate({'background-color': "#5B5BFF"}, {duration: 500, queue: false});
 	span.removeClass("green default").addClass("friend-label");
+}
+
+function friendRequestAction(fid, confirm)
+{
+	var notif = $(".notif[fid=" + fid + "]");
+
+	var icon;
+	if(confirm)
+		icon = notif.find(".confirm");
+	else
+		icon = notif.find(".deny");
+
+	icon.animate({'background-color': "white"}, 300);
+	setTimeout(function(){
+		notif.fadeOut();
+	}, 150);
 }
 
 function fadeToText(elem, newText)
