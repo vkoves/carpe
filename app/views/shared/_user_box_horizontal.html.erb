@@ -36,9 +36,10 @@
 				<% @events.each do |e| %>
 					<% if e.current? %>
 						<% if free %>
-							Busy
 							<% if e.category.has_access(current_user) %>
-								with <a class="simple" href="/u/<%= user.id %>?p=schedule"><%= e.name %></a>
+								<a class="simple" href="/u/<%= user.id %>?p=schedule"><%= e.name %></a> till <%= relative_time_ago(e.end_date, false) %>
+							<% else %>
+								Busy
 							<% end %>
 							<% free = false %>
 						<% else %>
