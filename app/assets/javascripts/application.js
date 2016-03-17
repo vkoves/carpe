@@ -76,8 +76,25 @@ var ready = function()
 		}
 	});
 
-	$(".friend-button").bind('ajax:success', function(){
-		friendRequest($(this));
+	$(".friend-button").bind('ajax:success', function(event, data, status, xhr){
+		if(data)
+		{
+			console.log("Data: " + data);
+			var newElem = $(".friend-button[uid=" + data + "]");
+			console.log(newElem);
+			friendRequest(newElem);
+		}
+		else
+			alert("Something went wrong submitting the friend request!");
+	});
+
+	$(".friend-remove").bind('ajax:success', function(event, data, status, xhr){
+		if(data)
+		{
+			console.log(data);
+			$(".friend-remove[fid=" + data + "]").parents(".friend-listing").fadeOut();
+		}
+
 	});
 
 	//Tokenizer s0henanigans
@@ -119,7 +136,6 @@ $(document).on('page:load', ready);
 //called by a friend request button
 function friendRequest(elem)
 {
-	var elem = $(".default.green");
 	var span = elem.find("span");
 	span.unwrap().addClass("default green");
 	//span.css("transition", "all 0.5s");
