@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   has_many :users_groups
   has_many :groups, :through => :users_groups
   has_many :notifications, :class_name => 'Notification', :foreign_key => 'receiver_id'
-  
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -16,10 +16,10 @@ class User < ActiveRecord::Base
 
 	has_many :categories
 	has_many :events
-	
+
 	def destroy
 	end
-	
+
 	def user_avatar(size) #returns a url to the avatar with the width in pixels
 	 if image_url.present? and provider #if using google icon, add a size param
 	   return image_url.split("?")[0] + "?sz=" + size.to_s
@@ -29,42 +29,42 @@ class User < ActiveRecord::Base
 	   return "http://www.gravatar.com/avatar/?d=mm"
 	 end
 	end
-	
+
 	def all_friendships() #returns an array of all friendships and friends for easy printing
     all_friends = []
     for fship in friendships
       if fship.confirmed
         all_friends.push([fship, fship.friend])
       end
-    end 
-    
+    end
+
     # Inverse friends are when the other person added you, so conveniently, we can who added who.
-    for usr in inverse_friends 
+    for usr in inverse_friends
       friendship = Friendship.where(user_id: usr.id, friend_id: id).first
       if friendship.confirmed
         all_friends.push([friendship, usr])
       end
     end
-    
-    return all_friends 
+
+    return all_friends
 	end
-	
+
 	def is_friend?(user) #returns whether the passed user is a friend of this user
 	  friendship = (Friendship.where(user_id: user.id, friend_id: id) || Friendship.where(user_id: id, friend_id: user.id))[0]
-	  
+
     if friendship and friendship.confirmed
 	    return true
 	  else
 	    return false
 	  end
 	end
-	
+
 	def friend_status(user)
 	  friendship = (Friendship.where(user_id: user.id, friend_id: id))[0]
     if !friendship
       friendship = (Friendship.where(user_id: id, friend_id: user.id))[0]
     end
-    
+
     if friendship
       if friendship.confirmed == true
         return "friend"
@@ -72,12 +72,12 @@ class User < ActiveRecord::Base
         return "denied"
       else
         return "pending"
-      end  
+      end
     else
       return nil
     end
 	end
-	
+
 	def events_in_range(start_date_time, end_date_time) #returns all instances of events, including cloned version of repeating events
 	  #fetch not repeating events first
 	  event_instances = self.events.where(:date => start_date_time...end_date_time, :repeat => nil)
@@ -88,34 +88,39 @@ class User < ActiveRecord::Base
     end
 
     event_instances = event_instances.sort_by(&:date) #and of course sort by date
-    
+
     return event_instances #and return
 	end
-	
+
 	def mutual_friends(user) #returns mutual friends with the passed in user
 	  return all_friendships.map{|f| f[1]} & user.all_friendships.map{|f| f[1]}
 	end
-	
+
 	def friends_count() #returns the number of friends the user has
 	  return all_friendships().count
 	end
-	
+
 	def get_events(user) #get events that are acessible to the user
 	 if user == self #if a user is trying to view their own events
 	   return events #return all events
 	 end
-	 
+
 	 arr = [];
-	 
+
 	 events.each do |e|
 	   if e.category.has_access(user)
-	     arr.push(e)
+		arr.push(e)
+	   else
+	   	e.name = "Private"
+	   	e.description = ""
+	   	e.location = ""
+	   	arr.push(e)
 	   end
 	 end
-	 
+
 	 return arr
 	end
-	
+
 	def self.find_for_google_oauth2(access_token, signed_in_resource=nil)
     data = access_token.info
     user = User.where(:provider => access_token.provider, :uid => access_token.uid ).first

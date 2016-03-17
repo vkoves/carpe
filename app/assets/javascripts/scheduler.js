@@ -324,7 +324,13 @@ function loadInitialEvents() //load events into the hashmap
 			scheduleItems[i] = schItem;
 
 			var catParent = $("#sch-tiles .sch-evnt[data-id='" + evnt["category_id"] + "']"); //fetch the category
+
+			if(catParent.length == 0) //if this user doesn't have access to the category, use the cat-template
+				catParent = $("#cat-template");
+
+			console.log(catParent);
 			var clone = catParent.clone();
+			clone.css("display", "block"); //make sure this is visible, just in case it's a child of the cat-template
 			var dateE = new Date(evnt.date);
 			var dateEnd = new Date(evnt.end_date);
 			var time = dateE.getHours() + ":" + paddedMinutes(dateE);
@@ -768,7 +774,7 @@ function showOverlay(elem)
 {
 	var editingEvent = $(document.activeElement).hasClass("evnt-title");
 
-	if(inColumn(elem) && !editingEvent)
+	if(inColumn(elem) && !editingEvent && elem.attr("data-id") != -1) //make sure this is a placed event that isn't private and we aren't already editing
 	{
 		currEvent = elem; //Set the current event to the event being edited
 		var item = scheduleItems[elem.attr("evnt-temp-id")];
