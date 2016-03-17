@@ -247,7 +247,7 @@ function addStartingListeners()
 		var end_val = $("#time-end").val();
 
 		dateTime = new Date(dateE+" "+val);
-		if (isNaN(dateTime.getTime())
+		if (isNaN(dateTime.getTime()))
 			alert("Start date doesn't make sense! Tried \"" + dateE+" "+val + "\"");
 
 		scheduleItems[currEvent.attr("evnt-temp-id")].setStartDateTime(dateTime, true);
@@ -265,7 +265,7 @@ function addStartingListeners()
 		var start_val = $("#time-start").val();
 
 		dateTime = new Date(dateE+" "+val);
-		if (isNaN(dateTime.getTime())
+		if (isNaN(dateTime.getTime()))
 			alert("End date doesn't make sense! Tried \"" + dateE+" "+val + "\"");
 
 		scheduleItems[currEvent.attr("evnt-temp-id")].setEndDateTime(dateTime, true);
