@@ -3,7 +3,7 @@
 <% else %>
 	<% status = current_user.friend_status(user) %>
 	<% if status == nil #not friends %>
-		<%= link_to friendships_path(:friend_id => @user), :method => :post, :class => "default green", :remote => true do %>
+		<%= link_to friendships_path(:friend_id => @user), :method => :post, :remote => true, :class => "default green friend-button" do %>
 			<span>Add Friend</span>
 		<% end %>
 	<% elsif status == "friend" %>

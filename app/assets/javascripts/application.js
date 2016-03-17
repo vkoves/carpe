@@ -76,6 +76,10 @@ var ready = function()
 		}
 	});
 
+	$(".friend-button").bind('ajax:success', function(){
+		friendRequest($(this));
+	});
+
 	//Tokenizer s0henanigans
 	$(function() {
 	  $("#users-search input[type=text]").tokenInput("/search_users.json", {
@@ -111,3 +115,37 @@ $(window).resize(function()
 
 $(document).ready(ready);
 $(document).on('page:load', ready);
+
+//called by a friend request button
+function friendRequest(elem)
+{
+	var elem = $(".default.green");
+	var span = elem.find("span");
+	span.unwrap().addClass("default green");
+	//span.css("transition", "all 0.5s");
+	//span.addClass("friend-label").removeClass("default green");
+
+	var width = Math.ceil(parseInt(span.css("width")));
+	fadeToText(span, "Pending...");
+
+	//Sadly this is the easiest way to make this work. Classes just don't cut it here
+	span.animate({'background-color': "#5B5BFF"}, {duration: 500, queue: false});
+	span.removeClass("green default").addClass("friend-label");
+}
+
+function fadeToText(elem, newText)
+{
+	var width_orig = Math.ceil(parseInt(elem.css("width"))); //round up the current width
+	var color_orig = elem.css("color"); //get the starting color
+
+	elem.css("height", elem.height()); //and enforce height to prevent wrapping
+	elem.css("max-width", width_orig); //set the max width to the original width
+	elem.css("min-width", width_orig); //and set the min width to the original width
+	elem.css("white-space", "nowrap");
+
+	elem.animate({'color': "rgba(0,0,0,0)"}, {duration: 500, queue: false, complete: function () //then animate to transparent
+	{
+	    $(this).text(newText); //instantly change the text
+	    elem.animate({'color': color_orig, 'max-width': 500, 'min-width': 0},{duration: 500, queue: false}); //and animate back
+	}});
+}

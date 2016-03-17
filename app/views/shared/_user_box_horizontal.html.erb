@@ -21,8 +21,8 @@
 		<% if @profile%>
 			<%= user.friends_count %> Friends <br>
 			Friends since: <%= friendship.created_at.strftime("%b. %d, %Y")%> <br>
-			<%= link_to friendships_path(:id => friendship.id), :method => :delete, :class => "default red",
-			:style => "position: relative; top: 5px;" do %>
+			<%= link_to friendships_path(:id => friendship.id), :method => :delete, :class => "default red friend-remove",
+				:style => "position: relative; top: 5px;" do %>
 				<span>Remove</span>
 			<% end %>
 		<% elsif current_user and current_user != user %>
