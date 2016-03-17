@@ -8,7 +8,7 @@ class FriendshipsController < ApplicationController
   def destroy
     @friendship = Friendship.find(params[:id])
     if @friendship.user_id == current_user.id or @friendship.friend_id == current_user.id
-      #@friendship.destroy
+      @friendship.destroy
       flash[:alert] = "Friend removed."
     else
       flash[:alert] = "You aren't friends with that person, so you can't remove them!"
