@@ -3,13 +3,13 @@ class Category < ActiveRecord::Base
 	has_many :events
 
 	def destroy #on category destroy
-    events.destroy_all #destroy all of the category's events
-    self.delete #and then delete the category
+    	events.destroy_all #destroy all of the category's events
+    	self.delete #and then delete the category
 	end
 
 	#returns whether the current user can see this
 	def has_access(user_in)
-	  if user_in == self.user #if this is the owner, obviously they have acces
+	  if user_in == self.user || user_in.admin #if this is the owner, obviously they have acces
 	  	return true
 	  end
 

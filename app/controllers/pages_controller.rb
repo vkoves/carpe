@@ -14,6 +14,16 @@ class PagesController < ApplicationController
     render :json => {"action" => "promote", "uid" => params[:id]}
   end
 
+  def destroy_user
+    user = User.find(params[:id])
+
+    if current_user.admin
+      user.destroy
+    end
+
+    redirect_to "/admin"
+  end
+
   def admin #admin page
     if !current_user or !current_user.admin
       redirect_to "/"

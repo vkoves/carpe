@@ -26,6 +26,9 @@
 				<% end %>
 			<% end %>
 		</div>
+		<%= link_to admin_destroy_user_path(user), :method => :delete, data: { confirm: 'Are you sure?' }, :class => "default red" do %>
+			<span>Delete</span>
+		<% end %>
 	<% end %>
 
 	<% if @group and !@group.users.include? user %>

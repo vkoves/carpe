@@ -18,6 +18,11 @@ class User < ActiveRecord::Base
 	has_many :events
 
 	def destroy
+		categories.destroy_all #destroy all our categories
+		events.destroy_all #destroy all our events as well, though cats should cover that
+		notifications.destroy_all #destroy all our notifications
+		friendships.destroy_all #and all our friendships
+		self.delete #and then get rid of ourselves
 	end
 
 	def user_avatar(size) #returns a url to the avatar with the width in pixels

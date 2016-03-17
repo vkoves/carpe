@@ -20,7 +20,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
           #return
       end
     end
-    
+
     if current_user.provider
       params.delete("current_password")
       resource.update_without_password(params)

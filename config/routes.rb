@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   #Admin Routes
   get "/promote" => 'pages#promote'
   get "/admin" => 'pages#admin'
+  match "/destroy_user/:id" => 'pages#destroy_user', :via => :delete, :as => :admin_destroy_user
 
   #User Routes
   get "/search_users" => 'users#search'
