@@ -304,7 +304,7 @@
 {
 	padding: 0;
 	margin: 0;
-	z-index:10;
+	
 }
 .token-input-dropdown li
 {
@@ -342,7 +342,7 @@
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
     box-shadow: 0px 0px 5px grey;
-    z-index: 0;
+    z-index: 10;
     overflow: hidden;
 }
 .search-avatar img
