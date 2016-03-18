@@ -220,6 +220,24 @@ input.danger:hover
   background: #FF1515;
 }
 
+.circle
+{
+	float: left;
+	margin-top: 2px;
+	margin-right: 5px;
+	width: 18px;
+	height: 18px;
+	border-radius: 20px;
+}
+.circle.red
+{
+	background: #FD1A1A;
+}
+.circle.green
+{
+	background: #1CCF1C;
+}
+
 /* Google sign in button styling */
 .google-sign-in div
 {
