@@ -5,6 +5,7 @@ var gridHeight = 25; //the height of the grid of resizing and dragging
 var border = 2; //the border at the bottom for height stuff
 var ctrlPressed = false; //is the control key presed? Updated upon clicking an event
 var refDate = new Date(); // Reference date for where the calendar is now, so that it can switch between weeks.
+var dropScroll = 0; //the scroll position when the last element was dropped
 
 var scheduleItems = {}; //the map of all schedule item objects
 var eventTempId = 0; //the temp id that the next event will have, incremented on each event creation or load
@@ -367,6 +368,7 @@ function colDroppable()
 		drop: function( event, ui ) //called when event is dropped on a new column (not called on moving it in the column)
 		{
 	    	var element = ui.draggable.detach();
+	    	dropScroll = $("#sch-holder").scrollTop(); //appending this element will scroll us up to the top, so we have to adjust for that
 			$(this).append(element); //append to the column
 			$(this).parent().removeClass("over"); //dehighlight on drop
 		},
@@ -493,7 +495,15 @@ function addDrag(selector)
 //Called on event stop, aka let go
 function handlePosition(elem, ui) //if
 {
-	var topVal = ui.position.top - $(elem).parent().offset().top;
+	var offset = $(elem).parent().offset().top;
+	var topVal = ui.position.top - offset;
+
+	if(topVal % gridHeight != 0)
+		topVal += dropScroll;
+
+	//console.log("Handle top: " + ui.position.top + " offset: " + $(elem).parent().offset().top + " scroll: " + dropScroll + " body: " + $("body").scrollTop());
+	$("#sch-holder").scrollTop(dropScroll);
+
 	if(topVal < 0) //make sure the event is not halfway off the top
 	{
 		topVal = 0;
