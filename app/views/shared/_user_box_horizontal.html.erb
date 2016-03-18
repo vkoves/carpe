@@ -37,9 +37,9 @@
 					<% if e.current? %>
 						<% if free %>
 							<% if e.category.has_access(current_user) %>
-								<a class="simple" href="/u/<%= user.id %>?p=schedule"><%= e.name %></a> till <%= relative_time_ago(e.end_date, false) %>
+								<a class="simple" href="/u/<%= user.id %>?p=schedule"><%= e.name %></a> until <%= relative_time_ago(e.end_date, false) %>
 							<% else %>
-								Busy
+								Busy until <%= relative_time_ago(e.end_date, false) %>
 							<% end %>
 							<% free = false %>
 						<% else %>
@@ -47,7 +47,16 @@
 						<% end %>
 					<% end %>
 				<% end %>
-				<%= free ? "Currently free" : "" %>
+				<% if free %>
+					<% @events.each do |e| %>
+						<% if e.date.future? and e.date.today? #if the event has not started yet %>
+							<%= raw("Free until " + relative_time_ago(e.date, false)) %>
+							<% free = false %>
+							<% break %>
+						<% end %>
+					<% end %>
+				<% end %>
+				<%= free ? "Free for the rest of the day" : "" %>
 			<% end %>
 		<% end %>
 	</div>
