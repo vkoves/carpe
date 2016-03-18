@@ -913,6 +913,7 @@ function createCategory()
 	    	$("#sch-tiles-inside").append(newCat);
 	    	newCat.show();
 	    	newCat.attr("data-id", resp.id);
+	    	newCat.attr("privacy", "private");
 	    	newCat.find(".evnt-title").text(resp.name);
 	    	newCat.find(".sch-evnt-editCat").attr("onclick", 'editCategory(event, this, "' + resp.id + '", "'+resp.name+'", "' + resp.color + '");');
 	    	newCat.find(".sch-evnt-delCat").attr("onclick", 'deleteCategory(event, this,"' + resp.id + '");');
