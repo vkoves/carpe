@@ -971,7 +971,7 @@ function saveCategory(event,elem,id)
 	$.ajax({
 	    url: "/create_category",
 	    type: "POST",
-	    data: {name: $(".catOverlayTitle").html(), id: id, color: $(".catTopOverlay").css("background-color"), privacy: currCategory.attr("privacy")},
+	    data: {name: $(".catOverlayTitle").text(), id: id, color: $(".catTopOverlay").css("background-color"), privacy: currCategory.attr("privacy")},
 	    success: function(resp)
 	    {
 	    	console.log("Update category complete.");
