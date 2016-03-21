@@ -16,6 +16,7 @@ var currCategory; //the category being currently edited
 var readied = false; //whether the ready function has been called
 
 var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]; //Three letter month abbreviations
+var dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']; //the names of the days
 
 //Run schedule ready when the page is loaded. Either fresh or from turbo links
 $(document).ready(scheduleReady);
@@ -168,7 +169,7 @@ function scheduleReady()
 
 		colDroppable();
 
-		addDates(new Date(), false);
+		addDates(new Date(), false, true);
 		readied = true;
 
 		$(".col-snap").css("height", gridHeight*24); //set drop columns
@@ -650,7 +651,7 @@ function updateTime(elem, ui, resize) //if we're resizing, don't snap, just upda
 
 
 //called by next and previous buttons on click
-function addDates(currDate, refresh)
+function addDates(currDate, refresh, today)
 {
 	var day = currDate.getDay();
 	var date = currDate.getDate();
@@ -669,10 +670,17 @@ function addDates(currDate, refresh)
 		colDroppable();
 	}
 
-	if(day == 0)
-		startDate = date - 6;
+	if(!today)
+	{
+		if(day == 0)
+			startDate = date - 6;
+		else
+			startDate = date - day + 1;
+	}
 	else
-		startDate = date - day + 1;
+	{
+		startDate = date;
+	}
 
 	if(startDate <= 0) //if the start is in the last month
 	{
@@ -682,7 +690,7 @@ function addDates(currDate, refresh)
 
 	$(".sch-day-col").each(function(index, col)
 	{
-		if((startDate == date) && (currDate.toDateString() == new Date().toDateString())) //if this is the same day of week, and is the correct week (is it today?)
+		if(startDate == new Date().getDate()) //if this is the same day of week, and is the correct week (is it today?)
 		{
 			$(col).attr("id","sch-col-today");
 		}
@@ -698,6 +706,7 @@ function addDates(currDate, refresh)
 				fullDate = monthNames[month] + " " + startDate + ", " + year;
 
 			$(col).children(".col-titler").prepend("<div class='evnt-date'>" + startDate + "</div> "); //prepend the numeric date (e.g. 25)
+			$(col).children(".col-titler").find(".evnt-day").text(dayNames[new Date(fullDate).getDay()]);
 			$(col).children(".col-titler").append("<div class='evnt-fulldate'>" + fullDate + "</div>"); //append the long form date to columns
 
 			if((startDate == lastDateCurr && !lastMonth) || (startDate == lastDatePrev && lastMonth)) //if this is the last day in the month, reset the count
@@ -1076,8 +1085,13 @@ function moveWeek(forward)
 	if(forward) //if next button
 		newDate = new Date(refDate.getYear()+1900,refDate.getMonth(),refDate.getDate()+7)
 	else //otherwise
-		newDate = new Date(refDate.getYear()+1900,refDate.getMonth(),refDate.getDate()-7);
-
+	{
+		 //if we are looking at today but the first day is not monday
+		if(new Date($("#week-date").val()).toDateString() == new Date().toDateString() && !$(".evnt-day").text().startsWith("Monday"))
+			newDate = new Date(); //see this full week
+		else //otherwise
+			newDate = new Date(refDate.getYear()+1900,refDate.getMonth(),refDate.getDate()-7); //go to one week previous
+	}
 	addDates(newDate, true); //move back
 
 	//And update the date thing. Recall that javascript get month starts at 0 with January, so we append 1 for humans
