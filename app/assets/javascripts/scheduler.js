@@ -689,10 +689,6 @@ function addDates(currDate, refresh, today)
 
 	$(".sch-day-col").each(function(index, col)
 	{
-		if(startDate == new Date().getDate()) //if this is the same day of week, and is the correct week (is it today?)
-		{
-			$(col).attr("id","sch-col-today");
-		}
 		if(startDate <= lastDateCurr+1)
 		{
 			var fullDate = "";
@@ -718,6 +714,12 @@ function addDates(currDate, refresh, today)
 				}
 			}
 		}
+
+		if(new Date(fullDate).toDateString() == new Date().toDateString())
+		{
+			$(col).attr("id","sch-col-today");
+		}
+
 		startDate++;
 	});
 
