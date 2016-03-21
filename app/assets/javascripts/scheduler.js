@@ -68,7 +68,8 @@ function ScheduleItem() //The
 
 	this.setName = function(newName)
 	{
-		this.name = newName;
+		this.name = newName; //set the object data
+		this.element().find(".evnt-title").text(newName); //and update the HTML element
 	};
 
 	this.dragComplete = function(elem, resize)
@@ -176,7 +177,7 @@ function scheduleReady()
 		if(readOnly) //allow viewing of all events with single click
 		{
 			$(".edit, #repeat").remove();
-			$("#overlay-loc, #overlay-desc").attr("contenteditable", "false");
+			$("#overlay-loc, #overlay-desc, #overlay-title").attr("contenteditable", "false");
 			$("#time-start, #time-end").attr("readonly", true);
 			$(".col-snap .sch-evnt").click(function(){
 				showOverlay($(this));
@@ -285,6 +286,22 @@ function addStartingListeners()
 		scheduleItems[currEvent.attr("evnt-temp-id")].location = $(this).text();
 		removeHighlight();
 	}).click(highlightCurrent);
+
+	$("#overlay-title").on("keydown",function(e){
+	    var key = e.keyCode || e.charCode;  // ie||others
+	    if(key == 13)  // if enter key is pressed
+	    {
+			e.preventDefault();
+		    $(this).blur();  // lose focus
+		    scheduleItems[currEvent.attr("evnt-temp-id")].setName($(this).text());
+	    }
+	})
+	.focusout(function()
+	{
+		//so that clicking outside an event title also saves
+		scheduleItems[currEvent.attr("evnt-temp-id")].setName($(this).text());
+		removeHighlight();
+	});
 
 	$("#edit-desc").click(function()
 	{
@@ -412,7 +429,6 @@ function addDrag(selector)
 		$(this).parent().draggable("enable");
 
 		scheduleItems[$(this).parent().attr("evnt-temp-id")].setName($(this).text());
-
 
 		removeHighlight();
 	});
@@ -800,7 +816,7 @@ function showOverlay(elem)
 
 		$(".ui-widget-overlay, .overlay-box").show();
 
-		$(".overlay-title").html(item.name);
+		$("#overlay-title").html(item.name);
 		$("#overlay-desc").html(item.description || "");
 		$("#overlay-loc").html(item.location || "");
 
