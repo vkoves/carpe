@@ -351,7 +351,6 @@ function loadInitialEvents() //load events into the hashmap
 			if(catParent.length == 0) //if this user doesn't have access to the category, use the cat-template
 				catParent = $("#cat-template");
 
-			console.log(catParent);
 			var clone = catParent.clone();
 			clone.css("display", "block"); //make sure this is visible, just in case it's a child of the cat-template
 			var dateE = new Date(evnt.date);
