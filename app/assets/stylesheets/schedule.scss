@@ -342,7 +342,7 @@
 	right: 0;
 
 	background: rgb(230,230,230);
-	border-radius: 5px;
+	/* border-radius: 5px; */
 	width: 500px;
 	height: 400px;
 	margin-left: auto;
@@ -563,7 +563,7 @@ input[readonly="readonly"]
 }
 .catTopOverlay
 {
-	height: 90px;
+	height: 65px;
 	width:100%;
 	background-color:grey;
 	position:absolute;
@@ -573,9 +573,9 @@ input[readonly="readonly"]
 }
 
 .catOverlayTitle {
-	font-family:"Pacifico", cursive;
+	font-family:"Open Sans Semibold", cursive;
 	font-size:30px;
-	top:18px;
+	top:10px;
 	bottom:30px;
 	left:20px;
 	position:absolute;
@@ -624,7 +624,7 @@ input[readonly="readonly"]
 {
 	cursor: text;
 	background: #D3CECE;
-    border-radius: 5px;
+    /* border-radius: 5px; */
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5) inset;
 }
 .overlay-box #close
