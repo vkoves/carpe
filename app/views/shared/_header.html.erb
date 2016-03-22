@@ -64,11 +64,11 @@
 			<% end %>
 			<% notif_general.each do |n| %>
 				<div class="notif general">
-					<a href="/u/<%= n.sender_id %>">
+					<%= link_to(n.sender) do %>
 						<div id="user-avatar">
 							<img src="<%= n.sender.user_avatar(90) %>">
 						</div>
-					</a>
+					<% end %>
 					<div><%= n.sender.name %> <%= n.message %></div>
 				</div>
 			<% end %>
