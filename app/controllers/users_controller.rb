@@ -40,7 +40,17 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json { render :json => @users.map(&:attributes) }
+      format.json {
+        user_map = @users.map(&:attributes)
+        user_map = user_map.map{|user|
+          unless(User.find_by_id(user["id"]) and User.find_by_id(user["id"]).has_avatar) #if this is a valid user that has no avatar
+            user[:image_url] = "http://www.gravatar.com/avatar/?d=mm" #change to the default avatar
+          end
+          user #and return the users
+        }
+        render :json => user_map
+        #render :json => @users.map(&:attributes)
+      }
     end
   end
 
