@@ -563,7 +563,7 @@ input[readonly="readonly"]
 }
 .catTopOverlay
 {
-	height: 65px;
+	height: 90px;
 	width:100%;
 	background-color:grey;
 	position:absolute;
@@ -573,9 +573,10 @@ input[readonly="readonly"]
 }
 
 .catOverlayTitle {
-	font-family:"Open Sans Semibold", cursive;
+	font-family:"Open Sans", cursive;
 	font-size:30px;
-	top:10px;
+	font-weight:600;
+	top:18px;
 	bottom:30px;
 	left:20px;
 	position:absolute;
