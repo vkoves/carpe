@@ -26,18 +26,28 @@ class User < ActiveRecord::Base
 	end
 
 	def user_avatar(size) #returns a url to the avatar with the width in pixels
+    unless self.has_avatar #if this user has no avatar, or the Google default, return the gravatar avatar
+      return "http://www.gravatar.com/avatar/?d=mm"
+    end
+
 	 if image_url.present? and provider #if using google icon, add a size param
-	   if image_url.include? "/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M" #if default google avatar return the thing
-       return "http://www.gravatar.com/avatar/?d=mm"
-     else
        return image_url.split("?")[0] + "?sz=" + size.to_s
-     end
 	 elsif image_url.present? #otherwise just return the url
 	   return image_url
-	 else
-	   return "http://www.gravatar.com/avatar/?d=mm"
 	 end
 	end
+
+  def has_avatar #returns whether the user has a non-default avatar
+    if image_url.present?
+
+      if provider and image_url.include? "/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M"
+        return false
+      end
+
+      return true #if the image is present and is not the Google default, return true
+    end
+    return false #if the image is not present, return false
+  end
 
 	def all_friendships() #returns an array of all friendships and friends for easy printing
     all_friends = []

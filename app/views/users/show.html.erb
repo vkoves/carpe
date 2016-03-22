@@ -6,7 +6,7 @@
 
 <div id="profile-header">
 
-	<% if @user.image_url.present? %>
+	<% if @user.has_avatar %>
 		<div id="header-image-blur" style="background-image:url(<%= @user.user_avatar(200)%>);"></div>
 	<% else %>
 		<div id="header-image"></div>
