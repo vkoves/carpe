@@ -21,13 +21,15 @@
 
 <div class="ui-widget-overlay" onclick="hideOverlay();"></div>
 <div class="overlay-box">
-	
-	<div id="overlay-title" contenteditable="true">Event Title</div>
+	<div id="overlay-color-bar">
+		<div id="overlay-title" contenteditable="true">Event Title</div>
+		<div id="cat-title"></div>
+	</div>
 	<div class="overlay-time">
 		<input id="time-start" type="text" value="10:00am"></input> -
 		<input id="time-end" type="text" value="12:00pm"></input>
 	</div>
-	
+
 	<span id="close" class="default red" onclick="hideOverlay()"></span>
 	<span id="repeat" class="default green" onclick="$('#repeat-menu').toggle();">Edit Repeat Type</span>
 	<div id="repeat-menu">
