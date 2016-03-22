@@ -238,6 +238,14 @@ function addStartingListeners()
 		populateEvents();
 	});
 
+	$(".color-swatch").click(function()
+	{
+		$(".color-swatch").css("background-image","");
+		
+		$(this).css("background-image","");
+
+	});
+
 	$("#cat-privacy span").click(function()
 	{
 		//highlight the newly recent option
