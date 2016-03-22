@@ -210,7 +210,14 @@ function addStartingListeners()
 			e.preventDefault();
 		    $(this).blur();  // lose focus
 	    }
-	});
+	}).click(function()
+	{
+		highlightCurrent(); //higlight the category name
+		if($(this).text() == "Untitled")
+		{
+			$(this).text("");
+		}
+	}).focusout(removeHighlight);
 
 	$(".repeat-option").click(function()
 	{
@@ -305,6 +312,7 @@ function addStartingListeners()
 		    scheduleItems[currEvent.attr("evnt-temp-id")].setName($(this).text());
 	    }
 	})
+	.click(highlightCurrent)
 	.focusout(function()
 	{
 		//so that clicking outside an event title also saves
@@ -827,6 +835,10 @@ function showOverlay(elem)
 		currEvent = elem; //Set the current event to the event being edited
 		var item = scheduleItems[elem.attr("evnt-temp-id")];
 
+		var categoryName = $("#sch-tiles .sch-evnt.category[data-id=" + item.categoryId + "]").find(".evnt-title").text();
+		$("#cat-title").html("In category <b>" + categoryName + "</b>");
+
+
 		//Select the proper repeat button
 		$(".repeat-option").removeClass("red");
 		var rep = item.repeatType || "none";
@@ -835,7 +847,7 @@ function showOverlay(elem)
 		$(".ui-widget-overlay, .overlay-box").show();
 
 		$("#overlay-title").html(item.name);
-		$("#overlay-title").css("color",elem.css("background-color"));
+		$("#overlay-color-bar").css("background-color",elem.css("background-color"));
 		$("#overlay-desc").html(item.description || "");
 		$("#overlay-loc").html(item.location || "");
 
@@ -954,7 +966,7 @@ function createCategory()
 	    	newCat.find(".sch-evnt-delCat").attr("onclick", 'deleteCategory(event, this,"' + resp.id + '");');
 	    	addDrag();
 	    	sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
-	    	newCat.find(".sch-evnt-editCat").click();
+	    	newCat.find(".sch-evnt-editCat").click(); //trigger the edit event
 	    },
 	    error: function(resp)
 	    {

@@ -359,20 +359,38 @@ with a colored top bar (we have to plan this) here.
 	top:0px;
 	min-height:54px;
 	position:relative;
-	background-color:Indigo; 
-}*/ 
+	background-color:Indigo;
+}*/
 
 #overlay-title
 {
 	font-size: 24px;
-	margin-top: 10px;
 	min-height: 33px;
-	width: 90%;
+	width: 85%;
     margin-left: 20px;
     margin-right: auto;
-    padding-bottom: 15px;
+    padding-left: 5px;
     text-align:left;
-    color:#EEEEEE;
+	border-radius: 5px;
+}
+#overlay-title:focus
+{
+	background: rgba(150, 150, 150, 0.33);
+}
+#overlay-color-bar
+{
+	width: 100%;
+    padding: 10px 0px;
+    color: white;
+    margin-bottom: 5px;
+}
+#cat-title
+{
+	position: absolute;
+    top: 20px;
+    right: 45px;
+    font-weight: 600;
+    font-size: 18px;
 }
 .small-title
 {
@@ -645,6 +663,7 @@ input[readonly="readonly"]
 	background-repeat: no-repeat;
 	background-size: 60%;
     background-position: 50%;
+	border: solid 2px white;
 }
 .overlay-box #repeat
 {
