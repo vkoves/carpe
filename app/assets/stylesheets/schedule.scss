@@ -481,15 +481,18 @@ input[readonly="readonly"]
 	display:inline-block;
 	position: relative;
 	top: 2px;
-	width:23px;
-	height:23px;
-	border: solid 2px grey;
-	border-radius: 5px;
+	width:25px;
+	height:25px;
+	/*border: solid 2px grey; */
+	border-radius: 50px;
 	cursor: pointer;
 }
 .color-swatch:hover
 {
-	box-shadow: 0px 0px 5px grey;
+/*	box-shadow: 0px 0px 5px grey;*/
+	border: solid 2px grey;
+	width:21px;
+	height:21px;
 }
 /* You can see my efforts in futility, if you so desire (not implemented yet) */
 
@@ -576,7 +579,7 @@ input[readonly="readonly"]
 	font-family:"Open Sans", cursive;
 	font-size:30px;
 	font-weight:600;
-	top:18px;
+	top:24px;
 	bottom:30px;
 	left:20px;
 	position:absolute;
