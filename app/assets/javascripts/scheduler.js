@@ -827,6 +827,7 @@ function showOverlay(elem)
 		$(".ui-widget-overlay, .overlay-box").show();
 
 		$("#overlay-title").html(item.name);
+		$("#overlay-title").css("color",elem.css("background-color"));
 		$("#overlay-desc").html(item.description || "");
 		$("#overlay-loc").html(item.location || "");
 
