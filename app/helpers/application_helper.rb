@@ -7,10 +7,20 @@ module ApplicationHelper
     yesterday = Time.now.yesterday.in_time_zone("Central Time (US & Canada)")
 
     if(datetime.to_date == now.to_date) #It's today!
-      hours_diff = ((datetime - now)/1.hour).round;
-      minutes_diff = ((datetime - now)/1.minute).round;
+      hours_diff = ((datetime - now)/1.hour).round
+      minutes_diff = ((datetime - now)/1.minute).round
 
-      if(minutes_diff.abs < 60) #we need to use minutes
+      if(minutes_diff.abs < 60) #we need to use minutes or seconds
+        seconds_diff = ((datetime - now)/1.second).round
+
+        if(seconds_diff.abs < 60) #we should use seconds
+          if(seconds_diff >= 0) #future
+            return pluralize(seconds_diff, 'second') + " from now"
+          else
+            return pluralize(seconds_diff.abs, 'second') + " ago"
+          end
+        end
+
         if(minutes_diff > 0) #in the future
           return pluralize(minutes_diff, 'minute') + " from now"
         else #in the past
