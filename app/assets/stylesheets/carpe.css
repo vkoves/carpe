@@ -22,6 +22,10 @@ body
 	color: rgb(255, 116, 0) !important;
 }
 
+input { 
+	font-family:Open Sans, sans-serif;
+}
+
 /* Sign up and sign in styling */
 label
 {
