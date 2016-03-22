@@ -505,6 +505,12 @@ input[readonly="readonly"]
 	border-radius: 50px;
 	cursor: pointer;
 }
+
+.color-swatch.selected { 
+	background-image:image-url("checkmark-wht.png");
+	background-size:cover;
+}
+
 .color-swatch:hover
 {
 /*	box-shadow: 0px 0px 5px grey;*/
