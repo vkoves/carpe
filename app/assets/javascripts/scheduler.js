@@ -240,9 +240,9 @@ function addStartingListeners()
 
 	$(".color-swatch").click(function()
 	{
-		$(".color-swatch").css("background-image","");
+		$(".color-swatch").removeClass("selected");
 		
-		$(this).css("background-image","");
+		$(this).addClass("selected");
 
 	});
 
@@ -600,6 +600,7 @@ function handleNewEvent(elem)
 	$(elem).attr("evnt-temp-id", eventTempId);
 	eventTempId++;
 	addResizing($(elem)); //since the sidebar events don't have resizing, we have to add it on stop
+	
 }
 
 //add resizing for schedule events that are new
@@ -938,6 +939,7 @@ function removeEvent(event, elem)
 	    success: function(resp)
 	    {
 	    	console.log("Delete complete.");
+	    	saveEvents();
 	    },
 	    error: function(resp)
 	    {
@@ -1010,6 +1012,7 @@ function saveCategory(event,elem,id)
 			$("#sch-sidebar .sch-evnt[data-id=" + id + "]").find(".evnt-title").html($(".catOverlayTitle").html()); //Update name in sidebar
 			$(".sch-evnt[data-id=" + id + "]").css("background-color", $(".catTopOverlay").css("background-color")); //Update color of events
 			sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
+
 	    },
 	    error: function(resp)
 	    {
