@@ -822,10 +822,14 @@ function editCategory(event, elem, id, name, col)
 
 	$(".ui-widget-overlay, .cat-overlay-box").show();
 
-	if(col && col != "null") //check for null string from ruby
+	var colForTop = currCategory.css("background-color");
+
+	$(".catTopOverlay").css("background-color",colForTop);
+
+	/* if(col && col != "null") //check for null string from ruby
 		$(".catTopOverlay").css("background-color",col);
 	else //if the color was null or empty remove the background-color
-		$(".catTopOverlay").css("background-color","");
+		$(".catTopOverlay").css("background-color",""); */
 
 	$(".catOverlayTitle").html($(currCategory).find(".evnt-title").text());
 	$(".cat-overlay-box").attr("data-id",id);
