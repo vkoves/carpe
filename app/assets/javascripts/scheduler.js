@@ -243,10 +243,8 @@ function addStartingListeners()
 	$(".color-swatch").click(function()
 	{
 		$(".color-swatch").removeClass("selected");
-		
+
 		$(this).addClass("selected");
-
-
 	});
 
 	$("#cat-privacy span").click(function()
@@ -605,7 +603,7 @@ function handleNewEvent(elem)
 	$(elem).attr("evnt-temp-id", eventTempId);
 	eventTempId++;
 	addResizing($(elem)); //since the sidebar events don't have resizing, we have to add it on stop
-	
+
 }
 
 //add resizing for schedule events that are new
@@ -834,9 +832,10 @@ function editCategory(event, elem, id, name, col)
 	$(".catOverlayTitle").html($(currCategory).find(".evnt-title").text());
 	$(".cat-overlay-box").attr("data-id",id);
 
+	$(".color-swatch").removeClass("selected");
 	$(".color-swatch").each(function() {
-		if ($(this).css("background-color") == $(".catTopOverlay").css("background-color")) {
-			
+		if ($(this).css("background-color") == $(".catTopOverlay").css("background-color"))
+		{
 			$(this).addClass("selected");
 		}
 	});
