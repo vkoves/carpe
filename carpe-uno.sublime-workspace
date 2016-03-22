@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"reado",
+				"read_only"
+			],
+			[
+				"realt",
+				"relative_time_ago"
+			],
+			[
 				"scrol",
 				"dropScroll"
 			],
@@ -184,13 +192,34 @@
 			}
 		},
 		{
-			"contents": "var sideHTML; // Instantiates sideHTML variable\nvar schHTML; // Instantiates schedule HTML variable, which will contain the \"Mon-Sun\" html on the main scheduler div.\n\nvar gridHeight = 25; //the height of the grid of resizing and dragging\nvar border = 2; //the border at the bottom for height stuff\nvar ctrlPressed = false; //is the control key presed? Updated upon clicking an event\nvar refDate = new Date(); // Reference date for where the calendar is now, so that it can switch between weeks.\nvar dropScroll = 0; //the scroll position when the last element was dropped\n\nvar scheduleItems = {}; //the map of all schedule item objects\nvar eventTempId = 0; //the temp id that the next event will have, incremented on each event creation or load\n\nvar currEvent; //the event being currently edited\nvar currCategory; //the category being currently edited\n\nvar readied = false; //whether the ready function has been called\n\nvar monthNames = [\"Jan\", \"Feb\", \"Mar\", \"Apr\", \"May\", \"Jun\", \"Jul\", \"Aug\", \"Sep\", \"Oct\", \"Nov\", \"Dec\"]; //Three letter month abbreviations\n\n//Run schedule ready when the page is loaded. Either fresh or from turbo links\n$(document).ready(scheduleReady);\n$(document).on('page:load', scheduleReady);\n\n\n/****************************/\n/******* PROTOTYPES *********/\n/****************************/\n\n//written with help from:\n// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript\n\nfunction ScheduleItem() //The\n{\n	//console.log(\"Schedule item instantiating\");\n\n	this.categoryId; //the id of the associated category\n	this.eventId; //the id of the event in the db\n	this.tempId; //the id of the event in the hashmap\n\n	this.startDateTime; //the start date and time, as a js Date()\n	this.endDateTime; //the end date and time\n	this.repeatType; //the repeat type as a string\n\n	this.name; //the name of the event\n	this.description; //the event description\n	this.location; //the event location\n\n	this.lengthInHours =  function() //returns an integer of the length of the event hours\n	{\n		return differenceInHours(this.startDateTime, this.endDateTime, true);\n	};\n\n	this.destroy = function() //deletes the schedule item from the frontend\n	{\n		this.element().slideUp(\"normal\", function() { $(this).remove(); }); //slide up the element and remove after that is done\n		delete scheduleItems[this.tempId]; //then delete from the scheduleItems map\n	};\n\n	this.setStartDateTime = function(newStartDateTime, resize) //if resize is true, we do not move the end time\n	{\n		setDateTime(true, newStartDateTime, this, resize);\n	};\n\n	this.setEndDateTime = function(newEndDateTime, resize) //if resize, we don't move the start time\n	{\n		setDateTime(false, newEndDateTime, this, resize);\n	};\n\n	this.setName = function(newName)\n	{\n		this.name = newName;\n	};\n\n	this.dragComplete = function(elem, resize)\n	{\n		var dateString = elem.parent().siblings(\".col-titler\").children(\".evnt-fulldate\").html();\n		var offsetDiff = -Math.ceil($(\".col-snap:first\").offset().top);\n		var hours = (parseInt(elem.css(\"top\")))/gridHeight;\n		var newDate = new Date(dateString + \" \" + hours + \":\" + paddedMinutes(this.startDateTime));\n		this.setStartDateTime(newDate, resize);\n		this.tempElement = elem;\n	};\n\n	this.resizeComplete = function(elem)\n	{\n		this.dragComplete(elem, true);\n		var endDT = new Date(this.startDateTime.getTime());\n		endDT.setHours(endDT.getHours() + (elem.outerHeight()/gridHeight));\n		this.endDateTime = endDT;\n	};\n\n	this.updateHeight = function()\n	{\n		this.element().css(\"height\", gridHeight*this.lengthInHours());\n	};\n\n	this.element = function() //returns the HTML element for this schedule item, or elements if it is repeating\n	{\n		return $(\".sch-evnt[evnt-temp-id=\"+ this.tempId + \"]\");\n	};\n\n	//HELPERS\n	function setDateTime(isStart, dateTime, schItem, resize) //pass in whether this is start time, the date time, and whether this is resizing\n	{\n		var elem = schItem.element();\n\n		if(isStart)\n		{\n			var topDT = dateTime;\n			var change = differenceInHours(schItem.startDateTime, topDT); //see how much the time was changed\n			var botDT = new Date(schItem.endDateTime.getTime());\n			botDT.setHours(schItem.endDateTime.getHours() + change);\n		}\n		else\n		{\n			var botDT = dateTime;\n			var change = differenceInHours(schItem.endDateTime, botDT); //see how much the time was changed\n			var topDT = new Date(schItem.startDateTime.getTime());\n			topDT.setHours(schItem.startDateTime.getHours() + change);\n		}\n\n		//console.log(\"Change: \" + change);\n\n		if(isStart || !resize) //only set the startDateTime if we are not resizing or starting\n		{\n			schItem.startDateTime = topDT;\n			elem.css(\"top\", gridHeight*topDT.getHours()); //set the top position by gridHeight times the hour\n			elem.children(\".evnt-time.top\").text(convertTo12Hour([topDT.getHours(), paddedMinutes(topDT)])).show();\n		}\n\n		if(!isStart || !resize) //only set the bottom stuff if this is setting the end time or we are not resizing\n		{\n			schItem.endDateTime = botDT;\n			elem.children(\".evnt-time.bot\").text(convertTo12Hour([botDT.getHours(), paddedMinutes(botDT)])).show();\n		}\n\n		elem.attr(\"time\", topDT.getHours() + \":\" + paddedMinutes(topDT)); //set the time attribute\n	}\n\n	function differenceInHours(start, end, round) //return the difference in hours between two dates\n	{\n		var one_hour = 1000*60*60; //1000 ms/sec * 60 sec/min * 60 min/hr\n		var diff = end.getTime() - start.getTime();\n		if(round)\n			return (end.getHours() - start.getHours()) || 1;//Math.round(diff/one_hour);\n		else\n			return diff/one_hour;\n	}\n};\n\n/****************************/\n/*****  END PROTOTYPES ******/\n/****************************/\n\nfunction scheduleReady()\n{\n	if(!readied)\n	{\n		loadInitialEvents();\n\n		sideHTML = $(\"#sch-tiles\").html(); //the sidebar html for restoration upon drops\n		schHTML = $(\"#sch-days\").html(); //The HTML for the scheduler days layout, useful for when days are refreshed\n\n		addStartingListeners(); //add the event listeners\n\n		addDrag(); //add dragging, recursively\n\n		colDroppable();\n\n		addDates(new Date(), false);\n		readied = true;\n\n		$(\".col-snap\").css(\"height\", gridHeight*24); //set drop columns\n		$(\".sch-day-col\").css(\"height\", gridHeight*24 + 50); //set day columns, which have the divider line\n\n		if(readOnly) //allow viewing of all events with single click\n		{\n			$(\".edit, #repeat\").remove();\n			$(\"#overlay-loc, #overlay-desc\").attr(\"contenteditable\", \"false\");\n			$(\"#time-start, #time-end\").attr(\"readonly\", true);\n			$(\".col-snap .sch-evnt\").click(function(){\n				showOverlay($(this));\n			});\n		}\n	}\n}\n\nfunction addStartingListeners()\n{\n\n\n	$(\"#week-date\").datepicker( //show the datepicker when clicking on the field\n	{\n		firstDay: 1, //set Monday as the first day\n	});\n	$(\"#week-date\").datepicker('setDate', 'today'); //set the date to today\n\n	$(\"#week-date\").change(function() //when the date for the shown week is changed\n	{\n		addDates(new Date($(this).val()), true); //update what is visible\n	});\n\n	//When editing category title, defocus on enter\n	$(\".catOverlayTitle\").on(\"keydown\",function(e){\n	    var key = e.keyCode || e.charCode;  // ie||others\n	    if(key == 13)  // if enter key is pressed\n	    {\n			e.preventDefault();\n		    $(this).blur();  // lose focus\n	    }\n	});\n\n	$(\".repeat-option\").click(function()\n	{\n		//highlight the newly selected option\n		$(\".repeat-option\").removeClass(\"red\");\n		$(this).addClass(\"red\");\n\n		//get the text of the button\n		var repType = $(this).text().toLowerCase();\n		console.log(\"Rep type is \" + repType);\n		currEvent.attr(\"rep-type\", repType); //and set the repeat type attribute\n\n		//then update the repeat type without going through push event info\n		scheduleItems[currEvent.attr(\"evnt-temp-id\")].repeatType = repType;\n\n		//remove all of this element\n		$(\".sch-evnt[evnt-temp-id='\" + currEvent.attr(\"evnt-temp-id\") + \"']\").remove();\n		populateEvents();\n	});\n\n	$(\"#cat-privacy span\").click(function()\n	{\n		//highlight the newly recent option\n		$(\"#cat-privacy span\").removeClass(\"red\");\n		$(this).addClass(\"red\");\n\n		currCategory.attr(\"privacy\", $(this).text().toLowerCase());\n	});\n\n	$(\"#time-start\").change(function()\n	{\n		//TODO: Fix this not working across different days (try noon in your local time)\n\n		var dateE = $(currEvent).parent().siblings(\".col-titler\").children(\".evnt-fulldate\").html(); //the date the elem is on\n\n		var val = $(this).val();\n		var end_val = $(\"#time-end\").val();\n\n		dateTime = new Date(dateE+\" \"+val);\n		if (isNaN(dateTime.getTime()))\n			alert(\"Start date doesn't make sense! Tried \\\"\" + dateE+\" \"+val + \"\\\"\");\n\n		scheduleItems[currEvent.attr(\"evnt-temp-id\")].setStartDateTime(dateTime, true);\n		scheduleItems[currEvent.attr(\"evnt-temp-id\")].updateHeight();\n\n	});\n\n	$(\"#time-end\").change(function()\n	{\n		//TODO: Fix this not working across different days (try noon in your local time)\n\n		var dateE = $(currEvent).parent().siblings(\".col-titler\").children(\".evnt-fulldate\").html(); //the date the elem is on\n\n		var val = $(this).val();\n		var start_val = $(\"#time-start\").val();\n\n		dateTime = new Date(dateE+\" \"+val);\n		if (isNaN(dateTime.getTime()))\n			alert(\"End date doesn't make sense! Tried \\\"\" + dateE+\" \"+val + \"\\\"\");\n\n		scheduleItems[currEvent.attr(\"evnt-temp-id\")].setEndDateTime(dateTime, true);\n		scheduleItems[currEvent.attr(\"evnt-temp-id\")].updateHeight();\n\n	});\n\n	$(\"#overlay-desc\").focusout(function()\n	{\n		scheduleItems[currEvent.attr(\"evnt-temp-id\")].description = $(this).text();\n		removeHighlight();\n	}).click(highlightCurrent);\n\n	$(\"#overlay-loc\").focusout(function()\n	{\n		scheduleItems[currEvent.attr(\"evnt-temp-id\")].location = $(this).text();\n		removeHighlight();\n	}).click(highlightCurrent);\n\n	$(\"#edit-desc\").click(function()\n	{\n		$('#overlay-desc').focus();\n		highlightCurrent();\n	});\n\n	$(\"#edit-loc\").click(function()\n	{\n		$('#overlay-loc').focus();\n		highlightCurrent();\n	});\n\n	$(document).keyup(function(e) //add event listener to close overlays on pressing escape\n	{\n		if (e.keyCode == 27) // escape key maps to keycode `27`\n		{\n			hideOverlay();\n		}\n	});\n}\n\nfunction loadInitialEvents() //load events into the hashmap\n{\n	//Load in events\n	if (typeof eventsLoaded !== 'undefined') //if eventsLoaded is defined\n	{\n		for(var i = 0; i < eventsLoaded.length; i++) //loop through it\n		{\n			var evnt = eventsLoaded[i]; //fetch the event at the current index\n\n			var schItem = new ScheduleItem();\n			schItem.startDateTime = new Date(evnt.date);\n			schItem.endDateTime = new Date(evnt.end_date);\n			schItem.name = evnt.name;\n			schItem.eventId = evnt.id;\n			schItem.categoryId = evnt.category_id;\n			schItem.repeatType = evnt.repeat;\n			schItem.description = evnt.description;\n			schItem.location = evnt.location;\n			schItem.tempId = i;\n			scheduleItems[i] = schItem;\n\n			var catParent = $(\"#sch-tiles .sch-evnt[data-id='\" + evnt[\"category_id\"] + \"']\"); //fetch the category\n\n			if(catParent.length == 0) //if this user doesn't have access to the category, use the cat-template\n				catParent = $(\"#cat-template\");\n\n			console.log(catParent);\n			var clone = catParent.clone();\n			clone.css(\"display\", \"block\"); //make sure this is visible, just in case it's a child of the cat-template\n			var dateE = new Date(evnt.date);\n			var dateEnd = new Date(evnt.end_date);\n			var time = dateE.getHours() + \":\" + paddedMinutes(dateE);\n			var dateString = monthNames[dateE.getMonth()] + \" \" + dateE.getDate() + \", \" + dateE.getFullYear();\n\n			clone.children(\".evnt-title\").text(evnt.name);\n			clone.children(\".evnt-time.top\").text(convertTo12Hour([dateE.getHours(), paddedMinutes(dateE)])).show();\n			clone.children(\".evnt-time.bot\").text(convertTo12Hour([dateEnd.getHours(), paddedMinutes(dateEnd)])).show();\n			clone.attr(\"time\", time);\n			clone.attr(\"event-id\", evnt.id);\n			clone.attr(\"evnt-temp-id\", i); //Set the temp id\n			clone.attr(\"rep-type\", evnt.repeat);\n			clone.children(\".evnt-desc\").html(evnt.description);\n\n			scheduleItems[i].tempElement = clone; //Store the element\n\n			placeInSchedule(clone, dateE.getHours(), scheduleItems[i].lengthInHours());\n\n			eventTempId++; //increment the temp id\n		}\n	}\n}\n\n//Add droppable onto columns\nfunction colDroppable()\n{\n	//make the columns droppable\n	$(\".col-snap\").droppable(\n	{\n		drop: function( event, ui ) //called when event is dropped on a new column (not called on moving it in the column)\n		{\n	    	var element = ui.draggable.detach();\n	    	dropScroll = $(\"#sch-holder\").scrollTop(); //appending this element will scroll us up to the top, so we have to adjust for that\n			$(this).append(element); //append to the column\n			$(this).parent().removeClass(\"over\"); //dehighlight on drop\n		},\n		over: function( event, ui )\n		{\n			$(this).parent().addClass(\"over\"); //highlight\n			$(ui.draggable).draggable(\"option\",\"gridOn\", true); //and enable vertical grid\n		},\n		out: function( event, ui )\n		{\n			$(this).parent().removeClass(\"over\"); //unhighlight\n			//$(ui.draggable).draggable(\"option\",\"gridOn\", false); //and disable grid\n		}\n	});\n}\n\n//the dragging function\nfunction addDrag(selector)\n{\n	if(typeof readOnly !== 'undefined' && readOnly) //don't add drag if this is read only\n		return;\n\n	if (selector == null)\n		selector = \"#sch-sidebar .sch-evnt\";\n\n	$(selector).find(\".evnt-title\").on(\"keydown\",function(e){\n	    var key = e.keyCode || e.charCode;  // ie||others\n	    if(key == 13)  // if enter key is pressed\n	    {\n			e.preventDefault();\n			$(this).parent().draggable(\"enable\");\n		    $(this).blur();  // lose focus\n\n		    scheduleItems[$(this).parent().attr(\"evnt-temp-id\")].setName($(this).text());\n\n	    }\n	})\n	.focusout(function()\n	{\n		//so that clicking outside an event title also saves\n		$(this).parent().draggable(\"enable\");\n\n		scheduleItems[$(this).parent().attr(\"evnt-temp-id\")].setName($(this).text());\n\n\n		removeHighlight();\n	});\n\n	//when the mouse is pressed on the events, check for control\n	$(selector).mousedown(function(event)\n	{\n		if(event.ctrlKey)\n			ctrlPressed = true;\n		else\n			ctrlPressed = false;\n	});\n\n	$(selector).draggable(\n	{\n		containment: \"window\",\n		snap: \".evt-snap\",\n		snapMode: \"inner\",\n		appendTo: \"bgit ody\",\n		cancel: \"img\",\n		revertDuration: 0,\n		opacity: 0.7,\n		distance: 10,\n		gridOn: false,\n		scroll: false,\n		revert: \"invalid\",\n		helper: function()\n		{\n			$copy = $(this).clone();\n\n			if(inColumn($(this))) //if this is a current element\n				$(this).css(\"opacity\", 0); //hide the original while we are moving the helper\n\n			return $copy;\n		},\n		start: function(event, ui)\n		{\n			setHeight(this, ui.helper, 3);\n\n			if(ctrlPressed && $(this).parent().attr(\"id\") != \"sch-tiles-inside\") //if this is an existing event and control is pressed\n			{\n				handleClone(this, ui);\n			}\n		},\n		stop: function(event, ui)  //on drag end\n		{\n			var newItem = false;\n\n			if(!inColumn($(this))) //if this event was not placed\n				return; //return\n\n			if($(this).css(\"opacity\") == 1) //if opacity is 1, this is a new event\n			{\n				handleNewEvent(this);\n				newItem = true;\n			}\n\n			setHeight(this, this, 3);\n\n			$(\"#sch-tiles\").html(sideHTML); //reset the sidebar\n			$(this).css(\"opacity\", 1); //undo the setting opacity to zero\n\n			handlePosition(this, ui);\n			if(!newItem) //if this is not a new item\n				scheduleItems[$(this).attr(\"evnt-temp-id\")].dragComplete($(this)); //say it's been moved\n			else //otherwise\n				scheduleItems[$(this).attr(\"evnt-temp-id\")].resizeComplete($(this)); //say it's been resized, to read all properties\n\n			addDrag(); //add drag to the sidebar again\n		},\n		drag: function(event, ui)\n		{\n			updateTime($(this), ui);\n		}\n	});\n\n	addResizing(selector);\n}\n\n//Called on event stop, aka let go\nfunction handlePosition(elem, ui) //if\n{\n	var offset = $(elem).parent().offset().top;\n	var topVal = ui.position.top - offset;\n\n	if(topVal % gridHeight != 0)\n		topVal += dropScroll;\n\n	//console.log(\"Handle top: \" + ui.position.top + \" offset: \" + $(elem).parent().offset().top + \" scroll: \" + dropScroll + \" body: \" + $(\"body\").scrollTop());\n	$(\"#sch-holder\").scrollTop(dropScroll);\n\n	if(topVal < 0) //make sure the event is not halfway off the top\n	{\n		topVal = 0;\n	}\n	else if(topVal > $(elem).parent().height() - $(elem).outerHeight()) //or bottom\n	{\n		topVal = $(elem).parent().height() - $(elem).outerHeight();\n		topVal = topVal - (topVal%gridHeight);\n	}\n\n	$(elem).css(\"top\",topVal);\n}\n\n//Called when creating a clone\nfunction handleClone(elem, ui)\n{\n	var clone = $(ui.helper).clone(); //create a clone\n	$(elem).parent().append(clone);\n	clone.css(\"opacity\",\"1\"); //set the clone to be fully opaque, as it'll be 0.7 opacity by default from dragging\n\n	$(elem).removeAttr(\"event-id\"); //clear event id\n\n	$(elem).attr(\"evnt-temp-id\", eventTempId); //the clone needs a new temp id, but in reality, this is the clone\n\n	var schItem = new ScheduleItem();\n	var oldItem = scheduleItems[$(clone).attr(\"evnt-temp-id\")];\n	schItem.startDateTime = oldItem.startDateTime;\n	schItem.endDateTime = oldItem.endDateTime;\n	schItem.name = oldItem.name;\n	schItem.eventId = null;\n	schItem.categoryId = oldItem.categoryId;\n	schItem.repeatType = \"\";\n	schItem.tempId = eventTempId;\n	scheduleItems[eventTempId] = schItem;\n\n	eventTempId++;\n\n\n	clone.removeClass(\"ui-draggable ui-draggable-handle ui-resizable ui-draggable-dragging\"); //remove dragging stuff\n	addDrag(clone); //and redo draggin\n}\n\n//called on new events dragged from the sidebar\nfunction handleNewEvent(elem)\n{\n	var schItem = new ScheduleItem();\n	schItem.startDateTime = new Date();\n	schItem.startDateTime.setMinutes(0);\n	schItem.endDateTime = new Date();\n	schItem.name = \"\";\n	schItem.eventId = null;\n	schItem.categoryId = $(elem).attr(\"data-id\");\n	schItem.repeatType = \"\";\n	schItem.tempId = eventTempId;\n	schItem.tempElement = $(elem);\n	scheduleItems[eventTempId] = schItem;\n\n	$(elem).children(\".evnt-title\").attr(\"contenteditable\", \"true\");\n	$(elem).children(\".evnt-title\").trigger('focus');\n	highlightCurrent(); // Suggests to the user to change the schedule item title by making it editable upon drop here.\n	document.execCommand('delete',false,null); // Suggests to the user to change the schedule item title by making it editable upon drop here.\n	$(elem).attr(\"evnt-temp-id\", eventTempId);\n	eventTempId++;\n	addResizing($(elem)); //since the sidebar events don't have resizing, we have to add it on stop\n}\n\n//add resizing for schedule events that are new\nfunction addResizing(selector)\n{\n	if(selector != \"#sch-sidebar .sch-evnt\") //as long as the selector is not for the sidebar\n	{\n		$(selector).resizable( //make the items resizable\n		{\n	    	handles: 'n, s',\n	    	grid: [ 0, gridHeight ],\n	    	containment: \"parent\",\n	    	resize: function(event, ui)\n	    	{\n	    		updateTime($(this), ui, true);\n	    	},\n	    	stop: function(event, ui)\n	    	{\n				scheduleItems[$(this).attr(\"evnt-temp-id\")].resizeComplete($(this));\n	    	}\n		});\n	}\n}\n\n//Change time while items are being dragged or resized, and also snap to a vertical grid\nfunction updateTime(elem, ui, resize) //if we're resizing, don't snap, just update time\n{\n	var arr = ui.helper.attr(\"time\").split(\":\"); //fetch the time from the helper\n	var end_arr = ui.helper.children(\".evnt-time.bot\").text().split(\" \")[0].split(\":\");\n\n	//Take care of grid snapping\n	if($(elem).draggable('option', 'gridOn') || resize) //only update time if we are snapping in a column or are resizing\n	{\n		var offsetDiff = -Math.ceil($(\".col-snap:first\").offset().top);\n		if(resize)\n			offsetDiff = 0;\n\n		if(!resize)\n		{\n			var topRemainder = (ui.position.top + offsetDiff) % gridHeight;\n			ui.position.top = ui.position.top - topRemainder;\n		}\n		arr[0] = (ui.position.top + offsetDiff)/gridHeight;\n	}\n\n	//var end_arr = arr.slice(0); //set end array\n	var hoursLength = $(elem).outerHeight()/gridHeight; //find the length in hours\n	if(hoursLength % 1 != 0) //if it's a decimal, we know this is a new event\n		hoursLength = 3; //so set the default size\n\n	end_arr[0] = arr[0] + hoursLength; //and add the height to the hours of the end time\n\n	$(elem).attr(\"time\", arr.join(\":\")); //set the time attr using military\n	arr = convertTo12Hour(arr); //then convert to 12 hour\n\n	//set Start time\n	ui.helper.children(\".evnt-time.top\").html(arr); //and set the helper time\n	$(elem).children(\".evnt-time.top\").html(arr); //as well as the element\n\n	end_arr = convertTo12Hour(end_arr);\n	ui.helper.children(\".evnt-time.bot\").html(end_arr); //and set the helper time\n	$(elem).children(\".evnt-time.bot\").html(end_arr); //as well as the element\n}\n\n\n//called by next and previous buttons on click\nfunction addDates(currDate, refresh)\n{\n	var day = currDate.getDay();\n	var date = currDate.getDate();\n	var month = currDate.getMonth();\n	var year = currDate.getFullYear();\n	var startDate;\n	var lastDateCurr = new Date(year, month+1, 0).getDate(); //get the last date of the current month by getting the day before 1 on the next month\n	var lastDatePrev = new Date(year, month, 0).getDate();\n	var lastMonth = false;\n\n	refDate = currDate;\n\n	if(refresh)\n	{\n		$(\"#sch-days\").html(schHTML); // Refresh the layout so that we can properly prepend and append text below here\n		colDroppable();\n	}\n\n	if(day == 0)\n		startDate = date - 6;\n	else\n		startDate = date - day + 1;\n\n	if(startDate <= 0) //if the start is in the last month\n	{\n		startDate = lastDatePrev + startDate;\n		lastMonth = true;\n	}\n\n	$(\".sch-day-col\").each(function(index, col)\n	{\n		if((startDate == date) && (currDate.toDateString() == new Date().toDateString())) //if this is the same day of week, and is the correct week (is it today?)\n		{\n			$(col).attr(\"id\",\"sch-col-today\");\n		}\n		if(startDate <= lastDateCurr+1)\n		{\n			var fullDate = \"\";\n\n			if(lastMonth && ((month-1)>-1))\n				fullDate = monthNames[month-1] + \" \" + startDate + \", \" + year;\n			else if (lastMonth &&((month-1)==-1))\n				fullDate = monthNames[11] + \" \" + startDate + \", \" + (year-1);\n			else\n				fullDate = monthNames[month] + \" \" + startDate + \", \" + year;\n\n			$(col).children(\".col-titler\").prepend(\"<div class='evnt-date'>\" + startDate + \"</div> \"); //prepend the numeric date (e.g. 25)\n			$(col).children(\".col-titler\").append(\"<div class='evnt-fulldate'>\" + fullDate + \"</div>\"); //append the long form date to columns\n\n			if((startDate == lastDateCurr && !lastMonth) || (startDate == lastDatePrev && lastMonth)) //if this is the last day in the month, reset the count\n			{\n				startDate = 0;\n				month++;\n				if (month == 12) {\n					year++;\n					month = 0;\n				}\n			}\n		}\n		startDate++;\n	});\n\n	populateEvents(); // After refreshing the dates, populate the...er...schedule items for this week. As you can see, the terminology still confuses some.\n}\n\n//Populate the events in the current week from the hashmap\nfunction populateEvents()\n{\n	var currentDates = []; //the dates that are visible in the current week\n\n	$(\".sch-day-col\").each(function(index, col)\n	{\n		currentDates.push($(col).children(\".col-titler\").children(\".evnt-fulldate\").html());\n	}); // Populate the date range array created above, so that we can match up what events have dates that fall in this range.\n\n\n	for (var i = 0; i < currentDates.length; i++)\n	{\n		for (var eventIndex in scheduleItems) //do a foreach since this is a hashmap\n		{\n			eventObj = scheduleItems[eventIndex];\n			var date = new Date(currentDates[i]);\n			var itemDate = eventObj.startDateTime;\n\n			if (itemDate.toDateString() == date.toDateString()\n				|| eventObj.repeatType == \"daily\"\n				|| (eventObj.repeatType == \"weekly\" && date.getDay() == itemDate.getDay())\n				|| (eventObj.repeatType == \"monthly\" && date.getDate() == itemDate.getDate())\n				|| (eventObj.repeatType == \"yearly\" && date.getDate() == itemDate.getDate() && date.getMonth() == itemDate.getMonth()))\n			{\n				var currentElem = eventObj.tempElement.clone();\n				$(\".sch-day-col:eq(\" + i + \") .col-snap\").append(currentElem);\n			}\n		}\n	}\n	addDrag(\".col-snap .sch-evnt\"); // Re-enables the events to snap onto the date columns here.\n\n	if(readOnly)\n	{\n		$(\".col-snap .sch-evnt\").click(function(){\n			showOverlay($(this));\n		});\n	}\n}\n\n//Edit an event's text inline (without the overlay)\nfunction editEvent(event, elem)\n{\n	//return if this is in the sidebar\n	if(!inColumn($(elem).parent()) || $(elem).is(\":focus\"))\n		return;\n\n	$(elem).parent().draggable(\"disable\"); //disable dragging while editing the event text\n\n	$(elem).attr(\"contenteditable\", \"true\");\n	event.stopImmediatePropagation();\n	$(elem).trigger('focus');\n	highlightCurrent();\n	$(elem).siblings(\".sch-evnt-save\").css(\"display\",\"inline\");\n}\n\n//Edit a category using the category overlay\nfunction editCategory(event, elem, id, name, col)\n{\n	currCategory = $(elem).parent(); //set the current category\n\n	//Select the proper privacy button\n	$(\"#cat-privacy span\").removeClass(\"red\");\n	if(currCategory.attr(\"privacy\"))\n	{\n		$(\"#cat-privacy #\" + currCategory.attr(\"privacy\")).addClass(\"red\");\n	}\n\n	event.stopImmediatePropagation();\n	$(\".catOverlayTitle\").trigger('focus');\n	document.execCommand('selectAll',false,null);\n\n	$(\".ui-widget-overlay, .cat-overlay-box\").show();\n\n	if(col && col != \"null\") //check for null string from ruby\n		$(\".catTopOverlay\").css(\"background-color\",col);\n	else //if the color was null or empty remove the background-color\n		$(\".catTopOverlay\").css(\"background-color\",\"\");\n\n	$(\".catOverlayTitle\").html($(currCategory).find(\".evnt-title\").text());\n	$(\".cat-overlay-box\").attr(\"data-id\",id);\n}\n\n//show the event editing overlay\nfunction showOverlay(elem)\n{\n	var editingEvent = $(document.activeElement).hasClass(\"evnt-title\");\n\n	if(inColumn(elem) && !editingEvent && elem.attr(\"data-id\") != -1) //make sure this is a placed event that isn't private and we aren't already editing\n	{\n		currEvent = elem; //Set the current event to the event being edited\n		var item = scheduleItems[elem.attr(\"evnt-temp-id\")];\n\n		//Select the proper repeat button\n		$(\".repeat-option\").removeClass(\"red\");\n		var rep = item.repeatType || \"none\";\n		$(\"#repeat-\" + rep).addClass(\"red\");\n\n		$(\".ui-widget-overlay, .overlay-box\").show();\n\n		$(\".overlay-title\").html(item.name);\n		$(\"#overlay-desc\").html(item.description || \"\");\n		$(\"#overlay-loc\").html(item.location || \"\");\n\n		var startArr = [item.startDateTime.getHours(), paddedMinutes(item.startDateTime)];\n		var endArr = [item.endDateTime.getHours(), paddedMinutes(item.endDateTime)];\n\n		//$(\".overlay-time\").html(convertTo12Hour(time.split(\":\")) + \" - \" + convertTo12Hour(endTime.split(\":\")));\n		$(\"#time-start\").val(convertTo12Hour(startArr));\n		$(\"#time-end\").val(convertTo12Hour(endArr));\n	}\n}\n\n//Hide any type of overlay\nfunction hideOverlay()\n{\n	//Hide overlay, the repeat menu and category and event overlays\n	$(\".ui-widget-overlay, #repeat-menu, .overlay-box, .cat-overlay-box\").hide();\n}\n\n//Update the color of the category overlay from a color being picked\nfunction changeCategoryColor(elem)\n{\n	$(\".catTopOverlay\").css(\"background-color\",$(elem).css(\"background-color\"));\n}\n\n//Setup properties of a place schedule item from the db, setting position and height\nfunction placeInSchedule(elem, hours, lengthHours)\n{\n	//console.log(\"Length: \" + lengthHours);\n	$(elem).css(\"height\", (gridHeight*lengthHours)-border); //set the height using the length in hours\n	$(elem).css(\"top\", gridHeight*hours); //set the top position by gridHeight times the hour\n}\n\n/****************************/\n/*** JSON SERVER METHODS ****/\n/****************************/\n\nfunction saveEvents()\n{\n	//JSON encode our hashmap\n	var arr  = JSON.parse(JSON.stringify(scheduleItems));\n\n	$.ajax({\n	    url: \"/save_events\",\n	    type: \"POST\",\n	    data: {map: arr, text: \"testificates\"},\n	    success: function(resp)\n	    {\n	    	console.log(\"Save complete.\");\n	    	$(\"#sch-save\").addClass(\"active\");\n	    	setTimeout(function()\n	    	{\n	    		$(\"#sch-save\").removeClass(\"active\");\n	    	}, 1500);\n\n	    	for(var key in resp)\n	    	{\n	    		$(\".sch-evnt[evnt-temp-id=\"+ key + \"]\")	.attr(\"event-id\", resp[key]);\n	    		scheduleItems[key].eventId = resp[key];\n	    	}\n	    },\n	    error: function(resp)\n	    {\n	    	alert(\"Saving events failed :(\");\n	    }\n	});\n}\n\nfunction removeEvent(event, elem)\n{\n	event.stopImmediatePropagation();\n	$(elem).parent().slideUp(\"normal\", function() { $(this).remove(); } );\n\n	var eId = $(elem).parent().attr(\"event-id\");\n	var tempId = $(elem).parent().attr(\"evnt-temp-id\");\n\n	delete scheduleItems[tempId]; //remove event map\n\n	if(!eId)\n	{\n		return;\n	}\n\n	$.ajax({\n	    url: \"/delete_event\",\n	    type: \"POST\",\n	    data: {id: eId},\n	    success: function(resp)\n	    {\n	    	console.log(\"Delete complete.\");\n	    },\n	    error: function(resp)\n	    {\n	    	alert(\"Deleting event failed :/\");\n	    }\n	});\n}\n\nfunction createCategory()\n{\n	$.ajax({\n	    url: \"/create_category\",\n	    type: \"POST\",\n	    data: {name: \"Untitled\", user_id: userId},\n	    success: function(resp)\n	    {\n	    	console.log(\"Create category complete.\");\n\n	    	var newCat = $(\"#cat-template\").clone();\n	    	$(\"#sch-tiles-inside\").append(newCat);\n	    	newCat.show();\n	    	newCat.attr(\"data-id\", resp.id);\n	    	newCat.find(\".evnt-title\").text(resp.name);\n	    	newCat.find(\".sch-evnt-editCat\").attr(\"onclick\", 'editCategory(event, this, \"' + resp.id + '\", \"'+resp.name+'\", \"' + resp.color + '\");');\n	    	newCat.find(\".sch-evnt-delCat\").attr(\"onclick\", 'deleteCategory(event, this,\"' + resp.id + '\");');\n	    	addDrag();\n	    	sideHTML = $(\"#sch-tiles\").html(); //the sidebar html for restoration upon drops\n	    	newCat.find(\".sch-evnt-editCat\").click();\n	    },\n	    error: function(resp)\n	    {\n	    	alert(\"Creating category failed :(\");\n	    }\n	});\n}\n\nfunction deleteCategory(event, elem, id)\n{\n	$.ajax({\n	    url: \"/delete_category\",\n	    type: \"POST\",\n	    data: {id: id},\n	    success: function(resp) //after the server says the delete worked\n	    {\n	    	console.log(\"Delete category complete.\");\n			$(elem).parent().slideUp(\"normal\", function() //slide up the div, hiding it\n			{\n				$(this).remove(); //and when that's done, remove the div\n				sideHTML = $(\"#sch-tiles\").html(); //and save the sidebar html for restoration upon drops\n			});\n	    },\n	    error: function(resp)\n	    {\n	    	alert(\"Deleting category failed :(\");\n	    }\n	});\n}\n\nfunction saveCategory(event,elem,id)\n{\n	$.ajax({\n	    url: \"/create_category\",\n	    type: \"POST\",\n	    data: {name: $(\".catOverlayTitle\").html(), id: id, color: $(\".catTopOverlay\").css(\"background-color\"), privacy: currCategory.attr(\"privacy\")},\n	    success: function(resp)\n	    {\n	    	console.log(\"Update category complete.\");\n	    	hideOverlay(); //Hide category editing panel\n			$(\"#sch-sidebar .sch-evnt[data-id=\" + id + \"]\").find(\".evnt-title\").html($(\".catOverlayTitle\").html()); //Update name in sidebar\n			$(\".sch-evnt[data-id=\" + id + \"]\").css(\"background-color\", $(\".catTopOverlay\").css(\"background-color\")); //Update color of events\n			sideHTML = $(\"#sch-tiles\").html(); //the sidebar html for restoration upon drops\n	    },\n	    error: function(resp)\n	    {\n	    	alert(\"Updating category failed :(\");\n	    }\n	});\n}\n\n/****************************/\n/* END JSON SERVER METHODS **/\n/****************************/\n\n/****************************/\n/***** HELPER METHODS *******/\n/****************************/\n\n//converts an array [hour, minutes] from 24 hour to 12 hour time\nfunction convertTo12Hour(timeArr)\n{\n	if(timeArr[0] >= 12)\n	{\n		if(timeArr[0] > 12)\n			timeArr[0] -= 12;\n\n		if(timeArr[0] == 0)\n			timeArr[0] == \"00\";\n\n		return timeArr.join(\":\") + \" PM\";\n	}\n	else\n	{\n		if(timeArr[0] == 0)\n			timeArr[0] = 12;\n\n		if(timeArr[0] == 0)\n			timeArr[0] == \"00\";\n\n		return timeArr.join(\":\") + \" AM\";\n	}\n}\n\n//returns whether the element is in a schedule element\nfunction inColumn(elem)\n{\n	var class_data = elem.parent().attr(\"class\");\n	if(class_data && class_data.indexOf(\"col-snap evt-snap\") > -1)\n		return true;\n	else\n		return false;\n}\n\nfunction setHeight(getElem, setElem, hoursLength) //get the height of getElem and set the height of setElem if the height is not a proper height (divisible by gridheight)\n{\n	var height = parseFloat($(getElem).css(\"height\"));\n	if((height+border)%gridHeight != 0)\n		$(setElem).css(\"height\", (gridHeight*hoursLength)-border);\n}\n\nfunction paddedMinutes(date)\n{\n	var minutes = (date.getMinutes() < 10? '0' : '') + date.getMinutes(); //add zero the the beginning of minutes if less than 10\n	return minutes;\n}\n\nfunction paddedNumber(num)\n{\n	var paddedNum = (num < 10? '0' : '') + num; //add zero the the beginning of minutes if less than 10\n	return paddedNum;\n}\n\n//removes cursor highlight\nfunction removeHighlight()\n{\n	window.getSelection().removeAllRanges();\n}\n\nfunction highlightCurrent()\n{\n	document.execCommand('selectAll',false,null);\n}\n\n/****************************/\n/*** END HELPER METHODS *****/\n/****************************/\n\n/****************************/\n/**** HTML TIED METHODS *****/\n/****************************/\n\n//Used by the next and previous buttons\nfunction moveWeek(forward)\n{\n	var newDate;\n\n	if(forward) //if next button\n		newDate = new Date(refDate.getYear()+1900,refDate.getMonth(),refDate.getDate()+7)\n	else //otherwise\n		newDate = new Date(refDate.getYear()+1900,refDate.getMonth(),refDate.getDate()-7);\n\n	addDates(newDate, true); //move back\n\n	//And update the date thing. Recall that javascript get month starts at 0 with January, so we append 1 for humans\n	$(\"#week-date\").val(paddedNumber(newDate.getMonth() + 1) + \"/\" + paddedNumber(newDate.getDate()) + \"/\" + newDate.getFullYear());\n}\n\n/****************************/\n/***** END HTML METHODS *****/\n/****************************/",
 			"file": "app/assets/javascripts/scheduler.js",
-			"file_size": 33288,
-			"file_write_time": 131027541433094955,
 			"settings":
 			{
-				"buffer_size": 33292,
+				"buffer_size": 34385,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/assets/stylesheets/carpe.css",
+			"settings":
+			{
+				"buffer_size": 7905,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/views/shared/_schedule.html.erb",
+			"settings":
+			{
+				"buffer_size": 8100,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/assets/stylesheets/profile.scss",
+			"settings":
+			{
+				"buffer_size": 3549,
 				"line_ending": "Unix"
 			}
 		},
@@ -206,7 +235,7 @@
 			"file": "app/assets/stylesheets/schedule.scss",
 			"settings":
 			{
-				"buffer_size": 10883,
+				"buffer_size": 11253,
 				"line_ending": "Unix"
 			}
 		}
@@ -284,25 +313,25 @@
 	],
 	"file_history":
 	[
+		"/home/viktor/Documents/Personal/carpe-uno/app/views/shared/_user_box_horizontal.html.erb",
+		"/home/viktor/Documents/Personal/carpe-uno/app/models/event.rb",
+		"/home/viktor/Documents/Personal/carpe-uno/app/assets/stylesheets/carpe.css",
+		"/home/viktor/Documents/Personal/carpe-uno/app/views/home/index.html.erb",
+		"/home/viktor/Documents/Personal/carpe-uno/app/assets/javascripts/scheduler.js",
 		"/home/viktor/Documents/Personal/carpe-uno/app/views/shared/_user_box.html.erb",
 		"/home/viktor/Documents/Personal/carpe-uno/config/routes.rb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/controllers/users/registrations_controller.rb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/models/category.rb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/views/pages/admin.html.erb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/views/shared/_schedule.html.erb",
-		"/home/viktor/Documents/Personal/carpe-uno/app/models/event.rb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/views/schedule/schedule.html.erb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/views/users/show.html.erb",
-		"/home/viktor/Documents/Personal/carpe-uno/app/views/home/index.html.erb",
-		"/home/viktor/Documents/Personal/carpe-uno/app/views/shared/_user_box_horizontal.html.erb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/assets/javascripts/application.js",
-		"/home/viktor/Documents/Personal/carpe-uno/app/assets/stylesheets/carpe.css",
 		"/home/viktor/Documents/Personal/carpe-uno/app/views/shared/_header.html.erb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/controllers/friendships_controller.rb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/controllers/users_controller.rb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/views/users/index.html.erb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/views/users/_friend_button.html.erb",
-		"/home/viktor/Documents/Personal/carpe-uno/app/assets/javascripts/scheduler.js",
 		"/home/viktor/Documents/Personal/carpe-uno/app/controllers/schedule_controller.rb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/views/users/_friend-button.html.erb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/assets/stylesheets/schedule.scss",
@@ -398,6 +427,27 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"gridHeight",
+			"%gridH",
+			"% gridH",
+			"today",
+			"previous",
+			"addDates",
+			"new Date()",
+			".setName",
+			"overlay-desc",
+			"overlay-title",
+			".overlay-title",
+			"overlay-desc",
+			"description",
+			"evnt-title",
+			"readOnly",
+			"overlay-box",
+			"body",
+			"30px",
+			"editCategory",
+			"createCategory",
+			"friend-details",
 			"Top: ",
 			"setStartDateTime",
 			"TODO:",
@@ -504,28 +554,7 @@
 			"handlePosition",
 			".css(\"top",
 			".height",
-			".height(",
-			".height",
-			"dragCOmplete",
-			"populateEvents",
-			"dragComplete",
-			"setHours",
-			"dragComplete",
-			"stop",
-			"populateEvents",
-			"lengthInHours",
-			"avatar img",
-			"avatar",
-			"lengthinhours",
-			"gethours",
-			"%",
-			"updateHeight",
-			"time-start",
-			"setHeight",
-			"gridHeight*",
-			".repeat",
-			".repeatType",
-			"tempElement ="
+			".height("
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -573,7 +602,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
@@ -582,15 +611,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 33292,
+						"buffer_size": 34385,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								14007,
-								14007
+								32651,
+								32651
 							]
 						],
 						"settings":
@@ -599,7 +628,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 6836.0,
+						"translation.y": 17308.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -607,6 +636,91 @@
 				},
 				{
 					"buffer": 2,
+					"file": "app/assets/stylesheets/carpe.css",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 7905,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								200,
+								200
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CSS/CSS.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "app/views/shared/_schedule.html.erb",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 8100,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								475,
+								475
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Rails/HTML (Rails).sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "app/assets/stylesheets/profile.scss",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3549,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3023,
+								3023
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CSS/CSS.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 325.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
 					"file": "app/models/user.rb",
 					"semi_transient": false,
 					"settings":
@@ -627,27 +741,27 @@
 							"syntax": "Packages/Ruby/Ruby.sublime-syntax"
 						},
 						"translation.x": 0.0,
-						"translation.y": 631.0,
+						"translation.y": 121.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
-					"buffer": 3,
+					"buffer": 6,
 					"file": "app/assets/stylesheets/schedule.scss",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 10883,
+						"buffer_size": 11253,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								384,
-								384
+								5243,
+								5243
 							]
 						],
 						"settings":
@@ -656,10 +770,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 70.0,
+						"translation.y": 5493.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 1,
 					"type": "text"
 				}
 			]
@@ -718,6 +832,42 @@
 		"selected_items":
 		[
 			[
+				"carpe.css",
+				"app/assets/stylesheets/carpe.css"
+			],
+			[
+				"schedule.htl",
+				"app/views/shared/_schedule.html.erb"
+			],
+			[
+				"scheduler.",
+				"app/assets/javascripts/scheduler.js"
+			],
+			[
+				"event.r",
+				"app/models/event.rb"
+			],
+			[
+				"profile.s",
+				"app/assets/stylesheets/profile.scss"
+			],
+			[
+				"carpe.cs",
+				"app/assets/stylesheets/carpe.css"
+			],
+			[
+				"user_bo",
+				"app/views/shared/_user_box_horizontal.html.erb"
+			],
+			[
+				"index.ht",
+				"app/views/home/index.html.erb"
+			],
+			[
+				"scheduler.s",
+				"app/assets/javascripts/scheduler.js"
+			],
+			[
 				"schedule.c",
 				"app/assets/stylesheets/schedule.scss"
 			],
@@ -774,10 +924,6 @@
 				"app/views/shared/_header.html.erb"
 			],
 			[
-				"carpe.css",
-				"app/assets/stylesheets/carpe.css"
-			],
-			[
 				"friendship_con",
 				"app/controllers/friendships_controller.rb"
 			],
@@ -804,10 +950,6 @@
 			[
 				"headerhtm",
 				"app/views/shared/_header.html.erb"
-			],
-			[
-				"carpe.cs",
-				"app/assets/stylesheets/carpe.css"
 			],
 			[
 				"schedule_con",
@@ -844,10 +986,6 @@
 			[
 				"show.htm",
 				"app/views/users/show.html.erb"
-			],
-			[
-				"profile.s",
-				"app/assets/stylesheets/profile.scss"
 			],
 			[
 				"carpe",
@@ -914,10 +1052,6 @@
 				"vendor/bundle/ruby/2.2.0/gems/rails_serve_static_assets-0.0.4/.travis.yml"
 			],
 			[
-				"event.r",
-				"app/models/event.rb"
-			],
-			[
 				"indexht",
 				"app/views/home/index.html.erb"
 			],
@@ -976,10 +1110,6 @@
 			[
 				"home_",
 				"app/controllers/home_controller.rb"
-			],
-			[
-				"index.ht",
-				"app/views/home/index.html.erb"
 			],
 			[
 				"header.cs",
@@ -1212,22 +1342,6 @@
 			[
 				"ticketmagic.css",
 				"app/assets/stylesheets/ticketmagic/ticketmagic.scss"
-			],
-			[
-				"serizer/applcation.js",
-				"fire/app/serializers/application.js"
-			],
-			[
-				"serializers/application.js",
-				"fire/app/serializers/application.js"
-			],
-			[
-				"layout.html.erb",
-				"app/views/layouts/fire.html.erb"
-			],
-			[
-				"events.",
-				"fire/app/templates/events.emblem"
 			]
 		],
 		"width": 0.0
