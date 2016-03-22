@@ -238,11 +238,14 @@ function addStartingListeners()
 		populateEvents();
 	});
 
+
+
 	$(".color-swatch").click(function()
 	{
 		$(".color-swatch").removeClass("selected");
 		
 		$(this).addClass("selected");
+
 
 	});
 
@@ -340,6 +343,8 @@ function addStartingListeners()
 		}
 	});
 }
+
+
 
 function loadInitialEvents() //load events into the hashmap
 {
@@ -824,6 +829,13 @@ function editCategory(event, elem, id, name, col)
 
 	$(".catOverlayTitle").html($(currCategory).find(".evnt-title").text());
 	$(".cat-overlay-box").attr("data-id",id);
+
+	$(".color-swatch").each(function() {
+		if ($(this).css("background-color") == $(".catTopOverlay").css("background-color")) {
+			
+			$(this).addClass("selected");
+		}
+	});
 }
 
 //show the event editing overlay
