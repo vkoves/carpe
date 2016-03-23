@@ -864,8 +864,21 @@ function showOverlay(elem)
 
 		$("#overlay-title").html(item.name);
 		$("#overlay-color-bar").css("background-color",elem.css("background-color"));
-		$("#overlay-desc").html(item.description || "");
-		$("#overlay-loc").html(item.location || "");
+
+		var desc = item.description || ""; //in case the description is null
+		var loc = item.location || ""; //in case the location is null
+		$("#overlay-desc").html(desc);
+		$("#overlay-loc").html(loc);
+
+		if(desc.length == 0 && readOnly) //if this is readOnly and there is no description
+			$("#overlay-desc, #desc-title").hide(); //hide the field and the title
+		else
+			$("#overlay-desc, #desc-title").show();
+
+		if(loc.length == 0 && readOnly) //do the same for the location
+			$("#overlay-loc, #loc-title").hide();
+		else
+			$("#overlay-loc, #loc-title").show();
 
 		var startArr = [item.startDateTime.getHours(), paddedMinutes(item.startDateTime)];
 		var endArr = [item.endDateTime.getHours(), paddedMinutes(item.endDateTime)];

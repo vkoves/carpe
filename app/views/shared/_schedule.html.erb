@@ -29,7 +29,6 @@
 		<input id="time-start" type="text" value="10:00am"></input> -
 		<input id="time-end" type="text" value="12:00pm"></input>
 	</div>
-
 	<span id="close" class="default red" onclick="hideOverlay()"></span>
 	<span id="repeat" class="default green" onclick="$('#repeat-menu').toggle();">Edit Repeat Type</span>
 	<div id="repeat-menu">
@@ -39,12 +38,13 @@
 		<span id="repeat-monthly" class="default repeat-option">Monthly</span>
 		<span id="repeat-yearly" class="default repeat-option">Yearly</span>
 	</div>
-	<div class="small-title">
+	<br>
+	<div id="desc-title" class="small-title">
 		Description:
 		<span id="edit-desc" class="edit">Edit</span>
 	</div>
 	<div id="overlay-desc" contenteditable="true">Description goes here</div>
-	<div class="small-title">
+	<div id="loc-title" class="small-title">
 		Location:
 		<span id="edit-loc" class="edit" onclick="$('#overlay-loc').focus()">Edit</span>
 	</div>

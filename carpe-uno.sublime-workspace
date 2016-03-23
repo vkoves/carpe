@@ -4,6 +4,30 @@
 		"selected_items":
 		[
 			[
+				"Sel",
+				"selected"
+			],
+			[
+				"seconds",
+				"seconds_diff"
+			],
+			[
+				"catego",
+				"categoryName"
+			],
+			[
+				"categor",
+				"categoryId"
+			],
+			[
+				"fouc",
+				"focusout"
+			],
+			[
+				"highli",
+				"highlightCurrent"
+			],
+			[
 				"reado",
 				"read_only"
 			],
@@ -184,58 +208,60 @@
 	"buffers":
 	[
 		{
-			"file": "app/controllers/pages_controller.rb",
-			"settings":
-			{
-				"buffer_size": 670,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/assets/javascripts/scheduler.js",
-			"settings":
-			{
-				"buffer_size": 34385,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/assets/stylesheets/carpe.css",
-			"settings":
-			{
-				"buffer_size": 7905,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/views/shared/_schedule.html.erb",
-			"settings":
-			{
-				"buffer_size": 8100,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/assets/stylesheets/profile.scss",
-			"settings":
-			{
-				"buffer_size": 3549,
-				"line_ending": "Unix"
-			}
-		},
-		{
 			"file": "app/models/user.rb",
 			"settings":
 			{
-				"buffer_size": 4649,
+				"buffer_size": 5143,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "app/assets/stylesheets/schedule.scss",
+			"file": "app/views/home/index.html.erb",
 			"settings":
 			{
-				"buffer_size": 11253,
+				"buffer_size": 2258,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/views/shared/_user_box_horizontal.html.erb",
+			"settings":
+			{
+				"buffer_size": 2308,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "Searching 5022 files for \"/u/<%= \"\n\n/home/viktor/Documents/Personal/carpe-uno/app/views/pages/admin.html.erb:\n    8  <% @users.each do |user| %>\n    9  	<div class=\"grey-box\" style=\"width: 200px; margin-left: auto; margin-right: auto; width: 200px; height: 56px; padding: 5px 10px; border-radius: 5px; margin-bottom: 10px;\">\n   10: 		<a href=\"/u/<%= user.id %>\">\n   11  			<div class=\"avatar\" style=\"float: left\">\n   12  				<img style=\"width: 50px; height: 50px;\" src=\"<%= user.user_avatar(100) %>\">\n\n/home/viktor/Documents/Personal/carpe-uno/app/views/shared/_header.html.erb:\n   65  			<% notif_general.each do |n| %>\n   66  				<div class=\"notif general\">\n   67: 					<a href=\"/u/<%= n.sender_id %>\">\n   68  						<div id=\"user-avatar\">\n   69  							<img src=\"<%= n.sender.user_avatar(90) %>\">\n\n/home/viktor/Documents/Personal/carpe-uno/app/views/shared/_user_box_horizontal.html.erb:\n    5  <div class=\"friend-listing <%= @profile ? \"profile\" : \"\" %>\">\n    6  <% end %>\n    7: 	<a href=\"/u/<%= user.id %>\">\n    8  \n    9  		<div class=\"avatar\">\n   ..\n   39  							<div class=\"red circle\"></div>\n   40  							<% if e.category.has_access(current_user) %>\n   41: 								<a class=\"simple\" href=\"/u/<%= user.id %>?p=schedule\"><%= e.name %></a> until <%= relative_time_ago(e.end_date, false) %>\n   42  							<% else %>\n   43  								Busy until <%= relative_time_ago(e.end_date, false) %>\n   ..\n   45  							<% free = false %>\n   46  						<% else %>\n   47: 							, <a class=\"simple\" href=\"/u/<%= user.id %>?p=schedule\"><%= e.name %></a>\n   48  						<% end %>\n   49  					<% end %>\n\n/home/viktor/Documents/Personal/carpe-uno/app/views/users/_activity.html.erb:\n   13  		<div class=\"activity-listing\">\n   14  			<% fship = arr[0]; user = arr[1]%>\n   15: 			<a href=\"/u/<%= user.id %>\">\n   16  			<div class=\"avatar\" style=\"float: left\">\n   17  				<img src=\"<%= user.user_avatar(50) %>\" style=\"width: 50px; height: 50px;\">\n\n/home/viktor/Documents/Personal/carpe-uno/log/development.log:\n    <binary>\n\n9 matches across 5 files\n",
+			"settings":
+			{
+				"buffer_size": 2032,
+				"line_ending": "Unix",
+				"name": "Find Results",
+				"scratch": true
+			}
+		},
+		{
+			"file": "app/views/users/_activity.html.erb",
+			"settings":
+			{
+				"buffer_size": 832,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/views/shared/_header.html.erb",
+			"settings":
+			{
+				"buffer_size": 3959,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/views/pages/admin.html.erb",
+			"settings":
+			{
+				"buffer_size": 714,
 				"line_ending": "Unix"
 			}
 		}
@@ -247,10 +273,14 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 54.0,
-		"last_filter": "set snytax: css",
+		"height": 193.0,
+		"last_filter": "package inst",
 		"selected_items":
 		[
+			[
+				"package inst",
+				"Package Control: Install Package"
+			],
 			[
 				"set snytax: css",
 				"Set Syntax: CSS"
@@ -284,7 +314,7 @@
 				"Package Control: Install Package"
 			]
 		],
-		"width": 449.0
+		"width": 417.0
 	},
 	"console":
 	{
@@ -313,31 +343,33 @@
 	],
 	"file_history":
 	[
+		"/home/viktor/.config/sublime-text-3/Packages/User/Preferences.sublime-settings",
+		"/home/viktor/Documents/Personal/carpe-uno/app/views/shared/_header.html.erb",
+		"/home/viktor/Documents/Personal/carpe-uno/app/views/users/show.html.erb",
+		"/home/viktor/Documents/Personal/carpe-uno/app/assets/stylesheets/profile.scss",
+		"/home/viktor/Documents/Personal/carpe-uno/app/controllers/users_controller.rb",
+		"/home/viktor/Documents/Personal/carpe-uno/app/views/shared/_schedule.html.erb",
+		"/home/viktor/Documents/Personal/carpe-uno/app/helpers/application_helper.rb",
+		"/home/viktor/Documents/Personal/carpe-uno/app/assets/stylesheets/schedule.scss",
+		"/home/viktor/Documents/Personal/carpe-uno/app/controllers/pages_controller.rb",
+		"/home/viktor/Documents/Personal/carpe-uno/app/assets/javascripts/scheduler.js",
+		"/home/viktor/Documents/Personal/carpe-uno/app/assets/stylesheets/carpe.css",
 		"/home/viktor/Documents/Personal/carpe-uno/app/views/shared/_user_box_horizontal.html.erb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/models/event.rb",
-		"/home/viktor/Documents/Personal/carpe-uno/app/assets/stylesheets/carpe.css",
 		"/home/viktor/Documents/Personal/carpe-uno/app/views/home/index.html.erb",
-		"/home/viktor/Documents/Personal/carpe-uno/app/assets/javascripts/scheduler.js",
 		"/home/viktor/Documents/Personal/carpe-uno/app/views/shared/_user_box.html.erb",
 		"/home/viktor/Documents/Personal/carpe-uno/config/routes.rb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/controllers/users/registrations_controller.rb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/models/category.rb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/views/pages/admin.html.erb",
-		"/home/viktor/Documents/Personal/carpe-uno/app/views/shared/_schedule.html.erb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/views/schedule/schedule.html.erb",
-		"/home/viktor/Documents/Personal/carpe-uno/app/views/users/show.html.erb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/assets/javascripts/application.js",
-		"/home/viktor/Documents/Personal/carpe-uno/app/views/shared/_header.html.erb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/controllers/friendships_controller.rb",
-		"/home/viktor/Documents/Personal/carpe-uno/app/controllers/users_controller.rb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/views/users/index.html.erb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/views/users/_friend_button.html.erb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/controllers/schedule_controller.rb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/views/users/_friend-button.html.erb",
-		"/home/viktor/Documents/Personal/carpe-uno/app/assets/stylesheets/schedule.scss",
-		"/home/viktor/Documents/Personal/carpe-uno/app/helpers/application_helper.rb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/views/users/find_friends.html.erb",
-		"/home/viktor/Documents/Personal/carpe-uno/app/assets/stylesheets/profile.scss",
 		"/home/viktor/Documents/Personal/carpe-uno/vendor/assets/javascripts/jquery.tokeninput.js",
 		"/home/viktor/Documents/Personal/carpe-uno/app/views/layouts/application.html.erb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/controllers/application_controller.rb",
@@ -346,7 +378,6 @@
 		"/home/viktor/Documents/Personal/carpe-uno/vendor/bundle/ruby/2.2.0/gems/rails_serve_static_assets-0.0.4/.travis.yml",
 		"/home/viktor/Documents/Personal/carpe-uno/config/initializers/assets.rb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/assets/stylesheets/application.css",
-		"/home/viktor/Documents/Personal/carpe-uno/app/controllers/pages_controller.rb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/assets/stylesheets/header.css.scss",
 		"/home/viktor/Documents/Personal/carpe-uno/app/assets/stylesheets/profile.css.scss",
 		"/home/viktor/Documents/Personal/carpe-uno/app/views/users/search.html.erb",
@@ -390,7 +421,6 @@
 		"/home/viktor/Documents/WebClones/ticket-magic/fire/app/helpers/make-title-case.js",
 		"/home/viktor/Documents/WebClones/ticket-magic/fire/app/helpers/check-equals.js",
 		"/home/viktor/Documents/WebClones/ticket-magic/app/assets/stylesheets/ticketmagic/f.scss",
-		"/home/viktor/.config/sublime-text-3/Packages/User/Preferences.sublime-settings",
 		"/home/viktor/Documents/WebClones/ticket-magic/fire/app/helpers/make-category-route.js",
 		"/home/viktor/Documents/WebClones/ticket-magic/fire/app/helpers/make-lower-case.js",
 		"/home/viktor/Documents/WebClones/ticket-magic/app/views/layouts/fire.html.erb",
@@ -417,9 +447,10 @@
 	},
 	"find_in_files":
 	{
-		"height": 0.0,
+		"height": 93.0,
 		"where_history":
 		[
+			"<open folders>"
 		]
 	},
 	"find_state":
@@ -427,6 +458,28 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"/u/",
+			"user.id",
+			"link_to",
+			"/u/<%= ",
+			"saveCategory",
+			"saveCategor",
+			"background",
+			"editCategory",
+			"grey",
+			"addClass",
+			"n",
+			"showOverlay",
+			"cat-title",
+			"overlay-title",
+			"overlay-box ",
+			"showOverlay",
+			"color:",
+			"highlightCurrent",
+			"editCategory",
+			"catOverlayTitle",
+			"overlay-desc",
+			"description",
 			"gridHeight",
 			"%gridH",
 			"% gridH",
@@ -532,29 +585,7 @@
 			"append",
 			"autocomplete",
 			"/*",
-			"placeholder",
-			"show_dropdown",
-			".focus",
-			"hide_dropdown",
-			"hide_drop",
-			"add_token",
-			"width",
-			"focus",
-			"font-family",
-			"close",
-			"height: 100%",
-			"console.log",
-			"paddedMinutes",
-			"moveWeek",
-			"addDates",
-			"populateEvents",
-			".click(",
-			"[",
-			"updateTime",
-			"handlePosition",
-			".css(\"top",
-			".height",
-			".height("
+			"placeholder"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -572,24 +603,24 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "app/controllers/pages_controller.rb",
+					"file": "app/models/user.rb",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 670,
+						"buffer_size": 5143,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								529,
-								529
+								1963,
+								1963
 							]
 						],
 						"settings":
@@ -599,84 +630,27 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "app/assets/javascripts/scheduler.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 34385,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								32651,
-								32651
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 17308.0,
+						"translation.y": 527.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "app/assets/stylesheets/carpe.css",
+					"buffer": 1,
+					"file": "app/views/home/index.html.erb",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 7905,
+						"buffer_size": 2258,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								200,
-								200
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CSS/CSS.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "app/views/shared/_schedule.html.erb",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 8100,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								475,
-								475
+								1821,
+								1821
 							]
 						],
 						"settings":
@@ -688,92 +662,188 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
-					"buffer": 4,
-					"file": "app/assets/stylesheets/profile.scss",
+					"buffer": 2,
+					"file": "app/views/shared/_user_box_horizontal.html.erb",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3549,
+						"buffer_size": 2308,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3023,
-								3023
+								245,
+								245
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/CSS/CSS.sublime-syntax"
+							"syntax": "Packages/Rails/HTML (Rails).sublime-syntax",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 325.0,
+						"translation.y": 51.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2032,
+						"regions":
+						{
+							"match":
+							{
+								"flags": 112,
+								"regions":
+								[
+									[
+										343,
+										350
+									],
+									[
+										681,
+										688
+									],
+									[
+										993,
+										1000
+									],
+									[
+										1200,
+										1207
+									],
+									[
+										1496,
+										1503
+									],
+									[
+										1772,
+										1779
+									]
+								],
+								"scope": ""
+							}
+						},
+						"selection":
+						[
+							[
+								1589,
+								1589
+							]
+						],
+						"settings":
+						{
+							"detect_indentation": false,
+							"line_numbers": false,
+							"output_tag": 1,
+							"result_base_dir": "",
+							"result_file_regex": "^([^ 	].*):$",
+							"result_line_regex": "^ +([0-9]+):",
+							"scroll_past_end": true,
+							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "app/views/users/_activity.html.erb",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 832,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								493,
+								493
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Rails/HTML (Rails).sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "app/views/shared/_header.html.erb",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3959,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2629,
+								2629
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Rails/HTML (Rails).sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 70.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 5,
 					"type": "text"
 				},
 				{
-					"buffer": 5,
-					"file": "app/models/user.rb",
+					"buffer": 6,
+					"file": "app/views/pages/admin.html.erb",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4649,
+						"buffer_size": 714,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3274,
-								3274
+								160,
+								160
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Ruby/Ruby.sublime-syntax"
+							"syntax": "Packages/Rails/HTML (Rails).sublime-syntax"
 						},
 						"translation.x": 0.0,
-						"translation.y": 121.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "app/assets/stylesheets/schedule.scss",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 11253,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5243,
-								5243
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CSS/CSS.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 5493.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
 					"type": "text"
 				}
 			]
@@ -781,7 +851,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 26.0
+		"height": 27.0
 	},
 	"input":
 	{
@@ -822,7 +892,7 @@
 	"project": "carpe-uno.sublime-project",
 	"replace":
 	{
-		"height": 48.0
+		"height": 50.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -831,6 +901,58 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"activity.html",
+				"app/views/users/_activity.html.erb"
+			],
+			[
+				"header.html",
+				"app/views/shared/_header.html.erb"
+			],
+			[
+				"user_box_ho",
+				"app/views/shared/_user_box_horizontal.html.erb"
+			],
+			[
+				"admin.",
+				"app/views/pages/admin.html.erb"
+			],
+			[
+				"header.html.",
+				"app/views/shared/_header.html.erb"
+			],
+			[
+				"user_box_h",
+				"app/views/shared/_user_box_horizontal.html.erb"
+			],
+			[
+				"index.ht",
+				"app/views/home/index.html.erb"
+			],
+			[
+				"users_con",
+				"app/controllers/users_controller.rb"
+			],
+			[
+				"application_helper",
+				"app/helpers/application_helper.rb"
+			],
+			[
+				"schedule.sc",
+				"app/assets/stylesheets/schedule.scss"
+			],
+			[
+				"scheduler.js",
+				"app/assets/javascripts/scheduler.js"
+			],
+			[
+				"show.h",
+				"app/views/users/show.html.erb"
+			],
+			[
+				"user.rb",
+				"app/models/user.rb"
+			],
 			[
 				"carpe.css",
 				"app/assets/stylesheets/carpe.css"
@@ -860,20 +982,12 @@
 				"app/views/shared/_user_box_horizontal.html.erb"
 			],
 			[
-				"index.ht",
-				"app/views/home/index.html.erb"
-			],
-			[
 				"scheduler.s",
 				"app/assets/javascripts/scheduler.js"
 			],
 			[
 				"schedule.c",
 				"app/assets/stylesheets/schedule.scss"
-			],
-			[
-				"admin.",
-				"app/views/pages/admin.html.erb"
 			],
 			[
 				"user_",
@@ -912,10 +1026,6 @@
 				"app/assets/javascripts/scheduler.js"
 			],
 			[
-				"user_box_h",
-				"app/views/shared/_user_box_horizontal.html.erb"
-			],
-			[
 				"home/in",
 				"app/views/home/index.html.erb"
 			],
@@ -930,14 +1040,6 @@
 			[
 				"pages",
 				"app/controllers/pages_controller.rb"
-			],
-			[
-				"users_con",
-				"app/controllers/users_controller.rb"
-			],
-			[
-				"header.html",
-				"app/views/shared/_header.html.erb"
 			],
 			[
 				"user_box.h",
@@ -1008,10 +1110,6 @@
 				"app/assets/javascripts/scheduler.js"
 			],
 			[
-				"schedule.sc",
-				"app/assets/stylesheets/schedule.scss"
-			],
-			[
 				"_scheud",
 				"app/views/shared/_schedule.html.erb"
 			],
@@ -1042,10 +1140,6 @@
 			[
 				"application",
 				"app/helpers/application_helper.rb"
-			],
-			[
-				"user.rb",
-				"app/models/user.rb"
 			],
 			[
 				"user.rv",
@@ -1150,10 +1244,6 @@
 			[
 				"pages_",
 				"app/controllers/pages_controller.rb"
-			],
-			[
-				"scheduler.js",
-				"app/assets/javascripts/scheduler.js"
 			],
 			[
 				"ticketmagic.js",
@@ -1322,26 +1412,6 @@
 			[
 				"adapter",
 				"fire/app/adapters/application.js"
-			],
-			[
-				"reouter.js",
-				"fire/app/router.js"
-			],
-			[
-				"category.emb",
-				"fire/app/templates/category.emblem"
-			],
-			[
-				"h.scss",
-				"app/assets/stylesheets/ticketmagic/h.scss"
-			],
-			[
-				"f.css",
-				"app/assets/stylesheets/ticketmagic/f.scss"
-			],
-			[
-				"ticketmagic.css",
-				"app/assets/stylesheets/ticketmagic/ticketmagic.scss"
 			]
 		],
 		"width": 0.0
@@ -1354,7 +1424,7 @@
 		[
 			[
 				"",
-				"~/Documents/WebClones/ticket-magic/ticket-magic.sublime-project"
+				"~/Documents/WebClones/ticket-mini-sites/ticket-mini-sites.sublime-project"
 			]
 		],
 		"width": 380.0
