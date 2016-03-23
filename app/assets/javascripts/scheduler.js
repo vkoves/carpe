@@ -818,7 +818,7 @@ function editCategory(event, elem, id, name, col)
 	$(".catOverlayTitle").trigger('focus');
 	document.execCommand('selectAll',false,null);
 
-	$(".ui-widget-overlay, .cat-overlay-box").show();
+	$(".ui-widget-overlay, .cat-overlay-box").fadeIn(250);
 
 	var colForTop = currCategory.css("background-color");
 
@@ -860,7 +860,7 @@ function showOverlay(elem)
 		var rep = item.repeatType || "none";
 		$("#repeat-" + rep).addClass("red");
 
-		$(".ui-widget-overlay, .overlay-box").show();
+		$(".ui-widget-overlay, .overlay-box").fadeIn(250);
 
 		$("#overlay-title").html(item.name);
 		$("#overlay-color-bar").css("background-color",elem.css("background-color"));
@@ -893,7 +893,7 @@ function showOverlay(elem)
 function hideOverlay()
 {
 	//Hide overlay, the repeat menu and category and event overlays
-	$(".ui-widget-overlay, #repeat-menu, .overlay-box, .cat-overlay-box").hide();
+	$(".ui-widget-overlay, #repeat-menu, .overlay-box, .cat-overlay-box").fadeOut(250);
 }
 
 //Update the color of the category overlay from a color being picked
