@@ -25,6 +25,24 @@ class User < ActiveRecord::Base
 		self.delete #and then get rid of ourselves
 	end
 
+  def current_events #return events that are currently going on
+    now = Time.now.in_time_zone("Central Time (US & Canada)")
+    busy_events = self.events_in_range(DateTime.now.beginning_of_day, DateTime.now.end_of_day) #get events that occur today
+    busy_events = busy_events.select{|event| (event.date <= now and event.end_date >= now)} #get events going on right now
+    return busy_events
+  end
+
+  def next_event #returns the next upcoming event within the next day
+    now = Time.now.in_time_zone("Central Time (US & Canada)")
+    upcoming_events = self.events_in_range(DateTime.now.beginning_of_day, DateTime.now.end_of_day)
+    upcoming_events = upcoming_events.select{|event| event.date > now} #get future events
+    return upcoming_events.sort_by(&:date)[0]
+  end
+
+  def is_busy?
+    return current_events.count > 0
+  end
+
 	def user_avatar(size) #returns a url to the avatar with the width in pixels
     unless self.has_avatar #if this user has no avatar, or the Google default, return the gravatar avatar
       return "http://www.gravatar.com/avatar/?d=mm"
@@ -128,12 +146,12 @@ class User < ActiveRecord::Base
 
 	 events.each do |e|
 	   if e.category.has_access(user)
-		arr.push(e)
+	     arr.push(e)
 	   else
-	   	e.name = "Private"
-	   	e.description = ""
-	   	e.location = ""
-	   	arr.push(e)
+	   	 e.name = "Private"
+	   	 e.description = ""
+	   	 e.location = ""
+	   	 arr.push(e)
 	   end
 	 end
 

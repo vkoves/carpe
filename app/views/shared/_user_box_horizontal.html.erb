@@ -31,35 +31,21 @@
 				<br>
 				<%= render "/users/friend_button", user: user %>
 			<% else %>
-				<% @events = user.events_in_range(DateTime.now.beginning_of_day, DateTime.now.end_of_day) %>
-				<% @events.each do |e| %>
-					<% if e.current? %>
-						<% if free %>
-							<div class="red circle"></div>
-							<% if e.category.has_access(current_user) %>
-								<a class="simple" href="/u/<%= user.id %>?p=schedule"><%= e.name %></a> until <%= relative_time_ago(e.end_date, false) %>
-							<% else %>
-								Busy until <%= relative_time_ago(e.end_date, false) %>
-							<% end %>
-							<% free = false %>
-						<% else %>
-							, <a class="simple" href="/u/<%= user.id %>?p=schedule"><%= e.name %></a>
-						<% end %>
+				<% if user.is_busy? %>
+					<div class="red circle"></div>
+					<% if user.current_events[0].category.has_access(current_user) %>
+						<a class="simple" href="/u/<%= user.id %>?p=schedule"><%= user.current_events[0].name %></a>
+					<% else %>
+						Busy
 					<% end %>
-				<% end %>
-				<% if free %>
-					<% @events.each do |e| %>
-						<% if e.date.future? and e.date.today? #if the event has not started yet %>
-							<div class="green circle"></div>
-							<%= raw("Free until " + relative_time_ago(e.date, false)) %>
-							<% free = false %>
-							<% break %>
-						<% end %>
-					<% end %>
-				<% end %>
-				<% if free #if they have no events today %>
+					until <%= relative_time_ago user.current_events[0].end_date %>
+				<% else %>
 					<div class="green circle"></div>
-					Free for the rest of the day
+					<% if user.next_event %>
+						Free until <%= relative_time_ago(user.next_event.date) %>
+					<% else %>
+						Free the rest of the day
+					<% end %>
 				<% end %>
 			<% end %>
 		<% end %>
