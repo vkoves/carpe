@@ -38,11 +38,12 @@
 					<% else %>
 						Busy
 					<% end %>
-					until <%= relative_time_ago user.current_events[0].end_date %>
+					until <%= relative_time_ago(user.current_events[0].end_date, false) %>
+
 				<% else %>
 					<div class="green circle"></div>
 					<% if user.next_event %>
-						Free until <%= relative_time_ago(user.next_event.date) %>
+						Free until <%= relative_time_ago(user.next_event.date, false) %>
 					<% else %>
 						Free the rest of the day
 					<% end %>
