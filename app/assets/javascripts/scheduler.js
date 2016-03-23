@@ -382,7 +382,6 @@ function loadInitialEvents() //load events into the hashmap
 			clone.attr("time", time);
 			clone.attr("event-id", evnt.id);
 			clone.attr("evnt-temp-id", i); //Set the temp id
-			clone.attr("rep-type", evnt.repeat);
 			clone.children(".evnt-desc").html(evnt.description);
 
 			scheduleItems[i].tempElement = clone; //Store the element
@@ -509,11 +508,19 @@ function addDrag(selector)
 			$("#sch-tiles").html(sideHTML); //reset the sidebar
 			$(this).css("opacity", 1); //undo the setting opacity to zero
 
+			var tempItem = scheduleItems[$(this).attr("evnt-temp-id")];
+
 			handlePosition(this, ui);
 			if(!newItem) //if this is not a new item
-				scheduleItems[$(this).attr("evnt-temp-id")].dragComplete($(this)); //say it's been moved
+				tempItem.dragComplete($(this)); //say it's been moved
 			else //otherwise
-				scheduleItems[$(this).attr("evnt-temp-id")].resizeComplete($(this)); //say it's been resized, to read all properties
+				tempItem.resizeComplete($(this)); //say it's been resized, to read all properties
+
+			if(tempItem.repeatType && tempItem.repeatType != "none" && tempItem.repeatType != "") //if this is a repeating event
+			{
+				$(".sch-evnt[evnt-temp-id='" + tempItem.tempId + "']").remove(); //remove all of this event
+				populateEvents(); //and populate
+			}
 
 			addDrag(); //add drag to the sidebar again
 		},
@@ -567,9 +574,11 @@ function handleClone(elem, ui)
 	schItem.startDateTime = oldItem.startDateTime;
 	schItem.endDateTime = oldItem.endDateTime;
 	schItem.name = oldItem.name;
-	schItem.eventId = null;
+	schItem.eventId = null; //this is a new element so don't copy that
 	schItem.categoryId = oldItem.categoryId;
-	schItem.repeatType = "";
+	schItem.repeatType = oldItem.repeatType;
+	schItem.location = oldItem.location;
+	schItem.description = oldItem.description;
 	schItem.tempId = eventTempId;
 	scheduleItems[eventTempId] = schItem;
 
@@ -577,7 +586,7 @@ function handleClone(elem, ui)
 
 
 	clone.removeClass("ui-draggable ui-draggable-handle ui-resizable ui-draggable-dragging"); //remove dragging stuff
-	addDrag(clone); //and redo draggin
+	addDrag(clone); //and redo dragging
 }
 
 //called on new events dragged from the sidebar
@@ -621,7 +630,14 @@ function addResizing(selector)
 	    	},
 	    	stop: function(event, ui)
 	    	{
-				scheduleItems[$(this).attr("evnt-temp-id")].resizeComplete($(this));
+				var tempItem = scheduleItems[$(this).attr("evnt-temp-id")];
+				tempItem.resizeComplete($(this));
+
+				if(tempItem.repeatType && tempItem.repeatType != "none" && tempItem.repeatType != "") //if this is a repeating event
+				{
+					$(".sch-evnt[evnt-temp-id='" + tempItem.tempId + "']").remove(); //remove all instances
+					populateEvents(); //and populateEvents to refresh things
+				}
 	    	}
 		});
 	}
