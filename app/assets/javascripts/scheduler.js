@@ -228,13 +228,12 @@ function addStartingListeners()
 		//get the text of the button
 		var repType = $(this).text().toLowerCase();
 		console.log("Rep type is " + repType);
-		currEvent.attr("rep-type", repType); //and set the repeat type attribute
 
 		//then update the repeat type without going through push event info
-		scheduleItems[currEvent.attr("evnt-temp-id")].repeatType = repType;
+		currEvent.repeatType = repType;
 
 		//remove all of this element
-		$(".sch-evnt[evnt-temp-id='" + currEvent.attr("evnt-temp-id") + "']").remove();
+		$(".sch-evnt[evnt-temp-id='" + currEvent.tempId + "']").remove();
 		populateEvents();
 	});
 
@@ -260,7 +259,7 @@ function addStartingListeners()
 	{
 		//TODO: Fix this not working across different days (try noon in your local time)
 
-		var dateE = $(currEvent).parent().siblings(".col-titler").children(".evnt-fulldate").html(); //the date the elem is on
+		var dateE = currEvent.element().parent().siblings(".col-titler").children(".evnt-fulldate").html(); //the date the elem is on
 
 		var val = $(this).val();
 		var end_val = $("#time-end").val();
@@ -269,8 +268,8 @@ function addStartingListeners()
 		if (isNaN(dateTime.getTime()))
 			alert("Start date doesn't make sense! Tried \"" + dateE+" "+val + "\"");
 
-		scheduleItems[currEvent.attr("evnt-temp-id")].setStartDateTime(dateTime, true);
-		scheduleItems[currEvent.attr("evnt-temp-id")].updateHeight();
+		currEvent.setStartDateTime(dateTime, true);
+		currEvent.updateHeight();
 
 	});
 
@@ -278,7 +277,7 @@ function addStartingListeners()
 	{
 		//TODO: Fix this not working across different days (try noon in your local time)
 
-		var dateE = $(currEvent).parent().siblings(".col-titler").children(".evnt-fulldate").html(); //the date the elem is on
+		var dateE = currEvent.element().parent().siblings(".col-titler").children(".evnt-fulldate").html(); //the date the elem is on
 
 		var val = $(this).val();
 		var start_val = $("#time-start").val();
@@ -287,20 +286,20 @@ function addStartingListeners()
 		if (isNaN(dateTime.getTime()))
 			alert("End date doesn't make sense! Tried \"" + dateE+" "+val + "\"");
 
-		scheduleItems[currEvent.attr("evnt-temp-id")].setEndDateTime(dateTime, true);
-		scheduleItems[currEvent.attr("evnt-temp-id")].updateHeight();
+		currEvent.setEndDateTime(dateTime, true);
+		currEvent.updateHeight();
 
 	});
 
 	$("#overlay-desc").focusout(function()
 	{
-		scheduleItems[currEvent.attr("evnt-temp-id")].description = $(this).text();
+		currEvent.description = $(this).text();
 		removeHighlight();
 	}).click(highlightCurrent);
 
 	$("#overlay-loc").focusout(function()
 	{
-		scheduleItems[currEvent.attr("evnt-temp-id")].location = $(this).text();
+		currEvent.location = $(this).text();
 		removeHighlight();
 	}).click(highlightCurrent);
 
@@ -310,14 +309,14 @@ function addStartingListeners()
 	    {
 			e.preventDefault();
 		    $(this).blur();  // lose focus
-		    scheduleItems[currEvent.attr("evnt-temp-id")].setName($(this).text());
+		    currEvent.setName($(this).text());
 	    }
 	})
 	.click(highlightCurrent)
 	.focusout(function()
 	{
 		//so that clicking outside an event title also saves
-		scheduleItems[currEvent.attr("evnt-temp-id")].setName($(this).text());
+		currEvent.setName($(this).text());
 		removeHighlight();
 	});
 
@@ -848,25 +847,24 @@ function showOverlay(elem)
 
 	if(inColumn(elem) && !editingEvent && elem.attr("data-id") != -1) //make sure this is a placed event that isn't private and we aren't already editing
 	{
-		currEvent = elem; //Set the current event to the event being edited
-		var item = scheduleItems[elem.attr("evnt-temp-id")];
+		currEvent = scheduleItems[elem.attr("evnt-temp-id")];
 
-		var categoryName = $("#sch-tiles .sch-evnt.category[data-id=" + item.categoryId + "]").find(".evnt-title").text();
+		var categoryName = $("#sch-tiles .sch-evnt.category[data-id=" + currEvent.categoryId + "]").find(".evnt-title").text();
 		$("#cat-title").html("In category <b>" + categoryName + "</b>");
 
 
 		//Select the proper repeat button
 		$(".repeat-option").removeClass("red");
-		var rep = item.repeatType || "none";
+		var rep = currEvent.repeatType || "none";
 		$("#repeat-" + rep).addClass("red");
 
 		$(".ui-widget-overlay, .overlay-box").fadeIn(250);
 
-		$("#overlay-title").html(item.name);
+		$("#overlay-title").html(currEvent.name);
 		$("#overlay-color-bar").css("background-color",elem.css("background-color"));
 
-		var desc = item.description || ""; //in case the description is null
-		var loc = item.location || ""; //in case the location is null
+		var desc = currEvent.description || ""; //in case the description is null
+		var loc = currEvent.location || ""; //in case the location is null
 		$("#overlay-desc").html(desc);
 		$("#overlay-loc").html(loc);
 
@@ -880,8 +878,8 @@ function showOverlay(elem)
 		else
 			$("#overlay-loc, #loc-title").show();
 
-		var startArr = [item.startDateTime.getHours(), paddedMinutes(item.startDateTime)];
-		var endArr = [item.endDateTime.getHours(), paddedMinutes(item.endDateTime)];
+		var startArr = [currEvent.startDateTime.getHours(), paddedMinutes(currEvent.startDateTime)];
+		var endArr = [currEvent.endDateTime.getHours(), paddedMinutes(currEvent.endDateTime)];
 
 		//$(".overlay-time").html(convertTo12Hour(time.split(":")) + " - " + convertTo12Hour(endTime.split(":")));
 		$("#time-start").val(convertTo12Hour(startArr));
