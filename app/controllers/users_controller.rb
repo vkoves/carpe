@@ -11,6 +11,19 @@ class UsersController < ApplicationController
         @profile = true
       end
 
+      case params[:p]
+      when "friends"
+        @tab = "friends"
+      when "activity"
+        @tab = "activity"
+      when "mutual_friends"
+        @tab = "mutual"
+      when "schedule"
+        @tab = "schedule"
+      else #default, aka no params
+        @tab = "schedule"
+      end
+
       if params[:p] == "mutual_friends"
         @mutual_friends = current_user.mutual_friends(@user)
       else

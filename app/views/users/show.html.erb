@@ -28,9 +28,9 @@
 			</div>
 		</div>
 		<div id="profile-buttons">
-			<a href="?"><div class="<%= "curr" if !params[:p] %>">Friends</div></a>
-			<a href="?p=activity"><div class="<%= "curr" if params[:p] == "activity" %>">Activity</div></a>
-			<a href="?p=schedule"><div class="<%= "curr" if params[:p] == "schedule" %>">Schedule</div></a>
+			<a href="?p=schedule"><div class="<%= "curr" if @tab == "schedule" %>">Schedule</div></a>
+			<a href="?p=friends"><div class="<%= "curr" if @tab == "friends" %>">Friends</div></a>
+			<a href="?p=activity"><div class="<%= "curr" if @tab == "activity" %>">Activity</div></a>
 		</div>
 	</div>
 </div>
@@ -44,9 +44,9 @@
 		<%= render "mutual_friends_listing" %>
 	<% elsif params[:p] == "activity" %>
 		<%= render "activity" %>
-	<% elsif params[:p] == "schedule" %>
+	<% elsif params[:p] == "schedule" or !params[:p] %>
 		<%= render "schedule" %>
-	<% else %>
+	<% elsif params[:p] == "friends" %>
 		<%= render "friend_listing" %>
 	<% end %>
 </div>
