@@ -213,6 +213,7 @@
 }
 #sch-tiles .category
 {
+	display: table;
 	box-shadow: 0.5px 0.5px 10px rgb(185, 185, 185);
 }
 #sch-tiles-inside
@@ -297,7 +298,13 @@
 }
 #sch-tiles .evnt-title
 {
+	position: relative;
+	height: auto;
+	top: auto;
+	left: 52px;
 	font-size: 16px;
+	display: table-cell;
+	vertical-align: middle;
 }
 .col-snap .evnt-title:hover, .col-snap .evnt-title:focus
 {
@@ -506,7 +513,7 @@ input[readonly="readonly"]
 	cursor: pointer;
 }
 
-.color-swatch.selected { 
+.color-swatch.selected {
 	background-image:image-url("checkmark-wht.png");
 	background-size:cover;
 }
