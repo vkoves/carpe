@@ -59,12 +59,26 @@ function ScheduleItem() //The
 
 	this.setStartDateTime = function(newStartDateTime, resize) //if resize is true, we do not move the end time
 	{
-		setDateTime(true, newStartDateTime, this, resize);
+		if(newStartDateTime.getTime() > this.endDateTime.getTime() && this.name) //if trying to set start before end
+		{
+			alert("The event can't start after it ends!"); //throw an error unless this is a new event (blank name)
+			var startArr = [currEvent.startDateTime.getHours(), paddedMinutes(currEvent.startDateTime)]; //and reset the field
+			$("#time-start").val(convertTo12Hour(startArr));
+		}
+		else
+			setDateTime(true, newStartDateTime, this, resize);
 	};
 
 	this.setEndDateTime = function(newEndDateTime, resize) //if resize, we don't move the start time
 	{
-		setDateTime(false, newEndDateTime, this, resize);
+		if(newEndDateTime.getTime() < this.startDateTime.getTime() && this.name) //if trying to set end before start
+		{
+			alert("The event can't end before it begins!"); //throw an error unless this is a new event
+			var endArr = [currEvent.endDateTime.getHours(), paddedMinutes(currEvent.endDateTime)]; //and reset the field
+			$("#time-end").val(convertTo12Hour(endArr));
+		}
+		else
+			setDateTime(false, newEndDateTime, this, resize);
 	};
 
 	this.setName = function(newName)
