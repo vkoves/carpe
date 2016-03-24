@@ -300,11 +300,11 @@ function addStartingListeners()
 		if (isNaN(dateTime.getTime()))
 			alert("Start date doesn't make sense! Tried \"" + dateE+" "+val + "\"");
 
-		var newDateTime = new Date(currEvent.startDateTime.getTime());
-		newDateTime.setHours(dateTime.getHours());
-		newDateTime.setMinutes(dateTime.getMinutes());
+		var newDateTime = new Date(currEvent.startDateTime.getTime()); //We don't want to modify the date, only the time, so clone the date
+		newDateTime.setHours(dateTime.getHours()); //change the hours
+		newDateTime.setMinutes(dateTime.getMinutes()); //change the minutes
 
-		currEvent.setStartDateTime(newDateTime, true, true);
+		currEvent.setStartDateTime(newDateTime, true, true); //and set!
 		currEvent.updateHeight();
 
 	});
