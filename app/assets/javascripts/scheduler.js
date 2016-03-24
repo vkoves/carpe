@@ -47,10 +47,15 @@ function ScheduleItem() //The
 	this.description; //the event description
 	this.location; //the event location
 
-	this.lengthInHours =  function() //returns an integer of the length of the event hours
+	this.lengthInHours =  function() //returns an float of the length of the event in hours
 	{
 		return differenceInHours(this.startDateTime, this.endDateTime, false);
 	};
+
+	this.hoursSpanned = function() //returns an integer of the difference in the hours
+	{
+		return this.endDateTime.getHours() - this.startDateTime.getHours();
+	}
 
 	this.destroy = function() //deletes the schedule item from the frontend
 	{
@@ -58,9 +63,9 @@ function ScheduleItem() //The
 		delete scheduleItems[this.tempId]; //then delete from the scheduleItems map
 	};
 
-	this.setStartDateTime = function(newStartDateTime, resize) //if resize is true, we do not move the end time
+	this.setStartDateTime = function(newStartDateTime, resize, userSet) //if resize is true, we do not move the end time
 	{
-		if(newStartDateTime.getTime() > this.endDateTime.getTime() && this.name) //if trying to set start before end
+		if(newStartDateTime.getTime() > this.endDateTime.getTime() && userSet) //if trying to set start before end
 		{
 			alert("The event can't start after it ends!"); //throw an error unless this is a new event (blank name)
 			var startArr = [currEvent.startDateTime.getHours(), paddedMinutes(currEvent.startDateTime)]; //and reset the field
@@ -70,9 +75,9 @@ function ScheduleItem() //The
 			setDateTime(true, newStartDateTime, this, resize);
 	};
 
-	this.setEndDateTime = function(newEndDateTime, resize) //if resize, we don't move the start time
+	this.setEndDateTime = function(newEndDateTime, resize, userSet) //if resize, we don't move the start time
 	{
-		if(newEndDateTime.getTime() < this.startDateTime.getTime() && this.name) //if trying to set end before start
+		if(newEndDateTime.getTime() < this.startDateTime.getTime() && userSet) //if trying to set end before start
 		{
 			alert("The event can't end before it begins!"); //throw an error unless this is a new event
 			var endArr = [currEvent.endDateTime.getHours(), paddedMinutes(currEvent.endDateTime)]; //and reset the field
@@ -110,9 +115,7 @@ function ScheduleItem() //The
 	{
 		console.log(this.startDateTime.getHours());
 		var hourStart = this.startDateTime.getHours() + (this.startDateTime.getMinutes()/60);
-		console.log("HS " + hourStart);
 		var h =  gridHeight*hourStart;
-		console.log("H" + h);
 		return h;
 	}
 
@@ -173,7 +176,8 @@ function ScheduleItem() //The
 			var roundDiff = Math.round(diff/one_hour);
 			if (roundDiff == 0)
 				roundDiff = 1;
-			return  roundDiff;//Math.round(diff/one_hour);
+			return  roundDiff;
+			//Math.round(diff/one_hour);
 		}
 		else
 			return diff/one_hour;
@@ -219,8 +223,6 @@ function scheduleReady()
 
 function addStartingListeners()
 {
-
-
 	$("#week-date").datepicker( //show the datepicker when clicking on the field
 	{
 		firstDay: 1, //set Monday as the first day
@@ -298,7 +300,7 @@ function addStartingListeners()
 		if (isNaN(dateTime.getTime()))
 			alert("Start date doesn't make sense! Tried \"" + dateE+" "+val + "\"");
 
-		currEvent.setStartDateTime(dateTime, true);
+		currEvent.setStartDateTime(dateTime, true, true);
 		currEvent.updateHeight();
 
 	});
@@ -316,7 +318,7 @@ function addStartingListeners()
 		if (isNaN(dateTime.getTime()))
 			alert("End date doesn't make sense! Tried \"" + dateE+" "+val + "\"");
 
-		currEvent.setEndDateTime(dateTime, true);
+		currEvent.setEndDateTime(dateTime, true, true);
 		currEvent.updateHeight();
 
 	});
@@ -489,6 +491,11 @@ function addDrag(selector)
 			ctrlPressed = false;
 	});
 
+	$(selector).dblclick(function()
+	{
+		showOverlay($(this));
+	})
+
 	$(selector).draggable(
 	{
 		containment: "window",
@@ -513,7 +520,7 @@ function addDrag(selector)
 		},
 		start: function(event, ui)
 		{
-			setHeight(this, ui.helper, 3);
+			//setHeight(this, ui.helper, 3);
 
 			if(ctrlPressed && $(this).parent().attr("id") != "sch-tiles-inside") //if this is an existing event and control is pressed
 			{
@@ -533,7 +540,7 @@ function addDrag(selector)
 				newItem = true;
 			}
 
-			setHeight(this, this, 3);
+			//setHeight(this, this, 3);
 
 			$("#sch-tiles").html(sideHTML); //reset the sidebar
 			$(this).css("opacity", 1); //undo the setting opacity to zero
@@ -691,6 +698,8 @@ function updateTime(elem, ui, resize) //if we're resizing, don't snap, just upda
 		if(item)
 			currMins = gridHeight*(item.startDateTime.getMinutes()/60);
 
+		console.log("CUrr: " +currMins)
+
 		if(!resize)
 		{
 			var topRemainder = (ui.position.top + offsetDiff) % gridHeight;
@@ -704,15 +713,19 @@ function updateTime(elem, ui, resize) //if we're resizing, don't snap, just upda
 
 	//var end_arr = arr.slice(0); //set end array
 	var hoursLength = $(elem).outerHeight()/gridHeight; //find the length in hours
+	var hoursSpanned = 3;
 	if(item)
+	{
 		hoursLength = item.lengthInHours();
+		hoursSpanned = item.hoursSpanned();
+	}
 	else
 		hoursLength = 3;
 
 	//if(hoursLength % 1 != 0) //if it's a decimal, we know this is a new event
 	//	hoursLength = 3; //so set the default size
 
-	end_arr[0] = arr[0] + hoursLength; //and add the height to the hours of the end time
+	end_arr[0] = arr[0] + hoursSpanned; //and add the height to the hours of the end time
 
 	$(elem).attr("time", arr.join(":")); //set the time attr using military
 	arr = convertTo12Hour(arr); //then convert to 12 hour
