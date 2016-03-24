@@ -300,7 +300,11 @@ function addStartingListeners()
 		if (isNaN(dateTime.getTime()))
 			alert("Start date doesn't make sense! Tried \"" + dateE+" "+val + "\"");
 
-		currEvent.setStartDateTime(dateTime, true, true);
+		var newDateTime = new Date(currEvent.startDateTime.getTime());
+		newDateTime.setHours(dateTime.getHours());
+		newDateTime.setMinutes(dateTime.getMinutes());
+
+		currEvent.setStartDateTime(newDateTime, true, true);
 		currEvent.updateHeight();
 
 	});
@@ -318,7 +322,11 @@ function addStartingListeners()
 		if (isNaN(dateTime.getTime()))
 			alert("End date doesn't make sense! Tried \"" + dateE+" "+val + "\"");
 
-		currEvent.setEndDateTime(dateTime, true, true);
+		var newDateTime = new Date(currEvent.startDateTime.getTime());
+		newDateTime.setHours(dateTime.getHours());
+		newDateTime.setMinutes(dateTime.getMinutes());
+
+		currEvent.setEndDateTime(newDateTime, true, true);
 		currEvent.updateHeight();
 
 	});
