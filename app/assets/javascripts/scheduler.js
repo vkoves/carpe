@@ -12,6 +12,7 @@ var eventTempId = 0; //the temp id that the next event will have, incremented on
 
 var currEvent; //the event being currently edited
 var currCategory; //the category being currently edited
+var currMins; //the current top value offset caused by the minutes of the current item
 
 var readied = false; //whether the ready function has been called
 
@@ -48,7 +49,7 @@ function ScheduleItem() //The
 
 	this.lengthInHours =  function() //returns an integer of the length of the event hours
 	{
-		return differenceInHours(this.startDateTime, this.endDateTime, true);
+		return differenceInHours(this.startDateTime, this.endDateTime, false);
 	};
 
 	this.destroy = function() //deletes the schedule item from the frontend
@@ -105,6 +106,16 @@ function ScheduleItem() //The
 		this.endDateTime = endDT;
 	};
 
+	this.getHeight = function() //returns the height based on the hours and minutes of the start
+	{
+		console.log(this.startDateTime.getHours());
+		var hourStart = this.startDateTime.getHours() + (this.startDateTime.getMinutes()/60);
+		console.log("HS " + hourStart);
+		var h =  gridHeight*hourStart;
+		console.log("H" + h);
+		return h;
+	}
+
 	this.updateHeight = function()
 	{
 		this.element().css("height", gridHeight*this.lengthInHours());
@@ -140,7 +151,7 @@ function ScheduleItem() //The
 		if(isStart || !resize) //only set the startDateTime if we are not resizing or starting
 		{
 			schItem.startDateTime = topDT;
-			elem.css("top", gridHeight*topDT.getHours()); //set the top position by gridHeight times the hour
+			elem.css("top", schItem.getHeight()); //set the top position by gridHeight times the hour
 			elem.children(".evnt-time.top").text(convertTo12Hour([topDT.getHours(), paddedMinutes(topDT)])).show();
 		}
 
@@ -405,7 +416,7 @@ function loadInitialEvents() //load events into the hashmap
 
 			scheduleItems[i].tempElement = clone; //Store the element
 
-			placeInSchedule(clone, dateE.getHours(), scheduleItems[i].lengthInHours());
+			placeInSchedule(clone, scheduleItems[i].getHeight(), scheduleItems[i].lengthInHours());
 
 			eventTempId++; //increment the temp id
 		}
@@ -556,7 +567,7 @@ function addDrag(selector)
 function handlePosition(elem, ui) //if
 {
 	var offset = $(elem).parent().offset().top;
-	var topVal = ui.position.top - offset;
+	var topVal = ui.position.top - offset - currMins;
 
 	if(topVal % gridHeight != 0)
 		topVal += dropScroll;
@@ -667,6 +678,7 @@ function updateTime(elem, ui, resize) //if we're resizing, don't snap, just upda
 {
 	var arr = ui.helper.attr("time").split(":"); //fetch the time from the helper
 	var end_arr = ui.helper.children(".evnt-time.bot").text().split(" ")[0].split(":");
+	var item = scheduleItems[elem.attr("evnt-temp-id")];
 
 	//Take care of grid snapping
 	if($(elem).draggable('option', 'gridOn') || resize) //only update time if we are snapping in a column or are resizing
@@ -675,18 +687,30 @@ function updateTime(elem, ui, resize) //if we're resizing, don't snap, just upda
 		if(resize)
 			offsetDiff = 0;
 
+		currMins = 0;
+		if(item)
+			currMins = gridHeight*(item.startDateTime.getMinutes()/60);
+
 		if(!resize)
 		{
 			var topRemainder = (ui.position.top + offsetDiff) % gridHeight;
 			ui.position.top = ui.position.top - topRemainder;
 		}
 		arr[0] = (ui.position.top + offsetDiff)/gridHeight;
+
+		ui.position.top += currMins;
 	}
+
 
 	//var end_arr = arr.slice(0); //set end array
 	var hoursLength = $(elem).outerHeight()/gridHeight; //find the length in hours
-	if(hoursLength % 1 != 0) //if it's a decimal, we know this is a new event
-		hoursLength = 3; //so set the default size
+	if(item)
+		hoursLength = item.lengthInHours();
+	else
+		hoursLength = 3;
+
+	//if(hoursLength % 1 != 0) //if it's a decimal, we know this is a new event
+	//	hoursLength = 3; //so set the default size
 
 	end_arr[0] = arr[0] + hoursLength; //and add the height to the hours of the end time
 
@@ -940,7 +964,7 @@ function placeInSchedule(elem, hours, lengthHours)
 {
 	//console.log("Length: " + lengthHours);
 	$(elem).css("height", (gridHeight*lengthHours)-border); //set the height using the length in hours
-	$(elem).css("top", gridHeight*hours); //set the top position by gridHeight times the hour
+	$(elem).css("top", hours); //set the top position by gridHeight times the hour
 }
 
 /****************************/
