@@ -110,8 +110,9 @@ function ScheduleItem() //The
 	this.resizeComplete = function(elem)
 	{
 		this.dragComplete(elem, true);
-		var endDT = new Date(this.endDateTime.getTime());
+		var endDT = new Date(this.startDateTime.getTime());
 		endDT.setHours(this.startDateTime.getHours() + (elem.outerHeight()/gridHeight));
+		endDT.setMinutes(this.endDateTime.getMinutes());
 		this.endDateTime = endDT;
 	};
 
@@ -561,8 +562,6 @@ function addDrag(selector)
 				newItem = true;
 			}
 
-			//setHeight(this, this, 3);
-
 			$("#sch-tiles").html(sideHTML); //reset the sidebar
 			$(this).css("opacity", 1); //undo the setting opacity to zero
 
@@ -572,7 +571,10 @@ function addDrag(selector)
 			if(!newItem) //if this is not a new item
 				tempItem.dragComplete($(this)); //say it's been moved
 			else //otherwise
+			{
 				tempItem.resizeComplete($(this)); //say it's been resized, to read all properties
+				tempItem.endDateTime.setMinutes(0);
+			}
 
 			if(tempItem.repeatType && tempItem.repeatType != "none" && tempItem.repeatType != "") //if this is a repeating event
 			{
@@ -669,7 +671,6 @@ function handleNewEvent(elem)
 	$(elem).attr("evnt-temp-id", eventTempId);
 	eventTempId++;
 	addResizing($(elem)); //since the sidebar events don't have resizing, we have to add it on stop
-
 }
 
 //add resizing for schedule events that are new
