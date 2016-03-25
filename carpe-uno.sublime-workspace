@@ -4,6 +4,46 @@
 		"selected_items":
 		[
 			[
+				"newDate",
+				"newDateTime"
+			],
+			[
+				"stata",
+				"startDateTime"
+			],
+			[
+				"startDa",
+				"startDateTime"
+			],
+			[
+				"round",
+				"roundDiff"
+			],
+			[
+				"popul",
+				"populateEvents"
+			],
+			[
+				"tem",
+				"tempId"
+			],
+			[
+				"relative",
+				"relative_time_ago"
+			],
+			[
+				"upcom",
+				"upcoming_events"
+			],
+			[
+				"current",
+				"current_events"
+			],
+			[
+				"over-",
+				"overlay-desc"
+			],
+			[
 				"Sel",
 				"selected"
 			],
@@ -208,10 +248,45 @@
 	"buffers":
 	[
 		{
-			"file": "app/models/user.rb",
+			"file": "app/views/pages/admin.html.erb",
 			"settings":
 			{
-				"buffer_size": 5143,
+				"buffer_size": 714,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/assets/javascripts/scheduler.js",
+			"settings":
+			{
+				"buffer_size": 38379,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/assets/stylesheets/schedule.scss",
+			"settings":
+			{
+				"buffer_size": 12239,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/views/shared/_schedule.html.erb",
+			"settings":
+			{
+				"buffer_size": 8139,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "class User < ActiveRecord::Base\n  has_many :friendships\n  has_many :friends, :through => :friendships\n  has_many :inverse_friendships, :class_name => \"Friendship\", :foreign_key => \"friend_id\"\n  has_many :inverse_friends, :through => :inverse_friendships, :source => :user\n  has_many :users_groups\n  has_many :groups, :through => :users_groups\n  has_many :notifications, :class_name => 'Notification', :foreign_key => 'receiver_id'\n\n  # Include default devise modules. Others available are:\n  # :confirmable, :lockable, :timeoutable and :omniauthable\n  devise :database_authenticatable, :registerable,\n         :recoverable, :rememberable, :trackable, :validatable\n	devise :omniauthable\n	validates_presence_of :name\n\n	has_many :categories\n	has_many :events\n\n	def destroy\n		categories.destroy_all #destroy all our categories\n		events.destroy_all #destroy all our events as well, though cats should cover that\n		notifications.destroy_all #destroy all our notifications\n		friendships.destroy_all #and all our friendships\n		self.delete #and then get rid of ourselves\n	end\n\n  def current_events #return events that are currently going on\n    now = Time.now.in_time_zone(\"Central Time (US & Canada)\")\n    busy_events = self.events_in_range(DateTime.now.beginning_of_day, DateTime.now.end_of_day) #get events that occur today\n    busy_events = busy_events.select{|event| (event.date <= now and event.end_date >= now)} #get events going on right now\n    return busy_events.sort_by(&:end_date) #return the busy events sorted by which ends soonest\n  end\n\n  def next_event #returns the next upcoming event within the next day\n    now = Time.now.in_time_zone(\"Central Time (US & Canada)\")\n    upcoming_events = self.events_in_range(DateTime.now.beginning_of_day, DateTime.now.end_of_day)\n    upcoming_events = upcoming_events.select{|event| event.date > now} #get future events\n    return upcoming_events.sort_by(&:date)[0]\n  end\n\n  def is_busy?\n    return current_events.count > 0\n  end\n\n	def user_avatar(size) #returns a url to the avatar with the width in pixels\n    unless self.has_avatar #if this user has no avatar, or the Google default, return the gravatar avatar\n      return \"http://www.gravatar.com/avatar/?d=mm\"\n    end\n\n	 if image_url.present? and provider #if using google icon, add a size param\n       return image_url.split(\"?\")[0] + \"?sz=\" + size.to_s\n	 elsif image_url.present? #otherwise just return the url\n	   return image_url\n	 end\n	end\n\n  def has_avatar #returns whether the user has a non-default avatar\n    if image_url.present?\n\n      if provider and image_url.include? \"/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M\"\n        return false\n      end\n\n      return true #if the image is present and is not the Google default, return true\n    end\n    return false #if the image is not present, return false\n  end\n\n	def all_friendships() #returns an array of all friendships and friends for easy printing\n    all_friends = []\n    for fship in friendships\n      if fship.confirmed\n        all_friends.push([fship, fship.friend])\n      end\n    end\n\n    # Inverse friends are when the other person added you, so conveniently, we can who added who.\n    for usr in inverse_friends\n      friendship = Friendship.where(user_id: usr.id, friend_id: id).first\n      if friendship.confirmed\n        all_friends.push([friendship, usr])\n      end\n    end\n\n    return all_friends\n	end\n\n	def is_friend?(user) #returns whether the passed user is a friend of this user\n	  friendship = (Friendship.where(user_id: user.id, friend_id: id) || Friendship.where(user_id: id, friend_id: user.id))[0]\n\n    if friendship and friendship.confirmed\n	    return true\n	  else\n	    return false\n	  end\n	end\n\n	def friend_status(user)\n	  friendship = (Friendship.where(user_id: user.id, friend_id: id))[0]\n    if !friendship\n      friendship = (Friendship.where(user_id: id, friend_id: user.id))[0]\n    end\n\n    if friendship\n      if friendship.confirmed == true\n        return \"friend\"\n      elsif friendship.confirmed == false\n        return \"denied\"\n      else\n        return \"pending\"\n      end\n    else\n      return nil\n    end\n	end\n\n	def events_in_range(start_date_time, end_date_time) #returns all instances of events, including cloned version of repeating events\n	  #fetch not repeating events first\n	  event_instances = self.events.where(:date => start_date_time...end_date_time, :repeat => nil)\n\n    #then repeating events\n    self.events.where.not(repeat: nil).each do |rep_event| #get all repeating events\n      event_instances.concat(rep_event.events_in_range(start_date_time, end_date_time)) #and add them to the event array\n    end\n\n    event_instances = event_instances.sort_by(&:date) #and of course sort by date\n\n    return event_instances #and return\n	end\n\n	def mutual_friends(user) #returns mutual friends with the passed in user\n	  return all_friendships.map{|f| f[1]} & user.all_friendships.map{|f| f[1]}\n	end\n\n	def friends_count() #returns the number of friends the user has\n	  return all_friendships().count\n	end\n\n	def get_events(user) #get events that are acessible to the user\n	 if user == self #if a user is trying to view their own events\n	   return events #return all events\n	 end\n\n	 arr = [];\n\n	 events.each do |e|\n	   if e.category.has_access(user)\n	     arr.push(e)\n	   else\n	   	 e.name = \"Private\"\n	   	 e.description = \"\"\n	   	 e.location = \"\"\n	   	 arr.push(e)\n	   end\n	 end\n\n	 return arr\n	end\n\n	def self.find_for_google_oauth2(access_token, signed_in_resource=nil)\n    data = access_token.info\n    user = User.where(:provider => access_token.provider, :uid => access_token.uid ).first\n    if user\n      return user\n    else\n      registered_user = User.where(:email => access_token.info.email).first\n      if registered_user\n        return registered_user\n      else\n        user = User.create(name: data[\"name\"],\n          provider:access_token.provider,\n          email: data[\"email\"],\n          uid: access_token.uid ,\n          password: Devise.friendly_token[0,20],\n          image_url: data[\"image\"]\n        )\n      end\n   end\n	end\nend\n",
+			"file": "app/models/user.rb",
+			"file_size": 5986,
+			"file_write_time": 131031747653347622,
+			"settings":
+			{
+				"buffer_size": 6059,
 				"line_ending": "Unix"
 			}
 		},
@@ -224,44 +299,10 @@
 			}
 		},
 		{
-			"file": "app/views/shared/_user_box_horizontal.html.erb",
+			"file": "app/models/event.rb",
 			"settings":
 			{
-				"buffer_size": 2308,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"contents": "Searching 5022 files for \"/u/<%= \"\n\n/home/viktor/Documents/Personal/carpe-uno/app/views/pages/admin.html.erb:\n    8  <% @users.each do |user| %>\n    9  	<div class=\"grey-box\" style=\"width: 200px; margin-left: auto; margin-right: auto; width: 200px; height: 56px; padding: 5px 10px; border-radius: 5px; margin-bottom: 10px;\">\n   10: 		<a href=\"/u/<%= user.id %>\">\n   11  			<div class=\"avatar\" style=\"float: left\">\n   12  				<img style=\"width: 50px; height: 50px;\" src=\"<%= user.user_avatar(100) %>\">\n\n/home/viktor/Documents/Personal/carpe-uno/app/views/shared/_header.html.erb:\n   65  			<% notif_general.each do |n| %>\n   66  				<div class=\"notif general\">\n   67: 					<a href=\"/u/<%= n.sender_id %>\">\n   68  						<div id=\"user-avatar\">\n   69  							<img src=\"<%= n.sender.user_avatar(90) %>\">\n\n/home/viktor/Documents/Personal/carpe-uno/app/views/shared/_user_box_horizontal.html.erb:\n    5  <div class=\"friend-listing <%= @profile ? \"profile\" : \"\" %>\">\n    6  <% end %>\n    7: 	<a href=\"/u/<%= user.id %>\">\n    8  \n    9  		<div class=\"avatar\">\n   ..\n   39  							<div class=\"red circle\"></div>\n   40  							<% if e.category.has_access(current_user) %>\n   41: 								<a class=\"simple\" href=\"/u/<%= user.id %>?p=schedule\"><%= e.name %></a> until <%= relative_time_ago(e.end_date, false) %>\n   42  							<% else %>\n   43  								Busy until <%= relative_time_ago(e.end_date, false) %>\n   ..\n   45  							<% free = false %>\n   46  						<% else %>\n   47: 							, <a class=\"simple\" href=\"/u/<%= user.id %>?p=schedule\"><%= e.name %></a>\n   48  						<% end %>\n   49  					<% end %>\n\n/home/viktor/Documents/Personal/carpe-uno/app/views/users/_activity.html.erb:\n   13  		<div class=\"activity-listing\">\n   14  			<% fship = arr[0]; user = arr[1]%>\n   15: 			<a href=\"/u/<%= user.id %>\">\n   16  			<div class=\"avatar\" style=\"float: left\">\n   17  				<img src=\"<%= user.user_avatar(50) %>\" style=\"width: 50px; height: 50px;\">\n\n/home/viktor/Documents/Personal/carpe-uno/log/development.log:\n    <binary>\n\n9 matches across 5 files\n",
-			"settings":
-			{
-				"buffer_size": 2032,
-				"line_ending": "Unix",
-				"name": "Find Results",
-				"scratch": true
-			}
-		},
-		{
-			"file": "app/views/users/_activity.html.erb",
-			"settings":
-			{
-				"buffer_size": 832,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/views/shared/_header.html.erb",
-			"settings":
-			{
-				"buffer_size": 3959,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/views/pages/admin.html.erb",
-			"settings":
-			{
-				"buffer_size": 714,
+				"buffer_size": 2114,
 				"line_ending": "Unix"
 			}
 		}
@@ -274,7 +315,7 @@
 	"command_palette":
 	{
 		"height": 193.0,
-		"last_filter": "package inst",
+		"last_filter": "",
 		"selected_items":
 		[
 			[
@@ -314,7 +355,7 @@
 				"Package Control: Install Package"
 			]
 		],
-		"width": 417.0
+		"width": 435.0
 	},
 	"console":
 	{
@@ -343,26 +384,29 @@
 	],
 	"file_history":
 	[
-		"/home/viktor/.config/sublime-text-3/Packages/User/Preferences.sublime-settings",
-		"/home/viktor/Documents/Personal/carpe-uno/app/views/shared/_header.html.erb",
+		"/home/viktor/Documents/Personal/carpe-uno/app/assets/stylesheets/schedule.scss",
+		"/home/viktor/Documents/Personal/carpe-uno/app/views/shared/_user_box_horizontal.html.erb",
+		"/home/viktor/Documents/Personal/carpe-uno/app/views/home/index.html.erb",
+		"/home/viktor/Documents/Personal/carpe-uno/app/models/user.rb",
+		"/home/viktor/Documents/Personal/carpe-uno/app/models/category.rb",
+		"/home/viktor/Documents/Personal/carpe-uno/app/models/event.rb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/views/users/show.html.erb",
-		"/home/viktor/Documents/Personal/carpe-uno/app/assets/stylesheets/profile.scss",
 		"/home/viktor/Documents/Personal/carpe-uno/app/controllers/users_controller.rb",
+		"/home/viktor/Documents/Personal/carpe-uno/app/views/groups/index.html.erb",
+		"/home/viktor/Documents/Personal/carpe-uno/app/assets/javascripts/scheduler.js",
+		"/home/viktor/Documents/Personal/carpe-uno/app/views/schedule/schedule.html.erb",
+		"/home/viktor/Documents/Personal/carpe-uno/app/views/shared/_header.html.erb",
+		"/home/viktor/Documents/Personal/carpe-uno/app/views/users/_activity.html.erb",
+		"/home/viktor/.config/sublime-text-3/Packages/User/Preferences.sublime-settings",
+		"/home/viktor/Documents/Personal/carpe-uno/app/assets/stylesheets/profile.scss",
 		"/home/viktor/Documents/Personal/carpe-uno/app/views/shared/_schedule.html.erb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/helpers/application_helper.rb",
-		"/home/viktor/Documents/Personal/carpe-uno/app/assets/stylesheets/schedule.scss",
 		"/home/viktor/Documents/Personal/carpe-uno/app/controllers/pages_controller.rb",
-		"/home/viktor/Documents/Personal/carpe-uno/app/assets/javascripts/scheduler.js",
 		"/home/viktor/Documents/Personal/carpe-uno/app/assets/stylesheets/carpe.css",
-		"/home/viktor/Documents/Personal/carpe-uno/app/views/shared/_user_box_horizontal.html.erb",
-		"/home/viktor/Documents/Personal/carpe-uno/app/models/event.rb",
-		"/home/viktor/Documents/Personal/carpe-uno/app/views/home/index.html.erb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/views/shared/_user_box.html.erb",
 		"/home/viktor/Documents/Personal/carpe-uno/config/routes.rb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/controllers/users/registrations_controller.rb",
-		"/home/viktor/Documents/Personal/carpe-uno/app/models/category.rb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/views/pages/admin.html.erb",
-		"/home/viktor/Documents/Personal/carpe-uno/app/views/schedule/schedule.html.erb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/assets/javascripts/application.js",
 		"/home/viktor/Documents/Personal/carpe-uno/app/controllers/friendships_controller.rb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/views/users/index.html.erb",
@@ -373,7 +417,6 @@
 		"/home/viktor/Documents/Personal/carpe-uno/vendor/assets/javascripts/jquery.tokeninput.js",
 		"/home/viktor/Documents/Personal/carpe-uno/app/views/layouts/application.html.erb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/controllers/application_controller.rb",
-		"/home/viktor/Documents/Personal/carpe-uno/app/models/user.rb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/assets/stylesheets/header.scss",
 		"/home/viktor/Documents/Personal/carpe-uno/vendor/bundle/ruby/2.2.0/gems/rails_serve_static_assets-0.0.4/.travis.yml",
 		"/home/viktor/Documents/Personal/carpe-uno/config/initializers/assets.rb",
@@ -383,7 +426,6 @@
 		"/home/viktor/Documents/Personal/carpe-uno/app/views/users/search.html.erb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/assets/stylesheets/schedule.css",
 		"/home/viktor/Documents/Personal/carpe-uno/app/controllers/home_controller.rb",
-		"/home/viktor/Documents/Personal/carpe-uno/app/views/groups/index.html.erb",
 		"/home/viktor/Documents/WebClones/ticket-magic/app/assets/stylesheets/ticketmagic/h.scss",
 		"/home/viktor/Documents/WebClones/ticket-magic/tmp/stylesheet-cache/tm.css",
 		"/home/viktor/Documents/WebClones/ticket-magic/fire/app/routes/category.js",
@@ -443,7 +485,7 @@
 	],
 	"find":
 	{
-		"height": 35.0
+		"height": 36.0
 	},
 	"find_in_files":
 	{
@@ -458,6 +500,105 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"time-start",
+			"setEndDateTime",
+			"lengthInhours",
+			".click(",
+			"setHeight",
+			"drag:",
+			"height",
+			".height",
+			"hoursSpanned",
+			"this.hoursSPanned",
+			"lengthInHours",
+			"updateTime",
+			"H:",
+			"currMins",
+			"time-start",
+			"setEndDateTime",
+			"dragCOmplete",
+			"setEndDateTime",
+			"gridHeight",
+			"mins",
+			"handlePOsiti",
+			"mins",
+			"handlePosition",
+			"ui.position.top",
+			"placeInSchedule",
+			"getHeight()",
+			".top",
+			"getHeight()",
+			"getHours() + ",
+			"updateTime",
+			"paddedMinutes",
+			"padde",
+			"minutes",
+			"scheduleItems[",
+			"updateTime",
+			"default",
+			"3*gridHeight",
+			"gridHeight*3",
+			"gridHeight",
+			"*3",
+			"% gridHeight",
+			"lengthInHours",
+			"placeInSchedule",
+			"lengthINhours",
+			"lengthInHours",
+			"time-start",
+			"resizeComplete",
+			"dragComplete",
+			"setStartDateTime",
+			"updateHeight",
+			"time-start",
+			"setStartDateTime",
+			"setEndDateTime",
+			"loadInitial",
+			".show()",
+			"evnt",
+			"display: table",
+			"evnt-title",
+			"21px",
+			"#sch-tiles",
+			"tile",
+			"differenceInHours",
+			"lengthInHours",
+			".remove()",
+			"tempItem",
+			"populateEvents",
+			"stop:",
+			"handleClone",
+			".repeatType",
+			"rep-type",
+			".attr(\"rep-type",
+			"currEvent.attr",
+			".repeatType =",
+			".repeatType",
+			"currEvent.",
+			"scheduleItems[currEvent.attr(\"evnt-temp-id\")]",
+			"scheduleItems",
+			"setEndDateTime",
+			"scheduleItems[currEvent.attr(\"evnt-temp-id\")].",
+			"scheduleItems[currEvent.attr(\"evnt-temp-id\")]",
+			"currEvent.",
+			".attr(\"rep",
+			"currEvent.",
+			"item",
+			"currEvent.",
+			"currEvent = ",
+			"currEvent",
+			"populateEvents",
+			"currEvent",
+			"repeattype",
+			"events_in_range",
+			"< ",
+			"<",
+			"ui-widget",
+			"editCategory",
+			"ui-widget-overlay",
+			"showOverlay",
+			"readOnly",
+			"showOverlay",
 			"/u/",
 			"user.id",
 			"link_to",
@@ -486,106 +627,7 @@
 			"today",
 			"previous",
 			"addDates",
-			"new Date()",
-			".setName",
-			"overlay-desc",
-			"overlay-title",
-			".overlay-title",
-			"overlay-desc",
-			"description",
-			"evnt-title",
-			"readOnly",
-			"overlay-box",
-			"body",
-			"30px",
-			"editCategory",
-			"createCategory",
-			"friend-details",
-			"Top: ",
-			"setStartDateTime",
-			"TODO:",
-			"dropScroll",
-			"drop",
-			".append",
-			"handleCLone",
-			"helper",
-			"helper:",
-			"helper",
-			"draggable",
-			"Top:",
-			"handlePosition",
-			"handleNewEvent",
-			"stop",
-			"resizeComplete",
-			"stop",
-			"setStartDateTime",
-			"setDateTime",
-			"setStartDateTime",
-			"time-start",
-			"resource_name",
-			".admi",
-			"readOnly",
-			"has_access",
-			"privacy",
-			"with",
-			"      @",
-			".bind",
-			"friendRequest",
-			"friend-label",
-			"3px 15p",
-			"<% status",
-			"\"\n",
-			"Remove",
-			"at ",
-			"on ",
-			"today",
-			"loadInitialEvents",
-			"load",
-			"laod",
-			"scheduleIt",
-			"to_i",
-			"eventId",
-			".description",
-			"setTitles",
-			".attr(\"title",
-			"setTitles",
-			".attr",
-			".attr(\"title",
-			".attr(",
-			"attr(\"rep",
-			"currEvent =",
-			"currEvent",
-			"showOverlay",
-			"currEvent =",
-			"currEvent",
-			".repeat",
-			".click(",
-			"showOverlay",
-			"repeat",
-			"overlay-box",
-			"highlight_term",
-			"<b>",
-			".clear",
-			".clear()",
-			".clear",
-			".change",
-			"hide_dropdown",
-			".change",
-			"console.log",
-			"console.l",
-			"backspace",
-			"keydown",
-			"hide_dropdown",
-			"minChars",
-			"repeat",
-			"token_list",
-			".append",
-			"token_list",
-			"input_box",
-			"append",
-			"autocomplete",
-			"/*",
-			"placeholder"
+			"new Date()"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -603,54 +645,110 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "app/models/user.rb",
+					"file": "app/views/pages/admin.html.erb",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5143,
+						"buffer_size": 714,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1963,
-								1963
+								690,
+								690
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Ruby/Ruby.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
+							"syntax": "Packages/Rails/HTML (Rails).sublime-syntax"
 						},
 						"translation.x": 0.0,
-						"translation.y": 527.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "app/assets/javascripts/scheduler.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 38379,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								10578,
+								10578
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 4742.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
 					"type": "text"
 				},
 				{
-					"buffer": 1,
-					"file": "app/views/home/index.html.erb",
+					"buffer": 2,
+					"file": "app/assets/stylesheets/schedule.scss",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2258,
+						"buffer_size": 12239,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1821,
-								1821
+								3831,
+								3831
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CSS/CSS.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 519.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "app/views/shared/_schedule.html.erb",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 8139,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								406,
+								406
 							]
 						],
 						"settings":
@@ -666,178 +764,86 @@
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "app/views/shared/_user_box_horizontal.html.erb",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2308,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								245,
-								245
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Rails/HTML (Rails).sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 51.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2032,
-						"regions":
-						{
-							"match":
-							{
-								"flags": 112,
-								"regions":
-								[
-									[
-										343,
-										350
-									],
-									[
-										681,
-										688
-									],
-									[
-										993,
-										1000
-									],
-									[
-										1200,
-										1207
-									],
-									[
-										1496,
-										1503
-									],
-									[
-										1772,
-										1779
-									]
-								],
-								"scope": ""
-							}
-						},
-						"selection":
-						[
-							[
-								1589,
-								1589
-							]
-						],
-						"settings":
-						{
-							"detect_indentation": false,
-							"line_numbers": false,
-							"output_tag": 1,
-							"result_base_dir": "",
-							"result_file_regex": "^([^ 	].*):$",
-							"result_line_regex": "^ +([0-9]+):",
-							"scroll_past_end": true,
-							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
 					"buffer": 4,
-					"file": "app/views/users/_activity.html.erb",
+					"file": "app/models/user.rb",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 832,
+						"buffer_size": 6059,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								493,
-								493
+								1536,
+								1536
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Rails/HTML (Rails).sublime-syntax",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/Ruby/Ruby.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "app/views/shared/_header.html.erb",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3959,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2629,
-								2629
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Rails/HTML (Rails).sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 70.0,
+						"translation.y": 272.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 5,
 					"type": "text"
 				},
 				{
-					"buffer": 6,
-					"file": "app/views/pages/admin.html.erb",
+					"buffer": 5,
+					"file": "app/views/home/index.html.erb",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 714,
+						"buffer_size": 2258,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								160,
-								160
+								2112,
+								2112
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Rails/HTML (Rails).sublime-syntax"
+							"syntax": "Packages/Rails/HTML (Rails).sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 765.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "app/models/event.rb",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2114,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1225,
+								1225
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Ruby/Ruby.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -902,6 +908,62 @@
 		"selected_items":
 		[
 			[
+				"schedule.cs",
+				"app/assets/stylesheets/schedule.scss"
+			],
+			[
+				"schedul",
+				"app/assets/stylesheets/schedule.scss"
+			],
+			[
+				"scheduler.js",
+				"app/assets/javascripts/scheduler.js"
+			],
+			[
+				"user_box_",
+				"app/views/shared/_user_box_horizontal.html.erb"
+			],
+			[
+				"index.html",
+				"app/views/home/index.html.erb"
+			],
+			[
+				"event.r",
+				"app/models/event.rb"
+			],
+			[
+				"catego",
+				"app/models/category.rb"
+			],
+			[
+				"event.rb",
+				"app/models/event.rb"
+			],
+			[
+				"user.rb",
+				"app/models/user.rb"
+			],
+			[
+				"users_cont",
+				"app/controllers/users_controller.rb"
+			],
+			[
+				"show.ht",
+				"app/views/users/show.html.erb"
+			],
+			[
+				"schedule.js",
+				"app/assets/javascripts/scheduler.js"
+			],
+			[
+				"_sched",
+				"app/views/shared/_schedule.html.erb"
+			],
+			[
+				"schedule.html",
+				"app/views/schedule/schedule.html.erb"
+			],
+			[
 				"activity.html",
 				"app/views/users/_activity.html.erb"
 			],
@@ -942,16 +1004,8 @@
 				"app/assets/stylesheets/schedule.scss"
 			],
 			[
-				"scheduler.js",
-				"app/assets/javascripts/scheduler.js"
-			],
-			[
 				"show.h",
 				"app/views/users/show.html.erb"
-			],
-			[
-				"user.rb",
-				"app/models/user.rb"
 			],
 			[
 				"carpe.css",
@@ -964,10 +1018,6 @@
 			[
 				"scheduler.",
 				"app/assets/javascripts/scheduler.js"
-			],
-			[
-				"event.r",
-				"app/models/event.rb"
 			],
 			[
 				"profile.s",
@@ -1018,10 +1068,6 @@
 				"app/views/shared/_schedule.html.erb"
 			],
 			[
-				"schedule.html",
-				"app/views/schedule/schedule.html.erb"
-			],
-			[
 				"schedler.js",
 				"app/assets/javascripts/scheduler.js"
 			],
@@ -1046,10 +1092,6 @@
 				"app/views/shared/_user_box.html.erb"
 			],
 			[
-				"index.html",
-				"app/views/users/index.html.erb"
-			],
-			[
 				"headerhtm",
 				"app/views/shared/_header.html.erb"
 			],
@@ -1064,10 +1106,6 @@
 			[
 				"user_box",
 				"app/views/shared/_user_box.html.erb"
-			],
-			[
-				"user_box_",
-				"app/views/shared/_user_box_horizontal.html.erb"
 			],
 			[
 				"application.js",
@@ -1094,20 +1132,12 @@
 				"app/assets/stylesheets/carpe.css"
 			],
 			[
-				"event.rb",
-				"app/models/event.rb"
-			],
-			[
 				"application_hel",
 				"app/helpers/application_helper.rb"
 			],
 			[
 				"schedule_",
 				"app/controllers/schedule_controller.rb"
-			],
-			[
-				"schedule.js",
-				"app/assets/javascripts/scheduler.js"
 			],
 			[
 				"_scheud",
@@ -1194,14 +1224,6 @@
 				"app/assets/stylesheets/header.css.scss"
 			],
 			[
-				"schedule.cs",
-				"app/assets/stylesheets/schedule.css"
-			],
-			[
-				"schedul",
-				"app/assets/javascripts/scheduler.js"
-			],
-			[
 				"home_",
 				"app/controllers/home_controller.rb"
 			],
@@ -1216,10 +1238,6 @@
 			[
 				"index.htm",
 				"app/views/home/index.html.erb"
-			],
-			[
-				"show.ht",
-				"app/views/users/show.html.erb"
 			],
 			[
 				"profile.c",
@@ -1400,18 +1418,6 @@
 			[
 				"sub-categor",
 				"fire/app/routes/sub-category.js"
-			],
-			[
-				"events.js",
-				"fire/app/routes/events.js"
-			],
-			[
-				"routes/event",
-				"fire/app/routes/event.js"
-			],
-			[
-				"adapter",
-				"fire/app/adapters/application.js"
 			]
 		],
 		"width": 0.0

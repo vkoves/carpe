@@ -29,13 +29,13 @@ class User < ActiveRecord::Base
     now = Time.now.in_time_zone("Central Time (US & Canada)")
     busy_events = self.events_in_range(DateTime.now.beginning_of_day, DateTime.now.end_of_day) #get events that occur today
     busy_events = busy_events.select{|event| (event.date <= now and event.end_date >= now)} #get events going on right now
-    return busy_events
+    return busy_events.sort_by(&:end_date) #return the busy events sorted by which ends soonest
   end
 
   def next_event #returns the next upcoming event within the next day
     now = Time.now.in_time_zone("Central Time (US & Canada)")
     upcoming_events = self.events_in_range(DateTime.now.beginning_of_day, DateTime.now.end_of_day)
-    upcoming_events = upcoming_events.select{|event| event.date > now} #get future events
+    upcoming_events = upcoming_events.select{|event| (event.date > now and event.date.in_time_zone("Central Time (US & Canada)").to_date == Date.today)} #get future events that occur today
     return upcoming_events.sort_by(&:date)[0]
   end
 

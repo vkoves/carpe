@@ -2,6 +2,18 @@ class Event < ActiveRecord::Base
   belongs_to :user
   belongs_to :category
 
+  def get_name(use_html) #get the name, returning untitled if there isn't one
+    if name.empty?
+      if use_html
+        return "<i>Untitled</i>"
+      else
+        return "Untitled"
+      end
+    else
+      return name
+    end
+  end
+
   def events_in_range(start_datetime, end_datetime) #returns the repeat copies of the event
      arr = []
      if repeat and !repeat.empty?
