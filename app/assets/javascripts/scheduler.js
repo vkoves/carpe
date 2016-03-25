@@ -89,7 +89,7 @@ function ScheduleItem() //The
 
 	this.setName = function(newName)
 	{
-		this.name = newName; //set the object data
+		this.name = newName; //set the object daat
 		this.element().find(".evnt-title").text(newName); //and update the HTML element
 	};
 
@@ -97,7 +97,11 @@ function ScheduleItem() //The
 	{
 		var dateString = elem.parent().siblings(".col-titler").children(".evnt-fulldate").html();
 		var offsetDiff = -Math.ceil($(".col-snap:first").offset().top);
-		var hours = (parseInt(elem.css("top")))/gridHeight;
+		var hours = 0;
+		if(resize)
+			hours = Math.floor((parseInt(elem.css("top")))/gridHeight);
+		else
+			hours = (parseInt(elem.css("top")))/gridHeight;
 		var newDate = new Date(dateString + " " + hours + ":" + paddedMinutes(this.startDateTime));
 		this.setStartDateTime(newDate, resize);
 		this.tempElement = elem;
@@ -106,22 +110,29 @@ function ScheduleItem() //The
 	this.resizeComplete = function(elem)
 	{
 		this.dragComplete(elem, true);
-		var endDT = new Date(this.startDateTime.getTime());
-		endDT.setHours(endDT.getHours() + (elem.outerHeight()/gridHeight));
+		var endDT = new Date(this.endDateTime.getTime());
+		endDT.setHours(this.startDateTime.getHours() + (elem.outerHeight()/gridHeight));
 		this.endDateTime = endDT;
 	};
 
-	this.getHeight = function() //returns the height based on the hours and minutes of the start
+	this.getHeight = function() //returns the top value based on the hours and minutes of the start
 	{
-		console.log(this.startDateTime.getHours());
 		var hourStart = this.startDateTime.getHours() + (this.startDateTime.getMinutes()/60);
 		var h =  gridHeight*hourStart;
 		return h;
 	}
 
+	this.getMinutesOffsets = function() //returns the pixel offsets caused by the minutes as an array
+	{
+		var offsets = [];
+		offsets.push(gridHeight*(this.startDateTime.getMinutes()/60));
+		offsets.push(gridHeight*(this.endDateTime.getMinutes()/60));
+		return offsets;
+	}
+
 	this.updateHeight = function()
 	{
-		this.element().css("height", gridHeight*this.lengthInHours());
+		this.element().css("height", gridHeight*this.lengthInHours() - border);
 	};
 
 	this.element = function() //returns the HTML element for this schedule item, or elements if it is repeating
@@ -528,7 +539,8 @@ function addDrag(selector)
 		},
 		start: function(event, ui)
 		{
-			//setHeight(this, ui.helper, 3);
+			if($(this).parent().attr("id") == "sch-tiles-inside")
+				setHeight(this, ui.helper, 3);
 
 			if(ctrlPressed && $(this).parent().attr("id") != "sch-tiles-inside") //if this is an existing event and control is pressed
 			{
@@ -544,6 +556,7 @@ function addDrag(selector)
 
 			if($(this).css("opacity") == 1) //if opacity is 1, this is a new event
 			{
+				$(this).css("height", gridHeight*3 - border);
 				handleNewEvent(this);
 				newItem = true;
 			}
@@ -691,6 +704,8 @@ function addResizing(selector)
 //Change time while items are being dragged or resized, and also snap to a vertical grid
 function updateTime(elem, ui, resize) //if we're resizing, don't snap, just update time
 {
+	//TODO: Make this really important function not suck
+
 	var arr = ui.helper.attr("time").split(":"); //fetch the time from the helper
 	var end_arr = ui.helper.children(".evnt-time.bot").text().split(" ")[0].split(":");
 	var item = scheduleItems[elem.attr("evnt-temp-id")];
@@ -706,16 +721,19 @@ function updateTime(elem, ui, resize) //if we're resizing, don't snap, just upda
 		if(item)
 			currMins = gridHeight*(item.startDateTime.getMinutes()/60);
 
-		console.log("CUrr: " +currMins)
-
 		if(!resize)
 		{
 			var topRemainder = (ui.position.top + offsetDiff) % gridHeight;
 			ui.position.top = ui.position.top - topRemainder;
+			arr[0] = (ui.position.top + offsetDiff)/gridHeight;
 		}
-		arr[0] = (ui.position.top + offsetDiff)/gridHeight;
+		else
+		{
+			arr[0] = Math.ceil(ui.position.top - currMins + offsetDiff)/gridHeight;
+		}
 
-		ui.position.top += currMins;
+		if(!resize)
+			ui.position.top += currMins;
 	}
 
 
@@ -733,7 +751,13 @@ function updateTime(elem, ui, resize) //if we're resizing, don't snap, just upda
 	//if(hoursLength % 1 != 0) //if it's a decimal, we know this is a new event
 	//	hoursLength = 3; //so set the default size
 
-	end_arr[0] = arr[0] + hoursSpanned; //and add the height to the hours of the end time
+	if(!resize)
+		end_arr[0] = arr[0] + hoursSpanned; //and add the height to the hours of the end time
+	else
+	{
+		end_arr[0] = arr[0] + Math.round(($(elem).outerHeight() + item.getMinutesOffsets()[0] - item.getMinutesOffsets()[1])/gridHeight);
+	}
+
 
 	$(elem).attr("time", arr.join(":")); //set the time attr using military
 	arr = convertTo12Hour(arr); //then convert to 12 hour
