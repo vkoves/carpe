@@ -29,6 +29,9 @@
 							<div class="square" style="background: <%= event.category.color %>"><%= event.category.name %></div>
 							<div class="tile-text">
 								<b><%= raw event.get_name(true) %></b>
+								<% unless event.location.empty? %>
+									in <%= event.location %>
+								<% end %>
 								<br>
 								<% if event.current? #print full info about current events %>
 									<%= relative_event_time(event) %>
