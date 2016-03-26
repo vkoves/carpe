@@ -1,8 +1,12 @@
 class GroupsController < ApplicationController
   def index
-    @groups = current_user.groups.all
+    if current_user.admin
+      @groups = Group.all
+    else
+      @groups = current_user.groups.all
+    end
   end
-  
+
   def create
     @group = Group.create(params.permit(:name))
     @group.users.append(current_user)
@@ -11,12 +15,12 @@ class GroupsController < ApplicationController
     @user_group.save
     redirect_to group_path(@group)
   end
-  
+
   def destroy
     Group.destroy(params[:id])
     redirect_to "/groups"
   end
-  
+
   def update
     @group = Group.find(params[:id])
     @group.update_attributes(params.require(:group).permit(:name))
@@ -24,15 +28,22 @@ class GroupsController < ApplicationController
     redirect_to group_path(@group)
     #render :text => @group.name
   end
-  
+
   def edit
     @group = Group.find(params[:id])
   end
-  
+
   def show
     @group = Group.find(params[:id])
+    user_group = UsersGroup.where(user_id: current_user.id, group_id: @group.id)
+    if user_group.first
+      @role = UsersGroup.where(user_id: current_user.id, group_id: @group.id).first.role
+    else
+      flash[:alert] = "You aren't a part of that group."
+      redirect_to "/groups"
+    end
   end
-  
+
   def add_users
     @group = Group.find(params[:id])
     if params[:uid]

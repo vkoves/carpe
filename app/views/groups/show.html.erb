@@ -1,9 +1,15 @@
 <%= stylesheet_link_tag "profile" %>
+<%= link_to "/groups", class: "default", style: "font-size: 16px;" do %>
+	<span>All Groups</span>
+<% end %>
 <h1><%= @group.name %>
 <%= link_to "/group/" + params[:id] + "/edit", class: "default", style: "font-size: 16px;" do %>
 	<span>Edit</span>
 <% end %>
 </h1>
+<h3 class="zero-top">
+	Role: <%= @role %>
+</h3>
 
 <% @group.users.each do |user| %>
 	<%= render "shared/user_box_horizontal", user: user %>
