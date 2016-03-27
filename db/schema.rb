@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160228083340) do
+ActiveRecord::Schema.define(version: 20160327060044) do
 
   create_table "categories", force: :cascade do |t|
     t.string   "name"
@@ -28,13 +28,15 @@ ActiveRecord::Schema.define(version: 20160228083340) do
     t.string   "name"
     t.text     "description"
     t.datetime "date"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
     t.integer  "user_id"
     t.integer  "category_id"
     t.datetime "end_date"
     t.string   "repeat"
     t.string   "location"
+    t.datetime "start_repeat"
+    t.datetime "end_repeat"
   end
 
   add_index "events", ["category_id"], name: "index_events_on_category_id"
