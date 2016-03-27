@@ -32,6 +32,14 @@ class Event < ActiveRecord::Base
       end
 
       dates.each do |date| #go through all the dates
+        if self.repeat_start and date < self.repeat_start #if this event has a start repeat, and this date is before it
+          next #skip it
+        end
+
+        if self.repeat_end and date > self.repeat_end #similarly, if this date has an end repeat, and this date is after it
+          next #skip it
+        end
+
         newEvent = self.dup #duplicate the base element without creating a database clone
         newEvent.date = self.date.change(day: date.day, month: date.month, year: date.year) #and determine the new start date
         newEvent.end_date = newEvent.date + (self.end_date - self.date) #determine proper end datetime by adding event duration to the proper start
