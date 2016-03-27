@@ -76,6 +76,14 @@ class ScheduleController < ApplicationController
         evnt.repeat = obj["repeatType"]
         evnt.date = DateTime.parse(obj["startDateTime"])
         evnt.end_date = DateTime.parse(obj["endDateTime"])
+
+        if obj["repeatStart"]
+          evnt.repeat_start = Date.parse(obj["repeatStart"])
+        end
+        if obj["repeatEnd"]
+          evnt.repeat_end = Date.parse(obj["repeatEnd"])
+        end
+
         evnt.description = obj["description"] || ""
         evnt.location = obj["location"] || ""
         evnt.category_id = obj["categoryId"].to_i

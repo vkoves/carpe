@@ -35,8 +35,8 @@ ActiveRecord::Schema.define(version: 20160327060044) do
     t.datetime "end_date"
     t.string   "repeat"
     t.string   "location"
-    t.datetime "start_repeat"
-    t.datetime "end_repeat"
+    t.date     "repeat_start"
+    t.date     "repeat_end"
   end
 
   add_index "events", ["category_id"], name: "index_events_on_category_id"

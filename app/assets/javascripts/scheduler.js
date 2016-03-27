@@ -41,7 +41,10 @@ function ScheduleItem() //The
 
 	this.startDateTime; //the start date and time, as a js Date()
 	this.endDateTime; //the end date and time
+
 	this.repeatType; //the repeat type as a string
+	this.startRepeatType; //the date the repeating starts on
+	this.endRepeatType; //the date the repeating starts on
 
 	this.name; //the name of the event
 	this.description; //the event description
@@ -235,7 +238,7 @@ function scheduleReady()
 
 function addStartingListeners()
 {
-	$("#week-date").datepicker( //show the datepicker when clicking on the field
+	$("#week-date, #repeat-start, #repeat-end").datepicker( //show the datepicker when clicking on the field
 	{
 		firstDay: 1, //set Monday as the first day
 	});
@@ -244,6 +247,18 @@ function addStartingListeners()
 	$("#week-date").change(function() //when the date for the shown week is changed
 	{
 		addDates(new Date($(this).val()), true); //update what is visible
+	});
+	$("#repeat-start, #repeat-end").change(function()
+	{
+		var id = $(this).attr("id");
+		if(id == "repeat-start")
+		{
+			currEvent.repeatStart = new Date($(this).val());
+		}
+		else if(id == "repeat-end")
+		{
+			currEvent.repeatEnd = new Date($(this).val());
+		}
 	});
 
 	//When editing category title, defocus on enter
@@ -407,6 +422,12 @@ function loadInitialEvents() //load events into the hashmap
 			var schItem = new ScheduleItem();
 			schItem.startDateTime = new Date(evnt.date);
 			schItem.endDateTime = new Date(evnt.end_date);
+			if(evnt.repeat_start)
+				schItem.repeatStart = new Date(evnt.repeat_start + " CST"); //timezone dependant!
+
+			if(evnt.repeat_end)
+				schItem.repeatEnd = new Date(evnt.repeat_end + " CST"); //timezone dependant!
+
 			schItem.name = evnt.name;
 			schItem.eventId = evnt.id;
 			schItem.categoryId = evnt.category_id;
@@ -869,6 +890,11 @@ function populateEvents()
 			var date = new Date(currentDates[i]);
 			var itemDate = eventObj.startDateTime;
 
+			if(eventObj.repeatStart && eventObj.repeatStart > date) //if the repeatStart is later than this date, don't show
+				continue;
+			else if(eventObj.repeatEnd && eventObj.repeatEnd < date) //if the repeatEnd is before this date, don't show
+				continue;
+
 			if (itemDate.toDateString() == date.toDateString()
 				|| eventObj.repeatType == "daily"
 				|| (eventObj.repeatType == "weekly" && date.getDay() == itemDate.getDay())
@@ -957,11 +983,13 @@ function showOverlay(elem)
 		var categoryName = $("#sch-tiles .sch-evnt.category[data-id=" + currEvent.categoryId + "]").find(".evnt-title").text();
 		$("#cat-title").html("In category <b>" + categoryName + "</b>");
 
-
 		//Select the proper repeat button
 		$(".repeat-option").removeClass("red");
 		var rep = currEvent.repeatType || "none";
 		$("#repeat-" + rep).addClass("red");
+
+		$("#repeat-start").val(dateToString(currEvent.repeatStart));
+		$("#repeat-end").val(dateToString(currEvent.repeatEnd));
 
 		$(".ui-widget-overlay, .overlay-box").fadeIn(250);
 
@@ -1220,9 +1248,25 @@ function removeHighlight()
 	window.getSelection().removeAllRanges();
 }
 
+//highlgiht the field currently selected
 function highlightCurrent()
 {
 	document.execCommand('selectAll',false,null);
+}
+
+//convert a date into a standard string format
+function dateToString(date)
+{
+	if(!date || !(date instanceof Date)) //if the date is null or not a date object
+		return null; //return null
+
+	if(isNaN(date.getTime())) //if invalid date
+		return "INVALID!"; //return invalid string
+
+	var dateString = (date.getMonth() + 1); //start with the month. JS gives the month from 0 to 11, so we add one
+	dateString = dateString + "/" + date.getDate(); //then add a / plus the date
+	dateString = dateString + "/" + ("" + date.getFullYear()).slice(-2); //then get the last two digits of the year by converting to string and slicing
+	return dateString; //and return
 }
 
 /****************************/

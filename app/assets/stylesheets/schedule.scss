@@ -694,7 +694,11 @@ input[readonly="readonly"]
     right: 0;
     margin-bottom: 15px;
 }
-#week-date
+#repeat-start, #repeat-end
+{
+	margin-top: 10px;
+}
+.date-field /* general class for things that have the date picker calendar */
 {
 	position: relative;
     top: -1px;
@@ -712,7 +716,7 @@ input[readonly="readonly"]
     box-shadow: 0px 0px 1px #CECECE;
     border: solid 1px #CECECE;
 }
-#week-date:focus
+.date-field:focus
 {
 	color: #4E4E4E;
 }

@@ -36,9 +36,10 @@
 		<span id="repeat-daily" class="default repeat-option">Daily</span>
 		<span id="repeat-weekly" class="default repeat-option">Weekly</span>
 		<span id="repeat-monthly" class="default repeat-option">Monthly</span>
-		<span id="repeat-yearly" class="default repeat-option">Yearly</span>
+		<span id="repeat-yearly" class="default repeat-option">Yearly</span><br>
+		Repeat From: <input id="repeat-start" class="date-field" type="text"></input>
+		To: <input id="repeat-end" class="date-field" type="text"></input>
 	</div>
-	<br>
 	<div id="desc-title" class="small-title">
 		Description:
 		<span id="edit-desc" class="edit">Edit</span>
@@ -133,7 +134,7 @@
 			<span class="default sch-week-prev" onclick="moveWeek(false)">Previous</span>
 			&nbsp;
 			<span class="default sch-week-next" onclick="moveWeek(true)">Next</span>
-			<input id="week-date" type="text"></input>
+			<input id="week-date" class="date-field" type="text"></input>
 			<% if !@read_only %>
 				<span class="default green" id="sch-save" onclick="saveEvents()">Save Events
 					<%= image_tag "checkmark-wht.png", id: "save-checkmark" %>
