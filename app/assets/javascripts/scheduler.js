@@ -248,7 +248,8 @@ function addStartingListeners()
 	{
 		addDates(new Date($(this).val()), true); //update what is visible
 	});
-	$("#repeat-start, #repeat-end").change(function()
+
+	$("#repeat-start, #repeat-end").change(function() //update repeatStart and repeatEnd on change
 	{
 		var id = $(this).attr("id");
 		if(id == "repeat-start")
@@ -259,6 +260,30 @@ function addStartingListeners()
 		{
 			currEvent.repeatEnd = new Date($(this).val());
 		}
+	});
+
+	$("#repeat-custom").click(function()
+	{
+		//highlight the newly selected option
+		$(".repeat-option").removeClass("red");
+		$(this).addClass("red");
+
+		$("#repeat-custom-options").toggle();
+		var num = $("#repeat-custom-number").val();
+		var unit = $("#repeat-custom-unit").val();
+		currEvent.repeatType = "custom-" + num + "-" + unit;
+	});
+
+	$("#repeat-custom-number, #repeat-custom-unit").change(function()
+	{
+		console.log("Cha cha cha changing!");
+		var num = $("#repeat-custom-number").val();
+		var unit = $("#repeat-custom-unit").val();
+		currEvent.repeatType = "custom-" + num + "-" + unit;
+
+		//repopulate this event
+		$(".sch-evnt[evnt-temp-id='" + currEvent.tempId + "']").remove();
+		populateEvents();
 	});
 
 	//When editing category title, defocus on enter
@@ -284,14 +309,16 @@ function addStartingListeners()
 		$(".repeat-option").removeClass("red");
 		$(this).addClass("red");
 
-		//get the text of the button
-		var repType = $(this).text().toLowerCase();
-		console.log("Rep type is " + repType);
+		if($(this).attr("id") != "repeat-custom") //if this isn't custom, repeat stuff
+		{
+			//get the text of the button
+			var repType = $(this).text().toLowerCase();
+			console.log("Rep type is " + repType);
+			currEvent.repeatType = repType;
+			$("#repeat-custom-options").hide(); //hide custom options
+		}
 
-		//then update the repeat type without going through push event info
-		currEvent.repeatType = repType;
-
-		//remove all of this element
+		//repopulate this event
 		$(".sch-evnt[evnt-temp-id='" + currEvent.tempId + "']").remove();
 		populateEvents();
 	});
@@ -874,6 +901,12 @@ function addDates(currDate, refresh, today)
 //Populate the events in the current week from the hashmap
 function populateEvents()
 {
+	function place(eventObject, i)
+	{
+		var currentElem = eventObject.tempElement.clone();
+		$(".sch-day-col:eq(" + i + ") .col-snap").append(currentElem);
+	}
+
 	var currentDates = []; //the dates that are visible in the current week
 
 	$(".sch-day-col").each(function(index, col)
@@ -901,8 +934,44 @@ function populateEvents()
 				|| (eventObj.repeatType == "monthly" && date.getDate() == itemDate.getDate())
 				|| (eventObj.repeatType == "yearly" && date.getDate() == itemDate.getDate() && date.getMonth() == itemDate.getMonth()))
 			{
-				var currentElem = eventObj.tempElement.clone();
-				$(".sch-day-col:eq(" + i + ") .col-snap").append(currentElem);
+				place(eventObj, i);
+			}
+			else if(eventObj.repeatType.split("-")[0] == "custom")
+			{
+				var arr = eventObj.repeatType.split("-");
+				var num = arr[1];
+				var unit = arr[2];
+
+				var day = 1000*60*60*24;
+				var year_diff = date.getFullYear() - itemDate.getFullYear();
+				var month_diff = year_diff*12 + date.getMonth() - itemDate.getMonth();
+				var week_diff = Math.round((date - itemDate)/(day * 7));
+				var day_diff = Math.round((date - itemDate)/day);
+				console.log("day_diff " + day_diff);
+				console.log("Unit " + unit + " num " + num);
+
+				if(unit == "years" && date.getDate() == itemDate.getDate() && date.getMonth() == itemDate.getMonth())
+				{
+					if(year_diff % num == 0) //if the number of years difference is divisible by the repat num
+						place(eventObj, i);
+				}
+				else if(unit == "months" && date.getDate() == itemDate.getDate())
+				{
+					if(month_diff % num == 0)
+						place(eventObj, i);
+				}
+				else if(unit == "weeks" && date.getDay() == itemDate.getDay())
+				{
+					if(week_diff % num == 0)
+						place(eventObj, i);
+				}
+				else if(unit == "days")
+				{
+					if(day_diff % num == 0)
+						place(eventObj, i);
+				}
+
+				var week = day*7;
 			}
 		}
 	}
@@ -987,6 +1056,18 @@ function showOverlay(elem)
 		$(".repeat-option").removeClass("red");
 		var rep = currEvent.repeatType || "none";
 		$("#repeat-" + rep).addClass("red");
+
+		if(rep.indexOf("custom") > -1)
+		{
+			$("#repeat-custom").addClass("red");
+			$("#repeat-custom-options").show();
+			$("#repeat-custom-number").val(rep.split("-")[1]); //set the number
+			$("#repeat-custom-unit").val(rep.split("-")[2]); //and the unit
+		}
+		else
+		{
+			$("#repeat-custom-options").hide();
+		}
 
 		$("#repeat-start").val(dateToString(currEvent.repeatStart));
 		$("#repeat-end").val(dateToString(currEvent.repeatEnd));

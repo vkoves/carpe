@@ -698,6 +698,30 @@ input[readonly="readonly"]
 {
 	margin-top: 10px;
 }
+.repeat-option
+{
+    margin-bottom: 5px;
+}
+#repeat-custom-options
+{
+	display: none;
+
+	input, select
+	{
+		height: 25px;
+		box-sizing: border-box;
+	}
+
+	input
+	{
+		width: 50px;
+	}
+	select
+	{
+	}
+}
+
+
 .date-field /* general class for things that have the date picker calendar */
 {
 	position: relative;

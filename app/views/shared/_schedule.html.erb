@@ -36,7 +36,17 @@
 		<span id="repeat-daily" class="default repeat-option">Daily</span>
 		<span id="repeat-weekly" class="default repeat-option">Weekly</span>
 		<span id="repeat-monthly" class="default repeat-option">Monthly</span>
-		<span id="repeat-yearly" class="default repeat-option">Yearly</span><br>
+		<span id="repeat-yearly" class="default repeat-option">Yearly</span>
+		<span id="repeat-custom" class="default repeat-option">Custom</span><br>
+		<div id="repeat-custom-options">
+			Repeat every: <input class="text-input" id="repeat-custom-number" type="number" value="1">
+			<select id="repeat-custom-unit">
+				<option value="days">Days</option>
+				<option value="weeks">Weeks</option>
+				<option value="months">Months</option>
+				<option value="years">Years</option>
+			</select>
+		</div>
 		Repeat From: <input id="repeat-start" class="date-field" type="text"></input>
 		To: <input id="repeat-end" class="date-field" type="text"></input>
 	</div>
