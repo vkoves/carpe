@@ -920,7 +920,7 @@ function populateEvents()
 		{
 			eventObj = scheduleItems[eventIndex];
 			var date = new Date(currentDates[i]);
-			var itemDate = eventObj.startDateTime;
+			var itemDate = new Date(eventObj.startDateTime.getTime());
 
 			if(eventObj.repeatStart && eventObj.repeatStart > date) //if the repeatStart is later than this date, don't show
 				continue;

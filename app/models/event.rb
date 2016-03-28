@@ -27,6 +27,22 @@ class Event < ActiveRecord::Base
         dates = dates.select{|i| i.mday == date.mday}
       elsif repeat == "yearly"
         dates = dates.select{|i| i.yday == date.yday}
+      elsif repeat.include? "custom" #it's a custom repeat
+        num = repeat.split("-")[1].to_i
+          unit = repeat.split("-")[2]
+
+        dates = dates.select{
+          |i|
+          if unit == "days"
+            (i.to_date - date.to_date) % num == 0
+          elsif unit == "weeks"
+            ((i.to_date - date.to_date)/7) % num == 0
+          elsif unit == "months"
+            ((i.year - date.year)* 12 + i.month -  date.month) % num == 0
+          elsif unit == "years"
+            i.year - date.year % num == 0
+          end
+        }
       else #this event doesn't repeat!
         dates = dates.select{|i| i.to_date == date.to_date}
       end
