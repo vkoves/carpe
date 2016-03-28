@@ -276,7 +276,6 @@ function addStartingListeners()
 
 	$("#repeat-custom-number, #repeat-custom-unit").change(function()
 	{
-		console.log("Cha cha cha changing!");
 		var num = $("#repeat-custom-number").val();
 		var unit = $("#repeat-custom-unit").val();
 		currEvent.repeatType = "custom-" + num + "-" + unit;
@@ -942,13 +941,15 @@ function populateEvents()
 				var num = arr[1];
 				var unit = arr[2];
 
+				//simplify by removing hours and minutes from itemDate
+				itemDate.setHours(0);
+				itemDate.setMinutes(0);
+
 				var day = 1000*60*60*24;
 				var year_diff = date.getFullYear() - itemDate.getFullYear();
 				var month_diff = year_diff*12 + date.getMonth() - itemDate.getMonth();
 				var week_diff = Math.round((date - itemDate)/(day * 7));
 				var day_diff = Math.round((date - itemDate)/day);
-				console.log("day_diff " + day_diff);
-				console.log("Unit " + unit + " num " + num);
 
 				if(unit == "years" && date.getDate() == itemDate.getDate() && date.getMonth() == itemDate.getMonth())
 				{
