@@ -37,6 +37,8 @@ Rails.application.routes.draw do
   post "/create_category" => 'schedule#create_category'
   post "/delete_category" => 'schedule#delete_category'
 
+  post "/create_break" => 'schedule#create_exception'
+
   #Other backend stuff
   post "/read_notifications" => 'notifications#read_all'
 

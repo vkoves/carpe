@@ -340,34 +340,6 @@
 	background-color: #000;
 	z-index: 1000;
 }
-.overlay-box
-{
-	display: none;
-	position: absolute;
-	top: 10%;
-	left: 0;
-	right: 0;
-
-	background: rgb(230,230,230);
-	/* border-radius: 5px; */
-	width: 500px;
-	height: 400px;
-	margin-left: auto;
-	margin-right: auto;
-	z-index: 1001;
-}
-/* Note to the doges: We don't use this yet!
-Comment this out if you want to try something
-with a colored top bar (we have to plan this) here.
-#overlay-top {
-	width:100%;
-	left:0px;
-	right:0px;
-	top:0px;
-	min-height:54px;
-	position:relative;
-	background-color:Indigo;
-}*/
 
 #overlay-title
 {
@@ -570,24 +542,28 @@ input[readonly="readonly"]
 }
 
 
-.cat-overlay-box
+.overlay-box
 {
 	display: none;
 	position: absolute;
-	top: 30%;
+	top: 10%;
 	left: 0;
 	right: 0;
-
+	box-shadow: 0px 0px 10px rgba(70, 70, 70, 0.5);
 	background: rgb(240,240,240);
-	box-shadow: 0px 0px 10px #464646;
-	/*border:solid rgb(255,255,255) 2px;*/
 	width: 500px;
-	height: 220px;
+	height: 400px;
 	margin-left: auto;
 	margin-right: auto;
 	z-index: 1001;
 }
-.cat-overlay-box .sch-cat-icon
+#cat-overlay-box
+{
+	top: 30%;
+	width: 500px;
+	height: 220px;
+}
+#cat-overlay-box .sch-cat-icon
 {
 	display: block;
 	width: 30px;

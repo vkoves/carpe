@@ -57,6 +57,20 @@ class ScheduleController < ApplicationController
     render :text => "Category destroyed"
   end
 
+  def create_exception #ccreate a repeat exception
+    if params[:id]
+      @exception = RepeatException.find(params[:id])
+    else
+      @exception = RepeatException.new
+    end
+
+    @exception.name = params[:name] if params[:name]
+    @exception.start = Date.parse(params[:start]) if params[:start]
+    @exception.end =  Date.parse(params[:end]) if params[:end]
+    @exception.save
+    render json: @exception
+  end
+
   def save_events #save events
     text = params.to_s
     new_event_ids = {}

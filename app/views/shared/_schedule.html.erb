@@ -20,7 +20,7 @@
 
 
 <div class="ui-widget-overlay" onclick="hideOverlay();"></div>
-<div class="overlay-box">
+<div id="event-overlay-box" class="overlay-box">
 	<div id="overlay-color-bar">
 		<div id="overlay-title" contenteditable="true">Event Title</div>
 		<div id="cat-title"></div>
@@ -62,10 +62,20 @@
 	<div id="overlay-loc" contenteditable="true">Location goes here</div>
 </div>
 
-<div class="cat-overlay-box" data-id="" >
+<div id="break-overlay-box" class="overlay-box">
+	<h3>Create Break</h3>
+	Name: <input id="break-name" type="text">
+	<br><br>
+	Start: <input id="break-start" class="date-field" type="text">
+	End: <input id="break-end" class="date-field" type="text">
+	<br><br>
+	<span id="submit-break" class="default green">Submit</span>
+</div>
+
+<div id="cat-overlay-box" class="overlay-box" data-id="" >
 	<div class="catTopOverlay">
 		<span class="catOverlayTitle" contenteditable=true ></span>
-		<%= image_tag "checkmark-wht.png", :class => "sch-cat-icon no-drag", :onclick => "saveCategory(event, this, $('.cat-overlay-box').attr('data-id'));" %>
+		<%= image_tag "checkmark-wht.png", :class => "sch-cat-icon no-drag", :onclick => "saveCategory(event, this, $('#cat-overlay-box').attr('data-id'));" %>
 
 	</div>
 	<div class="catRemainderOverlay">
@@ -149,6 +159,7 @@
 				<span class="default green" id="sch-save" onclick="saveEvents()">Save Events
 					<%= image_tag "checkmark-wht.png", id: "save-checkmark" %>
 				</span>
+				<span class="default green" id="show-break">Create Break</span>
 			<% end %>
 		</div>
 

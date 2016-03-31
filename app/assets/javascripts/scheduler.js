@@ -238,7 +238,7 @@ function scheduleReady()
 
 function addStartingListeners()
 {
-	$("#week-date, #repeat-start, #repeat-end").datepicker( //show the datepicker when clicking on the field
+	$(".date-field").datepicker( //show the datepicker when clicking on the field
 	{
 		firstDay: 1, //set Monday as the first day
 	});
@@ -283,6 +283,25 @@ function addStartingListeners()
 		//repopulate this event
 		$(".sch-evnt[evnt-temp-id='" + currEvent.tempId + "']").remove();
 		populateEvents();
+	});
+
+	//Add break button click handler, which shows the overlay
+	$("#show-break").click(function()
+	{
+		showBreakOverlay();
+	});
+
+	//Submit break button in the overaly
+	$("#submit-break").click(function()
+	{
+		var name = $("#break-name").val();
+		var startDate = $("#break-start").val();
+		var endDate = $("#break-end").val();
+
+		if(name == "" || startDate == "" || endDate == "")
+			alert("Fill out all fields!");
+		else
+			createBreak(name, startDate, endDate);
 	});
 
 	//When editing category title, defocus on enter
@@ -1018,7 +1037,7 @@ function editCategory(event, elem, id, name, col)
 	$(".catOverlayTitle").trigger('focus');
 	document.execCommand('selectAll',false,null);
 
-	$(".ui-widget-overlay, .cat-overlay-box").fadeIn(250);
+	$(".ui-widget-overlay, #cat-overlay-box").fadeIn(250);
 
 	var colForTop = currCategory.css("background-color");
 
@@ -1030,7 +1049,7 @@ function editCategory(event, elem, id, name, col)
 		$(".catTopOverlay").css("background-color",""); */
 
 	$(".catOverlayTitle").html($(currCategory).find(".evnt-title").text());
-	$(".cat-overlay-box").attr("data-id",id);
+	$("#cat-overlay-box").attr("data-id",id);
 
 	$(".color-swatch").removeClass("selected");
 	$(".color-swatch").each(function() {
@@ -1073,7 +1092,7 @@ function showOverlay(elem)
 		$("#repeat-start").val(dateToString(currEvent.repeatStart));
 		$("#repeat-end").val(dateToString(currEvent.repeatEnd));
 
-		$(".ui-widget-overlay, .overlay-box").fadeIn(250);
+		$(".ui-widget-overlay, #event-overlay-box").fadeIn(250);
 
 		$("#overlay-title").html(currEvent.name);
 		$("#overlay-color-bar").css("background-color",elem.css("background-color"));
@@ -1102,11 +1121,17 @@ function showOverlay(elem)
 	}
 }
 
+//Show the overlay for creating a new break
+function showBreakOverlay()
+{
+	$(".ui-widget-overlay, #break-overlay-box").fadeIn(250);
+}
+
 //Hide any type of overlay
 function hideOverlay()
 {
 	//Hide overlay, the repeat menu and category and event overlays
-	$(".ui-widget-overlay, #repeat-menu, .overlay-box, .cat-overlay-box").fadeOut(250);
+	$(".ui-widget-overlay, #repeat-menu, #event-overlay-box, #cat-overlay-box, #break-overlay-box").fadeOut(250);
 }
 
 //Update the color of the category overlay from a color being picked
@@ -1258,6 +1283,25 @@ function saveCategory(event,elem,id)
 	    error: function(resp)
 	    {
 	    	alert("Updating category failed :(");
+	    }
+	});
+}
+
+function createBreak(name, startDate, endDate)
+{
+	console.log("Make the break: " + name + ", " + startDate + ", " + endDate);
+	$.ajax({
+	    url: "/create_break",
+	    type: "POST",
+	    data: {name: name, start: new Date(startDate), end: new Date(endDate)},
+	    success: function(resp)
+	    {
+	    	console.log("Create break complete.");
+	    	hideOverlay(); //Hide category editing panel
+	    },
+	    error: function(resp)
+	    {
+	    	alert("Creating break failed! :(");
 	    }
 	});
 }

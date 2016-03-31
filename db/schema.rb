@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160327060044) do
+ActiveRecord::Schema.define(version: 20160331202901) do
 
   create_table "categories", force: :cascade do |t|
     t.string   "name"
@@ -66,6 +66,14 @@ ActiveRecord::Schema.define(version: 20160327060044) do
     t.boolean  "viewed",      default: false
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
+  end
+
+  create_table "repeat_exceptions", force: :cascade do |t|
+    t.string   "name"
+    t.date     "start"
+    t.date     "end"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
