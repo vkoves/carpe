@@ -16,6 +16,7 @@ class User < ActiveRecord::Base
 
 	has_many :categories
 	has_many :events
+  has_many :repeat_exceptions
 
 	def destroy
 		categories.destroy_all #destroy all our categories

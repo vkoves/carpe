@@ -67,6 +67,7 @@ class ScheduleController < ApplicationController
     @exception.name = params[:name] if params[:name]
     @exception.start = Date.parse(params[:start]) if params[:start]
     @exception.end =  Date.parse(params[:end]) if params[:end]
+    @exception.user = current_user
     @exception.save
     render json: @exception
   end
