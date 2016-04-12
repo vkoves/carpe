@@ -1324,6 +1324,15 @@ function deleteCategory(event, elem, id)
 			{
 				$(this).remove(); //and when that's done, remove the div
 				sideHTML = $("#sch-tiles").html(); //and save the sidebar html for restoration upon drops
+				//Remove all events of this category from scheduleItems
+				$(".col-snap .sch-evnt[data-id=" + id + "]").slideUp();
+				for (var index in scheduleItems) //do a foreach since this is a hashmap
+				{
+					if(scheduleItems[index].categoryId = id)
+					{
+						delete scheduleItems[index];
+					}
+				}
 			});
 	    },
 	    error: function(resp)

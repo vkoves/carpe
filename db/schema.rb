@@ -42,6 +42,14 @@ ActiveRecord::Schema.define(version: 20160331212122) do
   add_index "events", ["category_id"], name: "index_events_on_category_id"
   add_index "events", ["user_id"], name: "index_events_on_user_id"
 
+  create_table "events_repeat_exceptions", id: false, force: :cascade do |t|
+    t.integer "repeat_exception_id"
+    t.integer "event_id"
+  end
+
+  add_index "events_repeat_exceptions", ["event_id"], name: "index_events_repeat_exceptions_on_event_id"
+  add_index "events_repeat_exceptions", ["repeat_exception_id"], name: "index_events_repeat_exceptions_on_repeat_exception_id"
+
   create_table "friendships", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "friend_id"
@@ -78,14 +86,6 @@ ActiveRecord::Schema.define(version: 20160331212122) do
   end
 
   add_index "repeat_exceptions", ["user_id"], name: "index_repeat_exceptions_on_user_id"
-
-  create_table "repeat_exceptions_events", force: :cascade do |t|
-    t.integer "repeat_exception_id"
-    t.integer "event_id"
-  end
-
-  add_index "repeat_exceptions_events", ["event_id"], name: "index_repeat_exceptions_events_on_event_id"
-  add_index "repeat_exceptions_events", ["repeat_exception_id"], name: "index_repeat_exceptions_events_on_repeat_exception_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
