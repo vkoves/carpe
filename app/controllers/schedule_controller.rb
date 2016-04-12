@@ -69,7 +69,7 @@ class ScheduleController < ApplicationController
     @exception.end =  Date.parse(params[:end]) if params[:end]
     @exception.user = current_user
     @exception.save
-    render json: @exception
+    render json: @exception.id #return the id of the repeat exception
   end
 
   def save_events #save events

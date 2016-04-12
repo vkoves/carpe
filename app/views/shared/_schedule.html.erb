@@ -74,10 +74,10 @@
 </div>
 
 <div id="break-adder-overlay-box" class="overlay-box">
+	<span id="close" class="default red" onclick="hideBreakAddOverlay()"></span>
 	<h3>Add Break</h3>
-	<% current_user.repeat_exceptions.each do |excp| %>
-		<div class="break-option"><%= excp.name %> | <%= excp.start %> | <%= excp.end %></div><br>
-	<% end %>
+	<div id="break-cont">
+	</div>
 </div>
 
 <div id="cat-overlay-box" class="overlay-box" data-id="" >
@@ -167,7 +167,7 @@
 				<span class="default green" id="sch-save" onclick="saveEvents()">Save Events
 					<%= image_tag "checkmark-wht.png", id: "save-checkmark" %>
 				</span>
-				<span class="default green" id="show-break">Create Break</span>
+				<span class="default green" id="create-break">Create Break</span>
 			<% end %>
 		</div>
 
