@@ -1,6 +1,7 @@
 class Event < ActiveRecord::Base
   belongs_to :user
   belongs_to :category
+  has_and_belongs_to_many :repeat_exceptions
 
   def get_name(use_html) #get the name, returning untitled if there isn't one
     if name.empty?

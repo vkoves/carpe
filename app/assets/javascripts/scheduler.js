@@ -8,6 +8,9 @@ var refDate = new Date(); // Reference date for where the calendar is now, so th
 var dropScroll = 0; //the scroll position when the last element was dropped
 
 var scheduleItems = {}; //the map of all schedule item objects
+var categories = {};
+var breaks = {};
+
 var eventTempId = 0; //the temp id that the next event will have, incremented on each event creation or load
 
 var currEvent; //the event being currently edited
@@ -31,10 +34,8 @@ $(document).on('page:load', scheduleReady);
 //written with help from:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript
 
-function ScheduleItem() //The
+function ScheduleItem() //The prototype for the schedule items
 {
-	//console.log("Schedule item instantiating");
-
 	this.categoryId; //the id of the associated category
 	this.eventId; //the id of the event in the db
 	this.tempId; //the id of the event in the hashmap
@@ -45,6 +46,7 @@ function ScheduleItem() //The
 	this.repeatType; //the repeat type as a string
 	this.startRepeatType; //the date the repeating starts on
 	this.endRepeatType; //the date the repeating starts on
+	this.breaks = []; //an array of the repeat exceptions of this event. Does not include category level repeat exceptions
 
 	this.name; //the name of the event
 	this.description; //the event description
@@ -199,6 +201,22 @@ function ScheduleItem() //The
 	}
 };
 
+function Category() //The prototype for the category items
+{
+	this.id; //the id of the category in the db
+	this.name; //the name of the category, as a string
+	this.color; //the color of the category, as a CSS acceptable string
+	this.privacy; //the privacy of the category, right now either private || friends || public
+}
+
+function Break() //The prototype for breaks/repeat exceptions
+{
+	this.id; //the id of the associated repeat_exception in the db
+	this.name; //the name of the break
+	this.startDate; //the date the break starts. Any time on this variable should be ignored
+	this.endDate; //the date the break ends. Similarly, time should be ignored.
+}
+
 /****************************/
 /*****  END PROTOTYPES ******/
 /****************************/
@@ -207,6 +225,8 @@ function scheduleReady()
 {
 	if(!readied)
 	{
+		loadInitialBreaks();
+		loadInitialCategories();
 		loadInitialEvents();
 
 		sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
@@ -289,6 +309,11 @@ function addStartingListeners()
 	$("#show-break").click(function()
 	{
 		showBreakOverlay();
+	});
+
+	$("#add-break-event").click(function()
+	{
+		showBreakAddOverlay();
 	});
 
 	//Submit break button in the overaly
@@ -453,9 +478,47 @@ function addStartingListeners()
 	});
 }
 
+//Load in categories
+function loadInitialCategories()
+{
+	if(typeof categoriesLoaded !== 'undefined') //if categoriesLoaded is defined
+	{
+		for(var i = 0; i < categoriesLoaded.length; i++) //iterate through the loaded categories
+		{
+			var currCat = categoriesLoaded[i];
 
+			var catInstance = new Category();
+			catInstance.id = currCat.id;
+			catInstance.privacy = currCat.privacy;
+			catInstance.color = currCat.color;
+			catInstance.name = currCat.name;
 
-function loadInitialEvents() //load events into the hashmap
+			categories[catInstance.id] = catInstance;
+		}
+	}
+}
+
+function loadInitialBreaks()
+{
+	if(typeof breaksLoaded !== 'undefined') //if categoriesLoaded is defined
+	{
+		for(var i = 0; i < breaksLoaded.length; i++) //iterate through the loaded categories
+		{
+			var currBreak = breaksLoaded[i];
+
+			var breakInstance = new Break();
+			breakInstance.id = currBreak.id;
+			breakInstance.name = currBreak.name;
+			breakInstance.startDate = new Date(currBreak.start);
+			breakInstance.endDate = new Date(currBreak.end);
+
+			breaks[breakInstance.id] = breakInstance;
+		}
+	}
+}
+
+//load events into the scheduleItems hashmap
+function loadInitialEvents()
 {
 	//Load in events
 	if (typeof eventsLoaded !== 'undefined') //if eventsLoaded is defined
@@ -1127,11 +1190,16 @@ function showBreakOverlay()
 	$(".ui-widget-overlay, #break-overlay-box").fadeIn(250);
 }
 
+function showBreakAddOverlay()
+{
+	$(".ui-widget-overlay, #break-adder-overlay-box").fadeIn(250);
+}
+
 //Hide any type of overlay
 function hideOverlay()
 {
 	//Hide overlay, the repeat menu and category and event overlays
-	$(".ui-widget-overlay, #repeat-menu, #event-overlay-box, #cat-overlay-box, #break-overlay-box").fadeOut(250);
+	$(".ui-widget-overlay, #repeat-menu, #event-overlay-box, #cat-overlay-box, #break-overlay-box, #break-adder-overlay-box").fadeOut(250);
 }
 
 //Update the color of the category overlay from a color being picked

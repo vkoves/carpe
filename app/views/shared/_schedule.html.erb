@@ -50,6 +50,7 @@
 		Repeat From: <input id="repeat-start" class="date-field" type="text"></input>
 		To: <input id="repeat-end" class="date-field" type="text"></input>
 	</div>
+	<span id="add-break-event" class="default green">Add Break</span>
 	<div id="desc-title" class="small-title">
 		Description:
 		<span id="edit-desc" class="edit">Edit</span>
@@ -70,6 +71,13 @@
 	End: <input id="break-end" class="date-field" type="text">
 	<br><br>
 	<span id="submit-break" class="default green">Submit</span>
+</div>
+
+<div id="break-adder-overlay-box" class="overlay-box">
+	<h3>Add Break</h3>
+	<% current_user.repeat_exceptions.each do |excp| %>
+		<div class="break-option"><%= excp.name %> | <%= excp.start %> | <%= excp.end %></div><br>
+	<% end %>
 </div>
 
 <div id="cat-overlay-box" class="overlay-box" data-id="" >
@@ -199,10 +207,15 @@
 </div>
 
 <script>
-	var readOnly = 	<%= @read_only ? true : false %>;
-	var eventsLoaded = <%= raw @user.get_events(current_user).to_json %>;
+	//User based variables
+	var readOnly = <%= @read_only ? true : false %>;
 	<% current_user ? id = current_user.id : id = -1 %>
 	var userId = <%= id %>;
 	<% current_user and current_user.admin ? admn = true : admn = false %>
 	var admin = <%= admn ? true : false %>;
+
+	//Data variables
+	var eventsLoaded = <%= raw @user.get_events(current_user).to_json %>;
+	var categoriesLoaded = <%= raw @user.categories.to_json %>;
+	var breaksLoaded = <%= raw @user.repeat_exceptions.to_json %>;
 </script>
