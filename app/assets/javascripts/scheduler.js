@@ -246,11 +246,11 @@ function scheduleReady()
 
 		if(readOnly) //allow viewing of all events with single click
 		{
-			$(".edit, #repeat").remove();
+			$(".edit, #repeat, #add-break-event").remove();
 			$("#overlay-loc, #overlay-desc, #overlay-title").attr("contenteditable", "false");
 			$("#time-start, #time-end").attr("readonly", true);
 			$(".col-snap .sch-evnt").click(function(){
-				showOverlay($(this));
+				showEventOverlay($(this));
 			});
 		}
 	}
@@ -642,7 +642,7 @@ function addDrag(selector)
 
 	$(selector).dblclick(function()
 	{
-		showOverlay($(this));
+		showEventOverlay($(this));
 	})
 
 	$(selector).draggable(
@@ -1063,7 +1063,7 @@ function populateEvents()
 	if(readOnly)
 	{
 		$(".col-snap .sch-evnt").click(function(){
-			showOverlay($(this));
+			showEventOverlay($(this));
 		});
 	}
 }
@@ -1124,7 +1124,7 @@ function editCategory(event, elem, id, name, col)
 }
 
 //show the event editing overlay
-function showOverlay(elem)
+function showEventOverlay(elem)
 {
 	var editingEvent = $(document.activeElement).hasClass("evnt-title");
 
@@ -1197,9 +1197,22 @@ function showBreakAddOverlay()
 	for (var id in breaks) //do a foreach since this is a hashmap
 	{
 		var breakInstance = breaks[id]; //and add each break
-		$("#break-cont").append(breakInstance.name + " | " + dateToString(breakInstance.startDate) + " | " + dateToString(breakInstance.endDate));
-		$("#break-cont").append("<br><br>");
+
+		var css = "";
+		if(currEvent.breaks.indexOf(id) > -1)
+			css = "style='color: green'";
+
+		$("#break-cont").append("<div class='break-elem' data-id='" + id + "'" + css + " >"
+			+ breakInstance.name + " | " + dateToString(breakInstance.startDate) + " | " + dateToString(breakInstance.endDate)
+			+ "</div>");
 	}
+
+	$(".break-elem").click(function()
+	{
+		$(this).css("color", "green");
+		currEvent.breaks.push($(this).attr("data-id"));
+	});
+
 	$(".ui-widget-overlay, #break-adder-overlay-box").fadeIn(250);
 }
 

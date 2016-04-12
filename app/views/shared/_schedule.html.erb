@@ -128,7 +128,7 @@
 					<div class="evnt-desc dis-sel"></div>
 					<%= image_tag "quill-wht.png", :class => "sch-evnt-editCat sch-cat-icon no-drag", :onclick => "" %>
 					<%= image_tag "close-wht.png", :class => "sch-evnt-delCat sch-cat-icon no-drag", :onclick => "" %>
-					<%= image_tag "quill-wht.png", :class => "sch-evnt-edit sch-evnt-icon no-drag", :onclick => "showOverlay($(this).parent());" %>
+					<%= image_tag "quill-wht.png", :class => "sch-evnt-edit sch-evnt-icon no-drag", :onclick => "showEventOverlay($(this).parent());" %>
 					<%= image_tag "close-wht.png", :class => "sch-evnt-close sch-evnt-icon no-drag", :onclick => "removeEvent(event, this);" %>
 					<%= image_tag "divider-wht2.png", :class => "evnt-divider no-drag" %>
 				</div>
@@ -143,7 +143,7 @@
 						<div class="evnt-desc dis-sel"></div>
 						<%= image_tag "quill-wht.png", :class => "sch-evnt-editCat sch-cat-icon no-drag", :onclick => "editCategory(event, this, #{cat.id}, \"#{cat.name}\", \"#{cat.color}\");" %>
 						<%= image_tag "close-wht.png", :class => "sch-evnt-delCat sch-cat-icon no-drag", :onclick => "deleteCategory(event, this, #{cat.id});" %>
-						<%= image_tag "quill-wht.png", :class => "sch-evnt-edit sch-evnt-icon no-drag", :onclick => "showOverlay($(this).parent());" %>
+						<%= image_tag "quill-wht.png", :class => "sch-evnt-edit sch-evnt-icon no-drag", :onclick => "showEventOverlay($(this).parent());" %>
 						<%= image_tag "close-wht.png", :class => "sch-evnt-close sch-evnt-icon no-drag", :onclick => "removeEvent(event, this);" %>
 						<%= image_tag "divider-wht2.png", :class => "evnt-divider no-drag" %>
 					</div>
