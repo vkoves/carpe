@@ -509,8 +509,10 @@ function loadInitialBreaks()
 			var breakInstance = new Break();
 			breakInstance.id = currBreak.id;
 			breakInstance.name = currBreak.name;
-			breakInstance.startDate = new Date(currBreak.start);
-			breakInstance.endDate = new Date(currBreak.end);
+			breakInstance.startDate = new Date(currBreak.start + " CST");
+			breakInstance.startDate.setHours(0,0,0,0); //clear any time
+			breakInstance.endDate = new Date(currBreak.end + " CST");
+			breakInstance.endDate.setHours(0,0,0,0); //clear any time
 
 			breaks[breakInstance.id] = breakInstance;
 		}
@@ -542,6 +544,7 @@ function loadInitialEvents()
 			schItem.repeatType = evnt.repeat;
 			schItem.description = evnt.description;
 			schItem.location = evnt.location;
+			schItem.breaks = evnt.break_ids;
 			schItem.tempId = i;
 			scheduleItems[i] = schItem;
 
@@ -1004,10 +1007,28 @@ function populateEvents()
 			var date = new Date(currentDates[i]);
 			var itemDate = new Date(eventObj.startDateTime.getTime());
 
+			//Handle repeatStart and endDates
 			if(eventObj.repeatStart && eventObj.repeatStart > date) //if the repeatStart is later than this date, don't show
 				continue;
 			else if(eventObj.repeatEnd && eventObj.repeatEnd < date) //if the repeatEnd is before this date, don't show
 				continue;
+
+			var inBreak = false; //is this during a break
+			//Then handle repeat breaks
+			for(var b = 0; b < eventObj.breaks.length; b++) //iterate through all breaks
+			{
+				var brk = breaks[eventObj.breaks[b]];
+
+				if(brk.startDate <= date && brk.endDate >= date) //if the date falls in the break range
+				{
+					inBreak = true;
+					break; //continue eventLoop;
+				}
+			}
+
+			if(inBreak) //if we found that we are in a break
+				continue; //skip to the next event
+
 
 			if (itemDate.toDateString() == date.toDateString()
 				|| eventObj.repeatType == "daily"
@@ -1017,7 +1038,7 @@ function populateEvents()
 			{
 				place(eventObj, i);
 			}
-			else if(eventObj.repeatType.split("-")[0] == "custom")
+			else if(eventObj.repeatType.split("-")[0] == "custom") //handle custom repeat types
 			{
 				var arr = eventObj.repeatType.split("-");
 				var num = arr[1];
@@ -1199,18 +1220,37 @@ function showBreakAddOverlay()
 		var breakInstance = breaks[id]; //and add each break
 
 		var css = "";
-		if(currEvent.breaks.indexOf(id) > -1)
+		var classAdd = "";
+		if(currEvent.breaks.indexOf(parseInt(id)) > -1)
+		{
 			css = "style='color: green'";
+			classAdd = "active"
+		}
 
-		$("#break-cont").append("<div class='break-elem' data-id='" + id + "'" + css + " >"
+		$("#break-cont").append("<div class='break-elem " +  classAdd +"' data-id='" + id + "'" + css + " >"
 			+ breakInstance.name + " | " + dateToString(breakInstance.startDate) + " | " + dateToString(breakInstance.endDate)
 			+ "</div>");
 	}
 
 	$(".break-elem").click(function()
 	{
-		$(this).css("color", "green");
-		currEvent.breaks.push($(this).attr("data-id"));
+		var currId = parseInt($(this).attr("data-id"));
+		if($(this).hasClass("active")) //disable this
+		{
+			var index = currEvent.breaks.indexOf(currId);
+			if(index > -1) //if this is indeed a current break
+			{
+				$(this).css("color", "black"); //set this to normal styling
+				$(this).removeClass("active");
+				currEvent.breaks.splice(index, 1); //and remove
+			}
+		}
+		else
+		{
+			$(this).css("color", "green");
+			$(this).addClass("active");
+			currEvent.breaks.push(currId);
+		}
 	});
 
 	$(".ui-widget-overlay, #break-adder-overlay-box").fadeIn(250);
@@ -1395,7 +1435,9 @@ function createBreak(name, startDate, endDate)
 {
 	console.log("Make the break: " + name + ", " + startDate + ", " + endDate);
 	var startD = new Date(startDate);
+	startD.setHours(0,0,0,0); //clear any time
 	var endD = new Date(endDate);
+	endD.setHours(0,0,0,0); //clear any time
 
 	$.ajax({
 	    url: "/create_break",

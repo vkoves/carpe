@@ -215,7 +215,16 @@
 	var admin = <%= admn ? true : false %>;
 
 	//Data variables
-	var eventsLoaded = <%= raw @user.get_events(current_user).to_json %>;
+	<% events = @user.get_events(current_user) %>
+	<% eventsOut = [] %>
+	<% events.each do |event| %>
+	<% atr = event.attributes %>
+	<% atr[:break_ids] = event.repeat_exceptions.pluck(:id) %>
+	<% eventsOut.push(atr) %>
+	<% end %>
+
+
+	var eventsLoaded = <%= raw eventsOut.to_json %>;
 	var categoriesLoaded = <%= raw @user.categories.to_json %>;
 	var breaksLoaded = <%= raw @user.repeat_exceptions.to_json %>;
 </script>

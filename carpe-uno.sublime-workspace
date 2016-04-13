@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"catego",
+				"categoriesLoaded"
+			],
+			[
 				"showBreak",
 				"showBreakAddOverlay"
 			],
@@ -74,10 +78,6 @@
 			[
 				"seconds",
 				"seconds_diff"
-			],
-			[
-				"catego",
-				"categoryName"
 			],
 			[
 				"categor",
@@ -275,15 +275,7 @@
 			"file": "app/assets/javascripts/scheduler.js",
 			"settings":
 			{
-				"buffer_size": 45145,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/models/event.rb",
-			"settings":
-			{
-				"buffer_size": 3265,
+				"buffer_size": 47855,
 				"line_ending": "Unix"
 			}
 		},
@@ -291,7 +283,7 @@
 			"file": "app/views/shared/_schedule.html.erb",
 			"settings":
 			{
-				"buffer_size": 9645,
+				"buffer_size": 9609,
 				"line_ending": "Unix"
 			}
 		},
@@ -300,6 +292,22 @@
 			"settings":
 			{
 				"buffer_size": 12164,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/controllers/schedule_controller.rb",
+			"settings":
+			{
+				"buffer_size": 3343,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/models/category.rb",
+			"settings":
+			{
+				"buffer_size": 836,
 				"line_ending": "Unix"
 			}
 		}
@@ -383,12 +391,14 @@
 	"file_history":
 	[
 		"/home/viktor/Documents/Personal/carpe-uno/app/models/repeat_exception.rb",
+		"/home/viktor/Documents/Personal/carpe-uno/app/models/event.rb",
+		"/home/viktor/Documents/Personal/carpe-uno/vendor/bundle/ruby/2.2.0/gems/puma-2.9.1/lib/puma/events.rb",
+		"/home/viktor/Documents/Personal/carpe-uno/.gitignore",
 		"/home/viktor/Documents/Personal/carpe-uno/app/models/category.rb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/models/user.rb",
 		"/home/viktor/Documents/Personal/carpe-uno/config/routes.rb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/controllers/schedule_controller.rb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/views/home/index.html.erb",
-		"/home/viktor/Documents/Personal/carpe-uno/app/models/event.rb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/helpers/application_helper.rb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/views/groups/add_users.html.erb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/views/groups/index.html.erb",
@@ -503,6 +513,35 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"event",
+			"showOverlay",
+			"showOverla",
+			"showOverlay",
+			"showEventOverlay",
+			"repeat-menu",
+			"repeat",
+			"showEventOverlay",
+			"showOverlay",
+			"readonly",
+			"breakAddO",
+			"showBreak",
+			"showBreakOverlay",
+			"#show-break",
+			"break",
+			"scheduLeItems",
+			"scheduleItems.length",
+			"delete sch",
+			"delete ",
+			"deleteCategory",
+			"removeEvent",
+			"Things",
+			"scheduleItems",
+			"catItem",
+			"cat",
+			"catItem",
+			"categoriesLoaded",
+			"eventsLoaded",
+			"loadInitial",
 			"overlay-box",
 			"overlay",
 			"break-adder-",
@@ -601,36 +640,7 @@
 			"getHeight",
 			".today",
 			".name",
-			"time-start",
-			"setEndDateTime",
-			"lengthInhours",
-			".click(",
-			"setHeight",
-			"drag:",
-			"height",
-			".height",
-			"hoursSpanned",
-			"this.hoursSPanned",
-			"lengthInHours",
-			"updateTime",
-			"H:",
-			"currMins",
-			"time-start",
-			"setEndDateTime",
-			"dragCOmplete",
-			"setEndDateTime",
-			"gridHeight",
-			"mins",
-			"handlePOsiti",
-			"mins",
-			"handlePosition",
-			"ui.position.top",
-			"placeInSchedule",
-			"getHeight()",
-			".top",
-			"getHeight()",
-			"getHours() + ",
-			"updateTime"
+			"time-start"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -657,15 +667,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 45145,
+						"buffer_size": 47855,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								39761,
-								39761
+								37719,
+								37719
 							]
 						],
 						"settings":
@@ -674,7 +684,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 7387.0,
+						"translation.y": 19712.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -682,49 +692,19 @@
 				},
 				{
 					"buffer": 1,
-					"file": "app/models/event.rb",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3265,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								119,
-								119
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Ruby/Ruby.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
 					"file": "app/views/shared/_schedule.html.erb",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 9645,
+						"buffer_size": 9609,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								9598,
-								9598
+								296,
+								296
 							]
 						],
 						"settings":
@@ -733,14 +713,14 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 3230.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 3,
+					"buffer": 2,
 					"file": "app/assets/stylesheets/schedule.scss",
 					"semi_transient": false,
 					"settings":
@@ -762,10 +742,69 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 5160.0,
+						"translation.y": 604.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "app/controllers/schedule_controller.rb",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3343,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1959,
+								1959
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Ruby/Ruby.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 587.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "app/models/category.rb",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 836,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								107,
+								107
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Ruby/Ruby.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
 					"type": "text"
 				}
 			]
@@ -824,6 +863,30 @@
 		"selected_items":
 		[
 			[
+				"repeat_",
+				"app/models/repeat_exception.rb"
+			],
+			[
+				"event.r",
+				"app/models/event.rb"
+			],
+			[
+				"events.rb",
+				"vendor/bundle/ruby/2.2.0/gems/puma-2.9.1/lib/puma/events.rb"
+			],
+			[
+				"category",
+				"app/models/category.rb"
+			],
+			[
+				"schedule_",
+				"app/controllers/schedule_controller.rb"
+			],
+			[
+				".giti",
+				".gitignore"
+			],
+			[
 				"user.rb",
 				"app/models/user.rb"
 			],
@@ -850,10 +913,6 @@
 			[
 				"scheduler.js",
 				"app/assets/javascripts/scheduler.js"
-			],
-			[
-				"schedule_",
-				"app/controllers/schedule_controller.rb"
 			],
 			[
 				"repeat",
@@ -918,10 +977,6 @@
 			[
 				"schedul",
 				"app/assets/stylesheets/schedule.scss"
-			],
-			[
-				"event.r",
-				"app/models/event.rb"
 			],
 			[
 				"catego",
@@ -1022,10 +1077,6 @@
 			[
 				"user_",
 				"app/views/shared/_user_box.html.erb"
-			],
-			[
-				"category",
-				"app/models/category.rb"
 			],
 			[
 				"event.",
@@ -1322,18 +1373,6 @@
 			[
 				"serializer/app.",
 				"fire/app/serializers/application.js"
-			],
-			[
-				"initializers/",
-				"config/initializers/06-mini_profiler.rb"
-			],
-			[
-				"index.emb",
-				"fire/app/templates/index.emblem"
-			],
-			[
-				"ticketmagi",
-				"app/assets/stylesheets/ticketmagic/ticketmagic.scss"
 			]
 		],
 		"width": 0.0

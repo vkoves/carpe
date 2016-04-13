@@ -99,6 +99,13 @@ class ScheduleController < ApplicationController
           evnt.repeat_end = Date.parse(obj["repeatEnd"])
         end
 
+        evnt.repeat_exceptions.clear #empty out
+        if obj["breaks"]
+          obj["breaks"].each do |break_id| #then add the current things
+            evnt.repeat_exceptions << RepeatException.find(break_id)
+          end
+        end
+
         evnt.description = obj["description"] || ""
         evnt.location = obj["location"] || ""
         evnt.category_id = obj["categoryId"].to_i
