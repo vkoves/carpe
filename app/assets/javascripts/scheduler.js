@@ -1251,6 +1251,10 @@ function showBreakAddOverlay()
 			$(this).addClass("active");
 			currEvent.breaks.push(currId);
 		}
+
+		//Repopulate event
+		$(".sch-evnt[evnt-temp-id='" + currEvent.tempId + "']").remove();
+		populateEvents();
 	});
 
 	$(".ui-widget-overlay, #break-adder-overlay-box").fadeIn(250);
