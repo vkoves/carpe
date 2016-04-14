@@ -58,15 +58,15 @@ class Event < ActiveRecord::Base
         end
 
         #Now check if this event falls onto one of it's specified breaks
-          # onBreak = false
-          # self.repeat_exceptions.each do |brk|
-          #   if brk.start <= date.to_date and brk.end >= date.to_date
-          #     onBreak = true
-          #     break
-          #   end
-          # end
+          onBreak = false
+          self.repeat_exceptions.each do |brk|
+            if brk.start <= date.to_date and brk.end >= date.to_date
+              onBreak = true
+              break
+            end
+          end
 
-        #next if onBreak #continue to the next event if this one is on break
+        next if onBreak #continue to the next event if this one is on break
 
         newEvent = self.dup #duplicate the base element without creating a database clone
         newEvent.date = self.date.change(day: date.day, month: date.month, year: date.year) #and determine the new start date
