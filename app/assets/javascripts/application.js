@@ -23,9 +23,22 @@
 // require_tree .
 
 
-var ready = function()
+function ready()
 {
-	console.log("Ready " + window.location.href );
+	// console.log("Ready " + window.location.href );
+
+	if(Notification.permission == "default")
+	{
+		Notification.requestPermission(function (permission) {
+	      handleNotifications(true);
+	    });
+	}
+	else if(Notification.permission == "granted")
+	{
+		handleNotifications();
+	}
+
+	//Start initializing event listeners for everything
 	$("#user-name-panel").click(function()
 	{
 		$("#user-panel").slideToggle(300);
@@ -173,6 +186,63 @@ $(window).resize(function()
 
 $(document).ready(ready);
 $(document).on('page:load', ready);
+
+function handleNotifications(justGranted)
+{
+	// If the user accepts, let's create a notification
+ 	if (Notification.permission === "granted")
+ 	{
+		if(justGranted)
+		{
+			printNotification("Thanks for enabling notifications!", 2000);
+		}
+
+		var today = new Date().setHours(0,0,0,0);
+
+		for (var i = 0; i < todaysEvents.length; i++)
+		{
+			var date = new Date(todaysEvents[i].date);
+			if(new Date(date.getTime()).setHours(0,0,0,0) == today)
+			{
+				var timeTillInMS = date.getTime() - Date.now();
+				timedEventNotification(todaysEvents[i],timeTillInMS);
+			}
+		}
+	}
+}
+
+function timedEventNotification(event, time)
+{
+	var text = event.name || "Untitled";
+	if(time < 0) //this event already started
+	{
+		var endDate = new Date(event.end_date);
+		if(endDate.getTime() > new Date().getTime()) //check that this event hasn't ended
+			text = text + " has started!";
+		else
+			return;
+	}
+	else
+	{
+		text = text + " is starting!";
+	}
+
+	setTimeout(function()
+	{
+		printNotification(text);
+	}, time);
+}
+
+function printNotification(text, hideTime)
+{
+	var options = {
+		body: text,
+		icon: 'assets/favicon.ico',
+	}
+	var notification = new Notification("Carpe", options);
+	if(hideTime)
+		setTimeout(notification.close.bind(notification), hideTime); //close this notification in 2000ms or 2 seconds
+}
 
 //called by a friend request button
 function friendRequest(elem)

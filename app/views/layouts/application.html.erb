@@ -43,7 +43,14 @@
 
 <a href="http://goo.gl/forms/oEJvUPI7Un" target="_blank"><div id="bug-submission">Submit Bug!</div></a>
 
-<%= yield %>
 
+<% if current_user %>
+  <script>
+    var todaysEvents = <%= raw current_user.events_in_range(DateTime.now.beginning_of_day, DateTime.now.end_of_day).to_json %>;
+    <% #Fix this time zone %>
+  </script>
+<% end %>
+
+<%= yield %>
 </body>
 </html>
