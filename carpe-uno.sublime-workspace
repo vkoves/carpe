@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"reap",
+				"repeat_exceptions"
+			],
+			[
 				"catego",
 				"categoriesLoaded"
 			],
@@ -275,7 +279,31 @@
 			"file": "app/assets/javascripts/scheduler.js",
 			"settings":
 			{
-				"buffer_size": 47855,
+				"buffer_size": 49241,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/views/pages/admin.html.erb",
+			"settings":
+			{
+				"buffer_size": 947,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/models/user.rb",
+			"settings":
+			{
+				"buffer_size": 6188,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/models/event.rb",
+			"settings":
+			{
+				"buffer_size": 3637,
 				"line_ending": "Unix"
 			}
 		},
@@ -283,7 +311,7 @@
 			"file": "app/views/shared/_schedule.html.erb",
 			"settings":
 			{
-				"buffer_size": 9609,
+				"buffer_size": 9817,
 				"line_ending": "Unix"
 			}
 		},
@@ -299,7 +327,7 @@
 			"file": "app/controllers/schedule_controller.rb",
 			"settings":
 			{
-				"buffer_size": 3343,
+				"buffer_size": 3584,
 				"line_ending": "Unix"
 			}
 		},
@@ -390,6 +418,7 @@
 	],
 	"file_history":
 	[
+		"/home/viktor/Documents/Personal/carpe-uno/app/views/shared/_user_box_horizontal.html.erb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/models/repeat_exception.rb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/models/event.rb",
 		"/home/viktor/Documents/Personal/carpe-uno/vendor/bundle/ruby/2.2.0/gems/puma-2.9.1/lib/puma/events.rb",
@@ -406,7 +435,6 @@
 		"/home/viktor/Documents/Personal/carpe-uno/app/controllers/home_controller.rb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/controllers/groups_controller.rb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/views/groups/show.html.erb",
-		"/home/viktor/Documents/Personal/carpe-uno/app/views/shared/_user_box_horizontal.html.erb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/views/shared/_schedule.html.erb",
 		"/home/viktor/Documents/Personal/carpe-uno/app/assets/stylesheets/schedule.scss",
 		"/home/viktor/Documents/Personal/carpe-uno/app/views/pages/admin.html.erb",
@@ -513,6 +541,23 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"populateEvents",
+			"repeat-start",
+			"events_in_range",
+			"timezone",
+			"UTC",
+			"loadInitialBreaks",
+			"setHours(",
+			"createDate",
+			"loadInitialBreaks",
+			"helpers",
+			"new Date(",
+			"loadInitialevents",
+			"breaks",
+			"eventsLoaded",
+			"map",
+			"each",
+			"loadInitialEvents",
 			"event",
 			"showOverlay",
 			"showOverla",
@@ -623,24 +668,7 @@
 			"dragComplete",
 			"dragCOmplete",
 			"currMins",
-			"handlePosition",
-			"currMins",
-			"updateTime",
-			"resizeComplete",
-			"minutes",
-			"updateTime",
-			"resize",
-			"updateTime",
-			".bot",
-			"end_arr",
-			"stop:",
-			"resize",
-			"gridHeight*",
-			"-border",
-			"getHeight",
-			".today",
-			".name",
-			"time-start"
+			"handlePosition"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -658,7 +686,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 3,
 			"sheets":
 			[
 				{
@@ -667,15 +695,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 47855,
+						"buffer_size": 49241,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								37719,
-								37719
+								39241,
+								39241
 							]
 						],
 						"settings":
@@ -684,33 +712,32 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 19712.0,
+						"translation.y": 20885.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "app/views/shared/_schedule.html.erb",
+					"file": "app/views/pages/admin.html.erb",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 9609,
+						"buffer_size": 947,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								296,
-								296
+								393,
+								393
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Rails/HTML (Rails).sublime-syntax",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/Rails/HTML (Rails).sublime-syntax"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -721,6 +748,95 @@
 				},
 				{
 					"buffer": 2,
+					"file": "app/models/user.rb",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6188,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4514,
+								4514
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Ruby/Ruby.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 706.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "app/models/event.rb",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3637,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2247,
+								2026
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Ruby/Ruby.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 391.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "app/views/shared/_schedule.html.erb",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 9817,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								9108,
+								9108
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Rails/HTML (Rails).sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 3205.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
 					"file": "app/assets/stylesheets/schedule.scss",
 					"semi_transient": false,
 					"settings":
@@ -732,8 +848,8 @@
 						"selection":
 						[
 							[
-								8387,
-								8387
+								509,
+								509
 							]
 						],
 						"settings":
@@ -742,27 +858,27 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 604.0,
+						"translation.y": 162.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 7,
 					"type": "text"
 				},
 				{
-					"buffer": 3,
+					"buffer": 6,
 					"file": "app/controllers/schedule_controller.rb",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3343,
+						"buffer_size": 3584,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1959,
-								1959
+								2511,
+								2511
 							]
 						],
 						"settings":
@@ -772,14 +888,14 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 587.0,
+						"translation.y": 1352.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
-					"buffer": 4,
+					"buffer": 7,
 					"file": "app/models/category.rb",
 					"semi_transient": false,
 					"settings":
@@ -804,7 +920,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 5,
 					"type": "text"
 				}
 			]
@@ -863,12 +979,28 @@
 		"selected_items":
 		[
 			[
-				"repeat_",
-				"app/models/repeat_exception.rb"
-			],
-			[
 				"event.r",
 				"app/models/event.rb"
+			],
+			[
+				"user_box_ho",
+				"app/views/shared/_user_box_horizontal.html.erb"
+			],
+			[
+				"admin.t",
+				"app/views/pages/admin.html.erb"
+			],
+			[
+				"event.rb",
+				"app/models/event.rb"
+			],
+			[
+				"user.rb",
+				"app/models/user.rb"
+			],
+			[
+				"repeat_",
+				"app/models/repeat_exception.rb"
 			],
 			[
 				"events.rb",
@@ -887,16 +1019,8 @@
 				".gitignore"
 			],
 			[
-				"user.rb",
-				"app/models/user.rb"
-			],
-			[
 				"schedule",
 				"app/controllers/schedule_controller.rb"
-			],
-			[
-				"event.rb",
-				"app/models/event.rb"
 			],
 			[
 				"category.",
@@ -1009,10 +1133,6 @@
 			[
 				"header.html",
 				"app/views/shared/_header.html.erb"
-			],
-			[
-				"user_box_ho",
-				"app/views/shared/_user_box_horizontal.html.erb"
 			],
 			[
 				"admin.",
@@ -1369,10 +1489,6 @@
 			[
 				"adapters/appl",
 				"fire/app/adapters/application.js"
-			],
-			[
-				"serializer/app.",
-				"fire/app/serializers/application.js"
 			]
 		],
 		"width": 0.0

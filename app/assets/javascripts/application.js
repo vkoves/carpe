@@ -237,7 +237,7 @@ function printNotification(text, hideTime)
 {
 	var options = {
 		body: text,
-		icon: 'assets/favicon.ico',
+		icon: 'assets/images/CarpeIcon.png',
 	}
 	var notification = new Notification("Carpe", options);
 	if(hideTime)
