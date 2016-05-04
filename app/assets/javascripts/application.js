@@ -38,6 +38,11 @@ function ready()
 		handleNotifications();
 	}
 
+	initializeEventListeners();
+};
+
+function initializeEventListeners()
+{
 	//Start initializing event listeners for everything
 	$("#user-name-panel").click(function()
 	{
@@ -45,6 +50,7 @@ function ready()
 		$("#notif-panel").slideUp(300);
 	});
 
+	//Handle notification bell click
 	$(".bell-hold").click(function()
 	{
 		$("#notif-panel").slideToggle(300);
@@ -70,11 +76,13 @@ function ready()
 		}
 	});
 
+	//Toggle mobile menu
 	$("#header-mob-menu").click(function()
 	{
 		$("#mobile-menu").slideToggle(300);
 	});
 
+	//Toggle sidebar that lists friend availability
 	$("#sidebar-button").click(function()
 	{
 		if(parseInt($("#sidebar").css("right")) < 0)
@@ -127,9 +135,6 @@ function ready()
 	$(".promotion span").parent().bind('ajax:success', function(event, data, status, xhr){
 		if(data && data["action"] && data["action"] == "promote")
 		{
-			console.log(data);
-			console.log($(this).attr("uid"));
-			console.log(data["uid"]);
 			if($(this).attr("uid") == parseInt(data["uid"]))
 			{
 				var href = $(this).attr("href");
@@ -169,7 +174,7 @@ function ready()
 	    }
 	  });
 	});
-};
+}
 
 $(window).resize(function()
 {
@@ -214,6 +219,7 @@ function handleNotifications(justGranted)
 function timedEventNotification(event, time)
 {
 	var text = event.name || "Untitled";
+
 	if(time < 0) //this event already started
 	{
 		var endDate = new Date(event.end_date);
@@ -229,8 +235,30 @@ function timedEventNotification(event, time)
 
 	setTimeout(function()
 	{
-		printNotification(text);
+		printEventNotification(event.id, text);
 	}, time);
+}
+
+function setEventCookie(id)
+{
+	var currDate = (new Date()).toISOString().split("T")[0]; //get the current date, convert to ISO, and strip the time away
+	var currCookie = getCookie("carpeEventsNotified");
+	document.cookie = "carpeEventsNotified=" + currCookie + "&" + id + "@" + currDate;
+}
+
+function printEventNotification(eventID, text)
+{
+	var currDate = (new Date()).toISOString().split("T")[0]; //get the current date, convert to ISO, and strip the time away
+	var currCookie = getCookie("carpeEventsNotified");
+	if(currCookie.indexOf(eventID + "@" + currDate) > -1) //if the cookie says we've printed for this event today
+	{
+		return; //then just return
+	}
+	else //otherwise
+	{
+		printNotification(text); //print the event notification as asked for
+		setEventCookie(eventID); //and update the cookie indicating this
+	}
 }
 
 function printNotification(text, hideTime)
@@ -293,4 +321,22 @@ function fadeToText(elem, newText, duration) //the element to fade on, the new t
 	    $(this).text(newText); //instantly change the text
 	    elem.animate({'color': color_orig, 'max-width': 500, 'min-width': 0},{duration: dur/2, queue: false}); //and animate back
 	}});
+}
+
+/* Cookie Helpers */
+/* From http://www.w3schools.com/js/js_cookies.asp */
+function getCookie(cname)
+{
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length,c.length);
+        }
+    }
+    return "";
 }
