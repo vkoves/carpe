@@ -321,6 +321,10 @@ function addStartingListeners()
 		});
 
 		currEvent.repeatType = "certain_days-" + daysArray.join(",");
+
+		//repopulate this event
+		$(".sch-evnt[evnt-temp-id='" + currEvent.tempId + "']").remove();
+		populateEvents();
 	});
 
 	//Add break button click handler, which shows the overlay
@@ -1054,13 +1058,22 @@ function populateEvents()
 				continue; //skip to the next event
 
 
-			if (itemDate.toDateString() == date.toDateString()
+			if (itemDate.toDateString() == date.toDateString() && eventObj.repeatType.indexOf("certain_days") == -1 //if today's the event except certain days
 				|| eventObj.repeatType == "daily"
 				|| (eventObj.repeatType == "weekly" && date.getDay() == itemDate.getDay())
 				|| (eventObj.repeatType == "monthly" && date.getDate() == itemDate.getDate())
 				|| (eventObj.repeatType == "yearly" && date.getDate() == itemDate.getDate() && date.getMonth() == itemDate.getMonth()))
 			{
 				place(eventObj, i);
+			}
+			else if(eventObj.repeatType.split("-")[0] == "certain_days") //handle certain day repeats
+			{
+				var daysArray = eventObj.repeatType.split("-")[1];
+				for(var d = 0; d < daysArray.length; d++)
+				{
+					if(daysArray[d] == date.getDay())
+						place(eventObj, i);
+				}
 			}
 			else if(eventObj.repeatType.split("-")[0] == "custom") //handle custom repeat types
 			{
