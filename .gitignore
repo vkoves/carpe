@@ -16,4 +16,6 @@
 /tmp
 /vendor/bundle
 
+#Ignore Sublime files
+*.sublime-project
 *.sublime-workspace
