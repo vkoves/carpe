@@ -285,15 +285,20 @@ function addStartingListeners()
 	$("#repeat-custom").click(function()
 	{
 		//highlight the newly selected option
-		$(".repeat-option").removeClass("red");
-		$(this).addClass("red");
-
-		$("#repeat-custom-options").toggle();
+		$("#repeat-custom-options").show();
 		var num = $("#repeat-custom-number").val();
 		var unit = $("#repeat-custom-unit").val();
 		currEvent.repeatType = "custom-" + num + "-" + unit;
 	});
 
+	//Show the options to select certain days
+	$("#repeat-certain-days").click(function()
+	{
+		$("#repeat-certain-days-options").show();
+		currEvent.repeatType = "certain_days";
+	});
+
+	//Update the repeat type when changing custom repeat type details
 	$("#repeat-custom-number, #repeat-custom-unit").change(function()
 	{
 		var num = $("#repeat-custom-number").val();
@@ -303,6 +308,19 @@ function addStartingListeners()
 		//repopulate this event
 		$(".sch-evnt[evnt-temp-id='" + currEvent.tempId + "']").remove();
 		populateEvents();
+	});
+
+	$("#repeat-certain-days-options span").click(function()
+	{
+		$(this).toggleClass("red");
+		var daysArray = [];
+
+		//Iterate through all active day buttons
+		$("#repeat-certain-days-options span.red").each(function() {
+			daysArray.push($(this).attr("data-day")); //and add their day number to the array
+		});
+
+		currEvent.repeatType = "certain_days-" + daysArray.join(",");
 	});
 
 	//Add break button click handler, which shows the overlay
@@ -360,6 +378,12 @@ function addStartingListeners()
 			currEvent.repeatType = repType;
 			$("#repeat-custom-options").hide(); //hide custom options
 		}
+
+		if($(this).attr("id") != "repeat-certain-days") //if this isn't custom, repeat stuff
+		{
+			$("#repeat-certain-days-options").hide(); //hide custom options
+		}
+
 
 		//repopulate this event
 		$(".sch-evnt[evnt-temp-id='" + currEvent.tempId + "']").remove();
@@ -1168,9 +1192,20 @@ function showEventOverlay(elem)
 			$("#repeat-custom-number").val(rep.split("-")[1]); //set the number
 			$("#repeat-custom-unit").val(rep.split("-")[2]); //and the unit
 		}
+		else if(rep.indexOf("certain_days") > -1)
+		{
+			$("#repeat-certain-days").addClass("red");
+			$("#repeat-certain-days-options").show();
+			var daysArray = rep.split("-")[1].split(",");
+			for(var i = 0; i < daysArray.length; i++)
+			{
+				$("#repeat-certain-days-options span[data-day=" + daysArray[i] + "]").addClass("red");
+			}
+		}
 		else
 		{
 			$("#repeat-custom-options").hide();
+			$("#repeat-certain-days-options").hide();
 		}
 
 		$("#repeat-start").val(dateToString(currEvent.repeatStart));
