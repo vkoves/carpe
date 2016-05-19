@@ -22,7 +22,7 @@ body
 	color: rgb(255, 116, 0) !important;
 }
 
-input { 
+input {
 	font-family:Open Sans, sans-serif;
 }
 
@@ -150,6 +150,7 @@ a.default *, span.default /* default link styling */
 	font-weight: bold;
 	border-radius: 3px;
 	transition: background 0.3s;
+    box-shadow: 0px 1px 3px #B4AFAF;
 }
 a.default *:hover, span.default:hover
 {
@@ -170,6 +171,12 @@ a.default.green *, span.default.green
 a.default.green *:hover, span.default.green:hover
 {
 	background: #39DA39;
+}
+a.default.disabled *, span.default.disabled,
+a.default.disabled *:hover, span.default.disabled:hover
+{
+	background: #B4AFAF;
+	box-shadow: none;
 }
 /* END LINK STYLING */
 

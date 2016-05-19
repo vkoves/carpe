@@ -26,6 +26,15 @@ var dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Sat
 $(document).ready(scheduleReady);
 $(document).on('page:load', scheduleReady);
 
+//Run when the user tries to leave the page
+$(window).on('beforeunload', function()
+{
+	if(!$("#sch-save").hasClass("disabled")) //if the save button is active (they have changes)
+	{
+		return "You still have changes to your schedule pending!"
+	}
+});
+
 
 /****************************/
 /******* PROTOTYPES *********/
@@ -52,7 +61,7 @@ function ScheduleItem() //The prototype for the schedule items
 	this.description; //the event description
 	this.location; //the event location
 
-	this.lengthInHours =  function() //returns an float of the length of the event in hours
+	this.lengthInHours = function() //returns an float of the length of the event in hours
 	{
 		return differenceInHours(this.startDateTime, this.endDateTime, false);
 	};
@@ -66,6 +75,7 @@ function ScheduleItem() //The prototype for the schedule items
 	{
 		this.element().slideUp("normal", function() { $(this).remove(); }); //slide up the element and remove after that is done
 		delete scheduleItems[this.tempId]; //then delete from the scheduleItems map
+		updatedEvents();
 	};
 
 	this.setStartDateTime = function(newStartDateTime, resize, userSet) //if resize is true, we do not move the end time
@@ -78,6 +88,8 @@ function ScheduleItem() //The prototype for the schedule items
 		}
 		else
 			setDateTime(true, newStartDateTime, this, resize);
+
+		updatedEvents();
 	};
 
 	this.setEndDateTime = function(newEndDateTime, resize, userSet) //if resize, we don't move the start time
@@ -90,12 +102,21 @@ function ScheduleItem() //The prototype for the schedule items
 		}
 		else
 			setDateTime(false, newEndDateTime, this, resize);
+
+		updatedEvents();
 	};
 
 	this.setName = function(newName)
 	{
 		this.name = newName; //set the object daat
 		this.element().find(".evnt-title").text(newName); //and update the HTML element
+		updatedEvents();
+	};
+
+	this.setRepeatType = function(newRepeatType)
+	{
+		this.repeatType = newRepeatType;
+		updatedEvents();
 	};
 
 	this.dragComplete = function(elem, resize)
@@ -110,6 +131,7 @@ function ScheduleItem() //The prototype for the schedule items
 		var newDate = new Date(dateString + " " + hours + ":" + paddedMinutes(this.startDateTime));
 		this.setStartDateTime(newDate, resize);
 		this.tempElement = elem;
+		updatedEvents();
 	};
 
 	this.resizeComplete = function(elem)
@@ -119,6 +141,7 @@ function ScheduleItem() //The prototype for the schedule items
 		endDT.setHours(this.startDateTime.getHours() + (elem.outerHeight()/gridHeight));
 		endDT.setMinutes(this.endDateTime.getMinutes());
 		this.endDateTime = endDT;
+		updatedEvents();
 	};
 
 	this.getHeight = function() //returns the top value based on the hours and minutes of the start
@@ -139,6 +162,7 @@ function ScheduleItem() //The prototype for the schedule items
 	this.updateHeight = function()
 	{
 		this.element().css("height", gridHeight*this.lengthInHours() - border);
+		updatedEvents();
 	};
 
 	this.element = function() //returns the HTML element for this schedule item, or elements if it is repeating
@@ -253,6 +277,8 @@ function scheduleReady()
 				showEventOverlay($(this));
 			});
 		}
+
+		$("#sch-save").addClass("disabled");
 	}
 }
 
@@ -288,14 +314,14 @@ function addStartingListeners()
 		$("#repeat-custom-options").show();
 		var num = $("#repeat-custom-number").val();
 		var unit = $("#repeat-custom-unit").val();
-		currEvent.repeatType = "custom-" + num + "-" + unit;
+		currEvent.setRepeatType("custom-" + num + "-" + unit);
 	});
 
 	//Show the options to select certain days
 	$("#repeat-certain-days").click(function()
 	{
 		$("#repeat-certain-days-options").show();
-		currEvent.repeatType = "certain_days";
+		currEvent.setRepeatType("certain_days");
 	});
 
 	//Update the repeat type when changing custom repeat type details
@@ -303,7 +329,8 @@ function addStartingListeners()
 	{
 		var num = $("#repeat-custom-number").val();
 		var unit = $("#repeat-custom-unit").val();
-		currEvent.repeatType = "custom-" + num + "-" + unit;
+
+		currEvent.setRepeatType("custom-" + num + "-" + unit);
 
 		//repopulate this event
 		$(".sch-evnt[evnt-temp-id='" + currEvent.tempId + "']").remove();
@@ -320,7 +347,7 @@ function addStartingListeners()
 			daysArray.push($(this).attr("data-day")); //and add their day number to the array
 		});
 
-		currEvent.repeatType = "certain_days-" + daysArray.join(",");
+		currEvent.setRepeatType("certain_days-" + daysArray.join(","))
 
 		//repopulate this event
 		$(".sch-evnt[evnt-temp-id='" + currEvent.tempId + "']").remove();
@@ -379,7 +406,7 @@ function addStartingListeners()
 			//get the text of the button
 			var repType = $(this).text().toLowerCase();
 			console.log("Rep type is " + repType);
-			currEvent.repeatType = repType;
+			currEvent.setRepeatType(repType);
 			$("#repeat-custom-options").hide(); //hide custom options
 		}
 
@@ -569,7 +596,7 @@ function loadInitialEvents()
 			schItem.name = evnt.name;
 			schItem.eventId = evnt.id;
 			schItem.categoryId = evnt.category_id;
-			schItem.repeatType = evnt.repeat;
+			schItem.setRepeatType(evnt.repeat);
 			schItem.description = evnt.description;
 			schItem.location = evnt.location;
 			schItem.breaks = evnt.break_ids;
@@ -796,7 +823,7 @@ function handleClone(elem, ui)
 	schItem.name = oldItem.name;
 	schItem.eventId = null; //this is a new element so don't copy that
 	schItem.categoryId = oldItem.categoryId;
-	schItem.repeatType = oldItem.repeatType;
+	schItem.setRepeatType(oldItem.repeatType);
 	schItem.location = oldItem.location;
 	schItem.description = oldItem.description;
 	schItem.tempId = eventTempId;
@@ -819,7 +846,7 @@ function handleNewEvent(elem)
 	schItem.name = "";
 	schItem.eventId = null;
 	schItem.categoryId = $(elem).attr("data-id");
-	schItem.repeatType = "";
+	schItem.setRepeatType("");
 	schItem.tempId = eventTempId;
 	schItem.tempElement = $(elem);
 	scheduleItems[eventTempId] = schItem;
@@ -1335,12 +1362,21 @@ function placeInSchedule(elem, hours, lengthHours)
 	$(elem).css("top", hours); //set the top position by gridHeight times the hour
 }
 
+//Events were updated
+function updatedEvents()
+{
+	$("#sch-save").removeClass("disabled");
+}
+
 /****************************/
 /*** JSON SERVER METHODS ****/
 /****************************/
 
 function saveEvents()
 {
+	if($("#sch-save").hasClass("disabled")) //if the save button is disabled
+		return; //return
+
 	//JSON encode our hashmap
 	var arr  = JSON.parse(JSON.stringify(scheduleItems));
 
@@ -1355,6 +1391,7 @@ function saveEvents()
 	    	setTimeout(function()
 	    	{
 	    		$("#sch-save").removeClass("active");
+				$("#sch-save").addClass("disabled");
 	    	}, 1500);
 
 	    	for(var key in resp)

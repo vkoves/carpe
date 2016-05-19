@@ -174,7 +174,7 @@
 			<span class="default sch-week-next" onclick="moveWeek(true)">Next</span>
 			<input id="week-date" class="date-field" type="text"></input>
 			<% if !@read_only %>
-				<span class="default green" id="sch-save" onclick="saveEvents()">Save Events
+				<span class="default green disabled" id="sch-save" onclick="saveEvents()">Save Events
 					<%= image_tag "checkmark-wht.png", id: "save-checkmark" %>
 				</span>
 				<span class="default green" id="create-break">Create Break</span>
