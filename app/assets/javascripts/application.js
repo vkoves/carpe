@@ -281,7 +281,7 @@ function friendRequest(elem)
 	//span.addClass("friend-label").removeClass("default green");
 
 	var width = Math.ceil(parseInt(span.css("width")));
-	fadeToText(span, "Pending...");
+	fadeToText(span, "Pending");
 
 	//Sadly this is the easiest way to make this work. Classes just don't cut it here
 	span.animate({'background-color': "#5B5BFF"}, {duration: 500, queue: false});
