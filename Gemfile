@@ -46,7 +46,18 @@ group :development, :test do
   gem 'sqlite3'	
 end
 
+#####################################
+####### Actual Carpe Gems ###########
+#####################################
+
+#Use devise for authentication
 gem 'devise'
+
+#Use omniauth to allow different logins
 gem 'omniauth'
+
+#Google omniauth
 gem 'omniauth-google-oauth2'
+
+#Use local-time for timezone handling, most likely unused ATM
 gem 'local_time'

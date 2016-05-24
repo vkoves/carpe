@@ -23,10 +23,26 @@
 // require_tree .
 
 
+//Handle window resizing
+$(window).resize(function()
+{
+	if($( window ).width() > 660)
+	{
+		$("#mobile-menu").slideUp(300);
+		$("#sidebar").css("right", "0%");
+	}
+	else if(parseInt($("#sidebar").css("right")) >= 0)
+	{
+		$("#sidebar-button").css("right", "340px");
+	}
+});
+
+$(document).ready(ready); //Assign ready function to document ready 
+$(document).on('page:load', ready); //and to page:load event from Turblokinks
+
+//Ready function called on page load
 function ready()
 {
-	// console.log("Ready " + window.location.href );
-
 	if(Notification.permission == "default")
 	{
 		Notification.requestPermission(function (permission) {
@@ -41,6 +57,7 @@ function ready()
 	initializeEventListeners();
 };
 
+//All general event listener handles
 function initializeEventListeners()
 {
 	//Start initializing event listeners for everything
@@ -176,22 +193,7 @@ function initializeEventListeners()
 	});
 }
 
-$(window).resize(function()
-{
-	if($( window ).width() > 660)
-	{
-		$("#mobile-menu").slideUp(300);
-		$("#sidebar").css("right", "0%");
-	}
-	else if(parseInt($("#sidebar").css("right")) >= 0)
-	{
-		$("#sidebar-button").css("right", "340px");
-	}
-});
-
-$(document).ready(ready);
-$(document).on('page:load', ready);
-
+//Initialize notification logic
 function handleNotifications(justGranted)
 {
 	// If the user accepts, let's create a notification
@@ -216,29 +218,31 @@ function handleNotifications(justGranted)
 	}
 }
 
+//Display an event notification when an event starts (or now if the event has started)
 function timedEventNotification(event, time)
 {
 	var text = event.name || "Untitled";
 
-	if(time < 0) //this event already started
+	if(time < 0) //if this event already started
 	{
-		var endDate = new Date(event.end_date);
-		if(endDate.getTime() > new Date().getTime()) //check that this event hasn't ended
-			text = text + " has started!";
-		else
-			return;
+		var endDate = new Date(event.end_date); //get the end date
+		if(endDate.getTime() > new Date().getTime()) //and check that this event hasn't ended
+			text = text + " has started!"; //if it has, print that it started
+		else //otherwise, the event has ended
+			return; //so return
 	}
-	else
+	else //if the event will start
 	{
-		text = text + " is starting!";
+		text = text + " is starting!"; //indicate such
 	}
 
-	setTimeout(function()
+	setTimeout(function() //and set appropriate timeout
 	{
 		printEventNotification(event.id, text);
 	}, time);
 }
 
+//Set a cookie indicating a notification was printed for an event, so you aren't notified again
 function setEventCookie(id)
 {
 	var currDate = (new Date()).toISOString().split("T")[0]; //get the current date, convert to ISO, and strip the time away
@@ -246,6 +250,7 @@ function setEventCookie(id)
 	document.cookie = "carpeEventsNotified=" + currCookie + "&" + id + "@" + currDate;
 }
 
+//Try to print an event notification for an event with a given id, and with certain text
 function printEventNotification(eventID, text)
 {
 	var currDate = (new Date()).toISOString().split("T")[0]; //get the current date, convert to ISO, and strip the time away
@@ -261,6 +266,7 @@ function printEventNotification(eventID, text)
 	}
 }
 
+//Print a notification with certain text, which will hide in a given time (in ms)
 function printNotification(text, hideTime)
 {
 	var options = {
@@ -272,7 +278,7 @@ function printNotification(text, hideTime)
 		setTimeout(notification.close.bind(notification), hideTime); //close this notification in 2000ms or 2 seconds
 }
 
-//called by a friend request button
+//Called by a friend request button on click
 function friendRequest(elem)
 {
 	var span = elem.find("span");
@@ -288,6 +294,7 @@ function friendRequest(elem)
 	span.removeClass("green default").addClass("friend-label");
 }
 
+//Called by confirming or denying a friend request with a given fid
 function friendRequestAction(fid, confirm)
 {
 	var notif = $(".notif[fid=" + fid + "]");
@@ -304,6 +311,7 @@ function friendRequestAction(fid, confirm)
 	}, 150);
 }
 
+//Generalized function for fading between text on an element
 function fadeToText(elem, newText, duration) //the element to fade on, the new text, and an optional duration
 {
 	var dur = duration || 500; //default duration of 500ms
