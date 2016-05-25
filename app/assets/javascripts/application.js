@@ -204,6 +204,9 @@ function handleNotifications(justGranted)
 			printNotification("Thanks for enabling notifications!", 2000);
 		}
 
+		if(typeof todaysEvents === 'undefined') //if the user isn't signed in
+			return; //return
+
 		var today = new Date().setHours(0,0,0,0);
 
 		for (var i = 0; i < todaysEvents.length; i++)
