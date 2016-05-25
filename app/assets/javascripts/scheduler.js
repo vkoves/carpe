@@ -22,6 +22,10 @@ var readied = false; //whether the ready function has been called
 var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]; //Three letter month abbreviations
 var dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']; //the names of the days
 
+/****************************/
+/**** DOCUMENT FUNCTIONS ****/
+/****************************/
+
 //Run schedule ready when the page is loaded. Either fresh or from turbo links
 $(document).ready(scheduleReady);
 $(document).on('page:load', scheduleReady);
@@ -52,6 +56,10 @@ function isSafeToLeave()
 		return true;
 }
 
+
+/****************************/
+/** END DOCUMENT FUNCTIONS **/
+/****************************/
 
 /****************************/
 /******* PROTOTYPES *********/

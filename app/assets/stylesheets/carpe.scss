@@ -140,7 +140,7 @@ a.default
 	text-decoration: none;
 	display: inline-block;
 }
-a.default *, span.default /* default link styling */
+a.default *, span.default, input.default /* default link styling */
 {
 	display: inline-block;
 	cursor: pointer;
@@ -153,18 +153,19 @@ a.default *, span.default /* default link styling */
 	border-radius: 3px;
 	transition: background 0.3s;
     box-shadow: 0px 1px 3px #B4AFAF;
-}
-a.default *:hover, span.default:hover
-{
-	background: #FFC14E;
-}
-a.default.red *, span.default.red
-{
-	background: #FD1A1A;
-}
-a.default.red *:hover, span.default.red:hover
-{
-	background: #FF4A4A;
+    border: none;
+    font-size: 16px;
+
+    &:hover
+    {
+		background: #FFC14E;
+    }
+
+    &.red
+    {
+		background: #FD1A1A;
+		&:hover { background: #FF4A4A; }
+    }
 }
 a.default.green *, span.default.green
 {
@@ -193,6 +194,11 @@ a.default.disabled *:hover, span.default.disabled:hover
 	transition: width 0.5s;
 }
 
+input[type="submit"]
+{
+	margin-top: 10px;
+}
+/* 
 input[type="submit"], .def-button
 {
 	font-family: 'Open Sans', sans-serif;
@@ -210,7 +216,7 @@ input[type="submit"], .def-button
 input[type="submit"]:hover
 {
 	background: #FFC14E;
-}
+} */
 label.required::after
 {
 	content: "*";
