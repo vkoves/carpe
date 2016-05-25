@@ -26,14 +26,31 @@ var dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Sat
 $(document).ready(scheduleReady);
 $(document).on('page:load', scheduleReady);
 
-//Run when the user tries to leave the page
+//Run when the user tries to leave the page through a Turbolink
+$(document).on('page:before-change', function()
+{
+	if(!isSafeToLeave()) //if the save button is active (they have changes) and this is the user's schedule
+	{
+		return confirm("You still have changes to your schedule pending! Are you sure you want to leave this page?");
+	}
+})
+//Run on closing the window or relaoding
 $(window).on('beforeunload', function()
 {
-	if(!$("#sch-save").hasClass("disabled")) //if the save button is active (they have changes)
+	if(!isSafeToLeave()) //if the save button is active (they have changes) and this is the user's schedule
 	{
 		return "You still have changes to your schedule pending!"
 	}
 });
+
+//Returns whether changes are saved if this is the schedule page
+function isSafeToLeave()
+{
+	if($("#sch-save").length == 0) //we're not on the schedule page anymore
+		return true;
+	else if($("#sch-save").hasClass("disabled") || readOnly)
+		return true;
+}
 
 
 /****************************/
