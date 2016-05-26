@@ -123,9 +123,6 @@ a .avatar img:hover, .avatar a img:hover
 }
 
 /* LINK STYLING */
-div.link-default /*container for default links */
-{
-}
 a.normal /* boring link styling */
 {
   color: #313131;
@@ -164,22 +161,18 @@ a.default *, span.default, input.default /* default link styling */
     &.red
     {
 		background: #FD1A1A;
-		&:hover { background: #FF4A4A; }
+		&:hover {background: #FF4A4A;}
     }
-}
-a.default.green *, span.default.green
-{
-	background: #18B918;
-}
-a.default.green *:hover, span.default.green:hover
-{
-	background: #39DA39;
-}
-a.default.disabled *, span.default.disabled,
-a.default.disabled *:hover, span.default.disabled:hover
-{
-	background: #B4AFAF;
-	box-shadow: none;
+    &.green
+    {
+		background: #18B918;
+		&:hover {background: #39DA39;}
+    }
+    &.disabled, &.disabled:hover
+    {
+		background: #B4AFAF;
+		box-shadow: none;
+    }
 }
 /* END LINK STYLING */
 
@@ -198,25 +191,6 @@ input[type="submit"]
 {
 	margin-top: 10px;
 }
-/* 
-input[type="submit"], .def-button
-{
-	font-family: 'Open Sans', sans-serif;
-	border: none;
-	color: white;
-	font-size: 20px;
-	margin-top: 10px;
-	cursor: pointer;
-	background: orange;
-	padding: 3px 15px 3px 15px;
-	border-radius: 4px;
-	font-weight: 600;
-	transition: background 0.3s;
-}
-input[type="submit"]:hover
-{
-	background: #FFC14E;
-} */
 label.required::after
 {
 	content: "*";
