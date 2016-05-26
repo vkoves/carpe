@@ -1,6 +1,7 @@
 class Category < ActiveRecord::Base
 	belongs_to :user
 	has_many :events
+	has_and_belongs_to_many :repeat_exceptions
 
 	def destroy #on category destroy
     	events.destroy_all #destroy all of the category's events

@@ -562,12 +562,13 @@ input[readonly="readonly"]
 	width: 420px;
     height: 300px;
     margin-top: 50px;
+    z-index: 1002;
 }
 #cat-overlay-box
 {
 	top: 30%;
 	width: 500px;
-	height: 220px;
+	height: 250px;
 }
 #cat-overlay-box .sch-cat-icon
 {
@@ -602,7 +603,6 @@ input[readonly="readonly"]
 .catRemainderOverlay {
 	top:90px;
 	position:absolute;
-	height:310px;
 	left:0px;
 	width:100%;
 }

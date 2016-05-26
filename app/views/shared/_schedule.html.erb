@@ -103,6 +103,7 @@
 			<span id="friends" class="default">Friends</span>
 			<span id="private" class="default">Private</span>
 		</div>
+		<span id="add-break-category" class="default green">Add Break</span>
 		<div class="futureColors">
 			<div class="color-swatch" style="background-color: #FF2626;" onclick="changeCategoryColor(this)"></div> <!-- red -->
 			<div class="color-swatch" style="background-color: #FA6300;" onclick="changeCategoryColor(this)"></div> <!-- orange -->
@@ -228,13 +229,20 @@
 	<% events = @user.get_events(current_user) %>
 	<% eventsOut = [] %>
 	<% events.each do |event| %>
-	<% atr = event.attributes %>
-	<% atr[:break_ids] = event.repeat_exceptions.pluck(:id) %>
-	<% eventsOut.push(atr) %>
+		<% atr = event.attributes %>
+		<% atr[:break_ids] = event.repeat_exception_ids #.repeat_exceptions.pluck(:id) %>
+		<% eventsOut.push(atr) %>
 	<% end %>
 
+	<% categories = @user.categories %>
+	<% catsOut = [] %>
+	<% categories.each do |category| %>
+		<% atr = category.attributes %>
+		<% atr[:break_ids] = category.repeat_exception_ids %>
+		<% catsOut.push(atr) %>
+	<% end %>
 
 	var eventsLoaded = <%= raw eventsOut.to_json %>;
-	var categoriesLoaded = <%= raw @user.categories.to_json %>;
+	var categoriesLoaded = <%= raw catsOut.to_json %>;
 	var breaksLoaded = <%= raw @user.repeat_exceptions.to_json %>;
 </script>

@@ -40,14 +40,27 @@ class ScheduleController < ApplicationController
     else
       @cat = Category.new
     end
+    
     @cat.color = params[:color]
+    
     if(params[:user_id])
       @cat.user = User.find(params[:user_id])
     end
+    
     if(params[:privacy])
       @cat.privacy = params[:privacy]
     end
+
     @cat.name = params[:name]
+    
+    @cat.repeat_exceptions.clear #empty out
+    puts params
+    if params[:breaks]
+      params[:breaks].each do |break_id| #then add the current things
+        @cat.repeat_exceptions << RepeatException.find(break_id)
+      end
+    end
+
     @cat.save
     render json: @cat
   end

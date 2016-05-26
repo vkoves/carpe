@@ -256,6 +256,7 @@ function Category() //The prototype for the category items
 	this.name; //the name of the category, as a string
 	this.color; //the color of the category, as a CSS acceptable string
 	this.privacy; //the privacy of the category, right now either private || friends || public
+	this.breaks = []; //an array of the repeat exceptions of this category.
 }
 
 function Break() //The prototype for breaks/repeat exceptions
@@ -385,7 +386,7 @@ function addStartingListeners()
 		showBreakCreateOverlay();
 	});
 
-	$("#add-break-event").click(function()
+	$("#add-break-event, #add-break-category").click(function()
 	{
 		showBreakAddOverlay();
 	});
@@ -572,6 +573,7 @@ function loadInitialCategories()
 			catInstance.privacy = currCat.privacy;
 			catInstance.color = currCat.color;
 			catInstance.name = currCat.name;
+			catInstance.breaks = currCat.break_ids;
 
 			categories[catInstance.id] = catInstance;
 		}
@@ -1314,6 +1316,12 @@ function showBreakCreateOverlay()
 
 function showBreakAddOverlay()
 {
+	var currObj;
+	if(currEvent)
+		currObj = currEvent;
+	else
+		currObj = categories[currCategory.attr("data-id")];
+
 	$("#break-cont").html(""); //clear the break container
 	for (var id in breaks) //do a foreach since this is a hashmap
 	{
@@ -1321,7 +1329,8 @@ function showBreakAddOverlay()
 
 		var css = "";
 		var classAdd = "";
-		if(currEvent.breaks.indexOf(parseInt(id)) > -1)
+		console.log(currObj);
+		if(currObj.breaks.indexOf(parseInt(id)) > -1)
 		{
 			css = "style='color: green'";
 			classAdd = "active"
@@ -1334,26 +1343,41 @@ function showBreakAddOverlay()
 
 	$(".break-elem").click(function()
 	{
-		var currId = parseInt($(this).attr("data-id"));
+		var currId = parseInt($(this).attr("data-id")); //get the id of the current break
+
+		var currObj;
+		if(currEvent)
+			currObj = currEvent;
+		else
+			currObj = categories[currCategory.attr("data-id")];
+
 		if($(this).hasClass("active")) //disable this
 		{
-			var index = currEvent.breaks.indexOf(currId);
+			var index = currObj.breaks.indexOf(currId);
+
 			if(index > -1) //if this is indeed a current break
 			{
 				$(this).css("color", "black"); //set this to normal styling
 				$(this).removeClass("active");
-				currEvent.breaks.splice(index, 1); //and remove
+				currObj.breaks.splice(index, 1); //and remove
 			}
 		}
 		else
 		{
 			$(this).css("color", "green");
 			$(this).addClass("active");
-			currEvent.breaks.push(currId);
+
+			currObj.breaks.push(currId);
 		}
 
 		//Repopulate event
-		$(".sch-evnt[evnt-temp-id='" + currEvent.tempId + "']").remove();
+		if(currEvent)
+
+			$(".sch-evnt[evnt-temp-id='" + currEvent.tempId + "']").remove();
+		else
+
+			$(".sch-evnt[data-id='" + currCategory.id + "']").remove();
+
 		populateEvents();
 	});
 
@@ -1365,6 +1389,8 @@ function hideOverlay()
 {
 	//Hide overlay, the repeat menu and category and event overlays
 	$(".ui-widget-overlay, #repeat-menu, #event-overlay-box, #cat-overlay-box, #break-overlay-box, #break-adder-overlay-box").fadeOut(250);
+	currCategory = null;
+	currEvent = null;
 }
 
 //Hide the break adding overlay
@@ -1528,7 +1554,8 @@ function saveCategory(event,elem,id)
 	$.ajax({
 	    url: "/create_category",
 	    type: "POST",
-	    data: {name: $(".catOverlayTitle").text(), id: id, color: $(".catTopOverlay").css("background-color"), privacy: currCategory.attr("privacy")},
+	    data: {name: $(".catOverlayTitle").text(), id: id, color: $(".catTopOverlay").css("background-color"), 
+	    	privacy: currCategory.attr("privacy"), breaks: categories[currCategory.attr("data-id")].breaks},
 	    success: function(resp)
 	    {
 	    	console.log("Update category complete.");
