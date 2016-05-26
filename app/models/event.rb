@@ -65,6 +65,12 @@ class Event < ActiveRecord::Base
               break
             end
           end
+          self.category.repeat_exceptions.each do |brk|
+            if brk.start <= date.to_date and brk.end >= date.to_date
+              onBreak = true
+              break
+            end
+          end
 
         next if onBreak #continue to the next event if this one is on break
 
