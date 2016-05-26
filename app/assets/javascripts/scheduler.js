@@ -1096,10 +1096,21 @@ function populateEvents()
 				continue;
 
 			var inBreak = false; //is this during a break
-			//Then handle repeat breaks
+			//Then handle event repeat breaks
 			for(var b = 0; b < eventObj.breaks.length; b++) //iterate through all breaks
 			{
 				var brk = breaks[eventObj.breaks[b]];
+
+				if(brk.startDate <= date && brk.endDate >= date) //if the date falls in the break range
+				{
+					inBreak = true;
+					break; //continue eventLoop;
+				}
+			}
+			//And category repeat breaks
+			for(var b2 = 0; b2 < categories[eventObj.categoryId].breaks.length; b2++) //iterate through all breaks
+			{
+				var brk = breaks[categories[eventObj.categoryId].breaks[b2]];
 
 				if(brk.startDate <= date && brk.endDate >= date) //if the date falls in the break range
 				{
