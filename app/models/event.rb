@@ -44,6 +44,9 @@ class Event < ActiveRecord::Base
             i.year - date.year % num == 0
           end
         }
+      elsif repeat.include? "certain_days" #if it's a repeat certain days type
+        daysArr = repeat.split("-")[1].split(",")
+        dates = dates.select{|i| daysArr.include?(i.wday.to_s)}
       else #this event doesn't repeat!
         dates = dates.select{|i| i.to_date == date.to_date}
       end
