@@ -193,7 +193,7 @@ function initializeEventListeners()
 
 	$(".user-entry input[type=text").tokenInput("/search_users.json", {
 		crossDomain: false,
-		placeholder: "Search people",
+		placeholder: "Add people",
 		searchDelay: 0,
 		animateDropdown: false,
 		resultsFormatter: function(element)
