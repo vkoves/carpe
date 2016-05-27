@@ -46,8 +46,8 @@ function ready()
 	if(Notification.permission == "default")
 	{
 		Notification.requestPermission(function (permission) {
-	      handleNotifications(true);
-	    });
+		  handleNotifications(true);
+		});
 	}
 	else if(Notification.permission == "granted")
 	{
@@ -78,17 +78,17 @@ function initializeEventListeners()
 			//send a request indicating notifications were read
 			$.ajax(
 			{
-			    url: "/read_notifications",
-			    type: "POST",
-			    success: function(resp)
-			    {
-			    	console.log("All notifications marked as read.");
-			    	$(".bell-hold #num").fadeOut();
-			    },
-			    error: function(resp)
-			    {
-			    	console.log("Marking notifications as read failed :(");
-			    }
+				url: "/read_notifications",
+				type: "POST",
+				success: function(resp)
+				{
+					console.log("All notifications marked as read.");
+					$(".bell-hold #num").fadeOut();
+				},
+				error: function(resp)
+				{
+					console.log("Marking notifications as read failed :(");
+				}
 			});
 		}
 	});
@@ -174,22 +174,38 @@ function initializeEventListeners()
 
 
 	//Tokenizer shenanigans
-	$(function() {
-	  $("#users-search input[type=text]").tokenInput("/search_users.json", {
-	    crossDomain: false,
-	    placeholder: "Search people",
-	    searchDelay: 0,
-	    animateDropdown: false,
-	    onAdd: function(value)
-	    {
-	    	location.href = "/u/" + value.id;
-	    },
-	    resultsFormatter: function(element)
-	    {
-	    	img_url = element.image_url || "http://www.gravatar.com/avatar/?d=mm";
-	    	return "<li>" + "<div class='avatar search-avatar'><img src='" + img_url + "'></div><div class='name'>" + element.name + "</div></li>";
-	    }
-	  });
+	$("#users-search input[type=text]").tokenInput("/search_users.json", {
+		crossDomain: false,
+		placeholder: "Search people",
+		searchDelay: 0,
+		animateDropdown: false,
+		addOnlyOne: true,
+		onAdd: function(value)
+		{
+			location.href = "/u/" + value.id;
+		},
+		resultsFormatter: function(element)
+		{
+			img_url = element.image_url || "http://www.gravatar.com/avatar/?d=mm";
+			return "<li>" + "<div class='avatar search-avatar'><img src='" + img_url + "'></div><div class='name'>" + element.name + "</div></li>";
+		}
+	});
+
+	$(".user-entry input[type=text").tokenInput("/search_users.json", {
+		crossDomain: false,
+		placeholder: "Search people",
+		searchDelay: 0,
+		animateDropdown: false,
+		resultsFormatter: function(element)
+		{
+			img_url = element.image_url || "http://www.gravatar.com/avatar/?d=mm";
+			return "<li>" + "<div class='avatar search-avatar'><img src='" + img_url + "'></div><div class='name'>" + element.name + "</div></li>";
+		},
+		tokenFormatter: function(element)
+		{
+			img_url = element.image_url || "http://www.gravatar.com/avatar/?d=mm";
+			return "<li>" + "<div class='avatar'><img src='" + img_url + "'></div><p>" + element.name + "</p></li>";
+		}
 	});
 }
 
@@ -197,8 +213,8 @@ function initializeEventListeners()
 function handleNotifications(justGranted)
 {
 	// If the user accepts, let's create a notification
- 	if (Notification.permission === "granted")
- 	{
+	if (Notification.permission === "granted")
+	{
 		if(justGranted)
 		{
 			printNotification("Thanks for enabling notifications!", 2000);
@@ -329,8 +345,8 @@ function fadeToText(elem, newText, duration) //the element to fade on, the new t
 
 	elem.animate({'color': "rgba(0,0,0,0)"}, {duration: dur/2, queue: false, complete: function () //then animate to transparent
 	{
-	    $(this).text(newText); //instantly change the text
-	    elem.animate({'color': color_orig, 'max-width': 500, 'min-width': 0},{duration: dur/2, queue: false}); //and animate back
+		$(this).text(newText); //instantly change the text
+		elem.animate({'color': color_orig, 'max-width': 500, 'min-width': 0},{duration: dur/2, queue: false}); //and animate back
 	}});
 }
 
@@ -338,16 +354,16 @@ function fadeToText(elem, newText, duration) //the element to fade on, the new t
 /* From http://www.w3schools.com/js/js_cookies.asp */
 function getCookie(cname)
 {
-    var name = cname + "=";
-    var ca = document.cookie.split(';');
-    for(var i = 0; i <ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0)==' ') {
-            c = c.substring(1);
-        }
-        if (c.indexOf(name) == 0) {
-            return c.substring(name.length,c.length);
-        }
-    }
-    return "";
+	var name = cname + "=";
+	var ca = document.cookie.split(';');
+	for(var i = 0; i <ca.length; i++) {
+		var c = ca[i];
+		while (c.charAt(0)==' ') {
+			c = c.substring(1);
+		}
+		if (c.indexOf(name) == 0) {
+			return c.substring(name.length,c.length);
+		}
+	}
+	return "";
 }

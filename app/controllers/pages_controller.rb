@@ -29,4 +29,10 @@ class PagesController < ApplicationController
       redirect_to "/"
     end
   end
+
+  def sandbox
+    if !current_user or !current_user.admin
+      redirect_to "/"
+    end
+  end
 end

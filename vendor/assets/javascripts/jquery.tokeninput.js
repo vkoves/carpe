@@ -50,7 +50,10 @@ var DEFAULT_SETTINGS = {
     onResult: null,
     onAdd: null,
     onDelete: null,
-    onReady: null
+    onReady: null,
+
+    //OVERRIDE
+    addOnlyOne: false
 };
 
 // Default classes to use when theming
@@ -502,7 +505,8 @@ $.TokenList = function (input, url_or_data, settings) {
             callback.call(hidden_input,item);
         }
 
-        return;
+        if(settings.addOnlyOne)
+            return;
 
         // See if the token already exists and select it if we don't want duplicates
         if(token_count > 0 && settings.preventDuplicates) {

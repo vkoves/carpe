@@ -1,0 +1,5 @@
+<div style="position: relative;">
+	<%= form_tag("/search_users", method: "get", class: "user-entry") do %>
+  		<%= text_field_tag(:q, nil, placeholder: "Search people", autocomplete: "off") %>
+	<% end %>
+</div>

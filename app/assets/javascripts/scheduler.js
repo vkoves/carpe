@@ -1343,7 +1343,6 @@ function showBreakAddOverlay()
 		console.log(currObj);
 		if(currObj.breaks.indexOf(parseInt(id)) > -1)
 		{
-			css = "style='color: green'";
 			classAdd = "active"
 		}
 
@@ -1368,14 +1367,12 @@ function showBreakAddOverlay()
 
 			if(index > -1) //if this is indeed a current break
 			{
-				$(this).css("color", "black"); //set this to normal styling
 				$(this).removeClass("active");
 				currObj.breaks.splice(index, 1); //and remove
 			}
 		}
 		else
 		{
-			$(this).css("color", "green");
 			$(this).addClass("active");
 
 			currObj.breaks.push(currId);
