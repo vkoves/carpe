@@ -28,7 +28,7 @@
 						<div class="home-event-tile <%= "current" if event.current? %>">
 							<div class="square" style="background: <%= event.category.color %>"><%= event.category.name %></div>
 							<div class="tile-text">
-								<b><%= raw event.get_name(true) %></b>
+								<b><%= raw event.get_html_name %></b>
 								<% unless event.location.empty? %>
 									in <%= event.location %>
 								<% end %>

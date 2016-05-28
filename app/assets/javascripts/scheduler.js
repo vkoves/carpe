@@ -1518,6 +1518,15 @@ function createCategory()
 	    	addDrag();
 	    	sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
 	    	newCat.find(".sch-evnt-editCat").click(); //trigger the edit event
+
+			var catInstance = new Category();
+			catInstance.id = resp.id;
+			catInstance.privacy = "private";
+			catInstance.color = "";
+			catInstance.name = "Untitled";
+			catInstance.breaks = [];
+
+			categories[catInstance.id] = catInstance;	
 	    },
 	    error: function(resp)
 	    {

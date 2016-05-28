@@ -1,3 +1,4 @@
+#The User model, which defines a unique user and all of the properties they have
 class User < ActiveRecord::Base
   has_many :friendships
   has_many :friends, :through => :friendships
@@ -24,14 +25,16 @@ class User < ActiveRecord::Base
 
   def current_events #return events that are currently going on
     now = Time.now.in_time_zone("Central Time (US & Canada)")
-    busy_events = self.events_in_range(DateTime.now.beginning_of_day, DateTime.now.end_of_day) #get events that occur today
+    dt_now = DateTime.now
+    busy_events = self.events_in_range(dt_now.beginning_of_day, dt_now.end_of_day) #get events that occur today
     busy_events = busy_events.select{|event| (event.date <= now and event.end_date >= now)} #get events going on right now
     return busy_events.sort_by(&:end_date) #return the busy events sorted by which ends soonest
   end
 
   def next_event #returns the next upcoming event within the next day
     now = Time.now.in_time_zone("Central Time (US & Canada)")
-    upcoming_events = self.events_in_range(DateTime.now.beginning_of_day, DateTime.now.end_of_day)
+    dt_now = DateTime.now
+    upcoming_events = self.events_in_range(dt_now.beginning_of_day, dt_now.end_of_day)
     upcoming_events = upcoming_events.select{|event| (event.date > now and event.date.in_time_zone("Central Time (US & Canada)").to_date == Date.today)} #get future events that occur today
     return upcoming_events.sort_by(&:date)[0]
   end
@@ -42,10 +45,10 @@ class User < ActiveRecord::Base
 
   def events_in_range(start_date_time, end_date_time) #returns all instances of events, including cloned version of repeating events
     #fetch not repeating events first
-    event_instances = self.events.where(:date => start_date_time...end_date_time, :repeat => nil)
+    event_instances = events.where(:date => start_date_time...end_date_time, :repeat => nil)
 
     #then repeating events
-    self.events.where.not(repeat: nil).each do |rep_event| #get all repeating events
+    events.where.not(repeat: nil).each do |rep_event| #get all repeating events
       event_instances.concat(rep_event.events_in_range(start_date_time, end_date_time)) #and add them to the event array
     end
 
@@ -55,24 +58,15 @@ class User < ActiveRecord::Base
   end
 
   def get_events(user) #get events that are acessible to the user passed in
-   if user == self #if a user is trying to view their own events
-     return events #return all events
+   return events if user == self #if a user is trying to view their own events, return all events
+
+   events_array = [];
+
+   events.each do |event| #for each event
+     event.has_access?(user) ? events_array.push(event) : events_array.push(event.private_version) #push the normal or private version
    end
 
-   arr = [];
-
-   events.each do |event|
-     if event.has_access(user)
-       arr.push(event)
-     else
-       event.name = "Private"
-       event.description = ""
-       event.location = ""
-       arr.push(event)
-     end
-   end
-
-   return arr
+   return events_array
   end
 
   ##########################
@@ -89,11 +83,11 @@ class User < ActiveRecord::Base
       return "http://www.gravatar.com/avatar/?d=mm"
     end
 
-	 if image_url.present? and provider #if using google icon, add a size param
-       return image_url.split("?")[0] + "?sz=" + size.to_s
-	 elsif image_url.present? #otherwise just return the url
-	   return image_url
-	 end
+    if provider
+      return image_url.split("?")[0] + "?sz=" + size.to_s
+    else
+      return image_url
+    end
 	end
 
   def has_avatar #returns whether the user has a non-default avatar
@@ -112,7 +106,7 @@ class User < ActiveRecord::Base
   ##### FRIEND METHODS #####
   ##########################
 
-	def all_friendships() #returns an array of all friendships and friends for easy printing
+	def all_friendships() #returns an array of doubles of friendships and friends for easy printing
     all_friends = []
     all_fships = friendships + inverse_friendships
 
@@ -126,7 +120,7 @@ class User < ActiveRecord::Base
 	end
 
 	def is_friend?(user) #returns whether the passed user is a friend of this user
-	  friendship = (Friendship.where(user_id: user.id, friend_id: id) || Friendship.where(user_id: id, friend_id: user.id))[0]
+    friendship = friendship_with(user)
 
     if friendship and friendship.confirmed
 	    return true
@@ -136,15 +130,13 @@ class User < ActiveRecord::Base
 	end
 
 	def friend_status(user) #returns text indicating friendship status
-	  friendship = (Friendship.where(user_id: user.id, friend_id: id))[0]
-    if !friendship
-      friendship = (Friendship.where(user_id: id, friend_id: user.id))[0]
-    end
+	  friendship = friendship_with(user)
+    confirmed = friendship.confirmed
 
     if friendship
-      if friendship.confirmed == true
+      if confirmed == true
         return "friend"
-      elsif friendship.confirmed == false
+      elsif confirmed == false
         return "denied"
       else
         return "pending"
@@ -155,12 +147,17 @@ class User < ActiveRecord::Base
 	end
 
 	def mutual_friends(user) #returns mutual friends with the passed in user
-	  return all_friendships.map{|f| f[1]} & user.all_friendships.map{|f| f[1]}
+	  return all_friendships.map{|fship_double| fship_double[1]} & user.all_friendships.map{|fship_double| fship_double[1]}
 	end
 
 	def friends_count() #returns the number of friends the user has
 	  return all_friendships().count
 	end
+
+  def friendship_with(user)
+    other_id = user.id
+    friendship = (Friendship.where(user_id: other_id, friend_id: id) || Friendship.where(user_id: id, friend_id: other_id))[0]
+  end
 
   ##########################
   ### END FRIEND METHODS ###
@@ -180,11 +177,12 @@ class User < ActiveRecord::Base
 
 	def self.find_for_google_oauth2(access_token, signed_in_resource=nil)
     data = access_token.info
+
     user = User.where(:provider => access_token.provider, :uid => access_token.uid ).first
     if user
       return user
     else
-      registered_user = User.where(:email => access_token.info.email).first
+      registered_user = User.where(:email => data.email).first
       if registered_user
         return registered_user
       else
