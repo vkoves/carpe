@@ -144,7 +144,7 @@
 					<%= image_tag "divider-wht2.png", :class => "evnt-divider no-drag" %>
 				</div>
 				<% @user.categories.each_with_index do |cat, index| %>
-					<% if cat.has_access(current_user) %>
+					<% if cat.has_access?(current_user) %>
 					<div class="sch-evnt category" time="0:00" data-id="<%= cat.id %>" privacy="<%= cat.privacy %>"
 						style="background-color:<%= cat.color %>; /*top: <%= 105*index %>*/">
 						<div class="evnt-time top">7:00</div>

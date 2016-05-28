@@ -18,13 +18,9 @@ class User < ActiveRecord::Base
 	has_many :events
   has_many :repeat_exceptions
 
-	def destroy
-		categories.destroy_all #destroy all our categories
-		events.destroy_all #destroy all our events as well, though cats should cover that
-		notifications.destroy_all #destroy all our notifications
-		friendships.destroy_all #and all our friendships
-		self.delete #and then get rid of ourselves
-	end
+  ##########################
+  ##### EVENT METHODS ######
+  ##########################
 
   def current_events #return events that are currently going on
     now = Time.now.in_time_zone("Central Time (US & Canada)")
@@ -40,9 +36,53 @@ class User < ActiveRecord::Base
     return upcoming_events.sort_by(&:date)[0]
   end
 
-  def is_busy?
+  def is_busy? #returns whether the user is currently busy (has an event going on)
     return current_events.count > 0
   end
+
+  def events_in_range(start_date_time, end_date_time) #returns all instances of events, including cloned version of repeating events
+    #fetch not repeating events first
+    event_instances = self.events.where(:date => start_date_time...end_date_time, :repeat => nil)
+
+    #then repeating events
+    self.events.where.not(repeat: nil).each do |rep_event| #get all repeating events
+      event_instances.concat(rep_event.events_in_range(start_date_time, end_date_time)) #and add them to the event array
+    end
+
+    event_instances = event_instances.sort_by(&:date) #and of course sort by date
+
+    return event_instances #and return
+  end
+
+  def get_events(user) #get events that are acessible to the user passed in
+   if user == self #if a user is trying to view their own events
+     return events #return all events
+   end
+
+   arr = [];
+
+   events.each do |event|
+     if event.has_access(user)
+       arr.push(event)
+     else
+       event.name = "Private"
+       event.description = ""
+       event.location = ""
+       arr.push(event)
+     end
+   end
+
+   return arr
+  end
+
+  ##########################
+  ### END EVENT METHODS ####
+  ##########################
+
+
+  ##########################
+  ##### AVATAR METHODS #####
+  ##########################
 
 	def user_avatar(size) #returns a url to the avatar with the width in pixels
     unless self.has_avatar #if this user has no avatar, or the Google default, return the gravatar avatar
@@ -57,30 +97,28 @@ class User < ActiveRecord::Base
 	end
 
   def has_avatar #returns whether the user has a non-default avatar
-    if image_url.present?
-
-      if provider and image_url.include? "/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M"
-        return false
-      end
-
-      return true #if the image is present and is not the Google default, return true
+    if image_url.present? and !(provider and image_url.include? "/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M")
+        return true #if the image is present and is not the Google default, return true
+    else
+      return false #if the image is not present, or is a Google default return false
     end
-    return false #if the image is not present, return false
   end
+
+  ##########################
+  ### END AVATAR METHODS ###
+  ##########################
+
+  ##########################
+  ##### FRIEND METHODS #####
+  ##########################
 
 	def all_friendships() #returns an array of all friendships and friends for easy printing
     all_friends = []
-    for fship in friendships
-      if fship.confirmed
-        all_friends.push([fship, fship.friend])
-      end
-    end
+    all_fships = friendships + inverse_friendships
 
-    # Inverse friends are when the other person added you, so conveniently, we can who added who.
-    for usr in inverse_friends
-      friendship = Friendship.where(user_id: usr.id, friend_id: id).first
-      if friendship.confirmed
-        all_friends.push([friendship, usr])
+    for ifship in all_fships
+      if ifship.confirmed
+        all_friends.push([ifship, ifship.other_user(self)])
       end
     end
 
@@ -97,7 +135,7 @@ class User < ActiveRecord::Base
 	  end
 	end
 
-	def friend_status(user)
+	def friend_status(user) #returns text indicating friendship status
 	  friendship = (Friendship.where(user_id: user.id, friend_id: id))[0]
     if !friendship
       friendship = (Friendship.where(user_id: id, friend_id: user.id))[0]
@@ -116,20 +154,6 @@ class User < ActiveRecord::Base
     end
 	end
 
-	def events_in_range(start_date_time, end_date_time) #returns all instances of events, including cloned version of repeating events
-	  #fetch not repeating events first
-	  event_instances = self.events.where(:date => start_date_time...end_date_time, :repeat => nil)
-
-    #then repeating events
-    self.events.where.not(repeat: nil).each do |rep_event| #get all repeating events
-      event_instances.concat(rep_event.events_in_range(start_date_time, end_date_time)) #and add them to the event array
-    end
-
-    event_instances = event_instances.sort_by(&:date) #and of course sort by date
-
-    return event_instances #and return
-	end
-
 	def mutual_friends(user) #returns mutual friends with the passed in user
 	  return all_friendships.map{|f| f[1]} & user.all_friendships.map{|f| f[1]}
 	end
@@ -138,26 +162,21 @@ class User < ActiveRecord::Base
 	  return all_friendships().count
 	end
 
-	def get_events(user) #get events that are acessible to the user
-	 if user == self #if a user is trying to view their own events
-	   return events #return all events
-	 end
+  ##########################
+  ### END FRIEND METHODS ###
+  ##########################
 
-	 arr = [];
+  ##########################
+  ## GENERAL USER METHODS ##
+  ##########################
 
-	 events.each do |e|
-	   if e.category.has_access(user)
-	     arr.push(e)
-	   else
-	   	 e.name = "Private"
-	   	 e.description = ""
-	   	 e.location = ""
-	   	 arr.push(e)
-	   end
-	 end
-
-	 return arr
-	end
+  def destroy #destroys this user and all assocaited data
+    categories.destroy_all #destroy all our categories
+    events.destroy_all #destroy all our events as well, though cats should cover that
+    notifications.destroy_all #destroy all our notifications
+    friendships.destroy_all #and all our friendships
+    self.delete #and then get rid of ourselves
+  end
 
 	def self.find_for_google_oauth2(access_token, signed_in_resource=nil)
     data = access_token.info
@@ -179,4 +198,9 @@ class User < ActiveRecord::Base
       end
    end
 	end
+
+  ##########################
+  ## END GEN USER METHODS ##
+  ##########################
+
 end

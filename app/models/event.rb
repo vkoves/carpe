@@ -107,4 +107,8 @@ class Event < ActiveRecord::Base
       return false #it is not
     end
   end
+
+  def has_access?(user) #a wrapper for category has access
+    return category.has_access?(user)
+  end
 end
