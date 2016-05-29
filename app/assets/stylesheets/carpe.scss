@@ -160,8 +160,8 @@ a.default *, span.default, input.default /* default link styling */
 
     &.disabled, &.disabled:hover
     {
-		background: #B4AFAF;
-		box-shadow: none;
+		background: #B4AFAF !important;
+		box-shadow: none !important;
     }
 }
 a.default.red *, span.default.red

@@ -100,7 +100,7 @@ function ScheduleItem() //The prototype for the schedule items
 	{
 		this.element().slideUp("normal", function() { $(this).remove(); }); //slide up the element and remove after that is done
 		delete scheduleItems[this.tempId]; //then delete from the scheduleItems map
-		updatedEvents();
+		updatedEvents("Destroy");
 	};
 
 	this.setStartDateTime = function(newStartDateTime, resize, userSet) //if resize is true, we do not move the end time
@@ -114,7 +114,7 @@ function ScheduleItem() //The prototype for the schedule items
 		else
 			setDateTime(true, newStartDateTime, this, resize);
 
-		updatedEvents();
+		updatedEvents("setStartDateTime");
 	};
 
 	this.setEndDateTime = function(newEndDateTime, resize, userSet) //if resize, we don't move the start time
@@ -128,20 +128,20 @@ function ScheduleItem() //The prototype for the schedule items
 		else
 			setDateTime(false, newEndDateTime, this, resize);
 
-		updatedEvents();
+		updatedEvents("setEndDateTime");
 	};
 
 	this.setName = function(newName)
 	{
 		this.name = newName; //set the object daat
 		this.element().find(".evnt-title").text(newName); //and update the HTML element
-		updatedEvents();
+		updatedEvents("setName");
 	};
 
 	this.setRepeatType = function(newRepeatType)
 	{
 		this.repeatType = newRepeatType;
-		updatedEvents();
+		updatedEvents("setRepeatType");
 	};
 
 	this.dragComplete = function(elem, resize)
@@ -155,7 +155,7 @@ function ScheduleItem() //The prototype for the schedule items
 		var newDate = new Date(dateString + " " + hours + ":" + paddedMinutes(this.startDateTime));
 		this.setStartDateTime(newDate, resize);
 		this.tempElement = elem;
-		updatedEvents();
+		updatedEvents("dragComplete");
 	};
 
 	this.resizeComplete = function(elem)
@@ -165,7 +165,7 @@ function ScheduleItem() //The prototype for the schedule items
 		endDT.setHours(this.startDateTime.getHours() + (elem.outerHeight()/gridHeight));
 		endDT.setMinutes(this.endDateTime.getMinutes());
 		this.endDateTime = endDT;
-		updatedEvents();
+		updatedEvents("resizeComplete");
 	};
 
 	this.getHeight = function() //returns the top value based on the hours and minutes of the start
@@ -186,7 +186,7 @@ function ScheduleItem() //The prototype for the schedule items
 	this.updateHeight = function()
 	{
 		this.element().css("height", gridHeight*this.lengthInHours() - border);
-		updatedEvents();
+		updatedEvents("updateHeight");
 	};
 
 	this.element = function() //returns the HTML element for this schedule item, or elements if it is repeating
@@ -1421,8 +1421,9 @@ function placeInSchedule(elem, hours, lengthHours)
 }
 
 //Events were updated
-function updatedEvents()
+function updatedEvents(msg)
 {
+	// console.log("Events were updated!" + msg);
 	$("#sch-save").removeClass("disabled");
 }
 
