@@ -98,4 +98,22 @@ module ApplicationHelper
     #Then just return relative
     return raw start_string + relative_time_ago(event.date, false) + end_string + relative_time_ago(event.end_date, false)
   end
+
+  #Takes a hash of datetimes to number and adds empty dates between the first and last value
+  def date_chart_fix(dateCountHash, startDate, endDate)
+    validDatesArray = (startDate.to_date...endDate.to_date).to_a
+    datesHash = {}
+
+    validDatesArray.each{|date| datesHash[date] = 0} #create an empty hash with all valid dates 
+
+    dateCountHash.keys.each do |key| #then iterate through all dates in the original hash
+      if datesHash[key.to_date]
+        datesHash[key.to_date] += dateCountHash[key] #and add
+      else
+        datesHash[key.to_date] = dateCountHash[key]
+      end
+    end
+
+    return datesHash  
+  end
 end

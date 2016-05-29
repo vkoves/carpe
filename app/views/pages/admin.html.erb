@@ -6,6 +6,8 @@ On Carpe there are: <br>
  <%= Event.count %> events, <%= User.count %> users, and <%= Category.count %> categories. <br>
 The average user has: <%= Event.count/User.count %> events and <%= Category.count/User.count %> categories.
 
+<%= line_chart date_chart_fix(@past_month_users, Time.zone.now - 1.months, Time.zone.now), library: {"title":"User Signups in past Month"} %>
+
 <h4>Admins</h4>
 <% @users = User.where(admin: true) %>
 <% @users.each do |user| %>

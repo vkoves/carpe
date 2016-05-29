@@ -64,3 +64,6 @@ gem 'local_time'
 
 #Use rubycritic to detect code smell and problems (https://github.com/whitesmith/rubycritic)
 gem "rubycritic", :require => false
+
+#Use chartkick to make graphs using the Google Graph API
+gem 'chartkick'
