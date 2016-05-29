@@ -144,6 +144,18 @@ function ScheduleItem() //The prototype for the schedule items
 		updatedEvents("setRepeatType");
 	};
 
+	this.setRepeatStart = function(newRepeatStart)
+	{
+		this.repeatStart = newRepeatStart;
+		updatedEvents("repeatStart");
+	};
+
+	this.setRepeatEnd = function(newRepeatEnd)
+	{
+		this.repeatEnd = newRepeatEnd;
+		updatedEvents("repeatEnd");
+	};
+
 	this.dragComplete = function(elem, resize)
 	{
 		var dateString = elem.parent().siblings(".col-titler").children(".evnt-fulldate").html();
@@ -325,11 +337,11 @@ function addStartingListeners()
 		var id = $(this).attr("id");
 		if(id == "repeat-start")
 		{
-			currEvent.repeatStart = new Date($(this).val());
+			currEvent.setRepeatStart(new Date($(this).val()));
 		}
 		else if(id == "repeat-end")
 		{
-			currEvent.repeatEnd = new Date($(this).val());
+			currEvent.setRepeatEnd(new Date($(this).val()));
 		}
 	});
 
