@@ -121,29 +121,12 @@ class User < ActiveRecord::Base
 
 	def is_friend?(user) #returns whether the passed user is a friend of this user
     friendship = friendship_with(user)
-
-    if friendship and friendship.confirmed
-	    return true
-	  else
-	    return false
-	  end
+    friendship and friendship.confirmed #return if the passed in user is a confirmed friend
 	end
 
 	def friend_status(user) #returns text indicating friendship status
 	  friendship = friendship_with(user)
-    confirmed = friendship.confirmed
-
-    if friendship
-      if confirmed == true
-        return "friend"
-      elsif confirmed == false
-        return "denied"
-      else
-        return "pending"
-      end
-    else
-      return nil
-    end
+    friendship ? friendship.status : nil #return the status of the friendship, or nil if there isn't one
 	end
 
 	def mutual_friends(user) #returns mutual friends with the passed in user
@@ -156,7 +139,7 @@ class User < ActiveRecord::Base
 
   def friendship_with(user)
     other_id = user.id
-    friendship = (Friendship.where(user_id: other_id, friend_id: id) || Friendship.where(user_id: id, friend_id: other_id))[0]
+    friendship = Friendship.where(user_id: other_id, friend_id: id)[0] || Friendship.where(user_id: id, friend_id: other_id)[0]
   end
 
   ##########################
