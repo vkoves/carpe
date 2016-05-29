@@ -16,3 +16,6 @@ Rails.application.config.assets.precompile += %w( activity.css )
 Rails.application.config.assets.precompile += %w( scheduler.js )
 Rails.application.config.assets.precompile += %w( token-input-facebook.css )
 Rails.application.config.assets.precompile += %w( token-input.css )
+
+# Pages
+Rails.application.config.assets.precompile += %w( pages/admin.css )

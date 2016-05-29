@@ -1,4 +1,6 @@
 <% content_for :title do %> - Admin<% end %>
+<%= stylesheet_link_tag "pages/admin" %>
+
 <h2 class="no-bold">Admin Panel</h2>
 <h4>Info</h4>
 <a href="/users" class="default"><span>View Users</span></a><br><br>
@@ -6,7 +8,10 @@ On Carpe there are: <br>
  <%= Event.count %> events, <%= User.count %> users, and <%= Category.count %> categories. <br>
 The average user has: <%= Event.count/User.count %> events and <%= Category.count/User.count %> categories.
 
-<%= line_chart date_chart_fix(@past_month_users, Time.zone.now - 1.months, Time.zone.now), library: {"title":"User Signups in past Month"} %>
+<div class="chart-cont">
+	<%= line_chart date_chart_fix(@past_month_users, @past, @now), library: {"title":"User Signups in past Month"} %>
+	<%= line_chart date_chart_fix(@past_month_events, @past, @now), library: {"title":"Events made in past Month"} %>
+</div>
 
 <h4>Admins</h4>
 <% @users = User.where(admin: true) %>
