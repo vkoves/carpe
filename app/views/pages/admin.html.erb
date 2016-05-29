@@ -11,6 +11,7 @@ The average user has: <%= Event.count/User.count %> events and <%= Category.coun
 <div class="chart-cont">
 	<%= line_chart date_chart_fix(@past_month_users, @past, @now), library: {"title":"User Signups in past Month"} %>
 	<%= line_chart date_chart_fix(@past_month_events, @past, @now), library: {"title":"Events made in past Month"} %>
+	<%= line_chart date_chart_fix(@past_month_events_modified, @past, @now), library: {"title":"Events changed in past Month"} %>
 </div>
 
 <h4>Admins</h4>

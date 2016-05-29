@@ -30,6 +30,8 @@ class PagesController < ApplicationController
     
     @past_month_users = User.where('created_at >= ?', Time.zone.now - 1.months).group(:created_at).count
     @past_month_events = Event.where('created_at >= ?', Time.zone.now - 1.months).group(:created_at).count
+    @past_month_events_modified = Event.where('created_at >= ?', Time.zone.now - 1.months).group(:updated_at).count
+
     if !current_user or !current_user.admin
       redirect_to "/"
     end
