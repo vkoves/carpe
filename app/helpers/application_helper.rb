@@ -100,20 +100,20 @@ module ApplicationHelper
   end
 
   #Takes a hash of datetimes to number and adds empty dates between the first and last value
-  def date_chart_fix(dateCountHash, startDate, endDate)
-    validDatesArray = (startDate.to_date...endDate.to_date).to_a
-    datesHash = {}
+  def date_chart_fix(date_count_hash, start_date, end_date)
+    valid_dates_array = (start_date.to_date...end_date.to_date).to_a
+    dates_hash = {}
 
-    validDatesArray.each{|date| datesHash[date] = 0} #create an empty hash with all valid dates 
+    valid_dates_array.each{|date| dates_hash[date] = 0} #create an empty hash with all valid dates 
 
-    dateCountHash.keys.each do |key| #then iterate through all dates in the original hash
-      if datesHash[key.to_date]
-        datesHash[key.to_date] += dateCountHash[key] #and add
+    date_count_hash.keys.each do |key| #then iterate through all dates in the original hash
+      if dates_hash[key.to_date]
+        dates_hash[key.to_date] += date_count_hash[key] #and add
       else
-        datesHash[key.to_date] = dateCountHash[key]
+        dates_hash[key.to_date] = date_count_hash[key]
       end
     end
 
-    return datesHash  
+    return dates_hash  
   end
 end
