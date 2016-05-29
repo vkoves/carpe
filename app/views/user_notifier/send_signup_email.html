@@ -2,12 +2,25 @@
 <html>
   <head>
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    <style>
+    body {
+    	font-family: 'Open Sans', sans-serif;
+    }
+    .carpe-color {
+		color: #ff7400;
+		font-weight: bold;
+	}
+	#carpe-logo {
+		position: relative;
+		top: 15px;
+	}
+    </style>
   </head>
   <body>
-    <h1>Welcome to Carpe, <%= @user.name %>!</h1>
+    <h1>Welcome to <img id="carpe-logo" height="50" alt="Carpe Logo" src="http://www.carpe.us/assets/images/CarpeMailLogo.png"></h1>
     <p>
-    	Thanks for joining Carpe. Sign in and get started making your schedule
-    	and finding your friends at <a href="http://www.carpe.us">Carpe</a>.
+    	Thanks for joining Carpe, <%= @user.name %>. <br>
+    	Sign in and get started making your schedule and finding your friends on <a href="http://www.carpe.us" class="carpe-color">Carpe</a>.
     </p>
   </body>
 </html>

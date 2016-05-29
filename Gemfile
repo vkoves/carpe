@@ -67,3 +67,6 @@ gem "rubycritic", :require => false
 
 #Use chartkick to make graphs using the Google Graph API
 gem 'chartkick'
+
+#Roadie, used for styling emails nicely
+gem 'roadie', '~> 3.1.1'
