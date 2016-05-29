@@ -158,21 +158,21 @@ a.default *, span.default, input.default /* default link styling */
 		background: #FFC14E;
     }
 
-    &.red
-    {
-		background: #FD1A1A;
-		&:hover {background: #FF4A4A;}
-    }
-    &.green
-    {
-		background: #18B918;
-		&:hover {background: #39DA39;}
-    }
     &.disabled, &.disabled:hover
     {
 		background: #B4AFAF;
 		box-shadow: none;
     }
+}
+a.default.red *, span.default.red
+{
+	background: #FD1A1A;
+	&:hover {background: #FF4A4A;}
+}
+a.default.green *, span.default.green
+{
+	background: #18B918;
+	&:hover {background: #39DA39;}
 }
 /* END LINK STYLING */
 
