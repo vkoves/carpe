@@ -37,13 +37,13 @@ $(document).on('page:before-change', function()
 	{
 		return confirm("You still have changes to your schedule pending! Are you sure you want to leave this page?");
 	}
-})
+});
 //Run on closing the window or relaoding
 $(window).on('beforeunload', function()
 {
 	if(!isSafeToLeave()) //if the save button is active (they have changes) and this is the user's schedule
 	{
-		return "You still have changes to your schedule pending!"
+		return "You still have changes to your schedule pending!";
 	}
 });
 
@@ -94,7 +94,7 @@ function ScheduleItem() //The prototype for the schedule items
 	this.hoursSpanned = function() //returns an integer of the difference in the hours
 	{
 		return this.endDateTime.getHours() - this.startDateTime.getHours();
-	}
+	};
 
 	this.destroy = function() //deletes the schedule item from the frontend
 	{
@@ -147,7 +147,6 @@ function ScheduleItem() //The prototype for the schedule items
 	this.dragComplete = function(elem, resize)
 	{
 		var dateString = elem.parent().siblings(".col-titler").children(".evnt-fulldate").html();
-		var offsetDiff = -Math.ceil($(".col-snap:first").offset().top);
 		var hours = 0;
 		if(resize)
 			hours = Math.floor((parseInt(elem.css("top")))/gridHeight);
@@ -174,7 +173,7 @@ function ScheduleItem() //The prototype for the schedule items
 		var hourStart = this.startDateTime.getHours() + (this.startDateTime.getMinutes()/60);
 		var h =  gridHeight*hourStart;
 		return h;
-	}
+	};
 
 	this.getMinutesOffsets = function() //returns the pixel offsets caused by the minutes as an array
 	{
@@ -182,7 +181,7 @@ function ScheduleItem() //The prototype for the schedule items
 		offsets.push(gridHeight*(this.startDateTime.getMinutes()/60));
 		offsets.push(gridHeight*(this.endDateTime.getMinutes()/60));
 		return offsets;
-	}
+	};
 
 	this.updateHeight = function()
 	{
@@ -250,12 +249,12 @@ function ScheduleItem() //The prototype for the schedule items
 	}
 };
 
-function Category() //The prototype for the category items
+function Category(id) //The prototype for the category items
 {
-	this.id; //the id of the category in the db
-	this.name; //the name of the category, as a string
+	this.id = id; //the id of the category in the db
+	this.name = "Untitled"; //the name of the category, as a string
 	this.color; //the color of the category, as a CSS acceptable string
-	this.privacy; //the privacy of the category, right now either private || friends || public
+	this.privacy = "private"; //the privacy of the category, right now either private || friends || public
 	this.breaks = []; //an array of the repeat exceptions of this category.
 }
 
@@ -405,7 +404,7 @@ function addStartingListeners()
 	});
 
 	//When editing category title, defocus on enter
-	$(".catOverlayTitle").on("keydown",function(e){
+	$(".cat-overlay-title").on("keydown",function(e){
 	    var key = e.keyCode || e.charCode;  // ie||others
 	    if(key == 13)  // if enter key is pressed
 	    {
@@ -472,7 +471,6 @@ function addStartingListeners()
 		var dateE = currEvent.element().parent().siblings(".col-titler").children(".evnt-fulldate").html(); //the date the elem is on
 
 		var val = $(this).val();
-		var end_val = $("#time-end").val();
 
 		dateTime = new Date(dateE+" "+val);
 		if (isNaN(dateTime.getTime()))
@@ -494,7 +492,6 @@ function addStartingListeners()
 		var dateE = currEvent.element().parent().siblings(".col-titler").children(".evnt-fulldate").html(); //the date the elem is on
 
 		var val = $(this).val();
-		var start_val = $("#time-start").val();
 
 		dateTime = new Date(dateE+" "+val);
 		if (isNaN(dateTime.getTime()))
@@ -568,8 +565,7 @@ function loadInitialCategories()
 		{
 			var currCat = categoriesLoaded[i];
 
-			var catInstance = new Category();
-			catInstance.id = currCat.id;
+			var catInstance = new Category(currCat.id);
 			catInstance.privacy = currCat.privacy;
 			catInstance.color = currCat.color;
 			catInstance.name = currCat.name;
@@ -640,7 +636,6 @@ function loadInitialEvents()
 			var dateE = new Date(evnt.date);
 			var dateEnd = new Date(evnt.end_date);
 			var time = dateE.getHours() + ":" + paddedMinutes(dateE);
-			var dateString = monthNames[dateE.getMonth()] + " " + dateE.getDate() + ", " + dateE.getFullYear();
 
 			clone.children(".evnt-title").text(evnt.name);
 			clone.children(".evnt-time.top").text(convertTo12Hour([dateE.getHours(), paddedMinutes(dateE)])).show();
@@ -1097,6 +1092,10 @@ function populateEvents()
 
 			var inBreak = false; //is this during a break
 			//Then handle event repeat breaks
+
+			//TODO - Use combined breaks instead of iterating through both arrays individually
+			var combinedBreaks = eventObj.breaks.concat(categories[eventObj.categoryId].breaks);
+
 			for(var b = 0; b < eventObj.breaks.length; b++) //iterate through all breaks
 			{
 				var brk = breaks[eventObj.breaks[b]];
@@ -1220,26 +1219,26 @@ function editCategory(event, elem, id, name, col)
 	}
 
 	event.stopImmediatePropagation();
-	$(".catOverlayTitle").trigger('focus');
+	$(".cat-overlay-title").trigger('focus');
 	document.execCommand('selectAll',false,null);
 
 	$(".ui-widget-overlay, #cat-overlay-box").fadeIn(250);
 
 	var colForTop = currCategory.css("background-color");
 
-	$(".catTopOverlay").css("background-color",colForTop);
+	$(".cat-top-overlay").css("background-color",colForTop);
 
 	/* if(col && col != "null") //check for null string from ruby
-		$(".catTopOverlay").css("background-color",col);
+		$(".cat-top-overlay").css("background-color",col);
 	else //if the color was null or empty remove the background-color
-		$(".catTopOverlay").css("background-color",""); */
+		$(".cat-top-overlay").css("background-color",""); */
 
-	$(".catOverlayTitle").html($(currCategory).find(".evnt-title").text());
+	$(".cat-overlay-title").html($(currCategory).find(".evnt-title").text());
 	$("#cat-overlay-box").attr("data-id",id);
 
 	$(".color-swatch").removeClass("selected");
 	$(".color-swatch").each(function() {
-		if ($(this).css("background-color") == $(".catTopOverlay").css("background-color"))
+		if ($(this).css("background-color") == $(".cat-top-overlay").css("background-color"))
 		{
 			$(this).addClass("selected");
 		}
@@ -1410,7 +1409,7 @@ function hideBreakAddOverlay()
 //Update the color of the category overlay from a color being picked
 function changeCategoryColor(elem)
 {
-	$(".catTopOverlay").css("background-color",$(elem).css("background-color"));
+	$(".cat-top-overlay").css("background-color",$(elem).css("background-color"));
 }
 
 //Setup properties of a place schedule item from the db, setting position and height
@@ -1513,18 +1512,13 @@ function createCategory()
 	    	newCat.attr("data-id", resp.id);
 	    	newCat.attr("privacy", "private");
 	    	newCat.find(".evnt-title").text(resp.name);
-	    	newCat.find(".sch-evnt-editCat").attr("onclick", 'editCategory(event, this, "' + resp.id + '", "'+resp.name+'", "' + resp.color + '");');
-	    	newCat.find(".sch-evnt-delCat").attr("onclick", 'deleteCategory(event, this,"' + resp.id + '");');
+	    	newCat.find(".sch-evnt-edit-cat").attr("onclick", 'editCategory(event, this, "' + resp.id + '", "'+resp.name+'", "' + resp.color + '");');
+	    	newCat.find(".sch-evnt-del-cat").attr("onclick", 'deleteCategory(event, this,"' + resp.id + '");');
 	    	addDrag();
 	    	sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
 	    	newCat.find(".sch-evnt-editCat").click(); //trigger the edit event
 
-			var catInstance = new Category();
-			catInstance.id = resp.id;
-			catInstance.privacy = "private";
-			catInstance.color = "";
-			catInstance.name = "Untitled";
-			catInstance.breaks = [];
+			var catInstance = new Category(resp.id);
 
 			categories[catInstance.id] = catInstance;	
 	    },
@@ -1571,14 +1565,14 @@ function saveCategory(event,elem,id)
 	$.ajax({
 	    url: "/create_category",
 	    type: "POST",
-	    data: {name: $(".catOverlayTitle").text(), id: id, color: $(".catTopOverlay").css("background-color"), 
+	    data: {name: $(".cat-overlay-title").text(), id: id, color: $(".cat-top-overlay").css("background-color"), 
 	    	privacy: currCategory.attr("privacy"), breaks: categories[currCategory.attr("data-id")].breaks},
 	    success: function(resp)
 	    {
 	    	console.log("Update category complete.");
 	    	hideOverlay(); //Hide category editing panel
-			$("#sch-sidebar .sch-evnt[data-id=" + id + "]").find(".evnt-title").html($(".catOverlayTitle").html()); //Update name in sidebar
-			$(".sch-evnt[data-id=" + id + "]").css("background-color", $(".catTopOverlay").css("background-color")); //Update color of events
+			$("#sch-sidebar .sch-evnt[data-id=" + id + "]").find(".evnt-title").html($(".cat-overlay-title").html()); //Update name in sidebar
+			$(".sch-evnt[data-id=" + id + "]").css("background-color", $(".cat-top-overlay").css("background-color")); //Update color of events
 			sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
 
 	    },

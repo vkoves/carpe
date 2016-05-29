@@ -106,17 +106,12 @@
 	top:20px;
 	display:none;
 }
-.sch-evnt-editCat
+.sch-evnt-edit-cat
 {
 	left: 3px;
 	top:3px;
 }
-.sch-evnt-saveCat
-{
-	right:4px;
-	top:0px;
-}
-.sch-evnt-delCat
+.sch-evnt-del-cat
 {
 	left: 20px;
 	top:2px;
@@ -317,7 +312,7 @@
 	box-shadow: none !important;
 }
 /* Give editable text fields proper cursor */
-.evnt-title:focus, .catOverlayTitle:focus
+.evnt-title:focus, .cat-overlay-title:focus
 {
 	cursor: text !important;
 }
@@ -516,10 +511,6 @@ input[readonly="readonly"]
 	margin-left:20px;
 	color: grey;
 }
-.evnt-numID
-{
-	display:none;
-}
 #cat-privacy
 {
 	margin: 10px 0px;
@@ -528,10 +519,9 @@ input[readonly="readonly"]
 {
 	margin: 0px 5px;
 }
-.futureColors
+.future-colors
 {
     width: 100%;
-    /*background-color: rgba(255, 255, 255, 0.72);*/
 }
 
 
@@ -590,7 +580,7 @@ input[readonly="readonly"]
 	top: 10px;
 	right: 10px;
 }
-.catTopOverlay
+.cat-top-overlay
 {
 	height: 90px;
 	width:100%;
@@ -601,7 +591,7 @@ input[readonly="readonly"]
 	right: 0;
 }
 
-.catOverlayTitle {
+.cat-overlay-title {
 	font-family:"Open Sans", cursive;
 	font-size:30px;
 	font-weight:600;
@@ -612,7 +602,7 @@ input[readonly="readonly"]
 	color:White;
 }
 
-.catRemainderOverlay {
+.cat-remainder-overlay {
 	top:90px;
 	position:absolute;
 	left:0px;

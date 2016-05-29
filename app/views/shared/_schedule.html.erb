@@ -91,12 +91,12 @@
 </div>
 
 <div id="cat-overlay-box" class="overlay-box" data-id="" >
-	<div class="catTopOverlay">
-		<span class="catOverlayTitle" contenteditable=true ></span>
+	<div class="cat-top-overlay">
+		<span class="cat-overlay-title" contenteditable=true ></span>
 		<%= image_tag "checkmark-wht.png", :class => "sch-cat-icon no-drag", :onclick => "saveCategory(event, this, $('#cat-overlay-box').attr('data-id'));" %>
 
 	</div>
-	<div class="catRemainderOverlay">
+	<div class="cat-remainder-overlay">
 		<div id="cat-privacy">
 			Privacy:
 			<span id="public" class="default">Public</span>
@@ -104,7 +104,7 @@
 			<span id="private" class="default">Private</span>
 		</div>
 		<span id="add-break-category" class="default green">Add Break</span>
-		<div class="futureColors">
+		<div class="future-colors">
 			<div class="color-swatch" style="background-color: #FF2626;" onclick="changeCategoryColor(this)"></div> <!-- red -->
 			<div class="color-swatch" style="background-color: #FA6300;" onclick="changeCategoryColor(this)"></div> <!-- orange -->
 			<div class="color-swatch" style="background-color: #FFB400;" onclick="changeCategoryColor(this)"></div> <!-- yellow orange -->
@@ -134,11 +134,10 @@
 				<div id="cat-template" class="sch-evnt category" data-id="-1" time="0:00" style="display: none">
 					<div class="evnt-time top">7:00</div>
 					<div class="evnt-time bot">7:00</div>
-					<div class="evnt-numID">0</div>
 					<div class="evnt-title center-text dis-sel" contenteditable="false" onclick="editEvent(event, this);"></div>
 					<div class="evnt-desc dis-sel"></div>
-					<%= image_tag "quill-wht.png", :class => "sch-evnt-editCat sch-cat-icon no-drag", :onclick => "" %>
-					<%= image_tag "close-wht.png", :class => "sch-evnt-delCat sch-cat-icon no-drag", :onclick => "" %>
+					<%= image_tag "quill-wht.png", :class => "sch-evnt-edit-cat sch-cat-icon no-drag", :onclick => "" %>
+					<%= image_tag "close-wht.png", :class => "sch-evnt-del-cat sch-cat-icon no-drag", :onclick => "" %>
 					<%= image_tag "quill-wht.png", :class => "sch-evnt-edit sch-evnt-icon no-drag", :onclick => "showEventOverlay($(this).parent());" %>
 					<%= image_tag "close-wht.png", :class => "sch-evnt-close sch-evnt-icon no-drag", :onclick => "removeEvent(event, this);" %>
 					<%= image_tag "divider-wht2.png", :class => "evnt-divider no-drag" %>
@@ -149,11 +148,10 @@
 						style="background-color:<%= cat.color %>; /*top: <%= 105*index %>*/">
 						<div class="evnt-time top">7:00</div>
 						<div class="evnt-time bot">7:00</div>
-						<div class="evnt-numID">0</div>
 						<div class="evnt-title center-text dis-sel" contenteditable="false" onclick="editEvent(event, this);"><%= cat.name %></div>
 						<div class="evnt-desc dis-sel"></div>
-						<%= image_tag "quill-wht.png", :class => "sch-evnt-editCat sch-cat-icon no-drag", :onclick => "editCategory(event, this, #{cat.id}, \"#{cat.name}\", \"#{cat.color}\");" %>
-						<%= image_tag "close-wht.png", :class => "sch-evnt-delCat sch-cat-icon no-drag", :onclick => "deleteCategory(event, this, #{cat.id});" %>
+						<%= image_tag "quill-wht.png", :class => "sch-evnt-edit-cat sch-cat-icon no-drag", :onclick => "editCategory(event, this, #{cat.id}, \"#{cat.name}\", \"#{cat.color}\");" %>
+						<%= image_tag "close-wht.png", :class => "sch-evnt-del-cat sch-cat-icon no-drag", :onclick => "deleteCategory(event, this, #{cat.id});" %>
 						<%= image_tag "quill-wht.png", :class => "sch-evnt-edit sch-evnt-icon no-drag", :onclick => "showEventOverlay($(this).parent());" %>
 						<%= image_tag "close-wht.png", :class => "sch-evnt-close sch-evnt-icon no-drag", :onclick => "removeEvent(event, this);" %>
 						<%= image_tag "divider-wht2.png", :class => "evnt-divider no-drag" %>
