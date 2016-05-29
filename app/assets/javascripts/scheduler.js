@@ -1297,8 +1297,8 @@ function showEventOverlay(elem)
 			$("#repeat-certain-days-options").hide();
 		}
 
-		$("#repeat-start").val(dateToString(currEvent.repeatStart));
-		$("#repeat-end").val(dateToString(currEvent.repeatEnd));
+		$("#repeat-start").val(verboseDateToString(currEvent.repeatStart));
+		$("#repeat-end").val(verboseDateToString(currEvent.repeatEnd));
 
 		$(".ui-widget-overlay, #event-overlay-box").fadeIn(250);
 
@@ -1713,6 +1713,20 @@ function dateToString(date)
 	dateString = dateString + "/" + date.getDate(); //then add a / plus the date
 	dateString = dateString + "/" + ("" + date.getFullYear()).slice(-2); //then get the last two digits of the year by converting to string and slicing
 	return dateString; //and return
+}
+
+function verboseDateToString(date)
+{
+	if(!date || !(date instanceof Date)) //if the date is null or not a date object
+		return null; //return null
+
+	if(isNaN(date.getTime())) //if invalid date
+		return "INVALID!"; //return invalid string
+
+   var yearStr = date.getFullYear().toString();
+   var monthStr = (date.getMonth()+1).toString(); // getMonth() is zero-based
+   var dateStr  = date.getDate().toString();
+   return (monthStr[1]?monthStr:"0"+monthStr[0]) + "/" + (dateStr[1]?dateStr:"0"+dateStr[0]) + "/" + yearStr; // padding
 }
 
 /****************************/
