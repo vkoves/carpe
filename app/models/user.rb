@@ -19,6 +19,12 @@ class User < ActiveRecord::Base
 	has_many :events
   has_many :repeat_exceptions
 
+  after_create :send_signup_email
+
+  def send_signup_email
+    UserNotifier.send_signup_email(self).deliver
+  end
+
   ##########################
   ##### EVENT METHODS ######
   ##########################
