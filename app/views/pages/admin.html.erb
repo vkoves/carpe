@@ -3,7 +3,9 @@
 
 <h2 class="no-bold">Admin Panel</h2>
 <h4>Info</h4>
-<a href="/users" class="default"><span>View Users</span></a><br><br>
+<a href="/users" class="default"><span>View Users</span></a>
+<a href="/sandbox" class="default"><span>Sandbox</span></a>
+<br><br>
 On Carpe there are: <br>
  <%= Event.count %> events, <%= User.count %> users, and <%= Category.count %> categories. <br>
 The average user has: <%= Event.count/User.count %> events and <%= Category.count/User.count %> categories.
