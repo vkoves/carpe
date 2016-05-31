@@ -327,15 +327,6 @@
 }
 
 /* Overlay CSS */
-.ui-widget-overlay
-{
-	display: none;
-	opacity: 0.5;
-	background: none;
-	background-color: #000;
-	z-index: 1000;
-}
-
 #overlay-title
 {
 	font-size: 24px;
@@ -532,21 +523,6 @@ input[readonly="readonly"]
 }
 
 
-.overlay-box
-{
-	display: none;
-	position: absolute;
-	top: 10%;
-	left: 0;
-	right: 0;
-	box-shadow: 0px 0px 10px rgba(70, 70, 70, 0.5);
-	background: rgb(240,240,240);
-	width: 500px;
-	height: 400px;
-	margin-left: auto;
-	margin-right: auto;
-	z-index: 1001;
-}
 #break-adder-overlay-box
 {
 	width: 420px;

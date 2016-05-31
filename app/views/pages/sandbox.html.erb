@@ -1,5 +1,44 @@
+<style>
+#overlay-confirm .default {margin-right: 10px; margin-bottom: 20px;}
+</style>
+<script>
+$(document).ready(function()
+{
+	$("#confirm-test").click(function()
+	{
+		$(".overlay-box, .ui-widget-overlay").remove();
+		$("body").append("<div class='ui-widget-overlay'></div>");
+		$(".ui-widget-overlay").hide();
+		$(".ui-widget-overlay").fadeIn(250);
+		$("body").append("<div id='overlay-confirm' class='overlay-box'>"
+			+ "<h3>Are you sure?</h3>"
+			+ "<span id='confirm' class='default red'>Yes, delete</span><span id='cancel' class='default green'>Cancel!</span>"
+			+ "</div>");
+		$(".overlay-box").show().css("top", "-15%").animate({ 
+        	top: "10%",
+      	}, 700, 'easeOutExpo');
+
+      	$("#overlay-confirm #cancel").click(function()
+		{
+			$(".overlay-box").animate({ 
+	        	top: "-15%",
+	      	}, 700, 'easeInQuart', function()
+	      	{
+	      		$(".overlay-box, .ui-widget-overlay").fadeOut();
+	      	});
+		});
+
+		$("#overlay-confirm #confirm").click(function()
+		{
+      		$(".overlay-box, .ui-widget-overlay").fadeOut();
+		});
+	});
+});
+</script>
 <div style="position: relative;">
 	<%= form_tag("/search_users", method: "get", class: "user-entry") do %>
   		<%= text_field_tag(:q, nil, placeholder: "Search people", autocomplete: "off") %>
 	<% end %>
+	<br>
+	<span class="default red" id="confirm-test">Delete?</span>
 </div>
