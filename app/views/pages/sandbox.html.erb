@@ -36,9 +36,18 @@ $(document).ready(function()
 });
 </script>
 <div style="position: relative;">
+	<h2 class="zero-bot">The Sandbox</h2>
+	<h3 class="zero-top zero-bot no-bold">Use this as a playpen to test out ideas and pass them around!</h3>
+	<span class="small-text no-bold">Don't worry, nothing on this page actually does anything.</span>
+	<br><br><br>
+
+	User adder (for adding users to categories, inviting people to events, etc.)
 	<%= form_tag("/search_users", method: "get", class: "user-entry") do %>
-  		<%= text_field_tag(:q, nil, placeholder: "Search people", autocomplete: "off") %>
+  		<%= text_field_tag(:q, nil, placeholder: "Search placeholderple", autocomplete: "off") %>
 	<% end %>
-	<br>
+	<br><br>
+
+
+	Animated confirmation dialog <br>
 	<span class="default red" id="confirm-test">Delete?</span>
 </div>
