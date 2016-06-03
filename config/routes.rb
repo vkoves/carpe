@@ -8,8 +8,6 @@ Rails.application.routes.draw do
   get "/home" => 'home#index'
   get "/schedule" => 'schedule#schedule'
   get "/userviewer" => 'pages#userviewer'
-  get "/find_friends" => 'users#find_friends'
-  get 'pages/schedule'
 
   #Group Rotes
   get "/groups" => 'groups#index'
