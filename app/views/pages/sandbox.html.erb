@@ -1,38 +1,123 @@
 <style>
-#overlay-confirm .default {margin-right: 10px; margin-bottom: 20px;}
+#overlay-confirm .default {
+	width: 100px;
+	margin-right: 10px;
+}
 </style>
 <script>
 $(document).ready(function()
 {
 	$("#confirm-test").click(function()
 	{
-		$(".overlay-box, .ui-widget-overlay").remove();
-		$("body").append("<div class='ui-widget-overlay'></div>");
-		$(".ui-widget-overlay").hide();
-		$(".ui-widget-overlay").fadeIn(250);
+		confirmUI("Are you sure you want to launch?", function(confirmed)
+		{
+			// if(confirmed)
+			// 	alert("YAY!");
+			// else
+			// 	alert("AWE :(");
+		});
+	});
+
+	$("#alert-test").click(function()
+	{
+		alertUI("You fell for it!");
+	});
+
+	//a function for a more visual custom version of confirm()
+	//returns true if the user confirms
+	//@params: callback - a function that takes a boolean of whether the user confirmed 
+	function confirmUI(message, callback)
+	{
+		UIManager.showOverlay();
+
+		//Then append the box to the body
 		$("body").append("<div id='overlay-confirm' class='overlay-box'>"
-			+ "<h3>Are you sure?</h3>"
-			+ "<span id='confirm' class='default red'>Yes, delete</span><span id='cancel' class='default green'>Cancel!</span>"
+			+ "<h3>" + message + "</h3>"
+			+ "<span id='cancel' class='default green'>Cancel</span>"
+			+ "<span id='confirm' class='default red'>OK</span>"
 			+ "</div>");
-		$(".overlay-box").show().css("top", "-15%").animate({ 
+
+		//Show it above screen top and animate down
+		$(".overlay-box").css("top", "-15%").show().animate({ 
         	top: "10%",
       	}, 700, 'easeOutExpo');
 
+		//Then bind click actions
       	$("#overlay-confirm #cancel").click(function()
 		{
 			$(".overlay-box").animate({ 
 	        	top: "-15%",
-	      	}, 700, 'easeInQuart', function()
+	      	}, 400, 'swing', function()
 	      	{
-	      		$(".overlay-box, .ui-widget-overlay").fadeOut();
+	      		closeConfirm(false);
 	      	});
 		});
 
 		$("#overlay-confirm #confirm").click(function()
 		{
-      		$(".overlay-box, .ui-widget-overlay").fadeOut();
+			closeConfirm(true);
 		});
-	});
+
+		//fade out the overlay and remove
+		function closeConfirm(returnValue)
+		{
+			$("#overlay-confirm").fadeOut(400, "swing");
+			UIManager.hideOverlay(function()
+			{
+				$("#overlay-confirm").remove();
+				callback(returnValue);
+			});
+		}
+	}
+
+
+	function alertUI(message, callback)
+	{
+		UIManager.showOverlay();
+
+		//Then append the box to the body
+		$("body").append("<div id='overlay-confirm' class='overlay-box'>"
+			+ "<h3>" + message + "</h3>"
+			+ "<span id='alert-close' class='default red'>OK</span>"
+			+ "</div>");
+
+		$("#alert-close").click(function()
+		{
+			$(".overlay-box").animate({ 
+	        	top: "-15%",
+	      	}, 400, 'swing', function()
+	      	{
+	      		UIManager.hideOverlay();
+	      	});
+		});
+
+		//Show it above screen top and animate down
+		$(".overlay-box").css("top", "-15%").show().animate({ 
+        	top: "10%",
+      	}, 700, 'easeOutExpo');
+	}
+
+	var UIManager = {
+		showOverlay: function() //fades in the transparent overlay if needed
+		{
+			if($(".ui-widget-overlay").length == 0) //if there isn't an overlay already
+			{
+				$("body").append("<div class='ui-widget-overlay'></div>"); //append one to the body
+				$(".ui-widget-overlay").hide(); //hide it instantly
+				$(".ui-widget-overlay").fadeIn(250); //and fade in
+			}
+		},
+		hideOverlay: function(callback) //fades out the transparent overlay and calls the callback
+		{
+			$(".ui-widget-overlay").fadeOut(400, "swing", function() //fade out with default settings
+			{
+				$(this).remove(); //and when done, delete the div
+				
+				if(callback) //and if a callback was passed
+					callback(); //trigger it
+			});
+		}
+	};
 });
 </script>
 <div style="position: relative;">
@@ -49,5 +134,10 @@ $(document).ready(function()
 
 
 	Animated confirmation dialog <br>
-	<span class="default red" id="confirm-test">Delete?</span>
+	<span class="default red" id="confirm-test">Launch?</span>
+
+	<br><br>
+	
+	Animated alert dialog <br>
+	<span class="default" id="alert-test">Press Me!</span>
 </div>
