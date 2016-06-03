@@ -87,7 +87,11 @@ $(document).ready(function()
 	        	top: "-15%",
 	      	}, 400, 'swing', function()
 	      	{
-	      		UIManager.hideOverlay();
+	      		UIManager.hideOverlay(function()
+      			{
+					$("#overlay-confirm").remove();
+					callback();
+      			});
 	      	});
 		});
 
