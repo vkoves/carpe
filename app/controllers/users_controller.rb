@@ -67,8 +67,6 @@ class UsersController < ApplicationController
       else
         @users = User.where('name LIKE ?', "%#{q}%")
       end
-    else
-      @users = User.last(10)
     end
 
     respond_to do |format|
