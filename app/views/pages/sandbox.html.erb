@@ -119,9 +119,11 @@ $(document).ready(function()
 		slideOutHideOverlay: function(selector, callback)
 		{
 			var self = this;
-			this.slideOut(selector, function(){
+			this.slideOut(selector);
+			setTimeout(function()
+			{
 				self.hideOverlay(callback);
-			});
+			}, 150);
 		}
 	};
 });
