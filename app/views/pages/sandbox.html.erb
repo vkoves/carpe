@@ -100,7 +100,7 @@ $(document).ready(function()
 		},
 		hideOverlay: function(callback) //fades out the transparent overlay and calls the callback
 		{
-			$(".ui-widget-overlay").fadeOut(400, "swing", function() //fade out with default settings
+			$(".ui-widget-overlay").fadeOut(300, "swing", function() //fade out with default settings
 			{
 				$(this).remove(); //and when done, delete the div
 				
@@ -114,7 +114,7 @@ $(document).ready(function()
 		},
 		slideOut: function(selector, callback) //takes a string selector and slides out
 		{
-			$(selector).animate({ top: this.hiddenTop }, 400, 'swing', callback);
+			$(selector).animate({ top: this.hiddenTop }, 300, 'swing', callback);
 		},
 		slideOutHideOverlay: function(selector, callback)
 		{
