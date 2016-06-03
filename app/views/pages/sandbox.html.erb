@@ -28,7 +28,7 @@ $(document).ready(function()
 	//@params: callback - a function that takes a boolean of whether the user confirmed 
 	function confirmUI(message, callback)
 	{
-		UIManager.showOverlay();
+		UIManager.showOverlay(); //show the overlay
 
 		//Then append the box to the body
 		$("body").append("<div id='overlay-confirm' class='overlay-box'>"
@@ -37,20 +37,12 @@ $(document).ready(function()
 			+ "<span id='confirm' class='default red'>OK</span>"
 			+ "</div>");
 
-		//Show it above screen top and animate down
-		$(".overlay-box").css("top", "-15%").show().animate({ 
-        	top: "10%",
-      	}, 700, 'easeOutExpo');
+		UIManager.slideIn(".overlay-box");
 
 		//Then bind click actions
       	$("#overlay-confirm #cancel").click(function()
 		{
-			$(".overlay-box").animate({ 
-	        	top: "-15%",
-	      	}, 400, 'swing', function()
-	      	{
-	      		closeConfirm(false);
-	      	});
+      		closeConfirm(false);
 		});
 
 		$("#overlay-confirm #confirm").click(function()
@@ -61,8 +53,7 @@ $(document).ready(function()
 		//fade out the overlay and remove
 		function closeConfirm(returnValue)
 		{
-			$("#overlay-confirm").fadeOut(400, "swing");
-			UIManager.hideOverlay(function()
+			UIManager.slideOutHideOverlay("#overlay-confirm", function()
 			{
 				$("#overlay-confirm").remove();
 				callback(returnValue);
@@ -73,7 +64,7 @@ $(document).ready(function()
 
 	function alertUI(message, callback)
 	{
-		UIManager.showOverlay();
+		UIManager.showOverlay(); //show the overlay
 
 		//Then append the box to the body
 		$("body").append("<div id='overlay-confirm' class='overlay-box'>"
@@ -81,27 +72,23 @@ $(document).ready(function()
 			+ "<span id='alert-close' class='default red'>OK</span>"
 			+ "</div>");
 
+		UIManager.slideIn(".overlay-box");
+
 		$("#alert-close").click(function()
 		{
-			$(".overlay-box").animate({ 
-	        	top: "-15%",
-	      	}, 400, 'swing', function()
+			UIManager.slideOutHideOverlay(".overlay-box", function()
 	      	{
-	      		UIManager.hideOverlay(function()
-      			{
-					$("#overlay-confirm").remove();
+				$("#overlay-confirm").remove();
+				if(callback)
 					callback();
-      			});
 	      	});
 		});
-
-		//Show it above screen top and animate down
-		$(".overlay-box").css("top", "-15%").show().animate({ 
-        	top: "10%",
-      	}, 700, 'easeOutExpo');
 	}
 
 	var UIManager = {
+		hiddenTop: "-15%",
+		visibleTop: "10%",
+
 		showOverlay: function() //fades in the transparent overlay if needed
 		{
 			if($(".ui-widget-overlay").length == 0) //if there isn't an overlay already
@@ -119,6 +106,21 @@ $(document).ready(function()
 				
 				if(callback) //and if a callback was passed
 					callback(); //trigger it
+			});
+		},
+		slideIn: function(selector, callback) //takes a string selector and slides in
+		{
+			$(selector).css("top", this.hiddenTop).show().animate({ top: this.visibleTop }, 700, 'easeOutExpo', callback);
+		},
+		slideOut: function(selector, callback) //takes a string selector and slides out
+		{
+			$(selector).animate({ top: this.hiddenTop }, 400, 'swing', callback);
+		},
+		slideOutHideOverlay: function(selector, callback)
+		{
+			var self = this;
+			this.slideOut(selector, function(){
+				self.hideOverlay(callback);
 			});
 		}
 	};
