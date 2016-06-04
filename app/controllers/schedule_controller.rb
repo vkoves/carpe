@@ -51,8 +51,10 @@ class ScheduleController < ApplicationController
   end
 
   def delete_category
-    Category.destroy(params[:id])
-    render :text => "Category destroyed"
+    if current_user and Category.find(params[:id]).user == current_user
+      Category.destroy(params[:id])
+      render :text => "Category destroyed"
+    end
   end
 
   def create_exception #ccreate a repeat exception
@@ -119,10 +121,12 @@ class ScheduleController < ApplicationController
   end
 
   def delete_event #delete events
-    Event.destroy(params[:id])
-    render :text => "Event deleted."
+    if current_user and Event.find(params[:id]).user == current_user #if the current user is the owner
+      Event.destroy(params[:id])
+      render :text => "Event deleted."
+    end
   end
-  
+
   private
 
   def allow_iframe
