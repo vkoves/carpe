@@ -2,10 +2,17 @@
 #as well as creating and editing categories
 class ScheduleController < ApplicationController
   def schedule
-    if current_user
+    if params[:uid] #if a uid was passed, show that schedule in read only mode
+      @user = User.find(params[:uid])
+      @read_only = true
+    elsif current_user #if the user is logged in, show their schedule
       @user = current_user
     else
       redirect_to user_session_path;
+    end
+
+    if params[:iframe]
+      @holderClass = "iframe"
     end
   end
 

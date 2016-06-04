@@ -26,22 +26,30 @@
     ga('send', 'pageview');
   </script>
 </head>
-<body class="center-text">
-  <%= render "shared/header" %>
 
-  <% if notice or alert %>
-    <div class="alert-holder">
-      <% if notice %>
-        <span class="notice"><%= notice %></span>
-      <% end %>
+<% if params[:iframe] %>
+  <% @body_class = "in-iframe" %>
+<% end %>
 
-      <% if alert %>
-        <span class="alert"><%= alert %></span>
-      <% end %>
-    </div>
+
+<body class="center-text <%= @body_class %>">
+  <% unless params[:iframe] %>
+    <%= render "shared/header" %>
+
+    <% if notice or alert %>
+      <div class="alert-holder">
+        <% if notice %>
+          <span class="notice"><%= notice %></span>
+        <% end %>
+
+        <% if alert %>
+          <span class="alert"><%= alert %></span>
+        <% end %>
+      </div>
+    <% end %>
+
+    <a href="http://goo.gl/forms/oEJvUPI7Un" target="_blank"><div id="bug-submission">Submit Bug!</div></a>
   <% end %>
-
-  <a href="http://goo.gl/forms/oEJvUPI7Un" target="_blank"><div id="bug-submission">Submit Bug!</div></a>
 
   <% if current_user %>
     <script>

@@ -12,6 +12,9 @@ $(document).ready(function()
 	});
 });
 </script>
+<style>
+body {padding-bottom: 200px;}
+</style>
 <div style="position: relative;">
 	<h2 class="zero-bot">The Sandbox</h2>
 	<h3 class="zero-top zero-bot no-bold">Use this as a playpen to test out ideas and pass them around!</h3>
@@ -32,4 +35,13 @@ $(document).ready(function()
 	
 	Animated alert dialog <br>
 	<span class="default" id="alert-test">Press Me!</span>
+
+	<br><br>
+
+	Schedule iframe <br>
+	<% if Rails.env.production %>
+		<iframe src="http://www.carpe.us/schedule?uid=82&iframe=true" width="1000px" height="600px">
+	<% else %>
+		<iframe src="http://localhost:5000/schedule?uid=4&iframe=true" width="1000px" height="600px">
+	<% end %>
 </div>
