@@ -1536,9 +1536,10 @@ function createCategory()
 			newCat.find(".evnt-title").text(resp.name);
 			newCat.find(".sch-evnt-edit-cat").attr("onclick", 'editCategory(event, this, "' + resp.id + '", "'+resp.name+'", "' + resp.color + '");');
 			newCat.find(".sch-evnt-del-cat").attr("onclick", 'deleteCategory(event, this,"' + resp.id + '");');
+			newCat.attr("id", "");
 			addDrag();
 			sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
-			newCat.find(".sch-evnt-editCat").click(); //trigger the edit event
+			newCat.find(".sch-evnt-edit-cat").click(); //trigger the edit event
 
 			var catInstance = new Category(resp.id);
 
