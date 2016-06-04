@@ -3,24 +3,13 @@ $(document).ready(function()
 {
 	$("#confirm-test").click(function()
 	{
-		confirmUI("Are you sure you want to launch?", function(confirmed)
-		{
-			// if(confirmed)
-			// 	alert("YAY!");
-			// else
-			// 	alert("AWE :(");
-		});
+		confirmUI("Are you sure you want to launch?");
 	});
 
 	$("#alert-test").click(function()
 	{
 		alertUI("You fell for it!");
 	});
-
-	//a function for a more visual custom version of confirm()
-	//returns true if the user confirms
-	//@params: callback - a function that takes a boolean of whether the user confirmed 
-	
 });
 </script>
 <div style="position: relative;">
