@@ -1,6 +1,8 @@
 #The controller for schedule related pages and actions, such as the schedule page
 #as well as creating and editing categories
 class ScheduleController < ApplicationController
+  after_action :allow_iframe, only: :schedule
+
   def schedule
     if params[:uid] #if a uid was passed, show that schedule in read only mode
       @user = User.find(params[:uid])
@@ -11,8 +13,9 @@ class ScheduleController < ApplicationController
       redirect_to user_session_path;
     end
 
-    if params[:iframe]
-      @holderClass = "iframe"
+    if params[:iframe] #if iframe
+      @holderClass = "iframe" #indicate with the holder class
+      @read_only = true #and force read_only no matter what
     end
   end
 
