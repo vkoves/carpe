@@ -568,6 +568,15 @@ function addStartingListeners()
 			hideOverlay();
 		}
 	});
+
+	$("#embed-button").click(function()
+	{
+		var iframeUrl = "http://www.carpe.us/schedule?iframe=true&uid=" + userId; //create the iframe URL
+		var iframeCode = "<iframe src='" + iframeUrl + "' width='900px' height='600'>";
+
+		customAlertUI("Embed your schedule!", "<input id='iframe-embed' class='text-input' type='text' style='width: 90%;'></input><br><br>");
+		$("#iframe-embed").val(iframeCode);
+	});	
 }
 
 //Load in categories

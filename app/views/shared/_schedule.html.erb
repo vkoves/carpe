@@ -19,7 +19,7 @@
 <% end %>
 
 
-<div class="ui-widget-overlay" onclick="hideOverlay();"></div>
+<div class="ui-widget-overlay"></div>
 <div id="event-overlay-box" class="overlay-box">
 	<div id="overlay-color-bar">
 		<div id="overlay-title" contenteditable="true">Event Title</div>
@@ -120,7 +120,10 @@
 
 <div id="cont-hold" class="<%= @holderClass %>">
 	<% unless @read_only or params[:iframe] %>
-		<h1 class="no-bold zero-bot zero-top">My Schedule</h1>
+		<h1 class="no-bold zero-bot zero-top">
+			My Schedule
+			<span id="embed-button" class="default orange">Embed</span>
+		</h1>
 		<br>
 	<% end %>
 

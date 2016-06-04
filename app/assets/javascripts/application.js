@@ -371,6 +371,7 @@ function getCookie(cname)
 }
 
 /* UI Helpers */
+//Show a custom confirm with the given message, calling the callback with the value of whether the user confirmed
 function confirmUI(message, callback)
 {
 	UIManager.showOverlay(); //show the overlay
@@ -406,14 +407,21 @@ function confirmUI(message, callback)
 	}
 }
 
-
+//Shows an alert with the given message, calling the callback on close
 function alertUI(message, callback)
+{
+	customAlert(message, "", callback);
+}
+
+//Show a custom alert with full HTML content
+function customAlertUI(message, content, callback)
 {
 	UIManager.showOverlay(); //show the overlay
 
 	//Then append the box to the body
 	$("body").append("<div id='overlay-alert' class='overlay-box'>"
 		+ "<h3>" + message + "</h3>"
+		+ content
 		+ "<span id='alert-close' class='default red'>OK</span>"
 		+ "</div>");
 
