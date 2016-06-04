@@ -39,7 +39,7 @@ body {padding-bottom: 200px;}
 	<br><br>
 
 	Schedule iframe <br>
-	<% if Rails.env.production %>
+	<% if Rails.env.production? %>
 		<iframe src="http://www.carpe.us/schedule?uid=82&iframe=true" width="1000px" height="600px">
 	<% else %>
 		<iframe src="http://localhost:5000/schedule?uid=4&iframe=true" width="1000px" height="600px">
