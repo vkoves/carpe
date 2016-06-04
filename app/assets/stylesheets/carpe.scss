@@ -530,6 +530,10 @@ form.thin
 	z-index: 1001;
 	padding-bottom: 20px;
 }
+#overlay-confirm .default, #overlay-alert .default {
+	width: 100px;
+	margin-right: 10px;
+}
 /* END TO BE SORTED */
 
 /* UTILITY STYLING - Some handy tools, should be kept at EOF */

@@ -1,9 +1,3 @@
-<style>
-#overlay-confirm .default {
-	width: 100px;
-	margin-right: 10px;
-}
-</style>
 <script>
 $(document).ready(function()
 {
@@ -26,106 +20,7 @@ $(document).ready(function()
 	//a function for a more visual custom version of confirm()
 	//returns true if the user confirms
 	//@params: callback - a function that takes a boolean of whether the user confirmed 
-	function confirmUI(message, callback)
-	{
-		UIManager.showOverlay(); //show the overlay
-
-		//Then append the box to the body
-		$("body").append("<div id='overlay-confirm' class='overlay-box'>"
-			+ "<h3>" + message + "</h3>"
-			+ "<span id='cancel' class='default green'>Cancel</span>"
-			+ "<span id='confirm' class='default red'>OK</span>"
-			+ "</div>");
-
-		UIManager.slideIn(".overlay-box");
-
-		//Then bind click actions
-      	$("#overlay-confirm #cancel").click(function()
-		{
-      		closeConfirm(false);
-		});
-
-		$("#overlay-confirm #confirm").click(function()
-		{
-			closeConfirm(true);
-		});
-
-		//fade out the overlay and remove
-		function closeConfirm(returnValue)
-		{
-			UIManager.slideOutHideOverlay("#overlay-confirm", function()
-			{
-				$("#overlay-confirm").remove();
-				callback(returnValue);
-			});
-		}
-	}
-
-
-	function alertUI(message, callback)
-	{
-		UIManager.showOverlay(); //show the overlay
-
-		//Then append the box to the body
-		$("body").append("<div id='overlay-confirm' class='overlay-box'>"
-			+ "<h3>" + message + "</h3>"
-			+ "<span id='alert-close' class='default red'>OK</span>"
-			+ "</div>");
-
-		UIManager.slideIn(".overlay-box");
-
-		$("#alert-close").click(function()
-		{
-			UIManager.slideOutHideOverlay(".overlay-box", function()
-	      	{
-				$("#overlay-confirm").remove();
-				if(callback)
-					callback();
-	      	});
-		});
-	}
-
-	var UIManager = {
-		hiddenTop: "-15%",
-		visibleTop: "10%",
-
-		showOverlay: function() //fades in the transparent overlay if needed
-		{
-			if($(".ui-widget-overlay").length == 0) //if there isn't an overlay already
-			{
-				$("body").append("<div class='ui-widget-overlay'></div>"); //append one to the body
-				$(".ui-widget-overlay").hide(); //hide it instantly
-				$(".ui-widget-overlay").fadeIn(250); //and fade in
-			}
-		},
-		hideOverlay: function(callback) //fades out the transparent overlay and calls the callback
-		{
-			$(".ui-widget-overlay").fadeOut(300, "swing", function() //fade out with default settings
-			{
-				$(this).remove(); //and when done, delete the div
-				
-				if(callback) //and if a callback was passed
-					callback(); //trigger it
-			});
-		},
-		slideIn: function(selector, callback) //takes a string selector and slides in
-		{
-			$(selector).css("top", this.hiddenTop).show().animate({ top: this.visibleTop }, 700, 'easeOutExpo', callback);
-		},
-		slideOut: function(selector, callback) //takes a string selector and slides out
-		{
-			$(selector).animate({ top: this.hiddenTop }, 400, 'swing', callback);
-		},
-		slideOutHideOverlay: function(selector, callback)
-		{
-			var self = this;
-			this.slideOut(selector);
-			setTimeout(function()
-			{
-				self.hideOverlay(callback);
-			}, 100);
-		}
-	};
+	
 });
 </script>
 <div style="position: relative;">

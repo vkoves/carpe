@@ -107,7 +107,7 @@ function ScheduleItem() //The prototype for the schedule items
 	{
 		if(newStartDateTime.getTime() > this.endDateTime.getTime() && userSet) //if trying to set start before end
 		{
-			alert("The event can't start after it ends!"); //throw an error unless this is a new event (blank name)
+			alertUI("The event can't start after it ends!"); //throw an error unless this is a new event (blank name)
 			var startArr = [currEvent.startDateTime.getHours(), paddedMinutes(currEvent.startDateTime)]; //and reset the field
 			$("#time-start").val(convertTo12Hour(startArr));
 		}
@@ -121,7 +121,7 @@ function ScheduleItem() //The prototype for the schedule items
 	{
 		if(newEndDateTime.getTime() < this.startDateTime.getTime() && userSet) //if trying to set end before start
 		{
-			alert("The event can't end before it begins!"); //throw an error unless this is a new event
+			alertUI("The event can't end before it begins!"); //throw an error unless this is a new event
 			var endArr = [currEvent.endDateTime.getHours(), paddedMinutes(currEvent.endDateTime)]; //and reset the field
 			$("#time-end").val(convertTo12Hour(endArr));
 		}
@@ -410,19 +410,19 @@ function addStartingListeners()
 		var endDate = $("#break-end").val();
 
 		if(name == "" || startDate == "" || endDate == "")
-			alert("Fill out all fields!");
+			alertUI("Fill out all fields!");
 		else
 			createBreak(name, startDate, endDate);
 	});
 
 	//When editing category title, defocus on enter
 	$(".cat-overlay-title").on("keydown",function(e){
-	    var key = e.keyCode || e.charCode;  // ie||others
-	    if(key == 13)  // if enter key is pressed
-	    {
+		var key = e.keyCode || e.charCode;  // ie||others
+		if(key == 13)  // if enter key is pressed
+		{
 			e.preventDefault();
-		    $(this).blur();  // lose focus
-	    }
+			$(this).blur();  // lose focus
+		}
 	}).click(function()
 	{
 		highlightCurrent(); //higlight the category name
@@ -486,7 +486,7 @@ function addStartingListeners()
 
 		dateTime = new Date(dateE+" "+val);
 		if (isNaN(dateTime.getTime()))
-			alert("Start date doesn't make sense! Tried \"" + dateE+" "+val + "\"");
+			alertUI("Start date doesn't make sense! Tried \"" + dateE+" "+val + "\"");
 
 		var newDateTime = new Date(currEvent.startDateTime.getTime()); //We don't want to modify the date, only the time, so clone the date
 		newDateTime.setHours(dateTime.getHours()); //change the hours
@@ -507,7 +507,7 @@ function addStartingListeners()
 
 		dateTime = new Date(dateE+" "+val);
 		if (isNaN(dateTime.getTime()))
-			alert("End date doesn't make sense! Tried \"" + dateE+" "+val + "\"");
+			alertUI("End date doesn't make sense! Tried \"" + dateE+" "+val + "\"");
 
 		var newDateTime = new Date(currEvent.startDateTime.getTime());
 		newDateTime.setHours(dateTime.getHours());
@@ -531,13 +531,13 @@ function addStartingListeners()
 	}).click(highlightCurrent);
 
 	$("#overlay-title").on("keydown",function(e){
-	    var key = e.keyCode || e.charCode;  // ie||others
-	    if(key == 13)  // if enter key is pressed
-	    {
+		var key = e.keyCode || e.charCode;  // ie||others
+		if(key == 13)  // if enter key is pressed
+		{
 			e.preventDefault();
-		    $(this).blur();  // lose focus
-		    currEvent.setName($(this).text());
-	    }
+			$(this).blur();  // lose focus
+			currEvent.setName($(this).text());
+		}
 	})
 	.click(highlightCurrent)
 	.focusout(function()
@@ -674,8 +674,8 @@ function colDroppable()
 	{
 		drop: function( event, ui ) //called when event is dropped on a new column (not called on moving it in the column)
 		{
-	    	var element = ui.draggable.detach();
-	    	dropScroll = $("#sch-holder").scrollTop(); //appending this element will scroll us up to the top, so we have to adjust for that
+			var element = ui.draggable.detach();
+			dropScroll = $("#sch-holder").scrollTop(); //appending this element will scroll us up to the top, so we have to adjust for that
 			$(this).append(element); //append to the column
 			$(this).parent().removeClass("over"); //dehighlight on drop
 		},
@@ -702,16 +702,16 @@ function addDrag(selector)
 		selector = "#sch-sidebar .sch-evnt";
 
 	$(selector).find(".evnt-title").on("keydown",function(e){
-	    var key = e.keyCode || e.charCode;  // ie||others
-	    if(key == 13)  // if enter key is pressed
-	    {
+		var key = e.keyCode || e.charCode;  // ie||others
+		if(key == 13)  // if enter key is pressed
+		{
 			e.preventDefault();
 			$(this).parent().draggable("enable");
-		    $(this).blur();  // lose focus
+			$(this).blur();  // lose focus
 
-		    scheduleItems[$(this).parent().attr("evnt-temp-id")].setName($(this).text());
+			scheduleItems[$(this).parent().attr("evnt-temp-id")].setName($(this).text());
 
-	    }
+		}
 	})
 	.focusout(function()
 	{
@@ -901,15 +901,15 @@ function addResizing(selector)
 	{
 		$(selector).resizable( //make the items resizable
 		{
-	    	handles: 'n, s',
-	    	grid: [ 0, gridHeight ],
-	    	containment: "parent",
-	    	resize: function(event, ui)
-	    	{
-	    		updateTime($(this), ui, true);
-	    	},
-	    	stop: function(event, ui)
-	    	{
+			handles: 'n, s',
+			grid: [ 0, gridHeight ],
+			containment: "parent",
+			resize: function(event, ui)
+			{
+				updateTime($(this), ui, true);
+			},
+			stop: function(event, ui)
+			{
 				var tempItem = scheduleItems[$(this).attr("evnt-temp-id")];
 				tempItem.resizeComplete($(this));
 
@@ -918,7 +918,7 @@ function addResizing(selector)
 					$(".sch-evnt[evnt-temp-id='" + tempItem.tempId + "']").remove(); //remove all instances
 					populateEvents(); //and populateEvents to refresh things
 				}
-	    	}
+			}
 		});
 	}
 }
@@ -1452,147 +1452,160 @@ function saveEvents()
 	var arr  = JSON.parse(JSON.stringify(scheduleItems));
 
 	$.ajax({
-	    url: "/save_events",
-	    type: "POST",
-	    data: {map: arr, text: "testificates"},
-	    success: function(resp)
-	    {
-	    	console.log("Save complete.");
-	    	$("#sch-save").addClass("active");
-	    	setTimeout(function()
-	    	{
-	    		$("#sch-save").removeClass("active");
+		url: "/save_events",
+		type: "POST",
+		data: {map: arr, text: "testificates"},
+		success: function(resp)
+		{
+			console.log("Save complete.");
+			$("#sch-save").addClass("active");
+			setTimeout(function()
+			{
+				$("#sch-save").removeClass("active");
 				$("#sch-save").addClass("disabled");
-	    	}, 1500);
+			}, 1500);
 
-	    	for(var key in resp)
-	    	{
-	    		$(".sch-evnt[evnt-temp-id="+ key + "]")	.attr("event-id", resp[key]);
-	    		scheduleItems[key].eventId = resp[key];
-	    	}
-	    },
-	    error: function(resp)
-	    {
-	    	alert("Saving events failed :(");
-	    }
+			for(var key in resp)
+			{
+				$(".sch-evnt[evnt-temp-id="+ key + "]")	.attr("event-id", resp[key]);
+				scheduleItems[key].eventId = resp[key];
+			}
+		},
+		error: function(resp)
+		{
+			alertUI("Saving events failed :(");
+		}
 	});
 }
 
 function removeEvent(event, elem)
 {
 	event.stopImmediatePropagation();
-	$(elem).parent().slideUp("normal", function() { $(this).remove(); } );
 
-	var eId = $(elem).parent().attr("event-id");
-	var tempId = $(elem).parent().attr("evnt-temp-id");
-
-	delete scheduleItems[tempId]; //remove event map
-
-	if(!eId)
+	confirmUI("Are you sure you want to delete this event?", function(confirmed)
 	{
-		return;
-	}
+		if(confirmed)
+		{
+			$(elem).parent().slideUp("normal", function() { $(this).remove(); } );
 
-	$.ajax({
-	    url: "/delete_event",
-	    type: "POST",
-	    data: {id: eId},
-	    success: function(resp)
-	    {
-	    	console.log("Delete complete.");
-	    	saveEvents();
-	    },
-	    error: function(resp)
-	    {
-	    	alert("Deleting event failed :/");
-	    }
+			var eId = $(elem).parent().attr("event-id");
+			var tempId = $(elem).parent().attr("evnt-temp-id");
+
+			delete scheduleItems[tempId]; //remove event map
+
+			if(!eId)
+			{
+				return;
+			}
+
+			$.ajax({
+				url: "/delete_event",
+				type: "POST",
+				data: {id: eId},
+				success: function(resp)
+				{
+					console.log("Delete complete.");
+					saveEvents();
+				},
+				error: function(resp)
+				{
+					alertUI("Deleting event failed :/");
+				}
+			});
+		}
 	});
 }
 
 function createCategory()
 {
 	$.ajax({
-	    url: "/create_category",
-	    type: "POST",
-	    data: {name: "Untitled", user_id: userId},
-	    success: function(resp)
-	    {
-	    	console.log("Create category complete.");
+		url: "/create_category",
+		type: "POST",
+		data: {name: "Untitled", user_id: userId},
+		success: function(resp)
+		{
+			console.log("Create category complete.");
 
-	    	var newCat = $("#cat-template").clone();
-	    	$("#sch-tiles-inside").append(newCat);
-	    	newCat.show();
-	    	newCat.attr("data-id", resp.id);
-	    	newCat.attr("privacy", "private");
-	    	newCat.find(".evnt-title").text(resp.name);
-	    	newCat.find(".sch-evnt-edit-cat").attr("onclick", 'editCategory(event, this, "' + resp.id + '", "'+resp.name+'", "' + resp.color + '");');
-	    	newCat.find(".sch-evnt-del-cat").attr("onclick", 'deleteCategory(event, this,"' + resp.id + '");');
-	    	addDrag();
-	    	sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
-	    	newCat.find(".sch-evnt-editCat").click(); //trigger the edit event
+			var newCat = $("#cat-template").clone();
+			$("#sch-tiles-inside").append(newCat);
+			newCat.show();
+			newCat.attr("data-id", resp.id);
+			newCat.attr("privacy", "private");
+			newCat.find(".evnt-title").text(resp.name);
+			newCat.find(".sch-evnt-edit-cat").attr("onclick", 'editCategory(event, this, "' + resp.id + '", "'+resp.name+'", "' + resp.color + '");');
+			newCat.find(".sch-evnt-del-cat").attr("onclick", 'deleteCategory(event, this,"' + resp.id + '");');
+			addDrag();
+			sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
+			newCat.find(".sch-evnt-editCat").click(); //trigger the edit event
 
 			var catInstance = new Category(resp.id);
 
 			categories[catInstance.id] = catInstance;	
-	    },
-	    error: function(resp)
-	    {
-	    	alert("Creating category failed :(");
-	    }
+		},
+		error: function(resp)
+		{
+			alertUI("Creating category failed :(");
+		}
 	});
 }
 
 function deleteCategory(event, elem, id)
 {
-	$.ajax({
-	    url: "/delete_category",
-	    type: "POST",
-	    data: {id: id},
-	    success: function(resp) //after the server says the delete worked
-	    {
-	    	console.log("Delete category complete.");
-			$(elem).parent().slideUp("normal", function() //slide up the div, hiding it
-			{
-				$(this).remove(); //and when that's done, remove the div
-				sideHTML = $("#sch-tiles").html(); //and save the sidebar html for restoration upon drops
-				//Remove all events of this category from scheduleItems
-				$(".col-snap .sch-evnt[data-id=" + id + "]").slideUp();
-				for (var index in scheduleItems) //do a foreach since this is a hashmap
+	confirmUI("Are you sure you want to delete this category?", function(confirmed)
+	{
+		if(confirmed)
+		{
+			$.ajax({
+				url: "/delete_category",
+				type: "POST",
+				data: {id: id},
+				success: function(resp) //after the server says the delete worked
 				{
-					if(scheduleItems[index].categoryId = id)
+					console.log("Delete category complete.");
+					$(elem).parent().slideUp("normal", function() //slide up the div, hiding it
 					{
-						delete scheduleItems[index];
-					}
+						$(this).remove(); //and when that's done, remove the div
+						sideHTML = $("#sch-tiles").html(); //and save the sidebar html for restoration upon drops
+						//Remove all events of this category from scheduleItems
+						$(".col-snap .sch-evnt[data-id=" + id + "]").slideUp();
+						for (var index in scheduleItems) //do a foreach since this is a hashmap
+						{
+							if(scheduleItems[index].categoryId = id)
+							{
+								delete scheduleItems[index];
+							}
+						}
+					});
+				},
+				error: function(resp)
+				{
+					alertUI("Deleting category failed :(");
 				}
 			});
-	    },
-	    error: function(resp)
-	    {
-	    	alert("Deleting category failed :(");
-	    }
+		}
 	});
 }
 
 function saveCategory(event,elem,id)
 {
 	$.ajax({
-	    url: "/create_category",
-	    type: "POST",
-	    data: {name: $(".cat-overlay-title").text(), id: id, color: $(".cat-top-overlay").css("background-color"), 
-	    	privacy: currCategory.attr("privacy"), breaks: categories[currCategory.attr("data-id")].breaks},
-	    success: function(resp)
-	    {
-	    	console.log("Update category complete.");
-	    	hideOverlay(); //Hide category editing panel
+		url: "/create_category",
+		type: "POST",
+		data: {name: $(".cat-overlay-title").text(), id: id, color: $(".cat-top-overlay").css("background-color"), 
+			privacy: currCategory.attr("privacy"), breaks: categories[currCategory.attr("data-id")].breaks},
+		success: function(resp)
+		{
+			console.log("Update category complete.");
+			hideOverlay(); //Hide category editing panel
 			$("#sch-sidebar .sch-evnt[data-id=" + id + "]").find(".evnt-title").html($(".cat-overlay-title").html()); //Update name in sidebar
 			$(".sch-evnt[data-id=" + id + "]").css("background-color", $(".cat-top-overlay").css("background-color")); //Update color of events
 			sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
 
-	    },
-	    error: function(resp)
-	    {
-	    	alert("Updating category failed :(");
-	    }
+		},
+		error: function(resp)
+		{
+			alertUI("Updating category failed :(");
+		}
 	});
 }
 
@@ -1605,24 +1618,24 @@ function createBreak(name, startDate, endDate)
 	endD.setHours(0,0,0,0); //clear any time
 
 	$.ajax({
-	    url: "/create_break",
-	    type: "POST",
-	    data: {name: name, start: startD, end: endD},
-	    success: function(resp) //server responds with the id
-	    {
-	    	var brk = new Break(); //create a new break instance
-	    	brk.id = resp;
-	    	brk.name = name;
-	    	brk.startDate = startD;
-	    	brk.endDate = endD;
-	    	breaks[brk.id] = brk; //and add to the hashmap
+		url: "/create_break",
+		type: "POST",
+		data: {name: name, start: startD, end: endD},
+		success: function(resp) //server responds with the id
+		{
+			var brk = new Break(); //create a new break instance
+			brk.id = resp;
+			brk.name = name;
+			brk.startDate = startD;
+			brk.endDate = endD;
+			breaks[brk.id] = brk; //and add to the hashmap
 
-	    	hideOverlay(); //Hide category editing panel
-	    },
-	    error: function(resp)
-	    {
-	    	alert("Creating break failed! :(");
-	    }
+			hideOverlay(); //Hide category editing panel
+		},
+		error: function(resp)
+		{
+			alertUI("Creating break failed! :(");
+		}
 	});
 }
 
