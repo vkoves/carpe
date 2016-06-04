@@ -122,4 +122,10 @@ class ScheduleController < ApplicationController
     Event.destroy(params[:id])
     render :text => "Event deleted."
   end
+  
+  private
+
+  def allow_iframe
+    response.headers.except! 'X-Frame-Options'
+  end
 end
