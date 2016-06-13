@@ -158,6 +158,18 @@ function ScheduleItem() //The prototype for the schedule items
 		updatedEvents("repeatEnd");
 	};
 
+	this.setDescription = function(newDescription)
+	{
+		this.description = newDescription;
+		updatedEvents("description");
+	}
+
+	this.setLocation = function(newLocation)
+	{
+		this.location = newLocation;
+		updatedEvents("location");
+	}
+
 	this.dragComplete = function(elem, resize)
 	{
 		var dateString = elem.parent().siblings(".col-titler").children(".evnt-fulldate").html();
@@ -522,13 +534,13 @@ function addStartingListeners()
 
 	$("#overlay-desc").focusout(function()
 	{
-		currEvent.description = $(this).text();
+		currEvent.setDescription($(this).text());
 		removeHighlight();
 	}).click(highlightCurrent);
 
 	$("#overlay-loc").focusout(function()
 	{
-		currEvent.location = $(this).text();
+		currEvent.setLocation($(this).text());
 		removeHighlight();
 	}).click(highlightCurrent);
 
