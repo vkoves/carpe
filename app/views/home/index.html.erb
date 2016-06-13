@@ -23,7 +23,7 @@
 					<% printed = 0 %>
 					<% @upcoming_events.each do |event| %>
 						<% next if event.end_date.past? #skip events that have ended %>
-						<% break if printed >= 10 %>
+						<% break if printed >= 10 #stop if we've already printed 10 upcoming events %>
 						<% printed += 1 %>
 						<div class="home-event-tile <%= "current" if event.current? %>">
 							<div class="square" style="background: <%= event.category.color %>"><%= event.category.name %></div>

@@ -119,7 +119,7 @@
 </div>
 
 <div id="cont-hold" class="<%= @holderClass %>">
-	<% unless @read_only or params[:iframe] %>
+	<% unless @read_only or params[:iframe] #don't show title in an iframe or if we are in read only mode %>
 		<h1 class="no-bold zero-bot zero-top">
 			My Schedule
 			<span id="embed-button" class="default orange">Embed</span>
@@ -219,11 +219,14 @@
 </div>
 
 <script>
-	//User based variables
+	//User based variable
 	var readOnly = <%= @read_only ? true : false %>;
-	<% current_user ? id = current_user.id : id = -1 %>
+	<% current_user ? id = current_user.id : id = -1 #get the current_user's id %>
+	<% #Probably unsafe. TODO - Remove dependance on userId variable %>
 	var userId = <%= id %>;
-	<% current_user and current_user.admin ? admn = true : admn = false %>
+	<% current_user and current_user.admin ? admn = true : admn = false #print whether the user is an admin. %>
+	<% #This is probably super unsafe, because this variable is globally scoped and could be modified %>
+	<% #TODO: Remove any usage of this variable %>
 	var admin = <%= admn ? true : false %>;
 
 	//Data variables
