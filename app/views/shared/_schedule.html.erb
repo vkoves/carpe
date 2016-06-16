@@ -246,6 +246,9 @@
 		<% catsOut.push(atr) %>
 	<% end %>
 
+	// TODO: rename these to not sound like booleans 
+	// (i.e., should be nouns, not ending in past-tense
+	//  verbs like these currently are)
 	var eventsLoaded = <%= raw eventsOut.to_json %>;
 	var categoriesLoaded = <%= raw catsOut.to_json %>;
 	var breaksLoaded = <%= raw @user.repeat_exceptions.to_json %>;
