@@ -40,9 +40,9 @@ $(window).resize(function()
 });
 
 $(document).ready(ready); //Assign ready function to document ready 
-$(document).on('page:load', ready); //and to page:load event from Turblokinks
+$(document).on('page:load', ready); //and to page:load event from Turbolinks
 
-//Ready function called on page load
+//Ready function called on page load, whether from fresh load or Turblolinks page load
 function ready()
 {
 	if(Notification.permission == "default")
@@ -95,45 +95,45 @@ function initializeEventListeners()
 		}
 	});
 
-	//Toggle mobile menu
+	//Toggle mobile menu on click
 	$("#header-mob-menu").click(function()
 	{
 		$("#mobile-menu").slideToggle(300);
 	});
 
-	//Toggle sidebar that lists friend availability
+	//Toggle sidebar that lists friend availability on click
 	$("#sidebar-button").click(function()
 	{
-		if(parseInt($("#sidebar").css("right")) < 0)
+		if(parseInt($("#sidebar").css("right")) < 0) //if the sidebar is closed
 		{
-			$("#sidebar-button").css("right", "340px");
-			$("#sidebar").css("right", "0%");
+			$("#sidebar-button").css("right", "340px"); //move the button
+			$("#sidebar").css("right", "0%"); //and open the sidebar
 		}
-		else
+		else //otherwise, close it
 		{
 			$("#sidebar-button").css("right", "0%");
 			$("#sidebar").css("right", "-340px");
 		}
 	});
 
-	//Add friend button front end
+	//Add friend button success. The friend button calls a POST event, this is run when that completes (that's what ajax:success does)
 	$(".friend-button").bind('ajax:success', function(event, data, status, xhr){
 		if(data)
 		{
-			var newElem = $(".friend-button[uid=" + data + "]");
-			friendRequest(newElem);
+			var newElem = $(".friend-button[uid=" + data + "]"); //find the button that was clicked??
+			friendRequest(newElem); //and change it to say "Pending"
 		}
 	});
 
-	//Delete friend button front end
+	//On delete friend button POST completion
 	$(".friend-remove").bind('ajax:success', function(event, data, status, xhr){
 		if(data)
 		{
-			$(".friend-remove[fid=" + data + "]").parents(".friend-listing").fadeOut(); //and remove friend listing
+			$(".friend-remove[fid=" + data + "]").parents(".friend-listing").fadeOut(); //and remove associated friend listing
 		}
 	});
 
-	//Deny friend request
+	//On deny friend request POST completion
 	$(".notif .deny").parent().bind('ajax:success', function(event, data, status, xhr){
 		if(data && data["action"] && data["action"] == "deny_friend")
 		{
@@ -141,8 +141,7 @@ function initializeEventListeners()
 		}
 	});
 
-
-	//Accept friend request
+	//On accept friend request POST completion
 	$(".notif .confirm").parent().bind('ajax:success', function(event, data, status, xhr){
 		if(data && data["action"] && data["action"] == "confirm_friend")
 		{
@@ -150,32 +149,33 @@ function initializeEventListeners()
 		}
 	});
 
-	//Promote buttons
+	//Promote buttons POST completion
 	$(".promotion span").parent().bind('ajax:success', function(event, data, status, xhr){
 		if(data && data["action"] && data["action"] == "promote")
 		{
+			//since the ajax:success is called on every promotion button, only run code if this is the one that was clicked
 			if($(this).attr("uid") == parseInt(data["uid"]))
 			{
-				var href = $(this).attr("href");
-				var span = $(this).find("span");
-				if($(this).hasClass("red"))
-				{
-					$(this).attr("href", href.split("&")[0]);
-					fadeToText(span, "Promote");
-				}
-				else
-				{
-					$(this).attr("href", href + "&de=true");
-					fadeToText(span, "Demote");
-				}
-				$(this).toggleClass("red");
+				var href = $(this).attr("href"); //get the href
+				var span = $(this).find("span"); //get the span tag in this button
 
+				if($(this).hasClass("red")) //if the user was demoted (the button was red)
+				{
+					$(this).attr("href", href.split("&")[0]); //remove demote parameter
+					fadeToText(span, "Promote"); //and fade to Promote text
+				}
+				else //if the user was promoted (the button was not red)
+				{
+					$(this).attr("href", href + "&de=true"); //add the demote parameter
+					fadeToText(span, "Demote"); //and fade to Demote text
+				}
+				$(this).toggleClass("red"); //and toggle class red
 			}
 		}
 	});
 
 
-	//Tokenizer shenanigans
+	//Tokenizer shenanigans for the search
 	$("#users-search input[type=text]").tokenInput("/search_users.json", {
 		crossDomain: false,
 		placeholder: "Search people",
@@ -193,6 +193,7 @@ function initializeEventListeners()
 		}
 	});
 
+	//Tokenizer implementation for the user entry (used on sandbox)
 	$(".user-entry input[type=text").tokenInput("/search_users.json", {
 		crossDomain: false,
 		placeholder: "Add people",
@@ -211,29 +212,29 @@ function initializeEventListeners()
 	});
 }
 
-//Initialize notification logic
+//Initialize notification logic, taking a boolean indicating whether permission has just been granted
 function handleNotifications(justGranted)
 {
 	// If the user accepts, let's create a notification
 	if (Notification.permission === "granted")
 	{
-		if(justGranted)
+		if(justGranted) //if notification permission was just granted
 		{
-			printNotification("Thanks for enabling notifications!", 2000);
+			printNotification("Thanks for enabling notifications!", 2000); //give a thank you
 		}
 
 		if(typeof todaysEvents === 'undefined') //if the user isn't signed in
 			return; //return
 
-		var today = new Date().setHours(0,0,0,0);
+		var today = new Date().setHours(0,0,0,0); //get the beginning of the day today
 
-		for (var i = 0; i < todaysEvents.length; i++)
+		for (var i = 0; i < todaysEvents.length; i++) //iterate through the events today
 		{
-			var date = new Date(todaysEvents[i].date);
-			if(new Date(date.getTime()).setHours(0,0,0,0) == today)
+			var date = new Date(todaysEvents[i].date); //get the startDate of the event
+			if(new Date(date.getTime()).setHours(0,0,0,0) == today) //if it is indeed today
 			{
-				var timeTillInMS = date.getTime() - Date.now();
-				timedEventNotification(todaysEvents[i],timeTillInMS);
+				var timeTillInMS = date.getTime() - Date.now(); //get the time till the event in milliseconds
+				timedEventNotification(todaysEvents[i],timeTillInMS); //and time a notification
 			}
 		}
 	}
@@ -303,12 +304,9 @@ function printNotification(text, hideTime)
 function friendRequest(elem)
 {
 	var span = elem.find("span");
-	span.unwrap().addClass("default green");
-	//span.css("transition", "all 0.5s");
-	//span.addClass("friend-label").removeClass("default green");
+	span.unwrap().addClass("default green"); //remove the <a> tag around the span, and make it a default green button instantly
 
-	var width = Math.ceil(parseInt(span.css("width")));
-	fadeToText(span, "Pending");
+	fadeToText(span, "Pending"); //fade to the new text
 
 	//Sadly this is the easiest way to make this work. Classes just don't cut it here
 	span.animate({'background-color': "#5B5BFF"}, {duration: 500, queue: false});
@@ -318,16 +316,16 @@ function friendRequest(elem)
 //Called by confirming or denying a friend request with a given fid
 function friendRequestAction(fid, confirm)
 {
-	var notif = $(".notif[fid=" + fid + "]");
+	var notif = $(".notif[fid=" + fid + "]"); //find the notification for this friend request
 
-	var icon;
+	var icon; //get the icon that was clicked
 	if(confirm)
 		icon = notif.find(".confirm");
 	else
 		icon = notif.find(".deny");
 
-	icon.animate({'background-color': "white"}, 300);
-	setTimeout(function(){
+	icon.animate({'background-color': "white"}, 300); //animate the icon to white
+	setTimeout(function(){ //and fade out the notification
 		notif.fadeOut();
 	}, 150);
 }
@@ -357,21 +355,28 @@ function fadeToText(elem, newText, duration) //the element to fade on, the new t
 function getCookie(cname)
 {
 	var name = cname + "=";
-	var ca = document.cookie.split(';');
-	for(var i = 0; i <ca.length; i++) {
-		var c = ca[i];
-		while (c.charAt(0)==' ') {
-			c = c.substring(1);
+	var cookieArray = document.cookie.split(';');
+	for(var i = 0; i < cookieArray.length; i++)
+	{
+		var currCookie = cookieArray[i];
+		while (currCookie.charAt(0) == ' ')
+		{
+			currCookie = currCookie.substring(1);
 		}
-		if (c.indexOf(name) == 0) {
-			return c.substring(name.length,c.length);
+		if (currCookie.indexOf(name) == 0)
+		{
+			return currCookie.substring(name.length,c.length);
 		}
 	}
 	return "";
 }
 
-/* UI Helpers */
+/****************************/
+/******** UI HELPERS ********/
+/****************************/
+
 //Show a custom confirm with the given message, calling the callback with the value of whether the user confirmed
+//replaces javascripts default confirm function
 function confirmUI(message, callback)
 {
 	UIManager.showOverlay(); //show the overlay
@@ -410,6 +415,7 @@ function confirmUI(message, callback)
 }
 
 //Shows an alert with the given message, calling the callback on close
+//replaces javascript's default alert function
 function alertUI(message, callback)
 {
 	customAlert(message, "", callback);
@@ -442,6 +448,7 @@ function customAlertUI(message, content, callback)
 	});
 }
 
+//The UIManager manages UI effects across Carpe, creating consistent animations and overlays
 var UIManager = {
 	hiddenTop: "-15%",
 	visibleTop: "10%",
@@ -486,3 +493,7 @@ var UIManager = {
 			this.slideOut(selector, callback);
 	}
 };
+
+/****************************/
+/****** END UI HELPERS ******/
+/****************************/
