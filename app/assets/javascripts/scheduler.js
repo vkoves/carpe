@@ -296,10 +296,15 @@ function Break() //The prototype for breaks/repeat exceptions
 /*****  END PROTOTYPES ******/
 /****************************/
 
+/****************************/
+/****** SCHEDULER INIT ******/
+/****************************/
+
 function scheduleReady()
 {
 	if(!readied)
 	{
+		//load all initial data stuff
 		loadInitialBreaks();
 		loadInitialCategories();
 		loadInitialEvents();
@@ -325,7 +330,7 @@ function scheduleReady()
 			$("#overlay-loc, #overlay-desc, #overlay-title").attr("contenteditable", "false");
 			$("#time-start, #time-end").attr("readonly", true);
 			$(".col-snap .sch-evnt").click(function(){
-				showEventOverlay($(this));
+				editEvent($(this));
 			});
 		}
 
@@ -472,8 +477,7 @@ function addStartingListeners()
 		populateEvents();
 	});
 
-
-
+	//Active action for color swatches
 	$(".color-swatch").click(function()
 	{
 		$(".color-swatch").removeClass("selected");
@@ -481,6 +485,7 @@ function addStartingListeners()
 		$(this).addClass("selected");
 	});
 
+	//On click of a category privacy button
 	$("#cat-privacy span").click(function()
 	{
 		//highlight the newly recent option
@@ -589,6 +594,30 @@ function addStartingListeners()
 		customAlertUI("Embed your schedule!", "<input id='iframe-embed' class='text-input' type='text' style='width: 90%;'></input><br><br>");
 		$("#iframe-embed").val(iframeCode);
 	});	
+
+
+	/****************************/
+	/**** RAILS HTML CLICKS *****/
+	/****************************/
+
+	$(".sch-week-next").click(function()
+	{
+		moveWeek(true);
+	});
+
+	$(".sch-week-prev").click(function()
+	{
+		moveWeek(false);
+	});
+
+	$(".color-swatch").click(function()
+	{
+		changeCategoryColor(this);
+	});
+
+	/****************************/
+	/** END RAILS HTML CLICKS ***/
+	/****************************/
 }
 
 //Load in categories
@@ -757,7 +786,7 @@ function addDrag(selector)
 
 	$(selector).dblclick(function()
 	{
-		showEventOverlay($(this));
+		editEvent($(this));
 	})
 
 	$(selector).draggable(
@@ -836,6 +865,43 @@ function addDrag(selector)
 
 	addResizing(selector);
 }
+
+//add resizing for schedule events that are new
+function addResizing(selector)
+{
+	if(selector != "#sch-sidebar .sch-evnt") //as long as the selector is not for the sidebar
+	{
+		$(selector).resizable( //make the items resizable
+		{
+			handles: 'n, s',
+			grid: [ 0, gridHeight ],
+			containment: "parent",
+			resize: function(event, ui)
+			{
+				updateTime($(this), ui, true);
+			},
+			stop: function(event, ui)
+			{
+				var tempItem = scheduleItems[$(this).attr("evnt-temp-id")];
+				tempItem.resizeComplete($(this));
+
+				if(tempItem.repeatType && tempItem.repeatType != "none" && tempItem.repeatType != "") //if this is a repeating event
+				{
+					$(".sch-evnt[evnt-temp-id='" + tempItem.tempId + "']").remove(); //remove all instances
+					populateEvents(); //and populateEvents to refresh things
+				}
+			}
+		});
+	}
+}
+
+/****************************/
+/**** END SCHEDULER INIT ****/
+/****************************/
+
+/****************************/
+/****** EVENT HANDLERS ******/
+/****************************/
 
 //Called on event stop, aka let go
 function handlePosition(elem, ui) //if
@@ -917,35 +983,6 @@ function handleNewEvent(elem)
 	addResizing($(elem)); //since the sidebar events don't have resizing, we have to add it on stop
 }
 
-//add resizing for schedule events that are new
-function addResizing(selector)
-{
-	if(selector != "#sch-sidebar .sch-evnt") //as long as the selector is not for the sidebar
-	{
-		$(selector).resizable( //make the items resizable
-		{
-			handles: 'n, s',
-			grid: [ 0, gridHeight ],
-			containment: "parent",
-			resize: function(event, ui)
-			{
-				updateTime($(this), ui, true);
-			},
-			stop: function(event, ui)
-			{
-				var tempItem = scheduleItems[$(this).attr("evnt-temp-id")];
-				tempItem.resizeComplete($(this));
-
-				if(tempItem.repeatType && tempItem.repeatType != "none" && tempItem.repeatType != "") //if this is a repeating event
-				{
-					$(".sch-evnt[evnt-temp-id='" + tempItem.tempId + "']").remove(); //remove all instances
-					populateEvents(); //and populateEvents to refresh things
-				}
-			}
-		});
-	}
-}
-
 //Change time while items are being dragged or resized, and also snap to a vertical grid
 function updateTime(elem, ui, resize) //if we're resizing, don't snap, just update time
 {
@@ -1015,6 +1052,10 @@ function updateTime(elem, ui, resize) //if we're resizing, don't snap, just upda
 	ui.helper.children(".evnt-time.bot").html(end_arr); //and set the helper time
 	$(elem).children(".evnt-time.bot").html(end_arr); //as well as the element
 }
+
+/****************************/
+/**** END EVENT HANDLERS ****/
+/****************************/
 
 
 //called by next and previous buttons on click
@@ -1220,13 +1261,13 @@ function populateEvents()
 	if(readOnly)
 	{
 		$(".col-snap .sch-evnt").click(function(){
-			showEventOverlay($(this));
+			editEvent($(this));
 		});
 	}
 }
 
-//Edit an event's text inline (without the overlay)
-function editEvent(event, elem)
+//Edit an event's title inline (without the overlay)
+function editEventTitle(event, elem)
 {
 	//return if this is in the sidebar
 	if(!inColumn($(elem).parent()) || $(elem).is(":focus"))
@@ -1281,7 +1322,7 @@ function editCategory(event, elem, id, name, col)
 }
 
 //show the event editing overlay
-function showEventOverlay(elem)
+function editEvent(elem)
 {
 	var editingEvent = $(document.activeElement).hasClass("evnt-title");
 
@@ -1430,7 +1471,7 @@ function showBreakAddOverlay()
 function hideOverlay()
 {
 	//Hide overlay, the repeat menu and category and event overlays
-	$(".ui-widget-overlay, #repeat-menu, #event-overlay-box, #cat-overlay-box, #break-overlay-box, #break-adder-overlay-box").fadeOut(250);
+	$(".ui-widget-overlay, #repeat-menu, #event-overlay-box, #cat-overlay-box, #break-overlay-box, #break-adder-overlay-box, .overlay-box").fadeOut(250);
 	currCategory = null;
 	currEvent = null;
 }
@@ -1699,8 +1740,8 @@ function convertTo12Hour(timeArr)
 //returns whether the element is in a schedule element
 function inColumn(elem)
 {
-	var class_data = elem.parent().attr("class");
-	if(class_data && class_data.indexOf("col-snap evt-snap") > -1)
+	var class_data = elem.parent().attr("class"); //get the parent's class data
+	if(class_data && class_data.indexOf("col-snap evt-snap") > -1) //and check for col-snap evt-snap
 		return true;
 	else
 		return false;

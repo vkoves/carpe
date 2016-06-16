@@ -376,6 +376,8 @@ function confirmUI(message, callback)
 {
 	UIManager.showOverlay(); //show the overlay
 
+	$("#overlay-confirm").remove(); //Delete existing div
+
 	//Then append the box to the body
 	$("body").append("<div id='overlay-confirm' class='overlay-box'>"
 		+ "<h3>" + message + "</h3>"
@@ -417,6 +419,8 @@ function alertUI(message, callback)
 function customAlertUI(message, content, callback)
 {
 	UIManager.showOverlay(); //show the overlay
+
+	$("#overlay-alert").remove(); //Delete existing div
 
 	//Then append the box to the body
 	$("body").append("<div id='overlay-alert' class='overlay-box'>"
