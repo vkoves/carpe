@@ -1,3 +1,7 @@
+/**
+ * TODO: add comment for this file here
+ */
+
 var sideHTML; // Instantiates sideHTML variable
 var schHTML; // Instantiates schedule HTML variable, which will contain the "Mon-Sun" html on the main scheduler div.
 
@@ -26,7 +30,7 @@ var dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Sat
 /**** DOCUMENT FUNCTIONS ****/
 /****************************/
 
-//Run schedule ready when the page is loaded. Either fresh or from turbo links
+//Run scheduleReady when the page is loaded. Either fresh or from turbo links
 $(document).ready(scheduleReady);
 $(document).on('page:load', scheduleReady);
 
@@ -67,10 +71,15 @@ function isSafeToLeave()
 /******* PROTOTYPES *********/
 /****************************/
 
-//written with help from:
+// written with help from:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript
 
-function ScheduleItem() //The prototype for the schedule items
+/**
+ * Defines the class for schedule items.
+ * @class
+ * @see Written with help from {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript|Mozilla Developer Network's Introduction to Object-Oriented JavaScript}
+ */
+function ScheduleItem()
 {
 	this.categoryId; //the id of the associated category
 	this.eventId; //the id of the event in the db
@@ -275,7 +284,11 @@ function ScheduleItem() //The prototype for the schedule items
 	}
 };
 
-function Category(id) //The prototype for the category items
+/**
+ * Defines the class for category items.
+ * @class
+ */
+function Category(id)
 {
 	this.id = id; //the id of the category in the db
 	this.name = "Untitled"; //the name of the category, as a string
@@ -284,6 +297,10 @@ function Category(id) //The prototype for the category items
 	this.breaks = []; //an array of the repeat exceptions of this category.
 }
 
+/**
+ * The class definition for breaks and repeat exceptions.
+ * @class
+ */
 function Break() //The prototype for breaks/repeat exceptions
 {
 	this.id; //the id of the associated repeat_exception in the db
@@ -300,6 +317,11 @@ function Break() //The prototype for breaks/repeat exceptions
 /****** SCHEDULER INIT ******/
 /****************************/
 
+/**
+ * Initializer for the Carpe scheduling page.
+ * Called by the $(document).ready() function.
+ * @function
+ */
 function scheduleReady()
 {
 	if(!readied)
@@ -338,6 +360,10 @@ function scheduleReady()
 	}
 }
 
+/**
+ * Adds event listeners to existing elements on page load.
+ * @function
+ */
 function addStartingListeners()
 {
 	$(".date-field").datepicker( //show the datepicker when clicking on the field
@@ -620,7 +646,10 @@ function addStartingListeners()
 	/****************************/
 }
 
-//Load in categories
+/**
+ * Load user's categories from Rails-generated JSON
+ * @function
+ */
 function loadInitialCategories()
 {
 	if(typeof categoriesLoaded !== 'undefined') //if categoriesLoaded is defined
@@ -640,6 +669,10 @@ function loadInitialCategories()
 	}
 }
 
+/**
+ * Load user's schedule breaks from Rails-generated JSON
+ * @function
+ */
 function loadInitialBreaks()
 {
 	if(typeof breaksLoaded !== 'undefined') //if categoriesLoaded is defined
@@ -661,7 +694,10 @@ function loadInitialBreaks()
 	}
 }
 
-//load events into the scheduleItems hashmap
+/**
+ * Load events into the scheduleItems hashmap
+ * @function
+ */
 function loadInitialEvents()
 {
 	//Load in events
@@ -675,10 +711,10 @@ function loadInitialEvents()
 			schItem.startDateTime = new Date(evnt.date);
 			schItem.endDateTime = new Date(evnt.end_date);
 			if(evnt.repeat_start)
-				schItem.repeatStart = new Date(evnt.repeat_start + " CST"); //timezone dependant!
+				schItem.repeatStart = new Date(evnt.repeat_start + " CST"); //timezone dependent!
 
 			if(evnt.repeat_end)
-				schItem.repeatEnd = new Date(evnt.repeat_end + " CST"); //timezone dependant!
+				schItem.repeatEnd = new Date(evnt.repeat_end + " CST"); //timezone dependent!
 
 			schItem.name = evnt.name;
 			schItem.eventId = evnt.id;
@@ -718,7 +754,11 @@ function loadInitialEvents()
 	}
 }
 
-//Add droppable onto columns
+/**
+ * Adds jQuery UI Droppable plugin onto schedule columns,
+ * so that events (the draggables) can be dropped onto columns
+ * @function
+ */
 function colDroppable()
 {
 	//make the columns droppable
@@ -744,7 +784,11 @@ function colDroppable()
 	});
 }
 
-//the dragging function
+/**
+ * Adds jQuery UI Draggable plugin to element selector specified by function parameter.
+ * @param {string} selector - jQuery selector for a particular event or category on user's schedule.
+ * @function
+ */
 function addDrag(selector)
 {
 	if(typeof readOnly !== 'undefined' && readOnly) //don't add drag if this is read only
