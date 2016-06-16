@@ -695,7 +695,7 @@ function loadInitialBreaks()
 }
 
 /**
- * Load events into the scheduleItems hashmap
+ * Load user's events from Rails-generated JSON into the scheduleItems hashmap, also placing them in DOM
  * @function
  */
 function loadInitialEvents()
