@@ -51,7 +51,14 @@ $(window).on('beforeunload', function()
 	}
 });
 
-//Returns whether changes are saved if this is the schedule page
+/**
+ * Helper function that determines whether or not it is safe for user
+ * to leave a page. If user is on schedule page, this is determined
+ * by the active state of the Save button on the page; on other pages,
+ * it is always safe for the user to leave the page, as there is no data
+ * to be saved.
+ * @return {Boolean} - returns true if changes are saved, nothing otherwise
+ */
 function isSafeToLeave()
 {
 	if($("#sch-save").length == 0) //we're not on the schedule page anymore
@@ -70,9 +77,6 @@ function isSafeToLeave()
 /****************************/
 /******* PROTOTYPES *********/
 /****************************/
-
-// written with help from:
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript
 
 /**
  * Defines the class for schedule items.
@@ -229,7 +233,17 @@ function ScheduleItem()
 		return $(".sch-evnt[evnt-temp-id="+ this.tempId + "]");
 	};
 
-	//HELPERS
+	/****************************/
+	/***** HELPER FUNCTIONS *****/
+	/****************************/
+	
+	/**
+	 * [setDateTime description]
+	 * @param {Boolean} isStart  - [description]
+	 * @param {[type]}  dateTime - [description]
+	 * @param {[type]}  schItem  - The jQuery selector for the schedule item being modified
+	 * @param {Boolean}  resize  - [description]
+	 */
 	function setDateTime(isStart, dateTime, schItem, resize) //pass in whether this is start time, the date time, and whether this is resizing
 	{
 		var elem = schItem.element();
@@ -267,6 +281,15 @@ function ScheduleItem()
 		elem.attr("time", topDT.getHours() + ":" + paddedMinutes(topDT)); //set the time attribute
 	}
 
+	/**
+	 * Returns the difference between two given Date objects in hours, with an option of
+	 * whether or not to round that result to the nearest number of hours.
+	 * @param  {[Date]}    start - Starting date for the difference calculation
+	 * @param  {[Date]}    end   - Ending date for the difference calculation
+	 * @param  {[Boolean]} round - If true, round difference up or down to the nearest hour,
+	 *                             rounding up to one if the result of the rounding is zero
+	 * @return {[Date]}          - the difference between the two given dates, in hours
+	 */
 	function differenceInHours(start, end, round) //return the difference in hours between two dates
 	{
 		var one_hour = 1000*60*60; //1000 ms/sec * 60 sec/min * 60 min/hr
