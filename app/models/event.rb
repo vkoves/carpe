@@ -39,7 +39,7 @@ class Event < ActiveRecord::Base
 
         next if on_break #continue to the next event if this one is on break
 
-        new_event = repeat_clone
+        new_event = repeat_clone(date)
 
         events_array.append(new_event) #append to output array
       end
@@ -82,7 +82,7 @@ class Event < ActiveRecord::Base
 
   private
 
-  def repeat_clone
+  def repeat_clone(date)
     self_date = self.date
     self_dst = self_date.utc.in_time_zone("Central Time (US & Canada)").dst? #get whether this event is in daylight savings time
     now_dst = Time.now.utc.in_time_zone("Central Time (US & Canada)").dst? #get whether the current time is in daylight savings
@@ -100,6 +100,9 @@ class Event < ActiveRecord::Base
         new_event.date = new_start_date - one_hour
         new_event.end_date = new_end_date - one_hour
       end
+    else
+      new_event.date = new_start_date 
+      new_event.end_date = new_end_date
     end
 
     return new_event
