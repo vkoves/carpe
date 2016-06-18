@@ -17,6 +17,7 @@ class ApplicationController < ActionController::Base
   		redirect_to home_path
   		return false
   	end
+    return true #return true if the user is admin
   end
 
   def authorize_signed_in
@@ -25,5 +26,6 @@ class ApplicationController < ActionController::Base
       redirect_to user_session_path
       return false
     end
+    return true #return true if the user is signed in
   end
 end
