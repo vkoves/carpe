@@ -10,4 +10,12 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:sign_up) << :name
     devise_parameter_sanitizer.for(:account_update) << :name
   end
+
+  def authorize_admin
+  	unless current_user and current_user.admin
+  		flash[:alert] = "Unauthorized access"
+  		redirect_to home_path
+  		return false
+  	end
+  end
 end

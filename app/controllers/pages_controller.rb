@@ -1,4 +1,6 @@
 class PagesController < ApplicationController
+  before_filter  :authorize_admin #authorize admin on all of these pages
+
   def promote #promote or demote users admin status
     @user = User.find(params[:id])
     if(current_user and current_user.admin)
@@ -31,15 +33,5 @@ class PagesController < ApplicationController
     @past_month_users = User.where('created_at >= ?', Time.zone.now - 1.months).group(:created_at).count
     @past_month_events = Event.where('created_at >= ?', Time.zone.now - 1.months).group(:created_at).count
     @past_month_events_modified = Event.where('created_at >= ?', Time.zone.now - 1.months).group(:updated_at).count
-
-    if !current_user or !current_user.admin
-      redirect_to "/"
-    end
-  end
-
-  def sandbox
-    if !current_user or !current_user.admin
-      redirect_to "/"
-    end
   end
 end

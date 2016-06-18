@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks", :registrations => "users/registrations" }
 
   #General page routes
-  get "/home" => 'home#index'
+  get "/home" => 'home#index', :as => :home
   get "/schedule" => 'schedule#schedule'
   get "/userviewer" => 'pages#userviewer'
 
