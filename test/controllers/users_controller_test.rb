@@ -1,3 +1,6 @@
+# To run all tests, in the project directory run the command:
+# bundle exec rake test
+# ----------------------------------------
 # To run this test, in the project directory run the command:
 # bundle exec rake test test/controllers/users_controller_test.rb
 
