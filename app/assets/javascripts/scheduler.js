@@ -238,13 +238,13 @@ function ScheduleItem()
 	/****************************/
 	
 	/**
-	 * [setDateTime description]
-	 * @param {Boolean} isStart  - [description]
-	 * @param {[type]}  dateTime - [description]
-	 * @param {[type]}  schItem  - The jQuery selector for the schedule item being modified
-	 * @param {Boolean}  resize  - [description]
+	 * Sets the start or end date/time for an event on a user's schedule.
+	 * @param {Boolean}  isStart - Whether or not the Date object being passed in is an event's starting time
+	 * @param {Date}    dateTime - The date/time this event is being changed to; can be start or end date
+	 * @param {string}   schItem - The jQuery selector for the schedule item being modified
+	 * @param {Boolean}   resize - Whether or not we are resizing the schedule item we're setting the time for
 	 */
-	function setDateTime(isStart, dateTime, schItem, resize) //pass in whether this is start time, the date time, and whether this is resizing
+	function setDateTime(isStart, dateTime, schItem, resize)
 	{
 		var elem = schItem.element();
 
@@ -284,11 +284,11 @@ function ScheduleItem()
 	/**
 	 * Returns the difference between two given Date objects in hours, with an option of
 	 * whether or not to round that result to the nearest number of hours.
-	 * @param  {[Date]}    start - Starting date for the difference calculation
-	 * @param  {[Date]}    end   - Ending date for the difference calculation
-	 * @param  {[Boolean]} round - If true, round difference up or down to the nearest hour,
+	 * @param  {Date}    start - Starting date for the difference calculation
+	 * @param  {Date}      end - Ending date for the difference calculation
+	 * @param  {Boolean} round - If true, round difference up or down to the nearest hour,
 	 *                             rounding up to one if the result of the rounding is zero
-	 * @return {[Date]}          - the difference between the two given dates, in hours
+	 * @return {Date}        - the difference between the two given dates, in hours
 	 */
 	function differenceInHours(start, end, round) //return the difference in hours between two dates
 	{
@@ -779,7 +779,7 @@ function loadInitialEvents()
 
 /**
  * Adds jQuery UI Droppable plugin onto schedule columns,
- * so that events (the draggables) can be dropped onto columns
+ * so that events (the draggables) can be dropped onto columns (the droppables)
  * @function
  */
 function colDroppable()
@@ -809,7 +809,7 @@ function colDroppable()
 
 /**
  * Adds jQuery UI Draggable plugin to element selector specified by function parameter.
- * @param {string} selector - jQuery selector for a particular event or category on user's schedule.
+ * @param {string} selector - The jQuery selector for a particular event or category on user's schedule.
  * @function
  */
 function addDrag(selector)
@@ -933,7 +933,10 @@ function addDrag(selector)
 	addResizing(selector);
 }
 
-//add resizing for schedule events that are new
+/**
+ * Adds resize event handlers for new events on user's schedule.
+ * @param {string} selector - The jQuery selector for an event on user's schedule
+ */
 function addResizing(selector)
 {
 	if(selector != "#sch-sidebar .sch-evnt") //as long as the selector is not for the sidebar
@@ -971,7 +974,17 @@ function addResizing(selector)
 /****************************/
 
 //Called on event stop, aka let go
-function handlePosition(elem, ui) //if
+/**
+ * Adjusts position of a schedule item when user is done dragging it, so that the
+ * event card is in a valid place on the column (i.e., not past the top or bottom
+ * bounds of the column), and snaps the event to the hourly grid on the schedule.
+ * This function is called on a draggable object's stop() event, which is when
+ * the user "lets go" of the draggable object.
+ * @param  {string} elem - The jQuery selector for an event on user's schedule
+ * @param  {Object}   ui - A jQuery object representing the draggable element
+ * @see {@link http://api.jqueryui.com/draggable/#event-stop|Documentation on the jQuery Draggable stop() event}
+ */
+function handlePosition(elem, ui)
 {
 	var offset = $(elem).parent().offset().top;
 	var topVal = ui.position.top - offset - currMins;
@@ -996,6 +1009,11 @@ function handlePosition(elem, ui) //if
 }
 
 //Called when creating a clone
+/**
+ * [handleClone description]
+ * @param  {[type]} elem - [description]
+ * @param  {[type]}   ui - [description]
+ */
 function handleClone(elem, ui)
 {
 	var clone = $(ui.helper).clone(); //create a clone
