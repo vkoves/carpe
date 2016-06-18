@@ -1,5 +1,8 @@
 /**
- * TODO: add comment for this file here
+ * Instantiates and handles the Carpe scheduling interface, populating
+ * the users schedule, handling switching between weeks, and communicating
+ * with the server about changes to the schedule, such as creating, moving
+ * or deleting events or categories.
  */
 
 var sideHTML; // Instantiates sideHTML variable
@@ -1822,7 +1825,7 @@ function convertTo12Hour(timeArr)
 	}
 }
 
-//returns whether the element is in a schedule element
+//returns whether the element is in a schedule column (basically has it been placed in the schedule)
 function inColumn(elem)
 {
 	var class_data = elem.parent().attr("class"); //get the parent's class data
@@ -1839,31 +1842,33 @@ function setHeight(getElem, setElem, hoursLength) //get the height of getElem an
 		$(setElem).css("height", (gridHeight*hoursLength)-border);
 }
 
+//returns the minutes of a date in padded form (e.g. 03 instead of just 3)
 function paddedMinutes(date)
 {
 	var minutes = (date.getMinutes() < 10? '0' : '') + date.getMinutes(); //add zero the the beginning of minutes if less than 10
 	return minutes;
 }
 
+//zero pads a number to two digits (9 -> 09, 1 -> 01, 13 -> 13) used for zero padded dates and times (e.g. 2:04 pm type things)
 function paddedNumber(num)
 {
 	var paddedNum = (num < 10? '0' : '') + num; //add zero the the beginning of minutes if less than 10
 	return paddedNum;
 }
 
-//removes cursor highlight
+//removes cursor highlight on page
 function removeHighlight()
 {
 	window.getSelection().removeAllRanges();
 }
 
-//highlgiht the field currently selected
+//highlight the entirety of the field currently selected (that the user has cursor in)
 function highlightCurrent()
 {
 	document.execCommand('selectAll',false,null);
 }
 
-//convert a date into a standard string format
+//convert a date into a standard string format, with no zero padding in M/D/YY format (e.g. 6/2/16)
 function dateToString(date)
 {
 	if(!date || !(date instanceof Date)) //if the date is null or not a date object
@@ -1878,6 +1883,8 @@ function dateToString(date)
 	return dateString; //and return
 }
 
+
+//Converts a date oject to a date string in the format of MM/DD/YYYY, always printing zero padding if needed (e.g. 06/02/2016)
 function verboseDateToString(date)
 {
 	if(!date || !(date instanceof Date)) //if the date is null or not a date object
@@ -1900,7 +1907,10 @@ function verboseDateToString(date)
 /**** HTML TIED METHODS *****/
 /****************************/
 
-//Used by the next and previous buttons
+//Used by the next and previous buttons to change the part of the schedule being shown
+//If forward is true, the schedules moves forward one week, otherwise back one week
+//Worth noting that when the schedule loads, the first day is the current day, not the Monday of that week
+//so that case is accounted for to move the schedule forward to the next Monday
 function moveWeek(forward)
 {
 	var newDate;
