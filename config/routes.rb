@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :categories
+
   get "u/:id", to: "users#show", :as => :user
   get "/users", to: "users#index"
 

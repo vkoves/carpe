@@ -1,11 +1,23 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  name: MyString
+repeat_none_with_start_and_end:
+  name: Test Repeat None with Start
   description: MyText
   date: 2015-12-16 02:12:19
+  end_date: 2015-12-16 02:12:19
+  repeat: none
+  repeat_start: 2016-05-01
+  repeat_end: 2016-05-01
+  user: viktor
 
 two:
-  name: MyString
+  name: Test Repeat None with Start
   description: MyText
   date: 2015-12-16 02:12:19
+  end_date: 2015-12-16 02:12:19
+  repeat: none
+  repeat_start: null
+  repeat_end: null
+  repeat_exceptions: null
+  category: main
+  user: viktor

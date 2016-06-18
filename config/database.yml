@@ -18,6 +18,13 @@ development:
   pool: 5
   timeout: 5000
 
+#Make our test database use a copy of dev one (made 6/17/2016 11:16 PM CST) I guess?
+test:
+  adapter: sqlite3
+  database: db/test.sqlite3
+  pool: 5
+  timeout: 5000  
+
 production:
   adapter: mysql2
   <<: *default
