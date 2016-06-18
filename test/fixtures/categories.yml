@@ -1,11 +1,7 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  name: MyString
-  color: MyString
-  user: MyString
-
-two:
-  name: MyString
-  color: MyString
-  user: MyString
+main:
+  name: Main Category
+  color: red
+  user: viktor
+  repeat_exceptions: null
