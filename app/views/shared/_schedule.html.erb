@@ -224,10 +224,6 @@
 	<% current_user ? id = current_user.id : id = -1 #get the current_user's id %>
 	<% #Probably unsafe. TODO - Remove dependance on userId variable %>
 	var userId = <%= id %>;
-	<% current_user and current_user.admin ? admn = true : admn = false #print whether the user is an admin. %>
-	<% #This is probably super unsafe, because this variable is globally scoped and could be modified %>
-	<% #TODO: Remove any usage of this variable %>
-	var admin = <%= admn ? true : false %>;
 
 	//Data variables
 	<% events = @user.get_events(current_user) %>
