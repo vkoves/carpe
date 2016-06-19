@@ -42,7 +42,10 @@ $(window).resize(function()
 $(document).ready(ready); //Assign ready function to document ready 
 $(document).on('page:load', ready); //and to page:load event from Turbolinks
 
-//Ready function called on page load, whether from fresh load or Turblolinks page load
+/**
+ * This function is called on page load, both on fresh load and
+ * when the page is being loaded from a turbo-link.
+ */
 function ready()
 {
 	if(Notification.permission == "default")
@@ -59,7 +62,9 @@ function ready()
 	initializeEventListeners();
 };
 
-//All general event listener handles
+/**
+ * Adds event listeners (e.g., onclick) to elements throughout the site
+ */
 function initializeEventListeners()
 {
 	//Start initializing event listeners for everything
@@ -212,7 +217,14 @@ function initializeEventListeners()
 	});
 }
 
-//Initialize notification logic, taking a boolean indicating whether permission has just been granted
+/**
+ * Sets up desktop notifications for all of user's events for the current day,
+ * if user has enabled desktop notifications. Also displays a small thank-you
+ * message if user enabled desktop notifications just now.
+ * @param  {boolean} justGranted - Set to true if user just granted permission
+ *                                 for Carpe to give them desktop notifications,
+ *                                 displays thank-you message
+ */
 function handleNotifications(justGranted)
 {
 	// If the user accepts, let's create a notification
@@ -240,7 +252,15 @@ function handleNotifications(justGranted)
 	}
 }
 
-//Display an event notification when an event starts (or now if the event has started)
+/**
+ * Schedules a desktop notification for a given event on user's schedule.
+ * If the event has not started yet, the notification is displayed at the
+ * time the event starts; if the event has already started (but has not ended
+ * yet), the notification is displayed when the user opens the Carpe web app.
+ * @param  {ScheduleItem} event - the event we are displaying a notification for
+ * @param          {Date}  time - the time of the event, which is also when the
+ *                                notification will be displayed
+ */
 function timedEventNotification(event, time)
 {
 	var text = event.name || "Untitled";
@@ -265,6 +285,11 @@ function timedEventNotification(event, time)
 }
 
 //Set a cookie indicating a notification was printed for an event, so you aren't notified again
+/**
+ * Sets a browser cookie after user receives a desktop notification for an event,
+ * so that they aren't notified for the same event again on the same day.
+ * @param {number} id - 
+ */
 function setEventCookie(id)
 {
 	var currDate = (new Date()).toISOString().split("T")[0]; //get the current date, convert to ISO, and strip the time away
@@ -273,6 +298,11 @@ function setEventCookie(id)
 }
 
 //Try to print an event notification for an event with a given id, and with certain text
+/**
+ * [printEventNotification description]
+ * @param  {number} eventID - [description]
+ * @param  {string}    text - [description]
+ */
 function printEventNotification(eventID, text)
 {
 	var currDate = (new Date()).toISOString().split("T")[0]; //get the current date, convert to ISO, and strip the time away
