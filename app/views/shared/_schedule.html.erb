@@ -29,8 +29,8 @@
 		<input id="time-start" type="text" value="10:00am"></input> -
 		<input id="time-end" type="text" value="12:00pm"></input>
 	</div>
-	<span class="default red close" onclick="hideOverlay()"></span>
-	<span id="repeat" class="default green" onclick="$('#repeat-menu').toggle();">Edit Repeat Type</span>
+	<span class="default red close"></span>
+	<span id="repeat" class="default green">Edit Repeat Type</span>
 	<div id="repeat-menu">
 		<span id="repeat-none" class="default repeat-option">None</span>
 		<span id="repeat-daily" class="default repeat-option">Daily</span>
@@ -68,7 +68,7 @@
 	<div id="overlay-desc" contenteditable="true">Description goes here</div>
 	<div id="loc-title" class="small-title">
 		Location:
-		<span id="edit-loc" class="edit" onclick="$('#overlay-loc').focus()">Edit</span>
+		<span id="edit-loc" class="edit">Edit</span>
 	</div>
 	<div id="overlay-loc" contenteditable="true">Location goes here</div>
 </div>
@@ -84,7 +84,7 @@
 </div>
 
 <div id="break-adder-overlay-box" class="overlay-box">
-	<span class="default red close" onclick="hideBreakAddOverlay()"></span>
+	<span class="default red close"></span>
 	<h3>Add Break</h3>
 	<div id="break-cont">
 	</div>
@@ -93,7 +93,7 @@
 <div id="cat-overlay-box" class="overlay-box" data-id="" >
 	<div class="cat-top-overlay">
 		<span class="cat-overlay-title" contenteditable=true ></span>
-		<%= image_tag "checkmark-wht.png", :class => "sch-cat-icon no-drag", :onclick => "saveCategory(event, this, $('#cat-overlay-box').attr('data-id'));" %>
+		<%= image_tag "checkmark-wht.png", :class => "sch-evnt-save-cat sch-cat-icon no-drag" %>
 
 	</div>
 	<div class="cat-remainder-overlay">
@@ -137,12 +137,12 @@
 				<div id="cat-template" class="sch-evnt category" data-id="-1" time="0:00" style="display: none">
 					<div class="evnt-time top">7:00</div>
 					<div class="evnt-time bot">7:00</div>
-					<div class="evnt-title center-text dis-sel" contenteditable="false" onclick="editEventTitle(event, this);"></div>
+					<div class="evnt-title center-text dis-sel" contenteditable="false"></div>
 					<div class="evnt-desc dis-sel"></div>
-					<%= image_tag "quill-wht.png", :class => "sch-evnt-edit-cat sch-cat-icon no-drag", :onclick => "" %>
-					<%= image_tag "close-wht.png", :class => "sch-evnt-del-cat sch-cat-icon no-drag", :onclick => "" %>
-					<%= image_tag "quill-wht.png", :class => "sch-evnt-edit sch-evnt-icon no-drag", :onclick => "editEvent($(this).parent());" %>
-					<%= image_tag "close-wht.png", :class => "sch-evnt-close sch-evnt-icon no-drag", :onclick => "removeEvent(event, this);" %>
+					<%= image_tag "quill-wht.png", :class => "sch-evnt-edit-cat sch-cat-icon no-drag" %>
+					<%= image_tag "close-wht.png", :class => "sch-evnt-del-cat sch-cat-icon no-drag" %>
+					<%= image_tag "quill-wht.png", :class => "sch-evnt-edit sch-evnt-icon no-drag" %>
+					<%= image_tag "close-wht.png", :class => "sch-evnt-close sch-evnt-icon no-drag" %>
 					<%= image_tag "divider-wht2.png", :class => "evnt-divider no-drag" %>
 				</div>
 				<% @user.categories.each_with_index do |cat, index| %>
@@ -151,12 +151,12 @@
 						style="background-color:<%= cat.color %>; /*top: <%= 105*index %>*/">
 						<div class="evnt-time top">7:00</div>
 						<div class="evnt-time bot">7:00</div>
-						<div class="evnt-title center-text dis-sel" contenteditable="false" onclick="editEventTitle(event, this);"><%= cat.name %></div>
+						<div class="evnt-title center-text dis-sel" contenteditable="false"><%= cat.name %></div>
 						<div class="evnt-desc dis-sel"></div>
-						<%= image_tag "quill-wht.png", :class => "sch-evnt-edit-cat sch-cat-icon no-drag", :onclick => "editCategory(event, this, #{cat.id}, \"#{cat.name}\", \"#{cat.color}\");" %>
-						<%= image_tag "close-wht.png", :class => "sch-evnt-del-cat sch-cat-icon no-drag", :onclick => "deleteCategory(event, this, #{cat.id});" %>
-						<%= image_tag "quill-wht.png", :class => "sch-evnt-edit sch-evnt-icon no-drag", :onclick => "editEvent($(this).parent());" %>
-						<%= image_tag "close-wht.png", :class => "sch-evnt-close sch-evnt-icon no-drag", :onclick => "removeEvent(event, this);" %>
+						<%= image_tag "quill-wht.png", :class => "sch-evnt-edit-cat sch-cat-icon no-drag" %>
+						<%= image_tag "close-wht.png", :class => "sch-evnt-del-cat sch-cat-icon no-drag" %>
+						<%= image_tag "quill-wht.png", :class => "sch-evnt-edit sch-evnt-icon no-drag" %>
+						<%= image_tag "close-wht.png", :class => "sch-evnt-close sch-evnt-icon no-drag" %>
 						<%= image_tag "divider-wht2.png", :class => "evnt-divider no-drag" %>
 					</div>
 					<% end %>
@@ -164,7 +164,7 @@
 			</div>
 		</div>
 
-		<div class="cat-add" onclick="createCategory();">+ New Category</div>
+		<div class="cat-add">+ New Category</div>
 	</div>
 
 	<%= image_tag "divider-orng.png", :height => "505px", :style => "float: left;" %>
@@ -176,7 +176,7 @@
 			<span class="default sch-week-next">Next</span>
 			<input id="week-date" class="date-field" type="text"></input>
 			<% if !@read_only %>
-				<span class="default green disabled" id="sch-save" onclick="saveEvents()">Save Events
+				<span class="default green disabled" id="sch-save">Save Events
 					<%= image_tag "checkmark-wht.png", id: "save-checkmark" %>
 				</span>
 				<span class="default green" id="create-break">Create Break</span>

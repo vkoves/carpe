@@ -667,6 +667,36 @@ function addStartingListeners()
 		changeCategoryColor(this);
 	});
 
+	$(".sch-evnt-save-cat").click(function(event)
+	{
+		saveCategory(event, $(this), $('#cat-overlay-box').attr('data-id'));
+	});
+
+	$("#sch-save").click(function()
+	{
+		saveEvents();
+	});
+
+	$(".cat-add").click(function()
+	{
+		createCategory();
+	});
+
+	$("#repeat").click(function()
+	{
+		$('#repeat-menu').toggle();
+	});
+
+	$("#event-overlay-box .default.red, .ui-widget-overlay").click(function()
+	{
+		hideOverlay();
+	});
+
+	$("#break-adder-overlay-box .close").click(function()
+	{
+		hideBreakAddOverlay();
+	});
+
 	/****************************/
 	/** END RAILS HTML CLICKS ***/
 	/****************************/
@@ -858,6 +888,31 @@ function addDrag(selector)
 	{
 		editEvent($(this));
 	})
+
+	$(selector).find(".sch-evnt-close").click(function(event)
+	{
+		removeEvent(event, $(this));
+	});
+
+	$(selector).find(".sch-evnt-del-cat").click(function(event)
+	{
+		deleteCategory(event, $(this), $(this).parent().attr("data-id"));
+	});
+
+	$(selector).find(".evnt-title").click(function(event)
+	{
+		editEventTitle(event, $(this));
+	});
+
+	$(selector).find(".sch-evnt-edit").click(function()
+	{
+		editEvent($(this).parent());
+	});
+
+	$(selector).find(".sch-evnt-edit-cat").click(function(event)
+	{
+		editCategory(event, $(this), $(this).parent().attr("data-id"));
+	});
 
 	$(selector).draggable(
 	{
@@ -1371,7 +1426,7 @@ function editEventTitle(event, elem)
 }
 
 //Edit a category using the category overlay
-function editCategory(event, elem, id, name, col)
+function editCategory(event, elem, id)
 {
 	currCategory = $(elem).parent(); //set the current category
 
@@ -1684,8 +1739,8 @@ function createCategory()
 			newCat.attr("data-id", resp.id);
 			newCat.attr("privacy", "private");
 			newCat.find(".evnt-title").text(resp.name);
-			newCat.find(".sch-evnt-edit-cat").attr("onclick", 'editCategory(event, this, "' + resp.id + '", "'+resp.name+'", "' + resp.color + '");');
-			newCat.find(".sch-evnt-del-cat").attr("onclick", 'deleteCategory(event, this,"' + resp.id + '");');
+			// newCat.find(".sch-evnt-edit-cat").attr("onclick", 'editCategory(event, this, "' + resp.id + '", "'+resp.name+'", "' + resp.color + '");');
+			// newCat.find(".sch-evnt-del-cat").attr("onclick", 'deleteCategory(event, this,"' + resp.id + '");');
 			newCat.attr("id", "");
 			addDrag();
 			sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
