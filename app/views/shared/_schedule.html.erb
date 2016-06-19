@@ -19,7 +19,7 @@
 <% end %>
 
 
-<div class="ui-widget-overlay"></div>
+<div class="ui-widget-overlay" onclick="hideOverlay()"></div>
 <div id="event-overlay-box" class="overlay-box">
 	<div id="overlay-color-bar">
 		<div id="overlay-title" contenteditable="true">Event Title</div>
@@ -137,12 +137,12 @@
 				<div id="cat-template" class="sch-evnt category" data-id="-1" time="0:00" style="display: none">
 					<div class="evnt-time top">7:00</div>
 					<div class="evnt-time bot">7:00</div>
-					<div class="evnt-title center-text dis-sel" contenteditable="false" onclick="editEventTitle(event, this);"></div>
+					<div class="evnt-title center-text dis-sel" contenteditable="false"></div>
 					<div class="evnt-desc dis-sel"></div>
-					<%= image_tag "quill-wht.png", :class => "sch-evnt-edit-cat sch-cat-icon no-drag", :onclick => "" %>
-					<%= image_tag "close-wht.png", :class => "sch-evnt-del-cat sch-cat-icon no-drag", :onclick => "" %>
-					<%= image_tag "quill-wht.png", :class => "sch-evnt-edit sch-evnt-icon no-drag", :onclick => "editEvent($(this).parent());" %>
-					<%= image_tag "close-wht.png", :class => "sch-evnt-close sch-evnt-icon no-drag", :onclick => "removeEvent(event, this);" %>
+					<%= image_tag "quill-wht.png", :class => "sch-evnt-edit-cat sch-cat-icon no-drag" %>
+					<%= image_tag "close-wht.png", :class => "sch-evnt-del-cat sch-cat-icon no-drag" %>
+					<%= image_tag "quill-wht.png", :class => "sch-evnt-edit sch-evnt-icon no-drag" %>
+					<%= image_tag "close-wht.png", :class => "sch-evnt-close sch-evnt-icon no-drag" %>
 					<%= image_tag "divider-wht2.png", :class => "evnt-divider no-drag" %>
 				</div>
 				<% @user.categories.each_with_index do |cat, index| %>
@@ -151,12 +151,12 @@
 						style="background-color:<%= cat.color %>; /*top: <%= 105*index %>*/">
 						<div class="evnt-time top">7:00</div>
 						<div class="evnt-time bot">7:00</div>
-						<div class="evnt-title center-text dis-sel" contenteditable="false" onclick="editEventTitle(event, this);"><%= cat.name %></div>
+						<div class="evnt-title center-text dis-sel" contenteditable="false"><%= cat.name %></div>
 						<div class="evnt-desc dis-sel"></div>
-						<%= image_tag "quill-wht.png", :class => "sch-evnt-edit-cat sch-cat-icon no-drag", :onclick => "editCategory(event, this, #{cat.id}, \"#{cat.name}\", \"#{cat.color}\");" %>
-						<%= image_tag "close-wht.png", :class => "sch-evnt-del-cat sch-cat-icon no-drag", :onclick => "deleteCategory(event, this, #{cat.id});" %>
-						<%= image_tag "quill-wht.png", :class => "sch-evnt-edit sch-evnt-icon no-drag", :onclick => "editEvent($(this).parent());" %>
-						<%= image_tag "close-wht.png", :class => "sch-evnt-close sch-evnt-icon no-drag", :onclick => "removeEvent(event, this);" %>
+						<%= image_tag "quill-wht.png", :class => "sch-evnt-edit-cat sch-cat-icon no-drag" %>
+						<%= image_tag "close-wht.png", :class => "sch-evnt-del-cat sch-cat-icon no-drag" %>
+						<%= image_tag "quill-wht.png", :class => "sch-evnt-edit sch-evnt-icon no-drag" %>
+						<%= image_tag "close-wht.png", :class => "sch-evnt-close sch-evnt-icon no-drag" %>
 						<%= image_tag "divider-wht2.png", :class => "evnt-divider no-drag" %>
 					</div>
 					<% end %>
