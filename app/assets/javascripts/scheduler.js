@@ -667,6 +667,36 @@ function addStartingListeners()
 		changeCategoryColor(this);
 	});
 
+	$(".sch-evnt-save-cat").click(function(event)
+	{
+		saveCategory(event, $(this), $('#cat-overlay-box').attr('data-id'));
+	});
+
+	$("#sch-save").click(function()
+	{
+		saveEvents();
+	});
+
+	$(".cat-add").click(function()
+	{
+		createCategory();
+	});
+
+	$("#repeat").click(function()
+	{
+		$('#repeat-menu').toggle();
+	});
+
+	$("#event-overlay-box .default.red, .ui-widget-overlay").click(function()
+	{
+		hideOverlay();
+	});
+
+	$("#break-adder-overlay-box .close").click(function()
+	{
+		hideBreakAddOverlay();
+	});
+
 	/****************************/
 	/** END RAILS HTML CLICKS ***/
 	/****************************/
@@ -879,7 +909,7 @@ function addDrag(selector)
 		editEvent($(this).parent());
 	});
 
-	$(selector).find(".sch-evnt-edit-cat").click(function()
+	$(selector).find(".sch-evnt-edit-cat").click(function(event)
 	{
 		editCategory(event, $(this), $(this).parent().attr("data-id"));
 	});

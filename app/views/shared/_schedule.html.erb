@@ -19,7 +19,7 @@
 <% end %>
 
 
-<div class="ui-widget-overlay" onclick="hideOverlay()"></div>
+<div class="ui-widget-overlay"></div>
 <div id="event-overlay-box" class="overlay-box">
 	<div id="overlay-color-bar">
 		<div id="overlay-title" contenteditable="true">Event Title</div>
@@ -29,8 +29,8 @@
 		<input id="time-start" type="text" value="10:00am"></input> -
 		<input id="time-end" type="text" value="12:00pm"></input>
 	</div>
-	<span class="default red close" onclick="hideOverlay()"></span>
-	<span id="repeat" class="default green" onclick="$('#repeat-menu').toggle();">Edit Repeat Type</span>
+	<span class="default red close"></span>
+	<span id="repeat" class="default green">Edit Repeat Type</span>
 	<div id="repeat-menu">
 		<span id="repeat-none" class="default repeat-option">None</span>
 		<span id="repeat-daily" class="default repeat-option">Daily</span>
@@ -68,7 +68,7 @@
 	<div id="overlay-desc" contenteditable="true">Description goes here</div>
 	<div id="loc-title" class="small-title">
 		Location:
-		<span id="edit-loc" class="edit" onclick="$('#overlay-loc').focus()">Edit</span>
+		<span id="edit-loc" class="edit">Edit</span>
 	</div>
 	<div id="overlay-loc" contenteditable="true">Location goes here</div>
 </div>
@@ -84,7 +84,7 @@
 </div>
 
 <div id="break-adder-overlay-box" class="overlay-box">
-	<span class="default red close" onclick="hideBreakAddOverlay()"></span>
+	<span class="default red close"></span>
 	<h3>Add Break</h3>
 	<div id="break-cont">
 	</div>
@@ -93,7 +93,7 @@
 <div id="cat-overlay-box" class="overlay-box" data-id="" >
 	<div class="cat-top-overlay">
 		<span class="cat-overlay-title" contenteditable=true ></span>
-		<%= image_tag "checkmark-wht.png", :class => "sch-cat-icon no-drag", :onclick => "saveCategory(event, this, $('#cat-overlay-box').attr('data-id'));" %>
+		<%= image_tag "checkmark-wht.png", :class => "sch-evnt-save-cat sch-cat-icon no-drag" %>
 
 	</div>
 	<div class="cat-remainder-overlay">
@@ -164,7 +164,7 @@
 			</div>
 		</div>
 
-		<div class="cat-add" onclick="createCategory();">+ New Category</div>
+		<div class="cat-add">+ New Category</div>
 	</div>
 
 	<%= image_tag "divider-orng.png", :height => "505px", :style => "float: left;" %>
@@ -176,7 +176,7 @@
 			<span class="default sch-week-next">Next</span>
 			<input id="week-date" class="date-field" type="text"></input>
 			<% if !@read_only %>
-				<span class="default green disabled" id="sch-save" onclick="saveEvents()">Save Events
+				<span class="default green disabled" id="sch-save">Save Events
 					<%= image_tag "checkmark-wht.png", id: "save-checkmark" %>
 				</span>
 				<span class="default green" id="create-break">Create Break</span>
