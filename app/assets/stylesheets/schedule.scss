@@ -124,7 +124,7 @@
 	left: 20px;
 	top:2px;
 }
-#sch-days
+#sch-weekly-view
 {
 	height: 100%;
 	width: 1410px;
@@ -771,4 +771,32 @@ input[readonly="readonly"]
 	opacity: 1;
 }
 #embed-button { position: relative; top: -5px;}
+
+/* Monthly View Styling */
+#sch-monthly-view
+{
+	display: none;
+	height: 100%;
+}
+.sch-day-tile
+{
+	float: left;
+	width: calc(100% / 7);
+	height: calc((100% - 35px) / 6);
+	background: #EFEFEF;
+	box-sizing: border-box;
+	border-left: solid 1px #D2D2D2;
+	border-top: solid 1px #D2D2D2;
+
+	#day-of-month
+	{
+		font-size: 20px;
+		font-weight: bold;
+	}
+	&.last-month
+	{
+		#day-of-month { color: gray;}
+	}
+}
+
 /* END SCHEDULE STYLING */

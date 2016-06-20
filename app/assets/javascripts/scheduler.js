@@ -27,7 +27,10 @@ var currMins; //the current top value offset caused by the minutes of the curren
 var readied = false; //whether the ready function has been called
 
 var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]; //Three letter month abbreviations
+var fullMonthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 var dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']; //the names of the days
+
+var viewMode = "week"; //either "week" or "month"
 
 /****************************/
 /**** DOCUMENT FUNCTIONS ****/
@@ -358,7 +361,7 @@ function scheduleReady()
 		loadInitialEvents();
 
 		sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
-		schHTML = $("#sch-days").html(); //The HTML for the scheduler days layout, useful for when days are refreshed
+		schHTML = $("#sch-weekly-view").html(); //The HTML for the scheduler days layout, useful for when days are refreshed
 
 		addStartingListeners(); //add the event listeners
 
@@ -696,6 +699,10 @@ function addStartingListeners()
 	{
 		hideBreakAddOverlay();
 	});
+
+	$("#view-monthly").click(initializeMonthlyView);
+
+	$("#view-weekly").click(initializeWeeklyView);
 
 	/****************************/
 	/** END RAILS HTML CLICKS ***/
@@ -1204,34 +1211,159 @@ function updateTime(elem, ui, resize) //if we're resizing, don't snap, just upda
 //called by next and previous buttons on click
 function addDates(currDate, refresh, today)
 {
-	var day = currDate.getDay();
-	var date = currDate.getDate();
-	var month = currDate.getMonth();
-	var year = currDate.getFullYear();
+	refDate = currDate;
+
+	if(viewMode == "week")
+	{
+		var date = currDate.getDate();
+		var month = currDate.getMonth();
+		var year = currDate.getFullYear();
+		var startDate;
+		var lastDateCurr = new Date(year, month+1, 0).getDate(); //get the last date of the current month by getting the day before 1 on the next month
+		var lastDatePrev = new Date(year, month, 0).getDate();
+		var lastMonth = false;
+
+		if(refresh)
+		{
+			$("#sch-weekly-view").html(schHTML); // Refresh the layout so that we can properly prepend and append text below here
+			colDroppable();
+		}
+
+		if(!today) //if we want to start on a Monday
+		{
+			startDateData = getStartDate(currDate); 
+			startDate = startDateData.startDate;
+			lastMonth = startDateData.lastMonth;
+		}
+		else //if we want to start today, just do so
+		{
+			startDate = date;
+		}
+
+		$(".sch-day-col").each(function(index, col)
+		{
+			if(startDate <= lastDateCurr+1)
+			{
+				var fullDate = "";
+
+				if(lastMonth && (month - 1) > -1)
+					fullDate = monthNames[month - 1] + " " + startDate + ", " + year;
+				else if (lastMonth && (month - 1) == -1) //if this is december
+					fullDate = monthNames[11] + " " + startDate + ", " + (year-1);
+				else
+					fullDate = monthNames[month] + " " + startDate + ", " + year;
+
+				$(col).children(".col-titler").prepend("<div class='evnt-date'>" + startDate + "</div> "); //prepend the numeric date (e.g. 25)
+				$(col).children(".col-titler").find(".evnt-day").text(dayNames[new Date(fullDate).getDay()]);
+				$(col).children(".col-titler").append("<div class='evnt-fulldate'>" + fullDate + "</div>"); //append the long form date to columns
+
+				if((startDate == lastDateCurr && !lastMonth) || (startDate == lastDatePrev && lastMonth)) //if this is the last day in the month, reset the count
+				{
+					startDate = 0;
+					month++;
+					if (month == 12) {
+						year++;
+						month = 0;
+					}
+				}
+			}
+
+			if(new Date(fullDate).toDateString() == new Date().toDateString())
+			{
+				$(col).attr("id","sch-col-today");
+			}
+
+			startDate++;
+		});
+	}
+	else if(viewMode == "month")
+	{
+		currDate.setDate(1); //set to first of month
+
+		var monthLength = daysInMonth(currDate.getMonth() + 1, currDate.getYear()); //add 1 to month since it starts at zero
+		var lastMonthLength = daysInMonth(currDate.getMonth(), currDate.getYear()); //the last month's length
+		startDateData = getStartDate(currDate);
+
+		var completedMonth = false;
+		console.log(startDateData);
+		var date = startDateData.startDate;
+		var lastMonth = startDateData.lastMonth;
+
+		$("#sch-monthly-view").html(""); //clear HTML
+		$("#sch-monthly-view").append("<h3 class='zero-top' style='margin-bottom: 10px'>" + fullMonthNames[currDate.getMonth()] + "</h3>");
+
+		while(!completedMonth)
+		{
+			var tileClass = "sch-day-tile";
+			if(lastMonth)
+				tileClass = tileClass + " last-month"
+
+			$("#sch-monthly-view").append("<div class='" + tileClass + "'>"
+				+ "<div id='day-of-month'>" + date + "</div>"
+				+ "<div>");	
+
+			date++;
+
+			if(lastMonth)
+			{
+				if(date > lastMonthLength)
+				{
+					date = 1; //reset
+					lastMonth = false;
+				}
+			}
+			else
+			{
+				if(date > monthLength)
+				{
+					completedMonth = true;
+				}
+			}
+		}
+	}
+
+	populateEvents(); // After refreshing the dates, populate the...er...schedule items for this week. As you can see, the terminology still confuses some.
+}
+
+function initializeMonthlyView()
+{
+	viewMode = "month";
+
+	$("#sch-weekly-view").hide();
+	$("#sch-monthly-view").show();
+
+	addDates(refDate, true);
+}
+
+function initializeWeeklyView()
+{
+	viewMode = "week";
+
+	$("#sch-monthly-view").hide();
+	$("#sch-weekly-view").show();
+	
+	addDates(refDate, true);
+}
+
+function daysInMonth(month,year) {
+    return new Date(year, month, 0).getDate();
+}
+
+//returns the date the schedule starts on as well as whether it's in this month
+function getStartDate(dateObj)
+{
 	var startDate;
-	var lastDateCurr = new Date(year, month+1, 0).getDate(); //get the last date of the current month by getting the day before 1 on the next month
+	var day = dateObj.getDay();
+	var date = dateObj.getDate();
+	var month = dateObj.getMonth();
+	var year = dateObj.getFullYear();
 	var lastDatePrev = new Date(year, month, 0).getDate();
 	var lastMonth = false;
 
-	refDate = currDate;
-
-	if(refresh)
-	{
-		$("#sch-days").html(schHTML); // Refresh the layout so that we can properly prepend and append text below here
-		colDroppable();
-	}
-
-	if(!today)
-	{
-		if(day == 0)
-			startDate = date - 6;
-		else
-			startDate = date - day + 1;
-	}
+	if(day == 0)
+		startDate = date - 6;
 	else
-	{
-		startDate = date;
-	}
+		startDate = date - day + 1;
 
 	if(startDate <= 0) //if the start is in the last month
 	{
@@ -1239,43 +1371,7 @@ function addDates(currDate, refresh, today)
 		lastMonth = true;
 	}
 
-	$(".sch-day-col").each(function(index, col)
-	{
-		if(startDate <= lastDateCurr+1)
-		{
-			var fullDate = "";
-
-			if(lastMonth && ((month-1)>-1))
-				fullDate = monthNames[month-1] + " " + startDate + ", " + year;
-			else if (lastMonth &&((month-1)==-1))
-				fullDate = monthNames[11] + " " + startDate + ", " + (year-1);
-			else
-				fullDate = monthNames[month] + " " + startDate + ", " + year;
-
-			$(col).children(".col-titler").prepend("<div class='evnt-date'>" + startDate + "</div> "); //prepend the numeric date (e.g. 25)
-			$(col).children(".col-titler").find(".evnt-day").text(dayNames[new Date(fullDate).getDay()]);
-			$(col).children(".col-titler").append("<div class='evnt-fulldate'>" + fullDate + "</div>"); //append the long form date to columns
-
-			if((startDate == lastDateCurr && !lastMonth) || (startDate == lastDatePrev && lastMonth)) //if this is the last day in the month, reset the count
-			{
-				startDate = 0;
-				month++;
-				if (month == 12) {
-					year++;
-					month = 0;
-				}
-			}
-		}
-
-		if(new Date(fullDate).toDateString() == new Date().toDateString())
-		{
-			$(col).attr("id","sch-col-today");
-		}
-
-		startDate++;
-	});
-
-	populateEvents(); // After refreshing the dates, populate the...er...schedule items for this week. As you can see, the terminology still confuses some.
+	return {startDate: startDate, lastMonth: lastMonth}
 }
 
 //Populate the events in the current week from the hashmap
@@ -1951,6 +2047,7 @@ function verboseDateToString(date)
    var yearStr = date.getFullYear().toString();
    var monthStr = (date.getMonth()+1).toString(); // getMonth() is zero-based
    var dateStr  = date.getDate().toString();
+
    return (monthStr[1]?monthStr:"0"+monthStr[0]) + "/" + (dateStr[1]?dateStr:"0"+dateStr[0]) + "/" + yearStr; // padding
 }
 
@@ -1969,21 +2066,28 @@ function verboseDateToString(date)
 function moveWeek(forward)
 {
 	var newDate;
+	var dateDelta = 0; //the number of days to change by
+	var monthDelta = 0; //the number of months to change by
+
+	if(viewMode == "month")
+		monthDelta = 1;
+	else if(viewMode == "week")
+		dateDelta = 7;
 
 	if(forward) //if next button
-		newDate = new Date(refDate.getYear()+1900,refDate.getMonth(),refDate.getDate()+7)
+		newDate = new Date(refDate.getYear()+1900, refDate.getMonth() + monthDelta, refDate.getDate() + dateDelta)
 	else //otherwise
 	{
 		 //if we are looking at today but the first day is not monday
-		if(new Date($("#week-date").val()).toDateString() == new Date().toDateString() && !$(".evnt-day").text().startsWith("Monday"))
+		if(new Date($("#week-date").val()).toDateString() == new Date().toDateString() && !$(".evnt-day").text().startsWith("Monday") && viewMode == "week")
 			newDate = new Date(); //see this full week
 		else //otherwise
-			newDate = new Date(refDate.getYear()+1900,refDate.getMonth(),refDate.getDate()-7); //go to one week previous
+			newDate = new Date(refDate.getYear()+1900, refDate.getMonth() - monthDelta, refDate.getDate() - dateDelta); //go to one week previous
 	}
-	addDates(newDate, true); //move back
+	addDates(newDate, true); //move back, but do not force today
 
 	//And update the date thing. Recall that javascript get month starts at 0 with January, so we append 1 for humans
-	$("#week-date").val(paddedNumber(newDate.getMonth() + 1) + "/" + paddedNumber(newDate.getDate()) + "/" + newDate.getFullYear());
+	$("#week-date").val(verboseDateToString(newDate));
 }
 
 /****************************/

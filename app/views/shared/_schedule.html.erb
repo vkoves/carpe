@@ -180,11 +180,13 @@
 					<%= image_tag "checkmark-wht.png", id: "save-checkmark" %>
 				</span>
 				<span class="default green" id="create-break">Create Break</span>
+				<span class="default" id="view-weekly">Weekly</span>
+				<span class="default" id="view-monthly">Monthly</span>
 			<% end %>
 		</div>
 
 		<div id="sch-holder">
-			<div id="sch-days">
+			<div id="sch-weekly-view">
 				<div class="sch-day-col">
 					<span class="col-titler"><span class="evnt-day">Monday</span></span>
 					<div class="col-snap evt-snap"></div>
@@ -213,6 +215,8 @@
 					<span class="col-titler"><span class="evnt-day">Sunday</span></span>
 					<div class="col-snap evt-snap"></div>
 				</div>
+			</div>
+			<div id="sch-monthly-view">
 			</div>
 		</div>
 	</div>
