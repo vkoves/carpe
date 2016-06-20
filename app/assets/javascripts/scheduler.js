@@ -12,6 +12,7 @@ var gridHeight = 25; //the height of the grid of resizing and dragging
 var border = 2; //the border at the bottom for height stuff
 var ctrlPressed = false; //is the control key presed? Updated upon clicking an event
 var refDate = new Date(); // Reference date for where the calendar is now, so that it can switch between weeks.
+var visibleDates = []; //an array of dates that are currently visible on the schedule
 var dropScroll = 0; //the scroll position when the last element was dropped
 
 var scheduleItems = {}; //the map of all schedule item objects
@@ -258,14 +259,14 @@ function ScheduleItem()
 		{
 			var topDT = dateTime;
 			var change = differenceInHours(schItem.startDateTime, topDT); //see how much the time was changed
-			var botDT = new Date(schItem.endDateTime.getTime());
+			var botDT = cloneDate(schItem.endDateTime);
 			botDT.setHours(schItem.endDateTime.getHours() + change);
 		}
 		else
 		{
 			var botDT = dateTime;
 			var change = differenceInHours(schItem.endDateTime, botDT); //see how much the time was changed
-			var topDT = new Date(schItem.startDateTime.getTime());
+			var topDT = cloneDate(schItem.startDateTime);
 			topDT.setHours(schItem.startDateTime.getHours() + change);
 		}
 
@@ -353,6 +354,7 @@ function Break() //The prototype for breaks/repeat exceptions
  */
 function scheduleReady()
 {
+	console.log("BS!");
 	if(!readied)
 	{
 		//load all initial data stuff
@@ -562,7 +564,7 @@ function addStartingListeners()
 		if (isNaN(dateTime.getTime()))
 			alertUI("Start date doesn't make sense! Tried \"" + dateE+" "+val + "\"");
 
-		var newDateTime = new Date(currEvent.startDateTime.getTime()); //We don't want to modify the date, only the time, so clone the date
+		var newDateTime = cloneDate(currEvent.startDateTime); //We don't want to modify the date, only the time, so clone the date
 		newDateTime.setHours(dateTime.getHours()); //change the hours
 		newDateTime.setMinutes(dateTime.getMinutes()); //change the minutes
 
@@ -583,7 +585,7 @@ function addStartingListeners()
 		if (isNaN(dateTime.getTime()))
 			alertUI("End date doesn't make sense! Tried \"" + dateE+" "+val + "\"");
 
-		var newDateTime = new Date(currEvent.startDateTime.getTime());
+		var newDateTime = cloneDate(currEvent.startDateTime);
 		newDateTime.setHours(dateTime.getHours());
 		newDateTime.setMinutes(dateTime.getMinutes());
 
@@ -1209,116 +1211,77 @@ function updateTime(elem, ui, resize) //if we're resizing, don't snap, just upda
 
 
 //called by next and previous buttons on click
-function addDates(currDate, refresh, today)
+function addDates(newDateObj, refresh, startToday)
 {
-	refDate = currDate;
+	refDate = newDateObj; //set the global date to this new
+
+	var currDate; //the date (day of month) we'll be using to iterate
+	var date = newDateObj.getDate();
+	var month = newDateObj.getMonth();
+	var year = newDateObj.getFullYear();
+	var monthLength = daysInMonth(month + 1, year); //add 1 to month since it starts at zero
+	var lastMonthLength = daysInMonth(month, year); //the last month's length
+
 
 	if(viewMode == "week")
 	{
-		var date = currDate.getDate();
-		var month = currDate.getMonth();
-		var year = currDate.getFullYear();
-		var startDate;
-		var lastDateCurr = new Date(year, month+1, 0).getDate(); //get the last date of the current month by getting the day before 1 on the next month
-		var lastDatePrev = new Date(year, month, 0).getDate();
-		var lastMonth = false;
-
 		if(refresh)
 		{
 			$("#sch-weekly-view").html(schHTML); // Refresh the layout so that we can properly prepend and append text below here
 			colDroppable();
 		}
 
-		if(!today) //if we want to start on a Monday
+		if(startToday) //if we want to start today, just do so
+			currDate = cloneDate(newDateObj);
+		else //if we want to start on a Monday
 		{
-			startDateData = getStartDate(currDate); 
-			startDate = startDateData.startDate;
-			lastMonth = startDateData.lastMonth;
-		}
-		else //if we want to start today, just do so
-		{
-			startDate = date;
+			startDateData = getStartDate(newDateObj); 
+			currDate = startDateData.startDate;
 		}
 
 		$(".sch-day-col").each(function(index, col)
 		{
-			if(startDate <= lastDateCurr+1)
-			{
-				var fullDate = "";
+			var fullDate = "";
 
-				if(lastMonth && (month - 1) > -1)
-					fullDate = monthNames[month - 1] + " " + startDate + ", " + year;
-				else if (lastMonth && (month - 1) == -1) //if this is december
-					fullDate = monthNames[11] + " " + startDate + ", " + (year-1);
-				else
-					fullDate = monthNames[month] + " " + startDate + ", " + year;
+			fullDate = monthNames[month] + " " + currDate.getDate() + ", " + year;
 
-				$(col).children(".col-titler").prepend("<div class='evnt-date'>" + startDate + "</div> "); //prepend the numeric date (e.g. 25)
-				$(col).children(".col-titler").find(".evnt-day").text(dayNames[new Date(fullDate).getDay()]);
-				$(col).children(".col-titler").append("<div class='evnt-fulldate'>" + fullDate + "</div>"); //append the long form date to columns
-
-				if((startDate == lastDateCurr && !lastMonth) || (startDate == lastDatePrev && lastMonth)) //if this is the last day in the month, reset the count
-				{
-					startDate = 0;
-					month++;
-					if (month == 12) {
-						year++;
-						month = 0;
-					}
-				}
-			}
+			$(col).children(".col-titler").prepend("<div class='evnt-date'>" + currDate.getDate() + "</div> "); //prepend the numeric date (e.g. 25)
+			$(col).children(".col-titler").find(".evnt-day").text(dayNames[currDate.getDay()]);
+			$(col).children(".col-titler").append("<div class='evnt-fulldate'>" + fullDate + "</div>"); //append the long form date to columns
 
 			if(new Date(fullDate).toDateString() == new Date().toDateString())
 			{
 				$(col).attr("id","sch-col-today");
 			}
 
-			startDate++;
+			currDate.setDate(currDate.getDate() + 1);
 		});
 	}
 	else if(viewMode == "month")
 	{
-		currDate.setDate(1); //set to first of month
+		startDateData = getStartDate(newDateObj, true); //get start date for month
 
-		var monthLength = daysInMonth(currDate.getMonth() + 1, currDate.getYear()); //add 1 to month since it starts at zero
-		var lastMonthLength = daysInMonth(currDate.getMonth(), currDate.getYear()); //the last month's length
-		startDateData = getStartDate(currDate);
-
-		var completedMonth = false;
-		console.log(startDateData);
-		var date = startDateData.startDate;
-		var lastMonth = startDateData.lastMonth;
+		currDate = startDateData.startDate;
 
 		$("#sch-monthly-view").html(""); //clear HTML
-		$("#sch-monthly-view").append("<h3 class='zero-top' style='margin-bottom: 10px'>" + fullMonthNames[currDate.getMonth()] + "</h3>");
+		$("#sch-monthly-view").append("<h3 class='zero-top' style='margin-bottom: 10px'>" + fullMonthNames[newDateObj.getMonth()] + "</h3>");
 
-		while(!completedMonth)
+		var oldDatesCount = lastMonthLength - currDate.getDate();
+
+		var counter = 0;
+		while(counter < oldDatesCount + monthLength)
 		{
 			var tileClass = "sch-day-tile";
-			if(lastMonth)
+
+			if(counter < oldDatesCount) //if going through dates from the last month
 				tileClass = tileClass + " last-month"
 
 			$("#sch-monthly-view").append("<div class='" + tileClass + "'>"
-				+ "<div id='day-of-month'>" + date + "</div>"
+				+ "<div id='day-of-month'>" + currDate.getDate() + "</div>"
 				+ "<div>");	
 
-			date++;
-
-			if(lastMonth)
-			{
-				if(date > lastMonthLength)
-				{
-					date = 1; //reset
-					lastMonth = false;
-				}
-			}
-			else
-			{
-				if(date > monthLength)
-				{
-					completedMonth = true;
-				}
-			}
+			currDate.setDate(currDate.getDate() + 1);
+			counter++;
 		}
 	}
 
@@ -1345,13 +1308,19 @@ function initializeWeeklyView()
 	addDates(refDate, true);
 }
 
-function daysInMonth(month,year) {
+//Takes the month number (1 is Jan.) and the year
+function daysInMonth(month,year)
+{
     return new Date(year, month, 0).getDate();
 }
 
 //returns the date the schedule starts on as well as whether it's in this month
-function getStartDate(dateObj)
+function getStartDate(dateObj, useMonth)
 {
+	var copyDate = cloneDate(dateObj);
+	if(useMonth)
+		copyDate.setDate(1);
+
 	var startDate;
 	var day = dateObj.getDay();
 	var date = dateObj.getDate();
@@ -1367,11 +1336,12 @@ function getStartDate(dateObj)
 
 	if(startDate <= 0) //if the start is in the last month
 	{
-		startDate = lastDatePrev + startDate;
 		lastMonth = true;
 	}
 
-	return {startDate: startDate, lastMonth: lastMonth}
+	copyDate.setDate(startDate);
+
+	return {startDate: copyDate, lastMonth: lastMonth}
 }
 
 //Populate the events in the current week from the hashmap
@@ -1397,7 +1367,7 @@ function populateEvents()
 		{
 			eventObj = scheduleItems[eventIndex];
 			var date = new Date(currentDates[i]);
-			var itemDate = new Date(eventObj.startDateTime.getTime());
+			var itemDate = cloneDate(eventObj.startDateTime);
 
 			//Handle repeatStart and endDates
 			if(eventObj.repeatStart && eventObj.repeatStart > date) //if the repeatStart is later than this date, don't show
@@ -2017,6 +1987,12 @@ function removeHighlight()
 function highlightCurrent()
 {
 	document.execCommand('selectAll',false,null);
+}
+
+//creates a clone of the date
+function cloneDate(date)
+{
+	return new Date(date.getTime());
 }
 
 //convert a date into a standard string format, with no zero padding in M/D/YY format (e.g. 6/2/16)
