@@ -1213,6 +1213,7 @@ function updateTime(elem, ui, resize) //if we're resizing, don't snap, just upda
 function addDates(newDateObj, refresh, startToday)
 {
 	refDate = newDateObj; //set the global date to this new
+	visibleDates = []; //reset the array of visible dates
 
 	var currDate; //the date (day of month) we'll be using to iterate
 	var date = newDateObj.getDate();
@@ -1249,6 +1250,7 @@ function addDates(newDateObj, refresh, startToday)
 			if(currDate.toDateString() == new Date().toDateString()) //if this is today
 				$(col).attr("id","sch-col-today");
 
+			visibleDates.push(cloneDate(currDate));
 			currDate.setDate(currDate.getDate() + 1);
 		});
 	}
@@ -1280,6 +1282,7 @@ function addDates(newDateObj, refresh, startToday)
 			if(currDate.toDateString() == new Date().toDateString()) //if this is today
 				$(".sch-day-tile:last-of-type").attr("id","sch-col-today");
 
+			visibleDates.push(cloneDate(currDate));
 			currDate.setDate(currDate.getDate() + 1);
 			counter++;
 		}
@@ -1350,24 +1353,25 @@ function populateEvents()
 	function place(eventObject, i)
 	{
 		var currentElem = eventObject.tempElement.clone();
-		$(".sch-day-col:eq(" + i + ") .col-snap").append(currentElem);
+		if(viewMode == "week")
+			$(".sch-day-col:eq(" + i + ") .col-snap").append(currentElem);
+		else if(viewMode == "month")
+			$(".sch-day-tile:eq(" + i + ")").append("<div style='background-color: " 
+				+ categories[eventObject.categoryId].color +  "; border-bottom: solid 1px grey;'>" + (eventObject.name || "Untitled") + "</div>");
 	}
 
-	var currentDates = []; //the dates that are visible in the current week
-
-	$(".sch-day-col").each(function(index, col)
-	{
-		currentDates.push($(col).children(".col-titler").children(".evnt-fulldate").html());
-	}); // Populate the date range array created above, so that we can match up what events have dates that fall in this range.
-
-
-	for (var i = 0; i < currentDates.length; i++)
+	for (var i = 0; i < visibleDates.length; i++)
 	{
 		for (var eventIndex in scheduleItems) //do a foreach since this is a hashmap
 		{
 			eventObj = scheduleItems[eventIndex];
-			var date = new Date(currentDates[i]);
+
+			var date = visibleDates[i];
 			var itemDate = cloneDate(eventObj.startDateTime);
+
+			var logThings = false;
+			if(eventObj.name == "Wow a tester!" && date.getDate() == 14)
+				logThings = true;
 
 			//Handle repeatStart and endDates
 			if(eventObj.repeatStart && eventObj.repeatStart > date) //if the repeatStart is later than this date, don't show
@@ -1391,6 +1395,7 @@ function populateEvents()
 					break; //continue eventLoop;
 				}
 			}
+
 			//And category repeat breaks
 			for(var b2 = 0; b2 < categories[eventObj.categoryId].breaks.length; b2++) //iterate through all breaks
 			{
@@ -1405,7 +1410,6 @@ function populateEvents()
 
 			if(inBreak) //if we found that we are in a break
 				continue; //skip to the next event
-
 
 			if (itemDate.toDateString() == date.toDateString() && eventObj.repeatType.indexOf("certain_days") == -1 //if today's the event except certain days
 				|| eventObj.repeatType == "daily"
