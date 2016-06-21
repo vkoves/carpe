@@ -354,7 +354,6 @@ function Break() //The prototype for breaks/repeat exceptions
  */
 function scheduleReady()
 {
-	console.log("BS!");
 	if(!readied)
 	{
 		//load all initial data stuff
@@ -1241,18 +1240,14 @@ function addDates(newDateObj, refresh, startToday)
 
 		$(".sch-day-col").each(function(index, col)
 		{
-			var fullDate = "";
-
-			fullDate = monthNames[month] + " " + currDate.getDate() + ", " + year;
+			var fullDate = monthNames[month] + " " + currDate.getDate() + ", " + year;
 
 			$(col).children(".col-titler").prepend("<div class='evnt-date'>" + currDate.getDate() + "</div> "); //prepend the numeric date (e.g. 25)
 			$(col).children(".col-titler").find(".evnt-day").text(dayNames[currDate.getDay()]);
 			$(col).children(".col-titler").append("<div class='evnt-fulldate'>" + fullDate + "</div>"); //append the long form date to columns
 
-			if(new Date(fullDate).toDateString() == new Date().toDateString())
-			{
+			if(currDate.toDateString() == new Date().toDateString()) //if this is today
 				$(col).attr("id","sch-col-today");
-			}
 
 			currDate.setDate(currDate.getDate() + 1);
 		});
@@ -1266,19 +1261,24 @@ function addDates(newDateObj, refresh, startToday)
 		$("#sch-monthly-view").html(""); //clear HTML
 		$("#sch-monthly-view").append("<h3 class='zero-top' style='margin-bottom: 10px'>" + fullMonthNames[newDateObj.getMonth()] + "</h3>");
 
-		var oldDatesCount = lastMonthLength - currDate.getDate();
+		var oldDatesCount = 0; 
+		if(startDateData.lastMonth)
+			oldDatesCount = lastMonthLength - currDate.getDate();
 
 		var counter = 0;
 		while(counter < oldDatesCount + monthLength)
 		{
 			var tileClass = "sch-day-tile";
 
-			if(counter < oldDatesCount) //if going through dates from the last month
+			if(counter <= oldDatesCount && startDateData.lastMonth) //if going through dates from the last month
 				tileClass = tileClass + " last-month"
 
 			$("#sch-monthly-view").append("<div class='" + tileClass + "'>"
 				+ "<div id='day-of-month'>" + currDate.getDate() + "</div>"
 				+ "<div>");	
+
+			if(currDate.toDateString() == new Date().toDateString()) //if this is today
+				$(".sch-day-tile:last-of-type").attr("id","sch-col-today");
 
 			currDate.setDate(currDate.getDate() + 1);
 			counter++;
@@ -1322,10 +1322,10 @@ function getStartDate(dateObj, useMonth)
 		copyDate.setDate(1);
 
 	var startDate;
-	var day = dateObj.getDay();
-	var date = dateObj.getDate();
-	var month = dateObj.getMonth();
-	var year = dateObj.getFullYear();
+	var day = copyDate.getDay();
+	var date = copyDate.getDate();
+	var month = copyDate.getMonth();
+	var year = copyDate.getFullYear();
 	var lastDatePrev = new Date(year, month, 0).getDate();
 	var lastMonth = false;
 
