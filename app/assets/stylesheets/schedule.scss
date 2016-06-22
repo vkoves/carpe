@@ -131,27 +131,23 @@
 }
 .sch-day-col
 {
-	position: relative; /* Viktor added 1 am June 17 */
+	position: relative;
 	height: 100%;
 	width: 200px;
 	float: left;
 	min-width:160px;
-	/*margin-left: 20px;
-	margin-right:20px;*/
-
-	/* border-left: solid 1px rgb(150,150,150);*/
 	border-right: solid 1px rgb(150,150,150);
-	/*border-radius: 5px;
-	border-bottom: solid 2px rgb(48, 48, 48); */
+
+	&#sch-today
+	{
+		background-color: rgb(255, 255, 115);
+	}
 }
 .sch-day-col.over /* Hover class */
 {
 	background: rgb(255, 255, 151);
 }
-#sch-col-today
-{
-	background-color:   rgb(255, 255, 115);
-}
+
 .sch-class
 {
 	background: rgb(255, 115, 115);
@@ -777,25 +773,54 @@ input[readonly="readonly"]
 {
 	display: none;
 	height: 100%;
+	#month-name
+	{
+		height: 30px;
+		margin: 0px;
+	}
+	#tiles-cont
+	{
+		height: calc(100% - 30px);
+	}
 }
 .sch-day-tile
 {
 	float: left;
 	width: calc(100% / 7);
-	height: calc((100% - 35px) / 6);
-	background: #EFEFEF;
+	height: 20%;
+	background: #F7F7F7;
 	box-sizing: border-box;
 	border-left: solid 1px #D2D2D2;
 	border-top: solid 1px #D2D2D2;
 
+	.sch-month-evnt
+	{
+		margin: 0px 2px 2px 2px;
+		color: white;
+		font-weight: bold;
+		position: relative;
+
+		.time 
+		{
+			position: absolute;
+			left: 5px;
+			font-weight: normal;
+			font-size: 14px;
+			margin-top: 2px;
+		}
+	}
 	#day-of-month
 	{
-		font-size: 20px;
-		font-weight: bold;
+		font-size: 16px;
 	}
 	&.last-month
 	{
 		#day-of-month { color: gray;}
+	}
+	&#sch-today
+	{
+		background-color: #E0E0E0;
+		border: solid 1px #9E9E9E;
 	}
 }
 

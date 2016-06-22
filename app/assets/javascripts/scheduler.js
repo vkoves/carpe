@@ -235,6 +235,17 @@ function ScheduleItem()
 		updatedEvents("updateHeight");
 	};
 
+	//a way of getting the name that handles untitled
+	this.getName = function(useHTML)
+	{
+		if(this.name)
+			return this.name;
+		else if(useHTML)
+			return "<i>Untitled</i>";
+		else
+			return "Untitled";
+	}
+
 	this.element = function() //returns the HTML element for this schedule item, or elements if it is repeating
 	{
 		return $(".sch-evnt[evnt-temp-id="+ this.tempId + "]");
@@ -1248,7 +1259,7 @@ function addDates(newDateObj, refresh, startToday)
 			$(col).children(".col-titler").append("<div class='evnt-fulldate'>" + fullDate + "</div>"); //append the long form date to columns
 
 			if(currDate.toDateString() == new Date().toDateString()) //if this is today
-				$(col).attr("id","sch-col-today");
+				$(col).attr("id","sch-today");
 
 			visibleDates.push(cloneDate(currDate));
 			currDate.setDate(currDate.getDate() + 1);
@@ -1260,8 +1271,8 @@ function addDates(newDateObj, refresh, startToday)
 
 		currDate = startDateData.startDate;
 
-		$("#sch-monthly-view").html(""); //clear HTML
-		$("#sch-monthly-view").append("<h3 class='zero-top' style='margin-bottom: 10px'>" + fullMonthNames[newDateObj.getMonth()] + "</h3>");
+		$(".sch-day-tile").remove(); //remove old tiles
+		$("#sch-monthly-view #month-name").text(fullMonthNames[newDateObj.getMonth()] + " " + currDate.getFullYear());
 
 		var oldDatesCount = 0; 
 		if(startDateData.lastMonth)
@@ -1275,12 +1286,12 @@ function addDates(newDateObj, refresh, startToday)
 			if(counter <= oldDatesCount && startDateData.lastMonth) //if going through dates from the last month
 				tileClass = tileClass + " last-month"
 
-			$("#sch-monthly-view").append("<div class='" + tileClass + "'>"
+			$("#sch-monthly-view #tiles-cont").append("<div class='" + tileClass + "'>"
 				+ "<div id='day-of-month'>" + currDate.getDate() + "</div>"
 				+ "<div>");	
 
 			if(currDate.toDateString() == new Date().toDateString()) //if this is today
-				$(".sch-day-tile:last-of-type").attr("id","sch-col-today");
+				$(".sch-day-tile:last-of-type").attr("id","sch-today");
 
 			visibleDates.push(cloneDate(currDate));
 			currDate.setDate(currDate.getDate() + 1);
@@ -1356,8 +1367,11 @@ function populateEvents()
 		if(viewMode == "week")
 			$(".sch-day-col:eq(" + i + ") .col-snap").append(currentElem);
 		else if(viewMode == "month")
-			$(".sch-day-tile:eq(" + i + ")").append("<div style='background-color: " 
-				+ categories[eventObject.categoryId].color +  "; border-bottom: solid 1px grey;'>" + (eventObject.name || "Untitled") + "</div>");
+			$(".sch-day-tile:eq(" + i + ")").append("<div class='sch-month-evnt' style='background-color: " 
+				+ categories[eventObject.categoryId].color +  ";'>" 
+					+ "<span class='time'>" + eventObject.startDateTime.getHours() + "</span>"
+					+ eventObject.getName(true)
+				+ "</div>");
 	}
 
 	for (var i = 0; i < visibleDates.length; i++)
