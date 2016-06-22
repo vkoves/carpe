@@ -1287,6 +1287,11 @@ function addDates(newDateObj, refresh, startToday)
 			if(counter <= oldDatesCount && startDateData.lastMonth) //if going through dates from the last month
 				tileClass = tileClass + " last-month"
 
+			var todaySimple = new Date();
+			todaySimple.setHours(0,0,0,0);
+			if(currDate < todaySimple)
+				tileClass = tileClass + " in-past";
+
 			$("#sch-monthly-view #tiles-cont").append("<div class='" + tileClass + "'>"
 				+ "<div id='day-of-month'>" + currDate.getDate() + "</div>"
 				+ "<div>");	

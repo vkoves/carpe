@@ -792,7 +792,16 @@ input[readonly="readonly"]
 	box-sizing: border-box;
 	border-left: solid 1px #D2D2D2;
 	border-top: solid 1px #D2D2D2;
+	overflow: hidden;
 
+	&.in-past
+	{
+		.sch-month-evnt
+		{
+			opacity: 0.5;
+			transition: opacity 0.25s;
+		}
+	}
 	.sch-month-evnt
 	{
 		margin: 0px 2px 2px 2px;
@@ -821,6 +830,16 @@ input[readonly="readonly"]
 	{
 		background-color: #E0E0E0;
 		border: solid 1px #9E9E9E;
+	}
+}
+/* On hover show all events */
+.sch-day-tile:hover
+{
+	overflow: visible;
+
+	.sch-month-evnt {
+		opacity: 1;
+		z-index: 10;
 	}
 }
 
