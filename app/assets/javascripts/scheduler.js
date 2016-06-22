@@ -1261,6 +1261,7 @@ function addDates(newDateObj, refresh, startToday)
 			if(currDate.toDateString() == new Date().toDateString()) //if this is today
 				$(col).attr("id","sch-today");
 
+			currDate.setHours(0,0,0,0);
 			visibleDates.push(cloneDate(currDate));
 			currDate.setDate(currDate.getDate() + 1);
 		});
@@ -1293,6 +1294,7 @@ function addDates(newDateObj, refresh, startToday)
 			if(currDate.toDateString() == new Date().toDateString()) //if this is today
 				$(".sch-day-tile:last-of-type").attr("id","sch-today");
 
+			currDate.setHours(0,0,0,0);
 			visibleDates.push(cloneDate(currDate));
 			currDate.setDate(currDate.getDate() + 1);
 			counter++;
@@ -1367,7 +1369,8 @@ function populateEvents()
 		if(viewMode == "week")
 			$(".sch-day-col:eq(" + i + ") .col-snap").append(currentElem);
 		else if(viewMode == "month")
-			$(".sch-day-tile:eq(" + i + ")").append("<div class='sch-month-evnt' style='background-color: " 
+			$(".sch-day-tile:eq(" + i + ")").append("<div class='sch-month-evnt' data-id='" + eventObject.tempId 
+				+ "' style='background-color: " 
 				+ categories[eventObject.categoryId].color +  ";'>" 
 					+ "<span class='time'>" + eventObject.startDateTime.getHours() + "</span>"
 					+ eventObject.getName(true)
