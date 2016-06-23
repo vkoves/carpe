@@ -1277,15 +1277,27 @@ function addDates(newDateObj, refresh, startToday)
 
 		var oldDatesCount = 0; 
 		if(startDateData.lastMonth)
-			oldDatesCount = lastMonthLength - currDate.getDate();
+			oldDatesCount = lastMonthLength - currDate.getDate() + 1;
+
+		console.log("Old dates count " + oldDatesCount);
+		console.log("LAST " + lastMonthLength);
+		console.log("CURR " + currDate.getDate());
+
+		var endOfMonth = cloneDate(newDateObj);
+		endOfMonth.setDate(monthLength); //get the last day of the month
+		var nextMonthDatesCount = 7 - endOfMonth.getDay(); //go to end of week
+		nextMonthDatesCount = nextMonthDatesCount % 7; //and remove if it's 7 (a full week)
 
 		var counter = 0;
-		while(counter < oldDatesCount + monthLength)
+		while(counter < oldDatesCount + monthLength + nextMonthDatesCount)
 		{
 			var tileClass = "sch-day-tile";
 
 			if(counter <= oldDatesCount && startDateData.lastMonth) //if going through dates from the last month
-				tileClass = tileClass + " last-month"
+				tileClass = tileClass + " last-month";
+
+			if(counter >= oldDatesCount + monthLength) //if we are going through dates from the next month
+				tileClass = tileClass + " next-month";
 
 			var todaySimple = new Date();
 			todaySimple.setHours(0,0,0,0);
@@ -1293,8 +1305,10 @@ function addDates(newDateObj, refresh, startToday)
 				tileClass = tileClass + " in-past";
 
 			$("#sch-monthly-view #tiles-cont").append("<div class='" + tileClass + "'>"
-				+ "<div id='day-of-month'>" + currDate.getDate() + "</div>"
-				+ "<div>");	
+					+ "<div class='inner'>"
+						+ "<div id='day-of-month'>" + currDate.getDate() + "</div>"
+					+ "</div>"
+				+ "</div>");	
 
 			if(currDate.toDateString() == new Date().toDateString()) //if this is today
 				$(".sch-day-tile:last-of-type").attr("id","sch-today");
@@ -1374,12 +1388,17 @@ function populateEvents()
 		if(viewMode == "week")
 			$(".sch-day-col:eq(" + i + ") .col-snap").append(currentElem);
 		else if(viewMode == "month")
-			$(".sch-day-tile:eq(" + i + ")").append("<div class='sch-month-evnt' data-id='" + eventObject.tempId 
-				+ "' style='background-color: " 
-				+ categories[eventObject.categoryId].color +  ";'>" 
-					+ "<span class='time'>" + eventObject.startDateTime.getHours() + "</span>"
+		{
+			var color = categories[eventObject.categoryId].color;
+			$(".sch-day-tile:eq(" + i + ") .inner").append("<div class='sch-month-evnt' data-id='" + eventObject.tempId 
+				+ "' style='color: " 
+				+  color +  "; color: " + color + ";'>" 
 					+ eventObject.getName(true)
+					+ "<div class='time'>" 
+						+ datesToTimeRange(eventObject.startDateTime, eventObject.endDateTime) 
+					+ "</div>"
 				+ "</div>");
+		}
 	}
 
 	for (var i = 0; i < visibleDates.length; i++)
@@ -2051,6 +2070,18 @@ function verboseDateToString(date)
    var dateStr  = date.getDate().toString();
 
    return (monthStr[1]?monthStr:"0"+monthStr[0]) + "/" + (dateStr[1]?dateStr:"0"+dateStr[0]) + "/" + yearStr; // padding
+}
+
+
+function dateToTimeString(date)
+{
+	var timeArray = [date.getHours(), paddedMinutes(date)]; //and reset the field
+	return convertTo12Hour(timeArray);
+}
+
+function datesToTimeRange(startDate, endDate)
+{
+	return dateToTimeString(startDate) + " to " + dateToTimeString(endDate);
 }
 
 /****************************/

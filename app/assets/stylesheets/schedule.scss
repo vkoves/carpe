@@ -787,43 +787,51 @@ input[readonly="readonly"]
 {
 	float: left;
 	width: calc(100% / 7);
-	height: 20%;
-	background: #F7F7F7;
+	height: 25%;
+	padding: 2px;
 	box-sizing: border-box;
-	border-left: solid 1px #D2D2D2;
-	border-top: solid 1px #D2D2D2;
 	overflow: hidden;
 
+	.inner {
+		height: 100%;
+		background: #f2f2f2;
+	}
 	&.in-past
 	{
 		.sch-month-evnt
 		{
-			opacity: 0.5;
-			transition: opacity 0.25s;
+			// opacity: 0.5;
+			// transition: opacity 0.25s;
 		}
 	}
 	.sch-month-evnt
 	{
-		margin: 0px 2px 2px 2px;
+		margin: 0px 2px 4px 2px;
 		color: white;
-		font-weight: bold;
 		position: relative;
+		border-left: solid 3px;
+		padding-left: 5px;
+		background: white;
+		text-align: left;
+		line-height: 1.1;
+		font-size: 14px;
 
 		.time 
 		{
-			position: absolute;
-			left: 5px;
-			font-weight: normal;
-			font-size: 14px;
-			margin-top: 2px;
+			font-size: 10px;
+			color: grey;
 		}
 	}
 	#day-of-month
 	{
 		font-size: 16px;
+		text-align: left;
+		margin-left: 5px;
 	}
-	&.last-month
+	/* Give special styling to days outside this month */
+	&.last-month, &.next-month
 	{
+		.inner { background-color: #d9d9d9; }
 		#day-of-month { color: gray;}
 	}
 	&#sch-today
