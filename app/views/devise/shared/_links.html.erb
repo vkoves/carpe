@@ -35,12 +35,12 @@
 	    	<%= link_to  omniauth_authorize_path(resource_name, provider), :class=>"google-sign-in" do %>
 	    	 <div>
 	    	<%= image_tag "google.png" %>
-	    	<span>Sign in with Google</span>
+	    	<span>Sign In with Google</span>
 			</div>
 	    	<% end %>
 	<% else %>
      	<div class="link-default">
-			<%= link_to "Sign in with #{provider.to_s.titleize.split.first}", omniauth_authorize_path(resource_name, provider), :class => "default" %>
+			<%= link_to "Sign In with #{provider.to_s.titleize.split.first}", omniauth_authorize_path(resource_name, provider), :class => "default" %>
 		</div>
     <% end%>
     <br>
