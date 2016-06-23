@@ -1,6 +1,7 @@
 <%- if controller_name != 'sessions' %>
   <%= link_to new_session_path(resource_name), :class => "default" do %>
-	<div class="google-width">Log in</div>  <% end %>
+	<div class="google-width">Sign In</div>
+  <% end %>
 <% end -%>
 
 <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
