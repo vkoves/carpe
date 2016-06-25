@@ -1669,7 +1669,6 @@ function showBreakAddOverlay()
 
 		var css = "";
 		var classAdd = "";
-		console.log(currObj);
 		if(currObj.breaks.indexOf(parseInt(id)) > -1)
 		{
 			classAdd = "active"
@@ -1678,6 +1677,12 @@ function showBreakAddOverlay()
 		$("#break-cont").append("<div class='break-elem " +  classAdd +"' data-id='" + id + "'" + css + " >"
 			+ breakInstance.name + " | " + dateToString(breakInstance.startDate) + " | " + dateToString(breakInstance.endDate)
 			+ "</div>");
+	}
+
+	if($(".break-elem").length == 0) //if no breaks were added, there were no breaks, so show a message
+	{
+		$("#break-cont").append("It looks like you haven't created any repeat breks!"
+			+ "<br>Make some by pressing \"Create Break\" on your schedule!");
 	}
 
 	$(".break-elem").click(function()
