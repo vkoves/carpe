@@ -448,7 +448,7 @@ function confirmUI(message, callback)
 //replaces javascript's default alert function
 function alertUI(message, callback)
 {
-	customAlert(message, "", callback);
+	customAlertUI(message, "", callback);
 }
 
 //Show a custom alert with full HTML content
