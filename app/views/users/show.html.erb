@@ -38,7 +38,6 @@
 	<br>
 	<div style="text-align: left">
 		Joined Carpe: <%= relative_time_ago(@user.created_at, true) %> <br>
-		Last active: <%= relative_time_ago(@user.last_sign_in_at, true) %>
 	</div>
 	<% if params[:p] == "mutual_friends" %>
 		<%= render "mutual_friends_listing" %>
