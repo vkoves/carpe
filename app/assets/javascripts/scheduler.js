@@ -42,13 +42,17 @@ $(document).ready(scheduleReady);
 $(document).on('page:load', scheduleReady);
 
 //Run when the user tries to leave the page through a Turbolink
-$(document).on('page:before-change', function()
+$(document).unbind('page:before-change'); //unbind page before change from last time viewing
+$(document).on('page:before-change', pageChange); //and load again
+
+function pageChange() //called by Turbolinks before-change
 {
 	if(!isSafeToLeave()) //if the save button is active (they have changes) and this is the user's schedule
 	{
 		return confirm("You still have changes to your schedule pending! Are you sure you want to leave this page?");
 	}
-});
+}
+
 //Run on closing the window or relaoding
 $(window).on('beforeunload', function()
 {
