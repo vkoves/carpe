@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
-  before_filter  :authorize_admin #authorize admin on all of these pages
+  before_filter  :authorize_admin, :only => [:promote, :admin, :destroy_user] #authorize admin on all of these pages
 
   def promote #promote or demote users admin status
     @user = User.find(params[:id])

@@ -11,6 +11,9 @@ Rails.application.routes.draw do
   get "/schedule" => 'schedule#schedule'
   get "/userviewer" => 'pages#userviewer'
 
+  get "/about" => 'pages#about'
+  get "/status" => 'pages#status'
+
   #Group Rotes
   get "/groups" => 'groups#index'
   get "/groups/create" => 'groups#create'
