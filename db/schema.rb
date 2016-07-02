@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160526023836) do
+ActiveRecord::Schema.define(version: 20160701042847) do
 
   create_table "categories", force: :cascade do |t|
     t.string   "name"
@@ -20,8 +20,10 @@ ActiveRecord::Schema.define(version: 20160526023836) do
     t.datetime "updated_at", null: false
     t.integer  "user_id"
     t.string   "privacy"
+    t.integer  "group_id"
   end
 
+  add_index "categories", ["group_id"], name: "index_categories_on_group_id"
   add_index "categories", ["user_id"], name: "index_categories_on_user_id"
 
   create_table "categories_repeat_exceptions", id: false, force: :cascade do |t|
@@ -45,9 +47,11 @@ ActiveRecord::Schema.define(version: 20160526023836) do
     t.string   "location"
     t.date     "repeat_start"
     t.date     "repeat_end"
+    t.integer  "group_id"
   end
 
   add_index "events", ["category_id"], name: "index_events_on_category_id"
+  add_index "events", ["group_id"], name: "index_events_on_group_id"
   add_index "events", ["user_id"], name: "index_events_on_user_id"
 
   create_table "events_repeat_exceptions", id: false, force: :cascade do |t|

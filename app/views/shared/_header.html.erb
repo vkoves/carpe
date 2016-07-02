@@ -21,6 +21,10 @@
 			<%= form_tag("/search_users", method: "get", id: "users-search") do %>
 			  <%= text_field_tag(:q, nil, placeholder: "Search people", autocomplete: "off") %>
 			<% end %>
+		<% else %>
+			<a href="/about">About</a> &nbsp; &nbsp;
+			<a href="/status">Status</a> &nbsp; &nbsp;
+			<a href="http://carpe-dev.tumblr.com/">Blog</a> &nbsp; &nbsp;
 		<% end %>
 	</span>
 	<% if current_user %>
