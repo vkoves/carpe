@@ -1,5 +1,39 @@
 /* Used to define CSS for the about and status pages */
 
+/* Start Home Page */
+#home-computer
+{
+	width: 50%;
+    position: absolute;
+    bottom: 120px;
+    left: 30px;
+}
+#home-right
+{
+	position: absolute;
+	left: 50%;
+	width: 50%;
+	top: 15%;
+	max-width: 600px;
+}
+#home-title
+{
+	font-size: 60px;
+	color: #ED7D31;
+}
+#home-sub-title
+{
+	font-size: 30px;
+	color: #7F7F7F;
+}
+#home-sign-up
+{
+	margin-top: 20px;
+	
+	div{ font-size: 24px; }
+}
+/* End Home Page */
+
 /* Start Status Page */
 #status-titler
 {
@@ -94,15 +128,5 @@
 		font-size: 14px;
 	}
 }
-
-
-
-
-
-
-
-
-
-
 
 /* End Status Page */

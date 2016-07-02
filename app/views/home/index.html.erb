@@ -1,13 +1,26 @@
 <% content_for :title do %> - Welcome<% end %>
 <%= stylesheet_link_tag "activity" %>
 <%= stylesheet_link_tag "profile" %>
+<%= stylesheet_link_tag "pages" %>
 
 <% if !current_user %>
-	<h1 class="no-bold" style="margin-bottom: -20px;">
-		Welcome to <span class="carpe-font" style="font-size: 54px;">Carpe</span>
-	</h1>
-	<h2 class="no-bold">Scheduling redefined for the modern age</h2>
-	<p>Cleaner, simpler, Carpe.</p>
+
+	<%= image_tag("pages/SegoeUIComputer.png", id: "home-computer") %>
+	<div id="home-right">
+		<div id="home-title">Scheduling for the modern age.</div>
+		<div id="home-sub-title">Meet Carpe. It's a social savant a powerful planning tool and a sophisticated scheduler.</div>
+		<%= link_to new_registration_path(User), :class => "default", :id => "home-sign-up" do %>
+			<div>Sign Up</div>
+		<% end %>
+	</div>
+	<!--
+		<h1 class="no-bold" style="margin-bottom: -20px;">
+			Welcome to <span class="carpe-font" style="font-size: 54px;">Carpe</span>
+		</h1>
+		<h2 class="no-bold">Scheduling redefined for the modern age</h2>
+		<p>Cleaner, simpler, Carpe.</p>
+	-->
+
 <% elsif current_user %>
 	<div id="greeting">
 		<span class="greet-text">
