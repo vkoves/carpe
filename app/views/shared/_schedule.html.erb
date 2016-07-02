@@ -145,7 +145,10 @@
 					<%= image_tag "close-wht.png", :class => "sch-evnt-close sch-evnt-icon no-drag" %>
 					<%= image_tag "divider-wht2.png", :class => "evnt-divider no-drag" %>
 				</div>
-				<% @user.categories.each_with_index do |cat, index| %>
+
+				<% #Load group's categories if we're showing a group schedule; otherwise, load user's categories %>
+				<% categories = @group.categories || @user.categories %>
+				<% categories.each_with_index do |cat, index| %>
 					<% if cat.has_access?(current_user) %>
 					<div class="sch-evnt category" time="0:00" data-id="<%= cat.id %>" privacy="<%= cat.privacy %>"
 						style="background-color:<%= cat.color %>; /*top: <%= 105*index %>*/">
@@ -232,7 +235,8 @@
 	var userId = <%= id %>;
 
 	//Data variables
-	<% events = @user.get_events(current_user) %>
+	<% #Load group's events if we're showing a group schedule; otherwise, load user's events %>
+	<% events = @group.events || @user.get_events(current_user) %>
 	<% eventsOut = [] %>
 	<% events.each do |event| %>
 		<% atr = event.attributes %>
@@ -240,7 +244,8 @@
 		<% eventsOut.push(atr) %>
 	<% end %>
 
-	<% categories = @user.categories %>
+	<% #Load group's categories if we're showing a group schedule; otherwise, load user's categories %>
+	<% categories = @group.categories || @user.categories %>
 	<% catsOut = [] %>
 	<% categories.each do |category| %>
 		<% atr = category.attributes %>
@@ -248,10 +253,17 @@
 		<% catsOut.push(atr) %>
 	<% end %>
 
-	// TODO: rename these to not sound like booleans 
-	// (i.e., should be nouns, not ending in past-tense
-	//  verbs like these currently are)
-	var eventsLoaded = <%= raw eventsOut.to_json %>;
-	var categoriesLoaded = <%= raw catsOut.to_json %>;
-	var breaksLoaded = <%= raw @user.repeat_exceptions.to_json %>;
+	<% 	# Added this if statement here temporarily, so these JSON objects
+		# will only be output for users, but will need to add relationships
+		# to groups for repeat exceptions eventually, for group scheduling
+		# to work as it should
+	%>
+	<% if @user %>
+		// TODO: rename these JSON variables to not sound like booleans
+		// (should be nouns, not ending in past-tense
+		//  verbs like these currently are)
+		var eventsLoaded = <%= raw eventsOut.to_json %>;
+		var categoriesLoaded = <%= raw catsOut.to_json %>;
+		var breaksLoaded = <%= raw @user.repeat_exceptions.to_json %>;
+	<% end %>
 </script>
