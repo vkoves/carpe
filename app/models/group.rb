@@ -4,6 +4,7 @@ class Group < ActiveRecord::Base
 
   has_many :categories
   has_many :events
+  has_many :repeat_exceptions
 
   def get_role(user) #get the role of a user in this group
   	user_group = UsersGroup.where(user_id: user.id, group_id: self.id).first
