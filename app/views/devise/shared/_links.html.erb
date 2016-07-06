@@ -2,12 +2,14 @@
   <%= link_to new_session_path(resource_name), :class => "default" do %>
 	<div class="google-width">Sign In</div>
   <% end %>
+  <br>
 <% end -%>
 
 <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
   <%= link_to new_registration_path(resource_name), :class => "default" do %>
   <div class="google-width">Sign Up</div>
   <% end %>
+  <br>
 <% end -%>
 
 <%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
