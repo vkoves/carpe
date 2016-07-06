@@ -279,7 +279,8 @@ input.danger:hover
 	margin-bottom: 10px;
 }
 
-/* Devise's error stuff when forms have errors */
+/* Devise's error stuff when forms have errors  */
+/* Which is used on sign up and forgot password */
 #error_explanation h2
 {
     color: white;
@@ -287,14 +288,15 @@ input.danger:hover
     font-size: 20px;
     margin-bottom: 5px;
     background-color: #FF7272;
-    width: 40%;
     margin-left: auto;
     margin-right: auto;
     border-radius: 5px;
+    max-width: 300px;
 }
 #error_explanation ul
 {
   margin: 0px;
+  padding-left: 0px;
   list-style: none;
 }
 
