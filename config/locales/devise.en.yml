@@ -56,5 +56,5 @@ en:
       not_found: "not found"
       not_locked: "was not locked"
       not_saved:
-        one: "1 error prohibited this %{resource} from being saved:"
-        other: "%{count} errors prohibited this %{resource} from being saved:"
+        one: "An error prevented us from creating your account:" #"1 error prohibited this %{resource} from being saved:"
+        other: "%{count} errors prevented us from creating your account:" #"%{count} errors prohibited this %{resource} from being saved:"
