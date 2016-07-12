@@ -5,3 +5,15 @@ main:
   color: red
   user: viktor
   repeat_exceptions: null
+
+private:
+  user: viktor
+  privacy: "private"
+
+public:
+  user: viktor
+  privacy: "public"
+
+friends:
+  user: viktor
+  privacy: "friends"
