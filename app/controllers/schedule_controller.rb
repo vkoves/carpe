@@ -26,6 +26,10 @@ class ScheduleController < ApplicationController
     
     @cat.color = params[:color]
     
+    unless params[:group_id].empty?
+      @cat.group = Group.find(params[:group_id])
+    end
+
     if(params[:user_id])
       @cat.user = User.find(params[:user_id])
     end
@@ -49,7 +53,8 @@ class ScheduleController < ApplicationController
   end
 
   def delete_category
-    if current_user and Category.find(params[:id]).user == current_user
+    category = Category.find(params[:id])
+    if current_user and (category.user == current_user or category.group.in_group?(current_user)) #if user is owner or in owning group
       Category.destroy(params[:id])
       render :text => "Category destroyed"
     end
@@ -86,6 +91,9 @@ class ScheduleController < ApplicationController
         end
         evnt.name = obj["name"]
         evnt.user = current_user
+        unless params[:group_id].empty?
+          evnt.group = Group.find(params[:group_id])
+        end
         evnt.repeat = obj["repeatType"]
         evnt.date = DateTime.parse(obj["startDateTime"])
         evnt.end_date = DateTime.parse(obj["endDateTime"])
@@ -119,7 +127,8 @@ class ScheduleController < ApplicationController
   end
 
   def delete_event #delete events
-    if current_user and Event.find(params[:id]).user == current_user #if the current user is the owner
+    event = Event.find(params[:id])
+    if current_user and (event.user == current_user or event.group.in_group?(current_user)) #if the current user is the owner or in the owner group
       Event.destroy(params[:id])
       render :text => "Event deleted."
     end

@@ -4,6 +4,7 @@ class Group < ActiveRecord::Base
 
   has_many :categories
   has_many :events
+  has_many :repeat_exceptions
 
   def get_role(user) #get the role of a user in this group
   	user_group = UsersGroup.where(user_id: user.id, group_id: self.id).first
@@ -12,5 +13,11 @@ class Group < ActiveRecord::Base
   	else
   		return "none"
   	end
+  end
+
+  #returns whether the user is in the group
+  def in_group?(user)
+    role = self.get_role(user)
+    role == "none" ? false : true
   end
 end

@@ -1,6 +1,7 @@
 #An event describes a schedule item, that is a single item occuring on a person's schedule
 class Event < ActiveRecord::Base
   belongs_to :user
+  belongs_to :group
   belongs_to :category
   has_and_belongs_to_many :repeat_exceptions
 

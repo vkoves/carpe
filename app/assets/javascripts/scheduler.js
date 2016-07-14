@@ -1781,7 +1781,7 @@ function saveEvents()
 	$.ajax({
 		url: "/save_events",
 		type: "POST",
-		data: {map: arr, text: "testificates"},
+		data: {map: arr, group_id: groupID},
 		success: function(resp)
 		{
 			console.log("Save complete.");
@@ -1828,7 +1828,7 @@ function removeEvent(event, elem)
 			$.ajax({
 				url: "/delete_event",
 				type: "POST",
-				data: {id: eId},
+				data: {id: eId, group_id: groupID},
 				success: function(resp)
 				{
 					console.log("Delete complete.");
@@ -1848,7 +1848,7 @@ function createCategory()
 	$.ajax({
 		url: "/create_category",
 		type: "POST",
-		data: {name: "Untitled", user_id: userId},
+		data: {name: "Untitled", user_id: userId, group_id: groupID},
 		success: function(resp)
 		{
 			console.log("Create category complete.");
@@ -1886,7 +1886,7 @@ function deleteCategory(event, elem, id)
 			$.ajax({
 				url: "/delete_category",
 				type: "POST",
-				data: {id: id},
+				data: {id: id, group_id: groupID},
 				success: function(resp) //after the server says the delete worked
 				{
 					console.log("Delete category complete.");
@@ -1920,7 +1920,7 @@ function saveCategory(event,elem,id)
 		url: "/create_category",
 		type: "POST",
 		data: {name: $(".cat-overlay-title").text(), id: id, color: $(".cat-top-overlay").css("background-color"), 
-			privacy: currCategory.attr("privacy"), breaks: categories[currCategory.attr("data-id")].breaks},
+			privacy: currCategory.attr("privacy"), breaks: categories[currCategory.attr("data-id")].breaks, group_id: groupID},
 		success: function(resp)
 		{
 			console.log("Update category complete.");
@@ -1948,7 +1948,7 @@ function createBreak(name, startDate, endDate)
 	$.ajax({
 		url: "/create_break",
 		type: "POST",
-		data: {name: name, start: startD, end: endD},
+		data: {name: name, start: startD, end: endD, group_id: groupID},
 		success: function(resp) //server responds with the id
 		{
 			var brk = new Break(); //create a new break instance
