@@ -90,7 +90,7 @@ class ScheduleController < ApplicationController
         end
         evnt.name = obj["name"]
         evnt.user = current_user
-        event.group = Group.find(params[:group_id])
+        evnt.group = Group.find(params[:group_id])
         evnt.repeat = obj["repeatType"]
         evnt.date = DateTime.parse(obj["startDateTime"])
         evnt.end_date = DateTime.parse(obj["endDateTime"])
