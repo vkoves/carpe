@@ -1,5 +1,6 @@
 class Category < ActiveRecord::Base
 	belongs_to :user
+	belongs_to :group
 	has_many :events
 	has_and_belongs_to_many :repeat_exceptions
 
@@ -17,7 +18,11 @@ class Category < ActiveRecord::Base
 	  if privacy == "public" #if the category is public
 	    return true #everyone has access
 	  elsif privacy == "private" #if it is private
-	    return false #no one has access
+	  	if self.group and self.group.get_role(user_in) != "none" #if this category has a group, and the user is in it
+	  		return true #they have access 
+	  	else #if this is not a group category
+		    return false #no one has access
+		end
 	  elsif privacy == "friends" #if it is only viewable by friends
 	    if user_in and user_in.friend_status(user) == "friend" #if the user is a friend
 	      return true #they can view it

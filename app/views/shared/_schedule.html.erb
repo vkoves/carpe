@@ -147,7 +147,11 @@
 				</div>
 
 				<% #Load group's categories if we're showing a group schedule; otherwise, load user's categories %>
-				<% categories = @group.categories || @user.categories %>
+				<% if @user %>
+					<% categories = @user.categories %>
+				<% elsif @group %>
+					<% categories = @group.categories %>
+				<% end %>
 				<% categories.each_with_index do |cat, index| %>
 					<% if cat.has_access?(current_user) %>
 					<div class="sch-evnt category" time="0:00" data-id="<%= cat.id %>" privacy="<%= cat.privacy %>"
@@ -236,7 +240,11 @@
 
 	//Data variables
 	<% #Load group's events if we're showing a group schedule; otherwise, load user's events %>
-	<% events = @group.events || @user.get_events(current_user) %>
+	<% if @user %>
+		<% events = @user.get_events(current_user) %>
+	<% elsif @group %>
+		<% events = @group.events %>
+	<% end %>
 	<% eventsOut = [] %>
 	<% events.each do |event| %>
 		<% atr = event.attributes %>
@@ -245,7 +253,11 @@
 	<% end %>
 
 	<% #Load group's categories if we're showing a group schedule; otherwise, load user's categories %>
-	<% categories = @group.categories || @user.categories %>
+	<% if @user %>
+		<% categories = @user.categories %>
+	<% elsif @group %>
+		<% categories = @group.categories %>
+	<% end %>
 	<% catsOut = [] %>
 	<% categories.each do |category| %>
 		<% atr = category.attributes %>
@@ -258,12 +270,15 @@
 		# to groups for repeat exceptions eventually, for group scheduling
 		# to work as it should
 	%>
+	// TODO: rename these JSON variables to not sound like booleans
+	// (should be nouns, not ending in past-tense
+	//  verbs like these currently are)
+	var eventsLoaded = <%= raw eventsOut.to_json %>;
+	var categoriesLoaded = <%= raw catsOut.to_json %>;
+
 	<% if @user %>
-		// TODO: rename these JSON variables to not sound like booleans
-		// (should be nouns, not ending in past-tense
-		//  verbs like these currently are)
-		var eventsLoaded = <%= raw eventsOut.to_json %>;
-		var categoriesLoaded = <%= raw catsOut.to_json %>;
 		var breaksLoaded = <%= raw @user.repeat_exceptions.to_json %>;
 	<% end %>
+
+	var groupID = <%= @group ? @group.id : "null" %>;
 </script>

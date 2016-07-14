@@ -26,6 +26,10 @@ class ScheduleController < ApplicationController
     
     @cat.color = params[:color]
     
+    if(params[:group_id])
+      @cat.group = Group.find(params[:group_id])
+    end
+
     if(params[:user_id])
       @cat.user = User.find(params[:user_id])
     end
@@ -86,6 +90,7 @@ class ScheduleController < ApplicationController
         end
         evnt.name = obj["name"]
         evnt.user = current_user
+        event.group = Group.find(params[:group_id])
         evnt.repeat = obj["repeatType"]
         evnt.date = DateTime.parse(obj["startDateTime"])
         evnt.end_date = DateTime.parse(obj["endDateTime"])
