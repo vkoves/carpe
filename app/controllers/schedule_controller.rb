@@ -53,7 +53,8 @@ class ScheduleController < ApplicationController
   end
 
   def delete_category
-    if current_user and Category.find(params[:id]).user == current_user
+    category = Category.find(params[:id])
+    if current_user and (category.user == current_user or category.group.in_group?(current_user)) #if user is owner or in owning group
       Category.destroy(params[:id])
       render :text => "Category destroyed"
     end
@@ -126,7 +127,8 @@ class ScheduleController < ApplicationController
   end
 
   def delete_event #delete events
-    if current_user and Event.find(params[:id]).user == current_user #if the current user is the owner
+    event = Event.find(params[:id])
+    if current_user and (event.user == current_user or event.group.in_group?(current_user)) #if the current user is the owner or in the owner group
       Event.destroy(params[:id])
       render :text => "Event deleted."
     end

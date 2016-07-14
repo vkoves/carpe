@@ -14,4 +14,10 @@ class Group < ActiveRecord::Base
   		return "none"
   	end
   end
+
+  #returns whether the user is in the group
+  def in_group?(user)
+    role = self.get_role(user)
+    role == "none" ? false : true
+  end
 end
