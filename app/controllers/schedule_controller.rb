@@ -26,7 +26,7 @@ class ScheduleController < ApplicationController
     
     @cat.color = params[:color]
     
-    if(params[:group_id])
+    unless params[:group_id].empty?
       @cat.group = Group.find(params[:group_id])
     end
 
@@ -90,7 +90,9 @@ class ScheduleController < ApplicationController
         end
         evnt.name = obj["name"]
         evnt.user = current_user
-        evnt.group = Group.find(params[:group_id])
+        unless params[:group_id].empty?
+          evnt.group = Group.find(params[:group_id])
+        end
         evnt.repeat = obj["repeatType"]
         evnt.date = DateTime.parse(obj["startDateTime"])
         evnt.end_date = DateTime.parse(obj["endDateTime"])
