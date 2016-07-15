@@ -247,9 +247,11 @@
 	<% end %>
 	<% eventsOut = [] %>
 	<% events.each do |event| %>
-		<% atr = event.attributes %>
-		<% atr[:break_ids] = event.repeat_exception_ids #.repeat_exceptions.pluck(:id) %>
-		<% eventsOut.push(atr) %>
+		<% if @group or (@user and !event.group) %>
+			<% atr = event.attributes %>
+			<% atr[:break_ids] = event.repeat_exception_ids #.repeat_exceptions.pluck(:id) %>
+			<% eventsOut.push(atr) %>
+		<% end %>
 	<% end %>
 
 	<% #Load group's categories if we're showing a group schedule; otherwise, load user's categories %>
