@@ -1,4 +1,6 @@
 class GroupsController < ApplicationController
+  before_filter :authorize_signed_in
+
   def index
     if current_user.admin
       @groups = Group.all
