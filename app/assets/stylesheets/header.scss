@@ -17,6 +17,8 @@
 	font-size: 20px;
 	text-align: left;
 }
+
+/* The actual main navigation at the top of the header */
 .header-text
 {
 	padding-top:10px;
@@ -24,14 +26,18 @@
 	position:absolute;
 	white-space: nowrap;
 	overflow: hidden;
-	width: 50%;
 	height: 50px;
 	transition: width 0.5s, opacity 0.5s;
+}
+.header-text a
+{
+	margin-right: 25px;
 }
 .header-text .active
 {
 	color: orange;
 }
+
 .header-logintext {
 	padding-top: 14px;
 	right:10px;
@@ -265,9 +271,7 @@
 }
 #users-search
 {
-	position: absolute;
-    top: 9px;
-    left: 210px;
+    display: inline-block;
     z-index: 10;
 }
 #users-search input, #users-search-input
@@ -354,5 +358,10 @@
 {
 	float: left;
 }
-
+.new-tab-icon
+{
+	width: 14px;
+	position: relative;
+	top: -4px;
+}
 /* END HEADER CSS */
