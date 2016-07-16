@@ -50,7 +50,7 @@
 	color: rgb(106, 106, 106);
 	text-decoration: none;
 	font-size: 18px;
-	transition: color 0.2s;
+	// transition: color 0.2s;
 }
 .header-main a:hover
 {
@@ -361,5 +361,14 @@
 .new-tab-icon
 {
 	width: 14px;
+	height: 14px;
+	display: inline-block;
+	background-image: image-url("new-tab.svg");
+	background-size: 100%;
+}
+#new-tab-preload { display: none; }
+a:hover > .new-tab-icon
+{
+	background-image: image-url("new-tab-orange.svg");
 }
 /* END HEADER CSS */
