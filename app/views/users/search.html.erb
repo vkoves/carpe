@@ -3,7 +3,7 @@
 <div class="page-container">
 	<h1 class="page-titler">Find People</h1>
 	<h3 class="page-desc">
-		Looking for someone? Type their name!
+		Looking for someone? Type their name here.
 		<%= form_tag("/search_users", method: "get") do %>
 		  <%= text_field_tag(:q, params[:q], id: "users-search-input") %>
 		  <%= submit_tag("Search") %>
@@ -24,6 +24,6 @@
 			<% end%>
 		<% end %>
 	<% else %>
-		No users found with that name!
+		Sorry, we didn't find any users with that name.
 	<% end %>
 </div>

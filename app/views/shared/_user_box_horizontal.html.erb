@@ -18,7 +18,7 @@
 
 		<span class="friend-name"><%= user.name %></span><br>
 		<% if @profile%>
-			<%= user.friends_count %> Friends <br>
+			<%= user.friends_count %> Connections <br>
 			Friends since: <%= friendship.created_at.strftime("%b. %d, %Y")%> <br>
 			<%= link_to friendships_path(:id => friendship.id), :method => :delete, :remote => true, :class => "default red friend-remove", "fid" => friendship.id,
 				:style => "position: relative; top: 5px;" do %>

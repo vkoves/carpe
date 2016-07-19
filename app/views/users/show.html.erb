@@ -24,12 +24,12 @@
 				</div>
 			<% end %>
 			<div id="profile-info">
-				<%= @user.friends_count %> Friends
+				<%= @user.friends_count %> Connections
 			</div>
 		</div>
 		<div id="profile-buttons">
 			<a href="?p=schedule"><div class="<%= "curr" if @tab == "schedule" %>">Schedule</div></a>
-			<a href="?p=friends"><div class="<%= "curr" if @tab == "friends" %>">Friends</div></a>
+			<a href="?p=friends"><div class="<%= "curr" if @tab == "friends" %>">Connections</div></a>
 			<a href="?p=activity"><div class="<%= "curr" if @tab == "activity" %>">Activity</div></a>
 		</div>
 	</div>

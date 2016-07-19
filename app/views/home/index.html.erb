@@ -8,12 +8,12 @@
 	<%= image_tag("pages/SegoeUIComputer.png", id: "home-computer") %>
 	<div id="home-right">
 		<div id="home-title">Scheduling for the modern age.</div>
-		<div id="home-sub-title">Meet Carpe. It's a social savant a powerful planning tool and a sophisticated scheduler.</div>
+		<div id="home-sub-title">Meet Carpe. It's a social, powerful planning tool for the modern world.</div>
 		<%= link_to new_registration_path(User), :class => "default", :id => "home-sign-up" do %>
 			<div>Sign Up</div>
 		<% end %>
 		<div id="home-dev-warning">
-			Note: Carpe is still in Alpha and <br> is being actively developed	
+			Note: Carpe is still in Alpha and <br> is being actively developed.
 		</div>
 	</div>
 	<!--
@@ -21,7 +21,7 @@
 			Welcome to <span class="carpe-font" style="font-size: 54px;">Carpe</span>
 		</h1>
 		<h2 class="no-bold">Scheduling redefined for the modern age</h2>
-		<p>Cleaner, simpler, Carpe.</p>
+		<p>Clean. Simple. Carpe.</p>
 	-->
 
 <% elsif current_user %>
@@ -32,7 +32,7 @@
 				It is currently <%= Time.now.strftime("%l:%M %p") %>
 			</span> -->
 			<div class="greet-subt">
-				Check out the new sidebar, a quick way to know if your friends are free or not.<br>
+				Check out the new sidebar, a quick way to know if your connections are free or not.<br>
 				To keep up with Carpe updates, check out <a href="http://carpe-dev.tumblr.com" target="_blank" class="greet-a">our development blog!</a>
 				<% if @upcoming_events and @upcoming_events.length > 0 %>
 					<h3 class="zero-bot">Current Events</h3>
