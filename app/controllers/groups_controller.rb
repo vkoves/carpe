@@ -2,11 +2,7 @@ class GroupsController < ApplicationController
   before_filter :authorize_signed_in
 
   def index
-    if current_user.admin
-      @groups = Group.all
-    else
-      @groups = current_user.groups.all
-    end
+    @groups = current_user.groups.all
   end
 
   def create
