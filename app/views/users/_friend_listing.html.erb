@@ -5,7 +5,7 @@
 			<% if mut > 0 #only link if there are some %>
 				<a href="?p=mutual_friends" class="normal">	<%= mut %> Mutual </a>
 			<% else %>
-				<%= mut %> Mutual
+				<%= mut %> Shared
 			<% end %>
 			)
 		</span>
@@ -15,9 +15,9 @@
 <% if @all_friends.empty? %>
 	<span class="empty-text">
 		<% if @profile %>
-			It looks awfully empty here... add some friends to fill it up!
+			It looks awfully empty here... add some connections to fill it up!
 		<% else %>
-			It looks like <%= @user.name.split(" ")[0] %> doesn't have any friends yet.
+			It looks like <%= @user.name.split(" ")[0] %> doesn't have any connections yet.
 		<% end %>
 	</span>
 <% else %>
