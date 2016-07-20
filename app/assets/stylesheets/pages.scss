@@ -113,7 +113,7 @@
 			width: 90px;
 		}
 	}
-	.tile-title, .tile-status { font-size: 18px; }
+	.tile-title, .tile-status { font-size: 20px; }
 
 	.tile-title
 	{
@@ -123,6 +123,7 @@
 	}
 	.tile-status
 	{
+		font-size: 18px;
 		&.alpha { color: #ffc000; }
 		&.dev { color: #ff0000; }
 		font-weight: bold;
@@ -131,7 +132,7 @@
 	{
 		margin-top: 10px;
 		color: #7f7f7f;
-		font-size: 14px;
+		font-size: 16px;
 	}
 }
 
