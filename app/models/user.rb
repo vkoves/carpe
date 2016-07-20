@@ -186,6 +186,17 @@ class User < ActiveRecord::Base
    end
 	end
 
+  #Return nice text for the auth provider used by this user
+  def provider_name
+    if provider == "google_oauth2" #if google oauth
+      return "Google" #return Google
+    elsif provider #if we don't recognize the provider
+      return provider #just return it
+    else
+      return nil
+    end
+  end
+
   ##########################
   ## END GEN USER METHODS ##
   ##########################
