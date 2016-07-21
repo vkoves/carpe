@@ -109,8 +109,9 @@
 #profile-buttons div
 {
   background: #262626;
-  float: left;
+  display: inline-block;
   padding: 10px 15px 10px 15px;
+  margin-left: -4px;
 }
 #profile-buttons div.curr
 {
