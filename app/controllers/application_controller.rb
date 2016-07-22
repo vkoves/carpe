@@ -13,8 +13,8 @@ class ApplicationController < ActionController::Base
     end
     
     if q != "" #only search if it's not silly
-      @users = User.where('name LIKE ?', "%#{q}%").limit(10)
-      @users = @users.sort {|a,b|
+      users = User.where('name LIKE ?', "%#{q}%").limit(10)
+      users = users.sort {|a,b|
         a_rank = 0
         b_rank = 0
 
@@ -36,23 +36,39 @@ class ApplicationController < ActionController::Base
       }
 
       groups = Group.where('name LIKE ?', "%#{q}%").limit(5)
-      group_map = groups.map(&:attributes) #returns an array of hash objects of groups
-      group_map = group_map.map{|group|
-        group[:model_name] = "Group"
-        group[:link_url] = group_url(Group.find_by_id(group["id"]))
-        group
+      group_map = groups.map{|group|
+        group_obj = {} #create a hash representing the group
+
+        # Required fields for search - name and image url
+        group_obj[:name] = group.name
+        group_obj[:image_url] = group.image_url
+
+        # Custom fields - model name and link_url for linking
+        group_obj[:model_name] = "Group"
+        group_obj[:link_url] = group_url(group)
+
+        group_obj #return the group hash
       }
 
-      user_map = @users.map(&:attributes) #grab all user attributes
-      user_map = user_map.map{|user|
-        user[:model_name] = "User" #specify what type of object this is
-        user[:link_url] = user_url(User.find_by_id(user["id"]))
+      # Convert the users into a hash with the least data needed to show search. Recall that users can see the JSON
+      # the search returns in the network tab, so it's crucial we don't pass unused attributes
+      user_map = users.map{|user|
+        user_obj = {} #create a hash representing the user
 
-        # and handle avatars
-        unless(User.find_by_id(user["id"]) and User.find_by_id(user["id"]).has_avatar) #if this is a valid user that has no avatar
-          user[:image_url] = "http://www.gravatar.com/avatar/?d=mm" #change to the default avatar
+        # Required fields for search - name and image url
+        user_obj[:name] = user.name
+        user_obj[:image_url] = user.image_url
+
+        # Custom fields - model name and link_url for linking
+        user_obj[:model_name] = "User" #specify what type of object this is
+        user_obj[:link_url] = user_url(User.find_by_id(user["id"]))
+
+        # Handle avatars
+        unless user and user.has_avatar #if this is a valid user that has no avatar
+          user_obj[:image_url] = "http://www.gravatar.com/avatar/?d=mm" #change to the default avatar
         end
-        user #and return the users
+
+        user_obj #and return the user
       }
 
       render :json => user_map + group_map
