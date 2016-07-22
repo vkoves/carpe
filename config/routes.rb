@@ -31,6 +31,7 @@ Rails.application.routes.draw do
 
   #User Routes
   get "/search_users" => 'users#search'
+  get "/search_core" => 'application#search_core'
   post "/deny_friend" => 'friendships#deny'
   post "/confirm_friend" => 'friendships#confirm'
 

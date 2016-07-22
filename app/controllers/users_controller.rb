@@ -34,6 +34,7 @@ class UsersController < ApplicationController
     end
   end
 
+  #User search. Used to add users to stuff, like the sandbox user adder
   def search
     if params[:q]
       q = params[:q].strip

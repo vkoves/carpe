@@ -183,20 +183,24 @@ function initializeEventListeners()
 
 
 	//Tokenizer shenanigans for the search
-	$("#users-search input[type=text]").tokenInput("/search_users.json", {
+	// Uses jQuery tokeninput - http://loopj.com/jquery-tokeninput/
+	$("#users-search input[type=text]").tokenInput("/search_core.json", {
 		crossDomain: false,
 		placeholder: "Search people",
 		searchDelay: 0,
 		animateDropdown: false,
 		addOnlyOne: true,
-		onAdd: function(value)
+		onAdd: function(value) //link to the thing that was selected
 		{
-			location.href = "/u/" + value.id;
+			location.href = value.link_url;
 		},
-		resultsFormatter: function(element)
+		resultsFormatter: function(element) //format the results
 		{
 			img_url = element.image_url || "http://www.gravatar.com/avatar/?d=mm";
-			return "<li>" + "<div class='avatar search-avatar'><img src='" + img_url + "'></div><div class='name'>" + element.name + "</div></li>";
+			return 	"<li>" +
+						"<div class='avatar search-avatar'><img src='" + img_url + "'></div><div class='name with-type'>" + element.name + "</div>" + 
+						"<div class='type'>" + element.model_name + "</div>"
+					"</li>";
 		}
 	});
 

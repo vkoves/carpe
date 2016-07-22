@@ -324,14 +324,22 @@
 }
 .token-input-dropdown .name
 {
-
 	position: absolute;
     top: 15px;
     left: 60px;
-	height: 20px;
 	overflow: hidden;
     text-align: left;
     text-overflow: ellipsis;
+
+    &.with-type { top: 10px; }
+}
+.token-input-dropdown .type
+{
+	position: absolute;
+	left: 60px;
+	top: 28px;
+	font-size: 12px;
+	opacity: 0.9;
 }
 .token-input-selected-dropdown-item
 {
