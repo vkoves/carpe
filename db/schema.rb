@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160705035557) do
+ActiveRecord::Schema.define(version: 20160727051646) do
 
   create_table "categories", force: :cascade do |t|
     t.string   "name"
@@ -86,6 +86,14 @@ ActiveRecord::Schema.define(version: 20160705035557) do
     t.boolean  "viewed",      default: false
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
+  end
+
+  create_table "relationships", force: :cascade do |t|
+    t.integer  "follower_id"
+    t.integer  "followed_id"
+    t.boolean  "confirmed"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "repeat_exceptions", force: :cascade do |t|
