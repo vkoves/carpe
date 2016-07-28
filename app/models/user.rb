@@ -178,7 +178,23 @@ class User < ActiveRecord::Base
 
   # Returns true if the current user is following the other user.
   def following?(other_user)
-    following.include?(other_user)
+    if following.include?(other_user) and active_relationships.find_by(followed_id: other_user.id).confirmed #if following and confirmed
+      return true
+    else
+      return false
+    end
+  end
+
+  def follow_status(other_user) #returns text indicating friendship status
+    if active_relationships.find_by(followed_id: other_user.id)
+      if active_relationships.find_by(followed_id: other_user.id).confirmed
+        return "confirmed"
+      else
+        return "pending"
+      end
+    else
+      return nil
+    end
   end
 
   ##########################

@@ -14,6 +14,9 @@ Rails.application.routes.draw do
   get "/about" => 'pages#about'
   get "/status" => 'pages#status'
 
+  #Follow Routes
+  resources :relationships,       only: [:create, :destroy] #generate create and destroy routes automagically
+
   #Group Rotes
   get "/groups" => 'groups#index'
   get "/groups/create" => 'groups#create'
@@ -50,6 +53,5 @@ Rails.application.routes.draw do
   root 'home#index'
 
   resource :friendships
-
 
 end
