@@ -9,10 +9,10 @@
 		<% end %>
 		-->
 		<%= link_to relationships_path(:followed_id => @user.id), :method => :post, :remote => true, :class => "default green friend-button", "uid" => user.id do %>
-			<span>Add Friend</span>
+			<span>Follow</span>
 		<% end %>
-	<% elsif status == "friend" %>
-		<span class="friend-label">Friend</span>
+	<% elsif status == "confirmed" %>
+		<span class="friend-label">Following</span>
 	<% elsif status == "pending" || status == "denied" %>
 		<span class="friend-label">Pending</span>
 	<% end %>

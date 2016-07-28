@@ -176,6 +176,15 @@ class User < ActiveRecord::Base
     active_relationships.find_by(followed_id: other_user.id).destroy
   end
 
+  # Confirms following (let's someone follow this user)
+  def confirm_follow(other_user)
+    passive_relationships.find_by(followed_id: other_user.id).confirm
+  end
+
+  def deny_follow(other_user)
+    passive_relationships.find_by(followed_id: other_user.id).deny
+  end
+
   # Returns true if the current user is following the other user.
   def following?(other_user)
     if following.include?(other_user) and active_relationships.find_by(followed_id: other_user.id).confirmed #if following and confirmed

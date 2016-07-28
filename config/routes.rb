@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   get "/status" => 'pages#status'
 
   #Follow Routes
-  resources :relationships,       only: [:create, :destroy] #generate create and destroy routes automagically
+  resources :relationships
 
   #Group Rotes
   get "/groups" => 'groups#index'
