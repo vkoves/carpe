@@ -6,7 +6,7 @@ class RelationshipsController < ApplicationController
     current_user.follow(@user)
     respond_to do |format|
       format.html { redirect_to @user }
-      format.js
+      format.js { render json: @user.id }
     end
   end
 
@@ -17,5 +17,11 @@ class RelationshipsController < ApplicationController
       format.html { redirect_to @user }
       format.js
     end
+  end
+
+  def confirm
+  end
+
+  def deny
   end
 end
