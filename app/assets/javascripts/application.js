@@ -134,6 +134,7 @@ function initializeEventListeners()
 
 	//On delete friend button POST completion
 	$(".friend-remove").bind('ajax:success', function(event, data, status, xhr){
+		console.log("success" + data);
 		if(data)
 		{
 			$(".friend-remove[fid=" + data + "]").parents(".friend-listing").fadeOut(); //and remove associated friend listing

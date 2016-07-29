@@ -21,9 +21,8 @@
 		<% end %>
 	</span>
 <% else %>
-	<% for arr in @all_friends %>
-		<% friendship = arr[0]; user = arr[1] %>
-		<%= render "shared/user_box_horizontal", user: user, friendship: friendship %>
+	<% for active_relationship in @all_friends %>
+		<%= render "shared/user_box_horizontal", user: active_relationship.followed, friendship: active_relationship %>
 	<% end %>
 <% end%>
 </div>
