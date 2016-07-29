@@ -24,7 +24,7 @@
 				</div>
 			<% end %>
 			<div id="profile-info">
-				<%= pluralize(@user.friends_count, "Connection") %>
+				<%= pluralize(@user.followers.count, "Follower") %>
 			</div>
 		</div>
 		<div id="profile-buttons">
