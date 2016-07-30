@@ -8,11 +8,12 @@ class User < ActiveRecord::Base
   has_many :active_relationships,  class_name:  "Relationship",
                                    foreign_key: "follower_id",
                                    dependent:   :destroy
-  has_many :passive_relationships, class_name:  "Relationship",
+  has_many :passive_relationships, class_name:  "Relationship", 
                                    foreign_key: "followed_id",
                                    dependent:   :destroy
-  has_many :following, through: :active_relationships,  source: :followed
-  has_many :followers, through: :passive_relationships, source: :follower
+
+  has_many :all_following, through: :active_relationships,  source: :followed #all followers, including pending
+  has_many :all_followers, through: :passive_relationships, source: :follower #all followers, including pending
 
   has_many :users_groups
   has_many :groups, :through => :users_groups
@@ -204,6 +205,14 @@ class User < ActiveRecord::Base
     else
       return nil
     end
+  end
+
+  def followers
+    return passive_relationships.where(:confirmed => true).map{|r| r.followed}
+  end
+
+  def following
+    return active_relationships.where(:confirmed => true).map{|r| r.following}
   end
 
   ##########################
