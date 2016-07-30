@@ -58,6 +58,6 @@ class GroupsController < ApplicationController
       end
       redirect_to group_path(@group)
     end
-    @all_friends = current_user.all_friendships #and fetch all of the user's friendss
+    @followers = current_user.followers #and fetch all of the user's friendss
   end
 end

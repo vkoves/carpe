@@ -12,12 +12,6 @@
 	Role: <%= @role %>
 </h3>
 
-<!--
-<% @group.users.each do |user| %>
-	<%= render "shared/user_box_horizontal", user: user %>
-<% end %>
--->
-
 <br>
 <%= link_to "/groups/add-users/" + params[:id], class: "default" do %>
 	<span>Manage Users</span>

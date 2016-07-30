@@ -2,10 +2,8 @@
 <div class="page-container">
 	<h1 class="zero-bot"><%= link_to(@group.name, group_path(@group)) %></h1>
 	<h2 class="page-titler zero-top">Manage Users</h2>
-	<h4 class="zero-top">You can add your friends to this group.</h4>
-	<% @all_friends.each do |arr| %>
-		<% status = arr[0] %>
-		<% user = arr[1] %>
-			<%= render "shared/user_box", user: user, status: status %>
+	<h4 class="zero-top">You can add your followers to this group.</h4>
+	<% @followers.each do |user| %>
+			<%= render "shared/user_box", user: user %>
 	<% end %>
 </div>

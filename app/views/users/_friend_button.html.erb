@@ -8,7 +8,7 @@
 			<span>Add Friend</span>
 		<% end %>
 		-->
-		<%= link_to relationships_path(:followed_id => @user.id), :method => :post, :remote => true, :class => "default green friend-button", "uid" => user.id do %>
+		<%= link_to relationships_path(:followed_id => user.id), :method => :post, :remote => true, :class => "default green friend-button", "uid" => user.id do %>
 			<span>Follow</span>
 		<% end %>
 	<% elsif status == "confirmed" %>

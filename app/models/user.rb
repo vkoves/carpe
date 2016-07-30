@@ -208,11 +208,11 @@ class User < ActiveRecord::Base
   end
 
   def followers
-    return passive_relationships.where(:confirmed => true).map{|r| r.followed}
+    return passive_relationships.where(:confirmed => true).map{|r| r.follower}
   end
 
   def following
-    return active_relationships.where(:confirmed => true).map{|r| r.following}
+    return active_relationships.where(:confirmed => true).map{|r| r.followed}
   end
 
   ##########################
