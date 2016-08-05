@@ -145,12 +145,12 @@
 	top: -15px;
 }
 
-#friend-list
+#following-list
 {
 	width: 100%;
 	text-align: center;
 }
-.friend-listing
+.user-listing
 {
 	position: relative;
     width: 300px;
@@ -162,29 +162,31 @@
 	background: #F5F5F5;
 	border-radius: 5px;
 	box-shadow: 1px 1px 1px silver;
+	
+	.profile
+	{
+		width: 310px;
+		padding: 10px 20px;
+		
+		.friend-details
+		{
+			position: relative;
+			top: -5px;
+			margin-top: 0px;
+		}
+	}
+	#mutual-friends
+	{
+		position: relative;
+		top: -3px;
+	}
+	.avatar
+	{
+		margin-top: 10px;
+		float: left;
+	}
 }
-.friend-listing.profile
-{
-	width: 310px;
-    padding: 10px 20px;
-}
-.friend-listing.profile .friend-details
-{
-	position: relative;
-	top: -5px;
-	margin-top: 0px;
-}
-.friend-listing #mutual-friends
-{
-	position: relative;
-	top: -3px;
-}
-.friend-listing .avatar
-{
-	margin-top: 10px;
-	float: left;
-}
-.friend-details
+.user-details
 {
 	text-align: left;
 	float: left;
@@ -192,24 +194,10 @@
 	margin-top: 7px;
 	max-width: 74%;
 }
-.friend-name
+.user-name
 {
 	font-size: 24px;
 }
-/*
-.orng-bold-a {
-	text-decoration:none;
-	color:Orange;
-}
-@media (max-width: 660px)
-{
-	.friend-listing
-	{
-		margin-left: calc(50% - 155px);
-	}
-}
-*/
-
 .friend-button {
 	margin-top: 0px !important;
 }

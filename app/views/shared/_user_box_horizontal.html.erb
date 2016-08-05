@@ -1,8 +1,8 @@
 
 <% if @home %>
-<div class="friend-listing <%= @profile ? "profile" : "" %>" style="margin:5px">
+<div class="user-listing <%= @profile ? "profile" : "" %>" style="margin:5px">
 <% else %>
-<div class="friend-listing <%= @profile ? "profile" : "" %>">
+<div class="user-listing <%= @profile ? "profile" : "" %>">
 <% end %>
 	<%= link_to(user) do %>
 		<div class="avatar">
@@ -14,9 +14,9 @@
 		</div>
 	<% end %>
 
-	<div class="friend-details">
+	<div class="user-details">
 
-		<span class="friend-name"><%= user.name %></span><br>
+		<span class="user-name"><%= user.name %></span><br>
 		<% if @profile%>
 			<!--
 			<%= link_to friendships_path(:id => friendship.id), :method => :delete, :remote => true, :class => "default red friend-remove", "fid" => friendship.id,
