@@ -27,7 +27,7 @@ class UsersController < ApplicationController
       if params[:p] == "mutual_friends"
         @mutual_friends = current_user.mutual_friends(@user)
       else
-        @all_friends = @user.active_relationships.where(:confirmed => true) #and fetch all of the user's friends
+        @all_friends = @user.passive_relationships.where(:confirmed => true) #and fetch all of the user's followers
       end
     else
       redirect_to "/404"

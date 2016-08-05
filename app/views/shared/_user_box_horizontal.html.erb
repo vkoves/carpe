@@ -24,8 +24,8 @@
 				<span>Remove</span>
 			<% end %>
 			-->
-			<%= user.friends_count %> Connections <br>
-			Friends since: <%= friendship.created_at.strftime("%b. %d, %Y")%> <br>
+			<!-- <%= user.friends_count %> Connections <br> -->
+			Following since: <%= friendship.created_at.strftime("%b. %d, %Y")%> <br>
 
 			<%= link_to relationship_path(friendship), :method => :delete, :remote => true, :class => "default red friend-remove", "fid" => friendship.id do %>
 				<span>Unfollow</span>
