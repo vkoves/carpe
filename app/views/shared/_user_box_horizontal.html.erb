@@ -35,7 +35,7 @@
 				<% mut = current_user.mutual_friends(user).count %>
 				<span id="mutual-friends"><%= mut %> mutual friends</span>
 				<br>
-				<%= render "/users/friend_button", user: user %>
+				<%= render "/users/follow_button", user: user %>
 			<% else %>
 				<% if user.is_busy? %>
 					<div class="red circle"></div>

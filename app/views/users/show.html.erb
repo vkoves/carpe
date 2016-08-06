@@ -19,8 +19,8 @@
 		<div id="profile-text">
 			<h1 id="profile-name" class="zero-top zero-bot"><a href="?"><%= @user.name %></a></h1>
 			<% if current_user and !@profile %>
-				<div id="profile-friend">
-					<%= render "friend_button", user: @user %>
+				<div id="profile-follow">
+					<%= render "follow_button", user: @user %>
 				</div>
 			<% end %>
 			<div id="profile-info">
@@ -29,7 +29,7 @@
 		</div>
 		<div id="profile-buttons">
 			<a href="?p=schedule"><div class="<%= "curr" if @tab == "schedule" %>">Schedule</div></a>
-			<a href="?p=friends"><div class="<%= "curr" if @tab == "friends" %>">Followers</div></a>
+			<a href="?p=followers"><div class="<%= "curr" if @tab == "followers" %>">Followers</div></a>
 			<a href="?p=activity"><div class="<%= "curr" if @tab == "activity" %>">Activity</div></a>
 		</div>
 	</div>
@@ -45,7 +45,7 @@
 		<%= render "activity" %>
 	<% elsif params[:p] == "schedule" or !params[:p] %>
 		<%= render "schedule" %>
-	<% elsif params[:p] == "friends" %>
-		<%= render "friend_listing" %>
+	<% elsif params[:p] == "followers" %>
+		<%= render "follower_listing" %>
 	<% end %>
 </div>

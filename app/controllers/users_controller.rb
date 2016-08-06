@@ -12,8 +12,8 @@ class UsersController < ApplicationController
       end
 
       case params[:p]
-      when "friends"
-        @tab = "friends"
+      when "followers"
+        @tab = "followers"
       when "activity"
         @tab = "activity"
       when "mutual_friends"
