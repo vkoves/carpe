@@ -20,11 +20,14 @@ class UsersController < ApplicationController
         @tab = "mutual"
       when "schedule"
         @tab = "schedule"
+      when "following"
+        @tab = "following"
+        @following = @user.active_relationships.where(:confirmed => true) 
       else #default, aka no params
         @tab = "schedule"
       end
 
-      if params[:p] == "mutual_friends"
+      if @tab == "mutual"
         @mutual_friends = current_user.mutual_friends(@user)
       else
         @all_friends = @user.passive_relationships.where(:confirmed => true) #and fetch all of the user's followers

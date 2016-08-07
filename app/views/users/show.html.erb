@@ -30,6 +30,7 @@
 		<div id="profile-buttons">
 			<a href="?p=schedule"><div class="<%= "curr" if @tab == "schedule" %>">Schedule</div></a>
 			<a href="?p=followers"><div class="<%= "curr" if @tab == "followers" %>">Followers</div></a>
+			<a href="?p=following"><div class="<%= "curr" if @tab == "following" %>">Following</div></a>
 			<a href="?p=activity"><div class="<%= "curr" if @tab == "activity" %>">Activity</div></a>
 		</div>
 	</div>
@@ -39,13 +40,15 @@
 	<div style="text-align: left">
 		Joined Carpe: <%= relative_time_ago(@user.created_at, true) %> <br>
 	</div>
-	<% if params[:p] == "mutual_friends" %>
+	<% if @tab == "mutual" %>
 		<%= render "mutual_friends_listing" %>
-	<% elsif params[:p] == "activity" %>
+	<% elsif @tab == "activity" %>
 		<%= render "activity" %>
-	<% elsif params[:p] == "schedule" or !params[:p] %>
+	<% elsif @tab == "schedule" or !@tab %>
 		<%= render "schedule" %>
-	<% elsif params[:p] == "followers" %>
+	<% elsif @tab == "followers" %>
 		<%= render "follower_listing" %>
+	<% elsif @tab == "following" %>
+		<%= render "following_listing" %>
 	<% end %>
 </div>
