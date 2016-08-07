@@ -18,7 +18,9 @@
 	  <div class="field">
 	    <%= f.label :public_profile %>
 	    <%= f.check_box :public_profile %>
+	    <br>
 	  </div>
+	  Public profiles auto accept followers. Use this if you don't want to confirm each follower you receive. <br>
 
 	<% if current_user.provider %>
 		<br>
