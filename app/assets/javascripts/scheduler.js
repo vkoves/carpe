@@ -1357,10 +1357,6 @@ function addDates(newDateObj, refresh, startToday)
 		if(startDateData.lastMonth)
 			oldDatesCount = lastMonthLength - currDate.getDate() + 1;
 
-		console.log("Old dates count " + oldDatesCount);
-		console.log("LAST " + lastMonthLength);
-		console.log("CURR " + currDate.getDate());
-
 		var endOfMonth = cloneDate(newDateObj);
 		endOfMonth.setDate(monthLength); //get the last day of the month
 		var nextMonthDatesCount = 7 - endOfMonth.getDay(); //go to end of week
