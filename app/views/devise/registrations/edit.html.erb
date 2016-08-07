@@ -15,6 +15,11 @@
 	    <%= f.text_field :name, class: "text-input", autofocus: true %>
 	  </div>
 	
+	  <div class="field">
+	    <label>Public Profile</label>
+	    <%= f.check_box :public %>
+	  </div>
+
 	<% if current_user.provider %>
 		<br>
 		Since you are logged in with <%= current_user.provider_name %>, <br> you don't have to give your password to make changes. <br>
