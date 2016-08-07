@@ -12,8 +12,8 @@ class RelationshipsController < ApplicationController
 
   def destroy
     @relationship = Relationship.find(params[:id])
-    @user = @relationship.followed
-    current_user.unfollow(@user)
+    @followed_user = @relationship.followed
+    @relationship.follower.unfollow(@followed_user)
     respond_to do |format|
       format.html { redirect_to @user }
       format.js { render json: @relationship.id }
