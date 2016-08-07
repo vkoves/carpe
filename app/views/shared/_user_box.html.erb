@@ -7,8 +7,6 @@
 
 	<div class="name">
 		<%= user.name %><br>
-		<% mut = current_user.mutual_friends(user).count %>
-		<%= mut %> mutual
 	</div>
 
 	<%= render "/users/follow_button", user: user %>

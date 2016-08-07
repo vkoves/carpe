@@ -220,6 +220,11 @@ class User < ActiveRecord::Base
     return active_relationships.where(:confirmed => true).map{|r| r.followed}
   end
 
+  # returns followers of this user that the current user "knows", as in is following
+  def known_followers(other_user)
+    return followers & other_user.followers # this finds items in both arrays
+  end
+
   ##########################
   ### END FOLLOW METHODS ###
   ##########################

@@ -1,4 +1,7 @@
 class UsersController < ApplicationController
+  before_filter  :authorize_admin, :only => [:index] #authorize admin on the user viewing page
+
+
   def index
     @users = User.all
   end

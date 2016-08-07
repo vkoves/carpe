@@ -18,13 +18,17 @@
 		</div>
 		<div id="profile-text">
 			<h1 id="profile-name" class="zero-top zero-bot"><a href="?"><%= @user.name %></a></h1>
-			<% if current_user and !@profile %>
-				<div id="profile-follow">
+			<div id="profile-follow">
+				<% if current_user and !@profile %>
 					<%= render "follow_button", user: @user %>
+				<% end %>
+				<div id="profile-info">
+					<%= pluralize(@user.followers.count, "Follower") %> <br>
 				</div>
-			<% end %>
+				<br>
+			</div>
 			<div id="profile-info">
-				<%= pluralize(@user.followers.count, "Follower") %>
+				<%= pluralize(@user.known_followers(current_user).length, "Follower") %> You Know
 			</div>
 		</div>
 		<div id="profile-buttons">
