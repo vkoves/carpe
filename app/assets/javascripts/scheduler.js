@@ -735,6 +735,9 @@ function keyboardShortcutHandlers()
 {
 	$(document).keydown(function(e)
 	{
+		if($(":focus").length > 0) //if the user is focused on an element (they are in an input field)
+			return;
+
 		var shift = e.shiftKey;
 		var ctrl = e.ctrlKey;
 		var alt = e.altKey;
