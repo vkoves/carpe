@@ -27,9 +27,11 @@
 				</div>
 				<br>
 			</div>
-			<div id="profile-info">
-				<%= pluralize(@user.known_followers(current_user).length, "Follower") %> You Know
-			</div>
+			<% if current_user and !@profile %>
+				<div id="profile-info">
+					<%= pluralize(@user.known_followers(current_user).length, "Follower") %> You Know
+				</div>
+			<% end %>
 		</div>
 		<div id="profile-buttons">
 			<%= link_to user_path(@user, page: "schedule") do %>
