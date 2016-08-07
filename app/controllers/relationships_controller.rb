@@ -23,8 +23,8 @@ class RelationshipsController < ApplicationController
   def update
     @relationship = Relationship.find(params[:id])
     if @relationship.update_attribute(:confirmed, params[:relationship][:confirmed])
-      if params[:relationship][:confirmed] == true
-        render :json => {"action" => "confirm_friend", "fid" => params[:id], "conf" => params[:relationship][:confirmed]}
+      if params[:relationship][:confirmed] == "true"
+        render :json => {"action" => "confirm_friend", "fid" => params[:id]}
       else
         render :json => {"action" => "deny_friend", "fid" => params[:id]}
       end
