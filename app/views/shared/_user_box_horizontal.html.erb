@@ -28,7 +28,11 @@
 			Following since: <%= friendship.created_at.strftime("%b. %d, %Y")%> <br>
 
 			<%= link_to relationship_path(friendship), :method => :delete, :remote => true, :class => "default red friend-remove", "fid" => friendship.id do %>
-				<span>Unfollow</span>
+				<% if current_user == friendship.follower # if the current user is following this person, let them unfollow %>
+					<span>Unfollow</span>
+				<% else %>
+					<span>Remove</span>
+				<% end %>
 			<% end %>
 		<% elsif current_user and current_user != user %>
 			<% if !@home %>
