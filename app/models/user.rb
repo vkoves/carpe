@@ -169,7 +169,12 @@ class User < ActiveRecord::Base
 
   # Follows a user.
   def follow(other_user)
-    active_relationships.create(followed_id: other_user.id)
+
+    if other_user.public_profile # if the other user is a public user, auto-confirm
+      active_relationships.create(followed_id: other_user.id, confirmed: true)
+    else
+      active_relationships.create(followed_id: other_user.id)
+    end
   end
 
   # Unfollows a user.
