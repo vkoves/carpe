@@ -41,39 +41,6 @@
 			<% end %>
 			<%= image_tag "bellg.svg", class: "bell" %>
 		</div>
-		<div id="notif-panel">
-			<% if @friend_requests.size > 0 %>
-				Friend Requests
-				<% @friend_requests.each do |n| %>
-					<div class="notif" fid="<%= n.id %>">
-						<%= link_to(n.user) do %>
-							<div id="user-avatar">
-								<img src="<%= n.user.user_avatar(90) %>">
-							</div>
-						<% end %>
-						<span><%= n.user.name %></span>
-						<%= link_to "/confirm_friend?id=" + n.id.to_s, :method => :post, :remote => true do %>
-							<div class="confirm"></div>
-						<% end %>
-						<%= link_to "/deny_friend?id=" + n.id.to_s, :method => :post, :remote => true do %>
-							<div class="deny"></div>
-						<% end %>
-					</div>
-				<% end %>
-			<% else %>
-				<span style="font-size: 16px; padding-bottom: 5px;">You don't have any notifications right now.</span>
-			<% end %>
-			<% @notif_general.each do |n| %>
-				<div class="notif general">
-					<%= link_to(n.sender) do %>
-						<div id="user-avatar">
-							<img src="<%= n.sender.user_avatar(90) %>">
-						</div>
-					<% end %>
-					<div><%= n.sender.name %> <%= n.message %></div>
-				</div>
-			<% end %>
-		</div>
 	<% end %>
 	<% if current_user %>
 		<div id="user-name-panel" class="carpe-color">
@@ -84,14 +51,6 @@
 			<br>
 			<div id="user-email"><%= current_user.email %></div>
 		</div>
-		<div id="user-panel">
-			<%= link_to user_path(current_user) do %><div>View Profile</div><% end %>
-			<%= link_to edit_user_registration_path do %><div>Edit Profile</div><% end %>
-			<% if current_user.admin %>
-				<%= link_to admin_panel_url do %><div>Admin Panel</div><% end %>
-			<% end %>
-			<%= link_to destroy_user_session_path, :method => :delete do %><div>Sign out</div><% end %>
-		</div>
 	<% else %>
 		<div id="user-name-panel" class="carpe-color">
 			<span class="header-logintext">
@@ -101,3 +60,48 @@
 		</div>
 	<% end %>
 </div>
+
+<% if current_user %>
+	<div id="user-panel" class="menu">
+		<%= link_to user_path(current_user) do %><div>View Profile</div><% end %>
+		<%= link_to edit_user_registration_path do %><div>Edit Profile</div><% end %>
+		<% if current_user.admin %>
+			<%= link_to admin_panel_url do %><div>Admin Panel</div><% end %>
+		<% end %>
+		<%= link_to destroy_user_session_path, :method => :delete do %><div>Sign out</div><% end %>
+	</div>
+
+	<div id="notif-panel" class="menu">
+		<% if @friend_requests.size > 0 %>
+			Friend Requests
+			<% @friend_requests.each do |n| %>
+				<div class="notif" fid="<%= n.id %>">
+					<%= link_to(n.user) do %>
+						<div id="user-avatar">
+							<img src="<%= n.user.user_avatar(90) %>">
+						</div>
+					<% end %>
+					<span><%= n.user.name %></span>
+					<%= link_to "/confirm_friend?id=" + n.id.to_s, :method => :post, :remote => true do %>
+						<div class="confirm"></div>
+					<% end %>
+					<%= link_to "/deny_friend?id=" + n.id.to_s, :method => :post, :remote => true do %>
+						<div class="deny"></div>
+					<% end %>
+				</div>
+			<% end %>
+		<% else %>
+			<span style="font-size: 16px; padding-bottom: 5px;">You don't have any notifications right now.</span>
+		<% end %>
+		<% @notif_general.each do |n| %>
+			<div class="notif general">
+				<%= link_to(n.sender) do %>
+					<div id="user-avatar">
+						<img src="<%= n.sender.user_avatar(90) %>">
+					</div>
+				<% end %>
+				<div><%= n.sender.name %> <%= n.message %></div>
+			</div>
+		<% end %>
+	</div>
+<% end %>
