@@ -11,7 +11,7 @@
 <% else %>
 	<% for passive_relationship in @following %>
 		<!-- List followers -->
-		<%= render "shared/user_box_horizontal", user: passive_relationship.followed, friendship: passive_relationship %>
+		<%= render "shared/user_box_horizontal", user: passive_relationship.followed, relationship: passive_relationship %>
 	<% end %>
 <% end%>
 </div>
