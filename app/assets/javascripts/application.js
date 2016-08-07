@@ -137,7 +137,7 @@ function initializeEventListeners()
 		console.log("success" + data);
 		if(data)
 		{
-			$(".friend-remove[fid=" + data + "]").parents(".friend-listing").fadeOut(); //and remove associated friend listing
+			$(".friend-remove[fid=" + data + "]").parents(".user-listing").fadeOut(); //and remove associated friend listing
 		}
 	});
 
