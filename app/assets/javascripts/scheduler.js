@@ -1685,7 +1685,7 @@ function showBreakAddOverlay()
 
 	if($(".break-elem").length == 0) //if no breaks were added, there were no breaks, so show a message
 	{
-		$("#break-cont").append("It looks like you haven't created any repeat breks!"
+		$("#break-cont").append("It looks like you haven't created any repeat breaks!"
 			+ "<br>Make some by pressing \"Create Break\" on your schedule!");
 	}
 
@@ -1716,12 +1716,12 @@ function showBreakAddOverlay()
 			currObj.breaks.push(currId);
 		}
 
+		updatedEvents("breaks"); //mark that the events changed to enable saving
+
 		//Repopulate event
 		if(currEvent)
-
 			$(".sch-evnt[evnt-temp-id='" + currEvent.tempId + "']").remove();
 		else
-
 			$(".sch-evnt[data-id='" + currCategory.id + "']").remove();
 
 		populateEvents();
