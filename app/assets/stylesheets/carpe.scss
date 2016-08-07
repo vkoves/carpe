@@ -539,6 +539,25 @@ form.thin
 	width: 100px;
 	margin-right: 10px;
 }
+.check-box
+{
+	background-color: white;
+	border: solid 2px #949090;
+	width: 18px;
+	height: 18px;
+	box-sizing: border-box;
+	display: inline-block;
+	margin-right: 10px;
+	vertical-align: middle;
+	margin-bottom: 2px;
+}
+.active .check-box
+{
+	background-image: image-url("checkmark.png");
+	background-size: 110%;
+	background-position: center center;
+	border: none;
+}
 /* END TO BE SORTED */
 
 /* UTILITY STYLING - Some handy tools, should be kept at EOF */

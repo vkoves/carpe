@@ -1744,15 +1744,15 @@ function showBreakAddOverlay()
 	{
 		var breakInstance = breaks[id]; //and add each break
 
-		var css = "";
 		var classAdd = "";
 		if(currObj.breaks.indexOf(parseInt(id)) > -1)
 		{
 			classAdd = "active"
 		}
 
-		$("#break-cont").append("<div class='break-elem " +  classAdd +"' data-id='" + id + "'" + css + " >"
-			+ breakInstance.name + " | " + dateToString(breakInstance.startDate) + " | " + dateToString(breakInstance.endDate)
+		$("#break-cont").append("<div class='break-elem " +  classAdd +"' data-id='" + id + "' >"
+				+ "<div class='check-box'></div>"
+				+ breakInstance.name + " | " + dateToString(breakInstance.startDate) + " | " + dateToString(breakInstance.endDate)
 			+ "</div>");
 	}
 
