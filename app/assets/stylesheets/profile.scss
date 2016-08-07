@@ -162,7 +162,8 @@
 	background: #F5F5F5;
 	border-radius: 5px;
 	box-shadow: 1px 1px 1px silver;
-	
+	text-align: left;
+
 	.profile
 	{
 		width: 310px;
@@ -189,10 +190,10 @@
 .user-details
 {
 	text-align: left;
-	float: left;
-	margin-left: 10px;
-	margin-top: 7px;
-	max-width: 74%;
+    margin-left: 10px;
+    margin-top: 7px;
+    display: inline-block;
+    max-width: 68%;
 }
 .user-name
 {
