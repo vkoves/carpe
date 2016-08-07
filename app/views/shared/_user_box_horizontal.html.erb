@@ -37,7 +37,9 @@
 				<% if user.is_busy? %>
 					<div class="red circle"></div>
 					<% if user.current_events[0].has_access?(current_user) %>
-						<a class="simple" href="/u/<%= user.id %>?p=schedule"><%= raw user.current_events[0].get_html_name %></a>
+						<%= link_to user_path(user, page: "schedule") do %>
+							<%= raw user.current_events[0].get_html_name %>
+						<% end %>
 					<% else %>
 						Busy
 					<% end %>

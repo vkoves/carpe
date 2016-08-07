@@ -14,7 +14,7 @@ class UsersController < ApplicationController
         @profile = true
       end
 
-      case params[:p]
+      case params[:page]
       when "followers"
         @tab = "followers"
       when "activity"

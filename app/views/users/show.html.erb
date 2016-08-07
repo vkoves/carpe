@@ -32,10 +32,18 @@
 			</div>
 		</div>
 		<div id="profile-buttons">
-			<a href="?p=schedule"><div class="<%= "curr" if @tab == "schedule" %>">Schedule</div></a>
-			<a href="?p=followers"><div class="<%= "curr" if @tab == "followers" %>">Followers</div></a>
-			<a href="?p=following"><div class="<%= "curr" if @tab == "following" %>">Following</div></a>
-			<a href="?p=activity"><div class="<%= "curr" if @tab == "activity" %>">Activity</div></a>
+			<%= link_to user_path(@user, page: "schedule") do %>
+				<div class="<%= "curr" if @tab == "schedule" %>">Schedule</div>
+			<% end %>
+			<%= link_to user_path(@user, page: "followers") do %>
+				<div class="<%= "curr" if @tab == "followers" %>">Followers</div>
+			<% end %>
+			<%= link_to user_path(@user, page: "following") do %>
+				<div class="<%= "curr" if @tab == "following" %>">Following</div>
+			<% end %>
+			<%= link_to user_path(@user, page: "activity") do %>
+				<div class="<%= "curr" if @tab == "activity" %>">Activity</div>
+			<% end %>
 		</div>
 	</div>
 </div>
