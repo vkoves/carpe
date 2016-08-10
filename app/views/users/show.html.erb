@@ -23,7 +23,9 @@
 					<%= render "follow_button", user: @user %>
 				<% end %>
 				<div id="profile-info">
-					<%= pluralize(@user.followers.count, "Follower") %> <br>
+					<% if @user.following?(current_user) %>
+						Follows You
+					<% end %>
 				</div>
 				<br>
 			</div>
@@ -38,10 +40,10 @@
 				<div class="<%= "curr" if @tab == "schedule" %>">Schedule</div>
 			<% end %>
 			<%= link_to user_path(@user, page: "followers") do %>
-				<div class="<%= "curr" if @tab == "followers" %>">Followers</div>
+				<div class="<%= "curr" if @tab == "followers" %>"><%= @user.followers.length %> Followers</div>
 			<% end %>
 			<%= link_to user_path(@user, page: "following") do %>
-				<div class="<%= "curr" if @tab == "following" %>">Following</div>
+				<div class="<%= "curr" if @tab == "following" %>"><%= @user.following.length %> Following </div>
 			<% end %>
 			<%= link_to user_path(@user, page: "activity") do %>
 				<div class="<%= "curr" if @tab == "activity" %>">Activity</div>
