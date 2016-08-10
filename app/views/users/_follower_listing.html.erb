@@ -23,8 +23,8 @@
 		<% end %>
 	</span>
 <% else %>
+	<%#  List followers %>
 	<% for active_relationship in @all_friends %>
-		<!-- List followers -->
 		<%= render "shared/user_box_horizontal", user: active_relationship.follower, relationship: active_relationship %>
 	<% end %>
 <% end%>

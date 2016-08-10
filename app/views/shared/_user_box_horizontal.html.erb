@@ -27,10 +27,9 @@
 					<span>Remove</span>
 				<% end %>
 			<% end %>
-		<% elsif current_user and current_user != user %>
+		<% elsif current_user %>
 			<% if !@home %>
-				<% mut = current_user.mutual_friends(user).count %>
-				<span id="mutual-friends"><%= mut %> mutual friends</span>
+				<span id="mutual-friends"><%= user.followers.length %> followers</span>
 				<br>
 				<%= render "/users/follow_button", user: user %>
 			<% else %>
@@ -43,7 +42,6 @@
 						Busy
 					<% end %>
 					until <%= relative_time_ago(user.current_events[0].end_date, false) %>
-
 				<% else %>
 					<div class="green circle"></div>
 					<% if user.next_event %>
