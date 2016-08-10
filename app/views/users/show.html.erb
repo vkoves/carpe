@@ -19,7 +19,7 @@
 		<div id="profile-text">
 			<h1 id="profile-name" class="zero-top zero-bot"><a href="?"><%= @user.name %></a></h1>
 			<div id="profile-follow">
-				<% if current_user and !@profile %>
+				<% if current_user %>
 					<%= render "follow_button", user: @user %>
 				<% end %>
 				<div id="profile-info">
