@@ -842,9 +842,9 @@ function loadInitialBreaks()
 			var breakInstance = new Break();
 			breakInstance.id = currBreak.id;
 			breakInstance.name = currBreak.name;
-			breakInstance.startDate = new Date(currBreak.start + " CST");
+			breakInstance.startDate = new Date(currBreak.start + " CDT");
 			breakInstance.startDate.setHours(0,0,0,0); //clear any time
-			breakInstance.endDate = new Date(currBreak.end + " CST");
+			breakInstance.endDate = new Date(currBreak.end + " CDT");
 			breakInstance.endDate.setHours(0,0,0,0); //clear any time
 
 			breaks[breakInstance.id] = breakInstance;
@@ -869,10 +869,10 @@ function loadInitialEvents()
 			schItem.startDateTime = new Date(evnt.date);
 			schItem.endDateTime = new Date(evnt.end_date);
 			if(evnt.repeat_start)
-				schItem.repeatStart = new Date(evnt.repeat_start + " CST"); //timezone dependent!
+				schItem.repeatStart = new Date(evnt.repeat_start + " CDT"); //timezone dependent!
 
 			if(evnt.repeat_end)
-				schItem.repeatEnd = new Date(evnt.repeat_end + " CST"); //timezone dependent!
+				schItem.repeatEnd = new Date(evnt.repeat_end + " CDT"); //timezone dependent!
 
 			schItem.name = evnt.name;
 			schItem.eventId = evnt.id;
