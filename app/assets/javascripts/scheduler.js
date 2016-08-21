@@ -21,8 +21,8 @@ var breaks = {};
 
 var eventTempId = 0; //the temp id that the next event will have, incremented on each event creation or load
 
-var currEvent; //the event being currently edited
-var currCategory; //the category being currently edited
+var currEvent; //scheduleEvent Object - the event being currently edited
+var currCategory; //DOM ELEMENT - the category being currently edited. TODO: Make this use the Category object
 var currMins; //the current top value offset caused by the minutes of the current item
 
 var readied = false; //whether the ready function has been called
@@ -555,6 +555,8 @@ function addStartingListeners()
 	{
 		$(".color-swatch").removeClass("selected");
 
+		currObj = categories[currCategory.attr("data-id")];
+		currObj.color = $(this).css("background-color");
 		$(this).addClass("selected");
 	});
 
@@ -1461,12 +1463,16 @@ function populateEvents()
 {
 	function place(eventObject, i)
 	{
+		var color = categories[eventObject.categoryId].color;
 		var currentElem = eventObject.tempElement.clone();
 		if(viewMode == "week")
+		{
+			currentElem.css("background-color", color);
+			currentElem.find(".evnt-title").text(eventObject.getName(true));
 			$(".sch-day-col:eq(" + i + ") .col-snap").append(currentElem);
+		}
 		else if(viewMode == "month")
 		{
-			var color = categories[eventObject.categoryId].color;
 			$(".sch-day-tile:eq(" + i + ") .inner").append("<div class='sch-month-evnt' data-id='" + eventObject.tempId 
 				+ "' style='color: " 
 				+  color +  "; color: " + color + ";'>" 
