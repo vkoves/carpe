@@ -758,6 +758,19 @@ input[readonly="readonly"]
 #sch-save
 {
 	transition: padding-right 0.5s, background 0.3s;
+
+	&.loading
+	{
+		padding-right: 35px;
+		.loading-spinner { display: block; }	
+	}
+	.loading-spinner
+	{
+		display: none;
+		position: absolute;
+		top: 2px;
+		right: 5px;
+	}
 }
 #sch-save.active
 {

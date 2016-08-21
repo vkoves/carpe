@@ -1854,6 +1854,8 @@ function saveEvents()
 	if($("#sch-save").hasClass("disabled")) //if the save button is disabled
 		return; //return
 
+	$("#sch-save").addClass("loading"); //indicate that stuff is loading
+
 	//JSON encode our hashmap
 	var arr  = JSON.parse(JSON.stringify(scheduleItems));
 
@@ -1864,12 +1866,17 @@ function saveEvents()
 		success: function(resp)
 		{
 			console.log("Save complete.");
-			$("#sch-save").addClass("active");
+
+			$("#sch-save").removeClass("loading");
+			$("#sch-save").addClass("active"); //show checkmark
+
+
+			//and hide it after 1.5 seconds
 			setTimeout(function()
 			{
 				$("#sch-save").removeClass("active");
 				$("#sch-save").addClass("disabled");
-			}, 1500);
+			}, 3000);
 
 			for(var key in resp)
 			{

@@ -558,6 +558,12 @@ form.thin
 	background-position: center center;
 	border: none;
 }
+/* Loading spinner used on save events */
+.loading-spinner
+{
+	display: inline-block;
+	vertical-align: middle;
+}
 /* END TO BE SORTED */
 
 /* UTILITY STYLING - Some handy tools, should be kept at EOF */
