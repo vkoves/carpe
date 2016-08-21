@@ -402,8 +402,6 @@ function scheduleReady()
 		}
 
 		$("#sch-save").addClass("disabled");
-
-		keyboardShortcutHandlers();
 	}
 }
 
@@ -413,6 +411,15 @@ function scheduleReady()
  */
 function addStartingListeners()
 {
+	$(document).keyup(function(e) //add event listener to close overlays on pressing escape
+	{
+		if (e.keyCode == 27) // escape key maps to keycode `27`
+		{
+			hideOverlay();
+		}
+	});
+
+
 	$(".date-field").datepicker( //show the datepicker when clicking on the field
 	{
 		firstDay: 1, //set Monday as the first day
@@ -653,14 +660,6 @@ function addStartingListeners()
 		highlightCurrent();
 	});
 
-	$(document).keyup(function(e) //add event listener to close overlays on pressing escape
-	{
-		if (e.keyCode == 27) // escape key maps to keycode `27`
-		{
-			hideOverlay();
-		}
-	});
-
 	$("#embed-button").click(function()
 	{
 		var iframeUrl = "http://www.carpe.us/schedule?iframe=true&uid=" + userId; //create the iframe URL
@@ -727,81 +726,6 @@ function addStartingListeners()
 	/****************************/
 	/** END RAILS HTML CLICKS ***/
 	/****************************/
-}
-
-/**
- * Initializes all of the keyboard shortcuts for the scheduler 
- * @function
- */
-function keyboardShortcutHandlers()
-{
-	$(document).keydown(function(e)
-	{
-		if($(":focus").length > 0) //if the user is focused on an element (they are in an input field)
-			return;
-
-		var shift = e.shiftKey;
-		var ctrl = e.ctrlKey;
-		var alt = e.altKey;
-
-		if((shift && pressed("/")) 
-			|| (ctrl && pressed("/")))
-		{
-			e.preventDefault();
-			UIManager.showOverlay();
-			UIManager.slideIn("#shortcut-overlay-box");
-		}
-		else if(ctrl && pressed("S")){
-			e.preventDefault();
-			saveEvents();
-		}
-		else if(alt && pressed("E"))
-		{
-			e.preventDefault();
-		}
-		else if(alt && pressed("C"))
-		{
-			e.preventDefault();
-			createCategory();
-		}
-		else if(ctrl && shift && pressed("left-arrow"))
-		{
-			e.preventDefault();
-			moveWeek(false);
-		}
-		else if(ctrl && shift && pressed("right-arrow"))
-		{
-			e.preventDefault();
-			moveWeek(true);
-		}
-		else if(ctrl && pressed("M")) //switch between monthly and weekly view
-		{
-			e.preventDefault();
-			if(viewMode == "week")
-				initializeMonthlyView()
-			else
-				initializeWeeklyView();
-		}
-		else if(pressed("/"))
-		{
-			e.preventDefault();
-			$(".header-main .token-input-input-token input").focus();
-		}
-
-		// Helper function that checks if the char was pressed
-		function pressed(charString)
-		{
-			if(charString == "/")
-				return Boolean(e.keyCode == 191);
-			if(charString == "left-arrow")
-				return Boolean(e.keyCode == 37);
-			if(charString == "right-arrow")
-				return Boolean(e.keyCode == 39);
-
-			//handle alphanumerics
-			return Boolean(e.keyCode == charString.charCodeAt(0));
-		}
-	});
 }
 
 /**

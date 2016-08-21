@@ -62,6 +62,7 @@ function ready()
 	}
 
 	initializeEventListeners();
+	keyboardShortcutHandlers();
 };
 
 /**
@@ -237,6 +238,81 @@ function initializeEventListeners()
 		{
 			img_url = element.image_url || "http://www.gravatar.com/avatar/?d=mm";
 			return "<li>" + "<div class='avatar'><img src='" + img_url + "'></div><p>" + element.name + "</p></li>";
+		}
+	});
+}
+
+/**
+ * Initializes all of the keyboard shortcuts for the scheduler 
+ * @function
+ */
+function keyboardShortcutHandlers()
+{
+	$(document).keydown(function(e)
+	{
+		if($(":focus").length > 0) //if the user is focused on an element (they are in an input field)
+			return;
+
+		var shift = e.shiftKey;
+		var ctrl = e.ctrlKey;
+		var alt = e.altKey;
+
+		if((shift && pressed("/")) 
+			|| (ctrl && pressed("/")))
+		{
+			e.preventDefault();
+			UIManager.showOverlay();
+			UIManager.slideIn("#shortcut-overlay-box");
+		}
+		else if(ctrl && pressed("S")){
+			e.preventDefault();
+			saveEvents();
+		}
+		else if(alt && pressed("E"))
+		{
+			e.preventDefault();
+		}
+		else if(alt && pressed("C"))
+		{
+			e.preventDefault();
+			createCategory();
+		}
+		else if(ctrl && shift && pressed("left-arrow"))
+		{
+			e.preventDefault();
+			moveWeek(false);
+		}
+		else if(ctrl && shift && pressed("right-arrow"))
+		{
+			e.preventDefault();
+			moveWeek(true);
+		}
+		else if(ctrl && pressed("M")) //switch between monthly and weekly view
+		{
+			e.preventDefault();
+			if(viewMode == "week")
+				initializeMonthlyView()
+			else
+				initializeWeeklyView();
+		}
+		else if(pressed("/"))
+		{
+			e.preventDefault();
+			$(".header-main .token-input-input-token input").focus();
+		}
+
+		// Helper function that checks if the char was pressed
+		function pressed(charString)
+		{
+			if(charString == "/")
+				return Boolean(e.keyCode == 191);
+			if(charString == "left-arrow")
+				return Boolean(e.keyCode == 37);
+			if(charString == "right-arrow")
+				return Boolean(e.keyCode == 39);
+
+			//handle alphanumerics
+			return Boolean(e.keyCode == charString.charCodeAt(0));
 		}
 	});
 }
