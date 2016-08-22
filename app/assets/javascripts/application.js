@@ -83,6 +83,11 @@ function initializeEventListeners()
 		$("#shortcut-overlay-box, .ui-widget-overlay").fadeOut();
 	});
 
+	$(".toggle-details").click(function()
+	{
+		$(this).parent().parent().find(".details").toggle();
+	});
+
 	//Start initializing event listeners for everything
 	$("#user-name-panel").click(function()
 	{

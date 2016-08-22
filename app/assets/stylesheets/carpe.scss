@@ -444,25 +444,36 @@ input.danger:hover
 }
 .home-event-tile
 {
-	display: inline-flex;
 	width: auto;
 	margin-bottom: 10px;
 	padding-left: 8px;
 	padding-right: 10px;
 	padding-bottom: 5px;
-}
-.home-event-tile.current
-{
-	background: #ffc14e;
-	box-shadow: 2px 2px rgb(238, 170, 43);
-	border-radius: 5px;
-    color: white;
-}
-.home-event-tile .tile-text
-{
-	position: relative;
-	top: 2px;
-	line-height: 1.1;
+	
+	&.current
+	{
+		background: #ffc14e;
+		box-shadow: 2px 2px rgb(238, 170, 43);
+		border-radius: 5px;
+		color: white;
+	}
+	.tile-text
+	{
+		position: relative;
+		top: 2px;
+		line-height: 1.1;
+	}
+	.toggle-details
+	{
+		cursor: pointer;
+		text-decoration: underline;
+	}
+	.details
+	{
+		display: none;
+		margin-top: 5px;
+		border-top: solid 1px grey;
+	}
 }
 /* Thin forms like editing groups */
 form.thin

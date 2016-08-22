@@ -55,9 +55,15 @@
 								<% else #and print start for future events %>
 									<%= time_string = relative_time_ago(event.date, true) %>
 								<% end %>
+								<span class="toggle-details">Toggle Details</span>
+							</div>
+							<div class="details">
+								<%= relative_time_ago(event.date, true) %> to <%= relative_time_ago(event.end_date, true) %>. <br>
+								<% unless event.description.empty? %>
+									Description: <%= event.description %>
+								<% end %>
 							</div>
 						</div>
-						<br>
 					<% end %>
 				<% end %>
 			</div>
