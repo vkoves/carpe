@@ -30,7 +30,7 @@
 		<span class="greet-text">
 			Greetings, <%= current_user.name.split(" ")[0] %>!
 			<span class="current-time">
-				Updated <%= Time.now.strftime("%l:%M %p") %>
+				Updated <%= local_time(Time.now, "%l:%M %p") %>
 			</span>
 			<div class="greet-subt">
 				Check out the new sidebar, a quick way to know if your connections are free or not.<br>
