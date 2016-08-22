@@ -70,6 +70,19 @@ function ready()
  */
 function initializeEventListeners()
 {
+	$(document).keyup(function(e) //add event listener to close overlays on pressing escape
+	{
+		if (e.keyCode == 27) // escape key maps to keycode `27`
+		{
+			$("#shortcut-overlay-box, .ui-widget-overlay").fadeOut();
+		}
+	});
+
+	$("#shortcut-overlay-box .close").click(function()
+	{
+		$("#shortcut-overlay-box, .ui-widget-overlay").fadeOut();
+	});
+
 	//Start initializing event listeners for everything
 	$("#user-name-panel").click(function()
 	{
