@@ -1,5 +1,7 @@
 module ApplicationHelper
   def relative_time_ago (datetime, start_caps)
+    time_format = "%l:%M %p" #anything today that's not an hour away, say this
+    
     datetime = datetime.utc.in_time_zone("Central Time (US & Canada)")
     now = Time.now.in_time_zone("Central Time (US & Canada)")
 
@@ -15,20 +17,19 @@ module ApplicationHelper
 
         if(seconds_diff.abs < 60) #we should use seconds
           if(seconds_diff >= 0) #future
-            return pluralize(seconds_diff, 'second') + " from now"
+            time_format = pluralize(seconds_diff, 'second') + " from now (" + time_format + ")"
           else
-            return pluralize(seconds_diff.abs, 'second') + " ago"
+            time_format = pluralize(seconds_diff.abs, 'second') + " ago (" + time_format + ")"
           end
         end
 
         if(minutes_diff > 0) #in the future
-          return pluralize(minutes_diff, 'minute') + " from now"
+          time_format = pluralize(minutes_diff, 'minute') + " from now (" + time_format + ")"
         else #in the past
-          return pluralize(minutes_diff.abs, 'minute') + " ago"
+          time_format = pluralize(minutes_diff.abs, 'minute') + " ago (" + time_format + ")"
         end
       end
 
-      time_format = "%l:%M %p" #anything today that's not an hour away, say this
 
       # if(hours_diff > 0) #in the future
       #   if(hours_diff < 5) #less than five hours away
@@ -44,9 +45,9 @@ module ApplicationHelper
       #   end
       # end
     elsif(datetime.to_date == tomorrow.to_date) #It's tomorrow
-      time_format = "tomorrow at %l:%M %p"
+      time_format = "tomorrow at " + time_format
     elsif(datetime.to_date == yesterday.to_date) #It's yesterday
-      time_format = "yesterday at %l:%M %p"
+      time_format = "yesterday at " + time_format
     else #use days, months or years
       days_diff = ((datetime - now)/1.day).round
       if(days_diff.abs > 31) #use months as it's more than 31 days in the past or future
@@ -58,13 +59,13 @@ module ApplicationHelper
         end
       elsif(days_diff > 0) #in the future
         if(days_diff < 7) #in the next week
-          time_format = "%A at %l:%M %p"
+          time_format = "%A at " + time_format
         else
           return pluralize(days_diff, 'day') + " from now"
         end
       else #in the past
         if(days_diff.abs < 7) #in the past week
-          time_format = "last %A at %l:%M %p"
+          time_format = "last %A at " + time_format
         else
           return pluralize(days_diff.abs, 'day') + " ago"
         end
