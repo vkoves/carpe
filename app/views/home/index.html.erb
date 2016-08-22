@@ -3,6 +3,7 @@
 <%= stylesheet_link_tag "profile" %>
 <%= stylesheet_link_tag "pages" %>
 
+<% # TODO - Split this into two views, a dashboard and a homepage, make controller pick which to use %>
 <% if !current_user %>
 
 	<%= image_tag("pages/SegoeUIComputer.png", id: "home-computer") %>
@@ -28,9 +29,9 @@
 	<div id="greeting">
 		<span class="greet-text">
 			Greetings, <%= current_user.name.split(" ")[0] %>!
-			<!-- <span class="current-time">
-				It is currently <%= Time.now.strftime("%l:%M %p") %>
-			</span> -->
+			<span class="current-time">
+				Updated <%= Time.now.strftime("%l:%M %p") %>
+			</span>
 			<div class="greet-subt">
 				Check out the new sidebar, a quick way to know if your connections are free or not.<br>
 				To keep up with Carpe updates, check out <a href="http://carpe-dev.tumblr.com" target="_blank" class="greet-a">our development blog!</a>
