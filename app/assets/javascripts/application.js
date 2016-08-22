@@ -508,7 +508,7 @@ function getCookie(cname)
 		}
 		if (currCookie.indexOf(name) == 0)
 		{
-			return currCookie.substring(name.length,c.length);
+			return currCookie.substring(name.length, currCookie.length);
 		}
 	}
 	return "";
