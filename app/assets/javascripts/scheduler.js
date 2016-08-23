@@ -792,11 +792,18 @@ function loadInitialEvents()
 			var schItem = new ScheduleItem();
 			schItem.startDateTime = new Date(evnt.date);
 			schItem.endDateTime = new Date(evnt.end_date);
+			
 			if(evnt.repeat_start)
+			{
+				evnt.repeat_start = evnt.repeat_start.split("-").join("/"); //replace dashes with slashes, as Firefox doesn't seem to like dashes and timezones
 				schItem.repeatStart = new Date(evnt.repeat_start + " CDT"); //timezone dependent!
+			}
 
 			if(evnt.repeat_end)
+			{
+				evnt.repeat_end = evnt.repeat_end.split("-").join("/"); //replace dashes with slashes, as Firefox doesn't seem to like dashes and timezones
 				schItem.repeatEnd = new Date(evnt.repeat_end + " CDT"); //timezone dependent!
+			}
 
 			schItem.name = evnt.name;
 			schItem.eventId = evnt.id;
