@@ -279,8 +279,12 @@ function keyboardShortcutHandlers()
 			|| (ctrl && pressed("/")))
 		{
 			e.preventDefault();
-			UIManager.showOverlay();
-			UIManager.slideIn("#shortcut-overlay-box");
+
+			if(!$("#shortcut-overlay-box").is(':visible'))
+			{
+				UIManager.showOverlay();
+				UIManager.slideIn("#shortcut-overlay-box");
+			}
 		}
 		else if(ctrl && pressed("S")){
 			e.preventDefault();
