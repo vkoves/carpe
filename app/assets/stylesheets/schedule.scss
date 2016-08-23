@@ -630,22 +630,6 @@ input[readonly="readonly"]
     /* border-radius: 5px; */
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5) inset;
 }
-.overlay-box .default.red.close
-{
-	position: absolute;
-	top: 5px;
-	right: 5px;
-	width: 22px;
-	height: 22px;
-	padding: 2px 1px 2px 3px;
-	border-radius: 50px;
-	text-align: center;
-	background-image: image-url("closeThick-wht.svg");
-	background-repeat: no-repeat;
-	background-size: 60%;
-    background-position: 50%;
-	border: solid 2px white;
-}
 .overlay-box #repeat
 {
 	position: relative;
