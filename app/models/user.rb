@@ -177,6 +177,11 @@ class User < ActiveRecord::Base
     end
   end
 
+  # TEMP - Forces following, only used for converting from friends to followers
+  def force_follow(other_user)
+    active_relationships.create(followed_id: other_user.id, confirmed: true)
+  end
+
   # Unfollows a user.
   def unfollow(other_user)
     active_relationships.find_by(followed_id: other_user.id).destroy
