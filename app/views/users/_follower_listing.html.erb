@@ -1,5 +1,6 @@
-<h2 class="no-bold">Friends
+<h2 class="no-bold">Followers
 	<% if current_user and !@profile %>
+		<!--
 		<span style="font-size: 18px;">(
 			<% mut = current_user.mutual_friends(@user).count %>
 			<% if mut > 0 #only link if there are some %>
@@ -9,21 +10,22 @@
 			<% end %>
 			)
 		</span>
+		-->
 	<% end %>
 </h2>
 <div id="friend-list">
 <% if @all_friends.empty? %>
 	<span class="empty-text">
 		<% if @profile %>
-			It looks awfully empty here... add some connections to fill it up!
+			It looks like you don't have any followers yet.
 		<% else %>
-			It looks like <%= @user.name.split(" ")[0] %> doesn't have any connections yet.
+			It looks like <%= @user.name.split(" ")[0] %> doesn't have any followers yet.
 		<% end %>
 	</span>
 <% else %>
-	<% for arr in @all_friends %>
-		<% friendship = arr[0]; user = arr[1] %>
-		<%= render "shared/user_box_horizontal", user: user, friendship: friendship %>
+	<%#  List followers %>
+	<% for active_relationship in @all_friends %>
+		<%= render "shared/user_box_horizontal", user: active_relationship.follower, relationship: active_relationship %>
 	<% end %>
 <% end%>
 </div>

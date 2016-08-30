@@ -18,19 +18,36 @@
 		</div>
 		<div id="profile-text">
 			<h1 id="profile-name" class="zero-top zero-bot"><a href="?"><%= @user.name %></a></h1>
+			<div id="profile-follow">
+				<% if current_user %>
+					<%= render "follow_button", user: @user %>
+				<% end %>
+				<div id="profile-info">
+					<% if @user.following?(current_user) %>
+						Follows You
+					<% end %>
+				</div>
+				<br>
+			</div>
 			<% if current_user and !@profile %>
-				<div id="profile-friend">
-					<%= render "friend_button", user: @user %>
+				<div id="profile-info">
+					<%= pluralize(@user.known_followers(current_user).length, "Follower") %> You Know
 				</div>
 			<% end %>
-			<div id="profile-info">
-				<%= pluralize(@user.friends_count, "Connection") %>
-			</div>
 		</div>
 		<div id="profile-buttons">
-			<a href="?p=schedule"><div class="<%= "curr" if @tab == "schedule" %>">Schedule</div></a>
-			<a href="?p=friends"><div class="<%= "curr" if @tab == "friends" %>">Connections</div></a>
-			<a href="?p=activity"><div class="<%= "curr" if @tab == "activity" %>">Activity</div></a>
+			<%= link_to user_path(@user, page: "schedule") do %>
+				<div class="<%= "curr" if @tab == "schedule" %>">Schedule</div>
+			<% end %>
+			<%= link_to user_path(@user, page: "followers") do %>
+				<div class="<%= "curr" if @tab == "followers" %>"><%= @user.followers.length %> Followers</div>
+			<% end %>
+			<%= link_to user_path(@user, page: "following") do %>
+				<div class="<%= "curr" if @tab == "following" %>"><%= @user.following.length %> Following </div>
+			<% end %>
+			<%= link_to user_path(@user, page: "activity") do %>
+				<div class="<%= "curr" if @tab == "activity" %>">Activity</div>
+			<% end %>
 		</div>
 	</div>
 </div>
@@ -39,13 +56,15 @@
 	<div style="text-align: left">
 		Joined Carpe: <%= relative_time_ago(@user.created_at, true) %> <br>
 	</div>
-	<% if params[:p] == "mutual_friends" %>
+	<% if @tab == "mutual" %>
 		<%= render "mutual_friends_listing" %>
-	<% elsif params[:p] == "activity" %>
+	<% elsif @tab == "activity" %>
 		<%= render "activity" %>
-	<% elsif params[:p] == "schedule" or !params[:p] %>
+	<% elsif @tab == "schedule" or !@tab %>
 		<%= render "schedule" %>
-	<% elsif params[:p] == "friends" %>
-		<%= render "friend_listing" %>
+	<% elsif @tab == "followers" %>
+		<%= render "follower_listing" %>
+	<% elsif @tab == "following" %>
+		<%= render "following_listing" %>
 	<% end %>
 </div>

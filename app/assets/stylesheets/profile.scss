@@ -81,7 +81,7 @@
   color: white;
   text-decoration: none;
 }
-#profile-friend
+#profile-follow
 {
 	float: left;
     width: 100%;
@@ -90,7 +90,7 @@
 }
 #profile-info
 {
-	float: left;
+	display: inline-block;
     color: white;
     font-weight: bold;
     margin-left: 10px;
@@ -145,72 +145,67 @@
 	top: -15px;
 }
 
-#friend-list
+#following-list
 {
 	width: 100%;
 	text-align: center;
 }
-.friend-listing
+.user-listing
 {
 	position: relative;
     width: 300px;
 	height: auto;
 	margin: 10px;
-	padding: 0px 10px;
+	padding: 10px;
 	transition: margin-left 0.5s;
 	display: inline-block;
 	background: #F5F5F5;
 	border-radius: 5px;
 	box-shadow: 1px 1px 1px silver;
+	text-align: left;
+
+	.profile
+	{
+		width: 310px;
+		padding: 10px 20px;
+		
+		.friend-details
+		{
+			position: relative;
+			top: -5px;
+			margin-top: 0px;
+		}
+	}
+	#mutual-friends
+	{
+		position: relative;
+		top: -3px;
+	}
+	a { text-decoration: none; }
+	.avatar
+	{
+		display: inline-block;
+	}
 }
-.friend-listing.profile
-{
-	width: 310px;
-    padding: 10px 20px;
-}
-.friend-listing.profile .friend-details
-{
-	position: relative;
-	top: -5px;
-	margin-top: 0px;
-}
-.friend-listing #mutual-friends
-{
-	position: relative;
-	top: -3px;
-}
-.friend-listing .avatar
-{
-	margin-top: 10px;
-	float: left;
-}
-.friend-details
+.user-details
 {
 	text-align: left;
-	float: left;
-	margin-left: 10px;
-	margin-top: 7px;
-	max-width: 74%;
+    margin-left: 10px;
+    display: inline-block;
+    max-width: 65%;
 }
-.friend-name
+.user-name
 {
 	font-size: 24px;
 }
-/*
-.orng-bold-a {
-	text-decoration:none;
-	color:Orange;
+.friend-button {
+	margin-top: 0px !important;
 }
-@media (max-width: 660px)
-{
-	.friend-listing
-	{
-		margin-left: calc(50% - 155px);
-	}
-}
-*/
 
 a.simple {
 	text-decoration:none;
 	color:orange;
+}
+a.simple:hover {
+	text-decoration: underline;
 }

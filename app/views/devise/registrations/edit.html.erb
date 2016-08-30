@@ -15,6 +15,13 @@
 	    <%= f.text_field :name, class: "text-input", autofocus: true %>
 	  </div>
 	
+	  <div class="field">
+	    <%= f.label :public_profile %>
+	    <%= f.check_box :public_profile %>
+	    <br>
+	  </div>
+	  Public profiles auto accept followers. Use this if you don't want to confirm each follower you receive. <br>
+
 	<% if current_user.provider %>
 		<br>
 		Since you are logged in with <%= current_user.provider_name %>, <br> you don't have to give your password to make changes. <br>

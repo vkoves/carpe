@@ -1,5 +1,5 @@
 <h2 class="no-bold">Activity</h2>
-<% ordered_friends = @all_friends.sort_by{|f| f[0].created_at}.reverse %>
+<% ordered_friends = @all_friends.sort_by{|f| f.created_at}.reverse %>
 <% if ordered_friends.empty? %>
 	<span class="empty-text">
 		<% if @profile %>
@@ -9,15 +9,14 @@
 		<% end %>
 	</span>
 <% else %>
-	<% ordered_friends.each do |arr| %>
+	<% ordered_friends.each do |relationship| %>
 		<div class="activity-listing">
-			<% fship = arr[0]; user = arr[1]%>
-			<%= link_to(user) do %>
+			<%= link_to(relationship.follower) do %>
 				<div class="avatar" style="float: left">
-					<img src="<%= user.user_avatar(50) %>" style="width: 50px; height: 50px;">
+					<img src="<%= relationship.follower.user_avatar(50) %>" style="width: 50px; height: 50px;">
 				</div>
 			<% end %>
-			<div class="text"><%= @user.name %> connected with <%= user.name %> on <%= fship.created_at.strftime("%b. %d, %Y") %></div>
+			<div class="text"><%= @user.name %> was followed by <%= relationship.follower.name %> on <%= relationship.created_at.strftime("%b. %d, %Y") %></div>
 		</div>
 	<% end %>
 <% end %>

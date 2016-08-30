@@ -1,13 +1,18 @@
 <% if user == current_user %>
 	<span class="friend-label">You</span>
 <% else %>
-	<% status = current_user.friend_status(user) %>
+	<% status = current_user.follow_status(user) %>
 	<% if status == nil #not friends %>
+		<!--
 		<%= link_to friendships_path(:friend_id => user), :method => :post, :remote => true, :class => "default green friend-button", "uid" => user.id do %>
 			<span>Add Friend</span>
 		<% end %>
-	<% elsif status == "friend" %>
-		<span class="friend-label">Friend</span>
+		-->
+		<%= link_to relationships_path(:followed_id => user.id), :method => :post, :remote => true, :class => "default green friend-button", "uid" => user.id do %>
+			<span>Follow</span>
+		<% end %>
+	<% elsif status == "confirmed" %>
+		<span class="friend-label">Following</span>
 	<% elsif status == "pending" || status == "denied" %>
 		<span class="friend-label">Pending</span>
 	<% end %>

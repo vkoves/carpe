@@ -7,11 +7,9 @@
 
 	<div class="name">
 		<%= user.name %><br>
-		<% mut = current_user.mutual_friends(user).count %>
-		<%= mut %> mutual
 	</div>
 
-	<%= render "/users/friend_button", user: user %>
+	<%= render "/users/follow_button", user: user %>
 
 	<% if @show_promote %>
 		<!-- Show promotion and demotion admin buttons -->

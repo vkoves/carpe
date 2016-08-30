@@ -4,6 +4,17 @@ class User < ActiveRecord::Base
   has_many :friends, :through => :friendships
   has_many :inverse_friendships, :class_name => "Friendship", :foreign_key => "friend_id"
   has_many :inverse_friends, :through => :inverse_friendships, :source => :user
+
+  has_many :active_relationships,  class_name:  "Relationship",
+                                   foreign_key: "follower_id",
+                                   dependent:   :destroy
+  has_many :passive_relationships, class_name:  "Relationship", 
+                                   foreign_key: "followed_id",
+                                   dependent:   :destroy
+
+  has_many :all_following, through: :active_relationships,  source: :followed #all followers, including pending
+  has_many :all_followers, through: :passive_relationships, source: :follower #all followers, including pending
+
   has_many :users_groups
   has_many :groups, :through => :users_groups
   has_many :notifications, :class_name => 'Notification', :foreign_key => 'receiver_id'
@@ -150,6 +161,77 @@ class User < ActiveRecord::Base
 
   ##########################
   ### END FRIEND METHODS ###
+  ##########################
+
+  ##########################
+  #### FOLLOWER METHODS ####
+  ##########################
+
+  # Follows a user.
+  def follow(other_user)
+
+    if other_user.public_profile # if the other user is a public user, auto-confirm
+      active_relationships.create(followed_id: other_user.id, confirmed: true)
+    else
+      active_relationships.create(followed_id: other_user.id)
+    end
+  end
+
+  # TEMP - Forces following, only used for converting from friends to followers
+  def force_follow(other_user)
+    active_relationships.create(followed_id: other_user.id, confirmed: true)
+  end
+
+  # Unfollows a user.
+  def unfollow(other_user)
+    active_relationships.find_by(followed_id: other_user.id).destroy
+  end
+
+  # Confirms following (let's someone follow this user)
+  def confirm_follow(other_user)
+    passive_relationships.find_by(followed_id: other_user.id).confirm
+  end
+
+  def deny_follow(other_user)
+    passive_relationships.find_by(followed_id: other_user.id).deny
+  end
+
+  # Returns true if the current user is following the other user.
+  def following?(other_user)
+    if following.include?(other_user) and active_relationships.find_by(followed_id: other_user.id).confirmed #if following and confirmed
+      return true
+    else
+      return false
+    end
+  end
+
+  def follow_status(other_user) #returns text indicating friendship status
+    if active_relationships.find_by(followed_id: other_user.id)
+      if active_relationships.find_by(followed_id: other_user.id).confirmed
+        return "confirmed"
+      else
+        return "pending"
+      end
+    else
+      return nil
+    end
+  end
+
+  def followers
+    return passive_relationships.where(:confirmed => true).map{|r| r.follower}
+  end
+
+  def following
+    return active_relationships.where(:confirmed => true).map{|r| r.followed}
+  end
+
+  # returns followers of this user that the current user "knows", as in is following
+  def known_followers(other_user)
+    return followers & other_user.followers # this finds items in both arrays
+  end
+
+  ##########################
+  ### END FOLLOW METHODS ###
   ##########################
 
   ##########################

@@ -1,4 +1,7 @@
 class UsersController < ApplicationController
+  before_filter  :authorize_admin, :only => [:index] #authorize admin on the user viewing page
+
+
   def index
     @users = User.all
   end
@@ -11,23 +14,26 @@ class UsersController < ApplicationController
         @profile = true
       end
 
-      case params[:p]
-      when "friends"
-        @tab = "friends"
+      case params[:page]
+      when "followers"
+        @tab = "followers"
       when "activity"
         @tab = "activity"
       when "mutual_friends"
         @tab = "mutual"
       when "schedule"
         @tab = "schedule"
+      when "following"
+        @tab = "following"
+        @following = @user.active_relationships.where(:confirmed => true) 
       else #default, aka no params
         @tab = "schedule"
       end
 
-      if params[:p] == "mutual_friends"
+      if @tab == "mutual"
         @mutual_friends = current_user.mutual_friends(@user)
       else
-        @all_friends = @user.all_friendships #and fetch all of the user's friends
+        @all_friends = @user.passive_relationships.where(:confirmed => true) #and fetch all of the user's followers
       end
     else
       redirect_to "/404"

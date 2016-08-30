@@ -77,10 +77,9 @@
 	</div>
 	<div id="sidebar-cont">
 		<div id="sidebar">
-			<div id="friend-list">
-				<% current_user.all_friendships.each do |arr| %>
-					<% friendship = arr[0]; user = arr[1]; free = true %>
-					<%= render "shared/user_box_horizontal", user: user, friendship: friendship, free: free %>
+			<div id="following-list">
+				<% current_user.following.each do |user| %>
+					<%= render "shared/user_box_horizontal", user: user, free: true %>
 				<% end%>
 			</div>
 		</div>

@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   resources :categories
 
-  get "u/:id", to: "users#show", :as => :user
+  get "u/:id(/:page)", to: "users#show", :as => :user
   get "/users", to: "users#index"
 
   devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks", :registrations => "users/registrations" }
@@ -13,6 +13,9 @@ Rails.application.routes.draw do
 
   get "/about" => 'pages#about'
   get "/status" => 'pages#status'
+
+  #Follow Routes
+  resources :relationships
 
   #Group Rotes
   get "/groups" => 'groups#index'
@@ -50,6 +53,5 @@ Rails.application.routes.draw do
   root 'home#index'
 
   resource :friendships
-
 
 end
