@@ -1564,8 +1564,7 @@ function editCategory(event, elem, id)
 
 	event.stopImmediatePropagation();
 	$(".cat-overlay-title").trigger('focus');
-	document.execCommand('selectAll',false,null);
-
+	
 	$(".ui-widget-overlay, #cat-overlay-box").fadeIn(250);
 
 	var colForTop = currCategory.css("background-color");
