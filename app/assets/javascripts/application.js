@@ -219,7 +219,7 @@ function initializeEventListeners()
 			img_url = element.image_url || "http://www.gravatar.com/avatar/?d=mm";
 			return 	"<li>" +
 						"<div class='avatar search-avatar'><img src='" + img_url + "'></div><div class='name with-type'>" + element.name + "</div>" + 
-						"<div class='type'>" + element.model_name + "</div>"
+						"<div class='type'>" + element.model_name + "</div>" +
 					"</li>";
 		}
 	});
