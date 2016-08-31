@@ -134,6 +134,8 @@ function ScheduleItem()
 		if(newStartDateTime.getTime() > this.endDateTime.getTime() && userSet) //if trying to set start before end
 		{
 			alertUI("The event can't start after it ends!"); //throw an error unless this is a new event (blank name)
+			// TODO: Loading the hours and minutes of a date to convert it into 12 hour time is stupid AF. Make a function
+			// that just takes a date and spits out the 12 hour time we want, seriously.
 			var startArr = [currEvent.startDateTime.getHours(), paddedMinutes(currEvent.startDateTime)]; //and reset the field
 			$("#time-start").val(convertTo12Hour(startArr));
 		}
@@ -221,7 +223,7 @@ function ScheduleItem()
 	this.getHeight = function() //returns the top value based on the hours and minutes of the start
 	{
 		var hourStart = this.startDateTime.getHours() + (this.startDateTime.getMinutes()/60);
-		var h =  gridHeight*hourStart;
+		var h =  gridHeight*hourStart; // TODO - Rename this to literally anything else???
 		return h;
 	};
 
@@ -291,6 +293,7 @@ function ScheduleItem()
 		{
 			schItem.startDateTime = topDT;
 			elem.css("top", schItem.getHeight()); //set the top position by gridHeight times the hour
+			// TODO - Seriously, convertTo12Hour is not doing us any favors
 			elem.children(".evnt-time.top").text(convertTo12Hour([topDT.getHours(), paddedMinutes(topDT)])).show();
 		}
 
@@ -393,6 +396,7 @@ function scheduleReady()
 
 		if(readOnly) //allow viewing of all events with single click
 		{
+			//TODO - Comment why each of these is removed, it's not at all clear
 			$(".edit, #repeat, #add-break-event").remove();
 			$("#overlay-loc, #overlay-desc, #overlay-title").attr("contenteditable", "false");
 			$("#time-start, #time-end").attr("readonly", true);
@@ -581,6 +585,7 @@ function addStartingListeners()
 	{
 		//TODO: Fix this not working across different days (try noon in your local time)
 
+		//TODO - Fix this reading HTML and parsing it. It's terrible.
 		var dateE = currEvent.element().parent().siblings(".col-titler").children(".evnt-fulldate").html(); //the date the elem is on
 
 		var val = $(this).val();
@@ -674,6 +679,8 @@ function addStartingListeners()
 	/**** RAILS HTML CLICKS *****/
 	/****************************/
 
+	//TODO - All of these that call functions with no parameters shouldn't be broken down into function lines
+	//Everything that's calling functions with paremeters should be made into functions for this specifc task
 	$(".sch-week-next").click(function()
 	{
 		moveWeek(true);
@@ -691,7 +698,7 @@ function addStartingListeners()
 
 	$(".sch-evnt-save-cat").click(function(event)
 	{
-		saveCategory(event, $(this), $('#cat-overlay-box').attr('data-id'));
+		saveCategory(event, $(this), $('#cat-overlay-box').attr('data-id')); //TODO - Remove $(this), as it's unused
 	});
 
 	$("#sch-save").click(function()
@@ -1884,10 +1891,9 @@ function createCategory()
 			newCat.attr("data-id", resp.id);
 			newCat.attr("privacy", "private");
 			newCat.find(".evnt-title").text(resp.name);
-			// newCat.find(".sch-evnt-edit-cat").attr("onclick", 'editCategory(event, this, "' + resp.id + '", "'+resp.name+'", "' + resp.color + '");');
-			// newCat.find(".sch-evnt-del-cat").attr("onclick", 'deleteCategory(event, this,"' + resp.id + '");');
 			newCat.attr("id", "");
 			addDrag();
+			// TODO - Make saving the sideHTML a function, as this line is called so many times
 			sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
 			newCat.find(".sch-evnt-edit-cat").click(); //trigger the edit event
 
@@ -1950,6 +1956,8 @@ function saveCategory(event,elem,id)
 		{
 			console.log("Update category complete.");
 			hideOverlay(); //Hide category editing panel
+
+			// TODO - Literally what is this doing? These should be functions
 			$("#sch-sidebar .sch-evnt[data-id=" + id + "]").find(".evnt-title").html($(".cat-overlay-title").html()); //Update name in sidebar
 			$(".sch-evnt[data-id=" + id + "]").css("background-color", $(".cat-top-overlay").css("background-color")); //Update color of events
 			sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
