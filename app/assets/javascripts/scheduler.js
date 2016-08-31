@@ -1266,7 +1266,7 @@ function addDates(newDateObj, refresh, startToday)
 
 		$(".sch-day-col").each(function(index, col)
 		{
-			var fullDate = monthNames[month] + " " + currDate.getDate() + ", " + year;
+			var fullDate = monthNames[currDate.getMonth()] + " " + currDate.getDate() + ", " + currDate.getFullYear();
 
 			$(col).children(".col-titler").prepend("<div class='evnt-date'>" + currDate.getDate() + "</div> "); //prepend the numeric date (e.g. 25)
 			$(col).children(".col-titler").find(".evnt-day").text(dayNames[currDate.getDay()]);
@@ -1275,7 +1275,6 @@ function addDates(newDateObj, refresh, startToday)
 			if(currDate.toDateString() == new Date().toDateString()) //if this is today
 				$(col).attr("id","sch-today");
 
-			currDate.setHours(0,0,0,0);
 			visibleDates.push(cloneDate(currDate));
 			currDate.setDate(currDate.getDate() + 1);
 		});
@@ -1394,6 +1393,7 @@ function populateEvents()
 {
 	function place(eventObject, i)
 	{
+		console.log("Placing");
 		var color = categories[eventObject.categoryId].color;
 		var currentElem = eventObject.tempElement.clone();
 		if(viewMode == "week")
@@ -1427,6 +1427,7 @@ function populateEvents()
 			var logThings = false;
 			if(eventObj.name == "Wow a tester!" && date.getDate() == 14)
 				logThings = true;
+
 
 			//Handle repeatStart and endDates
 			if(eventObj.repeatStart && eventObj.repeatStart > date) //if the repeatStart is later than this date, don't show
@@ -1465,6 +1466,14 @@ function populateEvents()
 
 			if(inBreak) //if we found that we are in a break
 				continue; //skip to the next event
+
+
+			if(eventIndex > 12)
+			{
+				console.log("Start Index: " + eventIndex);
+				console.log(itemDate.toDateString());
+				console.log(date.toDateString());
+			}
 
 			if (itemDate.toDateString() == date.toDateString() && eventObj.repeatType.indexOf("certain_days") == -1 //if today's the event except certain days
 				|| eventObj.repeatType == "daily"
