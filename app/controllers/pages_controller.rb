@@ -36,7 +36,7 @@ class PagesController < ApplicationController
 
     #TEMPORARY - This is a script to convert from friends or to followers
     #It fetches all of a users friends and follows them and has the friend follow
-    if true #enabled atm
+    if false #disabled atm
       User.all.each do |user|
         user.friends.each do |friend|
           user.force_follow(friend)
