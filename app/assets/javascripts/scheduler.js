@@ -1400,7 +1400,6 @@ function populateEvents()
 {
 	function place(eventObject, i)
 	{
-		console.log("Placing");
 		var color = categories[eventObject.categoryId].color;
 		var currentElem = eventObject.tempElement.clone();
 		if(viewMode == "week")
@@ -1430,11 +1429,6 @@ function populateEvents()
 
 			var date = visibleDates[i];
 			var itemDate = cloneDate(eventObj.startDateTime);
-
-			var logThings = false;
-			if(eventObj.name == "Wow a tester!" && date.getDate() == 14)
-				logThings = true;
-
 
 			//Handle repeatStart and endDates
 			if(eventObj.repeatStart && eventObj.repeatStart > date) //if the repeatStart is later than this date, don't show
@@ -1473,7 +1467,6 @@ function populateEvents()
 
 			if(inBreak) //if we found that we are in a break
 				continue; //skip to the next event
-
 
 			if(eventIndex > 12)
 			{
