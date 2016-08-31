@@ -1606,6 +1606,11 @@ function editEvent(elem)
 		var rep = currEvent.repeatType || "none";
 		$("#repeat-" + rep).addClass("red");
 
+		//Reset all custom stuff, hiding custom options and deselecting all certain day options
+		$("#repeat-custom-options").hide();
+		$("#repeat-certain-days-options").hide();
+		$("#repeat-certain-days-options span").removeClass("red");
+
 		if(rep.indexOf("custom") > -1)
 		{
 			$("#repeat-custom").addClass("red");
@@ -1622,11 +1627,6 @@ function editEvent(elem)
 			{
 				$("#repeat-certain-days-options span[data-day=" + daysArray[i] + "]").addClass("red");
 			}
-		}
-		else
-		{
-			$("#repeat-custom-options").hide();
-			$("#repeat-certain-days-options").hide();
 		}
 
 		$("#repeat-start").val(verboseDateToString(currEvent.repeatStart));
