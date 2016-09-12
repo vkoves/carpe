@@ -232,9 +232,8 @@ function initializeEventListeners()
 		animateDropdown: false,
 		onAdd: function(item)
 		{
-			var field = $(this).closest("form").find("> input[type=text]");
-			var usersSelected = field.tokenInput("get");
-	        
+			var usersSelected = this.tokenInput("get");
+
 	        var itemCount = 0; //how many times this item occurs
 	        for(var i = 0; i < usersSelected.length; i++)
 	        {
@@ -244,8 +243,8 @@ function initializeEventListeners()
 
 	        if(itemCount > 1) //if this is a duplicate
 	        {
-	        	field.tokenInput("remove", {id: item.id}); //remove all copies
-	        	field.tokenInput("add", item); //and add it back
+	        	this.tokenInput("remove", {id: item.id}); //remove all copies
+	        	this.tokenInput("add", item); //and add it back
 	        }
 		},
 		resultsFormatter: function(element)
@@ -527,6 +526,8 @@ function getCookie(cname)
 /****************************/
 /******** UI HELPERS ********/
 /****************************/
+
+// TODO: This should probably go in its own file since it's going to just keep growing
 
 //Show a custom confirm with the given message, calling the callback with the value of whether the user confirmed
 //replaces javascripts default confirm function
