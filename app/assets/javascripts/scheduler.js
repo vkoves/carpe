@@ -545,7 +545,6 @@ function addStartingListeners()
 		{
 			//get the text of the button
 			var repType = $(this).text().toLowerCase();
-			console.log("Rep type is " + repType);
 			currEvent.setRepeatType(repType);
 			$("#repeat-custom-options").hide(); //hide custom options
 		}
@@ -1467,13 +1466,6 @@ function populateEvents()
 
 			if(inBreak) //if we found that we are in a break
 				continue; //skip to the next event
-
-			if(eventIndex > 12)
-			{
-				console.log("Start Index: " + eventIndex);
-				console.log(itemDate.toDateString());
-				console.log(date.toDateString());
-			}
 
 			if (itemDate.toDateString() == date.toDateString() && eventObj.repeatType.indexOf("certain_days") == -1 //if today's the event except certain days
 				|| eventObj.repeatType == "daily"
