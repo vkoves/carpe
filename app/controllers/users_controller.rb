@@ -87,6 +87,7 @@ class UsersController < ApplicationController
           # Required fields for search - name and image url
           user_obj[:name] = user.name
           user_obj[:image_url] = user.image_url
+          user_obj[:id] = user.id
 
           # Handle avatars
           unless user and user.has_avatar #if this is a valid user that has no avatar
