@@ -562,7 +562,8 @@ function confirmUI(message, callback)
 		UIManager.slideOutHideOverlay("#overlay-confirm", function()
 		{
 			$("#overlay-confirm").remove();
-			callback(returnValue);
+			if(callback)
+				callback(returnValue);
 		});
 	}
 }
