@@ -1,4 +1,8 @@
-workers Integer(ENV['WEB_CONCURRENCY'] || 2)
+
+# Windows can not run puma concurrently, so the default worker count must be changed
+# from 2 to 0 while using windows.
+worker_count = Gem.win_platform? ? 0 : 2
+workers Integer(ENV['WEB_CONCURRENCY'] || worker_count)
 threads_count = Integer(ENV['MAX_THREADS'] || 5)
 threads threads_count, threads_count
 

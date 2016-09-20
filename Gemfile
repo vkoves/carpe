@@ -6,7 +6,6 @@ gem 'rails', '4.2.0'
 
 group :production do
 	#MYSQL
-	gem 'mysql'
 	gem 'mysql2'
 end
 
@@ -47,7 +46,10 @@ gem 'puma'
 # gem 'debugger', group: [:development, :test]
 
 group :development, :test do
-  gem 'sqlite3'	
+  # Windows developers, refer to: https://github.com/sparklemotion/sqlite3-ruby/issues/185 to deal with
+  # `require': cannot load such file -- sqlite3/sqlite3_native (LoadError)
+  # Essentially, you just need to build sqlite3 >= 1.3.11 and uninstall the bundled mingw sqlite.
+  gem 'sqlite3'
 end
 
 #####################################
@@ -67,10 +69,15 @@ gem 'omniauth-google-oauth2'
 gem 'local_time'
 
 #Use rubycritic to detect code smell and problems (https://github.com/whitesmith/rubycritic)
-gem "rubycritic", :require => false
+gem 'rubycritic', :require => false
 
 #Use chartkick to make graphs using the Google Graph API
 gem 'chartkick'
 
 #Roadie, used for styling emails nicely
 gem 'roadie', '~> 3.1.1'
+
+if Gem.win_platform?
+  # Used by Windows for time zone differences (strange indeed).
+  gem 'tzinfo-data'
+end
