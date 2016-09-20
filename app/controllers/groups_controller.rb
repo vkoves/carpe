@@ -21,11 +21,7 @@ class GroupsController < ApplicationController
 
   def update
     @group = Group.find(params[:id])
-    @group.update_attributes(params.require(:group).permit(:name))
-    @group.update_attributes(params.require(:group).permit(:description))
-    @group.update_attributes(params.require(:group).permit(:banner_image_url))
-    @group.update_attributes(params.require(:group).permit(:image_url))
-    @group.update_attributes(params.require(:group).permit(:posts_preapproved))
+    @group.update_attributes(params.require(:group).permit(:name, :description, :banner_image_url, :image_url, :posts_preapproved))
     @group.save
     redirect_to group_path(@group)
 
