@@ -77,6 +77,8 @@ ActiveRecord::Schema.define(version: 20160806233719) do
     t.string   "image_url"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.string   "banner_image_url"
+    t.boolean  "posts_preapproved"
   end
 
   create_table "notifications", force: :cascade do |t|
