@@ -141,6 +141,8 @@
 	&#sch-today
 	{
 		background-color: rgb(255, 255, 115);
+
+		.col-titler { font-weight: bold; }
 	}
 }
 .sch-day-col.over /* Hover class */
@@ -839,6 +841,8 @@ input[readonly="readonly"]
 	{
 		background-color: #E0E0E0;
 		border: solid 1px #9E9E9E;
+
+		#day-of-month { font-weight: bold; }
 	}
 }
 /* On hover show all events */
