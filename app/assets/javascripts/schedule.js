@@ -39,7 +39,7 @@ var viewMode = "week"; //either "week" or "month"
 
 //Run scheduleReady when the page is loaded. Either fresh or from turbo links
 $(document).ready(scheduleReady);
-$(document).on('page:load', scheduleReady);
+$(document).on('turbolinks:load', scheduleReady);
 
 //Run when the user tries to leave the page through a Turbolink
 $(document).unbind('page:before-change'); //unbind page before change from last time viewing

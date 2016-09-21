@@ -41,8 +41,8 @@ $(window).resize(function()
 	}
 });
 
-$(document).ready(ready); //Assign ready function to document ready 
-$(document).on('page:load', ready); //and to page:load event from Turbolinks
+// $(document).ready(ready); //Assign ready function to document ready 
+$(document).on('turbolinks:load', ready); //and to page:load event from Turbolinks
 
 /**
  * This function is called on page load, both on fresh load and
