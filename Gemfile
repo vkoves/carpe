@@ -6,7 +6,7 @@ gem 'rails', '4.2.0'
 
 group :production do
 	#MYSQL
-	gem 'mysql2'
+	gem 'mysql2', '~> 0.3.18'
 end
 
 # Use postgresql as the database for Active Record
