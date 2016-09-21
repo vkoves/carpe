@@ -6,6 +6,14 @@ class Group < ActiveRecord::Base
   has_many :events
   has_many :repeat_exceptions
 
+  def avatar_url #returns the image_url or a default
+    if image_url and !image_url.empty?
+      return image_url
+    else
+      return "http://www.gravatar.com/avatar/?d=mm"
+    end
+  end
+
   def get_role(user) #get the role of a user in this group
   	user_group = UsersGroup.where(user_id: user.id, group_id: self.id).first
   	if user_group

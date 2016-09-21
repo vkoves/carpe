@@ -1,21 +1,38 @@
 <%= stylesheet_link_tag "profile" %>
-<h1><%= @group.name %>
-<%= link_to "/group/" + params[:id] + "/edit", class: "default", style: "font-size: 16px;" do %>
-	<span>Edit</span>
-<% end %>
-</h1>
-<%= link_to "/groups", class: "default", style: "font-size: 16px;" do %>
-	<span>All Groups</span>
-<% end %>
-<br><br>
+
+<div id="profile-header">
+
+	<% if @group.banner_image_url and !@group.banner_image_url.empty? %>
+		<div id="header-image-blur" style="background-image:url(<%= @group.banner_image_url %>);"></div>
+	<% else %>
+		<div id="header-image"></div>
+	<% end %>
+
+	<div class="page-container">
+		<div class="profile-avatar avatar">
+			<img src=<%= @group.avatar_url %>>
+		</div>
+		<div id="profile-text">
+			<h1 id="profile-name"><%= @group.name %>
+			<%= link_to "/group/" + params[:id] + "/edit", class: "default", style: "font-size: 16px;" do %>
+				<span>Edit</span>
+			<% end %>
+			<%= link_to "/groups/add-users/" + params[:id], class: "default" do %>
+				<span>Manage Users</span>
+			<% end %>
+			</h1>
+			<%= link_to "/groups", class: "default", style: "font-size: 16px;" do %>
+				<span>All Groups</span>
+			<% end %>
+		</div>
+	</div>
+</div>
+
+<!--
 <h3 class="zero-top">
 	Role: <%= @role %>
 </h3>
-
-<br>
-<%= link_to "/groups/add-users/" + params[:id], class: "default" do %>
-	<span>Manage Users</span>
-<% end %>
+-->
 
 <% #render the group's schedule with the schedule partial %>
 <%= render "shared/schedule"%>
