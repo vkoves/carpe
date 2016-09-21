@@ -1,14 +1,6 @@
 /* Header CSS */
 
-#header-logo {
-  float: left;
-  height: 100%;
-  position: relative;
-}
-.header-logintext {
-	top:-5px;
-	position:absolute;
-}
+
 .header-main
 {
 	background: rgb(242, 242, 242);
@@ -24,6 +16,16 @@
 {
 	box-shadow: 0px 0px 10px grey;
 }
+.header-main a, .menu a
+{
+	color: rgb(106, 106, 106);
+	text-decoration: none;
+	font-size: 18px;
+}
+.header-main a:hover, .menu a:hover
+{
+	color: orange;
+}
 
 /* The actual main navigation at the top of the header */
 .header-text
@@ -35,34 +37,11 @@
 	overflow: hidden;
 	height: 50px;
 	transition: width 0.5s, opacity 0.5s;
-}
-.header-text a
-{
-	margin-right: 25px;
-}
-.header-text .active
-{
-	color: orange;
+	
+	a { margin-right: 25px; }
+	.active { color: orange; }
 }
 
-.header-logintext {
-	padding-top: 14px;
-	right:10px;
-	width:400px;
-	text-align:right;
-	position:absolute;
-}
-.header-main a, .menu a
-{
-	color: rgb(106, 106, 106);
-	text-decoration: none;
-	font-size: 18px;
-	// transition: color 0.2s;
-}
-.header-main a:hover, .menu a:hover
-{
-	color: orange;
-}
 
 #user-name-panel
 {
@@ -73,7 +52,47 @@
  	padding-left: 10px;
  	height: 50px;
  	cursor: pointer;
+
+ 	#user-avatar
+ 	{
+ 		float: right;
+ 	    position: relative;
+ 	    height: 100%;
+ 	    margin-left: 10px;
+ 	}
+ 	#user-avatar img:hover
+ 	{
+ 		box-shadow: 0px 0px 3px grey;
+ 	}
+ 	#user-avatar img
+ 	{
+ 		height: 40px;
+ 	    width: 40px;
+ 		border-radius: 35px;
+ 		border: solid orange 2px;
+ 		margin-top: 7%;
+ 	}
+ 	#user-email
+ 	{
+ 		float: left;
+ 		position: absolute;
+ 	    top: 24px;
+ 	    color: grey;
+ 	    right: 80px;
+ 	    font-size: 13px;
+ 	}
+ 	.header-logintext
+ 	{
+ 		padding-top: 14px;
+ 		right:10px;
+ 		width:400px;
+ 		text-align:right;
+ 		position:absolute;
+ 		top:-5px;
+ 		position:absolute;
+ 	}
 }
+
 #user-panel
 {
 	display: none;
@@ -86,97 +105,79 @@
 	text-align:center;
 	padding:10px 0px;
 	margin-bottom:10px;
+
+	div
+	{
+		padding: 5px 10px 5px 10px;
+		width: 250px;
+		margin-left: auto;
+		margin-right: auto;
+		transition: background 0.2s;
+	}
+	div:hover
+	{
+		background: white;
+	}
+	div:hover > a
+	{
+		color: orange;
+	}
 }
-#user-panel div
-{
-	padding: 5px 10px 5px 10px;
-	width: 250px;
-	margin-left: auto;
-	margin-right: auto;
-	transition: background 0.2s;
-}
-#user-panel div:hover
-{
-	background: white;
-}
-#user-panel div:hover > a
-{
-	color: orange;
-}
-#user-avatar
-{
-	float: right;
-    position: relative;
-    height: 100%;
-    margin-left: 10px;
-}
-#user-avatar img:hover
-{
-	box-shadow: 0px 0px 3px grey;
-}
-#user-avatar img
-{
-	height: 40px;
-    width: 40px;
-	border-radius: 35px;
-	border: solid orange 2px;
-	margin-top: 7%;
-}
-#user-email
-{
-	float: left;
-	position: absolute;
-    top: 24px;
-    color: grey;
-    right: 80px;
-    font-size: 13px;
-}
+
 #menu-holder
 {
-  position: relative;
-  left: -35px;
-  transition: left 0.5s;
-  height: 100%;
-  float: left;
-}
-.carpeheader {
-	height:100%;
-}
-#header-mob-menu
-{
-  float: left;
-  position: relative;
-  background-color: #ED7D31;
-  height: 50px;
-  width: 65px;
-  margin-right: -30px;
-  cursor: pointer;
-  overflow: hidden;
-  left: -10px;
-  transition: left 0.25s;
-}
-#header-mob-menu img
-{
 	position: relative;
-	left: 10px;
-	top: 7px;
-	z-index: 1;
-}
-#mobile-menu
-{
-  display: none;
-  position: absolute;
-  z-index: 1;
-  top: 50px;
-  background-color: #FF8C3D;
-  text-align: center;
-  transition: width 0.5s;
-}
-#mobile-menu div{
-  padding: 5px;
-}
-#mobile-menu a{
-  color: white;
+	left: -35px;
+	transition: left 0.5s;
+	height: 100%;
+	float: left;
+
+	#header-logo
+	{
+		float: left;
+		height: 100%;
+		position: relative;
+
+		.carpeheader {
+			height:100%;
+		}
+	}
+	#header-mob-menu
+	{
+	  float: left;
+	  position: relative;
+	  background-color: #ED7D31;
+	  height: 50px;
+	  width: 65px;
+	  margin-right: -30px;
+	  cursor: pointer;
+	  overflow: hidden;
+	  left: -10px;
+	  transition: left 0.25s;
+	}
+	#header-mob-menu img
+	{
+		position: relative;
+		left: 10px;
+		top: 7px;
+		z-index: 1;
+	}
+	#mobile-menu
+	{
+	  display: none;
+	  position: absolute;
+	  z-index: 1;
+	  top: 50px;
+	  background-color: #FF8C3D;
+	  text-align: center;
+	  transition: width 0.5s;
+	}
+	#mobile-menu div{
+	  padding: 5px;
+	}
+	#mobile-menu a{
+	  color: white;
+	}
 }
 /* notification stuffz */
 .bell-hold
@@ -189,11 +190,28 @@
 	padding: 5px;
 	border-radius: 50%;
 	cursor: pointer;
-}
-.bell-hold img{width: 25px;}
-.bell-hold:hover
-{
-	background-color: #D0D0D0;
+	
+	&:hover
+	{
+		background-color: #D0D0D0;
+	}
+	img {width: 25px; }
+	#num
+	{
+		position: absolute;
+	    border-radius: 100%;
+	    background-color: orange;
+	    width: 16px;
+	    height: 15px;
+	    font-size: 11px;
+	    font-weight: bold;
+	    color: white;
+	    text-align: center;
+	    top: 20px;
+	    left: 22px;
+	    padding-bottom: 2px;
+	    padding-right: 1px;
+	}
 }
 #notif-panel
 {
@@ -206,75 +224,64 @@
 	z-index: 10;
 	padding: 5px 5px 5px 10px;
 	color: rgb(106, 106, 106);
-}
-#notif-panel .notif #user-avatar img
-{
-	height: 36px;
-	width: 36px;
-	min-width: 0px;
-	margin-top: 0px;
-}
-#notif-panel .notif #user-avatar
-{
-	float: left;
-	margin-left: 0px;
-	margin-right: 5px;
-}
-.bell-hold #num
-{
-	position: absolute;
-    border-radius: 100%;
-    background-color: orange;
-    width: 16px;
-    height: 15px;
-    font-size: 11px;
-    font-weight: bold;
-    color: white;
-    text-align: center;
-    top: 20px;
-    left: 22px;
-    padding-bottom: 2px;
-    padding-right: 1px;
-}
-#notif-panel .notif{padding: 3px 0px;height: 34px;}
-#notif-panel span
-{
-	float: left;
-	font-size: 18px;
-	position: relative;
-	top: 5px;
-}
-.notif.general
-{
-	display: inline-block;
-}
-.notif.general div
-{
-	font-size: 14px !important;
-}
-#notif-panel .confirm, #notif-panel .deny
-{
-	width: 30px;
-    border: solid 2px white;
-    height: 30px;
-    border-radius: 100%;
-    display: inline-block;
-    float: right;
-    background-size: 100%;
-    background-repeat: no-repeat;
-}
-#notif-panel .confirm
-{
-	background-color: #00AF00;
-	margin-left: 5px;
-	background-image: image-url("checkmark-wht.png");
-}
-#notif-panel .deny
-{
-	background-color: #FF4242;
-	background-image: image-url("closeThick-wht.svg");
-	background-size: 60%;
-    background-position: 50%;
+	
+	.notif #user-avatar img
+	{
+		height: 36px;
+		width: 36px;
+		min-width: 0px;
+		margin-top: 0px;
+	}
+	.notif #user-avatar
+	{
+		float: left;
+		margin-left: 0px;
+		margin-right: 5px;
+	}
+	.notif
+	{
+		padding: 3px 0px;
+		height: 34px;
+	}
+	span
+	{
+		float: left;
+		font-size: 18px;
+		position: relative;
+		top: 5px;
+	}
+	.notif.general
+	{
+		display: inline-block;
+	}
+	.notif.general div
+	{
+		font-size: 14px !important;
+	}
+	.confirm, .deny
+	{
+		width: 30px;
+	    border: solid 2px white;
+	    height: 30px;
+	    border-radius: 100%;
+	    display: inline-block;
+	    float: right;
+	    background-size: 100%;
+	    background-repeat: no-repeat;
+	}
+	.confirm
+	{
+		background-color: #00AF00;
+		margin-left: 5px;
+		background-image: image-url("checkmark-wht.png");
+	}
+	.deny
+	{
+		background-color: #FF4242;
+		background-image: image-url("closeThick-wht.svg");
+		background-size: 60%;
+	    background-position: 50%;
+	}
 }
 #users-search
 {

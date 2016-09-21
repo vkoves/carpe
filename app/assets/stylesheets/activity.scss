@@ -1,13 +1,37 @@
 #greeting
 {
 	height:200px;
-	/* background-image:image-url('greeting.png');*/
 	padding:0px;	
 	right:400px;
 	left:0px;
 	width: calc(100% - 370px);
 	position:absolute;
 	padding-left: 20px;
+	
+	.greet-text
+	{
+		font-weight: 300;
+		font-size:40px;
+		color:Orange;
+		float:left;
+		margin-top:10px;
+		text-align:left;
+		width:100%;
+		
+		.greet-subt
+		{
+			padding:0;
+			font-weight:400;
+			font-size:20px;
+			color:#444444;
+			text-align:left;
+		}
+		.greet-a
+		{
+			text-decoration:none;
+			color:Orange;
+		}
+	}
 }
 
 #sidebar-cont
@@ -18,46 +42,22 @@
 	right: 0px;
 	min-height:calc(100% - 55px);
 	overflow: hidden;
-}
-#sidebar
-{
-	padding-top:5px;
-	right:0px;
-	position: relative;
-	width: 340px;
-	min-height: calc(100vh - 55px);
-    background-color: #EBEBEB;
-	border-left: solid 2px #ACACAC;
-	overflow:auto;
-	transition: right 1s;
-	z-index: 2;
-}
-
-.greet-text
-{
-	font-weight: 300;
-	font-size:40px;
-	color:Orange;
-	float:left;
-	margin-top:10px;
-	text-align:left;
-	width:100%;
+	
+	#sidebar
+	{
+		padding-top:5px;
+		right:0px;
+		position: relative;
+		width: 340px;
+		min-height: calc(100vh - 55px);
+	    background-color: #EBEBEB;
+		border-left: solid 2px #ACACAC;
+		overflow:auto;
+		transition: right 1s;
+		z-index: 2;
+	}
 }
 
-.greet-subt
-{
-	padding:0;
-	font-weight:400;
-	font-size:20px;
-	color:#444444;
-	text-align:left;
-}
-
-.greet-a
-{
-	text-decoration:none;
-	color:Orange;
-}
 
 #sidebar-button
 {
