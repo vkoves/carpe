@@ -448,18 +448,21 @@ input.danger:hover
 {
 	width: auto;
 	margin-bottom: 10px;
-	padding-left: 8px;
-	padding-right: 10px;
-	padding-bottom: 5px;
-	background-color: #f1f1f1;
-	border-left: solid 5px;
 	
 	&.current
 	{
-		background: #ffc14e;
-		box-shadow: 2px 2px rgb(238, 170, 43);
-		border-radius: 5px;
-		color: white;
+		// background: #ffc14e;
+		// box-shadow: 2px 2px rgb(238, 170, 43);
+		// border-radius: 5px;
+		// color: white;
+	}
+	.inner
+	{
+		padding-left: 8px;
+		padding-right: 10px;
+		padding-bottom: 5px;
+		background-color: #f1f1f1;
+		border-left: solid 5px;
 	}
 	.tile-text
 	{
@@ -479,6 +482,12 @@ input.danger:hover
 		padding-left: 10px;
 		background-color: #dad1d1;
 		padding-left: 5px;
+	}
+	.current-label
+	{
+		margin-left: 20px;
+		background-color: orange;
+		padding-left: 10px;
 	}
 }
 /* Thin forms like editing groups */

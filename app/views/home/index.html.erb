@@ -42,27 +42,32 @@
 						<% next if event.end_date.past? #skip events that have ended %>
 						<% break if printed >= 10 #stop if we've already printed 10 upcoming events %>
 						<% printed += 1 %>
-						<div class="home-event-tile <%= "current" if event.current? %>" style="border-color: <%= event.category.color %>"">
-							<div class="tile-text">
-								<b><%= raw event.get_html_name %></b>
-								<% unless event.location.empty? %>
-									in <%= event.location %>
-								<% end %>
-								<br>
-								<% if event.current? #print full info about current events %>
-									<%= relative_event_time(event) %>
-								<% else #and print start for future events %>
-									<%= time_string = relative_time_ago(event.date, true) %>
-								<% end %>
-								<span class="toggle-details">Toggle Details</span>
+						<div class="home-event-tile <%= "current" if event.current? %>">
+							<div class="inner"  style="border-color: <%= event.category.color %>">
+								<div class="tile-text">
+									<b><%= raw event.get_html_name %></b>
+									<% unless event.location.empty? %>
+										in <%= event.location %>
+									<% end %>
+									<br>
+									<% if event.current? #print full info about current events %>
+										<%= relative_event_time(event) %>
+									<% else #and print start for future events %>
+										<%= time_string = relative_time_ago(event.date, true) %>
+									<% end %>
+									<span class="toggle-details">Toggle Details</span>
+								</div>
+								<div class="details">
+									<%= relative_time_ago(event.date, true) %> to <%= relative_time_ago(event.end_date, false) %>. <br>
+									<% unless event.description.empty? %>
+										Description: <%= event.description %>
+									<% end %>
+								</div>
+								<div class="square" style="color: <%= event.category.color %>"><%= event.category.name %></div>
 							</div>
-							<div class="details">
-								<%= relative_time_ago(event.date, true) %> to <%= relative_time_ago(event.end_date, false) %>. <br>
-								<% unless event.description.empty? %>
-									Description: <%= event.description %>
-								<% end %>
-							</div>
-							<div class="square" style="color: <%= event.category.color %>"><%= event.category.name %></div>
+							<% if event.current? %>
+								<div class="current-label">Going on Now</div>
+							<% end %>
 						</div>
 					<% end %>
 				<% end %>
