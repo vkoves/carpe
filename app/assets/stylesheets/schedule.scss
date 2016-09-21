@@ -149,45 +149,6 @@
 {
 	background: rgb(255, 255, 151);
 }
-
-.sch-class
-{
-	background: rgb(255, 115, 115);
-	border-bottom: solid 2px rgb(135, 54, 54);
-}
-.col-snap .sch-class:hover
-{
-	/* background: grey; */
-}
-.sch-work
-{
-	background: rgb(115,115,255);
-	border-bottom: solid 2px rgb(56, 56, 128);
-	top: 112px;
-}
-.col-snap .sch-work:hover
-{
-	/* background: grey; */
-}
-.sch-play
-{
-	background: rgb(162, 98, 255);
-	border-bottom: solid 2px rgb(96, 67, 138);
-	top: 224px;
-}
-.col-snap .sch-play:hover
-{
-	/* background: grey; */}
-.sch-hangout
-{
-	background: rgb(129, 253, 131);
-	border-bottom: solid 2px rgb(70, 140, 71);
-	top: 336px;
-}
-.col-snap .sch-hangout:hover
-{
-	/* background: grey; */
-}
 #side-desc
 {
 	font-size: 15px;
@@ -227,7 +188,7 @@
 }
 .col-snap
 {
-	position: absolute; /* Viktor added 1 am June 17 */
+	position: absolute;
 	height: calc(100% - 50px);
 	max-height: 600px;
 	width: 192px;
@@ -237,7 +198,6 @@
 	right: 0px;
 	top: 50px;
 	padding-bottom: 1px;
-	/* bottom: 0px; */
 }
 .evnt-desc
 {
@@ -249,10 +209,6 @@
 	white-space: nowrap;
 	text-overflow: ellipsis;
  	overflow: hidden;
-}
-.evnt-desc:hover
-{
-	/* background: grey; */
 }
 .evnt-divider
 {
@@ -408,7 +364,8 @@ input[readonly="readonly"]
     border: none;
     width: 60px;
 }
-.sch-but {
+.sch-but
+{
 	background: #CFCFCF;
 	padding: 3px;
 	border-radius: 5px;
@@ -417,34 +374,37 @@ input[readonly="readonly"]
 	cursor: pointer;
 }
 
-.sch-but:hover {
+.sch-but:hover
+{
 	margin-top: 1px;
 	border-width: 2px;
 	background-color: #DEDEDE;
 }
 
-.sch-but-holder {
+.sch-but-holder
+{
 	margin-bottom: 15px;
 	padding: 0px 5px;
 }
 
-.sch-week-prev {
+.sch-week-prev
+{
 	float: left;
 }
 
-.sch-week-next {
+.sch-week-next
+{
 	float: right;
 }
 
-.category {
-	/* box-shadow: 0.5px 0.5px 10px rgb(185, 185, 185); */
+.category
+{
 	border:solid 1px #EEE;
 	color:#FFF;
-	/*height:25px;
-	font-size:18px;*/
 }
 
-.cat-add {
+.cat-add
+{
 	background-color: #CFCFCF;
 	left:0%;
 	right:0%;
@@ -457,36 +417,38 @@ input[readonly="readonly"]
 	cursor: pointer;
 }
 
-.cat-add:hover {
+.cat-add:hover
+{
 	background-color:rgb(255,220,200);
 }
 
-.color-swatch {
+.color-swatch
+{
 	display:inline-block;
 	position: relative;
 	top: 2px;
 	width:25px;
 	height:25px;
-	/*border: solid 2px grey; */
 	border-radius: 50px;
 	cursor: pointer;
 }
 
-.color-swatch.selected {
+.color-swatch.selected
+{
 	background-image:image-url("checkmark-wht.png");
 	background-size:cover;
 }
 
 .color-swatch:hover
 {
-/*	box-shadow: 0px 0px 5px grey;*/
 	border: solid 2px grey;
 	width:21px;
 	height:21px;
 }
 /* You can see my efforts in futility, if you so desire (not implemented yet) */
 
-.col-titler {
+.col-titler
+{
 	float: left;
 	padding:5px;
 	width:90%;
@@ -519,7 +481,6 @@ input[readonly="readonly"]
 
 .ui-resizable-handle
 {
-	/* background-color: blue; */
 	height: 10px !important;
 }
 
@@ -570,7 +531,8 @@ input[readonly="readonly"]
 	display: inline-block;
 }
 
-.cat-overlay-title {
+.cat-overlay-title
+{
 	font-family:"Open Sans", cursive;
 	font-size:30px;
 	font-weight:600;
@@ -585,41 +547,45 @@ input[readonly="readonly"]
 	min-height: 41px;
 }
 
-.cat-overlay-title:focus {
+.cat-overlay-title:focus
+{
 	background: rgba(255, 255, 255, 0.43);
 }
 
-.cat-remainder-overlay {
+.cat-remainder-overlay
+{
 	left:0px;
 	width:100%;
 }
-#add-break-category {
+#add-break-category
+{
 	margin-bottom: 10px;
 }
-/* Let's get this party started */
-/* I'll supply the turnips. */
-#sch-holder::-webkit-scrollbar, #sch-tiles::-webkit-scrollbar {
+#sch-holder::-webkit-scrollbar, #sch-tiles::-webkit-scrollbar
+{
     width: 9px;
     height: 9px;
 }
 
-/* Track */
-#sch-holder::-webkit-scrollbar-track, #sch-tiles::-webkit-scrollbar-track {
+/* Scroll Bar Styling */
+#sch-holder::-webkit-scrollbar-track, #sch-tiles::-webkit-scrollbar-track /* Track */
+{
     /* -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); */
     background: rgba(100,100,100,0.2);
     -webkit-border-radius: 12px;
     border-radius: 10px;
 }
-
-/* Handle */
-#sch-holder::-webkit-scrollbar-thumb, #sch-tiles::-webkit-scrollbar-thumb {
+#sch-holder::-webkit-scrollbar-thumb, #sch-tiles::-webkit-scrollbar-thumb /* Handle */
+{
     -webkit-border-radius: 10px;
     border-radius: 10px;
     background: rgba(255,140,43,0.8);
 }
-#sch-holder::-webkit-scrollbar-thumb:window-inactive {
+#sch-holder::-webkit-scrollbar-thumb:window-inactive
+{
 	/* background: rgba(255,0,0,0.4); */
 }
+/* End Scroll Bar Styling */
 
 .overlay-box div[contenteditable="true"]
 {
@@ -676,9 +642,10 @@ input[readonly="readonly"]
 	{
 	}
 }
-#repeat-certain-days-options { margin: 10px 0px; display: none;}
+#repeat-certain-days-options
+{ margin: 10px 0px; display: none;}
 
-
+/* Date Picker Styling */
 .date-field /* general class for things that have the date picker calendar */
 {
 	position: relative;
@@ -711,11 +678,6 @@ input[readonly="readonly"]
 	padding: .4em .3em;
 	color: #595959;
 }
-/*
-.ui-datepicker-calendar tbody td a
-{
-	transition: all 0.2s;
-} */
 #ui-datepicker-div .ui-state-default
 {
 	color: #BBBBBB;
@@ -734,6 +696,8 @@ input[readonly="readonly"]
 {
 	background: orange;
 }
+/* End Date Picker Styling */
+
 #save-checkmark
 {
 	opacity: 0;
@@ -750,7 +714,8 @@ input[readonly="readonly"]
 	&.loading
 	{
 		padding-right: 32px;
-		.loading-spinner { opacity: 1; }	
+		.loading-spinner
+		{ opacity: 1; }	
 	}
 	.loading-spinner
 	{
@@ -769,9 +734,13 @@ input[readonly="readonly"]
 		}
 	}
 }
-#embed-button { position: relative; top: -5px;}
+#embed-button
+{ position: relative; top: -5px;}
 
-/* Monthly View Styling */
+/***************************/
+/** MONTHLY VIEW STYLING ***/
+/***************************/
+
 #sch-monthly-view
 {
 	display: none;
@@ -795,7 +764,8 @@ input[readonly="readonly"]
 	box-sizing: border-box;
 	overflow: hidden;
 
-	.inner {
+	.inner
+	{
 		height: 100%;
 		background: #f2f2f2;
 	}
@@ -825,7 +795,7 @@ input[readonly="readonly"]
 			color: grey;
 		}
 	}
-	#day-of-month
+	.day-of-month
 	{
 		font-size: 16px;
 		text-align: left;
@@ -842,7 +812,7 @@ input[readonly="readonly"]
 		background-color: #E0E0E0;
 		border: solid 1px #9E9E9E;
 
-		#day-of-month { font-weight: bold; }
+		.day-of-month { font-weight: bold; }
 	}
 }
 /* On hover show all events */
@@ -850,10 +820,16 @@ input[readonly="readonly"]
 {
 	overflow: visible;
 
-	.sch-month-evnt {
+	.sch-month-evnt
+	{
 		opacity: 1;
 		z-index: 10;
 	}
 }
+
+/***************************/
+/***** END MONTHLY VIEW ****/
+/***************************/
+
 
 /* END SCHEDULE STYLING */

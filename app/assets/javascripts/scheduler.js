@@ -1321,7 +1321,7 @@ function addDates(newDateObj, refresh, startToday)
 
 			$("#sch-monthly-view #tiles-cont").append("<div class='" + tileClass + "'>"
 					+ "<div class='inner'>"
-						+ "<div id='day-of-month'>" + currDate.getDate() + "</div>"
+						+ "<div class='day-of-month'>" + currDate.getDate() + "</div>"
 					+ "</div>"
 				+ "</div>");	
 
