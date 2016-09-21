@@ -220,11 +220,11 @@ function ScheduleItem()
 		updatedEvents("resizeComplete");
 	};
 
-	this.getHeight = function() //returns the top value based on the hours and minutes of the start
+	this.getTop = function() //returns the top value based on the hours and minutes of the start
 	{
 		var hourStart = this.startDateTime.getHours() + (this.startDateTime.getMinutes()/60);
-		var h =  gridHeight*hourStart; // TODO - Rename this to literally anything else???
-		return h;
+		var height =  gridHeight * hourStart;
+		return height;
 	};
 
 	this.getMinutesOffsets = function() //returns the pixel offsets caused by the minutes as an array
@@ -292,7 +292,7 @@ function ScheduleItem()
 		if(isStart || !resize) //only set the startDateTime if we are not resizing or starting
 		{
 			schItem.startDateTime = topDT;
-			elem.css("top", schItem.getHeight()); //set the top position by gridHeight times the hour
+			elem.css("top", schItem.getTop()); //set the top position by gridHeight times the hour
 			// TODO - Seriously, convertTo12Hour is not doing us any favors
 			elem.children(".evnt-time.top").text(convertTo12Hour([topDT.getHours(), paddedMinutes(topDT)])).show();
 		}
@@ -396,12 +396,11 @@ function scheduleReady()
 
 		if(readOnly) //allow viewing of all events with single click
 		{
-			//TODO - Comment why each of these is removed, it's not at all clear
-			$(".edit, #repeat, #add-break-event").remove();
-			$("#overlay-loc, #overlay-desc, #overlay-title").attr("contenteditable", "false");
-			$("#time-start, #time-end").attr("readonly", true);
+			$(".edit, #repeat, #add-break-event").remove(); //remove repeat functionality, and adding breaks
+			$("#overlay-loc, #overlay-desc, #overlay-title").attr("contenteditable", "false"); //disable editing on location title and description
+			$("#time-start, #time-end").attr("readonly", true); //disable editing of time
 			$(".col-snap .sch-evnt").click(function(){
-				editEvent($(this));
+				editEvent($(this)); //and make it so clicking an event immediately opens it
 			});
 		}
 
@@ -842,7 +841,7 @@ function loadInitialEvents()
 
 			scheduleItems[i].tempElement = clone; //Store the element
 
-			placeInSchedule(clone, scheduleItems[i].getHeight(), scheduleItems[i].lengthInHours());
+			placeInSchedule(clone, scheduleItems[i].getTop(), scheduleItems[i].lengthInHours());
 
 			eventTempId++; //increment the temp id
 		}
