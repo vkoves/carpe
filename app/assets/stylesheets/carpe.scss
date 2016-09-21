@@ -436,11 +436,13 @@ input.danger:hover
 }
 .square
 {
-	float: left;
-    margin-top: 5px;
-    margin-right: 10px;
-    padding: 5px 10px;
-    color: white;
+	// float: left;
+    // margin-top: 5px;
+    // margin-right: 10px;
+    // padding: 5px 10px;
+    // color: white;
+    font-size: 14px;
+    margin-top: 2px;
 }
 .home-event-tile
 {
@@ -449,6 +451,8 @@ input.danger:hover
 	padding-left: 8px;
 	padding-right: 10px;
 	padding-bottom: 5px;
+	background-color: #f1f1f1;
+	border-left: solid 5px;
 	
 	&.current
 	{
@@ -466,13 +470,15 @@ input.danger:hover
 	.toggle-details
 	{
 		cursor: pointer;
-		text-decoration: underline;
+		color: orange;
 	}
 	.details
 	{
 		display: none;
 		margin-top: 5px;
-		border-top: solid 1px grey;
+		padding-left: 10px;
+		background-color: #dad1d1;
+		padding-left: 5px;
 	}
 }
 /* Thin forms like editing groups */
