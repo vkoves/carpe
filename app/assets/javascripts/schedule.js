@@ -39,7 +39,7 @@ var viewMode = "week"; //either "week" or "month"
 
 //Run scheduleReady when the page is loaded. Either fresh or from turbo links
 $(document).ready(scheduleReady);
-$(document).on('turbolinks:load', scheduleReady);
+$(document).on('page:load', scheduleReady);
 
 //Run when the user tries to leave the page through a Turbolink
 $(document).unbind('page:before-change'); //unbind page before change from last time viewing
@@ -372,40 +372,39 @@ function Break() //The prototype for breaks/repeat exceptions
  */
 function scheduleReady()
 {
-	if(!readied)
-	{
-		//load all initial data stuff
-		loadInitialBreaks();
-		loadInitialCategories();
-		loadInitialEvents();
+    if (readied) return;
 
-		sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
-		schHTML = $("#sch-weekly-view").html(); //The HTML for the scheduler days layout, useful for when days are refreshed
+    //load all initial data stuff
+    loadInitialBreaks();
+    loadInitialCategories();
+    loadInitialEvents();
 
-		addStartingListeners(); //add the event listeners
+    sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
+    schHTML = $("#sch-weekly-view").html(); //The HTML for the scheduler days layout, useful for when days are refreshed
 
-		addDrag(); //add dragging, recursively
+    addStartingListeners(); //add the event listeners
 
-		colDroppable();
+    addDrag(); //add dragging, recursively
 
-		addDates(new Date(), false, true);
-		readied = true;
+    colDroppable();
 
-		$(".col-snap").css("height", gridHeight*24); //set drop columns
-		$(".sch-day-col").css("height", gridHeight*24 + 50); //set day columns, which have the divider line
+    addDates(new Date(), false, true);
+    readied = true;
 
-		if(readOnly) //allow viewing of all events with single click
-		{
-			$(".edit, #repeat, #add-break-event").remove(); //remove repeat functionality, and adding breaks
-			$("#overlay-loc, #overlay-desc, #overlay-title").attr("contenteditable", "false"); //disable editing on location title and description
-			$("#time-start, #time-end").attr("readonly", true); //disable editing of time
-			$(".col-snap .sch-evnt").click(function(){
-				editEvent($(this)); //and make it so clicking an event immediately opens it
-			});
-		}
+    $(".col-snap").css("height", gridHeight*24); //set drop columns
+    $(".sch-day-col").css("height", gridHeight*24 + 50); //set day columns, which have the divider line
 
-		$("#sch-save").addClass("disabled");
-	}
+    if(readOnly) //allow viewing of all events with single click
+    {
+        $(".edit, #repeat, #add-break-event").remove(); //remove repeat functionality, and adding breaks
+        $("#overlay-loc, #overlay-desc, #overlay-title").attr("contenteditable", "false"); //disable editing on location title and description
+        $("#time-start, #time-end").attr("readonly", true); //disable editing of time
+        $(".col-snap .sch-evnt").click(function(){
+            editEvent($(this)); //and make it so clicking an event immediately opens it
+        });
+    }
+
+    $("#sch-save").addClass("disabled");
 }
 
 /**
