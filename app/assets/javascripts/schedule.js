@@ -563,7 +563,7 @@ function addStartingListeners()
 	{
 		$(".color-swatch").removeClass("selected");
 
-		currObj = categories[currCategory.attr("data-id")];
+		currObj = currCategory;
 		currObj.color = $(this).css("background-color");
 		$(this).addClass("selected");
 	});
@@ -575,7 +575,7 @@ function addStartingListeners()
 		$("#cat-privacy span").removeClass("red");
 		$(this).addClass("red");
 
-		currCategory.attr("privacy", $(this).text().toLowerCase());
+		currCategory.privacy = $(this).text().toLowerCase();
 	});
 
 	$("#time-start").change(function()
@@ -1542,13 +1542,13 @@ function editEventTitle(event, elem)
 //Edit a category using the category overlay
 function editCategory(event, elem, id)
 {
-	currCategory = $(elem).parent(); //set the current category
+	currCategory = categories[$(elem).parent().attr("data-id")]; //set the current category
 
 	//Select the proper privacy button
 	$("#cat-privacy span").removeClass("red");
-	if(currCategory.attr("privacy"))
+	if(currCategory.privacy)
 	{
-		$("#cat-privacy #" + currCategory.attr("privacy")).addClass("red");
+		$("#cat-privacy #" + currCategory.privacy).addClass("red");
 	}
 
 	event.stopImmediatePropagation();
@@ -1556,7 +1556,7 @@ function editCategory(event, elem, id)
 	
 	$(".ui-widget-overlay, #cat-overlay-box").fadeIn(250);
 
-	var colForTop = currCategory.css("background-color");
+	var colForTop = currCategory.color;
 
 	$(".cat-top-overlay").css("background-color",colForTop);
 
@@ -1565,7 +1565,7 @@ function editCategory(event, elem, id)
 	else //if the color was null or empty remove the background-color
 		$(".cat-top-overlay").css("background-color",""); */
 
-	$(".cat-overlay-title").html($(currCategory).find(".evnt-title").text());
+	$(".cat-overlay-title").html(currCategory.name);
 	$("#cat-overlay-box").attr("data-id",id);
 
 	$(".color-swatch").removeClass("selected");
@@ -1662,7 +1662,7 @@ function showBreakAddOverlay()
 	if(currEvent)
 		currObj = currEvent;
 	else
-		currObj = categories[currCategory.attr("data-id")];
+		currObj = currCategory;
 
 	$("#break-cont").html(""); //clear the break container
 	for (var id in breaks) //do a foreach since this is a hashmap
@@ -1695,7 +1695,7 @@ function showBreakAddOverlay()
 		if(currEvent)
 			currObj = currEvent;
 		else
-			currObj = categories[currCategory.attr("data-id")];
+			currObj = currCategory;
 
 		if($(this).hasClass("active")) //disable this
 		{
@@ -1924,17 +1924,18 @@ function saveCategory(event,elem,id)
 		url: "/create_category",
 		type: "POST",
 		data: {name: $(".cat-overlay-title").text(), id: id, color: $(".cat-top-overlay").css("background-color"), 
-			privacy: currCategory.attr("privacy"), breaks: categories[currCategory.attr("data-id")].breaks, group_id: groupID},
+			privacy: currCategory.privacy, breaks: currCategory.breaks, group_id: groupID},
 		success: function(resp)
 		{
 			console.log("Update category complete.");
-			hideOverlay(); //Hide category editing panel
 
 			// TODO - Literally what is this doing? These should be functions
+			currCategory.name = $(".cat-overlay-title").text();
 			$("#sch-sidebar .sch-evnt[data-id=" + id + "]").find(".evnt-title").html($(".cat-overlay-title").html()); //Update name in sidebar
 			$(".sch-evnt[data-id=" + id + "]").css("background-color", $(".cat-top-overlay").css("background-color")); //Update color of events
 			sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
 
+			hideOverlay(); //Hide category editing panel
 		},
 		error: function(resp)
 		{
