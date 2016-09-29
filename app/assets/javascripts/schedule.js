@@ -134,10 +134,7 @@ function ScheduleItem()
 		if(newStartDateTime.getTime() > this.endDateTime.getTime() && userSet) //if trying to set start before end
 		{
 			alertUI("The event can't start after it ends!"); //throw an error unless this is a new event (blank name)
-			// TODO: Loading the hours and minutes of a date to convert it into 12 hour time is stupid AF. Make a function
-			// that just takes a date and spits out the 12 hour time we want, seriously.
-			var startArr = [currEvent.startDateTime.getHours(), paddedMinutes(currEvent.startDateTime)]; //and reset the field
-			$("#time-start").val(convertTo12Hour(startArr));
+			$("#time-start").val(convertTo12Hour(currEvent.startDateTime));
 		}
 		else
 			setDateTime(true, newStartDateTime, this, resize);
@@ -150,8 +147,7 @@ function ScheduleItem()
 		if(newEndDateTime.getTime() < this.startDateTime.getTime() && userSet) //if trying to set end before start
 		{
 			alertUI("The event can't end before it begins!"); //throw an error unless this is a new event
-			var endArr = [currEvent.endDateTime.getHours(), paddedMinutes(currEvent.endDateTime)]; //and reset the field
-			$("#time-end").val(convertTo12Hour(endArr));
+			$("#time-end").val(convertTo12Hour(currEvent.endDateTime));
 		}
 		else
 			setDateTime(false, newEndDateTime, this, resize);
@@ -293,14 +289,13 @@ function ScheduleItem()
 		{
 			schItem.startDateTime = topDT;
 			elem.css("top", schItem.getTop()); //set the top position by gridHeight times the hour
-			// TODO - Seriously, convertTo12Hour is not doing us any favors
-			elem.children(".evnt-time.top").text(convertTo12Hour([topDT.getHours(), paddedMinutes(topDT)])).show();
+			elem.children(".evnt-time.top").text(convertTo12Hour(topDT)).show();
 		}
 
 		if(!isStart || !resize) //only set the bottom stuff if this is setting the end time or we are not resizing
 		{
 			schItem.endDateTime = botDT;
-			elem.children(".evnt-time.bot").text(convertTo12Hour([botDT.getHours(), paddedMinutes(botDT)])).show();
+			elem.children(".evnt-time.bot").text(convertTo12Hour(botDT)).show();
 		}
 
 		elem.attr("time", topDT.getHours() + ":" + paddedMinutes(topDT)); //set the time attribute
@@ -831,8 +826,8 @@ function loadInitialEvents()
 			var time = dateE.getHours() + ":" + paddedMinutes(dateE);
 
 			clone.children(".evnt-title").text(evnt.name);
-			clone.children(".evnt-time.top").text(convertTo12Hour([dateE.getHours(), paddedMinutes(dateE)])).show();
-			clone.children(".evnt-time.bot").text(convertTo12Hour([dateEnd.getHours(), paddedMinutes(dateEnd)])).show();
+			clone.children(".evnt-time.top").text(convertTo12Hour(dateE)).show();
+			clone.children(".evnt-time.bot").text(convertTo12Hour(dateEnd)).show();
 			clone.attr("time", time);
 			clone.attr("event-id", evnt.id);
 			clone.attr("evnt-temp-id", i); //Set the temp id
@@ -1222,13 +1217,13 @@ function updateTime(elem, ui, resize) //if we're resizing, don't snap, just upda
 
 
 	$(elem).attr("time", arr.join(":")); //set the time attr using military
-	arr = convertTo12Hour(arr); //then convert to 12 hour
+	arr = convertTo12HourFromArray(arr); //then convert to 12 hour
 
 	//set Start time
 	ui.helper.children(".evnt-time.top").html(arr); //and set the helper time
 	$(elem).children(".evnt-time.top").html(arr); //as well as the element
 
-	end_arr = convertTo12Hour(end_arr);
+	end_arr = convertTo12HourFromArray(end_arr);
 	ui.helper.children(".evnt-time.bot").html(end_arr); //and set the helper time
 	$(elem).children(".evnt-time.bot").html(end_arr); //as well as the element
 }
@@ -1644,8 +1639,8 @@ function editEvent(elem)
 		var endArr = [currEvent.endDateTime.getHours(), paddedMinutes(currEvent.endDateTime)];
 
 		//$(".overlay-time").html(convertTo12Hour(time.split(":")) + " - " + convertTo12Hour(endTime.split(":")));
-		$("#time-start").val(convertTo12Hour(startArr));
-		$("#time-end").val(convertTo12Hour(endArr));
+		$("#time-start").val(convertTo12HourFromArray(startArr));
+		$("#time-end").val(convertTo12HourFromArray(endArr));
 	}
 }
 
@@ -1982,8 +1977,14 @@ function createBreak(name, startDate, endDate)
 /***** HELPER METHODS *******/
 /****************************/
 
-//converts an array [hour, minutes] from 24 hour to 12 hour time
-function convertTo12Hour(timeArr)
+//converts a date from 24 hour to 12 hour time string format
+function convertTo12Hour(date)
+{
+	var timeArr = [date.getHours(), paddedMinutes(date)]; //and reset the field
+	return convertTo12HourFromArray(timeArr);
+}
+
+function convertTo12HourFromArray(timeArr)
 {
 	if(timeArr[0] >= 12)
 	{
@@ -2091,8 +2092,7 @@ function verboseDateToString(date)
 
 function dateToTimeString(date)
 {
-	var timeArray = [date.getHours(), paddedMinutes(date)]; //and reset the field
-	return convertTo12Hour(timeArray);
+	return convertTo12Hour(date);
 }
 
 function datesToTimeRange(startDate, endDate)
