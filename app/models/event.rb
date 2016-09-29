@@ -6,7 +6,7 @@ class Event < ActiveRecord::Base
   has_and_belongs_to_many :repeat_exceptions
 
   def get_html_name #returns the event name, or an italicized untitled
-    name.empty? ? "<i>Untitled<i>" : name
+    name.empty? ? "<i>Untitled</i>" : name
   end
 
   def get_name #returns the event name as a plain string

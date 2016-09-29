@@ -1397,7 +1397,7 @@ function populateEvents()
 		if(viewMode == "week")
 		{
 			currentElem.css("background-color", color);
-			currentElem.find(".evnt-title").text(eventObject.getName(true));
+			currentElem.find(".evnt-title").html(eventObject.getName(true));
 			$(".sch-day-col:eq(" + i + ") .col-snap").append(currentElem);
 		}
 		else if(viewMode == "month")
