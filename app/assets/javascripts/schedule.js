@@ -1436,33 +1436,23 @@ function populateEvents()
 			var inBreak = false; //is this during a break
 			//Then handle event repeat breaks
 
-			//TODO - Use combined breaks instead of iterating through both arrays individually
 			var combinedBreaks = eventObj.breaks.concat(categories[eventObj.categoryId].breaks);
 
-			for(var b = 0; b < eventObj.breaks.length; b++) //iterate through all breaks
+			for(var breakIndex = 0; breakIndex < combinedBreaks.length; breakIndex++) //iterate through all breaks
 			{
-				var brk = breaks[eventObj.breaks[b]];
+				var currBreak = breaks[combinedBreaks[breakIndex]];
+				var dateClone = cloneDate(date).setHours(0,0,0,0); //clear time on the date so time doesn't factor into breaks
+				//otherwise since breaks times are the start of their day, an event on Sept. 30th at 3:00pm won't be impacted by a date
+				//on Sept. 30th, since that's technically Sept. 30th 00:00
 
-				if(brk.startDate <= date && brk.endDate >= date) //if the date falls in the break range
+				if(currBreak.startDate <= dateClone && currBreak.endDate >= dateClone) //if the date falls in the break range
 				{
 					inBreak = true;
 					break; //continue eventLoop;
 				}
 			}
 
-			//And category repeat breaks
-			for(var b2 = 0; b2 < categories[eventObj.categoryId].breaks.length; b2++) //iterate through all breaks
-			{
-				var brk = breaks[categories[eventObj.categoryId].breaks[b2]];
-
-				if(brk.startDate <= date && brk.endDate >= date) //if the date falls in the break range
-				{
-					inBreak = true;
-					break; //continue eventLoop;
-				}
-			}
-
-			if(inBreak) //if we found that we are in a break
+			if(inBreak) //if we found that we are in a breaks
 				continue; //skip to the next event
 
 			if (itemDate.toDateString() == date.toDateString() && eventObj.repeatType.indexOf("certain_days") == -1 //if today's the event except certain days
