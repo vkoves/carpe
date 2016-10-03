@@ -584,7 +584,10 @@ function addStartingListeners()
 
 		dateTime = new Date(dateE+" "+val);
 		if (isNaN(dateTime.getTime()))
-			alertUI("Start date doesn't make sense! Tried \"" + dateE+" "+val + "\"");
+		{
+            alertUI("Start date doesn't make sense! Tried \"" + dateE + " " + val + "\"");
+            return; // don't apply this new invalid time
+        }
 
 		var newDateTime = cloneDate(currEvent.startDateTime); //We don't want to modify the date, only the time, so clone the date
 		newDateTime.setHours(dateTime.getHours()); //change the hours
