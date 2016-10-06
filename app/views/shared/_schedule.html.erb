@@ -241,44 +241,22 @@
 
 	//Data variables
 	<% #Load group's events if we're showing a group schedule; otherwise, load user's events %>
-	<% if @user %>
-		<% events = @user.get_events(current_user) %>
-	<% elsif @group %>
-		<% events = @group.events %>
-	<% end %>
-	<% eventsOut = [] %>
-	<% events.each do |event| %>
-		<% if @group or (@user and !event.group) %>
-			<% atr = event.attributes %>
-			<% atr[:break_ids] = event.repeat_exception_ids #.repeat_exceptions.pluck(:id) %>
-			<% eventsOut.push(atr) %>
-		<% end %>
-	<% end %>
+	<% eventsData = get_event_attributes(fetch_schedule_events(@user, @group)) %>
 
 	<% #Load group's categories if we're showing a group schedule; otherwise, load user's categories %>
-	<% if @user %>
-		<% categories = @user.get_categories(current_user) %>
-	<% elsif @group %>
-		<% categories = @group.categories %>
-	<% end %>
-	<% catsOut = [] %>
-	<% categories.each do |category| %>
-		<% atr = category.attributes %>
-		<% atr[:break_ids] = category.repeat_exception_ids %>
-		<% catsOut.push(atr) %>
-	<% end %>
+	<% categoriesData = get_category_attributes(fetch_schedule_categories(@user, @group)) %>
+
+	// TODO: rename these JSON variables to not sound like booleans
+	// (should be nouns, not ending in past-tense
+	//  verbs like these currently are)
+	var eventsLoaded = <%= raw eventsData.to_json %>;
+	var categoriesLoaded = <%= raw categoriesData.to_json %>;
 
 	<% 	# Added this if statement here temporarily, so these JSON objects
 		# will only be output for users, but will need to add relationships
 		# to groups for repeat exceptions eventually, for group scheduling
 		# to work as it should
 	%>
-	// TODO: rename these JSON variables to not sound like booleans
-	// (should be nouns, not ending in past-tense
-	//  verbs like these currently are)
-	var eventsLoaded = <%= raw eventsOut.to_json %>;
-	var categoriesLoaded = <%= raw catsOut.to_json %>;
-
 	<% if @user %>
 		var breaksLoaded = <%= raw @user.repeat_exceptions.to_json %>;
 	<% end %>

@@ -117,4 +117,46 @@ module ApplicationHelper
 
     return dates_hash  
   end
+
+  # Gets the events to be displayed on the schedule partial depending on if @user and/or @group are defined
+  def fetch_schedule_events(user_viewing, group_viewing)
+    if user_viewing
+      events = user_viewing.get_events(current_user)
+    elsif group_viewing
+      events = group_viewing.events
+    end
+  end
+
+  # Gets the categories to be displayed on the schedule partial depending on if @user and/or @group are defined
+  def fetch_schedule_categories(user_viewing, group_viewing)
+    if user_viewing
+      categories = user_viewing.get_categories(current_user)
+    elsif group_viewing
+      categories = group_viewing.categories
+    end
+  end
+
+  # Get attributes for events, particularly pulling in break_ids
+  def get_event_attributes(events)
+    eventAttributes = []
+    events.each do |event|
+      if @group or (@user and !event.group) # don't show group events on a user's schedule, even if they made it?
+        atr = event.attributes
+        atr[:break_ids] = event.repeat_exception_ids #.repeat_exceptions.pluck(:id)
+        eventAttributes.push(atr)
+      end
+    end
+    return eventAttributes
+  end
+
+  # Get attributes for categories, particularly pulling in break_ids
+  def get_category_attributes(categories)
+    categoryAttributes = []
+    categories.each do |category|
+      atr = category.attributes
+      atr[:break_ids] = category.repeat_exception_ids
+      categoryAttributes.push(atr)
+    end
+    return categoryAttributes
+  end 
 end
