@@ -31,4 +31,14 @@ class Category < ActiveRecord::Base
 	    end
 	  end
 	end
+
+	def private_version #returns the event with details hidden
+	  private_category = self.dup
+	  private_category.id = self.id #categories still need IDs even when private
+	  private_category.name = "Private Category"
+	  private_category.created_at = nil
+	  private_category.updated_at = nil
+	  private_category.color = nil
+	  return private_category
+	end
 end

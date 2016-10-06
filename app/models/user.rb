@@ -86,6 +86,18 @@ class User < ActiveRecord::Base
    return events_array
   end
 
+  def get_categories(user) #get categories that are acessible to the user passed in
+    return categories if user == self #if a user is viewing their own categories, return all
+
+    categories_array = [];
+
+    categories.each do |category| #for each category
+      category.has_access?(user) ? categories_array.push(category) : categories_array.push(category.private_version) #push the normal or private version
+    end
+
+    return categories_array
+  end
+
   ##########################
   ### END EVENT METHODS ####
   ##########################
