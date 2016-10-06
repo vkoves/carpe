@@ -265,6 +265,13 @@
 	<% categories.each do |category| %>
 		<% atr = category.attributes %>
 		<% atr[:break_ids] = category.repeat_exception_ids %>
+		<% unless category.has_access?(current_user) %>
+			<% atr[:hidden] = true %>
+			<% atr[:name] = "Private Category" %>
+			<% atr[:created_at] = nil %>
+			<% atr[:updated_at] = nil %>
+			<% atr[:color] = nil %>
+		<% end %>
 		<% catsOut.push(atr) %>
 	<% end %>
 
