@@ -349,12 +349,6 @@
 	    margin-right: 30px;
 	    padding: 3px;
 	}
-	#overlay-desc:focus, #overlay-loc:focus
-	{
-		background: #D3CECE;
-	    border-radius: 5px;
-	    box-shadow: 0px 0px 5px rgba(0,0,0,0.5) inset;
-	}
 	.overlay-time
 	{
 		float: left;
@@ -578,11 +572,20 @@ input[readonly="readonly"]
 	outline: none;
 	transition: all 0.3s;
 }
-.overlay-box div[contenteditable="true"]:focus
+.overlay-box div[contenteditable="true"]
 {
-	cursor: text;
-	background: #D3CECE;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5) inset;
+	border-radius: 5px;
+	
+	&:focus
+	{
+		cursor: text;
+		background: #D3CECE;
+		box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5) inset;	
+	}
+	&:hover
+	{
+		background: #D3CECE;
+	}
 }
 .overlay-box #repeat
 {
