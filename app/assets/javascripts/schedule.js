@@ -157,39 +157,57 @@ function ScheduleItem()
 
 	this.setName = function(newName)
 	{
-		this.name = newName; //set the object daat
-		this.element().find(".evnt-title").text(newName); //and update the HTML element
-		updatedEvents("setName");
+		if(this.name != newName) // check for changes
+		{
+			this.name = newName; //set the object daat
+			this.element().find(".evnt-title").text(newName); //and update the HTML element
+			updatedEvents("setName");
+		}
 	};
 
 	this.setRepeatType = function(newRepeatType)
 	{
-		this.repeatType = newRepeatType;
-		updatedEvents("setRepeatType");
+		if(this.repeatType != newRepeatType) // check for changes
+		{
+			this.repeatType = newRepeatType;
+			updatedEvents("setRepeatType");
+		}
 	};
 
 	this.setRepeatStart = function(newRepeatStart)
 	{
-		this.repeatStart = newRepeatStart;
-		updatedEvents("repeatStart");
+		if(this.repeatStart != newRepeatStart) // check for changes
+		{
+			this.repeatStart = newRepeatStart;
+			updatedEvents("repeatStart");
+		}
 	};
 
 	this.setRepeatEnd = function(newRepeatEnd)
 	{
-		this.repeatEnd = newRepeatEnd;
-		updatedEvents("repeatEnd");
+		if(this.repeatEnd != newRepeatEnd) // check for changes
+		{
+			this.repeatEnd = newRepeatEnd;
+			updatedEvents("repeatEnd");
+		}
 	};
 
 	this.setDescription = function(newDescription)
 	{
-		this.description = newDescription;
-		updatedEvents("description");
+		if(this.description != newDescription) // check for changes
+		{
+			this.description = newDescription;
+			updatedEvents("description");
+		}
 	}
 
 	this.setLocation = function(newLocation)
 	{
-		this.location = newLocation;
-		updatedEvents("location");
+		if(this.location != newLocation) // check for changes
+		{
+			this.location = newLocation;
+			updatedEvents("location");
+		}
 	}
 
 	this.dragComplete = function(elem, resize)
