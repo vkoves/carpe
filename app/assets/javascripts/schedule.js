@@ -1356,6 +1356,8 @@ function initializeMonthlyView()
 {
 	viewMode = "month";
 
+	$("#view-weekly").removeClass("active");
+	$("#view-monthly").addClass("active");
 	$("#sch-weekly-view").hide();
 	$("#sch-monthly-view").show();
 
@@ -1366,6 +1368,8 @@ function initializeWeeklyView()
 {
 	viewMode = "week";
 
+	$("#view-monthly").removeClass("active");
+	$("#view-weekly").addClass("active");
 	$("#sch-monthly-view").hide();
 	$("#sch-weekly-view").show();
 	

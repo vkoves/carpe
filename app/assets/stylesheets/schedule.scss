@@ -384,6 +384,17 @@ input[readonly="readonly"]
 	{
 		float: right;
 	}
+	.sch-view-btn
+	{
+		background: #ffc354;
+		box-shadow: none;
+
+		&.active
+		{
+			background: orange;
+			box-shadow: 1px 1px 3px grey inset;
+		}
+	}
 }
 
 
