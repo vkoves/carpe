@@ -303,7 +303,7 @@
 	    text-align:left;
 		border-radius: 5px;
 	}
-	#overlay-title:focus
+	#overlay-title:focus, #overlay-title:hover
 	{
 		background: rgba(150, 150, 150, 0.33);
 	}
@@ -575,7 +575,7 @@ input[readonly="readonly"]
 .overlay-box div[contenteditable="true"]
 {
 	border-radius: 5px;
-	
+
 	&:focus
 	{
 		cursor: text;
