@@ -41,39 +41,6 @@
 			<% end %>
 			<%= image_tag "bellg.svg", class: "bell" %>
 		</div>
-		<div id="notif-panel">
-			<% if @follow_requests.size > 0 %>
-				Follow Requests
-				<% @follow_requests.each do |n| %>
-					<div class="notif" fid="<%= n.id %>">
-						<%= link_to(n.follower) do %>
-							<div id="user-avatar">
-								<img src="<%= n.follower.user_avatar(90) %>">
-							</div>
-						<% end %>
-						<span><%= n.follower.name %></span>
-						<%= link_to relationship_path(n, "relationship[confirmed]" => true), :method => :put, :remote => true do %>
-							<div class="confirm"></div>
-						<% end %>
-						<%= link_to relationship_path(n, "relationship[confirmed]" => false), :method => :put, :remote => true do %>
-							<div class="deny"></div>
-						<% end %>
-					</div>
-				<% end %>
-			<% else %>
-				<span style="font-size: 16px; padding-bottom: 5px;">You don't have any notifications right now.</span>
-			<% end %>
-			<% @notif_general.each do |n| %>
-				<div class="notif general">
-					<%= link_to(n.sender) do %>
-						<div id="user-avatar">
-							<img src="<%= n.sender.user_avatar(90) %>">
-						</div>
-					<% end %>
-					<div><%= n.sender.name %> <%= n.message %></div>
-				</div>
-			<% end %>
-		</div>
 	<% end %>
 	<% if current_user %>
 		<div id="user-name-panel" class="carpe-color">
@@ -102,5 +69,38 @@
 			<%= link_to admin_panel_url do %><div>Admin Panel</div><% end %>
 		<% end %>
 		<%= link_to destroy_user_session_path, :method => :delete do %><div>Sign out</div><% end %>
+	</div>
+	<div id="notif-panel">
+		<% if @follow_requests.size > 0 %>
+			Follow Requests
+			<% @follow_requests.each do |n| %>
+				<div class="notif" fid="<%= n.id %>">
+					<%= link_to(n.follower) do %>
+						<div id="user-avatar">
+							<img src="<%= n.follower.user_avatar(90) %>">
+						</div>
+					<% end %>
+					<span><%= n.follower.name %></span>
+					<%= link_to relationship_path(n, "relationship[confirmed]" => true), :method => :put, :remote => true do %>
+						<div class="confirm"></div>
+					<% end %>
+					<%= link_to relationship_path(n, "relationship[confirmed]" => false), :method => :put, :remote => true do %>
+						<div class="deny"></div>
+					<% end %>
+				</div>
+			<% end %>
+		<% else %>
+			<div id="no-notifs">You don't have any notifications right now.</div>
+		<% end %>
+		<% @notif_general.each do |n| %>
+			<div class="notif general">
+				<%= link_to(n.sender) do %>
+					<div id="user-avatar">
+						<img src="<%= n.sender.user_avatar(90) %>">
+					</div>
+				<% end %>
+				<div><%= n.sender.name %> <%= n.message %></div>
+			</div>
+		<% end %>
 	</div>
 <% end %>
