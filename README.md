@@ -14,6 +14,19 @@ Which will run the local server at `localhost:5000`
 
 Alternatively `rails s` can be used to the same effect, but the site will be visible at `localhost:3000`
 
+## Testing Carpe
+
+To run all Ruby on Rails tests for Carpe, run `bundle exec rake test` in the Carpe directory.
+
+To run a specific test, run `bundle exec rake test test_file_path`
+Ex: `bundle exec rake test test/controllers/event_test.rb`
+
+## Checking Code Quality
+
+At the moment, Carpe uses [Ruby Critic](https://github.com/whitesmith/rubycritic) for code quality checking.
+
+To run Ruby Critic, run `rubycritic` in the Carpe directory.
+
 ## Deploying Changes
 
 Make sure to push to origin and then heroku, like so:
