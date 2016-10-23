@@ -1,16 +1,20 @@
+<img src="app/assets/images/pages/JustTheLetter.png?raw=true" width="100" align="right">
+
 # Carpe
 
+A socially networked, intuitive calendar created in Ruby on Rails with a jQuery powered front end.
+
+## Setup
 Link to first-time setup can be found in the IndigoBox > Carpe Google Drive directory. 
 
-A socially networked, intuitive calendar created in Ruby on Rails.
+## Running Locally
+Run with foreman using `foreman start`
 
-Run with foreman using
+Which will run the local server at `localhost:5000`
 
-``
-foreman start
-``
+Alternatively `rails s` can be used to the same effect, but the site will be visible at `localhost:3000`
 
-Which will run the local server at localhost:500
+## Deploying Changes
 
 Make sure to push to origin and then heroku, like so:
 
