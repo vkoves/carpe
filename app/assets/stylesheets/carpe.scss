@@ -9,7 +9,7 @@ body
 	padding-bottom: 10px;
 	color: #393939;
 
-	&.in-iframe { padding-bottom: 0px;}
+	&.in-iframe { padding-bottom: 0px; }
 }
 
 /* HEADER + POSSIBLE OTHER USE CSS */
@@ -17,17 +17,17 @@ body
 {
 	font-family: 'Pacifico', cursive;
 	font-weight: normal;
-	color: rgb(255, 116, 0);
 }
 
-.carpe-color, .carpe-font a
+.carpe-color, .carpe-font, .carpe-font a
 {
 	color: rgb(255, 116, 0) !important;
 }
 
 /* Make sure inputs also have Open Sans */
-input {
-	font-family:Open Sans, sans-serif;
+input
+{
+	font-family: Open Sans, sans-serif;
 }
 
 /* Sign up and sign in styling */
