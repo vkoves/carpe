@@ -70,7 +70,7 @@
 		<% end %>
 		<%= link_to destroy_user_session_path, :method => :delete do %><div>Sign out</div><% end %>
 	</div>
-	<div id="notif-panel">
+	<div id="notif-panel" class="menu">
 		<% if @follow_requests.size > 0 %>
 			Follow Requests
 			<% @follow_requests.each do |n| %>

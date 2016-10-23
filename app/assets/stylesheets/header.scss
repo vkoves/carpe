@@ -14,7 +14,9 @@
 }
 .menu
 {
-	box-shadow: 0px 0px 10px grey;
+	border: solid 1px #bbbbbb;
+	border-top: none;
+	box-shadow: 0px 0px 3px grey;
 }
 .header-main a, .menu a
 {
