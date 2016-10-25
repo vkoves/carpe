@@ -7,6 +7,9 @@ class ApplicationController < ActionController::Base
   # Enable rack-mini-profiler for signed in admin
   before_action do
     if current_user && current_user.admin
+      if Rails.env.production?
+        Rack::MiniProfiler.config.start_hidden = true # hide profiler by default on production (Alt+P to show)
+      end
       Rack::MiniProfiler.authorize_request
     end
   end
