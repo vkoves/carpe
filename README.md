@@ -27,6 +27,10 @@ At the moment, Carpe uses [Ruby Critic](https://github.com/whitesmith/rubycritic
 
 To run Ruby Critic, run `rubycritic` in the Carpe directory.
 
+## Checking Site Speed
+
+Carpe uses [rack-mini-profiler](https://github.com/MiniProfiler/rack-mini-profiler) as a way of understanding site speed and optimizing queries. When running Carpe locally, a site speed badge will show up in the top left, allowing you to explore site speed. On production, this badge is hidden by defualt, and can be made visiblue using *Alt + P*. This shortcut can also be used to hide the profiler when running Carpe locally.
+
 ## Previewing Emails
 
 Although it has not been worked on extensively, Carpe is hooked up to SendGrid and has capabilities to send emails. Rails likewise has support for previewing emails through [Action Mailer Previews](https://github.com/rails/rails/blob/master/guides/source/4_1_release_notes.md#action-mailer-previews). Currently you can view all our emails (currenly only an email sent on signup) by going [here](http://localhost:5000/rails/mailers/user_notifier) if you use Foreman as your local server. Otherwise just change the port as you require.
