@@ -75,6 +75,9 @@ gem 'chartkick'
 #Roadie, used for styling emails nicely
 gem 'roadie', '~> 3.1.1'
 
+#Use rack-mini-profiler for investigating site speed (https://github.com/MiniProfiler/rack-mini-profiler)
+gem 'rack-mini-profiler'
+
 if Gem.win_platform?
   # Used by Windows for time zone differences (strange indeed).
   gem 'tzinfo-data'

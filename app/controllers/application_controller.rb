@@ -4,6 +4,13 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_filter :configure_permitted_parameters, if: :devise_controller?
 
+  # Enable rack-mini-profiler for signed in admin
+  before_action do
+    if current_user && current_user.admin
+      Rack::MiniProfiler.authorize_request
+    end
+  end
+
   #Core Carpe search. Searches groups and users
   def search_core
     if params[:q]
