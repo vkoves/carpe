@@ -1,9 +1,4 @@
-
-<% if @home %>
-<div class="user-listing <%= @profile ? "profile" : "" %>" style="margin:5px">
-<% else %>
 <div class="user-listing <%= @profile ? "profile" : "" %>">
-<% end %>
 	<%= link_to(user) do %>
 		<div class="avatar">
 			<% if @home %>
