@@ -139,7 +139,7 @@ module ApplicationHelper
   # Get attributes for events, particularly pulling in break_ids
   def get_event_attributes(events)
     eventAttributes = []
-    events.each do |event|
+    events.includes(:repeat_exceptions).each do |event|
       if @group or (@user and !event.group) # don't show group events on a user's schedule, even if they made it?
         atr = event.attributes
         atr[:break_ids] = event.repeat_exception_ids #.repeat_exceptions.pluck(:id)
@@ -152,7 +152,7 @@ module ApplicationHelper
   # Get attributes for categories, particularly pulling in break_ids
   def get_category_attributes(categories)
     categoryAttributes = []
-    categories.each do |category|
+    categories.includes(:repeat_exceptions).each do |category|
       atr = category.attributes
       atr[:break_ids] = category.repeat_exception_ids
       categoryAttributes.push(atr)
