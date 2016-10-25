@@ -25,7 +25,7 @@ class UsersController < ApplicationController
         @tab = "schedule"
       when "following"
         @tab = "following"
-        @following = @user.active_relationships.where(:confirmed => true) 
+        @following = @user.following_relationships 
       else #default, aka no params
         @tab = "schedule"
       end
@@ -33,7 +33,7 @@ class UsersController < ApplicationController
       if @tab == "mutual"
         @mutual_friends = current_user.mutual_friends(@user)
       else
-        @all_friends = @user.passive_relationships.where(:confirmed => true) #and fetch all of the user's followers
+        @all_friends = @user.followers_relationships #and fetch all of the user's followers
       end
     else
       redirect_to "/404"
