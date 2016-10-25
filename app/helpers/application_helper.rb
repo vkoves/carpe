@@ -139,34 +139,24 @@ module ApplicationHelper
   # Get attributes for events, particularly pulling in break_ids
   def get_event_attributes(events)
     eventAttributes = []
-    
-    if !events.empty? # don't try making extra queries on an empty set
-      events.includes(:repeat_exceptions).each do |event|
-        if @group or (@user and !event.group) # don't show group events on a user's schedule, even if they made it?
-          atr = event.attributes
-          atr[:break_ids] = event.repeat_exception_ids #.repeat_exceptions.pluck(:id)
-          eventAttributes.push(atr)
-        end
+    events.each do |event|
+      if @group or (@user and !event.group) # don't show group events on a user's schedule, even if they made it?
+        atr = event.attributes
+        atr[:break_ids] = event.repeat_exception_ids #.repeat_exceptions.pluck(:id)
+        eventAttributes.push(atr)
       end
-      return eventAttributes
-    else
-      return nil
     end
+    return eventAttributes
   end
 
   # Get attributes for categories, particularly pulling in break_ids
   def get_category_attributes(categories)
     categoryAttributes = []
-
-    if !categories.empty? # don't try making extra queries on an empty set
-      categories.includes(:repeat_exceptions).each do |category|
-        atr = category.attributes
-        atr[:break_ids] = category.repeat_exception_ids
-        categoryAttributes.push(atr)
-      end
-      return categoryAttributes
-    else
-      return nil
+    categories.each do |category|
+      atr = category.attributes
+      atr[:break_ids] = category.repeat_exception_ids
+      categoryAttributes.push(atr)
     end
+    return categoryAttributes
   end 
 end

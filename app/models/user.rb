@@ -75,11 +75,11 @@ class User < ActiveRecord::Base
   end
 
   def get_events(user) #get events that are acessible to the user passed in
-   return events if user == self #if a user is trying to view their own events, return all events
+   return events.includes(:repeat_exceptions) if user == self #if a user is trying to view their own events, return all events
 
    events_array = [];
 
-   events.each do |event| #for each event
+   events.includes(:repeat_exceptions).each do |event| #for each event
      event.has_access?(user) ? events_array.push(event) : events_array.push(event.private_version) #push the normal or private version
    end
 
