@@ -1,18 +1,4 @@
-<h2 class="no-bold">Followers
-	<% if current_user and !@profile %>
-		<!--
-		<span style="font-size: 18px;">(
-			<% mut = current_user.mutual_friends(@user).count %>
-			<% if mut > 0 #only link if there are some %>
-				<a href="?p=mutual_friends" class="normal">	<%= mut %> Mutual </a>
-			<% else %>
-				<%= mut %> Shared
-			<% end %>
-			)
-		</span>
-		-->
-	<% end %>
-</h2>
+<h2 class="no-bold">Followers</h2>
 <div id="friend-list">
 <% if @all_friends.empty? %>
 	<span class="empty-text">
