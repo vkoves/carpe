@@ -229,12 +229,12 @@ class User < ActiveRecord::Base
     end
   end
 
-  def followers
-    return passive_relationships.where(:confirmed => true).map{|r| r.follower}
+  def followers # Fetch followers that are confirmed
+    return passive_relationships.includes(:follower).where(:confirmed => true).map{|r| r.follower}
   end
 
-  def following
-    return active_relationships.where(:confirmed => true).map{|r| r.followed}
+  def following # Fetch users being followed that are confirmed
+    return active_relationships.includes(:followed).where(:confirmed => true).map{|r| r.followed}
   end
 
   # returns followers of this user that the current user "knows", as in is following
