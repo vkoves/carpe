@@ -1295,7 +1295,9 @@ function addDates(newDateObj, refresh, startToday)
 			if(currDate.toDateString() == new Date().toDateString()) //if this is today
 				$(col).attr("id","sch-today");
 
-			visibleDates.push(cloneDate(currDate));
+			var visibleDateCurr = cloneDate(currDate);
+			visibleDateCurr.setHours(0,0,0,0);
+			visibleDates.push(visibleDateCurr);
 			currDate.setDate(currDate.getDate() + 1);
 		});
 	}
