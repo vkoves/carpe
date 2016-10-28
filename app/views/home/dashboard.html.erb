@@ -60,8 +60,8 @@
 	<div id="sidebar">
 		<div id="following-list">
 			<% current_user.following.each do |user| %>
-			<%= render "shared/user_box_horizontal", user: user, free: true %>
-			<% end%>
+				<%= render "shared/user_box_horizontal", user: user, free: true %>
+			<% end %>
 		</div>
 	</div>
 </div>

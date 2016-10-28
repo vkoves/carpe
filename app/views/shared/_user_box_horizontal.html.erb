@@ -1,51 +1,63 @@
-<div class="user-listing <%= @profile ? "profile" : "" %>">
-	<%= link_to(user) do %>
-		<div class="avatar">
-			<% if @home %>
-				<img src="<%= user.user_avatar(60) %>" style="width:60px;height:60px;">
-			<% else %>
-				<img src="<%= user.user_avatar(100) %>">
+<% if @home # make the whole tile link if on home %>
+	<a href="<%= user_url(user) %>">
+<% end %>
+	<div class="test">
+		<div class="user-listing <%= @profile ? "profile" : "" %>">
+			<% unless @home # don't make avatar link if on home %>
+				<a href="<%= user_url(user) %>">
 			<% end %>
+				<div class="avatar">
+					<% if @home %>
+						<img src="<%= user.user_avatar(60) %>" style="width:60px;height:60px;">
+					<% else %>
+						<img src="<%= user.user_avatar(100) %>">
+					<% end %>
+				</div>
+			<% unless @home %>
+				</a>
+			<% end %>
+
+			<div class="user-details">
+
+				<span class="user-name"><%= user.name %></span><br>
+				<% if @profile%>
+					Following since: <%= relationship.created_at.strftime("%b. %d, %Y")%> <br>
+
+					<%= link_to relationship_path(relationship), :method => :delete, :remote => true, :class => "default red friend-remove", "fid" => relationship.id do %>
+						<% if current_user == relationship.follower # if the current user is following this person, let them unfollow %>
+							<span>Unfollow</span>
+						<% else %>
+							<span>Remove</span>
+						<% end %>
+					<% end %>
+				<% elsif current_user %>
+					<% if !@home %>
+						<span id="mutual-friends"><%= user.followers.length %> followers</span>
+						<br>
+						<%= render "/users/follow_button", user: user %>
+					<% else %>
+						<% if user.is_busy? %>
+							<div class="red circle"></div>
+							<% if user.current_events[0].has_access?(current_user) %>
+								<% event_name = raw user.current_events[0].get_html_name %>
+								<%= link_to event_name, user_path(user, page: "schedule"), :class => "simple" %>
+							<% else %>
+								Busy
+							<% end %>
+							until <%= relative_time_ago(user.current_events[0].end_date, false) %>
+						<% else %>
+							<div class="green circle"></div>
+							<% if user.next_event %>
+								Free until <%= relative_time_ago(user.next_event.date, false) %>
+							<% else %>
+								Free the rest of the day
+							<% end %>
+						<% end %>
+					<% end %>
+				<% end %>
+			</div>
 		</div>
-	<% end %>
-
-	<div class="user-details">
-
-		<span class="user-name"><%= user.name %></span><br>
-		<% if @profile%>
-			Following since: <%= relationship.created_at.strftime("%b. %d, %Y")%> <br>
-
-			<%= link_to relationship_path(relationship), :method => :delete, :remote => true, :class => "default red friend-remove", "fid" => relationship.id do %>
-				<% if current_user == relationship.follower # if the current user is following this person, let them unfollow %>
-					<span>Unfollow</span>
-				<% else %>
-					<span>Remove</span>
-				<% end %>
-			<% end %>
-		<% elsif current_user %>
-			<% if !@home %>
-				<span id="mutual-friends"><%= user.followers.length %> followers</span>
-				<br>
-				<%= render "/users/follow_button", user: user %>
-			<% else %>
-				<% if user.is_busy? %>
-					<div class="red circle"></div>
-					<% if user.current_events[0].has_access?(current_user) %>
-						<% event_name = raw user.current_events[0].get_html_name %>
-						<%= link_to event_name, user_path(user, page: "schedule"), :class => "simple" %>
-					<% else %>
-						Busy
-					<% end %>
-					until <%= relative_time_ago(user.current_events[0].end_date, false) %>
-				<% else %>
-					<div class="green circle"></div>
-					<% if user.next_event %>
-						Free until <%= relative_time_ago(user.next_event.date, false) %>
-					<% else %>
-						Free the rest of the day
-					<% end %>
-				<% end %>
-			<% end %>
-		<% end %>
 	</div>
-</div>
+<% if @home %>
+	</a>
+<% end %>
