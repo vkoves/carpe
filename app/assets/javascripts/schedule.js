@@ -1364,6 +1364,13 @@ function initializeMonthlyView()
 	$("#sch-monthly-view").show();
 
 	addDates(refDate, true);
+	$(".sch-month-evnt").click(function()
+	{
+		console.log("Edit month day");
+		editEvent($(this));
+	})
+
+
 }
 
 function initializeWeeklyView()
@@ -1429,8 +1436,8 @@ function populateEvents()
 		}
 		else if(viewMode == "month")
 		{
-			$(".sch-day-tile:eq(" + i + ") .inner").append("<div class='sch-month-evnt' data-id='" + eventObject.tempId 
-				+ "' style='color: " 
+			$(".sch-day-tile:eq(" + i + ") .inner").append("<div class='sch-month-evnt' evnt-temp-id='" + eventObject.tempId 
+				+ "' data-id='" + eventObject.categoryId + "' style='color: " 
 				+  color +  "; color: " + color + ";'>" 
 					+ eventObject.getName(true)
 					+ "<div class='time'>" 
@@ -1645,7 +1652,7 @@ function editEvent(elem)
 		$(".ui-widget-overlay, #event-overlay-box").fadeIn(250);
 
 		$("#overlay-title").html(currEvent.name);
-		$("#overlay-color-bar").css("background-color",elem.css("background-color"));
+		$("#overlay-color-bar").css("background-color", categories[currEvent.categoryId].color);
 
 		var desc = currEvent.description || ""; //in case the description is null
 		var loc = currEvent.location || ""; //in case the location is null
@@ -2039,7 +2046,7 @@ function convertTo12HourFromArray(timeArr)
 function inColumn(elem)
 {
 	var class_data = elem.parent().attr("class"); //get the parent's class data
-	if(class_data && class_data.indexOf("col-snap evt-snap") > -1) //and check for col-snap evt-snap
+	if(class_data && (class_data.indexOf("col-snap evt-snap") > -1 || class_data.indexOf("inner") > -1)) //and check for col-snap evt-snap
 		return true;
 	else
 		return false;
