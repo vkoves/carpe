@@ -37,7 +37,9 @@ Although it has not been worked on extensively, Carpe is hooked up to SendGrid a
 
 ## Deploying Changes
 
-Make sure to push to origin and then heroku, like so:
+Before deploying changes, make sure to run the automated tests (see _Testing Carpe_) to make sure nothing is broken.
+
+Then to deploy, push to origin and then heroku, like so:
 
 ``
 git push origin master
@@ -45,3 +47,5 @@ git push origin master
 ``
 git push heroku master
 ``
+
+This ensures that the repository is never behind the server, preventing overwriting deployed changes.   
