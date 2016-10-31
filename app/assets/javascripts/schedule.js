@@ -944,7 +944,7 @@ function addDrag(selector)
 
 	$(selector).find(".sch-evnt-close").click(function(event)
 	{
-		removeEvent(event, $(this));
+		deleteEvent(event, $(this));
 	});
 
 	$(selector).find(".sch-evnt-del-cat").click(function(event)
@@ -1366,7 +1366,6 @@ function initializeMonthlyView()
 	addDates(refDate, true);
 	$(".sch-month-evnt").click(function()
 	{
-		console.log("Edit month day");
 		editEvent($(this));
 	})
 
@@ -1839,7 +1838,7 @@ function saveEvents()
 	});
 }
 
-function removeEvent(event, elem)
+function deleteEvent(event, elem)
 {
 	event.stopImmediatePropagation();
 
@@ -1847,17 +1846,15 @@ function removeEvent(event, elem)
 	{
 		if(confirmed)
 		{
-			$(elem).parent().slideUp("normal", function() { $(this).remove(); } );
-
 			var eId = $(elem).parent().attr("event-id");
 			var tempId = $(elem).parent().attr("evnt-temp-id");
 
+			$(".sch-evnt[evnt-temp-id='" + tempId + "']").slideUp("normal", function() {$(this).remove();});
+
 			delete scheduleItems[tempId]; //remove event map
 
-			if(!eId)
-			{
+			if(!eId) // if no event, this event has not been saved, so no ajax is needed to delete it
 				return;
-			}
 
 			$.ajax({
 				url: "/delete_event",
