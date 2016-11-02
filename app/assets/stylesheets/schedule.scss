@@ -465,14 +465,17 @@ input[readonly="readonly"]
 #break-adder-overlay-box
 {
 	width: 420px;
-    height: 300px;
+    min-height: 300px;
     margin-top: 50px;
+    padding-bottom: 0px;
     z-index: 1002;
 	
 	#break-cont
 	{
 		text-align: left;
 		padding-left: 20px;
+		max-height: 300px;
+		overflow-y: auto;
 	}
 	.break-elem
 	{
