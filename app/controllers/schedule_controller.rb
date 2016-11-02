@@ -41,7 +41,6 @@ class ScheduleController < ApplicationController
     @cat.name = params[:name]
     
     @cat.repeat_exceptions.clear #empty out
-    puts params
     if params[:breaks]
       params[:breaks].each do |break_id| #then add the current things
         @cat.repeat_exceptions << RepeatException.find(break_id)
