@@ -1746,9 +1746,9 @@ function showBreakAddOverlay()
 
 		//Repopulate event
 		if(currEvent)
-			$(".sch-evnt[evnt-temp-id='" + currEvent.tempId + "']").remove();
+			$("#sch-holder .sch-evnt[evnt-temp-id='" + currEvent.tempId + "']").remove();
 		else
-			$(".sch-evnt[data-id='" + currCategory.id + "']").remove();
+			$("#sch-holder .sch-evnt[data-id='" + currCategory.id + "']").remove();
 
 		populateEvents();
 	});
