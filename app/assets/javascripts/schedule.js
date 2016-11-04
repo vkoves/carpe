@@ -484,8 +484,7 @@ function addStartingListeners()
 		currEvent.setRepeatType("custom-" + num + "-" + unit);
 
 		//repopulate this event
-		$(".sch-evnt[evnt-temp-id='" + currEvent.tempId + "']").remove();
-		populateEvents();
+		repopulateEvents();
 	});
 
 	$("#repeat-certain-days-options span").click(function()
@@ -501,8 +500,7 @@ function addStartingListeners()
 		currEvent.setRepeatType("certain_days-" + daysArray.join(","))
 
 		//repopulate this event
-		$(".sch-evnt[evnt-temp-id='" + currEvent.tempId + "']").remove();
-		populateEvents();
+		repopulateEvents();
 	});
 
 	//Add break button click handler, which shows the overlay
@@ -567,8 +565,7 @@ function addStartingListeners()
 
 
 		//repopulate this event
-		$(".sch-evnt[evnt-temp-id='" + currEvent.tempId + "']").remove();
-		populateEvents();
+		repopulateEvents();
 	});
 
 	//Active action for color swatches
@@ -1029,8 +1026,7 @@ function addDrag(selector)
 
 			if(tempItem.repeatType && tempItem.repeatType != "none" && tempItem.repeatType != "") //if this is a repeating event
 			{
-				$(".sch-evnt[evnt-temp-id='" + tempItem.tempId + "']").remove(); //remove all of this event
-				populateEvents(); //and populate
+				repopulateEvents(); //and populate
 			}
 
 			addDrag(); //add drag to the sidebar again
@@ -1068,8 +1064,7 @@ function addResizing(selector)
 
 				if(tempItem.repeatType && tempItem.repeatType != "none" && tempItem.repeatType != "") //if this is a repeating event
 				{
-					$(".sch-evnt[evnt-temp-id='" + tempItem.tempId + "']").remove(); //remove all instances
-					populateEvents(); //and populateEvents to refresh things
+					repopulateEvents(); //and populateEvents to refresh things
 				}
 			}
 		});
@@ -1420,6 +1415,15 @@ function getStartDate(dateObj, useMonth)
 	return {startDate: copyDate, lastMonth: lastMonth}
 }
 
+/**
+ * Clears events from the schedule before running populateEvents(). Used when the schedule gets updated
+ */
+function repopulateEvents()
+{
+	$("#sch-holder .sch-evnt").remove();
+	populateEvents();
+}
+
 //Populate the events in the current week from the hashmap
 function populateEvents()
 {
@@ -1744,13 +1748,7 @@ function showBreakAddOverlay()
 
 		updatedEvents("breaks"); //mark that the events changed to enable saving
 
-		//Repopulate event
-		if(currEvent)
-			$("#sch-holder .sch-evnt[evnt-temp-id='" + currEvent.tempId + "']").remove();
-		else
-			$("#sch-holder .sch-evnt[data-id='" + currCategory.id + "']").remove();
-
-		populateEvents();
+		repopulateEvents();
 	});
 
 	$(".ui-widget-overlay, #break-adder-overlay-box").fadeIn(250);
