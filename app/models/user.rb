@@ -201,11 +201,11 @@ class User < ActiveRecord::Base
 
   # Confirms following (let's someone follow this user)
   def confirm_follow(other_user)
-    passive_relationships.find_by(followed_id: other_user.id).confirm
+    passive_relationships.find_by(follower_id: other_user.id).confirm
   end
 
   def deny_follow(other_user)
-    passive_relationships.find_by(followed_id: other_user.id).deny
+    passive_relationships.find_by(follower_id: other_user.id).deny
   end
 
   # Returns true if the current user is following the other user.
