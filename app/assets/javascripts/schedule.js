@@ -1857,6 +1857,8 @@ function deleteEvent(event, elem)
 			if(!eId) // if no event, this event has not been saved, so no ajax is needed to delete it
 				return;
 
+			updatedEvents("deleteEvent");
+
 			$.ajax({
 				url: "/delete_event",
 				type: "POST",
@@ -1864,7 +1866,6 @@ function deleteEvent(event, elem)
 				success: function(resp)
 				{
 					console.log("Delete complete.");
-					saveEvents();
 				},
 				error: function(resp)
 				{
@@ -1899,7 +1900,7 @@ function createCategory()
 			var catInstance = new Category(resp.id);
 			categories[catInstance.id] = catInstance;
 
-			// By default, the 'edit event' overlay will appear when creating new categories.
+			// By default, the 'edit category' overlay will appear when creating new categories.
 			editCategory(newCat);
 		},
 		error: function(resp)
