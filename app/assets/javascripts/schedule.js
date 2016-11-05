@@ -385,39 +385,39 @@ function Break() //The prototype for breaks/repeat exceptions
  */
 function scheduleReady()
 {
-    if (readied) return;
+	if (readied) return;
 
-    //load all initial data stuff
-    loadInitialBreaks();
-    loadInitialCategories();
-    loadInitialEvents();
+	//load all initial data stuff
+	loadInitialBreaks();
+	loadInitialCategories();
+	loadInitialEvents();
 
-    sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
-    schHTML = $("#sch-weekly-view").html(); //The HTML for the scheduler days layout, useful for when days are refreshed
+	sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
+	schHTML = $("#sch-weekly-view").html(); //The HTML for the scheduler days layout, useful for when days are refreshed
 
-    addStartingListeners(); //add the event listeners
+	addStartingListeners(); //add the event listeners
 
-    addDrag(); //add dragging, recursively
+	addDrag(); //add dragging, recursively
 
-    colDroppable();
+	colDroppable();
 
-    addDates(new Date(), false, true);
-    readied = true;
+	addDates(new Date(), false, true);
+	readied = true;
 
-    $(".col-snap").css("height", gridHeight*24); //set drop columns
-    $(".sch-day-col").css("height", gridHeight*24 + 50); //set day columns, which have the divider line
+	$(".col-snap").css("height", gridHeight*24); //set drop columns
+	$(".sch-day-col").css("height", gridHeight*24 + 50); //set day columns, which have the divider line
 
-    if(readOnly) //allow viewing of all events with single click
-    {
-        $(".edit, #repeat, #add-break-event").remove(); //remove repeat functionality, and adding breaks
-        $("#overlay-loc, #overlay-desc, #overlay-title").attr("contenteditable", "false"); //disable editing on location title and description
-        $("#time-start, #time-end").attr("readonly", true); //disable editing of time
-        $(".col-snap .sch-evnt").click(function(){
-            editEvent($(this)); //and make it so clicking an event immediately opens it
-        });
-    }
+	if(readOnly) //allow viewing of all events with single click
+	{
+		$(".edit, #repeat, #add-break-event").remove(); //remove repeat functionality, and adding breaks
+		$("#overlay-loc, #overlay-desc, #overlay-title").attr("contenteditable", "false"); //disable editing on location title and description
+		$("#time-start, #time-end").attr("readonly", true); //disable editing of time
+		$(".col-snap .sch-evnt").click(function(){
+			editEvent($(this)); //and make it so clicking an event immediately opens it
+		});
+	}
 
-    $("#sch-save").addClass("disabled");
+	$("#sch-save").addClass("disabled");
 }
 
 /**
@@ -600,9 +600,9 @@ function addStartingListeners()
 		dateTime = new Date(dateE+" "+val);
 		if (isNaN(dateTime.getTime()))
 		{
-            alertUI("Start date doesn't make sense! Tried \"" + dateE + " " + val + "\"");
-            return; // don't apply this new invalid time
-        }
+			alertUI("Start date doesn't make sense! Tried \"" + dateE + " " + val + "\"");
+			return; // don't apply this new invalid time
+		}
 
 		var newDateTime = cloneDate(currEvent.startDateTime); //We don't want to modify the date, only the time, so clone the date
 		newDateTime.setHours(dateTime.getHours()); //change the hours
@@ -961,11 +961,11 @@ function addDrag(selector)
 
 	$(selector).find(".sch-evnt-edit-cat").click(function(event)
 	{
-        event.stopImmediatePropagation();
+		event.stopImmediatePropagation();
 
-        var categoryElement = $(this).parent();
+		var categoryElement = $(this).parent();
 		editCategory(categoryElement);
-    });
+	});
 
 	$(selector).draggable(
 	{
@@ -1385,7 +1385,7 @@ function initializeWeeklyView()
 //Takes the month number (1 is Jan.) and the year
 function daysInMonth(month,year)
 {
-    return new Date(year, month, 0).getDate();
+	return new Date(year, month, 0).getDate();
 }
 
 //returns the date the schedule starts on as well as whether it's in this month
@@ -1577,7 +1577,7 @@ function editEventTitle(event, elem)
 //Edit a category using the category overlay
 function editCategory(elem)
 {
-    var categoryId = $(elem).attr("data-id");
+	var categoryId = $(elem).attr("data-id");
 	currCategory = categories[categoryId]; //set the current category
 
 	//Select the proper privacy button
@@ -1899,8 +1899,8 @@ function createCategory()
 			var catInstance = new Category(resp.id);
 			categories[catInstance.id] = catInstance;
 
-            // By default, the 'edit event' overlay will appear when creating new categories.
-            editCategory(newCat);
+			// By default, the 'edit event' overlay will appear when creating new categories.
+			editCategory(newCat);
 		},
 		error: function(resp)
 		{
