@@ -961,8 +961,11 @@ function addDrag(selector)
 
 	$(selector).find(".sch-evnt-edit-cat").click(function(event)
 	{
-		editCategory(event, $(this), $(this).parent().attr("data-id"));
-	});
+        event.stopImmediatePropagation();
+
+        var categoryElement = $(this).parent();
+		editCategory(categoryElement);
+    });
 
 	$(selector).draggable(
 	{
@@ -1572,9 +1575,10 @@ function editEventTitle(event, elem)
 }
 
 //Edit a category using the category overlay
-function editCategory(event, elem, id)
+function editCategory(elem)
 {
-	currCategory = categories[$(elem).parent().attr("data-id")]; //set the current category
+    var categoryId = $(elem).attr("data-id");
+	currCategory = categories[categoryId]; //set the current category
 
 	//Select the proper privacy button
 	$("#cat-privacy span").removeClass("red");
@@ -1583,7 +1587,6 @@ function editCategory(event, elem, id)
 		$("#cat-privacy #" + currCategory.privacy).addClass("red");
 	}
 
-	event.stopImmediatePropagation();
 	$(".cat-overlay-title").trigger('focus');
 	
 	$(".ui-widget-overlay, #cat-overlay-box").fadeIn(250);
@@ -1598,7 +1601,7 @@ function editCategory(event, elem, id)
 		$(".cat-top-overlay").css("background-color",""); */
 
 	$(".cat-overlay-title").html(currCategory.name);
-	$("#cat-overlay-box").attr("data-id",id);
+	$("#cat-overlay-box").attr("data-id", categoryId);
 
 	$(".color-swatch").removeClass("selected");
 	$(".color-swatch").each(function() {
@@ -1892,11 +1895,12 @@ function createCategory()
 			addDrag();
 			// TODO - Make saving the sideHTML a function, as this line is called so many times
 			sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
-			newCat.find(".sch-evnt-edit-cat").click(); //trigger the edit event
 
 			var catInstance = new Category(resp.id);
+			categories[catInstance.id] = catInstance;
 
-			categories[catInstance.id] = catInstance;	
+            // By default, the 'edit event' overlay will appear when creating new categories.
+            editCategory(newCat);
 		},
 		error: function(resp)
 		{
