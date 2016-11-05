@@ -6,11 +6,13 @@ class Relationship < ActiveRecord::Base
 
   # Confirm this relationship
   def confirm
-  	confirmed = true
+  	self.confirmed = true
+    self.save
   end
 
   # Deny this relationship
   def deny
-  	confirmed = false
+  	self.confirmed = false
+    self.save
   end
 end
