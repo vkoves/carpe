@@ -1857,8 +1857,6 @@ function deleteEvent(event, elem)
 			if(!eId) // if no event, this event has not been saved, so no ajax is needed to delete it
 				return;
 
-			updatedEvents("deleteEvent");
-
 			$.ajax({
 				url: "/delete_event",
 				type: "POST",
