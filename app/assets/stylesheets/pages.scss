@@ -40,7 +40,8 @@
 }
 /* End Home Page */
 
-/* Start Status Page */
+/* Start Status/About Page */
+.full-width { padding-bottom: 50px; }
 #status-titler
 {
 	width: 100%;
@@ -95,7 +96,7 @@
 {
 	width: 25%;
 	padding: 0% 4%;
-	float: left;
+	display: inline-block;
 
 	.image-container
 	{
