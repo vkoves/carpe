@@ -1117,11 +1117,10 @@ function handlePosition(elem, ui)
 	$(elem).css("top",topVal);
 }
 
-//Called when creating a clone
 /**
- * [handleClone description]
- * @param  {[type]} elem - [description]
- * @param  {[type]}   ui - [description]
+ * Called when creating a clone, copying a specified element.
+ * @param  {jQuery element} elem - The element being copied
+ * @param  {Object}   ui - UI object from jQuery drag handler
  */
 function handleClone(elem, ui)
 {
