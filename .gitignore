@@ -19,3 +19,6 @@
 #Ignore Sublime files
 *.sublime-project
 *.sublime-workspace
+*.un~
+*.erb~
+*.gitignore~
