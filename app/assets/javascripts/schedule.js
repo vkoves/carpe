@@ -228,8 +228,8 @@ function ScheduleItem()
 	{
 		this.dragComplete(elem, true);
 		var endDT = new Date(this.startDateTime.getTime());
-		endDT.setHours(this.startDateTime.getHours() + (elem.outerHeight()/gridHeight));
-		endDT.setMinutes(this.endDateTime.getMinutes());
+		endDT.setHours(this.startDateTime.getHours() + Math.round(($(elem).outerHeight() + this.getMinutesOffsets()[0] - this.getMinutesOffsets()[1])/gridHeight)); // TODO: Move this crazy way of getting height in hours somewhere else (used twice)
+		endDT.setMinutes(this.endDateTime.getMinutes()); //minutes can't change from resize, so keep them consistent
 		this.endDateTime = endDT;
 		updatedEvents("resizeComplete");
 	};
@@ -1145,6 +1145,7 @@ function handleClone(elem, ui)
 	schItem.tempId = eventTempId;
 	scheduleItems[eventTempId] = schItem;
 
+
 	eventTempId++;
 
 
@@ -1159,6 +1160,7 @@ function handleNewEvent(elem)
 	schItem.startDateTime = new Date();
 	schItem.startDateTime.setMinutes(0);
 	schItem.endDateTime = new Date();
+	schItem.endDateTime.setMinutes(0);
 	schItem.name = "";
 	schItem.eventId = null;
 	schItem.categoryId = $(elem).attr("data-id");
