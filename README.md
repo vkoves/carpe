@@ -50,4 +50,10 @@ git push origin master
 git push heroku master
 ``
 
-This ensures that the repository is never behind the server, preventing overwriting deployed changes.   
+This ensures that the repository is never behind the server, preventing overwriting deployed changes.
+
+## Contributing
+
+An indigoBox member looking to help out with Carpe, but not sure where to start?
+
+We keep track of everything that needs to be done in the *Issues* section of this GitHub, so head over to see all tasks. Check out our upcoming milestones to find priority changes, or sort by labels like *bug* or *help-wanted* to see where you can assist. 
