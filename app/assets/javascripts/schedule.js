@@ -994,10 +994,10 @@ function addDrag(selector)
 			if($(this).parent().attr("id") == "sch-tiles-inside")
 				setHeight(this, ui.helper, 3);
 
-			if(ctrlPressed && $(this).parent().attr("id") != "sch-tiles-inside") //if this is an existing event and control is pressed
-			{
-				handleClone(this, ui);
-			}
+			// if(ctrlPressed && $(this).parent().attr("id") != "sch-tiles-inside") //if this is an existing event and control is pressed
+			// {
+				// handleClone(this, ui);
+			// }
 		},
 		stop: function(event, ui)  //on drag end
 		{
