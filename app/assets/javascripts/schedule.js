@@ -1792,6 +1792,9 @@ function updatedEvents(msg)
 {
 	// console.log("Events were updated!" + msg);
 	$("#sch-save").removeClass("disabled");
+
+	if(readied)
+		saveEvents();
 }
 
 /****************************/
