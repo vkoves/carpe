@@ -139,7 +139,8 @@ function ScheduleItem()
 		else
 			setDateTime(true, newStartDateTime, this, resize);
 
-		updatedEvents("setStartDateTime");
+		if(userSet) // if done by the user, and not dragComplete
+			updatedEvents("setStartDateTime"); // indicate the event was modified, triggering autocomplete
 	};
 
 	this.setEndDateTime = function(newEndDateTime, resize, userSet) //if resize, we don't move the start time
@@ -1787,13 +1788,13 @@ function placeInSchedule(elem, hours, lengthHours)
 	$(elem).css("top", hours); //set the top position by gridHeight times the hour
 }
 
-//Events were updated
+// Events were updated. Called by any modification of an event, which triggers auto saving
 function updatedEvents(msg)
 {
 	// console.log("Events were updated!" + msg);
 	$("#sch-save").removeClass("disabled");
 
-	if(readied)
+	if(readied) // if we've loaded in intial events save. Prevents lots of saving on setup as events are dealt with
 		saveEvents();
 }
 
