@@ -222,7 +222,9 @@ function ScheduleItem()
 		var newDate = new Date(dateString + " " + hours + ":" + paddedMinutes(this.startDateTime));
 		this.setStartDateTime(newDate, resize);
 		this.tempElement = elem;
-		updatedEvents("dragComplete");
+
+		if(!resize) //prevent resize double firing updatedEvents
+			updatedEvents("dragComplete");
 	};
 
 	this.resizeComplete = function(elem)
