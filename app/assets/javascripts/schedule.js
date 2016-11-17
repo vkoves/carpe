@@ -357,7 +357,7 @@ function Category(id)
 	this.id = id; //the id of the category in the db
 	this.name = "Untitled"; //the name of the category, as a string
 	this.color; //the color of the category, as a CSS acceptable string
-	this.privacy = "private"; //the privacy of the category, right now either private || friends || public
+	this.privacy = "private"; //the privacy of the category, right now either private || followers || public
 	this.breaks = []; //an array of the repeat exceptions of this category.
 }
 
