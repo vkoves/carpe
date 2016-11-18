@@ -786,9 +786,9 @@ function loadInitialBreaks()
 			var breakInstance = new Break();
 			breakInstance.id = currBreak.id;
 			breakInstance.name = currBreak.name;
-			breakInstance.startDate = new Date(currBreak.start + " CDT");
+			breakInstance.startDate = new Date(dateFromDashesToSlashes(currBreak.start));
 			breakInstance.startDate.setHours(0,0,0,0); //clear any time
-			breakInstance.endDate = new Date(currBreak.end + " CDT");
+			breakInstance.endDate = new Date(dateFromDashesToSlashes(currBreak.end));
 			breakInstance.endDate.setHours(0,0,0,0); //clear any time
 
 			breaks[breakInstance.id] = breakInstance;
@@ -815,13 +815,13 @@ function loadInitialEvents()
 			
 			if(evnt.repeat_start)
 			{
-				evnt.repeat_start = evnt.repeat_start.split("-").join("/"); //replace dashes with slashes, as Firefox doesn't seem to like dashes and timezones
+				evnt.repeat_start = dateFromDashesToSlashes(evnt.repeat_start); //replace dashes with slashes, as Firefox doesn't seem to like dashes and timezones
 				schItem.repeatStart = new Date(evnt.repeat_start + " CDT"); //timezone dependent!
 			}
 
 			if(evnt.repeat_end)
 			{
-				evnt.repeat_end = evnt.repeat_end.split("-").join("/"); //replace dashes with slashes, as Firefox doesn't seem to like dashes and timezones
+				evnt.repeat_end = dateFromDashesToSlashes(evnt.repeat_end); //replace dashes with slashes, as Firefox doesn't seem to like dashes and timezones
 				schItem.repeatEnd = new Date(evnt.repeat_end + " CDT"); //timezone dependent!
 			}
 
@@ -2094,6 +2094,14 @@ function highlightCurrent()
 function cloneDate(date)
 {
 	return new Date(date.getTime());
+}
+
+// converts a date string from dashes to slashes (e.g. 2016-10-25 to 2016/10/25)
+// This is needed as browsers don't like dash date formats much, but it's how Ruby prints dates by default
+// On Chrome, dashes with dates are interpreted as the ISO format, and are used in UTC, while Firefox just refuses the date at all
+function dateFromDashesToSlashes(dateString)
+{
+	return dateString.split("-").join("/");
 }
 
 //convert a date into a standard string format, with no zero padding in M/D/YY format (e.g. 6/2/16)
