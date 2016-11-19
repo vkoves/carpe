@@ -33,15 +33,5 @@ class PagesController < ApplicationController
     @past_month_users = User.where('created_at >= ?', Time.zone.now - 1.months).group(:created_at).count
     @past_month_events = Event.where('created_at >= ?', Time.zone.now - 1.months).group(:created_at).count
     @past_month_events_modified = Event.where('created_at >= ?', Time.zone.now - 1.months).group(:updated_at).count
-
-    #TEMPORARY - This is a script to convert from friends to followers in category privacy
-    if true #enabled atm
-      Category.all.each do |category|
-        if category.privacy == "friends"
-          category.privacy == "followers"
-          category.save
-        end
-      end
-    end
   end
 end
