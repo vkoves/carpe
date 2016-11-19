@@ -97,25 +97,22 @@
 }
 #profile-buttons
 {
-  position: absolute;
-  float: right;
-  bottom: 0px;
-  right: 0px;
-}
-#profile-buttons a
-{
-  color: white;
-}
-#profile-buttons div
-{
-  background: #262626;
-  display: inline-block;
-  padding: 10px 15px 10px 15px;
-  margin-left: -4px;
-}
-#profile-buttons div.curr
-{
-  background: #ED7D31;
+	position: absolute;
+	float: right;
+	bottom: 0px;
+	right: 0px;
+	
+	a { color: white; }
+	div
+	{
+		background: #262626;
+		display: inline-block;
+		padding: 10px 15px 10px 15px;
+		margin-left: -4px;
+	
+		&.curr { background: #ED7D31; }
+		&:hover { color: #ED7D31; }
+	}
 }
 
 .activity-listing
