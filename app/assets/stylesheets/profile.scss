@@ -40,12 +40,12 @@
 }
 #header-image-blur
 {
-    width: 110%;
-    top: -16px;
-    left: -5%;
-    height: 226px;
-    position: absolute;
-    z-index: -1;
+	width: 110%;
+	top: -16px;
+	left: -5%;
+	height: 226px;
+	position: absolute;
+	z-index: -1;
     /* background-image: url(https://lh5.googleusercontent.com/-O0da35K3TG8/AAAAAAAAAAI/AAAAAAAAAdI/-Vqg-ZuvaDg/photo.jpg?sz=200); */
     background-size: cover;
     background-position: 0 50%;
@@ -59,16 +59,16 @@
 #profile-text
 {
 	position: relative;
-    margin-left: -70px;
-    top: 12px;
-    z-index: 0;
-    float: left;
-    text-align: left;
-    margin-top: 22px;
-    background: rgba(0,0,0,0.5);
-    padding: 5px 0px 10px 80px;
-    border-top-right-radius: 25px;
-    border-bottom-right-radius: 25px;
+	margin-left: -70px;
+	top: 12px;
+	z-index: 0;
+	float: left;
+	text-align: left;
+	margin-top: 22px;
+	background: rgba(0,0,0,0.5);
+	padding: 5px 0px 10px 80px;
+	border-top-right-radius: 25px;
+	border-bottom-right-radius: 25px;
 }
 #profile-name
 {
@@ -78,22 +78,22 @@
 }
 #profile-name a
 {
-  color: white;
-  text-decoration: none;
+	color: white;
+	text-decoration: none;
 }
 #profile-follow
 {
 	float: left;
-    width: 100%;
-    margin-left: 10px;
-    margin-bottom: 5px;
+	width: 100%;
+	margin-left: 10px;
+	margin-bottom: 5px;
 }
 #profile-info
 {
 	display: inline-block;
-    color: white;
-    font-weight: bold;
-    margin-left: 10px;
+	color: white;
+	font-weight: bold;
+	margin-left: 10px;
 }
 #profile-buttons
 {
@@ -109,7 +109,7 @@
 		display: inline-block;
 		padding: 10px 15px 10px 15px;
 		margin-left: -4px;
-	
+		
 		&.curr { background: #ED7D31; }
 		&:hover { color: #ED7D31; }
 	}
@@ -117,16 +117,16 @@
 
 .activity-listing
 {
-  height: 55px;
-  text-align: left;
-  margin: 10px;
-  padding: 5px 5px 5px 10px;
-  border-radius: 8px;
-  width: 95%;
-  background-color: #F3F3F3;
-  border: solid #CCCCCC 2px;
-  margin-left: auto;
-  margin-right: auto;
+	height: 55px;
+	text-align: left;
+	margin: 10px;
+	padding: 5px 5px 5px 10px;
+	border-radius: 8px;
+	width: 95%;
+	background-color: #F3F3F3;
+	border: solid #CCCCCC 2px;
+	margin-left: auto;
+	margin-right: auto;
 }
 .activity-listing .text
 {
@@ -150,7 +150,7 @@
 .user-listing
 {
 	position: relative;
-    width: 300px;
+	width: 300px;
 	height: auto;
 	margin: 10px;
 	padding: 10px;
@@ -188,11 +188,11 @@
 .user-details
 {
 	text-align: left;
-    margin-left: 10px;
-    display: inline-block;
-    max-width: 65%;
-    margin-top: -5px;
-    color: #393939;
+	margin-left: 10px;
+	display: inline-block;
+	max-width: 65%;
+	margin-top: -5px;
+	color: #393939;
 }
 .user-name
 {
