@@ -1,10 +1,5 @@
 #The User model, which defines a unique user and all of the properties they have
 class User < ActiveRecord::Base
-  has_many :friendships
-  has_many :friends, :through => :friendships
-  has_many :inverse_friendships, :class_name => "Friendship", :foreign_key => "friend_id"
-  has_many :inverse_friends, :through => :inverse_friendships, :source => :user
-
   has_many :active_relationships,  class_name:  "Relationship",
                                    foreign_key: "follower_id",
                                    dependent:   :destroy
@@ -129,50 +124,6 @@ class User < ActiveRecord::Base
 
   ##########################
   ### END AVATAR METHODS ###
-  ##########################
-
-  ##########################
-  ##### FRIEND METHODS #####
-  ##########################
-
-	def all_friendships() #returns an array of doubles of friendships and friends for easy printing
-    all_friends = []
-    all_fships = friendships + inverse_friendships
-
-    for ifship in all_fships
-      if ifship.confirmed
-        all_friends.push([ifship, ifship.other_user(self)])
-      end
-    end
-
-    return all_friends
-	end
-
-	def is_friend?(user) #returns whether the passed user is a friend of this user
-    friendship = friendship_with(user)
-    friendship and friendship.confirmed #return if the passed in user is a confirmed friend
-	end
-
-	def friend_status(user) #returns text indicating friendship status
-	  friendship = friendship_with(user)
-    friendship ? friendship.status : nil #return the status of the friendship, or nil if there isn't one
-	end
-
-	def mutual_friends(user) #returns mutual friends with the passed in user
-	  return all_friendships.map{|fship_double| fship_double[1]} & user.all_friendships.map{|fship_double| fship_double[1]}
-	end
-
-	def friends_count() #returns the number of friends the user has
-	  return all_friendships().count
-	end
-
-  def friendship_with(user)
-    other_id = user.id
-    friendship = Friendship.where(user_id: other_id, friend_id: id)[0] || Friendship.where(user_id: id, friend_id: other_id)[0]
-  end
-
-  ##########################
-  ### END FRIEND METHODS ###
   ##########################
 
   ##########################

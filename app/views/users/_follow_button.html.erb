@@ -2,12 +2,7 @@
 	<span class="friend-label">You</span>
 <% else %>
 	<% status = current_user.follow_status(user) %>
-	<% if status == nil #not friends %>
-		<!--
-		<%= link_to friendships_path(:friend_id => user), :method => :post, :remote => true, :class => "default green friend-button", "uid" => user.id do %>
-			<span>Add Friend</span>
-		<% end %>
-		-->
+	<% if status == nil #not following %>
 		<%= link_to relationships_path(:followed_id => user.id), :method => :post, :remote => true, :class => "default green friend-button", "uid" => user.id do %>
 			<span>Follow</span>
 		<% end %>
