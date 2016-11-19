@@ -257,6 +257,24 @@ function initializeEventListeners()
 			return "<li>" + "<div class='avatar'><img src='" + img_url + "'></div><p>" + element.name + "</p></li>";
 		}
 	});
+
+	// Add event handling for the following-btn, which can unfollow a user
+	$(".following-btn").hover(function()
+	{
+		$(this).find("span").text("Unfollow");
+		$(this).addClass("red");
+	},
+	function()
+	{
+		$(this).find("span").text("Following");
+		$(this).removeClass("red");
+	}).click(function()
+	{
+		// TODO - Make this triggered by a JSON success call probably instead of just by the click?
+		fadeToText($(this).find("span"), "Follow"); //and fade to Promote text
+		$(this).off(); // disable event handlers
+		$(this).removeClass("red").removeClass("following-btn").addClass("green");
+	});
 }
 
 /**

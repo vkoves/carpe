@@ -7,7 +7,10 @@
 			<span>Follow</span>
 		<% end %>
 	<% elsif status == "confirmed" %>
-		<span class="friend-label">Following</span>
+		<% relationship = Relationship.where(followed_id: user.id, follower_id: current_user.id).first %>
+		<%= link_to relationship_path(relationship), :method => :delete, :remote => true, :class => "default following-btn", "fid" => relationship.id do %>
+			<span>Following</span>
+		<% end %>
 	<% elsif status == "pending" || status == "denied" %>
 		<span class="friend-label">Pending</span>
 	<% end %>

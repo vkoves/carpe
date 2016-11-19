@@ -176,6 +176,12 @@ a.default.green *, span.default.green, input.default.green
 	background: #18B918;
 	&:hover {background: #39DA39;}
 }
+a.default.following-btn *
+{
+	background-color: #5B5BFF;
+
+	&:hover { background-color: #FD1A1A; }
+}
 /* END LINK STYLING */
 
 .page-container
