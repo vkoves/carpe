@@ -816,13 +816,13 @@ function loadInitialEvents()
 			if(evnt.repeat_start)
 			{
 				evnt.repeat_start = dateFromDashesToSlashes(evnt.repeat_start); //replace dashes with slashes, as Firefox doesn't seem to like dashes and timezones
-				schItem.repeatStart = new Date(evnt.repeat_start + " CDT"); //timezone dependent!
+				schItem.repeatStart = new Date(evnt.repeat_start);
 			}
 
 			if(evnt.repeat_end)
 			{
 				evnt.repeat_end = dateFromDashesToSlashes(evnt.repeat_end); //replace dashes with slashes, as Firefox doesn't seem to like dashes and timezones
-				schItem.repeatEnd = new Date(evnt.repeat_end + " CDT"); //timezone dependent!
+				schItem.repeatEnd = new Date(evnt.repeat_end);
 			}
 
 			schItem.name = evnt.name;
