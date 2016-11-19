@@ -9,8 +9,7 @@
 	<% if users.size > 0 %>
 	<% users = users.sort_by &:name %>
 	<% users.each do |user| %>
-		<% status = current_user.friend_status(user) %>
-			<%= render "shared/user_box", user: user, status: status %>
+		<%= render "shared/user_box", user: user %>
 	<% end %>
 	<% else %>
 		No users found with that name!
