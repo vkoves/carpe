@@ -109,7 +109,7 @@
 		display: inline-block;
 		padding: 10px 15px 10px 15px;
 		margin-left: -4px;
-		
+
 		&.curr { background: #ED7D31; }
 		&:hover { color: #ED7D31; }
 	}
@@ -194,18 +194,5 @@
 	margin-top: -5px;
 	color: #393939;
 }
-.user-name
-{
-	font-size: 24px;
-}
-.friend-button {
-	margin-top: 0px !important;
-}
-
-a.simple {
-	text-decoration:none;
-	color:orange;
-}
-a.simple:hover {
-	text-decoration: underline;
-}
+.user-name { font-size: 24px; }
+.friend-button { margin-top: 0px !important; }
