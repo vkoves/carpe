@@ -23,8 +23,8 @@ class Category < ActiveRecord::Base
 	  	else #if this is not a group category
 		    return false #no one has access
 		end
-	  elsif privacy == "friends" #if it is only viewable by friends
-	    if user_in and user_in.friend_status(user) == "friend" #if the user is a friend
+	  elsif privacy == "followers" #if it is only viewable by friends
+	    if user_in and user_in.following?(user) #if the user is a friend
 	      return true #they can view it
 	    else #otherwise
 	      return false #they can't
