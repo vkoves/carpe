@@ -174,6 +174,7 @@
 	  background-color: #FF8C3D;
 	  text-align: center;
 	  transition: width 0.5s;
+	  width: 100vw;
 	}
 	#mobile-menu div{
 	  padding: 5px;
@@ -299,12 +300,13 @@
 }
 #users-search input, #users-search-input
 {
-	height: 26px;
+	box-sizing: border-box;
+	height: 30px;
     font-size: 15px;
     font-family: 'Open Sans', sans-serif;
     padding-left: 10px;
     padding-right: 30px;
-    width: 120px !important;
+    width: 150px !important;
     border-radius: 4px;
     box-shadow: 0px 0px 1px #CECECE;
     border: solid 1px #CECECE;
@@ -323,7 +325,7 @@
 #users-search input:focus
 {
 	outline: none;
-	width: 170px !important;
+	width: 200px !important;
 	border-color: #C0BABA;
 }
 #users-search ul, .token-input-dropdown ul
@@ -401,5 +403,30 @@
 a:hover > .new-tab-icon
 {
 	background-image: image-url("new-tab-orange.svg");
+}
+.tablet-br { display: none; }
+
+@media (max-width: 1000px)
+{
+	.tablet-br  { display: block; }
+	.header-text { height: 80px; }
+	#users-search
+	{
+		box-sizing: border-box;
+		background: #f2f2f2;
+		border-radius: 5px;
+		padding: 5px;
+		width: 100%;
+		margin-top: 8px;
+	}
+	#users-search input, #users-search input:focus { width: 100% !important; }
+}
+@media (max-width: 800px)
+{
+	.header-text {width: 0px; opacity: 0;}
+	/* #header-mob-menu {width: 55px;} */
+	#header-mob-menu {left: 0px !important;}
+	#mobile-menu {width: 146px;}
+	#menu-holder {left: 0px !important;}
 }
 /* END HEADER CSS */

@@ -29,7 +29,7 @@ var unloadAssigned = false; //if unload is assigned
 //Handle window resizing
 $(window).resize(function()
 {
-	if($( window ).width() > 660)
+	if($( window ).width() > 800)
 	{
 		$("#mobile-menu").slideUp(300);
 		$("#sidebar").css("right", "0%");

@@ -344,18 +344,6 @@ input.danger:hover
 	{
 		width: 95%;
 	}
-	#users-search
-	{
-		display: none;
-	}
-}
-@media (max-width: 660px)
-{
-	.header-text {width: 0px; opacity: 0;}
-	/* #header-mob-menu {width: 55px;} */
-	#header-mob-menu {left: 0px !important;}
-	#mobile-menu {width: 146px;}
-	#menu-holder {left: 0px !important;}
 }
 
 /*
