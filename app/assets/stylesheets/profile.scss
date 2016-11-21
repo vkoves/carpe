@@ -111,7 +111,7 @@
 		margin-left: -4px;
 
 		&.curr { background: #ED7D31; }
-		&:hover { color: #ED7D31; }
+		&:not(.curr):hover { color: #ED7D31; }
 	}
 }
 
