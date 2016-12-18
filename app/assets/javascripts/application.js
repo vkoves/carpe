@@ -51,9 +51,12 @@ function ready()
 {
 	if(Notification.permission == "default")
 	{
+		// Commented out as this triggers constantly on every page even when a user is not signed in
+		/*
 		Notification.requestPermission(function (permission) {
 		  handleNotifications(true);
 		});
+		*/
 	}
 	else if(Notification.permission == "granted")
 	{
@@ -217,7 +220,7 @@ function initializeEventListeners()
 		{
 			img_url = element.image_url || "http://www.gravatar.com/avatar/?d=mm";
 			return 	"<li>" +
-						"<div class='avatar search-avatar'><img src='" + img_url + "'></div><div class='name with-type'>" + element.name + "</div>" + 
+						"<div class='avatar search-avatar'><img src='" + img_url + "'></div><div class='name with-type'>" + element.name + "</div>" +
 						"<div class='type'>" + element.model_name + "</div>" +
 					"</li>";
 		}
@@ -278,7 +281,7 @@ function initializeEventListeners()
 }
 
 /**
- * Initializes all of the keyboard shortcuts for the scheduler 
+ * Initializes all of the keyboard shortcuts for the scheduler
  * @function
  */
 function keyboardShortcutHandlers()
@@ -292,7 +295,7 @@ function keyboardShortcutHandlers()
 		var ctrl = e.ctrlKey;
 		var alt = e.altKey;
 
-		if((shift && pressed("/")) 
+		if((shift && pressed("/"))
 			|| (ctrl && pressed("/")))
 		{
 			e.preventDefault();
@@ -427,7 +430,7 @@ function timedEventNotification(event, time)
 /**
  * Sets a browser cookie after user receives a desktop notification for an event,
  * so that they aren't notified for the same event again on the same day.
- * @param {number} id - 
+ * @param {number} id -
  */
 function setEventCookie(id)
 {
@@ -661,7 +664,7 @@ var UIManager = {
 					self.hideOverlay(callback); //hide the overlay and runn callback
 			}, 100);
 		}
-		else	
+		else
 			this.slideOut(selector, callback);
 	}
 };
