@@ -1801,7 +1801,7 @@ function updatedEvents(msg)
 	if(readied) // if we've loaded in intial events save. Prevents lots of saving on setup as events are dealt with
 	{
 		clearTimeout(saveEventsTimeout); // clear existing timeout to reset
-		saveEventsTimeout = setTimeout(saveEvents, 5000); // and set new one
+		saveEventsTimeout = setTimeout(saveEvents, 15000); // and set new one at 15 seconds
 	}
 }
 
@@ -1811,7 +1811,7 @@ function updatedEvents(msg)
 
 function saveEvents()
 {
-	if($("#sch-save").hasClass("disabled")) //if the save button is disabled
+	if($("#sch-save").hasClass("disabled") || $("#sch-save").hasClass("loading")) //if the save button is disabled or already saving
 		return; //return
 
 	$("#sch-save").addClass("loading"); //indicate that stuff is loading
