@@ -1,23 +1,23 @@
 #greeting
 {
 	height:200px;
-	padding:0px;	
+	padding:0px;
 	right:400px;
 	left:0px;
 	width: calc(100% - 370px);
 	position:absolute;
 	padding-left: 30px;
-	
+
 	.greet-text
 	{
 		font-weight: 300;
 		font-size:40px;
-		color:Orange;
+		color: orange;
 		float:left;
 		margin-top:10px;
 		text-align:left;
 		width:100%;
-		
+
 		.greet-subt
 		{
 			padding:0;
@@ -29,7 +29,9 @@
 		.greet-a
 		{
 			text-decoration:none;
-			color:Orange;
+			color: orange;
+
+			&:hover { text-decoration: underline; }
 		}
 	}
 }
@@ -42,7 +44,7 @@
 	right: 0px;
 	min-height:calc(100% - 55px);
 	overflow: hidden;
-	
+
 	#sidebar
 	{
 		padding-top:5px;
