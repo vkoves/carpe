@@ -1,3 +1,7 @@
+/* Define variables */
+
+$carpe-orange: #ff7400;
+
 /* Body styling to apply font, min-width and padding */
 body
 {
@@ -21,7 +25,7 @@ body
 
 .carpe-color, .carpe-font, .carpe-font a
 {
-	color: rgb(255, 116, 0) !important;
+	color: $carpe-orange !important;
 }
 
 /* Make sure inputs also have Open Sans */
