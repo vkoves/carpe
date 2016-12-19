@@ -33,9 +33,9 @@
 	background-color: #848484; /* As a backup if the image is stupid */
 
 	/* Source: url("https://wallpaperscraft.com/image/spring_blur_glass_storm_rain_drops_water_80956_3840x2400.jpg"); */
-    /* background-size: 100%;
-    background-position: 20% 40%;
-    -webkit-filter: blur(0px) brightness(0.5); */
+	/* background-size: 100%;
+	background-position: 20% 40%;
+	-webkit-filter: blur(0px) brightness(0.5); */
 
 }
 #header-image-blur
@@ -46,14 +46,14 @@
 	height: 226px;
 	position: absolute;
 	z-index: -1;
-    /* background-image: url(https://lh5.googleusercontent.com/-O0da35K3TG8/AAAAAAAAAAI/AAAAAAAAAdI/-Vqg-ZuvaDg/photo.jpg?sz=200); */
-    background-size: cover;
-    background-position: 0 50%;
-    clip: rect(16px,160000px,216px,16px);
-    background-blend-mode: initial;
-    -webkit-filter: blur(10px) brightness(0.7);
-    -moz-filter: blur(10px) brightness(0.7);
-    filter: blur(10px) brightness(0.7);
+	/* background-image: url(https://lh5.googleusercontent.com/-O0da35K3TG8/AAAAAAAAAAI/AAAAAAAAAdI/-Vqg-ZuvaDg/photo.jpg?sz=200); */
+	background-size: cover;
+	background-position: 0 50%;
+	clip: rect(16px,160000px,216px,16px);
+	background-blend-mode: initial;
+	-webkit-filter: blur(10px) brightness(0.7);
+	-moz-filter: blur(10px) brightness(0.7);
+	filter: blur(10px) brightness(0.7);
 
 }
 #profile-text
@@ -101,7 +101,7 @@
 	float: right;
 	bottom: 0px;
 	right: 0px;
-	
+
 	a { color: white; }
 	div
 	{
@@ -165,7 +165,7 @@
 	{
 		width: 310px;
 		padding: 10px 20px;
-		
+
 		.friend-details
 		{
 			position: relative;

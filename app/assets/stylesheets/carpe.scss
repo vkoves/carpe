@@ -67,45 +67,45 @@ a .avatar img:hover, .avatar a img:hover
 }
 .avatar.small img
 {
-    width: 40px;
-    height: 40px;
-    border: none;
-    float: left;
-    margin-right: 5px;
+	width: 40px;
+	height: 40px;
+	border: none;
+	float: left;
+	margin-right: 5px;
 }
 
 .friend-label
 {
 	background-color: #5B5BFF;
-    padding: 3px 15px 3px 15px;
-    border-radius: 3px;
-    color: white;
-    font-weight: bold;
-    display: inline-block;
+	padding: 3px 15px 3px 15px;
+	border-radius: 3px;
+	color: white;
+	font-weight: bold;
+	display: inline-block;
 }
 .cancel-box
 {
 	background-color: #FFB2B2;
-    width: 300px;
-    margin-left: auto;
-    margin-right: auto;
-    border-radius: 10px;
-    padding: 5px 0px;
-    margin-bottom: 20px;
-    margin-top: 20px;
-    color: #1D1D1D;
-    border: dashed red 2px;
+	width: 300px;
+	margin-left: auto;
+	margin-right: auto;
+	border-radius: 10px;
+	padding: 5px 0px;
+	margin-bottom: 20px;
+	margin-top: 20px;
+	color: #1D1D1D;
+	border: dashed red 2px;
 }
 .pass-holder
 {
 	background: #E6E6E6;
-    padding: 5px;
-    width: 300px;
-    margin-left: auto;
-    margin-right: auto;
-    border-radius: 5px;
-    border: solid #C1C1C1;
-    margin-top: 10px;
+	padding: 5px;
+	width: 300px;
+	margin-left: auto;
+	margin-right: auto;
+	border-radius: 5px;
+	border: solid #C1C1C1;
+	margin-top: 10px;
 }
 
 /* General page things */
@@ -151,20 +151,20 @@ a.default *, span.default, input.default /* default link styling */
 	font-weight: bold;
 	border-radius: 3px;
 	transition: background 0.3s;
-    box-shadow: 0px 1px 3px #B4AFAF;
-    border: none;
-    font-size: 16px;
+	box-shadow: 0px 1px 3px #B4AFAF;
+	border: none;
+	font-size: 16px;
 
-    &:hover
-    {
+	&:hover
+	{
 		background: #FFC14E;
-    }
+	}
 
-    &.disabled, &.disabled:hover
-    {
+	&.disabled, &.disabled:hover
+	{
 		background: #B4AFAF !important;
 		box-shadow: none !important;
-    }
+	}
 }
 a.default.red *, span.default.red, input.default.red
 {
@@ -280,8 +280,8 @@ input.danger:hover
 .google-width
 {
 	width: 174px;
-    margin-left: auto;
-    margin-right: auto;
+	margin-left: auto;
+	margin-right: auto;
 	margin-bottom: 10px;
 }
 
@@ -289,16 +289,16 @@ input.danger:hover
 /* Which is used on sign up and forgot password */
 #error_explanation h2
 {
-    color: white;
-    font-weight: normal;
-    font-size: 20px;
-    margin-bottom: 5px;
-    background-color: #FF7272;
-    margin-left: auto;
-    margin-right: auto;
-    border-radius: 5px;
-    max-width: 300px;
-    padding: 5px;
+	color: white;
+	font-weight: normal;
+	font-size: 20px;
+	margin-bottom: 5px;
+	background-color: #FF7272;
+	margin-left: auto;
+	margin-right: auto;
+	border-radius: 5px;
+	max-width: 300px;
+	padding: 5px;
 }
 #error_explanation ul
 {
@@ -312,9 +312,9 @@ input.danger:hover
 	position: absolute;
 	width: 100%;
 	top: 45px;
-    z-index: 100;
-    height: 20px;
-    text-align: center;
+	z-index: 100;
+	height: 20px;
+	text-align: center;
 }
 .notice, .alert
 {
@@ -362,11 +362,11 @@ input.danger:hover
 	ul
 	{
 		padding: 0px;
-    	margin: 5px 15px 10px 15px;
-    }
+		margin: 5px 15px 10px 15px;
+	}
 	li
 	{
-		list-style: none; 
+		list-style: none;
 
 		&.token-input-token
 		{
@@ -381,10 +381,10 @@ input.danger:hover
 			float: left;
 			height: 36px;
 			margin: 2px 0px;
-			img {border-width: 2px; width: 30px; height: 30px;}			
+			img {border-width: 2px; width: 30px; height: 30px;}
 		}
 		&.token-input-input-token input {width: auto !important;}
-		p 
+		p
 		{
 			margin: 0px 10px;
 		}
@@ -399,15 +399,15 @@ input.danger:hover
 }
 .user-box
 {
-    width: 132px;
-    margin-bottom: 10px;
-    float: left;
-    padding: 10px 5px 5px 5px;
-    min-height: 210px;
-    background: #F5F5F5;
-    margin: 5px;
-    border-radius: 5px;
-    box-shadow: 1px 1px 1px silver;
+	width: 132px;
+	margin-bottom: 10px;
+	float: left;
+	padding: 10px 5px 5px 5px;
+	min-height: 210px;
+	background: #F5F5F5;
+	margin: 5px;
+	border-radius: 5px;
+	box-shadow: 1px 1px 1px silver;
 }
 .user-box .default, .user-box .friend-label
 {
@@ -425,24 +425,24 @@ input.danger:hover
 .grey-box
 {
 	background: #F5F5F5;
-    border-radius: 5px;
-    box-shadow: 1px 1px 1px silver;
+	border-radius: 5px;
+	box-shadow: 1px 1px 1px silver;
 }
 .square
 {
 	// float: left;
-    // margin-top: 5px;
-    // margin-right: 10px;
-    // padding: 5px 10px;
-    // color: white;
-    font-size: 14px;
-    margin-top: 2px;
+	// margin-top: 5px;
+	// margin-right: 10px;
+	// padding: 5px 10px;
+	// color: white;
+	font-size: 14px;
+	margin-top: 2px;
 }
 .home-event-tile
 {
 	width: auto;
 	margin-bottom: 10px;
-	
+
 	&.current
 	{
 		// background: #ffc14e;
@@ -488,60 +488,60 @@ input.danger:hover
 form.thin
 {
 	width: 500px;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: left;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: left;
 }
 #bug-submission
 {
 	position: fixed;
-    top: 60px;
-    left: -130px;
+	top: 60px;
+	left: -130px;
 	z-index: 1;
-    background: #ED7D31;
-    color: white;
+	background: #ED7D31;
+	color: white;
 	padding: 5px 35px 5px 25px;
-    border-radius: 5px;
-    font-weight: bold;
-    transition: left 0.5s;
+	border-radius: 5px;
+	font-weight: bold;
+	transition: left 0.5s;
 
-    /* Style and position the bug icon */
-    img
-    {
-    	position: absolute;
-    	right: 2px;
-    	top: 3px;
-    }
-    &:hover
-    {
-    	left: -5px;
-    }
+	/* Style and position the bug icon */
+	img
+	{
+		position: absolute;
+		right: 2px;
+		top: 3px;
+	}
+	&:hover
+	{
+		left: -5px;
+	}
 }
 .group-cont
 {
 	width: 50%;
-    margin-left: auto;
-    margin-right: auto;
+	margin-left: auto;
+	margin-right: auto;
 	background: #F2F2F2;
-    padding: 5px 20px;
-    border-radius: 5px;
-    height: 70px;
-    box-shadow: 2px 2px #C9C9C9;
-    text-align: left;
+	padding: 5px 20px;
+	border-radius: 5px;
+	height: 70px;
+	box-shadow: 2px 2px #C9C9C9;
+	text-align: left;
 }
 .current-time
 {
 	font-size: 22px;
-    color: grey;
+	color: grey;
 }
 /* Overlay Shenangians? */
 .ui-widget-overlay
 {
 	position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
 	display: none;
 	opacity: 0.5;
 	background: none !important;
@@ -576,7 +576,7 @@ form.thin
 	background-image: image-url("closeThick-wht.svg");
 	background-repeat: no-repeat;
 	background-size: 60%;
-    background-position: 50%;
+	background-position: 50%;
 	border: solid 2px white;
 }
 #overlay-confirm .default, #overlay-alert .default {

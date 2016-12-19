@@ -65,14 +65,14 @@
 	#sch-tiles
 	{
 		position: relative;
-	    margin-left: auto;
-	    margin-right: auto;
-	    width: 100%;
+		margin-left: auto;
+		margin-right: auto;
+		width: 100%;
 		height: calc(100% - 98px);
-	    overflow-y: auto;
-	    overflow-x: hidden;
-	    /*background: gainsboro;*/
-		
+		overflow-y: auto;
+		overflow-x: hidden;
+		/*background: gainsboro;*/
+
 		#sch-tiles-inside
 		{
 			position: relative;
@@ -80,7 +80,7 @@
 			margin-left: auto;
 			margin-right: auto;
 			margin-top: 10px;
-		    margin-bottom: 10px;
+			margin-bottom: 10px;
 		}
 		.sch-evnt-icon, .evnt-time
 		{
@@ -108,10 +108,10 @@
 #sch-holder
 {
 	width: 100%;
-    height: 93%;
-    border-radius: 5px;
-    overflow-x: auto;
-    overflow-y: auto;
+	height: 93%;
+	border-radius: 5px;
+	overflow-x: auto;
+	overflow-y: auto;
 }
 .sch-evnt
 {
@@ -137,7 +137,7 @@
 		margin-right: auto;
 		white-space: nowrap;
 		text-overflow: ellipsis;
-	 	overflow: hidden;
+		overflow: hidden;
 	}
 	.evnt-divider
 	{
@@ -229,7 +229,7 @@
 	transition: opacity 0.3s;
 	right: 3px;
 	top: 3px;
- 	border-radius: 500px;
+	border-radius: 500px;
 	width: 20px;
 	cursor: pointer;
 }
@@ -298,10 +298,10 @@
 		font-size: 24px;
 		min-height: 33px;
 		width: 85%;
-	    margin-left: 20px;
-	    margin-right: auto;
-	    padding-left: 5px;
-	    text-align:left;
+		margin-left: 20px;
+		margin-right: auto;
+		padding-left: 5px;
+		text-align:left;
 		border-radius: 5px;
 	}
 	#overlay-title:focus, #overlay-title:hover
@@ -311,10 +311,10 @@
 	#overlay-color-bar
 	{
 		width: 100%;
-	    padding: 10px 0px;
-	    color: white;
-	    margin-bottom: 5px;
-	    text-align: right;
+		padding: 10px 0px;
+		color: white;
+		margin-bottom: 5px;
+		text-align: right;
 	}
 	#cat-title
 	{
@@ -328,16 +328,16 @@
 	.small-title
 	{
 		color: #6B6B6B;
-	    text-align: left;
-	    margin-left: 20px;
-	    margin-top: 5px;
-	    margin-bottom: 3px;
+		text-align: left;
+		margin-left: 20px;
+		margin-top: 5px;
+		margin-bottom: 3px;
 	}
 	.small-title .edit
 	{
 		cursor: pointer;
 		color: #eb8f00;
-	    text-decoration: underline;
+		text-decoration: underline;
 	}
 	.small-title .edit:hover
 	{
@@ -346,9 +346,9 @@
 	#overlay-desc, #overlay-loc
 	{
 		min-height: 22px;
-	    margin-left: 30px;
-	    margin-right: 30px;
-	    padding: 3px;
+		margin-left: 30px;
+		margin-right: 30px;
+		padding: 3px;
 	}
 	.overlay-time
 	{
@@ -367,8 +367,8 @@
 input[readonly="readonly"]
 {
 	background: transparent;
-    border: none;
-    width: 60px;
+	border: none;
+	width: 60px;
 }
 
 
@@ -376,7 +376,7 @@ input[readonly="readonly"]
 {
 	margin-bottom: 15px;
 	padding: 0px 5px;
-	
+
 	.sch-week-prev
 	{
 		float: left;
@@ -414,7 +414,7 @@ input[readonly="readonly"]
 	height:25px;
 	border-radius: 50px;
 	cursor: pointer;
-	
+
 	&.selected
 	{
 		background-image:image-url("checkmark-wht.png");
@@ -466,11 +466,11 @@ input[readonly="readonly"]
 #break-adder-overlay-box
 {
 	width: 420px;
-    min-height: 300px;
-    margin-top: 50px;
-    padding-bottom: 0px;
-    z-index: 1002;
-	
+	min-height: 300px;
+	margin-top: 50px;
+	padding-bottom: 0px;
+	z-index: 1002;
+
 	#break-cont
 	{
 		text-align: left;
@@ -480,12 +480,12 @@ input[readonly="readonly"]
 	}
 	.break-elem
 	{
-	    color: black;
-	    display: inline-block;
-	    padding: 5px 15px;
-	    border-radius: 5px;
-	    margin: 2px 0px;
-	    cursor: pointer;
+		color: black;
+		display: inline-block;
+		padding: 5px 15px;
+		border-radius: 5px;
+		margin: 2px 0px;
+		cursor: pointer;
 	}
 	.break-elem.active
 	{
@@ -509,7 +509,7 @@ input[readonly="readonly"]
 	}
 	.future-colors
 	{
-	    width: 100%;
+		width: 100%;
 	}
 	.sch-cat-icon
 	{
@@ -557,23 +557,23 @@ input[readonly="readonly"]
 
 #sch-holder::-webkit-scrollbar, #sch-tiles::-webkit-scrollbar
 {
-    width: 9px;
-    height: 9px;
+	width: 9px;
+	height: 9px;
 }
 
 /* Scroll Bar Styling */
 #sch-holder::-webkit-scrollbar-track, #sch-tiles::-webkit-scrollbar-track /* Track */
 {
-    /* -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); */
-    background: rgba(100,100,100,0.2);
-    -webkit-border-radius: 12px;
-    border-radius: 10px;
+	/* -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); */
+	background: rgba(100,100,100,0.2);
+	-webkit-border-radius: 12px;
+	border-radius: 10px;
 }
 #sch-holder::-webkit-scrollbar-thumb, #sch-tiles::-webkit-scrollbar-thumb /* Handle */
 {
-    -webkit-border-radius: 10px;
-    border-radius: 10px;
-    background: rgba(255,140,43,0.8);
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+	background: rgba(255,140,43,0.8);
 }
 #sch-holder::-webkit-scrollbar-thumb:window-inactive
 {
@@ -595,7 +595,7 @@ input[readonly="readonly"]
 	{
 		cursor: text;
 		background: #D3CECE;
-		box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5) inset;	
+		box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5) inset;
 	}
 	&:hover
 	{
@@ -612,11 +612,11 @@ input[readonly="readonly"]
 {
 	display: none;
 	position: relative;
-    margin-left: auto;
-    margin-right: auto;
-    left: 0;
-    right: 0;
-    margin-bottom: 15px;
+	margin-left: auto;
+	margin-right: auto;
+	left: 0;
+	right: 0;
+	margin-bottom: 15px;
 }
 #repeat-start, #repeat-end
 {
@@ -624,7 +624,7 @@ input[readonly="readonly"]
 }
 .repeat-option
 {
-    margin-bottom: 5px;
+	margin-bottom: 5px;
 }
 #repeat-custom-options
 {
@@ -646,20 +646,20 @@ input[readonly="readonly"]
 .date-field /* general class for things that have the date picker calendar */
 {
 	position: relative;
-    top: -1px;
-    width: 75px;
-    height: 20px;
-    padding: 3px 30px 2px 10px;
+	top: -1px;
+	width: 75px;
+	height: 20px;
+	padding: 3px 30px 2px 10px;
 	font-family: 'Open Sans', sans-serif;
-    font-size: 14px;
-    color: #999999;
-    background-image: image-url("calendar.svg");
-    background-repeat: no-repeat;
+	font-size: 14px;
+	color: #999999;
+	background-image: image-url("calendar.svg");
+	background-repeat: no-repeat;
 	background-size: auto 80%;
-    background-position: 97% 50%;
+	background-position: 97% 50%;
 	border-radius: 3px;
-    box-shadow: 0px 0px 1px #CECECE;
-    border: solid 1px #CECECE;
+	box-shadow: 0px 0px 1px #CECECE;
+	border: solid 1px #CECECE;
 }
 .date-field:focus
 {
@@ -698,11 +698,11 @@ input[readonly="readonly"]
 #save-checkmark
 {
 	opacity: 0;
-    width: 24px;
-    position: absolute;
-    top: 2px;
-    right: 5px;
-    transition: opacity 0.5s;
+	width: 24px;
+	position: absolute;
+	top: 2px;
+	right: 5px;
+	transition: opacity 0.5s;
 }
 #sch-save
 {
@@ -784,7 +784,7 @@ input[readonly="readonly"]
 		line-height: 1.1;
 		font-size: 14px;
 
-		.time 
+		.time
 		{
 			font-size: 10px;
 			color: grey;

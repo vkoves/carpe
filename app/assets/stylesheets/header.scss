@@ -39,7 +39,7 @@
 	overflow: hidden;
 	height: 50px;
 	transition: width 0.5s, opacity 0.5s;
-	
+
 	a { margin-right: 25px; }
 	.active { color: orange; }
 }
@@ -49,51 +49,51 @@
 {
 	float: right;
 	position: relative;
- 	right: 0px;
- 	padding-right: 20px;
- 	padding-left: 10px;
- 	height: 50px;
- 	cursor: pointer;
+	right: 0px;
+	padding-right: 20px;
+	padding-left: 10px;
+	height: 50px;
+	cursor: pointer;
 
- 	.name { line-height: 50px; }
- 	#user-avatar
- 	{
- 		float: right;
- 	    position: relative;
- 	    height: 100%;
- 	    margin-left: 5px;
- 	}
- 	#user-avatar img:hover
- 	{
- 		box-shadow: 0px 0px 3px grey;
- 	}
- 	#user-avatar img
- 	{
- 		height: 40px;
- 	    width: 40px;
- 		border-radius: 35px;
- 		border: solid orange 2px;
- 		margin-top: 7%;
- 	}
- 	#user-email
- 	{
- 		float: left;
- 		position: absolute;
- 	    top: 24px;
- 	    color: grey;
- 	    right: 80px;
- 	    font-size: 13px;
- 	}
- 	.header-logintext
- 	{
- 		padding-top: 14px;
- 		right:10px;
- 		width:400px;
- 		text-align:right;
- 		position:absolute;
- 		top:-5px;
- 		position:absolute;
- 	}
+	.name { line-height: 50px; }
+	#user-avatar
+	{
+		float: right;
+		position: relative;
+		height: 100%;
+		margin-left: 5px;
+	}
+	#user-avatar img:hover
+	{
+		box-shadow: 0px 0px 3px grey;
+	}
+	#user-avatar img
+	{
+		height: 40px;
+		width: 40px;
+		border-radius: 35px;
+		border: solid orange 2px;
+		margin-top: 7%;
+	}
+	#user-email
+	{
+		float: left;
+		position: absolute;
+		top: 24px;
+		color: grey;
+		right: 80px;
+		font-size: 13px;
+	}
+	.header-logintext
+	{
+		padding-top: 14px;
+		right:10px;
+		width:400px;
+		text-align:right;
+		position:absolute;
+		top:-5px;
+		position:absolute;
+	}
 }
 
 #user-panel
@@ -195,7 +195,7 @@
 	padding: 5px;
 	border-radius: 50%;
 	cursor: pointer;
-	
+
 	&:hover
 	{
 		background-color: #D0D0D0;
@@ -204,32 +204,32 @@
 	#num
 	{
 		position: absolute;
-	    border-radius: 100%;
-	    background-color: orange;
-	    width: 16px;
-	    height: 15px;
-	    font-size: 11px;
-	    font-weight: bold;
-	    color: white;
-	    text-align: center;
-	    top: 20px;
-	    left: 22px;
-	    padding-bottom: 2px;
-	    padding-right: 1px;
+		border-radius: 100%;
+		background-color: orange;
+		width: 16px;
+		height: 15px;
+		font-size: 11px;
+		font-weight: bold;
+		color: white;
+		text-align: center;
+		top: 20px;
+		left: 22px;
+		padding-bottom: 2px;
+		padding-right: 1px;
 	}
 }
 #notif-panel
 {
 	position: absolute;
-    width: 350px;
-    top: 50px;
-    right: 15px;
+	width: 350px;
+	top: 50px;
+	right: 15px;
 	background: rgb(230, 230, 230);
 	display: none;
 	z-index: 10;
 	padding: 5px 5px 5px 10px;
 	color: rgb(106, 106, 106);
-	
+
 	.notif #user-avatar img
 	{
 		height: 36px;
@@ -266,13 +266,13 @@
 	.confirm, .deny
 	{
 		width: 30px;
-	    border: solid 2px white;
-	    height: 30px;
-	    border-radius: 100%;
-	    display: inline-block;
-	    float: right;
-	    background-size: 100%;
-	    background-repeat: no-repeat;
+		border: solid 2px white;
+		height: 30px;
+		border-radius: 100%;
+		display: inline-block;
+		float: right;
+		background-size: 100%;
+		background-repeat: no-repeat;
 	}
 	.confirm
 	{
@@ -285,7 +285,7 @@
 		background-color: #FF4242;
 		background-image: image-url("closeThick-wht.svg");
 		background-size: 60%;
-	    background-position: 50%;
+		background-position: 50%;
 	}
 	#no-notifs
 	{
@@ -295,27 +295,27 @@
 }
 #users-search
 {
-    display: inline-block;
-    z-index: 10;
+	display: inline-block;
+	z-index: 10;
 }
 #users-search input, #users-search-input
 {
 	box-sizing: border-box;
 	height: 30px;
-    font-size: 15px;
-    font-family: 'Open Sans', sans-serif;
-    padding-left: 10px;
-    padding-right: 30px;
-    width: 150px !important;
-    border-radius: 4px;
-    box-shadow: 0px 0px 1px #CECECE;
-    border: solid 1px #CECECE;
-    background: white;
+	font-size: 15px;
+	font-family: 'Open Sans', sans-serif;
+	padding-left: 10px;
+	padding-right: 30px;
+	width: 150px !important;
+	border-radius: 4px;
+	box-shadow: 0px 0px 1px #CECECE;
+	border: solid 1px #CECECE;
+	background: white;
 	background-image: image-url("search.svg");
-    background-size: auto 65%;
-    background-repeat: no-repeat;
-    background-position: 97% 45%;
-    transition: width 0.4s;
+	background-size: auto 65%;
+	background-repeat: no-repeat;
+	background-position: 97% 45%;
+	transition: width 0.4s;
 }
 .token-input-input-token input
 {
@@ -332,7 +332,7 @@
 {
 	padding: 0;
 	margin: 0;
-	
+
 }
 .token-input-dropdown li
 {
@@ -350,13 +350,13 @@
 .token-input-dropdown .name
 {
 	position: absolute;
-    top: 15px;
-    left: 60px;
+	top: 15px;
+	left: 60px;
 	overflow: hidden;
-    text-align: left;
-    text-overflow: ellipsis;
+	text-align: left;
+	text-overflow: ellipsis;
 
-    &.with-type { top: 10px; }
+	&.with-type { top: 10px; }
 }
 .token-input-dropdown .type
 {
@@ -374,12 +374,12 @@
 .token-input-dropdown
 {
 	background: #F2F2F2;
-    width: 212px;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-    box-shadow: 0px 0px 5px grey;
-    z-index: 20;
-    overflow: hidden;
+	width: 212px;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	box-shadow: 0px 0px 5px grey;
+	z-index: 20;
+	overflow: hidden;
 }
 .search-avatar img
 {
