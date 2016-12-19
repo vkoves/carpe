@@ -3,14 +3,14 @@
 <%= stylesheet_link_tag "profile" %>
 
 <div id="greeting">
-	<span class="greet-text">
+	<span class="greet-text carpe-color">
 		Greetings, <%= current_user.name.split(" ")[0] %>!
 		<span class="current-time">
 			Updated <%= local_time(Time.now, "%l:%M %p") %>
 		</span>
 		<div class="greet-subt">
 			Check out the new sidebar, a quick way to know if your connections are free or not.<br>
-			To keep up with Carpe updates, check out <a href="http://carpe-dev.tumblr.com" target="_blank" class="greet-a">our development blog!</a>
+			To keep up with Carpe updates, check out <a href="http://carpe-dev.tumblr.com" target="_blank" class="normal carpe-color">our development blog!</a>
 
 			<h3 class="zero-bot">Current &amp; Upcoming Events</h3>
 			<% if @upcoming_events and @upcoming_events.length > 0 %>
@@ -49,7 +49,7 @@
 					</div>
 				<% end %>
 			<% else %>
-				You don't have any events going on or coming up soon! Go to <%= link_to "your schedule", "/schedule", class: "greet-a" %> to add some.
+				You don't have any events going on or coming up soon! Go to <%= link_to "your schedule", "/schedule", class: "normal carpe-color" %> to add some.
 			<% end %>
 		</div>
 	</span>
