@@ -540,9 +540,9 @@ input[readonly="readonly"]
 		margin-bottom: 25px;
 		min-height: 41px;
 	}
-	.cat-overlay-title:focus
+	.cat-overlay-title:focus, .cat-overlay-title:hover
 	{
-		background: rgba(255, 255, 255, 0.43);
+		background: rgba(255, 255, 255, 0.4);
 	}
 	.cat-remainder-overlay
 	{
