@@ -33,6 +33,8 @@ var dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Sat
 
 var viewMode = "week"; //either "week" or "month"
 
+var saveEventsTimeout; // timeout for save events so it doesn't happen too often
+
 /****************************/
 /**** DOCUMENT FUNCTIONS ****/
 /****************************/
@@ -277,7 +279,7 @@ function ScheduleItem()
 	/****************************/
 	/***** HELPER FUNCTIONS *****/
 	/****************************/
-	
+
 	/**
 	 * Sets the start or end date/time for an event on a user's schedule.
 	 * @param {Boolean}  isStart - Whether or not the Date object being passed in is an event's starting time
@@ -685,7 +687,7 @@ function addStartingListeners()
 
 		customAlertUI("Embed your schedule!", "<input id='iframe-embed' class='text-input' type='text' style='width: 90%;'></input><br><br>");
 		$("#iframe-embed").val(iframeCode);
-	});	
+	});
 
 
 	/****************************/
@@ -812,7 +814,7 @@ function loadInitialEvents()
 			var schItem = new ScheduleItem();
 			schItem.startDateTime = new Date(evnt.date);
 			schItem.endDateTime = new Date(evnt.end_date);
-			
+
 			if(evnt.repeat_start)
 			{
 				evnt.repeat_start = dateFromDashesToSlashes(evnt.repeat_start); //replace dashes with slashes, as Firefox doesn't seem to like dashes and timezones
@@ -1282,7 +1284,7 @@ function addDates(newDateObj, refresh, startToday)
 			currDate = cloneDate(newDateObj);
 		else //if we want to start on a Monday
 		{
-			startDateData = getStartDate(newDateObj); 
+			startDateData = getStartDate(newDateObj);
 			currDate = startDateData.startDate;
 		}
 
@@ -1312,7 +1314,7 @@ function addDates(newDateObj, refresh, startToday)
 		$(".sch-day-tile").remove(); //remove old tiles
 		$("#sch-monthly-view #month-name").text(fullMonthNames[newDateObj.getMonth()] + " " + currDate.getFullYear());
 
-		var oldDatesCount = 0; 
+		var oldDatesCount = 0;
 		if(startDateData.lastMonth)
 			oldDatesCount = lastMonthLength - currDate.getDate() + 1;
 
@@ -1341,7 +1343,7 @@ function addDates(newDateObj, refresh, startToday)
 					+ "<div class='inner'>"
 						+ "<div class='day-of-month'>" + currDate.getDate() + "</div>"
 					+ "</div>"
-				+ "</div>");	
+				+ "</div>");
 
 			if(currDate.toDateString() == new Date().toDateString()) //if this is today
 				$(".sch-day-tile:last-of-type").attr("id","sch-today");
@@ -1382,7 +1384,7 @@ function initializeWeeklyView()
 	$("#view-weekly").addClass("active");
 	$("#sch-monthly-view").hide();
 	$("#sch-weekly-view").show();
-	
+
 	addDates(refDate, true);
 }
 
@@ -1446,12 +1448,12 @@ function populateEvents()
 		}
 		else if(viewMode == "month")
 		{
-			$(".sch-day-tile:eq(" + i + ") .inner").append("<div class='sch-month-evnt' evnt-temp-id='" + eventObject.tempId 
-				+ "' data-id='" + eventObject.categoryId + "' style='color: " 
-				+  color +  "; color: " + color + ";'>" 
+			$(".sch-day-tile:eq(" + i + ") .inner").append("<div class='sch-month-evnt' evnt-temp-id='" + eventObject.tempId
+				+ "' data-id='" + eventObject.categoryId + "' style='color: "
+				+  color +  "; color: " + color + ";'>"
 					+ eventObject.getName(true)
-					+ "<div class='time'>" 
-						+ datesToTimeRange(eventObject.startDateTime, eventObject.endDateTime) 
+					+ "<div class='time'>"
+						+ datesToTimeRange(eventObject.startDateTime, eventObject.endDateTime)
 					+ "</div>"
 				+ "</div>");
 		}
@@ -1592,7 +1594,7 @@ function editCategory(elem)
 	}
 
 	$(".cat-overlay-title").trigger('focus');
-	
+
 	$(".ui-widget-overlay, #cat-overlay-box").fadeIn(250);
 
 	var colForTop = currCategory.color;
@@ -1797,7 +1799,10 @@ function updatedEvents(msg)
 	$("#sch-save").removeClass("disabled");
 
 	if(readied) // if we've loaded in intial events save. Prevents lots of saving on setup as events are dealt with
-		saveEvents();
+	{
+		clearTimeout(saveEventsTimeout); // clear existing timeout to reset
+		saveEventsTimeout = setTimeout(saveEvents, 5000); // and set new one
+	}
 }
 
 /****************************/
@@ -1957,7 +1962,7 @@ function saveCategory(event,elem,id)
 	$.ajax({
 		url: "/create_category",
 		type: "POST",
-		data: {name: $(".cat-overlay-title").text(), id: id, color: $(".cat-top-overlay").css("background-color"), 
+		data: {name: $(".cat-overlay-title").text(), id: id, color: $(".cat-top-overlay").css("background-color"),
 			privacy: currCategory.privacy, breaks: currCategory.breaks, group_id: groupID},
 		success: function(resp)
 		{
