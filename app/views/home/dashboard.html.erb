@@ -59,8 +59,13 @@
 <div id="sidebar-cont">
 	<div id="sidebar">
 		<div id="following-list">
-			<% current_user.following.each do |user| %>
-				<%= render "shared/user_box_horizontal", user: user, free: true %>
+			<% unless current_user.following.empty? %>
+				<% current_user.following.each do |user| %>
+					<%= render "shared/user_box_horizontal", user: user, free: true %>
+				<% end %>
+			<% else %>
+				<h3 class="no-bold">You're not following anyone!</h3>
+				To see who is busy and free, follow some users!
 			<% end %>
 		</div>
 	</div>
