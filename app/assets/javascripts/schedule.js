@@ -542,12 +542,15 @@ function addStartingListeners()
 		}
 	}).click(function()
 	{
-		highlightCurrent(); //higlight the category name
 		if($(this).text() == "Untitled")
 		{
 			$(this).text("");
 		}
-	}).focusout(removeHighlight);
+	})
+	.focusin(function() {
+		setTimeout(highlightCurrent, 100); // highlight the whole name after focus
+	})
+	.focusout(removeHighlight);
 
 	$(".repeat-option").click(function()
 	{
