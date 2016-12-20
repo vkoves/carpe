@@ -98,8 +98,10 @@ function initializeEventListeners()
 	});
 
 	//Handle notification bell click
-	$(".bell-hold").click(function()
+	$(".bell-hold").click(function(event)
 	{
+		event.stopPropagation();
+
 		$("#notif-panel").slideToggle(300);
 		$("#user-panel").slideUp(300);
 
