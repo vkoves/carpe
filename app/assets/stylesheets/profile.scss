@@ -101,6 +101,7 @@
 	float: right;
 	bottom: 0px;
 	right: 0px;
+	font-size: 0px;
 
 	a { color: white; }
 	div
@@ -109,6 +110,7 @@
 		display: inline-block;
 		padding: 10px 15px 10px 15px;
 		margin-left: -4px;
+		font-size: 16px;
 
 		&.curr { background: #ED7D31; }
 		&:not(.curr):hover { color: #ED7D31; }
