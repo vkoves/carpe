@@ -1,12 +1,12 @@
 module ApplicationHelper
   def relative_time_ago (datetime, start_caps)
     time_format = "%l:%M %p" #anything today that's not an hour away, say this
-    
-    datetime = datetime.utc.in_time_zone("Central Time (US & Canada)")
-    now = Time.now.in_time_zone("Central Time (US & Canada)")
 
-    tomorrow = Time.now.tomorrow.in_time_zone("Central Time (US & Canada)")
-    yesterday = Time.now.yesterday.in_time_zone("Central Time (US & Canada)")
+    datetime = datetime.utc.in_time_zone(current_user.home_time_zone)
+    now = Time.now.in_time_zone(current_user.home_time_zone)
+
+    tomorrow = Time.now.tomorrow.in_time_zone(current_user.home_time_zone)
+    yesterday = Time.now.yesterday.in_time_zone(current_user.home_time_zone)
 
     if(datetime.to_date == now.to_date) #It's today!
       hours_diff = ((datetime - now)/1.hour).round
@@ -105,7 +105,7 @@ module ApplicationHelper
     valid_dates_array = (start_date.to_date...end_date.to_date).to_a
     dates_hash = {}
 
-    valid_dates_array.each{|date| dates_hash[date] = 0} #create an empty hash with all valid dates 
+    valid_dates_array.each{|date| dates_hash[date] = 0} #create an empty hash with all valid dates
 
     date_count_hash.keys.each do |key| #then iterate through all dates in the original hash
       if dates_hash[key.to_date]
@@ -115,7 +115,7 @@ module ApplicationHelper
       end
     end
 
-    return dates_hash  
+    return dates_hash
   end
 
   # Gets the events to be displayed on the schedule partial depending on if @user and/or @group are defined
@@ -158,5 +158,5 @@ module ApplicationHelper
       categoryAttributes.push(atr)
     end
     return categoryAttributes
-  end 
+  end
 end
