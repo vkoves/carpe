@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161119214352) do
+ActiveRecord::Schema.define(version: 20161227044551) do
 
   create_table "categories", force: :cascade do |t|
     t.string   "name"
@@ -103,24 +103,25 @@ ActiveRecord::Schema.define(version: 20161119214352) do
   add_index "repeat_exceptions", ["user_id"], name: "index_repeat_exceptions_on_user_id"
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                  default: "",    null: false
-    t.string   "encrypted_password",     default: "",    null: false
+    t.string   "email",                  default: "",                           null: false
+    t.string   "encrypted_password",     default: "",                           null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,     null: false
+    t.integer  "sign_in_count",          default: 0,                            null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
+    t.datetime "created_at",                                                    null: false
+    t.datetime "updated_at",                                                    null: false
     t.string   "provider"
     t.string   "uid"
     t.string   "name"
     t.string   "image_url"
     t.boolean  "admin"
     t.boolean  "public_profile",         default: false
+    t.string   "home_time_zone",         default: "Central Time (US & Canada)"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
