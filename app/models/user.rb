@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   has_many :active_relationships,  class_name:  "Relationship",
                                    foreign_key: "follower_id",
                                    dependent:   :destroy
-  has_many :passive_relationships, class_name:  "Relationship", 
+  has_many :passive_relationships, class_name:  "Relationship",
                                    foreign_key: "followed_id",
                                    dependent:   :destroy
 
@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 	devise :omniauthable
-	validates_presence_of :name
+	validates_presence_of :name, :home_time_zone
 
 	has_many :categories
 	has_many :events
@@ -213,7 +213,6 @@ class User < ActiveRecord::Base
     categories.destroy_all #destroy all our categories
     events.destroy_all #destroy all our events as well, though cats should cover that
     notifications.destroy_all #destroy all our notifications
-    friendships.destroy_all #and all our friendships
     self.delete #and then get rid of ourselves
   end
 
