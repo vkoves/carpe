@@ -86,7 +86,7 @@
 			<% @follow_requests.each do |n| %>
 				<div class="notif" fid="<%= n.id %>">
 					<%= link_to(n.follower) do %>
-						<div id="user-avatar">
+						<div id="user-avatar" class="avatar">
 							<img src="<%= n.follower.user_avatar(90) %>">
 						</div>
 					<% end %>
