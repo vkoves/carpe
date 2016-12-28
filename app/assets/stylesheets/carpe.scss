@@ -32,6 +32,13 @@ body
 input
 {
 	font-family: Open Sans, sans-serif;
+
+	&[type="checkbox"]
+	{
+		float: left;
+		margin-top: 5px;
+		margin-right: 10px;
+	}
 }
 
 /* Sign up and sign in styling */
@@ -702,4 +709,34 @@ form.thin
 	-webkit-transform: translateY(-50%);
 	-ms-transform: translateY(-50%);
 	transform: translateY(-50%);
+}
+.ui-tooltip.ui-widget
+{
+	font-family: 'Open Sans', sans-serif;
+	font-size: 14px;
+	background: #666;
+	color: white;
+	border: none;
+
+	.ui-tooltip-content::after
+	{
+		content: '';
+		position: absolute;
+		border-style: solid;
+		display: block;
+		width: 0;
+		margin: auto;
+		right: 0;
+		left: 0;
+		top: -10px;
+		border-color: #666 transparent;
+		border-width: 0 10px 10px;
+	}
+}
+
+.question-tooltip
+{
+	position: relative;
+	top: 2px;
+	float: right;
 }

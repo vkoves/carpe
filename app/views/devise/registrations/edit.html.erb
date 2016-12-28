@@ -18,11 +18,11 @@
 	  </div>
 
 	  <div class="field">
-	    <%= f.label :public_profile %>
 	    <%= f.check_box :public_profile %>
+	    <%= f.label :public_profile %>
+	    <%= image_tag "question-circle.svg", width: 15, class: "question-tooltip", title: "Public profiles auto accept followers. Use this if you don't want to confirm each follower you receive." %>
 	    <br>
 	  </div>
-	  Public profiles auto accept followers. Use this if you don't want to confirm each follower you receive. <br>
 
 	  <div class="field">
 	    <%= f.label :home_time_zone %><br />
@@ -30,8 +30,7 @@
 	  </div>
 
 	<% if current_user.provider %>
-		<br>
-		Since you are logged in with <%= current_user.provider_name %>, <br> you don't have to give your password to make changes. <br>
+		<!-- Since you are logged in with <%= current_user.provider_name %>, <br> you don't have to give your password to make changes. <br> -->
 	<% else %>
 	  <div class="field">
 	    <%= f.label :email %><br />

@@ -42,6 +42,9 @@ $(window).resize(function()
 
 $(document).ready(ready); //Assign ready function to document ready
 $(document).on('page:load', ready); //and to page:load event from Turbolinks
+$(document).tooltip({
+	position: {my: "center top", at: "center bottom+10"}, // position centered and 10px below bottom of whatever we are showing a tooltip for
+});
 
 /**
  * This function is called on page load, both on fresh load and
