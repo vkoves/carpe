@@ -14,7 +14,5 @@
  *= require carpe
  *= require_self
  *= require jquery-ui
- *= require token-input
- *= require token-input-facebook
  * require jquery-ui.min
  */
