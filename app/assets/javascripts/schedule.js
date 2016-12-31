@@ -1825,6 +1825,9 @@ function saveEvents()
 
 	var scheduleItemsToSave = {};
 
+	// TOOD: Swap needsSaving for an updatedAt timestamp and save when the last save request was sent
+	// so you can use a date comparison to determine if saving is needed. This prevents having to deflag events
+	// and makes sure you can mutate events during saving
 	for(var eventId in scheduleItems) // iterate through schedule items to compile ones that need saving
 	{
 		if(scheduleItems[eventId].needsSaving) // if this event needs to be saved
