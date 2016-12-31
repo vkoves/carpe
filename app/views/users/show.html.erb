@@ -55,6 +55,8 @@
 	<br>
 	<div style="text-align: left">
 		Joined Carpe: <%= relative_time_ago(@user.created_at, true) %> <br>
+		Time Zone: <%= @user.home_time_zone %>
+		<%= image_tag "question-circle.svg", width: 15, class: "question-tooltip", title: "This user's schedule has been automatically converted to your current local time zone." %>
 	</div>
 	<% if @tab == "mutual" %>
 		<%= render "mutual_friends_listing" %>

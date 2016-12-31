@@ -738,5 +738,6 @@ form.thin
 {
 	position: relative;
 	top: 2px;
-	float: right;
+
+	&.right { float: right; }
 }
