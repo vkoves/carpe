@@ -1808,7 +1808,7 @@ function updatedEvents(eventId, msg)
 	{
 		scheduleItems[eventId].needsSaving = true;
 		clearTimeout(saveEventsTimeout); // clear existing timeout to reset
-		saveEventsTimeout = setTimeout(saveEvents, 15000); // and set new one at 15 seconds
+		saveEventsTimeout = setTimeout(saveEvents, 5000); // and set new one at 5 seconds
 	}
 }
 
