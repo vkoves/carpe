@@ -130,7 +130,7 @@ function ScheduleItem()
 	{
 		this.element().slideUp("normal", function() { $(this).remove(); }); //slide up the element and remove after that is done
 		delete scheduleItems[this.tempId]; //then delete from the scheduleItems map
-		updatedEvents(this.eventId, "Destroy");
+		updatedEvents(this.tempId, "Destroy");
 	};
 
 	this.setStartDateTime = function(newStartDateTime, resize, userSet) //if resize is true, we do not move the end time
@@ -144,7 +144,7 @@ function ScheduleItem()
 			setDateTime(true, newStartDateTime, this, resize);
 
 		if(userSet) // if done by the user, and not dragComplete
-			updatedEvents(this.eventId, "setStartDateTime"); // indicate the event was modified, triggering autocomplete
+			updatedEvents(this.tempId, "setStartDateTime"); // indicate the event was modified, triggering autocomplete
 	};
 
 	this.setEndDateTime = function(newEndDateTime, resize, userSet) //if resize, we don't move the start time
@@ -157,7 +157,7 @@ function ScheduleItem()
 		else
 			setDateTime(false, newEndDateTime, this, resize);
 
-		updatedEvents(this.eventId, "setEndDateTime");
+		updatedEvents(this.tempId, "setEndDateTime");
 	};
 
 	this.setName = function(newName)
@@ -166,7 +166,7 @@ function ScheduleItem()
 		{
 			this.name = newName; //set the object daat
 			this.element().find(".evnt-title").text(newName); //and update the HTML element
-			updatedEvents(this.eventId, "setName");
+			updatedEvents(this.tempId, "setName");
 		}
 	};
 
@@ -175,7 +175,7 @@ function ScheduleItem()
 		if(this.repeatType != newRepeatType) // check for changes
 		{
 			this.repeatType = newRepeatType;
-			updatedEvents(this.eventId, "setRepeatType");
+			updatedEvents(this.tempId, "setRepeatType");
 		}
 	};
 
@@ -184,7 +184,7 @@ function ScheduleItem()
 		if(this.repeatStart != newRepeatStart) // check for changes
 		{
 			this.repeatStart = newRepeatStart;
-			updatedEvents(this.eventId, "repeatStart");
+			updatedEvents(this.tempId, "repeatStart");
 		}
 	};
 
@@ -193,7 +193,7 @@ function ScheduleItem()
 		if(this.repeatEnd != newRepeatEnd) // check for changes
 		{
 			this.repeatEnd = newRepeatEnd;
-			updatedEvents(this.eventId, "repeatEnd");
+			updatedEvents(this.tempId, "repeatEnd");
 		}
 	};
 
@@ -202,7 +202,7 @@ function ScheduleItem()
 		if(this.description != newDescription) // check for changes
 		{
 			this.description = newDescription;
-			updatedEvents(this.eventId, "description");
+			updatedEvents(this.tempId, "description");
 		}
 	}
 
@@ -211,7 +211,7 @@ function ScheduleItem()
 		if(this.location != newLocation) // check for changes
 		{
 			this.location = newLocation;
-			updatedEvents(this.eventId, "location");
+			updatedEvents(this.tempId, "location");
 		}
 	}
 
@@ -228,7 +228,7 @@ function ScheduleItem()
 		this.tempElement = elem;
 
 		if(!resize) //prevent resize double firing updatedEvents
-			updatedEvents(this.eventId, "dragComplete");
+			updatedEvents(this.tempId, "dragComplete");
 	};
 
 	this.resizeComplete = function(elem)
@@ -238,7 +238,7 @@ function ScheduleItem()
 		endDT.setHours(this.startDateTime.getHours() + Math.round(($(elem).outerHeight() + this.getMinutesOffsets()[0] - this.getMinutesOffsets()[1])/gridHeight)); // TODO: Move this crazy way of getting height in hours somewhere else (used twice)
 		endDT.setMinutes(this.endDateTime.getMinutes()); //minutes can't change from resize, so keep them consistent
 		this.endDateTime = endDT;
-		updatedEvents(this.eventId, "resizeComplete");
+		updatedEvents(this.tempId, "resizeComplete");
 	};
 
 	this.getTop = function() //returns the top value based on the hours and minutes of the start
@@ -259,7 +259,7 @@ function ScheduleItem()
 	this.updateHeight = function()
 	{
 		this.element().css("height", gridHeight*this.lengthInHours() - border);
-		updatedEvents(this.eventId, "updateHeight");
+		updatedEvents(this.tempId, "updateHeight");
 	};
 
 	//a way of getting the name that handles untitled
@@ -1761,7 +1761,7 @@ function showBreakAddOverlay()
 		}
 
 		if(currEvent)
-			updatedEvents(currEvent.eventId, "breaks"); //mark that the events changed to enable saving
+			updatedEvents(currEvent.tempId, "breaks"); //mark that the events changed to enable saving
 
 		repopulateEvents();
 	});
