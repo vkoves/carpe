@@ -1177,6 +1177,7 @@ function handleNewEvent(elem)
 	schItem.setRepeatType("");
 	schItem.tempId = eventTempId;
 	schItem.tempElement = $(elem);
+	schItem.needsSaving = true;
 	scheduleItems[eventTempId] = schItem;
 
 	$(elem).children(".evnt-title").attr("contenteditable", "true");
@@ -1806,7 +1807,8 @@ function updatedEvents(eventId, msg)
 
 	if(readied) // if we've loaded in intial events save. Prevents lots of saving on setup as events are dealt with
 	{
-		scheduleItems[eventId].needsSaving = true;
+		if(scheduleItems[eventId])
+			scheduleItems[eventId].needsSaving = true;
 		clearTimeout(saveEventsTimeout); // clear existing timeout to reset
 		saveEventsTimeout = setTimeout(saveEvents, 5000); // and set new one at 5 seconds
 	}
