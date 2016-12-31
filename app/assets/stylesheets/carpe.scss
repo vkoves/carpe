@@ -716,7 +716,7 @@ form.thin
 	font-size: 14px;
 	background: #666;
 	color: white;
-	border: none;
+	border: none !important;
 	opacity: 1;
 
 	.ui-tooltip-content::after
