@@ -1,11 +1,11 @@
-<img src="app/assets/images/pages/JustTheLetter.png?raw=true" width="100" align="right">
+<img src="app/assets/images/pages/CarpeLetter.png?raw=true" width="100" align="right">
 
 # Carpe
 
 A socially networked, intuitive calendar created in Ruby on Rails with a jQuery powered front end.
 
 ## Setup
-Link to first-time setup can be found in the IndigoBox > Carpe Google Drive directory. 
+Link to first-time setup can be found in the IndigoBox > Carpe Google Drive directory.
 
 ## Running Locally
 Run with foreman using `foreman start`
@@ -56,4 +56,4 @@ This ensures that the repository is never behind the server, preventing overwrit
 
 An indigoBox member looking to help out with Carpe, but not sure where to start?
 
-We keep track of everything that needs to be done in the *Issues* section of this GitHub, so head over to see all tasks. Check out our upcoming milestones to find priority changes, or sort by labels like *bug* or *help-wanted* to see where you can assist. 
+We keep track of everything that needs to be done in the *Issues* section of this GitHub, so head over to see all tasks. Check out our upcoming milestones to find priority changes, or sort by labels like *bug* or *help-wanted* to see where you can assist.
