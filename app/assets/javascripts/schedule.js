@@ -114,6 +114,8 @@ function ScheduleItem()
 	this.description; //the event description
 	this.location; //the event location
 
+	this.needsSaving = false; //whether this object has bee updated since last save
+
 	this.lengthInHours = function() //returns an float of the length of the event in hours
 	{
 		return differenceInHours(this.startDateTime, this.endDateTime, false);
@@ -128,7 +130,7 @@ function ScheduleItem()
 	{
 		this.element().slideUp("normal", function() { $(this).remove(); }); //slide up the element and remove after that is done
 		delete scheduleItems[this.tempId]; //then delete from the scheduleItems map
-		updatedEvents("Destroy");
+		updatedEvents(this.eventId, "Destroy");
 	};
 
 	this.setStartDateTime = function(newStartDateTime, resize, userSet) //if resize is true, we do not move the end time
@@ -142,7 +144,7 @@ function ScheduleItem()
 			setDateTime(true, newStartDateTime, this, resize);
 
 		if(userSet) // if done by the user, and not dragComplete
-			updatedEvents("setStartDateTime"); // indicate the event was modified, triggering autocomplete
+			updatedEvents(this.eventId, "setStartDateTime"); // indicate the event was modified, triggering autocomplete
 	};
 
 	this.setEndDateTime = function(newEndDateTime, resize, userSet) //if resize, we don't move the start time
@@ -155,7 +157,7 @@ function ScheduleItem()
 		else
 			setDateTime(false, newEndDateTime, this, resize);
 
-		updatedEvents("setEndDateTime");
+		updatedEvents(this.eventId, "setEndDateTime");
 	};
 
 	this.setName = function(newName)
@@ -164,7 +166,7 @@ function ScheduleItem()
 		{
 			this.name = newName; //set the object daat
 			this.element().find(".evnt-title").text(newName); //and update the HTML element
-			updatedEvents("setName");
+			updatedEvents(this.eventId, "setName");
 		}
 	};
 
@@ -173,7 +175,7 @@ function ScheduleItem()
 		if(this.repeatType != newRepeatType) // check for changes
 		{
 			this.repeatType = newRepeatType;
-			updatedEvents("setRepeatType");
+			updatedEvents(this.eventId, "setRepeatType");
 		}
 	};
 
@@ -182,7 +184,7 @@ function ScheduleItem()
 		if(this.repeatStart != newRepeatStart) // check for changes
 		{
 			this.repeatStart = newRepeatStart;
-			updatedEvents("repeatStart");
+			updatedEvents(this.eventId, "repeatStart");
 		}
 	};
 
@@ -191,7 +193,7 @@ function ScheduleItem()
 		if(this.repeatEnd != newRepeatEnd) // check for changes
 		{
 			this.repeatEnd = newRepeatEnd;
-			updatedEvents("repeatEnd");
+			updatedEvents(this.eventId, "repeatEnd");
 		}
 	};
 
@@ -200,7 +202,7 @@ function ScheduleItem()
 		if(this.description != newDescription) // check for changes
 		{
 			this.description = newDescription;
-			updatedEvents("description");
+			updatedEvents(this.eventId, "description");
 		}
 	}
 
@@ -209,7 +211,7 @@ function ScheduleItem()
 		if(this.location != newLocation) // check for changes
 		{
 			this.location = newLocation;
-			updatedEvents("location");
+			updatedEvents(this.eventId, "location");
 		}
 	}
 
@@ -226,7 +228,7 @@ function ScheduleItem()
 		this.tempElement = elem;
 
 		if(!resize) //prevent resize double firing updatedEvents
-			updatedEvents("dragComplete");
+			updatedEvents(this.eventId, "dragComplete");
 	};
 
 	this.resizeComplete = function(elem)
@@ -236,7 +238,7 @@ function ScheduleItem()
 		endDT.setHours(this.startDateTime.getHours() + Math.round(($(elem).outerHeight() + this.getMinutesOffsets()[0] - this.getMinutesOffsets()[1])/gridHeight)); // TODO: Move this crazy way of getting height in hours somewhere else (used twice)
 		endDT.setMinutes(this.endDateTime.getMinutes()); //minutes can't change from resize, so keep them consistent
 		this.endDateTime = endDT;
-		updatedEvents("resizeComplete");
+		updatedEvents(this.eventId, "resizeComplete");
 	};
 
 	this.getTop = function() //returns the top value based on the hours and minutes of the start
@@ -257,7 +259,7 @@ function ScheduleItem()
 	this.updateHeight = function()
 	{
 		this.element().css("height", gridHeight*this.lengthInHours() - border);
-		updatedEvents("updateHeight");
+		updatedEvents(this.eventId, "updateHeight");
 	};
 
 	//a way of getting the name that handles untitled
@@ -1758,7 +1760,8 @@ function showBreakAddOverlay()
 			currObj.breaks.push(currId);
 		}
 
-		updatedEvents("breaks"); //mark that the events changed to enable saving
+		if(currEvent)
+			updatedEvents(currEvent.eventId, "breaks"); //mark that the events changed to enable saving
 
 		repopulateEvents();
 	});
@@ -1796,13 +1799,14 @@ function placeInSchedule(elem, hours, lengthHours)
 }
 
 // Events were updated. Called by any modification of an event, which triggers auto saving
-function updatedEvents(msg)
+function updatedEvents(eventId, msg)
 {
 	// console.log("Events were updated!" + msg);
 	$("#sch-save").removeClass("disabled");
 
 	if(readied) // if we've loaded in intial events save. Prevents lots of saving on setup as events are dealt with
 	{
+		scheduleItems[eventId].needsSaving = true;
 		clearTimeout(saveEventsTimeout); // clear existing timeout to reset
 		saveEventsTimeout = setTimeout(saveEvents, 15000); // and set new one at 15 seconds
 	}
@@ -1819,8 +1823,16 @@ function saveEvents()
 
 	$("#sch-save").addClass("loading"); //indicate that stuff is loading
 
+	var scheduleItemsToSave = {};
+
+	for(var eventId in scheduleItems) // iterate through schedule items to compile ones that need saving
+	{
+		if(scheduleItems[eventId].needsSaving) // if this event needs to be saved
+			scheduleItemsToSave[eventId] = scheduleItems[eventId];
+	}
+
 	//JSON encode our hashmap
-	var arr  = JSON.parse(JSON.stringify(scheduleItems));
+	var arr  = JSON.parse(JSON.stringify(scheduleItemsToSave));
 
 	$.ajax({
 		url: "/save_events",
@@ -1841,7 +1853,7 @@ function saveEvents()
 				$("#sch-save").addClass("disabled");
 			}, 3000);
 
-			for(var key in resp)
+			for(var key in resp) // iterate through ids in the response, which specify the temp id of the event and the new DB id
 			{
 				$(".sch-evnt[evnt-temp-id="+ key + "]")	.attr("event-id", resp[key]);
 				scheduleItems[key].eventId = resp[key];
