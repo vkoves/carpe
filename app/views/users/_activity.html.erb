@@ -19,4 +19,10 @@
 			<div class="text"><%= @user.name %> was followed by <%= relationship.follower.name %> on <%= relationship.created_at.strftime("%b. %d, %Y") %></div>
 		</div>
 	<% end %>
+	<div class="activity-listing grey-box">
+		<div class="avatar" style="float: left">
+			<%= image_tag("pages/CarpeLetter.png", style: "width: 30px; height: 30px; padding: 10px;") %>
+		</div>
+		<div class="text">Joined Carpe on <%= @user.created_at.strftime("%b. %d, %Y") %></div>
+	</div>
 <% end %>
