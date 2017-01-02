@@ -1,16 +1,17 @@
 <% content_for :title do %> - Welcome<% end %>
 <%= stylesheet_link_tag "pages" %>
 
-<%= image_tag("pages/SegoeUIComputer.png", id: "home-computer") %>
-<div id="home-right">
-	<div id="home-title">Scheduling for the modern age.</div>
-	<div id="home-sub-title">Meet Carpe. It's a social, powerful planning tool for the modern world.</div>
+<!-- <%= image_tag("pages/SegoeUIComputer.png", id: "home-computer") %> -->
+<div id="home-sl1">
+	<div id="home-sl1-title">Scheduling for the modern age.</div>
+	<div id="home-sl1-subtitle">Meet Carpe. It's a social, powerful planning tool for the modern world.</div>
+	<div id="home-sl1-alphawarn">You can try out Carpe in our open Alpha.</div>
 	<%= link_to new_registration_path(User), :class => "default", :id => "home-sign-up" do %>
 		<div>Sign Up</div>
 	<% end %>
-	<div id="home-dev-warning">
+	<!-- <div id="home-dev-warning">
 		Note: Carpe is still in Alpha and <br> is being actively developed.
-	</div>
+	</div> -->
 </div>
 <!--
 	<h1 class="no-bold" style="margin-bottom: -20px;">

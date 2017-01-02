@@ -38,6 +38,43 @@
 	font-size: 18px;
 	margin-top: 10px;
 }
+
+///// Revisions to Home Page: As of 1/2/2017
+
+#home-sl1 {
+	top:0px;
+	z-index:-2;
+	height:28vw;
+	background-image: image-url("home_bg.png");
+	background-size:cover;
+	padding-top:10vw;
+	color:#FFF;
+}
+
+#home-button-wht {
+	background-color: white;
+	border-radius:2px;
+	border-color: #ED7D31;
+}
+
+#home-sl1-title {
+	font-size: 3vw;
+	letter-spacing: 3px;
+	padding-bottom:1vw;
+}
+
+#home-sl1-subtitle {
+	font-size: 1.8vw;
+}
+
+#home-sl1-alphawarn {
+	padding-top:0.7vw;
+	font-size: 1.4vw;
+}
+
+
+
+
 /* End Home Page */
 
 /* Start Status/About Page */
@@ -137,5 +174,7 @@
 		font-size: 16px;
 	}
 }
+
+
 
 /* End Status Page */
