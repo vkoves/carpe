@@ -118,12 +118,16 @@ class User < ActiveRecord::Base
     if provider
       return image_url.split("?")[0] + "?sz=" + size.to_s
     else
-      return image_url
+      if size <= 60 # if image request is 60px wide or less, use thumb, which is 60px wide
+        return avatar.url(:thumb)
+      else # otherwise use profile, which is 150px wide
+        return avatar.url(:profile)
+      end
     end
 	end
 
   def has_avatar #returns whether the user has a non-default avatar
-    if image_url.present? and !(provider and image_url.include? "/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M")
+    if image_url.present? and !(provider and image_url.include? "/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M") or avatar.exists?
         return true #if the image is present and is not the Google default, return true
     else
       return false #if the image is not present, or is a Google default return false
