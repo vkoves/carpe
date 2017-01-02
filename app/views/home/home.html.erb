@@ -6,13 +6,51 @@
 	<div id="home-sl1-title">Scheduling for the modern age.</div>
 	<div id="home-sl1-subtitle">Meet Carpe. It's a social, powerful planning tool for the modern world.</div>
 	<div id="home-sl1-alphawarn">You can try out Carpe in our open Alpha.</div>
-	<%= link_to new_registration_path(User), :class => "default", :id => "home-sign-up" do %>
+	<%= link_to new_registration_path(User), :class => "home-signup-btn", :id => "home-button-wht" do %>
 		<div>Sign Up</div>
 	<% end %>
 	<!-- <div id="home-dev-warning">
 		Note: Carpe is still in Alpha and <br> is being actively developed.
 	</div> -->
 </div>
+
+<div id="home-sl2">
+	<div id="home-sl2-textcontainer">
+		<div id="home-sl2-title">Know what's next.</div>
+		<div id="home-sl2-subtitle">With Dashboard, all the information you need (and that your friends want you to read) is at your fingertips. Simply glance
+		to the right and see who's available without a single click.</div>
+	</div>
+	<%= image_tag("dash.png", id: "home-sl2-img") %>
+</div>
+
+<div id="home-sl3">
+	<div id="home-sl3-textcontainer">
+		<div id="home-sl3-title">Make the most of the moment.</div>
+		<div id="home-sl3-subtitle">With Dashboard, all the information you need (and that your friends want you to read) is at your fingertips. Simply glance
+		to the right and see who's available without a single click.</div>
+	</div>
+	<%= image_tag("sidebar.png", id: "home-sl3-img") %>
+</div>
+
+<div id="home-sl4">
+	<div id="home-sl2-textcontainer">
+		<div id="home-sl2-title">Know what's next.</div>
+		<div id="home-sl2-subtitle">With Dashboard, all the information you need (and that your friends want you to read) is at your fingertips. Simply glance
+		to the right and see who's available without a single click.</div>
+	</div>
+	<%= image_tag("profile.png", id: "home-sl4-img") %>
+</div>
+
+<div id="home-sl5">
+	<div id="home-sl5-title" class="zero-top">Ready to start?</div>
+	<div id="home-sl5-subtitle">Be one of the first to try Carpe in our free Alpha Preview.</div>
+
+	<%= link_to new_registration_path(User), :class => "home-signup-btn", :id => "home-button-wht" do %>
+		<div>Get Started</div>
+	<% end %>
+</div>
+
+
 <!--
 	<h1 class="no-bold" style="margin-bottom: -20px;">
 		Welcome to <span class="carpe-font" style="font-size: 54px;">Carpe</span>
