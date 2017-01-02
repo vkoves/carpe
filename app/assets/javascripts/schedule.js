@@ -1374,7 +1374,7 @@ function initializeMonthlyView()
 	$("#sch-monthly-view").show();
 
 	addDates(refDate, true);
-	$(".sch-month-evnt").click(function()
+	$(".sch-month-evnt:not(.private)").click(function()
 	{
 		editEvent($(this));
 	})
@@ -1446,6 +1446,7 @@ function populateEvents()
 	{
 		var color = categories[eventObject.categoryId].color;
 		var currentElem = eventObject.tempElement.clone();
+
 		if(viewMode == "week")
 		{
 			currentElem.css("background-color", color);
@@ -1454,7 +1455,11 @@ function populateEvents()
 		}
 		else if(viewMode == "month")
 		{
-			$(".sch-day-tile:eq(" + i + ") .inner").append("<div class='sch-month-evnt' evnt-temp-id='" + eventObject.tempId
+			var className = "";
+			if(eventObject.name == "<i>Private</i>")
+				className = " private";
+
+			$(".sch-day-tile:eq(" + i + ") .inner").append("<div class='sch-month-evnt" + className + "' evnt-temp-id='" + eventObject.tempId
 				+ "' data-id='" + eventObject.categoryId + "' style='color: "
 				+  color +  "; color: " + color + ";'>"
 					+ eventObject.getName(true)
@@ -1911,7 +1916,7 @@ function createCategory()
 	$.ajax({
 		url: "/create_category",
 		type: "POST",
-		data: {name: "Untitled", user_id: userId, group_id: groupID},
+		data: {name: "Untitled", user_id: userId, group_id: groupID, color: "silver"},
 		success: function(resp)
 		{
 			console.log("Create category complete.");
@@ -1928,6 +1933,8 @@ function createCategory()
 			sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
 
 			var catInstance = new Category(resp.id);
+			catInstance.color = "silver";
+			catInstance.privacy = "private";
 			categories[catInstance.id] = catInstance;
 
 			// By default, the 'edit category' overlay will appear when creating new categories.

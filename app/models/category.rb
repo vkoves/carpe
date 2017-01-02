@@ -38,7 +38,7 @@ class Category < ActiveRecord::Base
 	  private_category.name = "Private Category"
 	  private_category.created_at = nil
 	  private_category.updated_at = nil
-	  private_category.color = nil
+	  private_category.color = "grey"
 	  return private_category
 	end
 end
