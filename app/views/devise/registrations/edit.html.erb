@@ -41,10 +41,10 @@
 	    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
 	  <% end %>
 
-	  <div class="field">
-	    <%= f.label :image_url %><br />
-	    <%= f.text_field :image_url, class: "text-input", autofocus: true %>
-	  </div>
+		<div class="field">
+	    	<%= f.label :avatar %>
+	    	<%= f.file_field :avatar %>
+	  	</div>
 
 		<div class="pass-holder">
 			Change Password
