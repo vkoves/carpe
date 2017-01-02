@@ -78,6 +78,12 @@ gem 'roadie', '~> 3.1.1'
 #Use rack-mini-profiler for investigating site speed (https://github.com/MiniProfiler/rack-mini-profiler)
 gem 'rack-mini-profiler'
 
+#Paperclip gem for managing user uploaded images and such (https://github.com/thoughtbot/paperclip)
+gem 'paperclip'
+
+#AWS SDK gem for connecting to Amazon S3 and other tools (https://github.com/aws/aws-sdk-ruby)
+gem 'aws-sdk', '~> 2'
+
 if Gem.win_platform?
   # Used by Windows for time zone differences (strange indeed).
   gem 'tzinfo-data'
