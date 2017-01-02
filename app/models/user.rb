@@ -135,7 +135,7 @@ class User < ActiveRecord::Base
 	end
 
   def has_avatar #returns whether the user has a non-default avatar
-    if image_url.present? and !(provider and image_url.include? "/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M") or avatar.exists?
+    if (image_url.present? and provider and !image_url.include? "/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M") or avatar.exists?
         return true #if the image is present and is not the Google default, return true
     else
       return false #if the image is not present, or is a Google default return false
