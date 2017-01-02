@@ -45,12 +45,14 @@
 	    	<%= f.label :avatar %>
 	    	<%= f.file_field :avatar %>
 	  	</div>
+	<% end %>
 
 	  	<div class="field">
 	  	  <%= f.label :banner %>
 	  	  <%= f.file_field :banner %>
 	  	</div>
 
+	<% unless current_user.provider %>
 		<div class="pass-holder">
 			Change Password
 			<span class="default"
