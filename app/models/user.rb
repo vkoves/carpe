@@ -33,6 +33,14 @@ class User < ActiveRecord::Base
   # Validate the attached avatar is an image and is under 3 Megabytes
   validates_attachment :avatar, content_type: {content_type: /\Aimage\/.*\Z/}, size: { in: 0..3.megabytes }
 
+  has_attached_file :banner, styles: {
+    desktop: '1920x200#',
+    mobile: '500x200#'
+  }
+
+  # Validate the attached banner photo is an image and is under 5 Megabytes
+  validates_attachment :banner, content_type: {content_type: /\Aimage\/.*\Z/}, size: { in: 0..5.megabytes }
+
   after_create :send_signup_email
 
   def send_signup_email
