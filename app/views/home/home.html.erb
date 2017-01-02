@@ -1,10 +1,10 @@
 <% content_for :title do %> - Welcome<% end %>
-<%= stylesheet_link_tag "pages" %>
+<%= stylesheet_link_tag "home" %>
 
 <div id="home-sl1">
-	<div id="home-sl1-title">Scheduling for the modern age.</div>
-	<div id="home-sl1-subtitle">Meet Carpe. It's a social, powerful planning tool for the modern world.</div>
-	<div id="home-sl1-alphawarn">You can try out Carpe in our open Alpha.</div>
+	<div class="title">Scheduling for the modern age.</div>
+	<div class="subtitle">Meet Carpe. It's a social, powerful planning tool for the modern world.</div>
+	<div class="alphawarn">You can try out Carpe in our open Alpha.</div>
 	<%= link_to new_registration_path(User), :class => "home-signup-btn", :id => "home-button-wht" do %>
 		<div>Sign Up</div>
 	<% end %>
@@ -12,8 +12,8 @@
 
 <div id="home-sl2">
 	<div id="home-sl2-textcontainer">
-		<div id="home-sl2-title">Know what's next.</div>
-		<div id="home-sl2-subtitle">With Dashboard, all the information you need (and that your friends want you to read) is at your fingertips. Simply glance
+		<div class="title">Know what's next.</div>
+		<div class="subtitle">With Dashboard, all the information you need (and that your friends want you to read) is at your fingertips. Simply glance
 		to the right and see who's available without a single click.</div>
 	</div>
 	<%= image_tag("dash.png", id: "home-sl2-img") %>
@@ -21,8 +21,8 @@
 
 <div id="home-sl3">
 	<div id="home-sl3-textcontainer">
-		<div id="home-sl3-title">Make the most of the moment.</div>
-		<div id="home-sl3-subtitle">With Dashboard, all the information you need (and that your friends want you to read) is at your fingertips. Simply glance
+		<div class="title">Make the most of the moment.</div>
+		<div class="subtitle">With Dashboard, all the information you need (and that your friends want you to read) is at your fingertips. Simply glance
 		to the right and see who's available without a single click.</div>
 	</div>
 	<%= image_tag("sidebar.png", id: "home-sl3-img") %>
@@ -30,16 +30,16 @@
 
 <div id="home-sl4">
 	<div id="home-sl2-textcontainer">
-		<div id="home-sl2-title">Know what's next.</div>
-		<div id="home-sl2-subtitle">With Dashboard, all the information you need (and that your friends want you to read) is at your fingertips. Simply glance
+		<div class="title">Know what's next.</div>
+		<div class="subtitle">With Dashboard, all the information you need (and that your friends want you to read) is at your fingertips. Simply glance
 		to the right and see who's available without a single click.</div>
 	</div>
 	<%= image_tag("profile.png", id: "home-sl4-img") %>
 </div>
 
 <div id="home-sl5">
-	<div id="home-sl5-title" class="zero-top">Ready to start?</div>
-	<div id="home-sl5-subtitle">Be one of the first to try Carpe in our free Alpha Preview.</div>
+	<div class="title" class="zero-top">Ready to start?</div>
+	<div class="subtitle">Be one of the first to try Carpe in our free Alpha Preview.</div>
 
 	<%= link_to new_registration_path(User), :class => "home-signup-btn", :id => "home-button-wht" do %>
 		<div>Get Started</div>
