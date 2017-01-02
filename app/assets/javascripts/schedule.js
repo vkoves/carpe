@@ -1916,7 +1916,7 @@ function createCategory()
 	$.ajax({
 		url: "/create_category",
 		type: "POST",
-		data: {name: "Untitled", user_id: userId, group_id: groupID},
+		data: {name: "Untitled", user_id: userId, group_id: groupID, color: "silver"},
 		success: function(resp)
 		{
 			console.log("Create category complete.");
@@ -1933,6 +1933,8 @@ function createCategory()
 			sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
 
 			var catInstance = new Category(resp.id);
+			catInstance.color = "silver";
+			catInstance.privacy = "private";
 			categories[catInstance.id] = catInstance;
 
 			// By default, the 'edit category' overlay will appear when creating new categories.
