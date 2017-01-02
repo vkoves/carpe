@@ -1,8 +1,7 @@
-///// Revisions to Home Page: As of 1/2/2017
-
 // Slide 1
 
-#home-sl1 {
+#home-sl1
+{
 	top:0px;
 	z-index:-2;
 	height:28vw;
@@ -12,24 +11,28 @@
 	color:#FFF;
 	overflow: hidden;
 
-	.title {
+	.title
+	{
 		font-size: 3vw;
 		letter-spacing: 3px;
 		padding-bottom:1vw;
 	}
 
-	.subtitle {
+	.subtitle
+	{
 		font-size: 1.8vw;
 	}
 
-	.alphawarn {
+	.alphawarn
+	{
 		padding-top:0.7vw;
 		font-size: 1.4vw;
 		padding-bottom:2.5vw;
 	}
 }
 
-.home-signup-btn {
+.home-signup-btn
+{
   display: inline-block;
   cursor: pointer;
   position: relative;
@@ -40,15 +43,14 @@
   font-weight: 600;
   border-radius: 5px;
   transition: background 0.3s;
-  // box-shadow: 0px 1px 3px #B4AFAF;
   border: none;
   font-size: 18px;
 }
 
 // Slide 2 & 4
 
-#home-sl2, #home-sl4 {
-	// top: 28vw;
+#home-sl2, #home-sl4
+{
 	height:46vw;
 	width:100%;
 	background-color:#FFF;
@@ -56,30 +58,35 @@
 	text-align:left;
 	overflow: hidden;
 	
-	.title {
+	.title
+	{
 		font-size: 3vw;
 		padding-bottom: 1vw;
 		color:rgb(38,38,38);
 	}
 
-	.subtitle {
+	.subtitle
+	{
 		font-size:1.4vw;
 		letter-spacing:1px;
 		color:rgb(64,64,64);
 	}
-	#home-sl2-textcontainer {
+	#home-sl2-textcontainer
+	{
 		left: 5vw;
 		position: relative;
 		top:12vw;
 		width:54vw;
 	}
-	#home-sl2-img {
+	#home-sl2-img
+	{
 		height:38vw;
 		top: -5vw;
 		left:calc(50% + 10vw);
 		position: relative;
 	}
-	#home-sl4-img {
+	#home-sl4-img
+	{
 		height:38vw;
 		top: -5vw;
 		left:calc(50% + 18vw);
@@ -89,8 +96,8 @@
 
 // Slide 3
 
-#home-sl3 {
-	// top: 68vw;
+#home-sl3
+{
 	height:46vw;
 	background-image:image-url("sidebar_bg.jpg");
 	background-size: cover;
@@ -98,23 +105,27 @@
 	text-align: left;
 	overflow: hidden;
 	
-	.title {
+	.title
+	{
 		font-size: 3vw;
 		padding-bottom: 1vw;
 	}
-	.subtitle {
+	.subtitle
+	{
 		font-size:1.4vw;
 		letter-spacing:1px;
 		color:rgb(217,217,217);
 	}
-	#home-sl3-textcontainer {
+	#home-sl3-textcontainer
+	{
 		left: calc(50% - 15vw);
 		position: relative;
 		top:12vw;
 		width:54vw;
 		color:White;
 	}
-	#home-sl3-img {
+	#home-sl3-img
+	{
 		height:38vw;
 		top: -5vw;
 		left:0px;
@@ -122,31 +133,25 @@
 	}
 }
 
-
-
-
 // Slide 5
 
-#home-sl5 {
+#home-sl5
+{
 	background-color: rgb(232,136,64);
 	position: relative;
 	color:#FFF;
-	
 	padding-top:7vw;
 	padding-bottom:7vw;
 	
-	.title {
+	.title
+	{
 		font-size: 3vw;
 		padding-bottom:1vw;
 	}
 
-	.subtitle {
+	.subtitle
+	{
 		font-size: 1.6vw;
 		padding-bottom:2.5vw;
 	}
 }
-
-
-
-
-/* End Home Page */
