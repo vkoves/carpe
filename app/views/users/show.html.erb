@@ -7,7 +7,7 @@
 <div id="profile-header">
 
 	<% if @user.banner.exists? # check if user specified a custom banner %>
-		<div id="header-image-blur" style="background-image:url(<%= @user.banner(:desktop) %>);"></div>
+		<div id="header-image" style="background-image:url(<%= @user.banner(:desktop) %>);"></div>
 	<% else %>
 		<div id="header-image"></div>
 	<% end %>
