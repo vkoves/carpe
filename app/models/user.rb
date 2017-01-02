@@ -25,6 +25,22 @@ class User < ActiveRecord::Base
 	has_many :events
   has_many :repeat_exceptions
 
+  has_attached_file :avatar, styles: {
+    thumb: '60x60#',
+    profile: '150x150#'
+  }
+
+  # Validate the attached avatar is an image and is under 3 Megabytes
+  validates_attachment :avatar, content_type: {content_type: /\Aimage\/.*\Z/}, size: { in: 0..3.megabytes }
+
+  has_attached_file :banner, styles: {
+    desktop: '2000x200#',
+    mobile: '500x200#'
+  }
+
+  # Validate the attached banner photo is an image and is under 5 Megabytes
+  validates_attachment :banner, content_type: {content_type: /\Aimage\/.*\Z/}, size: { in: 0..5.megabytes }
+
   after_create :send_signup_email
 
   def send_signup_email
@@ -110,12 +126,16 @@ class User < ActiveRecord::Base
     if provider
       return image_url.split("?")[0] + "?sz=" + size.to_s
     else
-      return image_url
+      if size <= 60 # if image request is 60px wide or less, use thumb, which is 60px wide
+        return avatar.url(:thumb)
+      else # otherwise use profile, which is 150px wide
+        return avatar.url(:profile)
+      end
     end
 	end
 
   def has_avatar #returns whether the user has a non-default avatar
-    if image_url.present? and !(provider and image_url.include? "/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M")
+    if (image_url.present? and provider and !image_url.include? "/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M") or avatar.exists?
         return true #if the image is present and is not the Google default, return true
     else
       return false #if the image is not present, or is a Google default return false

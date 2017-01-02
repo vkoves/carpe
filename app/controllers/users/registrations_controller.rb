@@ -2,25 +2,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # Overwrite update_resource to let users to update their user without giving their password
   def update_resource(resource, params)
-    if params[:image_url] and false
-      begin
-        url = URI.parse(params[:image_url])
-        Net::HTTP.start(url.host, url.port, :use_ssl => true) do |http|
-          if(!http.head(url.request_uri)['Content-Type'].include? 'image')
-            flash[:notice] = nil
-            flash[:alert] = "That image isn't valid, please check your URL!"
-            params[:image_url] = current_user.image_url
-            #return
-          end
-        end
-      rescue URI::InvalidURIError, Exception => e
-          flash[:alert] = "That image isn't valid, please check your URL!"
-          flash[:notice] = nil
-          params[:image_url] = current_user.image_url
-          #return
-      end
-    end
-
     if current_user.provider
       params.delete("current_password")
       resource.update_without_password(params)
@@ -34,10 +15,16 @@ class Users::RegistrationsController < Devise::RegistrationsController
   private
 
   def sign_up_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation, :image_url, :home_time_zone)
+    params.require(:user).permit(:name, :email, :password, :password_confirmation, :avatar, :banner, :home_time_zone)
   end
 
   def account_update_params
-    params.require(:user).permit(:name, :email, :public_profile, :password, :password_confirmation, :current_password, :image_url, :home_time_zone)
+    params.require(:user).permit(:name, :email, :public_profile, :password, :password_confirmation, :current_password, :avatar, :banner, :home_time_zone)
+  end
+
+  protected
+
+  def after_update_path_for(resource)
+    user_path(resource)
   end
 end

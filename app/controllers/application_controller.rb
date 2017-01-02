@@ -67,7 +67,7 @@ class ApplicationController < ActionController::Base
 
         # Required fields for search - name and image url
         user_obj[:name] = user.name
-        user_obj[:image_url] = user.image_url
+        user_obj[:image_url] = user.user_avatar(60)
 
         # Custom fields - model name and link_url for linking
         user_obj[:model_name] = "User" #specify what type of object this is
