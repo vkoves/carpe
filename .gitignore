@@ -16,6 +16,9 @@
 /tmp
 /vendor/bundle
 
+# Ignore local storage (e.g. Paperclip on local)
+/public/system
+
 #Ignore Sublime files
 *.sublime-project
 *.sublime-workspace
