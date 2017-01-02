@@ -6,8 +6,8 @@
 
 <div id="profile-header">
 
-	<% if @user.has_avatar %>
-		<div id="header-image-blur" style="background-image:url(<%= @user.user_avatar(200)%>);"></div>
+	<% if @user.banner.exists? # check if user specified a custom banner %>
+		<div id="header-image-blur" style="background-image:url(<%= @user.banner(:desktop) %>);"></div>
 	<% else %>
 		<div id="header-image"></div>
 	<% end %>
