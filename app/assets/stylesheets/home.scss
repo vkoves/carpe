@@ -2,32 +2,22 @@
 
 #home-sl1
 {
-	top:0px;
+	top: 0px;
 	z-index:-2;
-	height:28vw;
+	height: 28vw;
 	background-image: image-url("home_bg.png");
-	background-size:cover;
-	padding-top:10vw;
-	color:#FFF;
+	background-size: cover;
+	padding-top: 10vw;
+	color: #FFF;
 	overflow: hidden;
 
-	.title
-	{
-		font-size: 3vw;
-		letter-spacing: 3px;
-		padding-bottom:1vw;
-	}
-
-	.subtitle
-	{
-		font-size: 1.8vw;
-	}
-
+	.title { letter-spacing: 3px; }
+	.subtitle { font-size: 1.8vw; }
 	.alphawarn
 	{
-		padding-top:0.7vw;
+		padding-top: 0.7vw;
 		font-size: 1.4vw;
-		padding-bottom:2.5vw;
+		padding-bottom: 2.5vw;
 	}
 }
 
@@ -51,84 +41,75 @@
 
 #home-sl2, #home-sl4
 {
-	height:46vw;
-	width:100%;
-	background-color:#FFF;
+	height: 46vw;
+	width: 100%;
+	background-color: #FFF;
 	position: relative;
-	text-align:left;
+	text-align: left;
 	overflow: hidden;
 	
-	.title
-	{
-		font-size: 3vw;
-		padding-bottom: 1vw;
-		color:rgb(38,38,38);
-	}
+	.title { color: rgb(38,38,38); }
 
 	.subtitle
 	{
-		font-size:1.4vw;
-		letter-spacing:1px;
-		color:rgb(64,64,64);
+		font-size: 1.4vw;
+		letter-spacing: 1px;
+		color: rgb(64,64,64);
 	}
 	#home-sl2-textcontainer
 	{
 		left: 5vw;
 		position: relative;
-		top:12vw;
-		width:54vw;
+		top: 12vw;
+		width: 54vw;
 	}
 	#home-sl2-img
 	{
-		height:38vw;
+		height: 38vw;
 		top: -5vw;
-		left:calc(50% + 10vw);
+		left: calc(50% + 10vw);
 		position: relative;
 	}
 	#home-sl4-img
 	{
-		height:38vw;
+		height: 38vw;
 		top: -5vw;
-		left:calc(50% + 18vw);
+		left: calc(50% + 18vw);
 		position: relative;
 	}
 }
+
 
 // Slide 3
 
 #home-sl3
 {
-	height:46vw;
-	background-image:image-url("sidebar_bg.jpg");
+	height: 46vw;
+	background-image: image-url("sidebar_bg.jpg");
 	background-size: cover;
 	position: relative;
 	text-align: left;
 	overflow: hidden;
 	
-	.title
-	{
-		font-size: 3vw;
-		padding-bottom: 1vw;
-	}
 	.subtitle
 	{
-		font-size:1.4vw;
-		letter-spacing:1px;
-		color:rgb(217,217,217);
+		font-size: 1.4vw;
+		letter-spacing: 1px;
+		color: rgb(217,217,217);
 	}
 	#home-sl3-textcontainer
 	{
 		left: calc(50% - 15vw);
 		position: relative;
-		top:12vw;
-		width:54vw;
-		color:White;
+		top: 12vw;
+		width: 54vw;
+		color: White;
 	}
 	#home-sl3-img
 	{
-		height:38vw;
+		height: 38vw;
 		top: -5vw;
-		left:0px;
+		left: 0px;
 		position: relative;
 	}
 }
@@ -139,19 +120,20 @@
 {
 	background-color: rgb(232,136,64);
 	position: relative;
-	color:#FFF;
-	padding-top:7vw;
-	padding-bottom:7vw;
+	color: #FFF;
+	padding-top: 7vw;
+	padding-bottom: 7vw;
 	
-	.title
-	{
-		font-size: 3vw;
-		padding-bottom:1vw;
-	}
 
 	.subtitle
 	{
 		font-size: 1.6vw;
-		padding-bottom:2.5vw;
+		padding-bottom: 2.5vw;
 	}
+}
+
+.title
+{
+	font-size: 3vw;
+	padding-bottom: 1vw;
 }
