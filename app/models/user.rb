@@ -25,6 +25,14 @@ class User < ActiveRecord::Base
 	has_many :events
   has_many :repeat_exceptions
 
+  has_attached_file :avatar, styles: {
+    thumb: '60x60#',
+    profile: '150x150#'
+  }
+
+  # Validate the attached avatar is an image and is under 3 Megabytes
+  validates_attachment :avatar, content_type: {content_type: /\Aimage\/.*\Z/}, size: { in: 0..3.megabytes }
+
   after_create :send_signup_email
 
   def send_signup_email
