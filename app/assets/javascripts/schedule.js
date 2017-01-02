@@ -1374,7 +1374,7 @@ function initializeMonthlyView()
 	$("#sch-monthly-view").show();
 
 	addDates(refDate, true);
-	$(".sch-month-evnt").click(function()
+	$(".sch-month-evnt:not(.private)").click(function()
 	{
 		editEvent($(this));
 	})
@@ -1446,6 +1446,7 @@ function populateEvents()
 	{
 		var color = categories[eventObject.categoryId].color;
 		var currentElem = eventObject.tempElement.clone();
+
 		if(viewMode == "week")
 		{
 			currentElem.css("background-color", color);
@@ -1454,7 +1455,11 @@ function populateEvents()
 		}
 		else if(viewMode == "month")
 		{
-			$(".sch-day-tile:eq(" + i + ") .inner").append("<div class='sch-month-evnt' evnt-temp-id='" + eventObject.tempId
+			var className = "";
+			if(eventObject.name == "<i>Private</i>")
+				className = " private";
+
+			$(".sch-day-tile:eq(" + i + ") .inner").append("<div class='sch-month-evnt" + className + "' evnt-temp-id='" + eventObject.tempId
 				+ "' data-id='" + eventObject.categoryId + "' style='color: "
 				+  color +  "; color: " + color + ";'>"
 					+ eventObject.getName(true)
