@@ -597,6 +597,14 @@ form.thin
 	background-position: 50%;
 	border: solid 2px white;
 }
+#break-overlay-box
+{
+	z-index: 1003;
+}
+#overlay-alert
+{
+	z-index: 1004;
+}
 #overlay-confirm .default, #overlay-alert .default {
 	width: 100px;
 	margin-right: 10px;

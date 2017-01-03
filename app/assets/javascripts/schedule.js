@@ -511,9 +511,19 @@ function addStartingListeners()
 	});
 
 	//Add break button click handler, which shows the overlay
-	$("#create-break").click(function()
+	$("#create-break, #create-break-inside-add-break").click(function()
 	{
 		showBreakCreateOverlay();
+	});
+
+	$("#break-overlay-box .close").click(function()
+	{
+		var addingBreakUiIsVisible = $("#break-adder-overlay-box").is(":visible")
+		if (!addingBreakUiIsVisible) {
+			hideOverlay();
+		} else {
+			hideBreakCreateOverlay();
+		}
 	});
 
 	$("#add-break-event, #add-break-category").click(function()
@@ -1788,6 +1798,12 @@ function hideOverlay()
 function hideBreakAddOverlay()
 {
 	$("#break-adder-overlay-box").fadeOut(250);
+}
+
+//Hide the break adding overlay
+function hideBreakCreateOverlay()
+{
+	$("#break-overlay-box").fadeOut(250);
 }
 
 //Update the color of the category overlay from a color being picked
