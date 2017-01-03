@@ -518,12 +518,7 @@ function addStartingListeners()
 
 	$("#break-overlay-box .close").click(function()
 	{
-		var addingBreakUiIsVisible = $("#break-adder-overlay-box").is(":visible")
-		if (!addingBreakUiIsVisible) {
-			hideOverlay();
-		} else {
-			hideBreakCreateOverlay();
-		}
+		hideBreakCreateOverlay();
 	});
 
 	$("#add-break-event, #add-break-category").click(function()
@@ -1803,7 +1798,12 @@ function hideBreakAddOverlay()
 //Hide the break adding overlay
 function hideBreakCreateOverlay()
 {
-	$("#break-overlay-box").fadeOut(250);
+	var addingBreakUiIsVisible = $("#break-adder-overlay-box").is(":visible");
+	if (!addingBreakUiIsVisible) {
+		hideOverlay();
+	} else {
+		$("#break-overlay-box").fadeOut(250);
+	}
 }
 
 //Update the color of the category overlay from a color being picked
@@ -2047,7 +2047,13 @@ function createBreak(name, startDate, endDate)
 			brk.endDate = endD;
 			breaks[brk.id] = brk; //and add to the hashmap
 
-			hideOverlay(); //Hide category editing panel
+			hideBreakCreateOverlay(); //Hide category editing panel
+
+			var addingBreakUiIsVisible = $("#break-adder-overlay-box").is(":visible");
+			if (addingBreakUiIsVisible) {
+				hideBreakAddOverlay();
+				showBreakAddOverlay();
+			}
 		},
 		error: function(resp)
 		{
