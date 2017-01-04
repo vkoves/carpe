@@ -23,7 +23,7 @@
 						<div class="inner"  style="border-color: <%= event.category.color %>">
 							<div class="tile-text">
 								<b><%= raw event.get_html_name %></b>
-								<% unless event.location.empty? %>
+								<% if event.location.present? %>
 								in <%= event.location %>
 								<% end %>
 								<br>
