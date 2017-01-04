@@ -10,7 +10,10 @@ class ApplicationController < ActionController::Base
       if Rails.env.production?
         Rack::MiniProfiler.config.start_hidden = true # hide profiler by default on production (Alt+P to show)
       end
-      Rack::MiniProfiler.authorize_request
+
+      unless Rails.env.test?
+        Rack::MiniProfiler.authorize_request
+      end
     end
   end
 
@@ -21,20 +24,20 @@ class ApplicationController < ActionController::Base
     else
       q = ""
     end
-    
+
     if q != "" #only search if it's not silly
       users = User.where('name LIKE ?', "%#{q}%").limit(10)
       users = users.sort {|a,b|
         a_rank = 0
         b_rank = 0
 
-        
+
         if a.name.downcase.starts_with?(q.downcase) #if the users name starts with the query
           a_rank = 2 #it's a great match (score 2)
         elsif a.name.downcase.include?(" " + q.downcase) #if the users middle or last name starts with the query
           a_rank = 1 #it's an okay match (score 1)
         end #otherwise we get the default score of 0 for having the query in their name
-          
+
         #repeat for b
         if b.name.downcase.starts_with?(q.downcase)
           b_rank = 2
@@ -82,7 +85,7 @@ class ApplicationController < ActionController::Base
       }
 
       render :json => user_map # + group_map
-    end 
+    end
   end
 
 	protected

@@ -59,7 +59,7 @@ gem 'omniauth-google-oauth2'
 gem 'local_time'
 
 # Use rubycritic to detect code smell and problems (https://github.com/whitesmith/rubycritic)
-gem 'rubycritic', :require => false
+gem 'rubycritic', :require => false, group: :development
 
 # Use chartkick to make graphs using the Google Graph API
 gem 'chartkick'
@@ -68,13 +68,13 @@ gem 'chartkick'
 gem 'roadie', '~> 3.1.1'
 
 # Use rack-mini-profiler for investigating site speed (https://github.com/MiniProfiler/rack-mini-profiler)
-gem 'rack-mini-profiler'
+gem 'rack-mini-profiler', group: [:development, :production]
 
 # Paperclip gem for managing user uploaded images and such (https://github.com/thoughtbot/paperclip)
 gem 'paperclip'
 
 # AWS SDK gem for connecting to Amazon S3 and other tools (https://github.com/aws/aws-sdk-ruby)
-gem 'aws-sdk', '~> 2'
+gem 'aws-sdk', '~> 2', group: :production
 
 if Gem.win_platform?
   # Used by Windows for time zone differences (strange indeed).
