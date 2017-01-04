@@ -16,7 +16,7 @@ class Event < ActiveRecord::Base
   def events_in_range(start_datetime, end_datetime) #returns the repeat copies of the event
      events_array = [] #define the array we will return with all the event "clones"
 
-     if repeat and !repeat.empty?
+     if repeat and !(repeat.empty? or repeat == "none")
       dates = (start_datetime...end_datetime).to_a #create an array of all dates in the range
 
       dates = dates_in_range_with_repeat(dates)
@@ -102,7 +102,7 @@ class Event < ActiveRecord::Base
         new_event.end_date = new_end_date - one_hour
       end
     else
-      new_event.date = new_start_date 
+      new_event.date = new_start_date
       new_event.end_date = new_end_date
     end
 
@@ -122,7 +122,7 @@ class Event < ActiveRecord::Base
       elsif repeat == "yearly"
         dates = dates.select{|curr_date_time| curr_date_time.yday == date.yday}
       elsif repeat.include? "custom" #it's a custom repeat
-        repeat_data = repeat.split("-") 
+        repeat_data = repeat.split("-")
         repeat_num = repeat_data[1].to_i
           repeat_unit = repeat_data[2]
 
