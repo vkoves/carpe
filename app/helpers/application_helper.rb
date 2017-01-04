@@ -2,11 +2,14 @@ module ApplicationHelper
   def relative_time_ago (datetime, start_caps)
     time_format = "%l:%M %p" #anything today that's not an hour away, say this
 
-    datetime = datetime.utc.in_time_zone(current_user.home_time_zone)
-    now = Time.now.in_time_zone(current_user.home_time_zone)
+    # Use home_time_zone if signed in
+    current_user ? time_zone = current_user.home_time_zone : time_zone = "Central Time (US & Canada)"
 
-    tomorrow = Time.now.tomorrow.in_time_zone(current_user.home_time_zone)
-    yesterday = Time.now.yesterday.in_time_zone(current_user.home_time_zone)
+    datetime = datetime.utc.in_time_zone(time_zone)
+    now = Time.now.in_time_zone(time_zone)
+
+    tomorrow = Time.now.tomorrow.in_time_zone(time_zone)
+    yesterday = Time.now.yesterday.in_time_zone(time_zone)
 
     if(datetime.to_date == now.to_date) #It's today!
       hours_diff = ((datetime - now)/1.hour).round
