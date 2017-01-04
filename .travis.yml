@@ -1,0 +1,2 @@
+# First Travis CLI file for building Carpe
+language: ruby
