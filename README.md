@@ -18,6 +18,8 @@ Alternatively `rails s` can be used to the same effect, but the site will be vis
 
 Carpe is setup with the default testing suite for Ruby, which is [Minitest](https://github.com/seattlerb/minitest). All files related to tests are located in the `test` directory, where you can find fixtures (the data used when running tests), and tests for controllers, models, and helpers, as well as integration tests. To get a good overview of how testing in Rails works, see this [RailsGuides guide](http://guides.rubyonrails.org/testing.html) on the subject.
 
+Carpe also is setup with Travis CI, which automatically runs builds on push or on a pull request being made. You can see the build status at the top of the README, and can click on it to see build progress and logs.
+
 To run all Ruby on Rails tests for Carpe, run `bundle exec rake test` in the Carpe directory.
 
 To run a specific test, run `bundle exec rake test test_file_path`
