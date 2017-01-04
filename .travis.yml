@@ -1,2 +1,4 @@
 # First Travis CLI file for building Carpe
 language: ruby
+rvm:
+  - 2.3
