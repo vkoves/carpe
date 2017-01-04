@@ -154,7 +154,7 @@ function initializeEventListeners()
 		if(data)
 		{
 			var newElem = $(".friend-button[uid=" + data + "]"); //find the button that was clicked??
-			friendRequest(newElem); //and change it to say "Pending"
+			followRequest(newElem); //and change it to say "Pending"
 		}
 	});
 
@@ -171,7 +171,7 @@ function initializeEventListeners()
 	$(".notif .deny").parent().bind('ajax:success', function(event, data, status, xhr){
 		if(data && data["action"] && data["action"] == "deny_friend")
 		{
-			friendRequestAction(data["fid"], false);
+			followRequestAction(data["fid"], false);
 		}
 	});
 
@@ -179,7 +179,7 @@ function initializeEventListeners()
 	$(".notif .confirm").parent().bind('ajax:success', function(event, data, status, xhr){
 		if(data && data["action"] && data["action"] == "confirm_friend")
 		{
-			friendRequestAction(data["fid"], true);
+			followRequestAction(data["fid"], true);
 		}
 	});
 
@@ -478,7 +478,7 @@ function printNotification(text, hideTime)
 }
 
 //Called by a friend request button on click
-function friendRequest(elem)
+function followRequest(elem)
 {
 	var span = elem.find("span");
 	span.unwrap().addClass("default green"); //remove the <a> tag around the span, and make it a default green button instantly
@@ -491,7 +491,7 @@ function friendRequest(elem)
 }
 
 //Called by confirming or denying a friend request with a given fid
-function friendRequestAction(fid, confirm)
+function followRequestAction(fid, confirm)
 {
 	var notif = $(".notif[fid=" + fid + "]"); //find the notification for this friend request
 
