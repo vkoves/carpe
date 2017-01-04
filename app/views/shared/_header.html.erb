@@ -82,7 +82,7 @@
 	</div>
 	<div id="notif-panel" class="menu">
 		<% if @follow_requests.size > 0 %>
-			Follow Requests
+			<div id="notif-title">Follow Requests</div>
 			<% @follow_requests.each do |n| %>
 				<div class="notif" fid="<%= n.id %>">
 					<%= link_to(n.follower) do %>
@@ -99,9 +99,9 @@
 					<% end %>
 				</div>
 			<% end %>
-		<% else %>
-			<div id="no-notifs">You don't have any notifications right now.</div>
 		<% end %>
+		<div id="no-notifs" <%= raw 'style="display: none"' if @follow_requests.size > 0 %>>You don't have any notifications right now.</div>
+
 		<% @notif_general.each do |n| %>
 			<div class="notif general">
 				<%= link_to(n.sender) do %>

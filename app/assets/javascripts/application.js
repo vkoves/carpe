@@ -503,8 +503,19 @@ function followRequestAction(fid, confirm)
 
 	icon.animate({'background-color': "white"}, 300); //animate the icon to white
 	setTimeout(function(){ //and fade out the notification
-		notif.fadeOut();
+		notif.fadeOut(handleNotificationClosed);
 	}, 150);
+}
+
+// Called after a notification is closed. Check if there are notifications left, if not, show message
+function handleNotificationClosed()
+{
+	if($(".notif:visible").length == 0) // if no notifications left
+	{
+		$("#notif-title").fadeOut(function() {
+			$("#no-notifs").fadeIn()
+		});
+	}
 }
 
 //Generalized function for fading between text on an element
