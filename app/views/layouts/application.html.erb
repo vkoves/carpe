@@ -51,7 +51,7 @@
     <a href="http://goo.gl/forms/oEJvUPI7Un" target="_blank"><div id="bug-submission">Submit Bug! <%= image_tag "bug_report.svg", height: "25px" %></div></a>
   <% end %>
 
-  <% if current_user %>
+  <% if current_user and false # commented this out for now %>
     <script>
       var todaysEvents = <%= raw current_user.events_in_range(DateTime.now.beginning_of_day, DateTime.now.end_of_day).to_json %>;
       <% #Fix this time zone %>
