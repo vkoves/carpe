@@ -204,8 +204,16 @@ class User < ActiveRecord::Base
     return passive_relationships.includes(:follower).where(:confirmed => true).map{|r| r.follower}
   end
 
+  def followers_count # Fetch count of followers. Doesn't eager load for optimization
+    return passive_relationships.where(:confirmed => true).count
+  end
+
   def following # Fetch users being followed that are confirmed
     return active_relationships.includes(:followed).where(:confirmed => true).map{|r| r.followed}
+  end
+
+  def following_count # Fetch count of following. Doesn't eager load for optimization
+    return active_relationships.where(:confirmed => true).count
   end
 
   def followers_relationships

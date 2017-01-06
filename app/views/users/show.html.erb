@@ -40,10 +40,10 @@
 				<div class="<%= "curr" if @tab == "schedule" %>">Schedule</div>
 			<% end %>
 			<%= link_to user_path(@user, page: "followers") do %>
-				<div class="<%= "curr" if @tab == "followers" %>"><%= @user.followers.length %> Followers</div>
+				<div class="<%= "curr" if @tab == "followers" %>"><%= @user.followers_count %> Followers</div>
 			<% end %>
 			<%= link_to user_path(@user, page: "following") do %>
-				<div class="<%= "curr" if @tab == "following" %>"><%= @user.following.length %> Following </div>
+				<div class="<%= "curr" if @tab == "following" %>"><%= @user.following_count %> Following </div>
 			<% end %>
 			<%= link_to user_path(@user, page: "activity") do %>
 				<div class="<%= "curr" if @tab == "activity" %>">Activity</div>
