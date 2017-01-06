@@ -36,10 +36,10 @@ class User < ActiveRecord::Base
   validates_attachment :avatar, content_type: {content_type: /\Aimage\/.*\Z/}, size: { in: 0..3.megabytes }
 
   has_attached_file :banner, styles: {
-    desktop: '1500x200#',
-    mobile: '500x200#'
+    desktop: {geometry: '1500x200#', animated: false},
+    mobile: {geometry: '500x200#', animated: false}
   }, :convert_options => {
-    :desktop => "-quality 75 -strip -layers optimize", :mobile => "-quality 50 -strip -layers optimize" }
+    :desktop => "-quality 75 -strip", :mobile => "-quality 50 -strip" }
 
   # Validate the attached banner photo is an image and is under 5 Megabytes
   validates_attachment :banner, content_type: {content_type: /\Aimage\/.*\Z/}, size: { in: 0..5.megabytes }
