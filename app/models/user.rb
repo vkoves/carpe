@@ -28,7 +28,8 @@ class User < ActiveRecord::Base
   has_attached_file :avatar, styles: {
     thumb: '60x60#',
     profile: '150x150#'
-  }
+  }, :convert_options => {
+    :thumb => "-quality 75 -strip", :profile => "-quality 75 -strip"}
 
   # Validate the attached avatar is an image and is under 3 Megabytes
   validates_attachment :avatar, content_type: {content_type: /\Aimage\/.*\Z/}, size: { in: 0..3.megabytes }
@@ -36,7 +37,8 @@ class User < ActiveRecord::Base
   has_attached_file :banner, styles: {
     desktop: '1500x200#',
     mobile: '500x200#'
-  }
+  }, :convert_options => {
+    :desktop => "-quality 75 -strip", :mobile => "-quality 50 -strip" }
 
   # Validate the attached banner photo is an image and is under 5 Megabytes
   validates_attachment :banner, content_type: {content_type: /\Aimage\/.*\Z/}, size: { in: 0..5.megabytes }
