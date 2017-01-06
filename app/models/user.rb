@@ -205,7 +205,7 @@ class User < ActiveRecord::Base
   end
 
   def followers_count # Fetch count of followers. Doesn't eager load for optimization
-    return passive_relationships.where(:confirmed => true).count
+    return passive_relationships.where(:confirmed => true).size
   end
 
   def following # Fetch users being followed that are confirmed
@@ -213,7 +213,7 @@ class User < ActiveRecord::Base
   end
 
   def following_count # Fetch count of following. Doesn't eager load for optimization
-    return active_relationships.where(:confirmed => true).count
+    return active_relationships.where(:confirmed => true).size
   end
 
   def followers_relationships
