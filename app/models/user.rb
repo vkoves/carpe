@@ -34,7 +34,7 @@ class User < ActiveRecord::Base
   validates_attachment :avatar, content_type: {content_type: /\Aimage\/.*\Z/}, size: { in: 0..3.megabytes }
 
   has_attached_file :banner, styles: {
-    desktop: '2000x200#',
+    desktop: '1500x200#',
     mobile: '500x200#'
   }
 
