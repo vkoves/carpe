@@ -244,6 +244,8 @@ class User < ActiveRecord::Base
     categories.destroy_all #destroy all our categories
     events.destroy_all #destroy all our events as well, though cats should cover that
     notifications.destroy_all #destroy all our notifications
+    active_relationships.destroy_all # destroy all following relationships
+    passive_relationships.destroy_all # destroy all followed relationships
     self.delete #and then get rid of ourselves
   end
 
