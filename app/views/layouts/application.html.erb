@@ -39,11 +39,11 @@
     <% if notice or alert %>
       <div class="alert-holder">
         <% if notice %>
-          <span class="notice"><%= notice %></span>
+          <span class="notice"><%= notice %><%= image_tag "close-wht.png" %></span>
         <% end %>
 
         <% if alert %>
-          <span class="alert"><%= alert %></span>
+          <span class="alert"><%= alert %><%= image_tag "close-wht.png" %></span>
         <% end %>
       </div>
     <% end %>

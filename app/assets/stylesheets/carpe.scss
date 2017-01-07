@@ -329,7 +329,7 @@ input.danger:hover
 {
 	position: absolute;
 	width: 100%;
-	top: 45px;
+	top: 55px;
 	z-index: 100;
 	height: 20px;
 	text-align: center;
@@ -338,12 +338,21 @@ input.danger:hover
 {
   display: inline-block;
   width: auto;
-  padding: 5px 15px 5px 15px;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
+  padding: 5px 5px 5px 40px;
+  border-radius: 5px;
   position: relative;
   top: 5px;
-  font-weight: bold;
+  font-weight: 500;
+
+  img
+  {
+  	cursor: pointer;
+  	float: right;
+  	margin-left: 20px;
+  	opacity: 0.75;
+
+  	&:hover { opacity: 1; }
+  }
 }
 .notice
 {

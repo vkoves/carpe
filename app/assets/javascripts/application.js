@@ -83,6 +83,12 @@ function initializeEventListeners()
 		}
 	});
 
+	// Add click handling for closing alerts
+	$(".alert-holder span img").click(function()
+	{
+		$(this).parent().fadeOut();
+	});
+
 	$("#shortcut-overlay-box .close").click(function()
 	{
 		$("#shortcut-overlay-box, .ui-widget-overlay").fadeOut();
