@@ -54,6 +54,16 @@ git push heroku master
 
 This ensures that the repository is never behind the server, preventing overwriting deployed changes.
 
+## Accessing Database
+
+### Local
+Locally, Carpe runs off of a database at `db/development.sqlite3`, which is an Sqlite database that you can open using a program called sqliteman. sqliteman is the best way to view and edit the database locally.
+
+### Production
+On production, Carpe uses a SQL2 database hosted as a Heroku addon. To access it, you need to install the MySql Workbench, and setup a new connection.
+
+You can find all of the information to connect to the database in the Heroku variable "DATABASE_URL" which is found under Carpe -> Settings -> Config Variables. The DATABASE_URL has the format mysql2://**username**:**password**@**host**/heroku _**appid**?reconnect=true. In SQL Workbench, simply put in the host, username, and password. The default port will work for connecting to the database.
+
 ## Contributing
 
 An indigoBox member looking to help out with Carpe, but not sure where to start?
