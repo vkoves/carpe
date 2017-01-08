@@ -176,6 +176,7 @@
 		margin-right: auto;
 		text-align:left;
 		overflow: hidden;
+        overflow-wrap: break-word; /* chrome does this by default - firefox doesn't */
 		transition: all 0.3s;
 		cursor: pointer;
 		max-height: 95%;
