@@ -1465,7 +1465,7 @@ function populateEvents()
 				className = " private";
 
 			$(".sch-day-tile:eq(" + i + ") .inner").append("<div class='sch-month-evnt" + className + "' evnt-temp-id='" + eventObject.tempId
-				+ "' data-id='" + eventObject.categoryId + "' style='color: "
+				+ "' data-id='" + eventObject.categoryId + "' data-hour='" + eventObject.startDateTime.getHours() + "' style='color: "
 				+  color +  "; color: " + color + ";'>"
 					+ eventObject.getName(true)
 					+ "<div class='time'>"
@@ -1571,6 +1571,30 @@ function populateEvents()
 		}
 	}
 	addDrag(".col-snap .sch-evnt"); // Re-enables the events to snap onto the date columns here.
+
+	// Sort events in each monthly tile after they have been made
+	if(viewMode == "month")
+	{
+		$(".sch-day-tile").each(function()
+		{
+			var monthTileEvents = $(this).find(".sch-month-evnt");
+			$(this).find(".sch-month-evnt").remove();
+
+			console.log(monthTileEvents.length);
+			monthTileEvents.sort(function(a, b) {
+				a = parseInt($(a).attr("data-hour"));
+				b = parseInt($(b).attr("data-hour"));
+
+				if (a > b)
+					return +1;
+				if (a < b)
+					return -1;
+				return 0;
+			});
+
+			$(this).find(".inner").append(monthTileEvents);
+		});
+	}
 
 	if(readOnly)
 	{
