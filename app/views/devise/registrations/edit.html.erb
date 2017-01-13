@@ -43,13 +43,13 @@
 
 		<div class="field">
 	    	<%= f.label :avatar %>
-	    	<%= f.file_field :avatar %>
+	    	<%= f.file_field :avatar, accept: 'image/png,image/gif,image/jpeg' %>
 	  	</div>
 	<% end %>
 
 	  	<div class="field">
 	  	  <%= f.label :banner %>
-	  	  <%= f.file_field :banner %>
+	  	  <%= f.file_field :banner, accept: 'image/png,image/gif,image/jpeg' %>
 	  	</div>
 
 	<% unless current_user.provider %>
