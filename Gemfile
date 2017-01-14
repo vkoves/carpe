@@ -34,6 +34,9 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 
 gem 'puma'
 
+# explicitly include the cofee-script gem to prevent implicit require that result in the following message:
+# "WARN: tilt autoloading 'coffee_script' in a non thread-safe way; explicit require 'coffee_script' suggested."
+gem 'coffee-rails'
 
 group :development, :test do
   # Windows developers, refer to: https://github.com/sparklemotion/sqlite3-ruby/issues/185 to deal with
@@ -79,4 +82,6 @@ gem 'aws-sdk', '~> 2', group: :production
 if Gem.win_platform?
   # Used by Windows for time zone differences (strange indeed).
   gem 'tzinfo-data'
+
+  gem 'coffee-script-source', '>= 1.12.2'
 end

@@ -7,7 +7,7 @@
 require 'test_helper'
 
 class PagesControllerTest < ActionController::TestCase
-  include Devise::TestHelpers
+  include Devise::Test::ControllerHelpers
 
   #Admin Page Security Tests
   test "should not get admin if not signed in" do
