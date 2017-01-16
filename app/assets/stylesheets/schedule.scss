@@ -177,7 +177,7 @@
 		margin-right: auto;
 		text-align:left;
 		overflow: hidden;
-        overflow-wrap: break-word; /* chrome does this by default - firefox doesn't */
+		overflow-wrap: break-word; /* chrome does this by default - firefox doesn't */
 		transition: all 0.3s;
 		cursor: pointer;
 		max-height: 95%;
@@ -823,6 +823,18 @@ input[readonly="readonly"]
 		opacity: 1;
 		z-index: 10;
 	}
+}
+#day-labels {
+	font-size: 0px;
+}
+.day-label {
+	width: calc(100% / 7);
+	display: inline-block;
+	font-size: 14px;
+	text-align: left;
+	padding-left: 5px;
+	box-sizing: border-box;
+	color: grey;
 }
 
 /***************************/

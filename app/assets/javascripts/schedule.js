@@ -649,17 +649,23 @@ function addStartingListeners()
 
 	});
 
-	$("#overlay-desc").focusout(function()
+	$("#overlay-desc").focusin(function() {
+		setTimeout(highlightCurrent, 100); // highlight the whole name after focus
+	})
+	.focusout(function()
 	{
 		currEvent.setDescription($(this).text());
 		removeHighlight();
-	}).click(highlightCurrent);
+	});
 
-	$("#overlay-loc").focusout(function()
+	$("#overlay-loc").focusin(function() {
+		setTimeout(highlightCurrent, 100); // highlight the whole name after focus
+	})
+	.focusout(function()
 	{
 		currEvent.setLocation($(this).text());
 		removeHighlight();
-	}).click(highlightCurrent);
+	});
 
 	$("#overlay-title").on("keydown",function(e){
 		var key = e.keyCode || e.charCode;  // ie||others
@@ -670,7 +676,9 @@ function addStartingListeners()
 			currEvent.setName($(this).text());
 		}
 	})
-	.click(highlightCurrent)
+	.focusin(function() {
+		setTimeout(highlightCurrent, 100); // highlight the whole name after focus
+	})
 	.focusout(function()
 	{
 		//so that clicking outside an event title also saves
@@ -967,6 +975,9 @@ function addDrag(selector)
 	$(selector).find(".evnt-title").click(function(event)
 	{
 		editEventTitle(event, $(this));
+	})
+	.focusin(function() {
+		setTimeout(highlightCurrent, 100); // highlight the whole name after focus
 	});
 
 	$(selector).find(".sch-evnt-edit").click(function()

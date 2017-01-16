@@ -1,28 +1,37 @@
 <h2 class="no-bold">Activity</h2>
-<% ordered_friends = @all_friends.sort_by{|f| f.created_at}.reverse %>
-<% if ordered_friends.empty? %>
+<% @activity = @activity.sort_by{|f| f.created_at}.reverse %>
+<% if @activity.empty? %>
 	<span class="empty-text">
 		<% if @profile %>
-			It looks like you don't have any activity yet!
+			It looks like you haven't followed anyone yet. <br> Carpe works best when enjoyed with others, so 
+			consider adding some connections to your profile!
 		<% else %>
-			It looks like <%= @user.name.split(" ")[0] %> doesn't have any activity yet.
+			It looks like <%= @user.name.split(" ")[0] %> doesn't have any connections to other users yet.
 		<% end %>
 	</span>
 <% else %>
-	<% ordered_friends.each do |relationship| %>
+	<% @activity.each do |relationship| %>
 		<div class="activity-listing grey-box">
-			<%= link_to(relationship.follower) do %>
+			<%= link_to(relationship.other_user(@user)) do %>
 				<div class="avatar" style="float: left">
-					<img src="<%= relationship.follower.user_avatar(50) %>" style="width: 50px; height: 50px;">
+					<img src="<%= relationship.other_user(@user).user_avatar(50) %>" style="width: 50px; height: 50px;">
 				</div>
 			<% end %>
-			<div class="text"><%= @user.name %> was followed by <%= relationship.follower.name %> on <%= relationship.created_at.strftime("%b. %d, %Y") %></div>
+			<div class="text">
+				<% if @user == relationship.followed # if someone followed this user %>
+					<%= @user.name %> was followed by <%= relationship.other_user(@user).name %> on <%= relationship.created_at.strftime("%b. %d, %Y") %>
+				<% else # if this user followed someone %>
+					<%= @user.name %> followed <%= relationship.other_user(@user).name %> on <%= relationship.created_at.strftime("%b. %d, %Y") %>
+				<% end %>
+			</div>
 		</div>
 	<% end %>
-	<div class="activity-listing grey-box">
-		<div class="avatar" style="float: left">
-			<%= image_tag("pages/CarpeLetter.png", style: "width: 30px; height: 30px; padding: 10px;") %>
-		</div>
-		<div class="text">Joined Carpe on <%= @user.created_at.strftime("%b. %d, %Y") %></div>
-	</div>
 <% end %>
+
+<!-- Manual activity listing for joining Carpe -->
+<div class="activity-listing grey-box">
+	<div class="avatar" style="float: left">
+		<%= image_tag("pages/CarpeLetter.png", style: "width: 30px; height: 30px; padding: 10px;") %>
+	</div>
+	<div class="text">Joined Carpe on <%= @user.created_at.strftime("%b. %d, %Y") %></div>
+</div>
