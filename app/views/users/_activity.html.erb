@@ -3,8 +3,8 @@
 <% if @activity.empty? %>
 	<span class="empty-text">
 		<% if @profile %>
-			It looks like you haven't followed anyone yet. Carpe works best when enjoyed with others, so consider
-			adding some connections to your profile!
+			It looks like you haven't followed anyone yet. <br> Carpe works best when enjoyed with others, so 
+			consider adding some connections to your profile!
 		<% else %>
 			It looks like <%= @user.name.split(" ")[0] %> doesn't have any connections to other users yet.
 		<% end %>
