@@ -15,4 +15,13 @@ class Relationship < ActiveRecord::Base
   	self.confirmed = false
     self.save
   end
+
+  # Given a user, return the user that is not them. Useful for activity
+  def other_user(user)
+    if follower == user
+      return followed
+    else
+      return follower
+    end
+  end
 end

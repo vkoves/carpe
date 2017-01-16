@@ -19,13 +19,14 @@ class UsersController < ApplicationController
         @tab = "followers"
       when "activity"
         @tab = "activity"
+        @activity = @user.following_relationships + @user.followers_relationships
       when "mutual_friends"
         @tab = "mutual"
       when "schedule"
         @tab = "schedule"
       when "following"
         @tab = "following"
-        @following = @user.following_relationships 
+        @following = @user.following_relationships
       else #default, aka no params
         @tab = "schedule"
       end
@@ -55,13 +56,13 @@ class UsersController < ApplicationController
           a_rank = 0
           b_rank = 0
 
-          
+
           if a.name.downcase.starts_with?(q.downcase) #if the users name starts with the query
             a_rank = 2 #it's a great match (score 2)
           elsif a.name.downcase.include?(" " + q.downcase) #if the users middle or last name starts with the query
             a_rank = 1 #it's an okay match (score 1)
           end #otherwise we get the default score of 0 for having the query in their name
-            
+
           #repeat for b
           if b.name.downcase.starts_with?(q.downcase)
             b_rank = 2
@@ -70,7 +71,7 @@ class UsersController < ApplicationController
           end
 
           b_rank <=> a_rank #return comparison of ranks, with highest preferred first
-        } 
+        }
       else
         @users = User.where('name LIKE ?', "%#{q}%")
       end
