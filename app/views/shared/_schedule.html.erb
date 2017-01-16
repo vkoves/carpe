@@ -133,7 +133,7 @@
 		<span id="sidebar-title" title="Drag a category onto the schedule to create a calendar item.">Categories</span>
 		<% unless @read_only #don't show this text if you can't actually edit things %>
 			<div id="side-desc">Drag a category onto the schedule to create a calendar item.</div>
-		<% end %>
+		<% end %>f
 		<div id="sch-tiles">
 			<div id="sch-tiles-inside">
 				<div id="cat-template" class="sch-evnt category" data-id="-1" time="0:00" style="display: none">
@@ -228,6 +228,15 @@
 			</div>
 			<div id="sch-monthly-view">
 				<h3 id="month-name"></h3>
+				<div id="day-labels">
+					<div class="day-label">Monday</div>
+					<div class="day-label">Tuesday</div>
+					<div class="day-label">Wednesday</div>
+					<div class="day-label">Thursday</div>
+					<div class="day-label">Friday</div>
+					<div class="day-label">Saturday</div>
+					<div class="day-label">Sunday</div>
+				</div>
 				<div id="tiles-cont"></div>
 			</div>
 		</div>
