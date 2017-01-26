@@ -335,6 +335,7 @@
 		margin-left: 20px;
 		margin-top: 5px;
 		margin-bottom: 3px;
+		clear: left /* make sure title appears on separate line after using 'float' */
 	}
 	.small-title .edit
 	{
