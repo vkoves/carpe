@@ -21,13 +21,6 @@
 	height: 100%;
 	max-height: 710px;
 	float: right;
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	cursor: default;
 }
 #sch-sidebar
 {
@@ -843,6 +836,17 @@ input[readonly="readonly"]
 	padding-left: 5px;
 	box-sizing: border-box;
 	color: grey;
+}
+
+/* No drag properties, applied to schedule and sidebar */
+.sch-no-drag {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	cursor: default;
 }
 
 /***************************/
