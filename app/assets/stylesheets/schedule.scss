@@ -335,6 +335,7 @@
 		margin-left: 20px;
 		margin-top: 5px;
 		margin-bottom: 3px;
+		clear: left /* make sure title appears on separate line after using 'float' */
 	}
 	.small-title .edit
 	{
@@ -835,6 +836,17 @@ input[readonly="readonly"]
 	padding-left: 5px;
 	box-sizing: border-box;
 	color: grey;
+}
+
+/* No drag properties, applied to schedule and sidebar */
+.sch-no-drag {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	cursor: default;
 }
 
 /***************************/

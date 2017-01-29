@@ -1,5 +1,19 @@
 // Slide 1
 
+h1 {
+	display:block;
+	font-weight: normal;
+	font-size: 3vw;
+	padding-bottom: 1vw;
+	margin:0;
+}
+
+h2 {
+	display:block;
+	font-weight: normal;
+	margin:0;
+}
+
 #home-sl1
 {
 	top: 0px;
@@ -11,8 +25,8 @@
 	color: #FFF;
 	overflow: hidden;
 
-	.title { letter-spacing: 3px; }
-	.subtitle { font-size: 1.8vw; }
+	h1 { letter-spacing: 3px;}
+	h2 { font-size: 1.8vw; }
 	.alphawarn
 	{
 		padding-top: 0.7vw;
@@ -47,10 +61,10 @@
 	position: relative;
 	text-align: left;
 	overflow: hidden;
-	
-	.title { color: rgb(38,38,38); }
 
-	.subtitle
+	h1 { color: rgb(38,38,38); }
+
+	h2
 	{
 		font-size: 1.4vw;
 		letter-spacing: 1px;
@@ -90,8 +104,8 @@
 	position: relative;
 	text-align: left;
 	overflow: hidden;
-	
-	.subtitle
+
+	h2
 	{
 		font-size: 1.4vw;
 		letter-spacing: 1px;
@@ -123,17 +137,11 @@
 	color: #FFF;
 	padding-top: 7vw;
 	padding-bottom: 7vw;
-	
 
-	.subtitle
+
+	h2
 	{
 		font-size: 1.6vw;
 		padding-bottom: 2.5vw;
 	}
-}
-
-.title
-{
-	font-size: 3vw;
-	padding-bottom: 1vw;
 }

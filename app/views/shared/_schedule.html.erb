@@ -129,7 +129,7 @@
 		<br>
 	<% end %>
 
-	<div id="sch-sidebar">
+	<div id="sch-sidebar" class="sch-no-drag">
 		<span id="sidebar-title" title="Drag a category onto the schedule to create a calendar item.">Categories</span>
 		<% unless @read_only #don't show this text if you can't actually edit things %>
 			<div id="side-desc">Drag a category onto the schedule to create a calendar item.</div>
@@ -176,7 +176,7 @@
 		<div class="cat-add">+ New Category</div>
 	</div>
 
-	<%= image_tag "divider-orng.png", :height => "505px", :style => "float: left;" %>
+
 
 	<div id="sch-main">
 		<div class="sch-but-holder">
@@ -195,7 +195,7 @@
 			<span class="sch-view-btn default" id="view-monthly">Monthly</span>
 		</div>
 
-		<div id="sch-holder">
+		<div id="sch-holder" class="sch-no-drag">
 			<div id="sch-weekly-view">
 				<div class="sch-day-col">
 					<span class="col-titler"><span class="evnt-day">Monday</span></span>

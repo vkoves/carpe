@@ -238,7 +238,7 @@ function initializeEventListeners()
 	});
 
 	//Tokenizer implementation for the user entry (used on sandbox)
-	$(".user-entry input[type=text").tokenInput("/search_users.json", {
+	$(".user-entry input[type=text]").tokenInput("/search_users.json", {
 		crossDomain: false,
 		placeholder: "Add people",
 		searchDelay: 0,
