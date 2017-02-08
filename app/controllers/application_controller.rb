@@ -78,7 +78,7 @@ class ApplicationController < ActionController::Base
 
         # Handle avatars
         unless user and user.has_avatar #if this is a valid user that has no avatar
-          user_obj[:image_url] = "http://www.gravatar.com/avatar/?d=mm" #change to the default avatar
+          user_obj[:image_url] = "https://www.gravatar.com/avatar/?d=mm" #change to the default avatar
         end
 
         user_obj #and return the user

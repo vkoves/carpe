@@ -123,7 +123,7 @@ class User < ActiveRecord::Base
 
 	def user_avatar(size) #returns a url to the avatar with the width in pixels
     unless self.has_avatar #if this user has no avatar, or the Google default, return the gravatar avatar
-      return "http://www.gravatar.com/avatar/?d=mm"
+      return "https://www.gravatar.com/avatar/?d=mm"
     end
 
     if provider

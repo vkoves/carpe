@@ -229,7 +229,7 @@ function initializeEventListeners()
 		},
 		resultsFormatter: function(element) //format the results
 		{
-			img_url = element.image_url || "http://www.gravatar.com/avatar/?d=mm";
+			img_url = element.image_url || "https://www.gravatar.com/avatar/?d=mm";
 			return 	"<li>" +
 						"<div class='avatar search-avatar'><img src='" + img_url + "'></div><div class='name with-type'>" + element.name + "</div>" +
 						"<div class='type'>" + element.model_name + "</div>" +
@@ -262,12 +262,12 @@ function initializeEventListeners()
 		},
 		resultsFormatter: function(element)
 		{
-			img_url = element.image_url || "http://www.gravatar.com/avatar/?d=mm";
+			img_url = element.image_url || "https://www.gravatar.com/avatar/?d=mm";
 			return "<li>" + "<div class='avatar search-avatar'><img src='" + img_url + "'></div><div class='name'>" + element.name + "</div></li>";
 		},
 		tokenFormatter: function(element)
 		{
-			img_url = element.image_url || "http://www.gravatar.com/avatar/?d=mm";
+			img_url = element.image_url || "https://www.gravatar.com/avatar/?d=mm";
 			return "<li>" + "<div class='avatar'><img src='" + img_url + "'></div><p>" + element.name + "</p></li>";
 		}
 	});

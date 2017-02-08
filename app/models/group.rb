@@ -10,7 +10,7 @@ class Group < ActiveRecord::Base
     if image_url and !image_url.empty?
       return image_url
     else
-      return "http://www.gravatar.com/avatar/?d=mm"
+      return "https://www.gravatar.com/avatar/?d=mm"
     end
   end
 
