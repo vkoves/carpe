@@ -1,6 +1,6 @@
 <img src="app/assets/images/pages/CarpeLetter.png?raw=true" width="100" align="right">
 
-# Carpe [![Build Status](https://travis-ci.com/vkoves/carpe.svg?token=Wt2br9iC8tszQJNifjNG&branch=master)](https://travis-ci.com/vkoves/Carpe)
+# Carpe [![Build Status](https://travis-ci.com/vkoves/carpe.svg?token=Wt2br9iC8tszQJNifjNG&branch=master)](https://travis-ci.com/vkoves/carpe)
 
 A socially networked, intuitive calendar created in Ruby on Rails with a jQuery powered front end.
 
