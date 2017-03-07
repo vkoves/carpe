@@ -121,14 +121,6 @@
 </div>
 
 <div id="cont-hold" class="<%= @holderClass %>">
-	<% unless @read_only or params[:iframe] #don't show title in an iframe or if we are in read only mode %>
-		<h1 class="no-bold zero-bot zero-top">
-			My Schedule
-			<span id="embed-button" class="default orange">Embed</span>
-		</h1>
-		<br>
-	<% end %>
-
 	<div id="sch-sidebar" class="sch-no-drag">
 		<span id="sidebar-title" title="Drag a category onto the schedule to create a calendar item.">Categories</span>
 		<% unless @read_only #don't show this text if you can't actually edit things %>
