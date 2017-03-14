@@ -25,6 +25,10 @@ To run all Ruby on Rails tests for Carpe, run `bundle exec rake test` in the Car
 To run a specific test, run `bundle exec rake test test_file_path`
 Ex: `bundle exec rake test test/controllers/event_test.rb`
 
+#### Checking Test Coverage 
+
+A large part of making sure Carpe is well tested is ensuring that it has proper test coverage. Carpe uses the [SimpleCov gem](https://github.com/colszowka/simplecov) to help with this. To use SimpleCov, simply run all tests and then open `coverage/index.html` in the Carpe directory.
+
 ## Checking Code Quality
 
 At the moment, Carpe uses [Ruby Critic](https://github.com/whitesmith/rubycritic) for code quality checking.
