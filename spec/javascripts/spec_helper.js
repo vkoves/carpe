@@ -1,7 +1,7 @@
 // Teaspoon includes some support files, but you can use anything from your own support path too.
 // require support/expect
 // require support/sinon
-// require support/chai
+//= require support/chai
 // require support/chai-jq-0.0.7
 // require support/your-support-file
 //
@@ -38,3 +38,15 @@
 // window.assert = chai.assert;
 // window.expect = chai.expect;
 // window.should = chai.should();
+
+// For help, see Mocha's Getting Started: https://mochajs.org/#getting-started
+
+window.assert = chai.assert; // add assert from Chai
+
+describe('UI Manager', function() {
+	it('should show overlay', function()
+	{
+		UIManager.showOverlay();
+		assert.equal($(".ui-widget-overlay:visible").length, 1);
+	});
+});
