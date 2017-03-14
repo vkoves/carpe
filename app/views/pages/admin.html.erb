@@ -2,6 +2,34 @@
 <%= stylesheet_link_tag "pages/admin" %>
 
 <h2 class="no-bold">Admin Panel</h2>
+
+<% if Rails.env.development? %>
+	<div class="dev-tools">
+		<h2 class="zero-top zero-bot">Developer Tools</h2>
+		You're running Carpe in development, so we'll be providing some tools for you.
+
+		<h3 class="no-bold">Javascript Test Coverage</h3>
+		<%= link_to "/teaspoon/default", target: "_blank", class: "default" do %>
+			<span>JS Test Results</span>
+		<% end %>
+		<%= link_to "/coveragejs/default/index.html", target: "_blank", class: "default" do %>
+			<span>JS Test Coverage</span>
+		<% end %>
+		<div class="tip">
+			Run <code>bundle exec teaspoon --coverage=default</code> to get this to update
+		</div>
+
+		<h3 class="no-bold">Ruby on Rails Test Coverage</h3>
+		<%= link_to "/coverage/index.html", target: "_blank", class: "default" do %>
+			<span>RoR Test Coverage</span>
+		<% end %>
+		<br>
+		<div class="tip">
+			Run <code>bundle exec rake test</code> to get these to update
+		</div>
+	</div>
+<% end %>
+
 <h4>Info</h4>
 <a href="/users" class="default"><span>View Users</span></a>
 <a href="/sandbox" class="default"><span>Sandbox</span></a>
