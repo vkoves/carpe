@@ -31,3 +31,6 @@ coverage
 
 # Ignore Istanbul coverage files
 coveragejs
+
+# Ignore Minitest Reporters files
+html_reports
