@@ -85,3 +85,6 @@ if Gem.win_platform?
 
   gem 'coffee-script-source', '>= 1.12.2'
 end
+
+# Add SimpleCov to check test coverage (https://github.com/colszowka/simplecov)
+gem 'simplecov', :require => false, :group => :test
