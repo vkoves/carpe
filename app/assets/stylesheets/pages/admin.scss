@@ -17,10 +17,15 @@
 	.tip {
 		margin-top: 10px;
 		color: #4e4e4e;
+
+		.sub-tip
+		{
+			font-size: 12px;
+			margin-top: 10px;
+		}
 	}
 	code {
 		background: white;
-		font-size: 110%;
 		padding: 3px 8px;
 		background-color: #ffffff;
 		color: #426f44;
