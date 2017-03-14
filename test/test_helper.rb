@@ -2,6 +2,7 @@
 require 'simplecov'
 SimpleCov.start do
   add_filter "/test/"
+  coverage_dir "public/coverage"
 end
 
 ENV['RAILS_ENV'] ||= 'test'
