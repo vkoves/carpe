@@ -28,3 +28,6 @@
 
 # Ignore SimpleCov files
 coverage
+
+# Ignore Istanbul coverage files
+coveragejs
