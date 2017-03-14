@@ -25,3 +25,6 @@
 *.un~
 *.erb~
 *.gitignore~
+
+# Ignore SimpleCov files
+coverage
