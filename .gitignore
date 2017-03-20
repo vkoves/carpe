@@ -34,3 +34,9 @@ coveragejs
 
 # Ignore Minitest Reporters files
 html_reports
+
+# Rubymine
+/.idea
+
+# Windows System File
+*.db
