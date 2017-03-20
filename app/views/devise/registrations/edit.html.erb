@@ -41,7 +41,12 @@
 	    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
 	  <% end %>
 
-		<div class="field">
+      <div class="field">
+        <%= f.label :custom_url %>
+        <%= f.text_field :custom_url %>
+      </div>
+
+          <div class="field">
 	    	<%= f.label :avatar %>
 	    	<%= f.file_field :avatar, accept: 'image/png,image/gif,image/jpeg' %>
 	  	</div>
@@ -52,7 +57,7 @@
 	  	  <%= f.file_field :banner, accept: 'image/png,image/gif,image/jpeg' %>
 	  	</div>
 
-	<% unless current_user.provider %>
+      <% unless current_user.provider %>
 		<div class="pass-holder">
 			Change Password
 			<span class="default"
