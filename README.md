@@ -7,6 +7,12 @@ A socially networked, intuitive calendar created in Ruby on Rails with a jQuery 
 ## Setup
 Link to first-time setup can be found in the IndigoBox > Carpe Google Drive directory.
 
+A brief summary:
+- Install Ruby on Rails using RVM
+- Bundle Install
+- Install PhantomJS and Istanbul for Javascript testing
+	- Run `npm install -g phantomjs` and `npm install -g istanbul`
+
 ## Running Locally
 Run with foreman using `foreman start`
 
@@ -24,6 +30,10 @@ To run all Ruby on Rails tests for Carpe, run `bundle exec rake test` in the Car
 
 To run a specific test, run `bundle exec rake test test_file_path`
 Ex: `bundle exec rake test test/controllers/event_test.rb`
+
+#### Checking Test Coverage
+
+A large part of making sure Carpe is well tested is ensuring that it has proper test coverage. Carpe uses the [SimpleCov gem](https://github.com/colszowka/simplecov) to help with this. To use SimpleCov, simply run all tests and then open `coverage/index.html` in the Carpe directory.
 
 ## Checking Code Quality
 

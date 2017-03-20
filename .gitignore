@@ -25,3 +25,12 @@
 *.un~
 *.erb~
 *.gitignore~
+
+# Ignore SimpleCov files
+coverage
+
+# Ignore Istanbul coverage files
+coveragejs
+
+# Ignore Minitest Reporters files
+html_reports
