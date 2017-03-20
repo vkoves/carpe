@@ -50,6 +50,20 @@ class User < ActiveRecord::Base
     UserNotifier.send_signup_email(self).deliver
   end
 
+  # Validate the custom_url ...
+
+  REGEX_VALID_URL_CHARACTERS = /[a-zA-Z0-9_\-]*/
+  REGEX_USER_ID = //
+  validate :custom_url,
+           format: { with: REGEX_VALID_URL_CHARACTERS,
+                     message: 'URL must be alphanumeric' },
+           uniqueness: true,
+           length: { maximum: 64 }
+
+  validate :custom_url,
+           format: { without: REGEX_USER_ID,
+                     message: 'URL cannot be an integer'}
+
   ##########################
   ##### EVENT METHODS ######
   ##########################
