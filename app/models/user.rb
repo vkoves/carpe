@@ -52,7 +52,7 @@ class User < ActiveRecord::Base
 
   # Validate the custom_url ...
   REGEX_VALID_URL_CHARACTERS = /[a-zA-Z0-9_\-]*/
-  REGEX_USER_ID = /^\d+$/
+  REGEX_USER_ID = /\A\d+\Z/
 
   validates :custom_url,
            format: { with: REGEX_VALID_URL_CHARACTERS,
