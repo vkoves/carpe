@@ -33,4 +33,23 @@ class UserTest < ActiveSupport::TestCase
     test_user.password = "password"
     assert_equal(test_user.save!, true, "Can save a user with only name")
   end
+
+  test "should be able to make a user with custom URL" do
+    test_user = User.new
+    test_user.name = "test"
+    test_user.email = "test@email.com"
+    test_user.password = "password"
+    test_user.custom_url = "thecooltester"
+    assert_equal(test_user.save!, true, "Can save a user with custom URL")
+  end
+
+  test "should not be able to make a user with numeric custom URL" do
+    users(:norm).custom_url = "1234"
+    assert_equal(users(:norm).valid?, false, "User with numeric custom URL is not valid")
+  end
+
+  test "should be able to make a custom URL with numbers" do
+    users(:norm).custom_url = "norm007"
+    assert_equal(users(:norm).valid?, true, "User with custom URL is valid")
+  end
 end
