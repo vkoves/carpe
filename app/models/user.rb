@@ -51,19 +51,19 @@ class User < ActiveRecord::Base
   end
 
   # Validate the custom_url ...
-  REGEX_VALID_URL_CHARACTERS = /[a-zA-Z0-9_\-]*/
+  REGEX_VALID_URL_CHARACTERS = /\A[a-zA-Z0-9_\-]*\Z/
   REGEX_USER_ID = /\A\d+\Z/
 
   validates :custom_url,
             format: { with: REGEX_VALID_URL_CHARACTERS,
-                      message: 'URL must be alphanumeric' },
+                      message: 'Custom url must be alphanumeric' },
             allow_blank: true,
             uniqueness: true,
             length: { maximum: 64 }
 
   validates :custom_url,
             format: { without: REGEX_USER_ID,
-                      message: 'URL cannot be an integer'}
+                      message: 'Custom url cannot be an integer'}
 
   ##########################
   ##### EVENT METHODS ######
