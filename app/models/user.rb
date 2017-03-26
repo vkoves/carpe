@@ -56,14 +56,14 @@ class User < ActiveRecord::Base
 
   validates :custom_url,
             format: { with: REGEX_VALID_URL_CHARACTERS,
-                      message: 'Custom url must be alphanumeric' },
+                      message: 'must be alphanumeric' },
             allow_blank: true,
             uniqueness: true,
             length: { maximum: 64 }
 
   validates :custom_url,
             format: { without: REGEX_USER_ID,
-                      message: 'Custom url cannot be an integer'}
+                      message: 'cannot be an integer'}
 
   ##########################
   ##### EVENT METHODS ######
