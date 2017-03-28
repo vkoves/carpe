@@ -787,6 +787,8 @@ input[readonly="readonly"]
 		text-align: left;
 		line-height: 1.1;
 		font-size: 14px;
+		transition: box-shadow 0.3s;
+		cursor: pointer;
 
 		.time
 		{
@@ -795,6 +797,7 @@ input[readonly="readonly"]
 		}
 		.close
 		{
+			opacity: 0;
 			background-image: image-url("close-wht.png");
 			background-repeat: no-repeat;
 			background-size: 90%;
@@ -807,9 +810,14 @@ input[readonly="readonly"]
 			right: 2px;
 			width: 15px;
 			height: 15px;
-			transition: background-color 0.2s;
+			transition: background-color 0.3s, opacity 0.3s;
 
 			&:hover { background-color: rgb(54, 54, 54); }
+		}
+		&:hover {
+			box-shadow: 0px 0px 5px black;
+
+			.close { opacity: 1; }
 		}
 	}
 	.day-of-month
