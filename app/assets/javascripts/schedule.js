@@ -1029,14 +1029,22 @@ function addDrag(selector)
 		{
 			var newItem = false;
 
-			if(!inColumn($(this))) //if this event was not placed
+			if(viewMode == "week" && !inColumn($(this))) //if this event was not placed
 				return; //return
 
-			if($(this).css("opacity") == 1) //if opacity is 1, this is a new event
+			if(viewMode == "week" && $(this).css("opacity") == 1) //if opacity is 1, this is a new event
 			{
 				$(this).css("height", gridHeight*3 - border);
 				handleNewEvent(this);
 				newItem = true;
+			}
+			else if(viewMode == "month")
+			{
+				handleNewEvent(this);
+				var currItem = scheduleItems[eventTempId - 1];
+				currItem.startDateTime = new Date($(this).attr("data-date"));
+				currItem.endDateTime = new Date($(this).attr("data-date"));
+				repopulateEvents();
 			}
 
 			$("#sch-tiles").html(sideHTML); //reset the sidebar
@@ -1044,18 +1052,21 @@ function addDrag(selector)
 
 			var tempItem = scheduleItems[$(this).attr("evnt-temp-id")];
 
-			handlePosition(this, ui);
-			if(!newItem) //if this is not a new item
-				tempItem.dragComplete($(this)); //say it's been moved
-			else //otherwise
+			if(viewMode == "week")
 			{
-				tempItem.resizeComplete($(this)); //say it's been resized, to read all properties
-				tempItem.endDateTime.setMinutes(0);
-			}
+				handlePosition(this, ui);
+				if(!newItem) //if this is not a new item
+					tempItem.dragComplete($(this)); //say it's been moved
+				else //otherwise
+				{
+					tempItem.resizeComplete($(this)); //say it's been resized, to read all properties
+					tempItem.endDateTime.setMinutes(0);
+				}
 
-			if(tempItem.repeatType && tempItem.repeatType != "none" && tempItem.repeatType != "") //if this is a repeating event
-			{
-				repopulateEvents(); //and populate
+				if(tempItem.repeatType && tempItem.repeatType != "none" && tempItem.repeatType != "") //if this is a repeating event
+				{
+					repopulateEvents(); //and populate
+				}
 			}
 
 			addDrag(); //add drag to the sidebar again
@@ -1196,13 +1207,17 @@ function handleNewEvent(elem)
 	schItem.needsSaving = true;
 	scheduleItems[eventTempId] = schItem;
 
-	$(elem).children(".evnt-title").attr("contenteditable", "true");
-	$(elem).children(".evnt-title").trigger('focus');
-	highlightCurrent(); // Suggests to the user to change the schedule item title by making it editable upon drop here.
-	document.execCommand('delete',false,null); // Suggests to the user to change the schedule item title by making it editable upon drop here.
-	$(elem).attr("evnt-temp-id", eventTempId);
+	if(viewMode == "week")
+	{
+		$(elem).children(".evnt-title").attr("contenteditable", "true");
+		$(elem).children(".evnt-title").trigger('focus');
+		highlightCurrent(); // Suggests to the user to change the schedule item title by making it editable upon drop here.
+		document.execCommand('delete',false,null); // Suggests to the user to change the schedule item title by making it editable upon drop here.
+		$(elem).attr("evnt-temp-id", eventTempId);
+		addResizing($(elem)); //since the sidebar events don't have resizing, we have to add it on stop
+	}
+
 	eventTempId++;
-	addResizing($(elem)); //since the sidebar events don't have resizing, we have to add it on stop
 }
 
 //Change time while items are being dragged or resized, and also snap to a vertical grid
@@ -1361,7 +1376,7 @@ function addDates(newDateObj, refresh, startToday)
 			if(currDate < todaySimple)
 				tileClass = tileClass + " in-past";
 
-			$("#sch-monthly-view #tiles-cont").append("<div class='" + tileClass + "'>"
+			$("#sch-monthly-view #tiles-cont").append("<div class='" + tileClass + "' data-date='" + dateToString(currDate) + "' >"
 					+ "<div class='inner'>"
 						+ "<div class='day-of-month'>" + currDate.getDate() + "</div>"
 					+ "</div>"
@@ -1390,43 +1405,6 @@ function initializeMonthlyView()
 	$("#sch-monthly-view").show();
 
 	addDates(refDate, true);
-	$(".sch-month-evnt:not(.private)").click(function()
-	{
-		editEvent($(this));
-	});
-
-	if(!readOnly)
-	{
-		$(".sch-month-evnt .close").click(function(event)
-		{
-			deleteEvent(event, $(this));
-		});
-
-		monthlyTileDroppable();
-	}
-
-	function monthlyTileDroppable() {
-		console.log("Droppable");
-
-		$(".sch-day-tile").droppable(
-		{
-			drop: function( event, ui ) //called when event is dropped on a new column (not called on moving it in the column)
-			{
-				// var element = ui.draggable.detach();
-				// dropScroll = $("#sch-holder").scrollTop(); //appending this element will scroll us up to the top, so we have to adjust for that
-				// $(this).append(element); //append to the column
-				$(this).removeClass("over"); //dehighlight on drop
-			},
-			over: function( event, ui )
-			{
-				$(this).addClass("over"); //highlight
-			},
-			out: function( event, ui )
-			{
-				$(this).removeClass("over"); //unhighlight
-			}
-		});
-	}
 }
 
 function initializeWeeklyView()
@@ -1482,8 +1460,8 @@ function getStartDate(dateObj, useMonth)
  */
 function repopulateEvents()
 {
-	$("#sch-holder .sch-evnt").remove();
-	populateEvents();
+	$("#sch-holder .sch-evnt, #sch-holder .sch-month-evnt").remove(); // remove week and month events
+	populateEvents(); // and then populate events
 }
 
 //Populate the events in the current week from the hashmap
@@ -1639,6 +1617,41 @@ function populateEvents()
 
 			$(this).find(".inner").append(monthTileEvents);
 		});
+
+		$(".sch-month-evnt:not(.private)").click(function()
+		{
+			editEvent($(this));
+		});
+
+		if(!readOnly)
+		{
+			$(".sch-month-evnt .close").click(function(event)
+			{
+				deleteEvent(event, $(this));
+			});
+
+			monthlyTileDroppable();
+		}
+
+		function monthlyTileDroppable() {
+			$(".sch-day-tile").droppable(
+			{
+				drop: function( event, ui ) //called when event is dropped on a new column (not called on moving it in the column)
+				{
+					var element = ui.draggable;
+					element.attr('data-date', $(this).attr('data-date'));
+					$(this).removeClass("over"); //dehighlight on drop
+				},
+				over: function( event, ui )
+				{
+					$(this).addClass("over"); //highlight
+				},
+				out: function( event, ui )
+				{
+					$(this).removeClass("over"); //unhighlight
+				}
+			});
+		}
 	}
 
 	if(readOnly)
