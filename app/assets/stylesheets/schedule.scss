@@ -793,6 +793,24 @@ input[readonly="readonly"]
 			font-size: 10px;
 			color: grey;
 		}
+		.close
+		{
+			background-image: image-url("close-wht.png");
+			background-repeat: no-repeat;
+			background-size: 90%;
+			background-position: center;
+			background-color: rgba(54, 54, 54, 0.5);
+			position: absolute;
+			border-radius: 100px;
+			cursor: pointer;
+			top: 2px;
+			right: 2px;
+			width: 15px;
+			height: 15px;
+			transition: background-color 0.2s;
+
+			&:hover { background-color: rgb(54, 54, 54); }
+		}
 	}
 	.day-of-month
 	{

@@ -1393,9 +1393,16 @@ function initializeMonthlyView()
 	$(".sch-month-evnt:not(.private)").click(function()
 	{
 		editEvent($(this));
-	})
+	});
 
 
+	if(!readOnly)
+	{
+		$(".sch-month-evnt .close").click(function(event)
+		{
+			deleteEvent(event, $(this));
+		});
+	}
 }
 
 function initializeWeeklyView()
@@ -1475,13 +1482,17 @@ function populateEvents()
 			if(eventObject.name == "<i>Private</i>")
 				className = " private";
 
+			if(eventObject.eventId)
+				eventId = "event-id='" + eventObject.eventId + "'";
+
 			$(".sch-day-tile:eq(" + i + ") .inner").append("<div class='sch-month-evnt" + className + "' evnt-temp-id='" + eventObject.tempId
-				+ "' data-id='" + eventObject.categoryId + "' data-hour='" + eventObject.startDateTime.getHours() + "' style='color: "
+				+ "' " + eventId + " data-id='" + eventObject.categoryId + "' data-hour='" + eventObject.startDateTime.getHours() + "' style='color: "
 				+  color +  "; color: " + color + ";'>"
 					+ eventObject.getName(true)
 					+ "<div class='time'>"
 						+ datesToTimeRange(eventObject.startDateTime, eventObject.endDateTime)
 					+ "</div>"
+					+ "<div class='close'></div>"
 				+ "</div>");
 		}
 	}
@@ -1938,7 +1949,10 @@ function deleteEvent(event, elem)
 			var eId = $(elem).parent().attr("event-id");
 			var tempId = $(elem).parent().attr("evnt-temp-id");
 
-			$(".sch-evnt[evnt-temp-id='" + tempId + "']").slideUp("normal", function() {$(this).remove();});
+			if(viewMode == "week")
+				$(".sch-evnt[evnt-temp-id='" + tempId + "']").slideUp("normal", function() {$(this).remove();});
+			else if(viewMode == "month")
+				$(".sch-month-evnt[evnt-temp-id='" + tempId + "']").slideUp("normal", function() {$(this).remove();});
 
 			delete scheduleItems[tempId]; //remove event map
 
