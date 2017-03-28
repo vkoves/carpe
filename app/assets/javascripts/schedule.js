@@ -1602,7 +1602,6 @@ function populateEvents()
 			var monthTileEvents = $(this).find(".sch-month-evnt");
 			$(this).find(".sch-month-evnt").remove();
 
-			console.log(monthTileEvents.length);
 			monthTileEvents.sort(function(a, b) {
 				a = parseInt($(a).attr("data-hour"));
 				b = parseInt($(b).attr("data-hour"));
