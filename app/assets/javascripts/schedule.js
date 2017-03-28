@@ -275,7 +275,10 @@ function ScheduleItem()
 
 	this.element = function() //returns the HTML element for this schedule item, or elements if it is repeating
 	{
-		return $(".sch-evnt[evnt-temp-id="+ this.tempId + "]");
+		if(viewMode == "week")
+			return $(".sch-evnt[evnt-temp-id="+ this.tempId + "]");
+		else if(viewMode == "month")
+			return $(".sch-month-evnt[evnt-temp-id="+ this.tempId + "]");
 	};
 
 	/****************************/
@@ -1490,7 +1493,7 @@ function populateEvents()
 			$(".sch-day-tile:eq(" + i + ") .inner").append("<div class='sch-month-evnt" + className + "' evnt-temp-id='" + eventObject.tempId
 				+ "' " + eventId + " data-id='" + eventObject.categoryId + "' data-hour='" + eventObject.startDateTime.getHours() + "' style='color: "
 				+  color +  "; color: " + color + ";'>"
-					+ eventObject.getName(true)
+					+ "<span class='evnt-title'>" + eventObject.getName(true) + "</span>"
 					+ "<div class='time'>"
 						+ datesToTimeRange(eventObject.startDateTime, eventObject.endDateTime)
 					+ "</div>"
