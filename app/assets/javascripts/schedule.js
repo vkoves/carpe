@@ -1633,7 +1633,38 @@ function populateEvents()
 				deleteEvent(event, $(this));
 			});
 
+			monthlyEventDraggable();
 			monthlyTileDroppable();
+		}
+
+		function monthlyEventDraggable()
+		{
+			$(".sch-month-evnt").draggable(
+			{
+				containment: "window",
+				snap: ".evt-snap",
+				snapMode: "inner",
+				appendTo: "body",
+				cancel: "img",
+				revertDuration: 0,
+				opacity: 0.7,
+				distance: 10,
+				gridOn: false,
+				scroll: false,
+				revert: "invalid",
+				stop: function() {
+					var currItem = scheduleItems[$(this).attr("evnt-temp-id")];
+					var newDate = new Date($(this).attr('data-date'));
+					currItem.startDateTime.setMonth(newDate.getMonth());
+					currItem.startDateTime.setDate(newDate.getDate());
+					currItem.startDateTime.setYear(newDate.getFullYear());
+					currItem.endDateTime.setMonth(newDate.getMonth());
+					currItem.endDateTime.setDate(newDate.getDate());
+					currItem.endDateTime.setYear(newDate.getFullYear());
+					repopulateEvents();
+					updatedEvents(currItem.tempId, "Dragged monthly event");
+				}
+			});
 		}
 
 		function monthlyTileDroppable() {
