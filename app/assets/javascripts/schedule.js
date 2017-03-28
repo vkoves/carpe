@@ -1350,7 +1350,7 @@ function addDates(newDateObj, refresh, startToday)
 		{
 			var tileClass = "sch-day-tile";
 
-			if(counter <= oldDatesCount && startDateData.lastMonth) //if going through dates from the last month
+			if(counter < oldDatesCount && startDateData.lastMonth) //if going through dates from the last month
 				tileClass = tileClass + " last-month";
 
 			if(counter >= oldDatesCount + monthLength) //if we are going through dates from the next month
