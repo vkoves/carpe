@@ -776,6 +776,12 @@ input[readonly="readonly"]
 			// transition: opacity 0.25s;
 		}
 	}
+	&.over {
+		.inner { background: rgb(255, 255, 151); }
+		&.last-month, &.next-month {
+			.inner { background: rgba(255, 255, 151, 0.5); }
+		}
+	}
 	.sch-month-evnt
 	{
 		margin: 0px 2px 4px 2px;

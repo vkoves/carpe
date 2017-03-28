@@ -1395,12 +1395,36 @@ function initializeMonthlyView()
 		editEvent($(this));
 	});
 
-
 	if(!readOnly)
 	{
 		$(".sch-month-evnt .close").click(function(event)
 		{
 			deleteEvent(event, $(this));
+		});
+
+		monthlyTileDroppable();
+	}
+
+	function monthlyTileDroppable() {
+		console.log("Droppable");
+
+		$(".sch-day-tile").droppable(
+		{
+			drop: function( event, ui ) //called when event is dropped on a new column (not called on moving it in the column)
+			{
+				// var element = ui.draggable.detach();
+				// dropScroll = $("#sch-holder").scrollTop(); //appending this element will scroll us up to the top, so we have to adjust for that
+				// $(this).append(element); //append to the column
+				$(this).removeClass("over"); //dehighlight on drop
+			},
+			over: function( event, ui )
+			{
+				$(this).addClass("over"); //highlight
+			},
+			out: function( event, ui )
+			{
+				$(this).removeClass("over"); //unhighlight
+			}
 		});
 	}
 }
