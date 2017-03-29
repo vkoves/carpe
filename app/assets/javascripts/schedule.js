@@ -1041,7 +1041,7 @@ function addDrag(selector)
 				handleNewEvent(this);
 				newItem = true;
 			}
-			else if(viewMode == "month")
+			else if(viewMode == "month" && $(this).attr("data-date")) // if monthly view, check for date from being over a date tile
 			{
 				handleNewEvent(this);
 				var currItem = scheduleItems[eventTempId - 1];
