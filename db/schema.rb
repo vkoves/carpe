@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170320032431) do
+ActiveRecord::Schema.define(version: 20170329054137) do
 
   create_table "categories", force: :cascade do |t|
     t.string   "name"
@@ -130,7 +130,7 @@ ActiveRecord::Schema.define(version: 20170320032431) do
     t.string   "banner_content_type"
     t.integer  "banner_file_size"
     t.datetime "banner_updated_at"
-    t.string   "custom_url"
+    t.string   "custom_url",             default: ""
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
