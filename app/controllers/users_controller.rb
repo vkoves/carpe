@@ -7,7 +7,14 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find_by_id(params[:id]) #fetch the user by the URL passed id
+    using_id = (params[:id_or_url] =~ /\A[0-9]+\Z/)
+    if using_id
+      @user = User.find_by(id: params[:id_or_url])
+      redirect_to user_path(@user) if @user.has_custom_url?
+    else
+      @user = User.find_by(custom_url: params[:id_or_url])
+    end
+
     @profile = false
     if @user
       if current_user and current_user == @user #this is the user looking at their own profile
@@ -88,7 +95,7 @@ class UsersController < ApplicationController
           # Required fields for search - name and image url
           user_obj[:name] = user.name
           user_obj[:image_url] = user.image_url
-          user_obj[:id] = user.id
+          user_obj[:id_or_url] = user.id
 
           # Handle avatars
           unless user and user.has_avatar #if this is a valid user that has no avatar

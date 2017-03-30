@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   resources :categories
 
-  get "u/:id(/:page)", to: "users#show", :as => :user
+  get "u/:id_or_url(/:page)", to: "users#show", :as => :user
   get "/users", to: "users#index"
 
   devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks", :registrations => "users/registrations" }

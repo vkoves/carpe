@@ -5,6 +5,7 @@ viktor:
   name: "Viktor"
   admin: true
   email: "viktorkoves@gmail.com"
+  custom_url: "viktor"
   # friends: [viktors_friend]
 
 #Norman is a normal, non-admin user, so his admin field is null
