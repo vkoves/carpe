@@ -43,15 +43,15 @@
           <% end %>
 
           <div class="field">
-            <%= f.label :custom_url %>
-            <%= f.text_field :custom_url %>
-          </div>
-
-          <div class="field">
             <%= f.label :avatar %>
             <%= f.file_field :avatar, accept: 'image/png,image/gif,image/jpeg' %>
           </div>
       <% end %>
+
+      <div class="field">
+        <%= f.label :custom_url %>
+        <%= f.text_field :custom_url, class: "text-input" %>
+      </div>
 
       <div class="field">
         <%= f.label :banner %>
