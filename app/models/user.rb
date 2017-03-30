@@ -66,11 +66,11 @@ class User < ActiveRecord::Base
                       message: 'cannot be an integer'}
 
   def has_custom_url?
-    !custom_url.to_s.empty?
+    !custom_url.empty?
   end
 
   def to_param
-    has_custom_url? ? custom_url : id
+    has_custom_url? ? custom_url : id.to_s
   end
 
   ##########################
