@@ -1647,16 +1647,24 @@ function populateEvents()
 			$(".sch-month-evnt").draggable(
 			{
 				containment: "#sch-holder",
-				snap: ".evt-snap",
-				snapMode: "inner",
 				appendTo: "body",
 				cancel: "img",
 				revertDuration: 0,
-				opacity: 0.7,
 				distance: 10,
 				scroll: false,
 				revert: "invalid",
 				stack: ".sch-month-evnt",
+				helper: function()
+				{
+					$copy = $(this).clone(); // copy the monthly event
+
+					$(this).css('opacity', '0'); // hide the original
+
+					$copy.css('width', $(this).css('width')); // set the copy's width (since % don't work without inheritance)
+					$copy.css('z-index', '10'); // and increase the copy's z-index
+
+					return $copy;
+				},
 				stop: function() {
 					if($(this).attr('data-date')) // check for a data-date from being over a date tile
 					{
