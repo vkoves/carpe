@@ -65,6 +65,14 @@ class User < ActiveRecord::Base
             format: { without: REGEX_USER_ID,
                       message: 'cannot be an integer'}
 
+  def has_custom_url?
+    !custom_url.to_s.empty?
+  end
+
+  def to_param
+    has_custom_url? ? custom_url : id
+  end
+
   ##########################
   ##### EVENT METHODS ######
   ##########################
