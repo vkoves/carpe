@@ -1491,6 +1491,10 @@ function populateEvents()
 			if(eventObject.eventId)
 				eventId = "event-id='" + eventObject.eventId + "'";
 
+			var closeBtn = "";
+			if(!readOnly) // close button shouldn't show up if you can't edit this schedule
+				closeBtn = "<div class='close'></div>";
+
 			$(".sch-day-tile:eq(" + i + ") .inner").append("<div class='sch-month-evnt" + className + "' evnt-temp-id='" + eventObject.tempId
 				+ "' " + eventId + " data-id='" + eventObject.categoryId + "' data-hour='" + eventObject.startDateTime.getHours() + "' style='color: "
 				+  color +  "; color: " + color + ";'>"
@@ -1498,7 +1502,7 @@ function populateEvents()
 					+ "<div class='time'>"
 						+ datesToTimeRange(eventObject.startDateTime, eventObject.endDateTime)
 					+ "</div>"
-					+ "<div class='close'></div>"
+					+ closeBtn
 				+ "</div>");
 		}
 	}
