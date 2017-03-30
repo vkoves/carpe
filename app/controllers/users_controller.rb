@@ -10,7 +10,7 @@ class UsersController < ApplicationController
     using_id = (params[:id_or_url] =~ /\A[0-9]+\Z/)
     if using_id
       @user = User.find_by(id: params[:id_or_url])
-      redirect_to "/u/#{@user.custom_url}" if @user.has_custom_url?
+      redirect_to user_path(@user) if @user.has_custom_url?
     else
       @user = User.find_by(custom_url: params[:id_or_url])
     end
