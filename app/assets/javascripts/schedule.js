@@ -1487,6 +1487,7 @@ function populateEvents()
 			if(eventObject.name == "<i>Private</i>")
 				className = " private";
 
+			var eventId = "";
 			if(eventObject.eventId)
 				eventId = "event-id='" + eventObject.eventId + "'";
 
