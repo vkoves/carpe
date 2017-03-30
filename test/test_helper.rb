@@ -7,7 +7,7 @@ end
 
 # Add Minitest reporting
 require "minitest/reporters"
-Minitest::Reporters.use! Minitest::Reporters::HtmlReporter.new(:reports_dir => "public/html_reports")
+Minitest::Reporters.use! [Minitest::Reporters::HtmlReporter.new(:reports_dir => "public/html_reports"), Minitest::Reporters::DefaultReporter.new]
 
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
