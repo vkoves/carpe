@@ -776,22 +776,10 @@ input[readonly="readonly"]
 			// transition: opacity 0.25s;
 		}
 	}
-	.sch-month-evnt
-	{
-		margin: 0px 2px 4px 2px;
-		position: relative;
-		color: grey;
-		border-left: solid 3px;
-		padding-left: 5px;
-		background: white;
-		text-align: left;
-		line-height: 1.1;
-		font-size: 14px;
-
-		.time
-		{
-			font-size: 10px;
-			color: grey;
+	&.over {
+		.inner { background: rgb(255, 255, 151); }
+		&.last-month, &.next-month {
+			.inner { background: rgba(255, 255, 151, 0.5); }
 		}
 	}
 	.day-of-month
@@ -804,7 +792,7 @@ input[readonly="readonly"]
 	&.last-month, &.next-month
 	{
 		.inner { background-color: #d9d9d9; }
-		#day-of-month { color: gray;}
+		.day-of-month { color: gray;}
 	}
 	&#sch-today
 	{
@@ -814,6 +802,58 @@ input[readonly="readonly"]
 		.day-of-month { font-weight: bold; }
 	}
 }
+
+.sch-month-evnt
+{
+	margin: 0px 2px 4px 2px;
+	position: relative;
+	color: grey;
+	border-left: solid 3px;
+	padding-left: 5px;
+	background: white;
+	text-align: left;
+	line-height: 1.1;
+	font-size: 14px;
+	transition: box-shadow 0.3s;
+	cursor: pointer;
+
+	.time
+	{
+		font-size: 10px;
+		color: grey;
+	}
+	.close
+	{
+		opacity: 0;
+		background-image: image-url("close-wht.png");
+		background-repeat: no-repeat;
+		background-size: 90%;
+		background-position: center;
+		background-color: rgba(54, 54, 54, 0.5);
+		position: absolute;
+		border-radius: 100px;
+		cursor: pointer;
+		top: 2px;
+		right: 2px;
+		width: 15px;
+		height: 15px;
+		transition: background-color 0.3s, opacity 0.3s;
+
+		&:hover { background-color: rgb(54, 54, 54); }
+	}
+	/* Show close button when hovering over an event, but not when dragging it */
+	&:not(.ui-draggable-dragging):hover
+	{
+		box-shadow: 0px 0px 5px black;
+
+		.close { opacity: 1; }
+	}
+	&.ui-draggable-dragging
+	{
+		box-shadow: 0px 0px 5px black;
+	}
+}
+
 /* On hover show all events */
 .sch-day-tile:hover
 {

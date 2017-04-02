@@ -275,7 +275,10 @@ function ScheduleItem()
 
 	this.element = function() //returns the HTML element for this schedule item, or elements if it is repeating
 	{
-		return $(".sch-evnt[evnt-temp-id="+ this.tempId + "]");
+		if(viewMode == "week")
+			return $(".sch-evnt[evnt-temp-id="+ this.tempId + "]");
+		else if(viewMode == "month")
+			return $(".sch-month-evnt[evnt-temp-id="+ this.tempId + "]");
 	};
 
 	/****************************/
@@ -1029,14 +1032,22 @@ function addDrag(selector)
 		{
 			var newItem = false;
 
-			if(!inColumn($(this))) //if this event was not placed
+			if(viewMode == "week" && !inColumn($(this))) //if this event was not placed
 				return; //return
 
-			if($(this).css("opacity") == 1) //if opacity is 1, this is a new event
+			if(viewMode == "week" && $(this).css("opacity") == 1) //if opacity is 1, this is a new event
 			{
 				$(this).css("height", gridHeight*3 - border);
 				handleNewEvent(this);
 				newItem = true;
+			}
+			else if(viewMode == "month" && $(this).attr("data-date")) // if monthly view, check for date from being over a date tile
+			{
+				handleNewEvent(this);
+				var currItem = scheduleItems[eventTempId - 1];
+				currItem.startDateTime = new Date($(this).attr("data-date"));
+				currItem.endDateTime = new Date($(this).attr("data-date"));
+				repopulateEvents();
 			}
 
 			$("#sch-tiles").html(sideHTML); //reset the sidebar
@@ -1044,18 +1055,21 @@ function addDrag(selector)
 
 			var tempItem = scheduleItems[$(this).attr("evnt-temp-id")];
 
-			handlePosition(this, ui);
-			if(!newItem) //if this is not a new item
-				tempItem.dragComplete($(this)); //say it's been moved
-			else //otherwise
+			if(viewMode == "week")
 			{
-				tempItem.resizeComplete($(this)); //say it's been resized, to read all properties
-				tempItem.endDateTime.setMinutes(0);
-			}
+				handlePosition(this, ui);
+				if(!newItem) //if this is not a new item
+					tempItem.dragComplete($(this)); //say it's been moved
+				else //otherwise
+				{
+					tempItem.resizeComplete($(this)); //say it's been resized, to read all properties
+					tempItem.endDateTime.setMinutes(0);
+				}
 
-			if(tempItem.repeatType && tempItem.repeatType != "none" && tempItem.repeatType != "") //if this is a repeating event
-			{
-				repopulateEvents(); //and populate
+				if(tempItem.repeatType && tempItem.repeatType != "none" && tempItem.repeatType != "") //if this is a repeating event
+				{
+					repopulateEvents(); //and populate
+				}
 			}
 
 			addDrag(); //add drag to the sidebar again
@@ -1196,13 +1210,17 @@ function handleNewEvent(elem)
 	schItem.needsSaving = true;
 	scheduleItems[eventTempId] = schItem;
 
-	$(elem).children(".evnt-title").attr("contenteditable", "true");
-	$(elem).children(".evnt-title").trigger('focus');
-	highlightCurrent(); // Suggests to the user to change the schedule item title by making it editable upon drop here.
-	document.execCommand('delete',false,null); // Suggests to the user to change the schedule item title by making it editable upon drop here.
-	$(elem).attr("evnt-temp-id", eventTempId);
+	if(viewMode == "week")
+	{
+		$(elem).children(".evnt-title").attr("contenteditable", "true");
+		$(elem).children(".evnt-title").trigger('focus');
+		highlightCurrent(); // Suggests to the user to change the schedule item title by making it editable upon drop here.
+		document.execCommand('delete',false,null); // Suggests to the user to change the schedule item title by making it editable upon drop here.
+		$(elem).attr("evnt-temp-id", eventTempId);
+		addResizing($(elem)); //since the sidebar events don't have resizing, we have to add it on stop
+	}
+
 	eventTempId++;
-	addResizing($(elem)); //since the sidebar events don't have resizing, we have to add it on stop
 }
 
 //Change time while items are being dragged or resized, and also snap to a vertical grid
@@ -1350,7 +1368,7 @@ function addDates(newDateObj, refresh, startToday)
 		{
 			var tileClass = "sch-day-tile";
 
-			if(counter <= oldDatesCount && startDateData.lastMonth) //if going through dates from the last month
+			if(counter < oldDatesCount && startDateData.lastMonth) //if going through dates from the last month
 				tileClass = tileClass + " last-month";
 
 			if(counter >= oldDatesCount + monthLength) //if we are going through dates from the next month
@@ -1361,7 +1379,7 @@ function addDates(newDateObj, refresh, startToday)
 			if(currDate < todaySimple)
 				tileClass = tileClass + " in-past";
 
-			$("#sch-monthly-view #tiles-cont").append("<div class='" + tileClass + "'>"
+			$("#sch-monthly-view #tiles-cont").append("<div class='" + tileClass + "' data-date='" + dateToString(currDate) + "' >"
 					+ "<div class='inner'>"
 						+ "<div class='day-of-month'>" + currDate.getDate() + "</div>"
 					+ "</div>"
@@ -1390,12 +1408,6 @@ function initializeMonthlyView()
 	$("#sch-monthly-view").show();
 
 	addDates(refDate, true);
-	$(".sch-month-evnt:not(.private)").click(function()
-	{
-		editEvent($(this));
-	})
-
-
 }
 
 function initializeWeeklyView()
@@ -1451,8 +1463,8 @@ function getStartDate(dateObj, useMonth)
  */
 function repopulateEvents()
 {
-	$("#sch-holder .sch-evnt").remove();
-	populateEvents();
+	$("#sch-holder .sch-evnt, #sch-holder .sch-month-evnt").remove(); // remove week and month events
+	populateEvents(); // and then populate events
 }
 
 //Populate the events in the current week from the hashmap
@@ -1475,13 +1487,22 @@ function populateEvents()
 			if(eventObject.name == "<i>Private</i>")
 				className = " private";
 
+			var eventId = "";
+			if(eventObject.eventId)
+				eventId = "event-id='" + eventObject.eventId + "'";
+
+			var closeBtn = "";
+			if(!readOnly) // close button shouldn't show up if you can't edit this schedule
+				closeBtn = "<div class='close'></div>";
+
 			$(".sch-day-tile:eq(" + i + ") .inner").append("<div class='sch-month-evnt" + className + "' evnt-temp-id='" + eventObject.tempId
-				+ "' data-id='" + eventObject.categoryId + "' data-hour='" + eventObject.startDateTime.getHours() + "' style='color: "
+				+ "' " + eventId + " data-id='" + eventObject.categoryId + "' data-hour='" + eventObject.startDateTime.getHours() + "' style='color: "
 				+  color +  "; color: " + color + ";'>"
-					+ eventObject.getName(true)
+					+ "<span class='evnt-title'>" + eventObject.getName(true) + "</span>"
 					+ "<div class='time'>"
 						+ datesToTimeRange(eventObject.startDateTime, eventObject.endDateTime)
 					+ "</div>"
+					+ closeBtn
 				+ "</div>");
 		}
 	}
@@ -1591,7 +1612,6 @@ function populateEvents()
 			var monthTileEvents = $(this).find(".sch-month-evnt");
 			$(this).find(".sch-month-evnt").remove();
 
-			console.log(monthTileEvents.length);
 			monthTileEvents.sort(function(a, b) {
 				a = parseInt($(a).attr("data-hour"));
 				b = parseInt($(b).attr("data-hour"));
@@ -1605,6 +1625,85 @@ function populateEvents()
 
 			$(this).find(".inner").append(monthTileEvents);
 		});
+
+		$(".sch-month-evnt:not(.private)").click(function()
+		{
+			editEvent($(this));
+		});
+
+		if(!readOnly)
+		{
+			$(".sch-month-evnt .close").click(function(event)
+			{
+				deleteEvent(event, $(this));
+			});
+
+			monthlyEventDraggable();
+			monthlyTileDroppable();
+		}
+
+		function monthlyEventDraggable()
+		{
+			$(".sch-month-evnt").draggable(
+			{
+				containment: "#sch-holder",
+				appendTo: "body",
+				cancel: "img",
+				revertDuration: 0,
+				distance: 10,
+				scroll: false,
+				revert: "invalid",
+				stack: ".sch-month-evnt",
+				helper: function()
+				{
+					$copy = $(this).clone(); // copy the monthly event
+
+					$(this).css('opacity', '0'); // hide the original
+
+					$copy.css('width', $(this).css('width')); // set the copy's width (since % don't work without inheritance)
+					$copy.css('z-index', '10'); // and increase the copy's z-index
+
+					return $copy;
+				},
+				stop: function() {
+					if($(this).attr('data-date')) // check for a data-date from being over a date tile
+					{
+						var currItem = scheduleItems[$(this).attr("evnt-temp-id")];
+						var newDate = new Date($(this).attr('data-date'));
+						currItem.startDateTime.setMonth(newDate.getMonth());
+						currItem.startDateTime.setDate(newDate.getDate());
+						currItem.startDateTime.setYear(newDate.getFullYear());
+						currItem.endDateTime.setMonth(newDate.getMonth());
+						currItem.endDateTime.setDate(newDate.getDate());
+						currItem.endDateTime.setYear(newDate.getFullYear());
+						updatedEvents(currItem.tempId, "Dragged monthly event");
+
+						$(this).attr('data-date', ''); // remove data-date now that it's been used
+					}
+					repopulateEvents();
+				}
+			});
+		}
+
+		function monthlyTileDroppable() {
+			$(".sch-day-tile").droppable(
+			{
+				drop: function( event, ui ) //called when event is dropped on a new column (not called on moving it in the column)
+				{
+					var element = ui.draggable;
+					element.attr('data-date', $(this).attr('data-date'));
+					$(this).removeClass("over"); //dehighlight on drop
+				},
+				over: function( event, ui )
+				{
+					$(this).addClass("over"); //highlight
+				},
+				out: function( event, ui )
+				{
+					$(this).removeClass("over"); //unhighlight
+				}
+			});
+		}
 	}
 
 	if(readOnly)
@@ -1938,7 +2037,10 @@ function deleteEvent(event, elem)
 			var eId = $(elem).parent().attr("event-id");
 			var tempId = $(elem).parent().attr("evnt-temp-id");
 
-			$(".sch-evnt[evnt-temp-id='" + tempId + "']").slideUp("normal", function() {$(this).remove();});
+			if(viewMode == "week")
+				$(".sch-evnt[evnt-temp-id='" + tempId + "']").slideUp("normal", function() {$(this).remove();});
+			else if(viewMode == "month")
+				$(".sch-month-evnt[evnt-temp-id='" + tempId + "']").slideUp("normal", function() {$(this).remove();});
 
 			delete scheduleItems[tempId]; //remove event map
 
