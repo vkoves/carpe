@@ -1,9 +1,3 @@
-/****************************/
-/******** UI HELPERS ********/
-/****************************/
-
-// TODO: This should probably go in its own file since it's going to just keep growing
-
 //Show a custom confirm with the given message, calling the callback with the value of whether the user confirmed
 //replaces javascripts default confirm function
 function confirmUI(message, callback)
@@ -22,9 +16,9 @@ function confirmUI(message, callback)
 	UIManager.slideIn("#overlay-confirm");
 
 	//Then bind click actions
-  	$("#overlay-confirm #cancel").click(function()
+	$("#overlay-confirm #cancel").click(function()
 	{
-  		closeConfirm(false);
+		closeConfirm(false);
 	});
 
 	$("#overlay-confirm #confirm").click(function()
@@ -70,11 +64,11 @@ function customAlertUI(message, content, callback)
 	$("#alert-close").click(function()
 	{
 		UIManager.slideOutHideOverlay("#overlay-alert", function()
-      	{
+		{
 			$("#overlay-alert").remove();
 			if(callback)
 				callback();
-      	});
+		});
 	});
 }
 
@@ -123,7 +117,3 @@ var UIManager = {
 			this.slideOut(selector, callback);
 	}
 };
-
-/****************************/
-/****** END UI HELPERS ******/
-/****************************/
