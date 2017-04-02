@@ -464,6 +464,7 @@ function addStartingListeners()
 		{
 			currEvent.setRepeatEnd(new Date($(this).val()));
 		}
+		repopulateEvents();
 	});
 
 	$("#repeat-custom").click(function()
