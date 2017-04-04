@@ -4,6 +4,7 @@ class UsersController < ApplicationController
 
   def index
     @users = User.where.not(id: current_user.id).sort_by(&:name) # fetch all users but current
+    @admin_tiles = true
   end
 
   def show
