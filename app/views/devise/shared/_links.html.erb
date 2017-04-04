@@ -1,21 +1,15 @@
 <%- if controller_name != 'sessions' %>
-  <%= link_to new_session_path(resource_name), :class => "default" do %>
-	<div class="google-width">Sign In</div>
-  <% end %>
+  <%= link_to_block "Sign In", new_session_path(resource_name), :class => "default google-width" %>
   <br>
 <% end -%>
 
 <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
-  <%= link_to new_registration_path(resource_name, :refer => "dvs-lnks"), :class => "default" do %>
-  <div class="google-width">Sign Up</div>
-  <% end %>
+  <%= link_to_block "Sign Up", new_registration_path(resource_name, :refer => "dvs-lnks"), :class => "default google-width" %>
   <br>
 <% end -%>
 
 <%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
-  <%= link_to new_password_path(resource_name), :class => "default" do %>
-	<div class="google-width">Forgot your password?</div>
-  <% end %>
+  <%= link_to_block "Forgot your password?", new_password_path(resource_name), :class => "default google-width" %>
 <% end -%>
 
 <%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
