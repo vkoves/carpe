@@ -5,13 +5,11 @@
 		<a href="/admin" class="default" style="position: relative; top: -5px; left: 5px; font-size: 14px;"><span>Admin Panel</span></a>
 		<% @admin_tiles = true%>
 	<% end %></h1>
-	<% users = User.all %>
-	<% if users.size > 0 %>
-	<% users = users.sort_by &:name %>
-	<% users.each do |user| %>
-		<%= render "shared/user_box", user: user %>
-	<% end %>
+	<% if not @users.empty? %>
+		<% @users.each do |user| %>
+			<%= render "shared/user_box", user: user %>
+		<% end %>
 	<% else %>
-		No users found with that name!
+		<h2>There's no users but you!</h2>
 	<% end %>
 </div>
