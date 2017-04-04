@@ -9,9 +9,8 @@
 		<%= user.name %><br>
 	</div>
 
-	<%= render "/users/follow_button", user: user %>
 
-	<% if @show_promote %>
+	<% if @admin_tiles %>
 		<!-- Show promotion and demotion admin buttons -->
 		<div class="promotion">
 			<% if user.admin and user != current_user %>
@@ -27,6 +26,8 @@
 		<%= link_to admin_destroy_user_path(user), :method => :delete, data: { confirm: 'Are you sure?' }, :class => "default red" do %>
 			<span>Delete</span>
 		<% end %>
+	<% else %>
+		<%= render "/users/follow_button", user: user %>
 	<% end %>
 
 	<% if @group and !@group.users.include? user %>

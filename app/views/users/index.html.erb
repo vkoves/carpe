@@ -3,9 +3,9 @@
 	<h1 class="page-titler">Users
 	<% if current_user and current_user.admin %>
 		<a href="/admin" class="default" style="position: relative; top: -5px; left: 5px; font-size: 14px;"><span>Admin Panel</span></a>
-		<% @show_promote = true%>
+		<% @admin_tiles = true%>
 	<% end %></h1>
-	<% users = User.all %>	
+	<% users = User.all %>
 	<% if users.size > 0 %>
 	<% users = users.sort_by &:name %>
 	<% users.each do |user| %>
