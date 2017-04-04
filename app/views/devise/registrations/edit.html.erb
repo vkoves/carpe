@@ -91,8 +91,6 @@
 	</div>
 
 	<div class="link-default">
-		<%= link_to :back, :class=>"default" do %>
-			<span>Back</span>
-		<% end %>
+		<%= link_to_block "Back", :back, :class=>"default" %>
 	</div>
 </div>

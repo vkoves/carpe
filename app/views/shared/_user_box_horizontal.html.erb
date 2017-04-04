@@ -22,12 +22,10 @@
 			<% if @profile%>
 				Following since: <%= relationship.created_at.strftime("%b. %d, %Y")%> <br>
 
-				<%= link_to relationship_path(relationship), :method => :delete, :remote => true, :class => "default red friend-remove", "fid" => relationship.id do %>
-					<% if current_user == relationship.follower # if the current user is following this person, let them unfollow %>
-						<span>Unfollow</span>
-					<% else %>
-						<span>Remove</span>
-					<% end %>
+				<% if current_user == relationship.follower # if the current user is following this person, let them unfollow %>
+					<%= link_to_block "Unfollow", relationship_path(relationship), :method => :delete, :remote => true, :class => "default red friend-remove", "fid" => relationship.id %>
+				<% else %>
+					<%= link_to_block "Remove", relationship_path(relationship), :method => :delete, :remote => true, :class => "default red friend-remove", "fid" => relationship.id %>
 				<% end %>
 			<% elsif current_user %>
 				<% if !@home %>

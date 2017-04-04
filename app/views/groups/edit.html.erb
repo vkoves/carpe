@@ -1,8 +1,6 @@
 <h2 class="page-titler">Edit <%= @group.name %></h2>
 
-<%= link_to group_path(@group), class: "default" do %>
-    <span>Back To Group Page</span>
-<% end %>
+<%= link_to_block "Back To Group Page", group_path(@group), class: "default" %>
 
 <%= form_for(@group, url: group_path(@group), :method => :POST, :html => {:class => 'thin'}) do |f| %>
 	<%= f.label "Name" %><br>
