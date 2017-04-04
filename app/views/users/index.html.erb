@@ -1,17 +1,17 @@
 <% content_for :title do %> - View Users<% end %>
-<div class="page-container">
-	<h1 class="page-titler">Users
-	<% if current_user and current_user.admin %>
-		<a href="/admin" class="default" style="position: relative; top: -5px; left: 5px; font-size: 14px;"><span>Admin Panel</span></a>
-		<% @show_promote = true%>
-	<% end %></h1>
-	<% users = User.all %>	
-	<% if users.size > 0 %>
-	<% users = users.sort_by &:name %>
-	<% users.each do |user| %>
-		<%= render "shared/user_box", user: user %>
-	<% end %>
+<%= stylesheet_link_tag "pages/admin" %>
+
+<div class="page-container admin-users">
+	<h1 class="page-titler">
+		Users
+		<%= link_to_block "Admin Panel", admin_panel_url, :class=>"default" %>
+	</h1>
+
+	<% if not @users.empty? %>
+		<% @users.each do |user| %>
+			<%= render "shared/user_box", user: user %>
+		<% end %>
 	<% else %>
-		No users found with that name!
+		<h2>There's no users but you!</h2>
 	<% end %>
 </div>

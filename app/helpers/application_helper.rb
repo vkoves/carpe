@@ -162,4 +162,10 @@ module ApplicationHelper
     end
     return categoryAttributes
   end
+
+  def link_to_block(name = nil, options = nil, html_options = nil)
+    link_to(options, html_options) do
+      raw "<span>" + name + "</span>"
+    end
+  end
 end
