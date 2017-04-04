@@ -16,5 +16,9 @@
 		left: 5px;
 	}
 	/* Force names to two lines to keep grid */
-	.user-box .name { height: 44px; }
+	.user-box .name
+	{
+		height: 44px;
+		overflow-y: auto;
+	}
 }
