@@ -1,8 +1,12 @@
 <% content_for :title do %> - View Users<% end %>
+<%= stylesheet_link_tag "pages/admin" %>
+
 <div class="page-container admin-users">
 	<h1 class="page-titler">
 		Users
-		<a href="/admin" class="default" style="position: relative; top: -5px; left: 5px; font-size: 14px;"><span>Admin Panel</span></a>
+		<%= link_to admin_panel_url, :class=>"default" do %>
+			<span>Admin Panel</span>
+		<% end %>
 	</h1>
 
 	<% if not @users.empty? %>
