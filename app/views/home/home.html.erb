@@ -5,9 +5,8 @@
 	<h1>Scheduling for the modern age.</h1>
 	<h2>Meet Carpe. It's a social, powerful planning tool for the modern world.</h2>
 	<div class="alphawarn">You can try out Carpe in our open Alpha.</div>
-	<%= link_to new_user_registration_path(:refer => "wlcm-tp"), :class => "home-signup-btn", :id => "home-button-wht" do %>
-		<div>Sign Up</div>
-	<% end %>
+
+	<%= link_to_block "Sign Up", new_user_registration_path(:refer => "wlcm-tp"), :class => "home-signup-btn" %>
 </div>
 
 <div id="home-sl2">
@@ -38,7 +37,5 @@
 	<h1 class="zero-top">Ready to start?</h1>
 	<h2>Be one of the first to try Carpe in our free Alpha Preview.</h2>
 
-	<%= link_to new_user_registration_path(:refer => "wlcm-bt"), :class => "home-signup-btn", :id => "home-button-wht" do %>
-		<div>Get Started</div>
-	<% end %>
+	<%= link_to_block "Get Started", new_user_registration_path(:refer => "wlcm-bt"), :class => "home-signup-btn" %>
 </div>
