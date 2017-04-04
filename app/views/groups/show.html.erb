@@ -14,16 +14,10 @@
 		</div>
 		<div id="profile-text">
 			<h1 id="profile-name"><%= @group.name %>
-			<%= link_to "/group/" + params[:id] + "/edit", class: "default", style: "font-size: 16px;" do %>
-				<span>Edit</span>
-			<% end %>
-			<%= link_to "/groups/add-users/" + params[:id], class: "default" do %>
-				<span>Manage Users</span>
-			<% end %>
+			<%= link_to_block "Edit", "/group/" + params[:id] + "/edit", class: "default" %>
+			<%= link_to_block "Manage Users", "/groups/add-users/" + params[:id], class: "default" %>
 			</h1>
-			<%= link_to "/groups", class: "default", style: "font-size: 16px;" do %>
-				<span>All Groups</span>
-			<% end %>
+			<%= link_to_block "All Groups", "/groups", class: "default" %>
 		</div>
 	</div>
 </div>
