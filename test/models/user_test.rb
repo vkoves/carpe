@@ -58,4 +58,31 @@ class UserTest < ActiveSupport::TestCase
     # Make sure that second event is also the right one, and in the right order
     assert_equal(curr_event_2, current_events[1], "Second current event is wrong; either we got a wrong current event, or the current events are in the wrong order.")
   end
+
+  test "next_event should return events within current day" do
+    viktor = users(:viktor)
+    curr_event_1 = events(:current_event_1)
+    curr_event_2 = events(:current_event_2)
+    curr_event_3 = events(:current_event_3)
+
+    # Make three events - one yesterday, two today
+    #
+    # This is the yesterday event
+    curr_event_1.date = DateTime.now - 30.hour
+    curr_event_1.end_date = DateTime.now - 28.hour
+    curr_event_1.save
+
+    # This event is currently going on, but not the next event
+    curr_event_2.date = DateTime.now - 1.hour
+    curr_event_2.end_date = DateTime.now + 1.hour
+    curr_event_2.save
+
+    # This event should be the next event
+    curr_event_3.date = DateTime.now + 1.hour
+    curr_event_3.end_date = DateTime.now + 2.hour
+    curr_event_3.save
+
+    # Make sure that the next event is the right one
+    assert_equal(curr_event_3, viktor.next_event, "Wrong event was returned as the next event!")
+  end
 end

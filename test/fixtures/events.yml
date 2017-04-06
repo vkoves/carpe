@@ -43,3 +43,8 @@ current_event_2:
   name: Current Event 2
   category: main
   user: viktor
+
+current_event_3:
+  name: Current Event 3
+  category: main
+  user: viktor
