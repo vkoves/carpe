@@ -2062,20 +2062,30 @@ function deleteEvent(event, elem)
 {
 	event.stopImmediatePropagation();
 
-	// Show the event deletion overlay
-	UIManager.showOverlay();
-	UIManager.slideIn("#evnt-delete.overlay-box");
+	var tempId = $(elem).parent().attr("evnt-temp-id");
+	var schItem = scheduleItems[tempId];
 
-	$("#evnt-delete.overlay-box .default").off(); // remove events from buttons
-
-	$("#evnt-delete.overlay-box #single-evnt").click(deleteSingleEvent);
-	$("#evnt-delete.overlay-box #all-evnts").click(deleteEventProper);
-
-	// On cancel just hide overlay
-	$("#evnt-delete.overlay-box .close, #evnt-delete.overlay-box #cancel").click(function()
+	if(schItem.repeatType && schItem.repeatType != "none")
 	{
-		UIManager.slideOutHideOverlay("#evnt-delete.overlay-box");
-	});
+		// Show the event deletion overlay for repeating elements
+		UIManager.showOverlay();
+		UIManager.slideIn("#evnt-delete.overlay-box");
+
+		$("#evnt-delete.overlay-box .default").off(); // remove events from buttons
+
+		$("#evnt-delete.overlay-box #single-evnt").click(deleteSingleEvent);
+		$("#evnt-delete.overlay-box #all-evnts").click(deleteEventProper);
+
+		// On cancel just hide overlay
+		$("#evnt-delete.overlay-box .close, #evnt-delete.overlay-box #cancel").click(function()
+		{
+			UIManager.slideOutHideOverlay("#evnt-delete.overlay-box");
+		});
+	}
+	else
+	{
+		confirmUI("Are you sure you want to delete this event?", deleteEventProper);
+	}
 
 	// Deletes a single event among a repeating set by making a new repeat break and applying it
 	function deleteSingleEvent()
@@ -2094,13 +2104,13 @@ function deleteEvent(event, elem)
 
 		// Format auto made break names as "No _event-name_ On _date_"
 		// e.g. 'No Baseball Training On 9/27/17'
-		var breakTitle = "No " + event.name + " On " + breakDateString;
+		var breakTitle = "No " + schItem.name + " On " + breakDateString;
 
 		createBreak(breakTitle, breakDateString, breakDateString, function(newBreak)
 		{
-			event.breaks.push(newBreak.id);
+			schItem.breaks.push(newBreak.id);
 
-			updatedEvents(event.tempId, "breaks"); //mark that the events changed to enable saving
+			updatedEvents(schItem.tempId, "breaks"); //mark that the events changed to enable saving
 
 			repopulateEvents();
 

@@ -103,9 +103,15 @@ var UIManager = {
 	{
 		$(selector).css("top", this.hiddenTop(selector) ).show().animate({ top: this.visibleTop }, 700, 'easeOutExpo', callback);
 	},
-	slideOut: function(selector, callback) //takes a string selector and slides out
+	slideOut: function(selector, callback) //takes a string selector and slides out. Also hides after
 	{
-		$(selector).animate({ top: this.hiddenTop(selector) }, 400, 'swing', callback);
+		$(selector).animate({ top: this.hiddenTop(selector) }, 400, 'swing', function()
+		{
+			$(this).hide()
+
+			if(callback)
+				callback();
+		});
 	},
 	slideOutHideOverlay: function(selector, callback)
 	{
