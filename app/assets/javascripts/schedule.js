@@ -2211,7 +2211,7 @@ function saveCategory(event,elem,id)
 
 function createBreak(name, startDate, endDate, callback)
 {
-	console.log("Make the break: " + name + ", " + startDate + ", " + endDate);
+	// console.log("Make the break: " + name + ", " + startDate + ", " + endDate);
 	var startD = new Date(startDate);
 	startD.setHours(0,0,0,0); //clear any time
 	var endD = new Date(endDate);
