@@ -368,6 +368,13 @@
 		/* font-family:Open Sans, sans-serif; */
 	}
 }
+
+#evnt-delete.overlay-box
+{
+	span.default { margin: 5px; }
+	#single-evnt { margin-top: 20px; }
+}
+
 input[readonly="readonly"]
 {
 	background: transparent;
