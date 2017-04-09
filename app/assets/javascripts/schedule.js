@@ -2031,7 +2031,21 @@ function deleteEvent(event, elem)
 {
 	event.stopImmediatePropagation();
 
-	confirmUI("Are you sure you want to delete this event?", function(confirmed)
+	// Show the event deletion overlay
+	UIManager.showOverlay();
+	UIManager.slideIn("#evnt-delete.overlay-box");
+
+	$("#evnt-delete.overlay-box #single-evnt").click(deleteSingleEvent);
+	$("#evnt-delete.overlay-box #all-evnts").click(deleteEventProper);
+
+	// Deletes a single event among a repeating set by making a new repeat break and applying it
+	function deleteSingleEvent()
+	{
+		UIManager.slideOutHideOverlay("#evnt-delete.overlay-box");
+	}
+
+	// Deletes the associated event object, like the old delete. This gets rid of all items repeating
+	function deleteEventProper()
 	{
 		var eId = $(elem).parent().attr("event-id");
 		var tempId = $(elem).parent().attr("evnt-temp-id");
@@ -2042,6 +2056,8 @@ function deleteEvent(event, elem)
 			$(".sch-month-evnt[evnt-temp-id='" + tempId + "']").slideUp("normal", function() {$(this).remove();});
 
 		delete scheduleItems[tempId]; //remove event map
+
+		UIManager.slideOutHideOverlay("#evnt-delete.overlay-box");
 
 		if(!eId) // if no event, this event has not been saved, so no ajax is needed to delete it
 			return;
@@ -2059,7 +2075,7 @@ function deleteEvent(event, elem)
 				alertUI("Deleting event failed :/");
 			}
 		});
-	});
+	}
 }
 
 function createCategory()
