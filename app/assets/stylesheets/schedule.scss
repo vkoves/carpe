@@ -371,7 +371,12 @@
 
 #evnt-delete.overlay-box
 {
-	span.default { margin: 5px; }
+	/* Add spacing to the options */
+	span.default:not(.close)
+	{
+		margin: 5px;
+		width: 200px;
+	}
 	#single-evnt { margin-top: 20px; }
 }
 

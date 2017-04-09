@@ -2037,8 +2037,16 @@ function deleteEvent(event, elem)
 	UIManager.showOverlay();
 	UIManager.slideIn("#evnt-delete.overlay-box");
 
+	$("#evnt-delete.overlay-box .default").off(); // remove events from buttons
+
 	$("#evnt-delete.overlay-box #single-evnt").click(deleteSingleEvent);
 	$("#evnt-delete.overlay-box #all-evnts").click(deleteEventProper);
+
+	// On cancel just hide overlay
+	$("#evnt-delete.overlay-box .close, #evnt-delete.overlay-box #cancel").click(function()
+	{
+		UIManager.slideOutHideOverlay("#evnt-delete.overlay-box");
+	});
 
 	// Deletes a single event among a repeating set by making a new repeat break and applying it
 	function deleteSingleEvent()
