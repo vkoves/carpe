@@ -2209,6 +2209,10 @@ function saveCategory(event,elem,id)
 	});
 }
 
+// Creates a new break with a given name and starting at startDate
+// and ending at endDate, where both are strings.
+// Fires the passed in callback when the break has been made, passing
+// the break as a parameter
 function createBreak(name, startDate, endDate, callback)
 {
 	// console.log("Make the break: " + name + ", " + startDate + ", " + endDate);
