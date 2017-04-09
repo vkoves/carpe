@@ -76,8 +76,11 @@ function customAlertUI(message, content, callback)
 
 //The UIManager manages UI effects across Carpe, creating consistent animations and overlays
 var UIManager = {
-	hiddenTop: "-15%",
 	visibleTop: "10%",
+	hiddenTop: function(selector) // returns top position so div is 10px off screen top
+	{
+		return - $(selector).outerHeight() - 10;
+	},
 
 	showOverlay: function() //fades in the transparent overlay if needed
 	{
@@ -98,11 +101,11 @@ var UIManager = {
 	},
 	slideIn: function(selector, callback) //takes a string selector and slides in
 	{
-		$(selector).css("top", this.hiddenTop).show().animate({ top: this.visibleTop }, 700, 'easeOutExpo', callback);
+		$(selector).css("top", this.hiddenTop(selector) ).show().animate({ top: this.visibleTop }, 700, 'easeOutExpo', callback);
 	},
 	slideOut: function(selector, callback) //takes a string selector and slides out
 	{
-		$(selector).animate({ top: this.hiddenTop }, 400, 'swing', callback);
+		$(selector).animate({ top: this.hiddenTop(selector) }, 400, 'swing', callback);
 	},
 	slideOutHideOverlay: function(selector, callback)
 	{
