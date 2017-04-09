@@ -2033,35 +2033,32 @@ function deleteEvent(event, elem)
 
 	confirmUI("Are you sure you want to delete this event?", function(confirmed)
 	{
-		if(confirmed)
-		{
-			var eId = $(elem).parent().attr("event-id");
-			var tempId = $(elem).parent().attr("evnt-temp-id");
+		var eId = $(elem).parent().attr("event-id");
+		var tempId = $(elem).parent().attr("evnt-temp-id");
 
-			if(viewMode == "week")
-				$(".sch-evnt[evnt-temp-id='" + tempId + "']").slideUp("normal", function() {$(this).remove();});
-			else if(viewMode == "month")
-				$(".sch-month-evnt[evnt-temp-id='" + tempId + "']").slideUp("normal", function() {$(this).remove();});
+		if(viewMode == "week")
+			$(".sch-evnt[evnt-temp-id='" + tempId + "']").slideUp("normal", function() {$(this).remove();});
+		else if(viewMode == "month")
+			$(".sch-month-evnt[evnt-temp-id='" + tempId + "']").slideUp("normal", function() {$(this).remove();});
 
-			delete scheduleItems[tempId]; //remove event map
+		delete scheduleItems[tempId]; //remove event map
 
-			if(!eId) // if no event, this event has not been saved, so no ajax is needed to delete it
-				return;
+		if(!eId) // if no event, this event has not been saved, so no ajax is needed to delete it
+			return;
 
-			$.ajax({
-				url: "/delete_event",
-				type: "POST",
-				data: {id: eId, group_id: groupID},
-				success: function(resp)
-				{
-					console.log("Delete complete.");
-				},
-				error: function(resp)
-				{
-					alertUI("Deleting event failed :/");
-				}
-			});
-		}
+		$.ajax({
+			url: "/delete_event",
+			type: "POST",
+			data: {id: eId, group_id: groupID},
+			success: function(resp)
+			{
+				console.log("Delete complete.");
+			},
+			error: function(resp)
+			{
+				alertUI("Deleting event failed :/");
+			}
+		});
 	});
 }
 
@@ -2105,36 +2102,33 @@ function deleteCategory(event, elem, id)
 {
 	confirmUI("Are you sure you want to delete this category?", function(confirmed)
 	{
-		if(confirmed)
-		{
-			$.ajax({
-				url: "/delete_category",
-				type: "POST",
-				data: {id: id, group_id: groupID},
-				success: function(resp) //after the server says the delete worked
+		$.ajax({
+			url: "/delete_category",
+			type: "POST",
+			data: {id: id, group_id: groupID},
+			success: function(resp) //after the server says the delete worked
+			{
+				console.log("Delete category complete.");
+				$(elem).parent().slideUp("normal", function() //slide up the div, hiding it
 				{
-					console.log("Delete category complete.");
-					$(elem).parent().slideUp("normal", function() //slide up the div, hiding it
+					$(this).remove(); //and when that's done, remove the div
+					sideHTML = $("#sch-tiles").html(); //and save the sidebar html for restoration upon drops
+					//Remove all events of this category from scheduleItems
+					$(".col-snap .sch-evnt[data-id=" + id + "]").slideUp();
+					for (var index in scheduleItems) //do a foreach since this is a hashmap
 					{
-						$(this).remove(); //and when that's done, remove the div
-						sideHTML = $("#sch-tiles").html(); //and save the sidebar html for restoration upon drops
-						//Remove all events of this category from scheduleItems
-						$(".col-snap .sch-evnt[data-id=" + id + "]").slideUp();
-						for (var index in scheduleItems) //do a foreach since this is a hashmap
+						if(scheduleItems[index].categoryId = id)
 						{
-							if(scheduleItems[index].categoryId = id)
-							{
-								delete scheduleItems[index];
-							}
+							delete scheduleItems[index];
 						}
-					});
-				},
-				error: function(resp)
-				{
-					alertUI("Deleting category failed :(");
-				}
-			});
-		}
+					}
+				});
+			},
+			error: function(resp)
+			{
+				alertUI("Deleting category failed :(");
+			}
+		});
 	});
 }
 
