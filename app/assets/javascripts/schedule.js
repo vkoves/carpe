@@ -1331,6 +1331,8 @@ function addDates(newDateObj, refresh, startToday)
 
 		$(".sch-day-col").each(function(index, col)
 		{
+			$(col).attr("data-date", dateToString(currDate));
+
 			var fullDate = monthNames[currDate.getMonth()] + " " + currDate.getDate() + ", " + currDate.getFullYear();
 
 			$(col).children(".col-titler").prepend("<div class='evnt-date'>" + currDate.getDate() + "</div> "); //prepend the numeric date (e.g. 25)
@@ -2041,7 +2043,32 @@ function deleteEvent(event, elem)
 	// Deletes a single event among a repeating set by making a new repeat break and applying it
 	function deleteSingleEvent()
 	{
-		UIManager.slideOutHideOverlay("#evnt-delete.overlay-box");
+		var tempId = $(elem).parent().attr("evnt-temp-id");
+		var event = scheduleItems[tempId];
+
+		var breakDateString;
+		if(viewMode == "week")
+			breakDateString = $(elem).parents(".sch-day-col").attr("data-date");
+		else if(viewMode == "month")
+			breakDateString = $(elem).parents(".sch-day-tile").attr("data-date");
+
+		if(!breakDateString) // if the date string is undefined, return to prevent further errors
+			return;
+
+		// Format auto made break names as "No _event-name_ On _date_"
+		// e.g. 'No Baseball Training On 9/27/17'
+		var breakTitle = "No " + event.name + " On " + breakDateString;
+
+		createBreak(breakTitle, breakDateString, breakDateString, function(newBreak)
+		{
+			event.breaks.push(newBreak.id);
+
+			updatedEvents(event.tempId, "breaks"); //mark that the events changed to enable saving
+
+			repopulateEvents();
+
+			UIManager.slideOutHideOverlay("#evnt-delete.overlay-box");
+		});
 	}
 
 	// Deletes the associated event object, like the old delete. This gets rid of all items repeating
@@ -2174,7 +2201,7 @@ function saveCategory(event,elem,id)
 	});
 }
 
-function createBreak(name, startDate, endDate)
+function createBreak(name, startDate, endDate, callback)
 {
 	console.log("Make the break: " + name + ", " + startDate + ", " + endDate);
 	var startD = new Date(startDate);
@@ -2202,6 +2229,9 @@ function createBreak(name, startDate, endDate)
 				hideBreakAddOverlay();
 				showBreakAddOverlay();
 			}
+
+			// Call the callback and pass in the new break
+			callback(brk);
 		},
 		error: function(resp)
 		{
