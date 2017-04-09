@@ -515,9 +515,14 @@ function addStartingListeners()
 	});
 
 	//Add break button click handler, which shows the overlay
-	$("#create-break, #create-break-inside-add-break").click(function()
+	$("#create-break-inside-add-break").click(function()
 	{
 		showBreakCreateOverlay();
+	});
+
+	$("#manage-breaks").click(function()
+	{
+		showBreakAddOverlay(true);
 	});
 
 	$("#break-overlay-box .close").click(function()
@@ -1850,7 +1855,10 @@ function showBreakCreateOverlay()
 	$(".ui-widget-overlay, #break-overlay-box").fadeIn(250); //and fade in
 }
 
-function showBreakAddOverlay()
+// Shows an overlay to add breaks. If managing,
+// it is actually for editing and deleting breaks rather
+// than enabling or disabling breaks on the currente vent
+function showBreakAddOverlay(managing)
 {
 	var currObj;
 	if(currEvent)
@@ -1859,18 +1867,33 @@ function showBreakAddOverlay()
 		currObj = currCategory;
 
 	$("#break-cont").html(""); //clear the break container
+
+	var checkbox = "<div class='check-box'></div>";
+
+	if(managing)
+	{
+		checkbox = "";
+		$("#break-adder-overlay-box h3").text("Manage Breaks");
+	}
+	else
+	{
+		$("#break-adder-overlay-box h3").text("Add Breaks");
+	}
+
 	for (var id in breaks) //do a foreach since this is a hashmap
 	{
 		var breakInstance = breaks[id]; //and add each break
 
 		var classAdd = "";
-		if(currObj.breaks.indexOf(parseInt(id)) > -1)
+
+		if(!managing && currObj.breaks.indexOf(parseInt(id)) > -1)
 		{
 			classAdd = "active"
 		}
 
+
 		$("#break-cont").append("<div class='break-elem " +  classAdd +"' data-id='" + id + "' >"
-				+ "<div class='check-box'></div>"
+				+ checkbox
 				+ breakInstance.name + " | " + dateToString(breakInstance.startDate) + " | " + dateToString(breakInstance.endDate)
 			+ "</div>");
 	}
@@ -1881,40 +1904,46 @@ function showBreakAddOverlay()
 			+ "<br>Make some by pressing \"Create Break\" on your schedule!");
 	}
 
-	$(".break-elem").click(function()
-	{
-		var currId = parseInt($(this).attr("data-id")); //get the id of the current break
-
-		var currObj;
-		if(currEvent)
-			currObj = currEvent;
-		else
-			currObj = currCategory;
-
-		if($(this).hasClass("active")) //disable this
-		{
-			var index = currObj.breaks.indexOf(currId);
-
-			if(index > -1) //if this is indeed a current break
-			{
-				$(this).removeClass("active");
-				currObj.breaks.splice(index, 1); //and remove
-			}
-		}
-		else
-		{
-			$(this).addClass("active");
-
-			currObj.breaks.push(currId);
-		}
-
-		if(currEvent)
-			updatedEvents(currEvent.tempId, "breaks"); //mark that the events changed to enable saving
-
-		repopulateEvents();
-	});
+	if(!managing)
+		setupBreakClickHandlers();
 
 	$(".ui-widget-overlay, #break-adder-overlay-box").fadeIn(250);
+
+	function setupBreakClickHandlers()
+	{
+		$(".break-elem").click(function()
+		{
+			var currId = parseInt($(this).attr("data-id")); //get the id of the current break
+
+			var currObj;
+			if(currEvent)
+				currObj = currEvent;
+			else
+				currObj = currCategory;
+
+			if($(this).hasClass("active")) //disable this
+			{
+				var index = currObj.breaks.indexOf(currId);
+
+				if(index > -1) //if this is indeed a current break
+				{
+					$(this).removeClass("active");
+					currObj.breaks.splice(index, 1); //and remove
+				}
+			}
+			else
+			{
+				$(this).addClass("active");
+
+				currObj.breaks.push(currId);
+			}
+
+			if(currEvent)
+				updatedEvents(currEvent.tempId, "breaks"); //mark that the events changed to enable saving
+
+			repopulateEvents();
+		});
+	}
 }
 
 //Hide any type of overlay
