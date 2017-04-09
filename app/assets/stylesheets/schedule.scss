@@ -736,6 +736,26 @@ input[readonly="readonly"]
 }
 #embed-button { position: relative; top: -5px;}
 
+/* Read only styling */
+.read-only
+{
+	/* Hide edit and close icons */
+	.sch-cat-icon, .sch-evnt-icon
+	{
+		display: none !important;
+	}
+	/* Make it clear you can't drag schedule events and can't edit titles */
+	.sch-evnt, .evnt-title
+	{
+		cursor: default !important;
+	}
+	/* Hide "Add Category" button */
+	.cat-add
+	{
+		display: none;
+	}
+}
+
 /***************************/
 /** MONTHLY VIEW STYLING ***/
 /***************************/
