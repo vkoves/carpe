@@ -85,4 +85,21 @@ class UserTest < ActiveSupport::TestCase
     # Make sure that the next event is the right one
     assert_equal(curr_event_3, viktor.next_event, "Wrong event was returned as the next event!")
   end
+
+  test "is_busy should reflect user's current events" do
+    viktor = users(:viktor)
+    curr_event_1 = events(:current_event_1)
+    curr_event_2 = events(:current_event_2)
+
+    # Make two events - one currently going on, one not
+    curr_event_1.date = DateTime.now - 2.hour
+    curr_event_1.end_date = DateTime.now + 1.hour
+    curr_event_1.save
+
+    curr_event_2.date = DateTime.now + 36.hour
+    curr_event_2.end_date = DateTime.now + 38.hour
+    curr_event_2.save
+
+    assert_equal(true, viktor.is_busy?, "Test data has one event currently going on, \"is_busy?\" should have returned true!")
+  end
 end
