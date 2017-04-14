@@ -1959,6 +1959,16 @@ function hideOverlay()
 function hideBreakAddOverlay()
 {
 	$("#break-adder-overlay-box").fadeOut(250);
+
+	// There are three cases when Break Management or Adding Breaks is active:
+	// one clicked on the event to access it, accessed it from the schedule, or another break UI
+
+	// This will hide all components only when Manage Breaks is called (event not clicked, no other break windows)
+	var eventUiIsVisible = $("#event-overlay-box").is(":visible");
+	var breakUiIsVisible = $("#cat-overlay-box").is(":visible");
+	if (!eventUiIsVisible && !breakUiIsVisible) {
+		hideOverlay();
+	}
 }
 
 //Hide the break adding overlay
