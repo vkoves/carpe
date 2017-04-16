@@ -2116,16 +2116,32 @@ function deleteEvent(event, elem)
 		// e.g. 'No Baseball Training On 9/27/17'
 		var breakTitle = "No " + schItem.name + " On " + breakDateString;
 
-		createBreak(breakTitle, breakDateString, breakDateString, function(newBreak)
+		var newBreakId;
+
+		// Check for existing break with this name to see if it was made
+		for(var breakId in breaks)
 		{
-			schItem.breaks.push(newBreak.id);
+			if(breaks[breakId].name == breakTitle)
+				newBreakId = breakId;
+		}
 
-			updatedEvents(schItem.tempId, "breaks"); //mark that the events changed to enable saving
+		// If we didn't find an existing break with that name, make one
+		if(typeof newBreakId == "undefined")
+		{
+			createBreak(breakTitle, breakDateString, breakDateString, function(newBreak)
+			{
+				newBreakId = newBreak.id;
+			});
+		}
 
-			repopulateEvents();
+		// Now that we have a break that will make this event be skipped, add it and update UI accordingly
+		schItem.breaks.push(newBreakId);
 
-			UIManager.slideOutHideOverlay("#evnt-delete.overlay-box");
-		});
+		updatedEvents(schItem.tempId, "breaks"); //mark that the events changed to enable saving
+
+		repopulateEvents();
+
+		UIManager.slideOutHideOverlay("#evnt-delete.overlay-box");
 	}
 
 	// Deletes the associated event object, like the old delete. This gets rid of all items repeating
