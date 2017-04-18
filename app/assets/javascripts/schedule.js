@@ -948,6 +948,9 @@ function addDrag(selector)
 
 		scheduleItems[$(this).parent().attr("evnt-temp-id")].setName($(this).text());
 
+		if($(this).text() == "")
+			$(this).html("<i>Untitled</i>");
+
 		removeHighlight();
 	});
 
@@ -1813,7 +1816,7 @@ function editEvent(elem)
 
 		$(".ui-widget-overlay, #event-overlay-box").fadeIn(250);
 
-		$("#overlay-title").html(currEvent.name);
+		$("#overlay-title").html(currEvent.name || "<i>Untitled</i>");
 		$("#overlay-color-bar").css("background-color", categories[currEvent.categoryId].color);
 
 		var desc = currEvent.description || ""; //in case the description is null
