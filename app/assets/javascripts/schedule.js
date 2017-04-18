@@ -1962,8 +1962,9 @@ function showBreakAddOverlay(managing)
 //Hide any type of overlay
 function hideOverlay()
 {
-	//Hide overlay, the repeat menu and category and event overlays
-	UIManager.slideOutHideOverlay("#repeat-menu, #event-overlay-box, #cat-overlay-box, #break-overlay-box, #break-adder-overlay-box, .overlay-box");
+	//Hide overlays
+	UIManager.slideOutHideOverlay("#event-overlay-box, #cat-overlay-box, #break-overlay-box, #break-adder-overlay-box, .overlay-box");
+	$("#repeat-menu").hide(); // hide the repeat menu, since it's closed by default
 	currCategory = null;
 	currEvent = null;
 }
