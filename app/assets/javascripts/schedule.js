@@ -467,6 +467,7 @@ function addStartingListeners()
 		{
 			currEvent.setRepeatEnd(new Date($(this).val()));
 		}
+		repopulateEvents();
 	});
 
 	$("#repeat-custom").click(function()
@@ -514,9 +515,14 @@ function addStartingListeners()
 	});
 
 	//Add break button click handler, which shows the overlay
-	$("#create-break, #create-break-inside-add-break").click(function()
+	$("#create-break-inside-add-break").click(function()
 	{
 		showBreakCreateOverlay();
+	});
+
+	$("#manage-breaks").click(function()
+	{
+		showBreakAddOverlay(true);
 	});
 
 	$("#break-overlay-box .close").click(function()
@@ -1330,6 +1336,8 @@ function addDates(newDateObj, refresh, startToday)
 
 		$(".sch-day-col").each(function(index, col)
 		{
+			$(col).attr("data-date", dateToString(currDate));
+
 			var fullDate = monthNames[currDate.getMonth()] + " " + currDate.getDate() + ", " + currDate.getFullYear();
 
 			$(col).children(".col-titler").prepend("<div class='evnt-date'>" + currDate.getDate() + "</div> "); //prepend the numeric date (e.g. 25)
@@ -1847,7 +1855,10 @@ function showBreakCreateOverlay()
 	$(".ui-widget-overlay, #break-overlay-box").fadeIn(250); //and fade in
 }
 
-function showBreakAddOverlay()
+// Shows an overlay to add breaks. If managing,
+// it is actually for editing and deleting breaks rather
+// than enabling or disabling breaks on the currente vent
+function showBreakAddOverlay(managing)
 {
 	var currObj;
 	if(currEvent)
@@ -1856,18 +1867,33 @@ function showBreakAddOverlay()
 		currObj = currCategory;
 
 	$("#break-cont").html(""); //clear the break container
+
+	var checkbox = "<div class='check-box'></div>";
+
+	if(managing)
+	{
+		checkbox = "";
+		$("#break-adder-overlay-box h3").text("Manage Breaks");
+	}
+	else
+	{
+		$("#break-adder-overlay-box h3").text("Add Breaks");
+	}
+
 	for (var id in breaks) //do a foreach since this is a hashmap
 	{
 		var breakInstance = breaks[id]; //and add each break
 
 		var classAdd = "";
-		if(currObj.breaks.indexOf(parseInt(id)) > -1)
+
+		if(!managing && currObj.breaks.indexOf(parseInt(id)) > -1)
 		{
 			classAdd = "active"
 		}
 
+
 		$("#break-cont").append("<div class='break-elem " +  classAdd +"' data-id='" + id + "' >"
-				+ "<div class='check-box'></div>"
+				+ checkbox
 				+ breakInstance.name + " | " + dateToString(breakInstance.startDate) + " | " + dateToString(breakInstance.endDate)
 			+ "</div>");
 	}
@@ -1878,40 +1904,46 @@ function showBreakAddOverlay()
 			+ "<br>Make some by pressing \"Create Break\" on your schedule!");
 	}
 
-	$(".break-elem").click(function()
-	{
-		var currId = parseInt($(this).attr("data-id")); //get the id of the current break
-
-		var currObj;
-		if(currEvent)
-			currObj = currEvent;
-		else
-			currObj = currCategory;
-
-		if($(this).hasClass("active")) //disable this
-		{
-			var index = currObj.breaks.indexOf(currId);
-
-			if(index > -1) //if this is indeed a current break
-			{
-				$(this).removeClass("active");
-				currObj.breaks.splice(index, 1); //and remove
-			}
-		}
-		else
-		{
-			$(this).addClass("active");
-
-			currObj.breaks.push(currId);
-		}
-
-		if(currEvent)
-			updatedEvents(currEvent.tempId, "breaks"); //mark that the events changed to enable saving
-
-		repopulateEvents();
-	});
+	if(!managing)
+		setupBreakClickHandlers();
 
 	$(".ui-widget-overlay, #break-adder-overlay-box").fadeIn(250);
+
+	function setupBreakClickHandlers()
+	{
+		$(".break-elem").click(function()
+		{
+			var currId = parseInt($(this).attr("data-id")); //get the id of the current break
+
+			var currObj;
+			if(currEvent)
+				currObj = currEvent;
+			else
+				currObj = currCategory;
+
+			if($(this).hasClass("active")) //disable this
+			{
+				var index = currObj.breaks.indexOf(currId);
+
+				if(index > -1) //if this is indeed a current break
+				{
+					$(this).removeClass("active");
+					currObj.breaks.splice(index, 1); //and remove
+				}
+			}
+			else
+			{
+				$(this).addClass("active");
+
+				currObj.breaks.push(currId);
+			}
+
+			if(currEvent)
+				updatedEvents(currEvent.tempId, "breaks"); //mark that the events changed to enable saving
+
+			repopulateEvents();
+		});
+	}
 }
 
 //Hide any type of overlay
@@ -1927,6 +1959,16 @@ function hideOverlay()
 function hideBreakAddOverlay()
 {
 	$("#break-adder-overlay-box").fadeOut(250);
+
+	// There are three cases when Break Management or Adding Breaks is active:
+	// one clicked on the event to access it, accessed it from the schedule, or another break UI
+
+	// This will hide all components only when Manage Breaks is called (event not clicked, no other break windows)
+
+	// Check if edit event or edit category overlays are open, if not - hide the overlay background
+	if (!$("#event-overlay-box, #cat-overlay-box").is(":visible")) {
+		hideOverlay();
+	}
 }
 
 //Hide the break adding overlay
@@ -2030,38 +2072,110 @@ function deleteEvent(event, elem)
 {
 	event.stopImmediatePropagation();
 
-	confirmUI("Are you sure you want to delete this event?", function(confirmed)
+	var tempId = $(elem).parent().attr("evnt-temp-id");
+	var schItem = scheduleItems[tempId];
+
+	if(schItem.repeatType && schItem.repeatType != "none")
 	{
-		if(confirmed)
+		// Show the event deletion overlay for repeating elements
+		UIManager.showOverlay();
+		UIManager.slideIn("#evnt-delete.overlay-box");
+
+		$("#evnt-delete.overlay-box .default").off(); // remove events from buttons
+
+		$("#evnt-delete.overlay-box #single-evnt").click(deleteSingleEvent);
+		$("#evnt-delete.overlay-box #all-evnts").click(deleteEventProper);
+
+		// On cancel just hide overlay
+		$("#evnt-delete.overlay-box .close, #evnt-delete.overlay-box #cancel").click(function()
 		{
-			var eId = $(elem).parent().attr("event-id");
-			var tempId = $(elem).parent().attr("evnt-temp-id");
+			UIManager.slideOutHideOverlay("#evnt-delete.overlay-box");
+		});
+	}
+	else
+	{
+		confirmUI("Are you sure you want to delete this event?", deleteEventProper);
+	}
 
-			if(viewMode == "week")
-				$(".sch-evnt[evnt-temp-id='" + tempId + "']").slideUp("normal", function() {$(this).remove();});
-			else if(viewMode == "month")
-				$(".sch-month-evnt[evnt-temp-id='" + tempId + "']").slideUp("normal", function() {$(this).remove();});
+	// Deletes a single event among a repeating set by making a new repeat break and applying it
+	function deleteSingleEvent()
+	{
+		var tempId = $(elem).parent().attr("evnt-temp-id");
+		var event = scheduleItems[tempId];
 
-			delete scheduleItems[tempId]; //remove event map
+		var breakDateString;
+		if(viewMode == "week")
+			breakDateString = $(elem).parents(".sch-day-col").attr("data-date");
+		else if(viewMode == "month")
+			breakDateString = $(elem).parents(".sch-day-tile").attr("data-date");
 
-			if(!eId) // if no event, this event has not been saved, so no ajax is needed to delete it
-				return;
+		if(!breakDateString) // if the date string is undefined, return to prevent further errors
+			return;
 
-			$.ajax({
-				url: "/delete_event",
-				type: "POST",
-				data: {id: eId, group_id: groupID},
-				success: function(resp)
-				{
-					console.log("Delete complete.");
-				},
-				error: function(resp)
-				{
-					alertUI("Deleting event failed :/");
-				}
+		// Format auto made break names as "No _event-name_ On _date_"
+		// e.g. 'No Baseball Training On 9/27/17'
+		var breakTitle = "No " + schItem.name + " On " + breakDateString;
+
+		var newBreakId;
+
+		// Check for existing break with this name to see if it was made
+		for(var breakId in breaks)
+		{
+			if(breaks[breakId].name == breakTitle)
+				newBreakId = breakId;
+		}
+
+		// If we didn't find an existing break with that name, make one
+		if(typeof newBreakId == "undefined")
+		{
+			createBreak(breakTitle, breakDateString, breakDateString, function(newBreak)
+			{
+				newBreakId = newBreak.id;
 			});
 		}
-	});
+
+		// Now that we have a break that will make this event be skipped, add it and update UI accordingly
+		schItem.breaks.push(newBreakId);
+
+		updatedEvents(schItem.tempId, "breaks"); //mark that the events changed to enable saving
+
+		repopulateEvents();
+
+		UIManager.slideOutHideOverlay("#evnt-delete.overlay-box");
+	}
+
+	// Deletes the associated event object, like the old delete. This gets rid of all items repeating
+	function deleteEventProper()
+	{
+		var eId = $(elem).parent().attr("event-id");
+		var tempId = $(elem).parent().attr("evnt-temp-id");
+
+		if(viewMode == "week")
+			$(".sch-evnt[evnt-temp-id='" + tempId + "']").slideUp("normal", function() {$(this).remove();});
+		else if(viewMode == "month")
+			$(".sch-month-evnt[evnt-temp-id='" + tempId + "']").slideUp("normal", function() {$(this).remove();});
+
+		delete scheduleItems[tempId]; //remove event map
+
+		UIManager.slideOutHideOverlay("#evnt-delete.overlay-box");
+
+		if(!eId) // if no event, this event has not been saved, so no ajax is needed to delete it
+			return;
+
+		$.ajax({
+			url: "/delete_event",
+			type: "POST",
+			data: {id: eId, group_id: groupID},
+			success: function(resp)
+			{
+				console.log("Delete complete.");
+			},
+			error: function(resp)
+			{
+				alertUI("Deleting event failed :/");
+			}
+		});
+	}
 }
 
 function createCategory()
@@ -2104,36 +2218,33 @@ function deleteCategory(event, elem, id)
 {
 	confirmUI("Are you sure you want to delete this category?", function(confirmed)
 	{
-		if(confirmed)
-		{
-			$.ajax({
-				url: "/delete_category",
-				type: "POST",
-				data: {id: id, group_id: groupID},
-				success: function(resp) //after the server says the delete worked
+		$.ajax({
+			url: "/delete_category",
+			type: "POST",
+			data: {id: id, group_id: groupID},
+			success: function(resp) //after the server says the delete worked
+			{
+				console.log("Delete category complete.");
+				$(elem).parent().slideUp("normal", function() //slide up the div, hiding it
 				{
-					console.log("Delete category complete.");
-					$(elem).parent().slideUp("normal", function() //slide up the div, hiding it
+					$(this).remove(); //and when that's done, remove the div
+					sideHTML = $("#sch-tiles").html(); //and save the sidebar html for restoration upon drops
+					//Remove all events of this category from scheduleItems
+					$(".col-snap .sch-evnt[data-id=" + id + "]").slideUp();
+					for (var index in scheduleItems) //do a foreach since this is a hashmap
 					{
-						$(this).remove(); //and when that's done, remove the div
-						sideHTML = $("#sch-tiles").html(); //and save the sidebar html for restoration upon drops
-						//Remove all events of this category from scheduleItems
-						$(".col-snap .sch-evnt[data-id=" + id + "]").slideUp();
-						for (var index in scheduleItems) //do a foreach since this is a hashmap
+						if(scheduleItems[index].categoryId = id)
 						{
-							if(scheduleItems[index].categoryId = id)
-							{
-								delete scheduleItems[index];
-							}
+							delete scheduleItems[index];
 						}
-					});
-				},
-				error: function(resp)
-				{
-					alertUI("Deleting category failed :(");
-				}
-			});
-		}
+					}
+				});
+			},
+			error: function(resp)
+			{
+				alertUI("Deleting category failed :(");
+			}
+		});
 	});
 }
 
@@ -2163,9 +2274,13 @@ function saveCategory(event,elem,id)
 	});
 }
 
-function createBreak(name, startDate, endDate)
+// Creates a new break with a given name and starting at startDate
+// and ending at endDate, where both are strings.
+// Fires the passed in callback when the break has been made, passing
+// the break as a parameter
+function createBreak(name, startDate, endDate, callback)
 {
-	console.log("Make the break: " + name + ", " + startDate + ", " + endDate);
+	// console.log("Make the break: " + name + ", " + startDate + ", " + endDate);
 	var startD = new Date(startDate);
 	startD.setHours(0,0,0,0); //clear any time
 	var endD = new Date(endDate);
@@ -2191,6 +2306,9 @@ function createBreak(name, startDate, endDate)
 				hideBreakAddOverlay();
 				showBreakAddOverlay();
 			}
+
+			// Call the callback and pass in the new break
+			callback(brk);
 		},
 		error: function(resp)
 		{

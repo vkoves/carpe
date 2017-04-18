@@ -368,6 +368,19 @@
 		/* font-family:Open Sans, sans-serif; */
 	}
 }
+
+#evnt-delete.overlay-box
+{
+	/* Add spacing to the options */
+	span.default:not(.close)
+	{
+		display: block;
+		margin: 5px auto;
+		width: 200px;
+	}
+	#single-evnt { margin-top: 20px; }
+}
+
 input[readonly="readonly"]
 {
 	background: transparent;
@@ -735,6 +748,26 @@ input[readonly="readonly"]
 	}
 }
 #embed-button { position: relative; top: -5px;}
+
+/* Read only styling */
+.read-only
+{
+	/* Hide edit and close icons */
+	.sch-cat-icon, .sch-evnt-icon
+	{
+		display: none !important;
+	}
+	/* Make it clear you can't drag schedule events and can't edit titles */
+	.sch-evnt, .evnt-title
+	{
+		cursor: default !important;
+	}
+	/* Hide "Add Category" button */
+	.cat-add
+	{
+		display: none;
+	}
+}
 
 /***************************/
 /** MONTHLY VIEW STYLING ***/
