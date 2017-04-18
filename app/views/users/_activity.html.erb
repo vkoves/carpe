@@ -3,7 +3,7 @@
 <% if @activity.empty? %>
 	<span class="empty-text">
 		<% if @profile %>
-			It looks like you haven't followed anyone yet. <br> Carpe works best when enjoyed with others, so 
+			It looks like you haven't followed anyone yet. <br> Carpe works best when enjoyed with others, so
 			consider adding some connections to your profile!
 		<% else %>
 			It looks like <%= @user.name.split(" ")[0] %> doesn't have any connections to other users yet.
@@ -13,8 +13,8 @@
 	<% @activity.each do |relationship| %>
 		<div class="activity-listing grey-box">
 			<%= link_to(relationship.other_user(@user)) do %>
-				<div class="avatar" style="float: left">
-					<img src="<%= relationship.other_user(@user).user_avatar(50) %>" style="width: 50px; height: 50px;">
+				<div class="avatar float">
+					<img src="<%= relationship.other_user(@user).user_avatar(50) %>" class="width-50">
 				</div>
 			<% end %>
 			<div class="text">
@@ -30,8 +30,8 @@
 
 <!-- Manual activity listing for joining Carpe -->
 <div class="activity-listing grey-box">
-	<div class="avatar" style="float: left">
-		<%= image_tag("pages/CarpeLetter.png", style: "width: 30px; height: 30px; padding: 10px;") %>
+	<div class="avatar float">
+		<%= image_tag("pages/CarpeLetter.png", class: "carpe-logo") %>
 	</div>
 	<div class="text">Joined Carpe on <%= @user.created_at.strftime("%b. %d, %Y") %></div>
 </div>
