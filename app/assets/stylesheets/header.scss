@@ -335,10 +335,6 @@
 	margin: 0;
 
 }
-.token-input-dropdown li
-{
-	padding: 5px;
-}
 #users-search li, .token-input-dropdown li
 {
 	position: relative;
@@ -347,6 +343,8 @@
 .token-input-dropdown li
 {
 	height: 45px;
+	padding: 5px;
+	cursor: pointer;
 }
 .token-input-dropdown .name
 {
