@@ -2155,14 +2155,14 @@ function saveCategory(event,elem,id)
 	$.ajax({
 		url: "/create_category",
 		type: "POST",
-		data: {name: $(".cat-overlay-title").text(), id: id, color: $(".cat-top-overlay").css("background-color"),
+		data: {name: $(".cat-overlay-title").html(), id: id, color: $(".cat-top-overlay").css("background-color"),
 			privacy: currCategory.privacy, breaks: currCategory.breaks, group_id: groupID},
 		success: function(resp)
 		{
 			console.log("Update category complete.");
 
 			// TODO - Literally what is this doing? These should be functions
-			currCategory.name = $(".cat-overlay-title").text();
+			currCategory.name = $(".cat-overlay-title").html();
 			$("#sch-sidebar .sch-evnt[data-id=" + id + "]").find(".evnt-title").html($(".cat-overlay-title").html()); //Update name in sidebar
 			$(".sch-evnt[data-id=" + id + "]").css("background-color", $(".cat-top-overlay").css("background-color")); //Update color of events
 			sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
