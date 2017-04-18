@@ -23,9 +23,9 @@ class ScheduleController < ApplicationController
     else
       @cat = Category.new
     end
-    
+
     @cat.color = params[:color]
-    
+
     unless params[:group_id].empty?
       @cat.group = Group.find(params[:group_id])
     end
@@ -33,13 +33,13 @@ class ScheduleController < ApplicationController
     if(params[:user_id])
       @cat.user = User.find(params[:user_id])
     end
-    
+
     if(params[:privacy])
       @cat.privacy = params[:privacy]
     end
 
     @cat.name = params[:name]
-    
+
     @cat.repeat_exceptions.clear #empty out
     if params[:breaks]
       params[:breaks].each do |break_id| #then add the current things
@@ -97,10 +97,14 @@ class ScheduleController < ApplicationController
         evnt.date = DateTime.parse(obj["startDateTime"])
         evnt.end_date = DateTime.parse(obj["endDateTime"])
 
-        if obj["repeatStart"]
+        if obj["repeatStart"].blank?
+          evnt.repeat_start = nil
+        else # make sure it's not nil or an empty string
           evnt.repeat_start = Date.parse(obj["repeatStart"])
         end
-        if obj["repeatEnd"]
+        if obj["repeatEnd"].blank?
+          evnt.repeat_end = nil
+        else # make sure it's not nil or an empty string
           evnt.repeat_end = Date.parse(obj["repeatEnd"])
         end
 
