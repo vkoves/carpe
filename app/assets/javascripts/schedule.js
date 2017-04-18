@@ -1766,7 +1766,7 @@ function editCategory(elem)
 
 	$(".cat-overlay-title").trigger('focus');
 
-	$(".ui-widget-overlay, #cat-overlay-box").fadeIn(250);
+	UIManager.slideInShowOverlay("#cat-overlay-box");
 
 	var colForTop = currCategory.color;
 
@@ -1832,7 +1832,7 @@ function editEvent(elem)
 		$("#repeat-start").val(verboseDateToString(currEvent.repeatStart));
 		$("#repeat-end").val(verboseDateToString(currEvent.repeatEnd));
 
-		$(".ui-widget-overlay, #event-overlay-box").fadeIn(250);
+		UIManager.slideInShowOverlay("#event-overlay-box");
 
 		$("#overlay-title").html(currEvent.name || "<i>Untitled</i>");
 		$("#overlay-color-bar").css("background-color", categories[currEvent.categoryId].color);
@@ -1865,7 +1865,7 @@ function editEvent(elem)
 function showBreakCreateOverlay()
 {
 	$("#break-overlay-box input").val(""); //clear all inputs
-	$(".ui-widget-overlay, #break-overlay-box").fadeIn(250); //and fade in
+	UIManager.slideInShowOverlay("#break-overlay-box"); //and fade in
 }
 
 // Shows an overlay to add breaks. If managing,
@@ -1920,7 +1920,7 @@ function showBreakAddOverlay(managing)
 	if(!managing)
 		setupBreakClickHandlers();
 
-	$(".ui-widget-overlay, #break-adder-overlay-box").fadeIn(250);
+	UIManager.slideInShowOverlay("#break-adder-overlay-box");
 
 	function setupBreakClickHandlers()
 	{
@@ -1963,7 +1963,7 @@ function showBreakAddOverlay(managing)
 function hideOverlay()
 {
 	//Hide overlay, the repeat menu and category and event overlays
-	$(".ui-widget-overlay, #repeat-menu, #event-overlay-box, #cat-overlay-box, #break-overlay-box, #break-adder-overlay-box, .overlay-box").fadeOut(250);
+	UIManager.slideOutHideOverlay("#repeat-menu, #event-overlay-box, #cat-overlay-box, #break-overlay-box, #break-adder-overlay-box, .overlay-box");
 	currCategory = null;
 	currEvent = null;
 }
@@ -1971,7 +1971,7 @@ function hideOverlay()
 //Hide the break adding overlay
 function hideBreakAddOverlay()
 {
-	$("#break-adder-overlay-box").fadeOut(250);
+	UIManager.slideOut("#break-adder-overlay-box");
 
 	// There are three cases when Break Management or Adding Breaks is active:
 	// one clicked on the event to access it, accessed it from the schedule, or another break UI
@@ -1991,7 +1991,7 @@ function hideBreakCreateOverlay()
 	if (!addingBreakUiIsVisible) {
 		hideOverlay();
 	} else {
-		$("#break-overlay-box").fadeOut(250);
+		UIManager.slideOut("#break-overlay-box");
 	}
 }
 

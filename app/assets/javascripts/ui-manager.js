@@ -126,5 +126,10 @@ var UIManager = {
 		}
 		else
 			this.slideOut(selector, callback);
+	},
+	slideInShowOverlay: function(selector, callback)
+	{
+		this.showOverlay();
+		this.slideIn(selector, callback);
 	}
 };
