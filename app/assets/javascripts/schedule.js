@@ -1964,9 +1964,9 @@ function hideBreakAddOverlay()
 	// one clicked on the event to access it, accessed it from the schedule, or another break UI
 
 	// This will hide all components only when Manage Breaks is called (event not clicked, no other break windows)
-	var eventUiIsVisible = $("#event-overlay-box").is(":visible");
-	var breakUiIsVisible = $("#cat-overlay-box").is(":visible");
-	if (!eventUiIsVisible && !breakUiIsVisible) {
+
+	// Check if edit event or edit category overlays are open, if not - hide the overlay background
+	if (!$("#event-overlay-box, #cat-overlay-box").is(":visible")) {
 		hideOverlay();
 	}
 }
