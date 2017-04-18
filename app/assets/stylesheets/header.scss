@@ -354,6 +354,8 @@
 	overflow: hidden;
 	text-align: left;
 	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 70%;
 
 	&.with-type { top: 10px; }
 }
