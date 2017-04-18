@@ -362,7 +362,7 @@ function ScheduleItem()
 function Category(id)
 {
 	this.id = id; //the id of the category in the db
-	this.name = "Untitled"; //the name of the category, as a string
+	this.name = "<i>Untitled</i>"; //the name of the category, as a string. Defaults to Untitled
 	this.color; //the color of the category, as a CSS acceptable string
 	this.privacy = "private"; //the privacy of the category, right now either private || followers || public
 	this.breaks = []; //an array of the repeat exceptions of this category.
@@ -552,15 +552,20 @@ function addStartingListeners()
 		}
 	}).click(function()
 	{
-		if($(this).text() == "Untitled")
-		{
+		if($(this).html() == "<i>Untitled</i>")
 			$(this).text("");
-		}
 	})
 	.focusin(function() {
 		setTimeout(highlightCurrent, 100); // highlight the whole name after focus
 	})
-	.focusout(removeHighlight);
+	.focusout(function()
+	{
+		// If no name, set to Untitled
+		if($(this).text() == "")
+			$(this).html("<i>Untitled</i>");
+
+		removeHighlight();
+	});
 
 	$(".repeat-option").click(function()
 	{
@@ -680,6 +685,10 @@ function addStartingListeners()
 		}
 	})
 	.focusin(function() {
+		// If the name is Untitled, remove it
+		if($(this).html() == "<i>Untitled</i>")
+			$(this).text("");
+
 		setTimeout(highlightCurrent, 100); // highlight the whole name after focus
 	})
 	.focusout(function()
@@ -935,10 +944,7 @@ function addDrag(selector)
 		{
 			e.preventDefault();
 			$(this).parent().draggable("enable");
-			$(this).blur();  // lose focus
-
-			scheduleItems[$(this).parent().attr("evnt-temp-id")].setName($(this).text());
-
+			$(this).blur();  // lose focus, which prompts saving and all that via focusout below
 		}
 	})
 	.focusout(function()
@@ -983,6 +989,10 @@ function addDrag(selector)
 		editEventTitle(event, $(this));
 	})
 	.focusin(function() {
+		// If the name is Untitled, remove it
+		if($(this).html() == "<i>Untitled</i>")
+			$(this).text("");
+
 		setTimeout(highlightCurrent, 100); // highlight the whole name after focus
 	});
 
@@ -2072,7 +2082,7 @@ function createCategory()
 	$.ajax({
 		url: "/create_category",
 		type: "POST",
-		data: {name: "Untitled", user_id: userId, group_id: groupID, color: "silver"},
+		data: {name: "<i>Untitled</i>", user_id: userId, group_id: groupID, color: "silver"},
 		success: function(resp)
 		{
 			console.log("Create category complete.");
@@ -2082,7 +2092,7 @@ function createCategory()
 			newCat.show();
 			newCat.attr("data-id", resp.id);
 			newCat.attr("privacy", "private");
-			newCat.find(".evnt-title").text(resp.name);
+			newCat.find(".evnt-title").html(resp.name);
 			newCat.attr("id", "");
 			addDrag();
 			// TODO - Make saving the sideHTML a function, as this line is called so many times
