@@ -1,0 +1,37 @@
+<% content_for :title do %> User <%=@user.id%> Admin Overview <% end %>
+<%= stylesheet_link_tag "pages/admin" %>
+
+<div class="page-container">
+  <h2 class="no-bold">Viewing Information on <%= @user.name%></h2>
+
+  <br>
+  <div class="avatar">
+    <%= link_to(@user) do %>
+        <img src="<%= @user.user_avatar(100) %>">
+    <% end %>
+  </div>
+  <br>
+
+  <ul class="pretty-list">
+    <li><b>User id:</b> <%=@user.id%></li>
+    <li><b>Account type:</b> <%=@user.admin ? 'admin' : 'user'%></li>
+    <li><b>Email:</b> <%=@user.email%></li>
+    <li><b>Times signed in:</b> <%=@user.sign_in_count%></li>
+    <li><b>Account created on:</b> <%=Time.at(@user.created_at).strftime('%Y-%m-%d at %H:%M')%></li>
+    <li><b>Last updated on</b> <%=Time.at(@user.updated_at).strftime('%Y-%m-%d at %H:%M')%></li>
+    <li><b>Profile type:</b> <%=@user.public_profile ? 'public' : 'private'%></li>
+    <li><b>Timezone:</b> <%=@user.home_time_zone%></li>
+    <li><b>Custom url:</b> <%=@user.custom_url%></li>
+    <li><b>Following:</b> <%=@following_count%></li>
+    <li><b>Follwed by:</b> <%=@followed_by_count%></li>
+  </ul>
+
+  <br>
+  <h2>Groups</h2>
+  <ul class="pretty-list">
+    <% @groups.each do |group| %>
+        <li><b><%= group.role %></b> of <%= link_to( group.name, group_path(group.group_id)) %></li>
+    <% end %>
+  </ul>
+  <br>
+</div>

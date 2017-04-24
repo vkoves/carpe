@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
-  before_filter  :authorize_admin, :only => [:promote, :admin, :sandbox, :destroy_user] #authorize admin on all of these pages
+  before_filter  :authorize_admin, :only => [:promote, :admin, :sandbox, :destroy_user, :admin_user_info] #authorize admin on all of these pages
 
   def promote #promote or demote users admin status
     @user = User.find(params[:id])
@@ -25,6 +25,23 @@ class PagesController < ApplicationController
 
     redirect_to "/admin"
   end
+
+  def admin_user_info
+    @user = User.find(params[:id])
+
+    @groups = Group.select('role, group_id, name')
+                   .from('groups, users_groups')
+                   .where('users_groups.user_id = ?
+                           AND groups.id = users_groups.group_id', @user.id)
+
+    @following_count = Relationship.where(follower_id: @user.id).count
+    @followed_by_count = Relationship.where(followed_id: @user.id).count
+
+  end
+
+  # <div class="chart-cont">
+  # <%= line_chart data: [{name: "Sign In", data: []}] %>
+  # </div>
 
   def admin #admin page
     @now = Time.zone.now
