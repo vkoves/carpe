@@ -33,10 +33,6 @@ class PagesController < ApplicationController
                    .from('groups, users_groups')
                    .where('users_groups.user_id = ?
                            AND groups.id = users_groups.group_id', @user.id)
-
-    @following_count = Relationship.where(follower_id: @user.id).count
-    @followed_by_count = Relationship.where(followed_id: @user.id).count
-
   end
 
   # <div class="chart-cont">

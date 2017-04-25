@@ -22,8 +22,10 @@
     <li><b>Profile type:</b> <%=@user.public_profile ? 'public' : 'private'%></li>
     <li><b>Timezone:</b> <%=@user.home_time_zone%></li>
     <li><b>Custom url:</b> <%=@user.custom_url%></li>
-    <li><b>Following:</b> <%=@following_count%></li>
-    <li><b>Follwed by:</b> <%=@followed_by_count%></li>
+    <li><b>Following:</b> <%=Relationship.where(follower_id: @user.id).count%></li>
+    <li><b>Follwed by:</b> <%=Relationship.where(followed_id: @user.id).count%></li>
+    <li><b>Categories created:</b> <%=Event.where(user_id: @user.id).count%></li>
+    <li><b>Events created:</b> <%=Category.where(user_id: @user.id).count%></li>
   </ul>
 
   <br>
