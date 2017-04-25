@@ -90,6 +90,7 @@ var UIManager = {
 		{
 			$("body").append("<div class='ui-widget-overlay'></div>"); //append one to the body
 			$(".ui-widget-overlay").hide(); //hide it instantly
+			$(".ui-widget-overlay").click(UIManager.hideAllOverlays); // and give it a click handler
 		}
 		$(".ui-widget-overlay").fadeIn(250); //and fade in
 	},
@@ -116,12 +117,11 @@ var UIManager = {
 				callback();
 		});
 
-		if(this.overlayBoxes[this.overlayBoxes.length - 1] == selector) // if this is the last overlay-box
-			this.overlayBoxes.pop(); // remove from stack
+		this.overlayBoxes.pop(); // remove from stack
 	},
 	slideOutHideOverlay: function(selector, callback)
 	{
-		if($(".overlay-box:visible").length <= 1) //if there's only one visible overlay box
+		if(this.overlayBoxes.length <= 1) //if there's only one visible overlay box
 		{
 			var self = this;
 			this.slideOut(selector);
@@ -141,8 +141,19 @@ var UIManager = {
 	// runs slideOutHideOverlay on the most recently opened overlay
 	hideLastOverlay: function()
 	{
-		var lastOverlay = this.overlayBoxes.pop();
+		var lastOverlay = this.overlayBoxes[this.overlayBoxes.length - 1];
 		this.slideOutHideOverlay(lastOverlay);
+	},
+	// hides all overlays
+	hideAllOverlays: function()
+	{
+		for(var i = 0; i < UIManager.overlayBoxes.length; i++)
+		{
+			setTimeout(function()
+			{
+				UIManager.hideLastOverlay();
+			}, i*200);
+		}
 	},
 };
 

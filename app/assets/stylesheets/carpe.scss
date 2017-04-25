@@ -648,6 +648,8 @@ form.thin
 /* Keyboard Shortcut Overlay Styling */
 #shortcut-overlay-box
 {
+	z-index: 100000;
+
 	ul
 	{
 		list-style: none;
