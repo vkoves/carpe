@@ -77,6 +77,8 @@ function customAlertUI(message, content, callback)
 //The UIManager manages UI effects across Carpe, creating consistent animations and overlays
 var UIManager = {
 	visibleTop: "10%",
+	overlayBoxes: [], // array of overlay selectors, with first element being oldest (acts as a stack)
+
 	hiddenTop: function(selector) // returns top position so div is 10px off screen top
 	{
 		return - $(selector).outerHeight() - 10;
@@ -102,6 +104,7 @@ var UIManager = {
 	slideIn: function(selector, callback) //takes a string selector and slides in
 	{
 		$(selector).css("top", this.hiddenTop(selector) ).show().animate({ top: this.visibleTop }, 700, 'easeOutExpo', callback);
+		this.overlayBoxes.push(selector);
 	},
 	slideOut: function(selector, callback) //takes a string selector and slides out. Also hides after
 	{
@@ -112,6 +115,9 @@ var UIManager = {
 			if(callback)
 				callback();
 		});
+
+		if(this.overlayBoxes[this.overlayBoxes.length - 1] == selector) // if this is the last overlay-box
+			this.overlayBoxes.pop(); // remove from stack
 	},
 	slideOutHideOverlay: function(selector, callback)
 	{
@@ -122,7 +128,7 @@ var UIManager = {
 			setTimeout(function()
 			{
 					self.hideOverlay(callback); //hide the overlay and runn callback
-			}, 100);
+			}, 200);
 		}
 		else
 			this.slideOut(selector, callback);
@@ -131,5 +137,19 @@ var UIManager = {
 	{
 		this.showOverlay();
 		this.slideIn(selector, callback);
-	}
+	},
+	// runs slideOutHideOverlay on the most recently opened overlay
+	hideLastOverlay: function()
+	{
+		var lastOverlay = this.overlayBoxes.pop();
+		this.slideOutHideOverlay(lastOverlay);
+	},
 };
+
+$(document).keyup(function(e) //add event listener to close overlays on pressing escape
+{
+	if (e.keyCode == 27) // escape key maps to keycode `27`
+	{
+		UIManager.hideLastOverlay();
+	}
+});

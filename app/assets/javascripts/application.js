@@ -76,14 +76,6 @@ function ready()
  */
 function initializeEventListeners()
 {
-	$(document).keyup(function(e) //add event listener to close overlays on pressing escape
-	{
-		if (e.keyCode == 27) // escape key maps to keycode `27`
-		{
-			$("#shortcut-overlay-box, .ui-widget-overlay").fadeOut();
-		}
-	});
-
 	// Add click handling for closing alerts
 	$(".alert-holder span img").click(function()
 	{

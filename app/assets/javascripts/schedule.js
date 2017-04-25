@@ -436,15 +436,6 @@ function scheduleReady()
  */
 function addStartingListeners()
 {
-	$(document).keyup(function(e) //add event listener to close overlays on pressing escape
-	{
-		if (e.keyCode == 27) // escape key maps to keycode `27`
-		{
-			hideOverlay();
-		}
-	});
-
-
 	$(".date-field").datepicker( //show the datepicker when clicking on the field
 	{
 		firstDay: 1, //set Monday as the first day
@@ -522,17 +513,19 @@ function addStartingListeners()
 
 	$("#manage-breaks").click(function()
 	{
-		showBreakAddOverlay(true);
+		setupBreakAddOverlay(true);
+		UIManager.slideInShowOverlay("#break-adder-overlay-box");
 	});
 
 	$("#break-overlay-box .close").click(function()
 	{
-		hideBreakCreateOverlay();
+		UIManager.slideOutHideOverlay("#break-overlay-box");
 	});
 
 	$("#add-break-event, #add-break-category").click(function()
 	{
-		showBreakAddOverlay();
+		setupBreakAddOverlay();
+		UIManager.slideInShowOverlay("#break-adder-overlay-box");
 	});
 
 	//Submit break button in the overaly
@@ -767,14 +760,15 @@ function addStartingListeners()
 		$('#repeat-menu').toggle();
 	});
 
-	$("#event-overlay-box .default.red, .ui-widget-overlay").click(function()
+	$("#event-overlay-box .default.red").click(function()
 	{
-		hideOverlay();
+		UIManager.slideOutHideOverlay("#event-overlay-box");
+		currEvent = null; // indicate there's no current event
 	});
 
 	$("#break-adder-overlay-box .close").click(function()
 	{
-		hideBreakAddOverlay();
+		UIManager.slideOutHideOverlay("#break-adder-overlay-box");
 	});
 
 	$("#view-monthly").click(initializeMonthlyView);
@@ -1868,10 +1862,10 @@ function showBreakCreateOverlay()
 	UIManager.slideInShowOverlay("#break-overlay-box"); //and fade in
 }
 
-// Shows an overlay to add breaks. If managing,
+// Sets up an overlay to add breaks. If managing,
 // it is actually for editing and deleting breaks rather
 // than enabling or disabling breaks on the currente vent
-function showBreakAddOverlay(managing)
+function setupBreakAddOverlay(managing)
 {
 	var currObj;
 	if(currEvent)
@@ -1920,8 +1914,6 @@ function showBreakAddOverlay(managing)
 	if(!managing)
 		setupBreakClickHandlers();
 
-	UIManager.slideInShowOverlay("#break-adder-overlay-box");
-
 	function setupBreakClickHandlers()
 	{
 		$(".break-elem").click(function()
@@ -1956,43 +1948,6 @@ function showBreakAddOverlay(managing)
 
 			repopulateEvents();
 		});
-	}
-}
-
-//Hide any type of overlay
-function hideOverlay()
-{
-	//Hide overlays
-	UIManager.slideOutHideOverlay("#event-overlay-box, #cat-overlay-box, #break-overlay-box, #break-adder-overlay-box, .overlay-box");
-	$("#repeat-menu").hide(); // hide the repeat menu, since it's closed by default
-	currCategory = null;
-	currEvent = null;
-}
-
-//Hide the break adding overlay
-function hideBreakAddOverlay()
-{
-	UIManager.slideOut("#break-adder-overlay-box");
-
-	// There are three cases when Break Management or Adding Breaks is active:
-	// one clicked on the event to access it, accessed it from the schedule, or another break UI
-
-	// This will hide all components only when Manage Breaks is called (event not clicked, no other break windows)
-
-	// Check if edit event or edit category overlays are open, if not - hide the overlay background
-	if (!$("#event-overlay-box, #cat-overlay-box").is(":visible")) {
-		hideOverlay();
-	}
-}
-
-//Hide the break adding overlay
-function hideBreakCreateOverlay()
-{
-	var addingBreakUiIsVisible = $("#break-adder-overlay-box").is(":visible");
-	if (!addingBreakUiIsVisible) {
-		hideOverlay();
-	} else {
-		UIManager.slideOut("#break-overlay-box");
 	}
 }
 
@@ -2279,7 +2234,8 @@ function saveCategory(event,elem,id)
 			$(".sch-evnt[data-id=" + id + "]").css("background-color", $(".cat-top-overlay").css("background-color")); //Update color of events
 			sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
 
-			hideOverlay(); //Hide category editing panel
+			UIManager.slideOutHideOverlay("#cat-overlay-box"); // Hide category editing panel
+			currCategory = null; // and indicate there's no current category
 		},
 		error: function(resp)
 		{
@@ -2313,16 +2269,18 @@ function createBreak(name, startDate, endDate, callback)
 			brk.endDate = endD;
 			breaks[brk.id] = brk; //and add to the hashmap
 
-			hideBreakCreateOverlay(); //Hide category editing panel
+			UIManager.slideOutHideOverlay("#break-overlay-box"); // hide break create panel
 
+			// if the adding break UI is visible, update it
 			var addingBreakUiIsVisible = $("#break-adder-overlay-box").is(":visible");
+
 			if (addingBreakUiIsVisible) {
-				hideBreakAddOverlay();
-				showBreakAddOverlay();
+				setupBreakAddOverlay();
 			}
 
 			// Call the callback and pass in the new break
-			callback(brk);
+			if(callback)
+				callback(brk);
 		},
 		error: function(resp)
 		{
