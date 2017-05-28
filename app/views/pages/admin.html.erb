@@ -53,12 +53,12 @@ The average user has: <%= Event.count/User.count %> events and <%= Category.coun
 <h4>Admins</h4>
 <% @users = User.where(admin: true) %>
 <% @users.each do |user| %>
-	<div class="grey-box" style="width: 200px; margin-left: auto; margin-right: auto; width: 200px; height: 56px; padding: 5px 10px; border-radius: 5px; margin-bottom: 10px;">
+	<div class="grey-box admin-box">
 		<%= link_to(user) do %>
 			<div class="avatar" style="float: left">
-				<img style="width: 50px; height: 50px;" src="<%= user.user_avatar(100) %>">
+				<img src="<%= user.user_avatar(100) %>">
 			</div>
 		<% end %>
-		<div style="position: relative; top: 15px; margin-left: 60px; font-weight: 600;"><%= user.name %></div>
+		<div class="name"><%= user.name %></div>
 	</div>
 <% end %>
