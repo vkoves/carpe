@@ -20,34 +20,29 @@
     <li><b>Profile type:</b> <%=@user.public_profile ? 'public' : 'private'%></li>
     <li><b>Timezone:</b> <%=@user.home_time_zone%></li>
     <li><b>Custom url:</b> <%=@user.custom_url.blank? ? 'not using one' : @user.custom_url %></li>
-    <li><b>Account created on:</b> <%=Time.at(@user.created_at).strftime('%Y-%m-%d at %H:%M')%></li>
+
+    <li><b>Account created on:</b> <%=@account_creation_time%></li>
     <li><b>Times signed in:</b> <%=@user.sign_in_count%></li>
-    <li><b>Previous sign in:</b>
-      <%=Time.at(@user.last_sign_in_at).strftime('%Y-%m-%d at %H:%M')%>
-      from
-      <%= @user.last_sign_in_ip %>
-    </li>
-    <li><b>Most recent sign in:</b>
-      <%=Time.at(@user.current_sign_in_at).strftime('%Y-%m-%d at %H:%M')%>
-      from
-      <%=@user.current_sign_in_ip%>
-    </li>
-    <li><b>(All) Following:</b> <%=Relationship.where(follower_id: @user.id).count%></li>
-    <li><b>(All) Follwed by:</b> <%=Relationship.where(followed_id: @user.id).count%></li>
-    <li><b>Categories created:</b> <%=Category.where(user_id: @user.id).count%></li>
-    <li><b>Events created:</b> <%=Event.where(user_id: @user.id).count%></li>
-    <li><b>Breaks created:</b> <%=RepeatException.where(user_id: @user.id).count%></li>
-    <li><b>Last user object update:</b> <%=Time.at(@user.updated_at).strftime('%Y-%m-%d at %H:%M')%></li>
+    <li><b>Previous sign in:</b><%=@last_sign_in_time%>from<%= @user.last_sign_in_ip %></li>
+    <li><b>Most recent sign in:</b><%=@most_recent_sign_in_time%>from<%=@user.current_sign_in_ip%></li>
+
+    <li><b>(Confirmed) Following:</b> <%=@user.following.count%></li>
+    <li><b>(Confirmed) Follwed by:</b> <%=@user.followers.count%></li>
+    <li><b>Categories created:</b> <%=@user.categories.count%></li>
+    <li><b>Events created:</b> <%=@user.events.count%></li>
+    <li><b>Breaks created:</b> <%=@user.repeat_exceptions.count%></li>
+    <li><b>Last user object update:</b> <%=@last_update_time%></li>
   </ul>
 
   <br>
   <h2>Groups</h2>
-  <% if @groups.empty? %>
+  <% if @user_groups.empty? %>
       <p>This user is not a part of any groups yet!</p>
   <% else %>
       <ul class="pretty-list">
-        <% @groups.each do |group| %>
-            <li><b><%= group.role %></b> of <%= link_to( group.name, group_path(group.group_id)) %></li>
+        <% @user_groups.each do |user_group| %>
+            <li><b><%= user_group.role %></b>
+              of <%= link_to(user_group.group.name, group_path(user_group.group_id)) %></li>
         <% end %>
       </ul>
 <% end %>
