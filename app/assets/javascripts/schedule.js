@@ -362,7 +362,7 @@ function ScheduleItem()
 function Category(id)
 {
 	this.id = id; //the id of the category in the db
-	this.name = "Untitled"; //the name of the category, as a string
+	this.name = "<i>Untitled</i>"; //the name of the category, as a string. Defaults to Untitled
 	this.color; //the color of the category, as a CSS acceptable string
 	this.privacy = "private"; //the privacy of the category, right now either private || followers || public
 	this.breaks = []; //an array of the repeat exceptions of this category.
@@ -436,15 +436,6 @@ function scheduleReady()
  */
 function addStartingListeners()
 {
-	$(document).keyup(function(e) //add event listener to close overlays on pressing escape
-	{
-		if (e.keyCode == 27) // escape key maps to keycode `27`
-		{
-			hideOverlay();
-		}
-	});
-
-
 	$(".date-field").datepicker( //show the datepicker when clicking on the field
 	{
 		firstDay: 1, //set Monday as the first day
@@ -522,17 +513,19 @@ function addStartingListeners()
 
 	$("#manage-breaks").click(function()
 	{
-		showBreakAddOverlay(true);
+		setupBreakAddOverlay(true);
+		UIManager.slideInShowOverlay("#break-adder-overlay-box");
 	});
 
 	$("#break-overlay-box .close").click(function()
 	{
-		hideBreakCreateOverlay();
+		UIManager.slideOutHideOverlay("#break-overlay-box");
 	});
 
 	$("#add-break-event, #add-break-category").click(function()
 	{
-		showBreakAddOverlay();
+		setupBreakAddOverlay();
+		UIManager.slideInShowOverlay("#break-adder-overlay-box");
 	});
 
 	//Submit break button in the overaly
@@ -558,15 +551,20 @@ function addStartingListeners()
 		}
 	}).click(function()
 	{
-		if($(this).text() == "Untitled")
-		{
+		if($(this).html() == "<i>Untitled</i>")
 			$(this).text("");
-		}
 	})
 	.focusin(function() {
 		setTimeout(highlightCurrent, 100); // highlight the whole name after focus
 	})
-	.focusout(removeHighlight);
+	.focusout(function()
+	{
+		// If no name, set to Untitled
+		if($(this).text() == "")
+			$(this).html("<i>Untitled</i>");
+
+		removeHighlight();
+	});
 
 	$(".repeat-option").click(function()
 	{
@@ -686,6 +684,10 @@ function addStartingListeners()
 		}
 	})
 	.focusin(function() {
+		// If the name is Untitled, remove it
+		if($(this).html() == "<i>Untitled</i>")
+			$(this).text("");
+
 		setTimeout(highlightCurrent, 100); // highlight the whole name after focus
 	})
 	.focusout(function()
@@ -758,14 +760,15 @@ function addStartingListeners()
 		$('#repeat-menu').toggle();
 	});
 
-	$("#event-overlay-box .default.red, .ui-widget-overlay").click(function()
+	$("#event-overlay-box .default.red").click(function()
 	{
-		hideOverlay();
+		UIManager.slideOutHideOverlay("#event-overlay-box");
+		currEvent = null; // indicate there's no current event
 	});
 
 	$("#break-adder-overlay-box .close").click(function()
 	{
-		hideBreakAddOverlay();
+		UIManager.slideOutHideOverlay("#break-adder-overlay-box");
 	});
 
 	$("#view-monthly").click(initializeMonthlyView);
@@ -941,10 +944,7 @@ function addDrag(selector)
 		{
 			e.preventDefault();
 			$(this).parent().draggable("enable");
-			$(this).blur();  // lose focus
-
-			scheduleItems[$(this).parent().attr("evnt-temp-id")].setName($(this).text());
-
+			$(this).blur();  // lose focus, which prompts saving and all that via focusout below
 		}
 	})
 	.focusout(function()
@@ -953,6 +953,9 @@ function addDrag(selector)
 		$(this).parent().draggable("enable");
 
 		scheduleItems[$(this).parent().attr("evnt-temp-id")].setName($(this).text());
+
+		if($(this).text() == "")
+			$(this).html("<i>Untitled</i>");
 
 		removeHighlight();
 	});
@@ -986,6 +989,10 @@ function addDrag(selector)
 		editEventTitle(event, $(this));
 	})
 	.focusin(function() {
+		// If the name is Untitled, remove it
+		if($(this).html() == "<i>Untitled</i>")
+			$(this).text("");
+
 		setTimeout(highlightCurrent, 100); // highlight the whole name after focus
 	});
 
@@ -1753,7 +1760,7 @@ function editCategory(elem)
 
 	$(".cat-overlay-title").trigger('focus');
 
-	$(".ui-widget-overlay, #cat-overlay-box").fadeIn(250);
+	UIManager.slideInShowOverlay("#cat-overlay-box");
 
 	var colForTop = currCategory.color;
 
@@ -1819,9 +1826,9 @@ function editEvent(elem)
 		$("#repeat-start").val(verboseDateToString(currEvent.repeatStart));
 		$("#repeat-end").val(verboseDateToString(currEvent.repeatEnd));
 
-		$(".ui-widget-overlay, #event-overlay-box").fadeIn(250);
+		UIManager.slideInShowOverlay("#event-overlay-box");
 
-		$("#overlay-title").html(currEvent.name);
+		$("#overlay-title").html(currEvent.name || "<i>Untitled</i>");
 		$("#overlay-color-bar").css("background-color", categories[currEvent.categoryId].color);
 
 		var desc = currEvent.description || ""; //in case the description is null
@@ -1852,13 +1859,13 @@ function editEvent(elem)
 function showBreakCreateOverlay()
 {
 	$("#break-overlay-box input").val(""); //clear all inputs
-	$(".ui-widget-overlay, #break-overlay-box").fadeIn(250); //and fade in
+	UIManager.slideInShowOverlay("#break-overlay-box"); //and fade in
 }
 
-// Shows an overlay to add breaks. If managing,
+// Sets up an overlay to add breaks. If managing,
 // it is actually for editing and deleting breaks rather
 // than enabling or disabling breaks on the currente vent
-function showBreakAddOverlay(managing)
+function setupBreakAddOverlay(managing)
 {
 	var currObj;
 	if(currEvent)
@@ -1907,8 +1914,6 @@ function showBreakAddOverlay(managing)
 	if(!managing)
 		setupBreakClickHandlers();
 
-	$(".ui-widget-overlay, #break-adder-overlay-box").fadeIn(250);
-
 	function setupBreakClickHandlers()
 	{
 		$(".break-elem").click(function()
@@ -1943,42 +1948,6 @@ function showBreakAddOverlay(managing)
 
 			repopulateEvents();
 		});
-	}
-}
-
-//Hide any type of overlay
-function hideOverlay()
-{
-	//Hide overlay, the repeat menu and category and event overlays
-	$(".ui-widget-overlay, #repeat-menu, #event-overlay-box, #cat-overlay-box, #break-overlay-box, #break-adder-overlay-box, .overlay-box").fadeOut(250);
-	currCategory = null;
-	currEvent = null;
-}
-
-//Hide the break adding overlay
-function hideBreakAddOverlay()
-{
-	$("#break-adder-overlay-box").fadeOut(250);
-
-	// There are three cases when Break Management or Adding Breaks is active:
-	// one clicked on the event to access it, accessed it from the schedule, or another break UI
-
-	// This will hide all components only when Manage Breaks is called (event not clicked, no other break windows)
-
-	// Check if edit event or edit category overlays are open, if not - hide the overlay background
-	if (!$("#event-overlay-box, #cat-overlay-box").is(":visible")) {
-		hideOverlay();
-	}
-}
-
-//Hide the break adding overlay
-function hideBreakCreateOverlay()
-{
-	var addingBreakUiIsVisible = $("#break-adder-overlay-box").is(":visible");
-	if (!addingBreakUiIsVisible) {
-		hideOverlay();
-	} else {
-		$("#break-overlay-box").fadeOut(250);
 	}
 }
 
@@ -2183,7 +2152,7 @@ function createCategory()
 	$.ajax({
 		url: "/create_category",
 		type: "POST",
-		data: {name: "Untitled", user_id: userId, group_id: groupID, color: "silver"},
+		data: {name: "<i>Untitled</i>", user_id: userId, group_id: groupID, color: "silver"},
 		success: function(resp)
 		{
 			console.log("Create category complete.");
@@ -2193,7 +2162,7 @@ function createCategory()
 			newCat.show();
 			newCat.attr("data-id", resp.id);
 			newCat.attr("privacy", "private");
-			newCat.find(".evnt-title").text(resp.name);
+			newCat.find(".evnt-title").html(resp.name);
 			newCat.attr("id", "");
 			addDrag();
 			// TODO - Make saving the sideHTML a function, as this line is called so many times
@@ -2253,19 +2222,20 @@ function saveCategory(event,elem,id)
 	$.ajax({
 		url: "/create_category",
 		type: "POST",
-		data: {name: $(".cat-overlay-title").text(), id: id, color: $(".cat-top-overlay").css("background-color"),
+		data: {name: $(".cat-overlay-title").html(), id: id, color: $(".cat-top-overlay").css("background-color"),
 			privacy: currCategory.privacy, breaks: currCategory.breaks, group_id: groupID},
 		success: function(resp)
 		{
 			console.log("Update category complete.");
 
 			// TODO - Literally what is this doing? These should be functions
-			currCategory.name = $(".cat-overlay-title").text();
+			currCategory.name = $(".cat-overlay-title").html();
 			$("#sch-sidebar .sch-evnt[data-id=" + id + "]").find(".evnt-title").html($(".cat-overlay-title").html()); //Update name in sidebar
 			$(".sch-evnt[data-id=" + id + "]").css("background-color", $(".cat-top-overlay").css("background-color")); //Update color of events
 			sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
 
-			hideOverlay(); //Hide category editing panel
+			UIManager.slideOutHideOverlay("#cat-overlay-box"); // Hide category editing panel
+			currCategory = null; // and indicate there's no current category
 		},
 		error: function(resp)
 		{
@@ -2299,16 +2269,18 @@ function createBreak(name, startDate, endDate, callback)
 			brk.endDate = endD;
 			breaks[brk.id] = brk; //and add to the hashmap
 
-			hideBreakCreateOverlay(); //Hide category editing panel
+			UIManager.slideOutHideOverlay("#break-overlay-box"); // hide break create panel
 
+			// if the adding break UI is visible, update it
 			var addingBreakUiIsVisible = $("#break-adder-overlay-box").is(":visible");
+
 			if (addingBreakUiIsVisible) {
-				hideBreakAddOverlay();
-				showBreakAddOverlay();
+				setupBreakAddOverlay();
 			}
 
 			// Call the callback and pass in the new break
-			callback(brk);
+			if(callback)
+				callback(brk);
 		},
 		error: function(resp)
 		{

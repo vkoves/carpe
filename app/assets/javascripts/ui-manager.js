@@ -77,6 +77,8 @@ function customAlertUI(message, content, callback)
 //The UIManager manages UI effects across Carpe, creating consistent animations and overlays
 var UIManager = {
 	visibleTop: "10%",
+	overlayBoxes: [], // array of overlay selectors, with first element being oldest (acts as a stack)
+
 	hiddenTop: function(selector) // returns top position so div is 10px off screen top
 	{
 		return - $(selector).outerHeight() - 10;
@@ -88,6 +90,7 @@ var UIManager = {
 		{
 			$("body").append("<div class='ui-widget-overlay'></div>"); //append one to the body
 			$(".ui-widget-overlay").hide(); //hide it instantly
+			$(".ui-widget-overlay").click(UIManager.hideAllOverlays); // and give it a click handler
 		}
 		$(".ui-widget-overlay").fadeIn(250); //and fade in
 	},
@@ -102,6 +105,7 @@ var UIManager = {
 	slideIn: function(selector, callback) //takes a string selector and slides in
 	{
 		$(selector).css("top", this.hiddenTop(selector) ).show().animate({ top: this.visibleTop }, 700, 'easeOutExpo', callback);
+		this.overlayBoxes.push(selector);
 	},
 	slideOut: function(selector, callback) //takes a string selector and slides out. Also hides after
 	{
@@ -112,19 +116,51 @@ var UIManager = {
 			if(callback)
 				callback();
 		});
+
+		this.overlayBoxes.pop(); // remove from stack
 	},
 	slideOutHideOverlay: function(selector, callback)
 	{
-		if($(".overlay-box:visible").length <= 1) //if there's only one visible overlay box
+		if(this.overlayBoxes.length <= 1) //if there's only one visible overlay box
 		{
 			var self = this;
 			this.slideOut(selector);
 			setTimeout(function()
 			{
 					self.hideOverlay(callback); //hide the overlay and runn callback
-			}, 100);
+			}, 200);
 		}
 		else
 			this.slideOut(selector, callback);
-	}
+	},
+	slideInShowOverlay: function(selector, callback)
+	{
+		this.showOverlay();
+		this.slideIn(selector, callback);
+	},
+	// runs slideOutHideOverlay on the most recently opened overlay
+	hideLastOverlay: function()
+	{
+		var lastOverlay = this.overlayBoxes[this.overlayBoxes.length - 1];
+		this.slideOutHideOverlay(lastOverlay);
+	},
+	// hides all overlays
+	hideAllOverlays: function()
+	{
+		for(var i = 0; i < UIManager.overlayBoxes.length; i++)
+		{
+			setTimeout(function()
+			{
+				UIManager.hideLastOverlay();
+			}, i*200);
+		}
+	},
 };
+
+$(document).keyup(function(e) //add event listener to close overlays on pressing escape
+{
+	if (e.keyCode == 27) // escape key maps to keycode `27`
+	{
+		UIManager.hideLastOverlay();
+	}
+});
