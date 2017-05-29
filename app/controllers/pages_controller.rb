@@ -29,10 +29,10 @@ class PagesController < ApplicationController
   def admin_user_info
     @user = User.find(params[:id])
 
-    @account_creation_time = Time.at(@user.created_at).strftime('%Y-%m-%d at %H:%M')
-    @last_update_time = Time.at(@user.updated_at).strftime('%Y-%m-%d at %H:%M')
-    @last_sign_in_time = Time.at(@user.last_sign_in_at).strftime('%Y-%m-%d at %H:%M')
-    @most_recent_sign_in_time = Time.at(@user.current_sign_in_at).strftime('%Y-%m-%d at %H:%M')
+    @account_creation_time = @user.created_at.strftime('%Y-%m-%d at %H:%M')
+    @last_update_time = @user.updated_at.strftime('%Y-%m-%d at %H:%M')
+    @last_sign_in_time = @user.last_sign_in_at.strftime('%Y-%m-%d at %H:%M')
+    @most_recent_sign_in_time = @user.current_sign_in_at.strftime('%Y-%m-%d at %H:%M')
     @user_groups = UsersGroup.where(user_id: @user.id)
   end
 
