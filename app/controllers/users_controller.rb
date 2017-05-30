@@ -3,7 +3,7 @@ class UsersController < ApplicationController
 
 
   def index
-    @users = User.sort_by(&:name) # fetch all users (including current, to see admin info)
+    @users = User.all.sort_by(&:name) # fetch all users (including current, to see admin info)
     @admin_tiles = true
   end
 
