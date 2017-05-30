@@ -36,10 +36,6 @@ class PagesController < ApplicationController
     @user_groups = UsersGroup.where(user_id: @user.id)
   end
 
-  # <div class="chart-cont">
-  # <%= line_chart data: [{name: "Sign In", data: []}] %>
-  # </div>
-
   def admin #admin page
     @now = Time.zone.now
     @past = @now - 1.months
