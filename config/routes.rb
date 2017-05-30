@@ -31,6 +31,7 @@ Rails.application.routes.draw do
   get "/sandbox" => 'pages#sandbox'
   get "/admin" => 'pages#admin', :as => :admin_panel
   match "/destroy_user/:id" => 'pages#destroy_user', :via => :delete, :as => :admin_destroy_user
+  get "/admin_user_info/:id" => 'pages#admin_user_info', :as => :admin_user_info
 
   #User Routes
   get "/search_users" => 'users#search'

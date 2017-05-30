@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
-  before_filter  :authorize_admin, :only => [:promote, :admin, :sandbox, :destroy_user] #authorize admin on all of these pages
+  before_filter  :authorize_admin, :only => [:promote, :admin, :sandbox, :destroy_user, :admin_user_info] #authorize admin on all of these pages
 
   def promote #promote or demote users admin status
     @user = User.find(params[:id])
@@ -24,6 +24,16 @@ class PagesController < ApplicationController
     end
 
     redirect_to "/admin"
+  end
+
+  def admin_user_info
+    @user = User.find(params[:id])
+
+    @account_creation_time = @user.created_at.strftime('%Y-%m-%d at %H:%M')
+    @last_update_time = @user.updated_at.strftime('%Y-%m-%d at %H:%M')
+    @last_sign_in_time = @user.last_sign_in_at.strftime('%Y-%m-%d at %H:%M')
+    @most_recent_sign_in_time = @user.current_sign_in_at.strftime('%Y-%m-%d at %H:%M')
+    @user_groups = UsersGroup.where(user_id: @user.id)
   end
 
   def admin #admin page

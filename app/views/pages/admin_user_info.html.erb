@@ -1,0 +1,50 @@
+<% content_for :title do %> User <%= @user.id %> Admin Overview <% end %>
+<%= stylesheet_link_tag "pages/admin" %>
+
+<div class="page-container">
+  <h2 class="no-bold">Viewing Information on <%= @user.name %></h2>
+
+  <br>
+  <div class="avatar">
+    <%= link_to(@user) do %>
+        <img src="<%= @user.user_avatar(100) %>">
+    <% end %>
+  </div>
+  <br>
+
+  <h2>General</h2>
+  <ul class="pretty-list">
+    <li><b>User id:</b> <%= @user.id %></li>
+    <li><b>Email:</b> <%= @user.email %></li>
+    <li><b>Account type:</b> <%= @user.admin ? 'admin' : 'user' %></li>
+    <li><b>Profile type:</b> <%= @user.public_profile ? 'public' : 'private' %></li>
+    <li><b>Timezone:</b> <%= @user.home_time_zone %></li>
+    <li><b>Custom url:</b> <%= @user.custom_url.blank? ? 'not using one' : @user.custom_url %></li>
+
+    <li><b>Account created on:</b> <%= @account_creation_time %></li>
+    <li><b>Times signed in:</b> <%= @user.sign_in_count %></li>
+    <li><b>Previous sign in:</b> <%= @last_sign_in_time %>from<%= @user.last_sign_in_ip %></li>
+    <li><b>Most recent sign in:</b><%= @most_recent_sign_in_time %>from<%= @user.current_sign_in_ip %></li>
+
+    <li><b>(Confirmed) Following:</b> <%= @user.following.count %></li>
+    <li><b>(Confirmed) Follwed by:</b> <%= @user.followers.count %></li>
+    <li><b>Categories created:</b> <%= @user.categories.count %></li>
+    <li><b>Events created:</b> <%= @user.events.count %></li>
+    <li><b>Breaks created:</b> <%= @user.repeat_exceptions.count %></li>
+    <li><b>Last user object update:</b> <%= @last_update_time %></li>
+  </ul>
+
+  <br>
+  <h2>Groups</h2>
+  <% if @user_groups.empty? %>
+      <p>This user is not a part of any groups yet!</p>
+  <% else %>
+      <ul class="pretty-list">
+        <% @user_groups.each do |user_group| %>
+            <li><b><%= user_group.role %></b>
+              of <%= link_to(user_group.group.name, group_path(user_group.group_id)) %></li>
+        <% end %>
+      </ul>
+  <% end %>
+  <br>
+</div>
