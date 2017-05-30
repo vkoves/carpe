@@ -3,7 +3,7 @@ class UsersController < ApplicationController
 
 
   def index
-    @users = User.where.not(id: current_user.id).sort_by(&:name) # fetch all users but current
+    @users = User.sort_by(&:name) # fetch all users (including current, to see admin info)
     @admin_tiles = true
   end
 
