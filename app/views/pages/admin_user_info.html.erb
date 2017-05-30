@@ -19,7 +19,7 @@
     <li><b>Account type:</b> <%= @user.admin ? 'admin' : 'user' %></li>
     <li><b>Profile type:</b> <%= @user.public_profile ? 'public' : 'private' %></li>
     <li><b>Timezone:</b> <%= @user.home_time_zone %></li>
-    <li><b>Custom url:</b> <%= @user.custom_url.blank? ? 'not using one' : @user.custom_url %></li>
+    <!-- <li><b>Custom url:</b> <%=  # @user.custom_url.blank? ? 'not using one' : @user.custom_url %></li> -->
 
     <li><b>Account created on:</b> <%= @account_creation_time %></li>
     <li><b>Times signed in:</b> <%= @user.sign_in_count %></li>
