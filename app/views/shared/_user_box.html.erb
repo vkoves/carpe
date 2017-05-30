@@ -20,7 +20,7 @@
 		</div>
 		<%= link_to_block "Delete", admin_destroy_user_path(user), :method => :delete, data: { confirm: 'Are you sure?' }, :class => "default red" %>
 		<%= link_to_block "Info", admin_user_info_path(user), :class => "default green" %>
-<% else %>
+	<% else %>
 		<%= render "/users/follow_button", user: user %>
 	<% end %>
 
