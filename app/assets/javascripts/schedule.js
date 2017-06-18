@@ -1172,7 +1172,7 @@ function handlePosition(elem, ui)
 
 /**
  * Called when creating a clone, copying a specified element.
- * @param  {jQuery element} elem - The element being copied
+ * @param  {jQuery} elem - The element being copied
  * @param  {Object}   ui - UI object from jQuery drag handler
  */
 function handleClone(elem, ui)
