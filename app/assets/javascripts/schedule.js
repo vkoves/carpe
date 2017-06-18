@@ -21,8 +21,8 @@ var breaks = {};
 
 var eventTempId = 0; //the temp id that the next event will have, incremented on each event creation or load
 
-var currEvent; //scheduleEvent Object - the event being currently edited
-var currCategory; //DOM ELEMENT - the category being currently edited. TODO: Make this use the Category object
+var currEvent; //scheduleItem Object - the event being currently edited
+var currCategory; //Category Object - the category being currently edited
 var currMins; //the current top value offset caused by the minutes of the current item
 
 var readied = false; //whether the ready function has been called
@@ -327,6 +327,7 @@ function ScheduleItem()
 		}
 
 		elem.attr("time", topDT.getHours() + ":" + paddedMinutes(topDT)); //set the time attribute
+		schItem.tempElement = elem; // update temp element for later populateEvents() calls
 	}
 
 	/**
