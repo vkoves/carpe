@@ -1,4 +1,4 @@
-/**
+/*
  * Instantiates and handles the Carpe scheduling interface, populating
  * the users schedule, handling switching between weeks, and communicating
  * with the server about changes to the schedule, such as creating, moving
