@@ -17,6 +17,17 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # rather than catching exceptions in the actions, do it here.
+  rescue_from ActiveRecord::RecordNotFound, with: :render_404
+
+  def render_404
+    render file: "#{Rails.root}/public/404.html", status: 404
+  end
+
+  def not_found
+    raise ActiveRecord::RecordNotFound.new('Not Found')
+  end
+
   #Core Carpe search. Searches groups and users
   def search_core
     if params[:q]

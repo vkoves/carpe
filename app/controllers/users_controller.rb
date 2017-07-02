@@ -10,42 +10,38 @@ class UsersController < ApplicationController
   def show
     using_id = (params[:id_or_url] =~ /\A[0-9]+\Z/)
     if using_id
-      @user = User.find_by(id: params[:id_or_url])
+      @user = User.find_by(id: params[:id_or_url]) or not_found
       redirect_to user_path(@user) if @user.has_custom_url?
     else
-      @user = User.find_by(custom_url: params[:id_or_url])
+      @user = User.find_by(custom_url: params[:id_or_url])  or not_found
     end
 
     @profile = false
-    if @user
-      if current_user and current_user == @user #this is the user looking at their own profile
-        @profile = true
-      end
+    if current_user and current_user == @user #this is the user looking at their own profile
+      @profile = true
+    end
 
-      case params[:page]
-      when "followers"
-        @tab = "followers"
-      when "activity"
-        @tab = "activity"
-        @activity = @user.following_relationships + @user.followers_relationships
-      when "mutual_friends"
-        @tab = "mutual"
-      when "schedule"
-        @tab = "schedule"
-      when "following"
-        @tab = "following"
-        @following = @user.following_relationships
-      else #default, aka no params
-        @tab = "schedule"
-      end
+    case params[:page]
+    when "followers"
+      @tab = "followers"
+    when "activity"
+      @tab = "activity"
+      @activity = @user.following_relationships + @user.followers_relationships
+    when "mutual_friends"
+      @tab = "mutual"
+    when "schedule"
+      @tab = "schedule"
+    when "following"
+      @tab = "following"
+      @following = @user.following_relationships
+    else #default, aka no params
+      @tab = "schedule"
+    end
 
-      if @tab == "mutual"
-        @mutual_friends = current_user.mutual_friends(@user)
-      else
-        @all_friends = @user.followers_relationships #and fetch all of the user's followers
-      end
+    if @tab == "mutual"
+      @mutual_friends = current_user.mutual_friends(@user)
     else
-      redirect_to "/404"
+      @all_friends = @user.followers_relationships #and fetch all of the user's followers
     end
   end
 
