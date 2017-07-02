@@ -13,42 +13,29 @@ class Event < ActiveRecord::Base
     name.empty? ? "Untitled" : name
   end
 
-  def events_in_range(start_datetime, end_datetime) #returns the repeat copies of the event
-     events_array = [] #define the array we will return with all the event "clones"
+  # Returns whether this event is on break on the given date.
+  def on_break?(datetime)
+    all_repeat_exceptions.any? { |brk| datetime.between? brk.start, brk.end }
+  end
 
-     if repeat and !(repeat.empty? or repeat == "none")
-      dates = (start_datetime...end_datetime).to_a #create an array of all dates in the range
+  # Returns copies of the event on every day it applies to between /start/ and /end/.
+  def events_in_range(start_datetime, end_datetime)
+    return [self] if repeat.blank? or repeat == 'none' # just use the existing event
 
-      dates = dates_in_range_with_repeat(dates)
+    events_array = [] # an output array for cloned events
 
-      dates.each do |date| #go through all the dates
-        #if this date is before the event's start repeat
-        if (repeat_start and date < repeat_start) or (repeat_end and date > repeat_end) #or after it's end repeat
-          next #skip this date
-        end
+    # get all candidate dates for the event (ignores exceptions and repeat date range)
+    candidate_dates = dates_in_range_with_repeat start_datetime, end_datetime
 
-        #Now check if this event falls onto one of it's specified breaks
-        on_break = false
-        start_date = date.to_date
+    # now only take events in repeat_start..repeat_end that are not on break
+    candidate_dates.each do |day|
+      next if repeat_start.present? and not day.between? repeat_start, repeat_end
+      next if on_break?(day)
 
-        self.all_repeat_exceptions.each do |brk|
-          if brk.start <= start_date and brk.end >= start_date
-            on_break = true
-            break
-          end
-        end
+      events_array.append(repeat_clone(day))
+    end
 
-        next if on_break #continue to the next event if this one is on break
-
-        new_event = repeat_clone(date)
-
-        events_array.append(new_event) #append to output array
-      end
-     else #if there is no repeat_type
-      events_array.append(self) #just use the existing event
-     end
-
-     return events_array #and return
+    events_array
   end
 
   #returns all repeat_exceptions that apply to this event, a combination of event and category level ones
@@ -109,44 +96,55 @@ class Event < ActiveRecord::Base
     return new_event
   end
 
-  #Returns the dates that are valid within a range given a certain repeat string
-  def dates_in_range_with_repeat(dates)
-      start_date = date.to_date #conver the start datetime to a real Date
+  # Similar to Date.step(Date, step), except it actually works with months and years.
+  # For example, range DateTime.new(2013,01,01), DateTime.new(2014,01,01), 1.month
+  # properly returns the first day of each month rather than using a fixed 30 days.
+  def range(start, finish, step)
+    return [] if start.nil? or finish.nil?
 
-      if repeat == "daily" #use all dates
-        #do nothing!
-      elsif repeat == "weekly"
-        dates = dates.select{|curr_date_time| curr_date_time.wday == date.wday}
-      elsif repeat == "monthly"
-        dates = dates.select{|curr_date_time| curr_date_time.mday == date.mday}
-      elsif repeat == "yearly"
-        dates = dates.select{|curr_date_time| curr_date_time.yday == date.yday}
-      elsif repeat.include? "custom" #it's a custom repeat
-        repeat_data = repeat.split("-")
-        repeat_num = repeat_data[1].to_i
-          repeat_unit = repeat_data[2]
-
-        dates = dates.select{|curr_date_time|
-          curr_date = curr_date_time.to_date
-
-          if repeat_unit == "days"
-            (curr_date - start_date) % repeat_num == 0
-          elsif repeat_unit == "weeks"
-            ((curr_date - start_date)/7) % repeat_num == 0
-          elsif repeat_unit == "months"
-            ((curr_date_time.year - date.year)* 12 + curr_date_time.month -  date.month) % repeat_num == 0
-          elsif repeat_unit == "years"
-            curr_date_time.year - date.year % repeat_num == 0
-          end
-        }
-      elsif repeat.include? "certain_days" #if it's a repeat certain days type
-        #Get the array of day numbers (Ex: M-F repeat would be ["1","2","3","4", "5"])
-        days_num_array = repeat.split("-")[1].split(",")
-        dates = dates.select{|curr_date_time| days_num_array.include?(curr_date_time.wday.to_s)}
-      else #this event doesn't repeat!
-        dates = dates.select{|curr_date_time| curr_date_time.to_date == start_date}
+    Enumerator.new do |y|
+      y << start
+      while (start += step) <= finish
+        y << start
       end
+    end
+  end
 
-      return dates
+  def select_custom_repeat_dates(start_date, end_date)
+    repeat_data = repeat.split("-")
+    repeat_num = repeat_data[1].to_i # repeat this event every n
+    repeat_unit = repeat_data[2] # days/weeks/months/years
+    first_weekday = (start_date..end_date).find { |day| (day.wday - date.wday) % repeat_num == 0}
+
+    case repeat_unit
+    when 'days'   then range first_weekday, end_date, repeat_num.days
+    when 'weeks'  then range first_weekday, end_date, repeat_num.weeks
+    when 'months' then range first_weekday, end_date, repeat_num.months
+    when 'years'  then range first_weekday, end_date, repeat_num.years
+    end
+  end
+
+  # Returns /dates/ after taking all the dates on certain weekdays.
+  # `repeat` should look something along the lines of "certain_days-1,3,4,5"
+  # 1 meaning monday, 2 tuesday, ..., 6 saturday, and 0 sunday.
+  def select_certain_dates(dates)
+    weekday_nums = repeat.split('-')[1].split(',').map(&:to_i)
+    dates.select { |day| weekday_nums.include?(day.wday) }
+  end
+
+  # Takes a DateTime /start_date/ and a DateTime /end_date/ and returns
+  # a collection of dates in this range that the current event object applies to.
+  def dates_in_range_with_repeat(start_date, end_date)
+    first_weekday = (start_date..end_date).find { |day| day.wday == date.wday }
+
+    case repeat
+    when 'daily'        then start_date..end_date # this event repeats every day
+    when 'weekly'       then range first_weekday, end_date, 1.week
+    when 'monthly'      then range first_weekday, end_date, 1.month
+    when 'yearly'       then range first_weekday, end_date, 1.year
+    when /certain_days/ then select_certain_dates start_date..end_date
+    when /custom/       then select_custom_repeat_dates start_date, end_date
+    else [date] # this event doesn't repeat
+    end
   end
 end

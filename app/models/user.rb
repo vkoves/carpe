@@ -47,7 +47,7 @@ class User < ActiveRecord::Base
   after_create :send_signup_email
 
   def send_signup_email
-    UserNotifier.send_signup_email(self).deliver
+    UserNotifier.send_signup_email(self).deliver_now
   end
 
   # Validate the custom_url ...
@@ -77,20 +77,13 @@ class User < ActiveRecord::Base
   ##### EVENT METHODS ######
   ##########################
 
-  def current_events #return events that are currently going on
-    now = Time.now.in_time_zone("Central Time (US & Canada)")
-    dt_now = DateTime.now
-    busy_events = self.events_in_range(dt_now.beginning_of_day, dt_now.end_of_day) #get events that occur today
-    busy_events = busy_events.select{|event| (event.date <= now and event.end_date >= now)} #get events going on right now
-    return busy_events.sort_by(&:end_date) #return the busy events sorted by which ends soonest
+  # TODO: events_in_range? events_start_in_range is probably a better name for that method
+  def current_events # return events that are currently going on
+    events_in_range(1.day.ago, DateTime.current).select(&:current?).sort_by(&:end_date)
   end
 
   def next_event #returns the next upcoming event within the next day
-    now = Time.now.in_time_zone("Central Time (US & Canada)")
-    dt_now = DateTime.now
-    upcoming_events = self.events_in_range(dt_now.beginning_of_day, dt_now.end_of_day)
-    upcoming_events = upcoming_events.select{|event| (event.date > now and event.date.in_time_zone("Central Time (US & Canada)").to_date == Date.today)} #get future events that occur today
-    return upcoming_events.sort_by(&:date)[0]
+    events_in_range(DateTime.current, 1.day.from_now).min_by(&:date)
   end
 
   def is_busy? #returns whether the user is currently busy (has an event going on)
