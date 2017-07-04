@@ -1,0 +1,7 @@
+<%
+	# This partial takes in a name for the field, and outputs an input field that is a user adder
+	# See partials/user-adder.js for the tokenInput code that handles this field
+%>
+<%= form_tag("/search_users", method: "get", class: "user-entry") do %>
+	<%= text_field_tag(name, nil, autocomplete: "off", class: "user-adder-input") %>
+<% end %>
