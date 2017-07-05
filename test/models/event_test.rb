@@ -40,20 +40,22 @@ class EventTest < ActiveSupport::TestCase
     assert_equal repeat_dates, event_dates
   end
 
-  test "get_name will return either the event name or 'Untitled'" do
+  test "get_name will return either the event name or a placeholder" do
     assert_equal events(:simple).name, events(:simple).get_name,
                  "Named event did not return it's name"
 
-    assert_equal "Untitled", events(:nameless_event).get_name,
-                 "Nameless event did not return 'Untitled'"
+    assert_not_empty events(:nameless_event).get_name,
+                     "Nameless event should return some placeholder name"
   end
 
-  test "get_html_name will return either the event name or <i>Untitled</i>" do
+  test "get_html_name will return either the event name or an html placeholder" do
     assert_equal events(:simple).name, events(:simple).get_html_name,
                  "Named event did not return it's name"
 
-    assert_equal "<i>Untitled</i>", events(:nameless_event).get_html_name,
-                 "Nameless event did not return '<i>Untitled</i>'"
+
+    html_name = events(:nameless_event).get_html_name
+    assert_not_empty html_name, "Nameless event should return some placeholder name"
+    assert html_name.valid_html?, "Placeholder name must be valid html"
   end
 
   test "current? should return true for events that are happening right now" do
