@@ -1,27 +1,20 @@
+require 'graceful'
+
 class PagesController < ApplicationController
-  before_filter  :authorize_admin, :only => [:promote, :admin, :sandbox, :destroy_user, :admin_user_info] #authorize admin on all of these pages
+  before_filter :authorize_admin,
+                only: %i(promote admin sandbox destroy_user admin_user_info)
 
-  def promote #promote or demote users admin status
+  def promote # promote or demote users admin status
     @user = User.find(params[:id])
-    if(current_user and current_user.admin)
-      if params[:de] == "true" #if demoting
-        @user.admin = false
-      else
-        @user.admin = true
-      end
-      @user.save
-    end
+    @user.admin = (params[:de] != "true") # they're an admin if not being demoted
+    @user.save
 
-    #redirect_to "/users"
-    render :json => {"action" => "promote", "uid" => params[:id]}
+    render json: { action: "promote", uid: params[:id] }
   end
 
   def destroy_user
     user = User.find(params[:id])
-
-    if current_user.admin
-      user.destroy
-    end
+    user.destroy
 
     redirect_to "/admin"
   end
@@ -29,10 +22,10 @@ class PagesController < ApplicationController
   def admin_user_info
     @user = User.find(params[:id])
 
-    @account_creation_time = @user.created_at.strftime('%Y-%m-%d at %H:%M')
-    @last_update_time = @user.updated_at.strftime('%Y-%m-%d at %H:%M')
-    @last_sign_in_time = @user.last_sign_in_at.strftime('%Y-%m-%d at %H:%M')
-    @most_recent_sign_in_time = @user.current_sign_in_at.strftime('%Y-%m-%d at %H:%M')
+    @account_creation_time = Graceful.time @user.created_at
+    @last_update_time = Graceful.time @user.updated_at
+    @last_sign_in_time = Graceful.time @user.last_sign_in_at
+    @most_recent_sign_in_time = Graceful.time @user.current_sign_in_at
     @user_groups = UsersGroup.where(user_id: @user.id)
   end
 
