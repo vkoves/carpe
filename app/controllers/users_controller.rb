@@ -56,26 +56,7 @@ class UsersController < ApplicationController
     if q != "" #only search if it's not silly
       if request.path_parameters[:format] == 'json'
         @users = User.where('name LIKE ?', "%#{q}%").limit(10)
-        @users = @users.sort {|a,b|
-          a_rank = 0
-          b_rank = 0
-
-
-          if a.name.downcase.starts_with?(q.downcase) #if the users name starts with the query
-            a_rank = 2 #it's a great match (score 2)
-          elsif a.name.downcase.include?(" " + q.downcase) #if the users middle or last name starts with the query
-            a_rank = 1 #it's an okay match (score 1)
-          end #otherwise we get the default score of 0 for having the query in their name
-
-          #repeat for b
-          if b.name.downcase.starts_with?(q.downcase)
-            b_rank = 2
-          elsif b.name.downcase.include?(" " + q.downcase)
-            b_rank = 1
-          end
-
-          b_rank <=> a_rank #return comparison of ranks, with highest preferred first
-        }
+        @users = User.rank(@users, q)
       else
         @users = User.where('name LIKE ?', "%#{q}%")
       end

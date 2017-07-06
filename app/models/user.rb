@@ -304,14 +304,13 @@ class User < ActiveRecord::Base
   ##########################
 
   ##########################
-  ##     JSON METHODS     ##
+  ##     MISC METHODS     ##
   ##########################
 
   # Convert the user into a hash with the least data needed to show search
   # Recall that clients can see the JSON with a bit of inspection, so only
   # public information should be included here
   def convert_to_json
-    # the search returns in the network tab, so it's crucial we don't pass unused attributes
     user_obj = {} #create a hash representing the user
 
     # Required fields for search/tokenInput - name and image url
@@ -323,8 +322,37 @@ class User < ActiveRecord::Base
     user_obj #and return the user
   end
 
+  # Ranks a collection of users for a given search query
+  # The ranking prioritizes the first name starting with the query
+  # then the middle/last name starting with the query
+  # and finally the query being included at all
+  def self.rank(users, query)
+    query = query.downcase
+
+    users.sort {|a,b|
+      a_rank = 0
+      b_rank = 0
+
+      if a.name.downcase.starts_with?(query) #if the users name starts with the query
+        a_rank = 2 #it's a great match (score 2)
+      elsif a.name.downcase.include?(" " + query) #if the users middle or last name starts with the query
+        a_rank = 1 #it's an okay match (score 1)
+      end #otherwise we get the default score of 0 for having the query in their name
+
+      #repeat for b
+      if b.name.downcase.starts_with?(query)
+        b_rank = 2
+      elsif b.name.downcase.include?(" " + query)
+        b_rank = 1
+      end
+
+      b_rank <=> a_rank #return comparison of ranks, with highest preferred first
+    }
+  end
+
   ##########################
-  ##   END JSON METHODS   ##
+  ##   END MISC METHODS   ##
   ##########################
+
 
 end
