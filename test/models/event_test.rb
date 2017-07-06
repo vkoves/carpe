@@ -78,6 +78,14 @@ class EventTest < ActiveSupport::TestCase
     assert_not_includes events, @daily
   end
 
+  test "events_in_range should work with 1 directional infinite repeats" do
+    @daily.repeat_start = @morning
+    @daily.repeat_end = nil
+    events = @daily.events_in_range(@morning - 5.days, @morning + 77.days)
+
+    assert_equal 77, events.length
+  end
+
   test "events_in_range should not include repeat events that are on break" do
     exception = repeat_exceptions(:one)
 
@@ -89,19 +97,37 @@ class EventTest < ActiveSupport::TestCase
     assert_equal 1, events.length, "repeated events that are on break not being excluded"
   end
 
-  # TODO: make repeat_clone testable. also, "Central Time (US & Canada)"?
-  test "repeat_clone takes daylight savings into account" do
-    # Take our test event, and create a clone during Daylight Savings Time and one not in it
-    # In IL it goes from Sunday, March 12 to Sunday, November 5
-    # Also use .send to test this private method
-    clone1 = events(:simple).send(:repeat_clone, Date.new(2017,5,25)) # May 25, 2017 is in DST
-    clone2 = events(:simple).send(:repeat_clone, Date.new(2017,11,25)) # Nov 25, 2017 is not in DST
+  test "events_in_range takes daylight savings (DST) into account" do
+    zone = Time.find_zone('America/Chicago')
+    event = events(:simple)
 
-    # Since clone1 is in DST, it should be one hour ahead
-    assert_equal(clone1.date.hour + 1, clone2.date.hour, "start date time is not ahead if in DST")
-    assert_equal(clone1.end_date.hour + 1, clone2.end_date.hour, "end date time is not ahead if in DST")
+    # March 12, 2017 @ 3:30am
+    event.date = zone.local(2017, 3, 12, 2, 30).utc
 
-    flunk "how should we test or refactor this code?"
+    # March 12, 2017 @ 4:00am
+    event.end_date = zone.local(2017, 3, 12, 4).utc
+
+    # March 12, 2017 @ 1:00am
+    # 1 hour before daylight saving times begins (CST -> DST)
+    start = zone.local(2017, 3, 12, 1).utc
+
+    # March 12, 2017, 3:15am
+    # 30 minutes after daylight savings begins. At this point, the the
+    # "clock moves ahead 1 hour". So, it is actually 3:30am
+    finish = zone.local(2017, 3, 12, 2, 15).utc
+
+    events = event.events_in_range(start, finish)
+    assert_equal 0, events.length,
+                 "events_in_range between 1:00-3:15 got an event between 3:30-4:00"
+
+    # event now starts at 3:30am
+    event.date = zone.local(2017, 3, 12, 3, 30).utc
+
+    # and we're searching for events up till 3:45am (due to DST)
+    finish = zone.local(2017, 3, 12, 2, 45).utc
+
+    assert_equal 1, event.events_in_range(start, finish).length,
+                 "events_in_range between 1:00-3:45 failed to get event between 3:30-4:00"
   end
 
   test "events can be repeated daily, weekly, monthly, and yearly" do
