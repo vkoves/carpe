@@ -182,10 +182,6 @@ class UserTest < ActiveSupport::TestCase
                  "Wrong event was returned as the next event!"
   end
 
-  test "force_follow works" do
-    flunk "what is this?"
-  end
-
   test "is_busy should reflect user's current events" do
     # Make two events - one currently going on, one not
     @curr_event_1.date     = 2.hours.ago
