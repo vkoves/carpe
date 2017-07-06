@@ -318,31 +318,26 @@ class User < ActiveRecord::Base
   end
 
   # Ranks a collection of users for a given search query
-  # The ranking prioritizes the first name starting with the query
-  # then the middle/last name starting with the query
-  # and finally the query being included at all
   def self.rank(users, query)
     query = query.downcase
 
-    users.sort {|a,b|
-      a_rank = 0
-      b_rank = 0
+    users.sort {|a,b| b.rank(query) <=> a.rank(query) } # return users by rank descending (hence sort is flipped)
+  end
 
-      if a.name.downcase.starts_with?(query) #if the users name starts with the query
-        a_rank = 2 #it's a great match (score 2)
-      elsif a.name.downcase.include?(" " + query) #if the users middle or last name starts with the query
-        a_rank = 1 #it's an okay match (score 1)
-      end #otherwise we get the default score of 0 for having the query in their name
+  # Ranks the user based on the query
+  # The ranking prioritizes the first name starting with the query
+  # then the middle/last name starting with the query
+  # and finally the query being included at all (handled by SQL)
+  def rank(query)
+    score = 0 # default score is 0
 
-      #repeat for b
-      if b.name.downcase.starts_with?(query)
-        b_rank = 2
-      elsif b.name.downcase.include?(" " + query)
-        b_rank = 1
-      end
+    if name.downcase.starts_with?(query)
+      score = 2
+    elsif name.downcase.include?(" " + query)
+      score = 1
+    end
 
-      b_rank <=> a_rank #return comparison of ranks, with highest preferred first
-    }
+    return score
   end
 
   ##########################
