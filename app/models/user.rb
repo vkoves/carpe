@@ -303,4 +303,28 @@ class User < ActiveRecord::Base
   ## END GEN USER METHODS ##
   ##########################
 
+  ##########################
+  ##     JSON METHODS     ##
+  ##########################
+
+  # Convert the user into a hash with the least data needed to show search
+  # Recall that clients can see the JSON with a bit of inspection, so only
+  # public information should be included here
+  def convert_to_json
+    # the search returns in the network tab, so it's crucial we don't pass unused attributes
+    user_obj = {} #create a hash representing the user
+
+    # Required fields for search/tokenInput - name and image url
+    user_obj[:name] = self.name
+    user_obj[:image_url] = self.user_avatar(50)
+    user_obj[:id_or_url] = self.id
+    user_obj[:model_name] = "User" # specify what type of object this is (used for site search, which handles many object types)
+
+    user_obj #and return the user
+  end
+
+  ##########################
+  ##   END JSON METHODS   ##
+  ##########################
+
 end

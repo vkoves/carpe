@@ -77,22 +77,9 @@ class ApplicationController < ActionController::Base
       # Convert the users into a hash with the least data needed to show search. Recall that users can see the JSON
       # the search returns in the network tab, so it's crucial we don't pass unused attributes
       user_map = users.map{|user|
-        user_obj = {} #create a hash representing the user
-
-        # Required fields for search - name and image url
-        user_obj[:name] = user.name
-        user_obj[:image_url] = user.user_avatar(60)
-
-        # Custom fields - model name and link_url for linking
-        user_obj[:model_name] = "User" #specify what type of object this is
-        user_obj[:link_url] = user_url(User.find_by_id(user["id"]))
-
-        # Handle avatars
-        unless user and user.has_avatar #if this is a valid user that has no avatar
-          user_obj[:image_url] = "https://www.gravatar.com/avatar/?d=mm" #change to the default avatar
-        end
-
-        user_obj #and return the user
+        user_obj = user.convert_to_json # get JSON data for the user
+        user_obj[:link_url] = user_url(User.find_by_id(user["id"])) # add the link to the user
+        user_obj # and return the modified JSON object
       }
 
       render :json => user_map # + group_map

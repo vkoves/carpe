@@ -84,25 +84,9 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html
       format.json {
-        # Convert the users into a hash with the least data needed to show search. Recall that users can see the JSON
-        # the search returns in the network tab, so it's crucial we don't pass unused attributes
-        user_map = @users.map{|user|
-          user_obj = {} #create a hash representing the user
-
-          # Required fields for search - name and image url
-          user_obj[:name] = user.name
-          user_obj[:image_url] = user.image_url
-          user_obj[:id_or_url] = user.id
-
-          # Handle avatars
-          unless user and user.has_avatar #if this is a valid user that has no avatar
-            user_obj[:image_url] = "https://www.gravatar.com/avatar/?d=mm" #change to the default avatar
-          end
-
-          user_obj #and return the user
-        }
+        # Return the users in their public JSON form
+        user_map = @users.map(&:convert_to_json)
         render :json => user_map
-        #render :json => @users.map(&:attributes)
       }
     end
   end
