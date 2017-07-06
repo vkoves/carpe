@@ -23,24 +23,27 @@ class Event < ActiveRecord::Base
     all_repeat_exceptions.any? { |brk| datetime.between? brk.start, brk.end }
   end
 
+  # Returns true if this event is repeating on the given date, false otherwise.
+  def repeating?(datetime)
+    return false if repeat_start.present? and datetime < repeat_start
+    return false if repeat_end.present? and datetime > repeat_end
+    return false if on_break? datetime
+
+    return true
+  end
+
   # Returns copies of the event on every day it applies to between /start/ and /end/.
   def events_in_range(start_datetime, end_datetime)
-    return [self] unless repeats? # just use the existing event
-
-    events_array = [] # an output array for cloned events
+    unless repeats?
+      # just return the current event, as it's the only relevant one.
+      return date.between?(start_datetime, end_datetime) ? [self] : []
+    end
 
     # get all candidate dates for the event (ignores exceptions and repeat date range)
     candidate_dates = dates_in_range_with_repeat start_datetime, end_datetime
 
-    # now only take events in repeat_start..repeat_end that are not on break
-    candidate_dates.each do |day|
-      next if repeat_start.present? and not day.between? repeat_start, repeat_end
-      next if on_break?(day)
-
-      events_array.append(repeat_clone(day))
-    end
-
-    events_array
+    # now only take candidates actually in this event's repeat range that aren't on break.
+    candidate_dates.map { |day| repeat_clone day if repeating? day }.compact
   end
 
   #returns all repeat_exceptions that apply to this event, a combination of event and category level ones
