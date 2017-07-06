@@ -2,7 +2,7 @@
 # bundle exec rake test
 # ----------------------------------------
 # To run this test, in the project directory run the command:
-# bundle exec rake test test/controllers/event_test.rb
+# bundle exec rake test test/models/event_test.rb
 
 require 'test_helper'
 
@@ -91,6 +91,16 @@ class EventTest < ActiveSupport::TestCase
 
   # TODO: make repeat_clone testable. also, "Central Time (US & Canada)"?
   test "repeat_clone takes daylight savings into account" do
+    # Take our test event, and create a clone during Daylight Savings Time and one not in it
+    # In IL it goes from Sunday, March 12 to Sunday, November 5
+    # Also use .send to test this private method
+    clone1 = events(:simple).send(:repeat_clone, Date.new(2017,5,25)) # May 25, 2017 is in DST
+    clone2 = events(:simple).send(:repeat_clone, Date.new(2017,11,25)) # Nov 25, 2017 is not in DST
+
+    # Since clone1 is in DST, it should be one hour ahead
+    assert_equal(clone1.date.hour + 1, clone2.date.hour, "start date time is not ahead if in DST")
+    assert_equal(clone1.end_date.hour + 1, clone2.end_date.hour, "end date time is not ahead if in DST")
+
     flunk "how should we test or refactor this code?"
   end
 
