@@ -22,6 +22,19 @@
 			</div>
 		</div>
 
+		<h3 class="no-bold">JSDoc</h3>
+		JSDocs document the Carpe Javascript and help us ensure we are writing good documentation <br>
+		<%= link_to "/jsdoc-out/index.html", target: "_blank", class: "default" do %>
+			<span>JSDoc Home</span>
+		<% end %>
+
+		<div class="tip">
+			Run <code>jsdoc app/assets/javascripts -r README.md -d public/jsdoc-out</code> to update
+			<div class="sub-tip">
+				Make sure you have the JSDoc NPM package (install with <code>npm install -g jsdoc</code> if you don't)
+			</div>
+		</div>
+
 		<h3 class="no-bold">Ruby on Rails Tests</h3>
 		<%= link_to "/html_reports", target: "_blank", class: "default" do %>
 			<span>RoR Test Results</span>
