@@ -4,10 +4,7 @@
 # namespace collisions back to this file.
 
 module Utilities
-
-  # Similar to Date.step(Date, step), except it actually works with months and years.
-  # For example,
-
+  
   # Returns an enumerator of values beginning at /start/ and ending at /finish/
   # based on the given /step/ size.
   #
