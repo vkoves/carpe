@@ -2,7 +2,7 @@ require 'graceful'
 
 class PagesController < ApplicationController
   before_filter :authorize_admin,
-                only: %i(promote admin sandbox destroy_user admin_user_info)
+                only: [:promote, :admin, :sandbox, :destroy_user, :admin_user_info]
 
   def promote # promote or demote users admin status
     @user = User.find(params[:id])
