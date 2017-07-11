@@ -12,6 +12,7 @@
  *
  * require_tree .
  *= require carpe
+ *= require partials/user-adder
  *= require_self
  *= require jquery-ui
  * require jquery-ui.min

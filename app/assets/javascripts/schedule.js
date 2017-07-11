@@ -1,4 +1,4 @@
-/**
+/*
  * Instantiates and handles the Carpe scheduling interface, populating
  * the users schedule, handling switching between weeks, and communicating
  * with the server about changes to the schedule, such as creating, moving
@@ -21,8 +21,8 @@ var breaks = {};
 
 var eventTempId = 0; //the temp id that the next event will have, incremented on each event creation or load
 
-var currEvent; //scheduleEvent Object - the event being currently edited
-var currCategory; //DOM ELEMENT - the category being currently edited. TODO: Make this use the Category object
+var currEvent; //scheduleItem Object - the event being currently edited
+var currCategory; //Category Object - the category being currently edited
 var currMins; //the current top value offset caused by the minutes of the current item
 
 var readied = false; //whether the ready function has been called
@@ -98,35 +98,46 @@ function isSafeToLeave()
  */
 function ScheduleItem()
 {
-	this.categoryId; //the id of the associated category
-	this.eventId; //the id of the event in the db
-	this.tempId; //the id of the event in the hashmap
+	/** The id of the associated category */
+	this.categoryId
+	this.eventId;
+	/** The id of the event in the hashmap */
+	this.tempId;
+	/** The start date and time, as a js Date() */
+	this.startDateTime;
+	/** The end date and time */
+	this.endDateTime;
+	/** The repeat type as a string */
+	this.repeatType;
+	/** The date the repeating starts on */
+	this.startRepeatType;
+	/** The date the repeating starts on */
+	this.endRepeatType;
+	/** An array of the repeat exceptions of this event. Does not include category level repeat exceptions */
+	this.breaks = [];
+	/** The name of the event */
+	this.name;
+	/** The event description */
+	this.description;
+	/** The event location */
+	this.location;
+	/** Whether this object has bee updated since last save */
+	this.needsSaving = false;
 
-	this.startDateTime; //the start date and time, as a js Date()
-	this.endDateTime; //the end date and time
-
-	this.repeatType; //the repeat type as a string
-	this.startRepeatType; //the date the repeating starts on
-	this.endRepeatType; //the date the repeating starts on
-	this.breaks = []; //an array of the repeat exceptions of this event. Does not include category level repeat exceptions
-
-	this.name; //the name of the event
-	this.description; //the event description
-	this.location; //the event location
-
-	this.needsSaving = false; //whether this object has bee updated since last save
-
-	this.lengthInHours = function() //returns an float of the length of the event in hours
+	/** Returns an float of the length of the event in hours */
+	this.lengthInHours = function()
 	{
 		return differenceInHours(this.startDateTime, this.endDateTime, false);
 	};
 
-	this.hoursSpanned = function() //returns an integer of the difference in the hours
+	/** Returns an integer of the difference in the hours */
+	this.hoursSpanned = function()
 	{
 		return this.endDateTime.getHours() - this.startDateTime.getHours();
 	};
 
-	this.destroy = function() //deletes the schedule item from the frontend
+	/** Deletes the schedule item from the frontend */
+	this.destroy = function()
 	{
 		this.element().slideUp("normal", function() { $(this).remove(); }); //slide up the element and remove after that is done
 		delete scheduleItems[this.tempId]; //then delete from the scheduleItems map
@@ -241,14 +252,16 @@ function ScheduleItem()
 		updatedEvents(this.tempId, "resizeComplete");
 	};
 
-	this.getTop = function() //returns the top value based on the hours and minutes of the start
+	/** Returns the top value based on the hours and minutes of the start */
+	this.getTop = function()
 	{
 		var hourStart = this.startDateTime.getHours() + (this.startDateTime.getMinutes()/60);
 		var height =  gridHeight * hourStart;
 		return height;
 	};
 
-	this.getMinutesOffsets = function() //returns the pixel offsets caused by the minutes as an array
+	/** Returns the pixel offsets caused by the minutes as an array */
+	this.getMinutesOffsets = function()
 	{
 		var offsets = [];
 		offsets.push(gridHeight*(this.startDateTime.getMinutes()/60));
@@ -262,7 +275,7 @@ function ScheduleItem()
 		updatedEvents(this.tempId, "updateHeight");
 	};
 
-	//a way of getting the name that handles untitled
+	/** a way of getting the name that handles untitled */
 	this.getName = function(useHTML)
 	{
 		if(this.name)
@@ -273,7 +286,8 @@ function ScheduleItem()
 			return "Untitled";
 	}
 
-	this.element = function() //returns the HTML element for this schedule item, or elements if it is repeating
+	/** Returns the HTML element for this schedule item, or elements if it is repeating */
+	this.element = function()
 	{
 		if(viewMode == "week")
 			return $(".sch-evnt[evnt-temp-id="+ this.tempId + "]");
@@ -327,6 +341,7 @@ function ScheduleItem()
 		}
 
 		elem.attr("time", topDT.getHours() + ":" + paddedMinutes(topDT)); //set the time attribute
+		schItem.tempElement = elem; // update temp element for later populateEvents() calls
 	}
 
 	/**
@@ -1172,7 +1187,7 @@ function handlePosition(elem, ui)
 
 /**
  * Called when creating a clone, copying a specified element.
- * @param  {jQuery element} elem - The element being copied
+ * @param  {jQuery} elem - The element being copied
  * @param  {Object}   ui - UI object from jQuery drag handler
  */
 function handleClone(elem, ui)

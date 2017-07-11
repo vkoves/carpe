@@ -217,42 +217,44 @@ $.TokenList = function (input, url_or_data, settings) {
                 case KEY.RIGHT:
                 case KEY.UP:
                 case KEY.DOWN:
-                    if(!$(this).val()) {
-                        previous_token = input_token.prev();
-                        next_token = input_token.next();
+                    if(false) //disable arrow key based navigation
+                    {
+                        if(!$(this).val()) {
+                            previous_token = input_token.prev();
+                            next_token = input_token.next();
 
-                        if((previous_token.length && previous_token.get(0) === selected_token) || (next_token.length && next_token.get(0) === selected_token)) {
-                            // Check if there is a previous/next token and it is selected
-                            if(event.keyCode === KEY.LEFT || event.keyCode === KEY.UP) {
-                                deselect_token($(selected_token), POSITION.BEFORE);
-                            } else {
-                                deselect_token($(selected_token), POSITION.AFTER);
+                            if((previous_token.length && previous_token.get(0) === selected_token) || (next_token.length && next_token.get(0) === selected_token)) {
+                                // Check if there is a previous/next token and it is selected
+                                if(event.keyCode === KEY.LEFT || event.keyCode === KEY.UP) {
+                                    deselect_token($(selected_token), POSITION.BEFORE);
+                                } else {
+                                    deselect_token($(selected_token), POSITION.AFTER);
+                                }
+                            } else if((event.keyCode === KEY.LEFT || event.keyCode === KEY.UP) && previous_token.length) {
+                                // We are moving left, select the previous token if it exists
+                                select_token($(previous_token.get(0)));
+                            } else if((event.keyCode === KEY.RIGHT || event.keyCode === KEY.DOWN) && next_token.length) {
+                                // We are moving right, select the next token if it exists
+                                select_token($(next_token.get(0)));
                             }
-                        } else if((event.keyCode === KEY.LEFT || event.keyCode === KEY.UP) && previous_token.length) {
-                            // We are moving left, select the previous token if it exists
-                            select_token($(previous_token.get(0)));
-                        } else if((event.keyCode === KEY.RIGHT || event.keyCode === KEY.DOWN) && next_token.length) {
-                            // We are moving right, select the next token if it exists
-                            select_token($(next_token.get(0)));
-                        }
-                    } else {
-                        var dropdown_item = null;
-
-                        if(event.keyCode === KEY.DOWN || event.keyCode === KEY.RIGHT) {
-                            dropdown_item = $(selected_dropdown_item).next();
                         } else {
-                            dropdown_item = $(selected_dropdown_item).prev();
-                        }
+                            var dropdown_item = null;
 
-                        if(dropdown_item.length) {
-                            select_dropdown_item(dropdown_item);
+                            if(event.keyCode === KEY.DOWN || event.keyCode === KEY.RIGHT) {
+                                dropdown_item = $(selected_dropdown_item).next();
+                            } else {
+                                dropdown_item = $(selected_dropdown_item).prev();
+                            }
+
+                            if(dropdown_item.length) {
+                                select_dropdown_item(dropdown_item);
+                            }
+                            return false;
                         }
-                        return false;
                     }
                     break;
 
                 case KEY.BACKSPACE:
-                    console.log("BACKSPACE: " + $(this).val().length);
                     previous_token = input_token.prev();
 
                     if(!$(this).val().length) {
