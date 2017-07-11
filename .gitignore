@@ -35,6 +35,9 @@ coveragejs
 # Ignore Minitest Reporters files
 html_reports
 
+# Ignore JSDoc Output
+jsdoc-out
+
 # Rubymine
 /.idea
 
