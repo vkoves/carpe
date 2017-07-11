@@ -21,17 +21,17 @@
     <li><b>Timezone:</b> <%= @user.home_time_zone %></li>
     <!-- <li><b>Custom url:</b> <%# = @user.custom_url.blank? ? 'not using one' : @user.custom_url %></li> -->
 
-    <li><b>Account created on:</b> <%= @account_creation_time %></li>
-    <li><b>Times signed in:</b> <%= @user.sign_in_count %></li>
-    <li><b>Previous sign in:</b> <%= @last_sign_in_time %> from <%= @user.last_sign_in_ip %></li>
-    <li><b>Most recent sign in:</b><%= @most_recent_sign_in_time %> from <%= @user.current_sign_in_ip %></li>
+    <li><b>Account created on:</b> <%= format_time(@user.created_at) %></li>
+    <li><b>Times signed in:</b> <%= format_time(@user.sign_in_count) %></li>
+    <li><b>Previous sign in:</b> <%= format_time(@user.last_sign_in_at) %> from <%= @user.last_sign_in_ip %></li>
+    <li><b>Most recent sign in:</b> <%= format_time(@user.current_sign_in_at) %> from <%= @user.current_sign_in_ip %></li>
 
     <li><b>(Confirmed) Following:</b> <%= @user.following.count %></li>
     <li><b>(Confirmed) Follwed by:</b> <%= @user.followers.count %></li>
     <li><b>Categories created:</b> <%= @user.categories.count %></li>
     <li><b>Events created:</b> <%= @user.events.count %></li>
     <li><b>Breaks created:</b> <%= @user.repeat_exceptions.count %></li>
-    <li><b>Last user object update:</b> <%= @last_update_time %></li>
+    <li><b>Last user object update:</b> <%= format_time(@user.updated_at) %></li>
   </ul>
 
   <br>

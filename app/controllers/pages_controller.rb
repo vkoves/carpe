@@ -1,5 +1,3 @@
-require 'graceful'
-
 class PagesController < ApplicationController
   before_filter :authorize_admin,
                 only: [:promote, :admin, :sandbox, :destroy_user, :admin_user_info]
@@ -21,11 +19,6 @@ class PagesController < ApplicationController
 
   def admin_user_info
     @user = User.find(params[:id])
-
-    @account_creation_time = Graceful.time @user.created_at
-    @last_update_time = Graceful.time @user.updated_at
-    @last_sign_in_time = Graceful.time @user.last_sign_in_at
-    @most_recent_sign_in_time = Graceful.time @user.current_sign_in_at
     @user_groups = UsersGroup.where(user_id: @user.id)
   end
 
