@@ -4,7 +4,7 @@
 # namespace collisions back to this file.
 
 module Utilities
-  
+
   # Returns an enumerator of values beginning at /start/ and ending at /finish/
   # based on the given /step/ size.
   #
