@@ -8,3 +8,8 @@ two:
   follower_id: viktors_friend
   followed_id: viktor
   confirmed: true
+
+three:
+  follower_id: norm
+  followed_id: viktor
+  confirmed: true

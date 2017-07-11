@@ -199,6 +199,7 @@ class UserTest < ActiveSupport::TestCase
   test "users can be destroyed" do
     @norm.destroy
     assert_empty @norm.events, "All associated events should have been destroyed"
+    assert_empty @norm.active_relationships, "User relationships should have been destoryed"
     assert_not @norm.persisted?, "User should be marked as destroyed/deleted"
   end
 
