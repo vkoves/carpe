@@ -1,3 +1,5 @@
+require 'utilities'
+
 #An event describes a schedule item, that is a single item occuring on a person's schedule
 class Event < ActiveRecord::Base
   belongs_to :user
@@ -102,20 +104,6 @@ class Event < ActiveRecord::Base
     end
 
     return new_event
-  end
-
-  # Similar to Date.step(Date, step), except it actually works with months and years.
-  # For example, range DateTime.new(2013,01,01), DateTime.new(2014,01,01), 1.month
-  # properly returns the first day of each month rather than using a fixed 30 days.
-  def range(start, finish, step)
-    return [] if start.nil? or finish.nil?
-
-    Enumerator.new do |y|
-      y << start
-      while (start += step) <= finish
-        y << start
-      end
-    end
   end
 
   # Returns an enumerator of all the dates between /start_date/ and /end_date/
