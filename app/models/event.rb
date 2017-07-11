@@ -18,18 +18,18 @@ class Event < ActiveRecord::Base
     repeat.present? and repeat != 'none'
   end
 
-  # Returns whether this event is on break on the given date.
+  # Returns true if this event is currently on break at the given time, false otherwise.
   def on_break?(datetime)
     all_repeat_exceptions.any? { |brk| datetime.between? brk.start, brk.end }
   end
 
-  # Returns true if this event is repeating on the given date, false otherwise.
+  # Returns true if this event is currently repeating at the given time, false otherwise.
   def repeating?(datetime)
     return false if repeat_start.present? and datetime < repeat_start
     return false if repeat_end.present? and datetime > repeat_end
     return false if on_break? datetime
 
-    return true
+    true
   end
 
   # Returns copies of the event on every day it applies to between /start/ and /end/.
@@ -118,6 +118,15 @@ class Event < ActiveRecord::Base
     end
   end
 
+  # Returns an enumerator of all the dates between /start_date/ and /end_date/
+  # that this custom repeating event will occur on. This is a helper method for
+  # dates_in_range_with_repeat.
+  #
+  # For example, if an event occurs on 7/11/17 and repeats every 3 days - and
+  # we want all the dates this applies to between 7/04/17 - 7/15/17. Then this
+  # method will return (7/5, 7/8, 7/11, 7/14). It does so by finding the
+  # day that the repeating event will occur on in the specified range
+  # and stepping through dates until it has reached the given 'end date'.
   def select_custom_repeat_dates(start_date, end_date)
     repeat_data = repeat.split("-")
     repeat_num = repeat_data[1].to_i # repeat this event every n
@@ -132,15 +141,17 @@ class Event < ActiveRecord::Base
     end
   end
 
-  # Returns /dates/ after taking all the dates on certain weekdays.
-  # `repeat` should look something along the lines of "certain_days-1,3,4,5"
+  # Returns an array of dates from taking only certain weekdays from the array
+  # of /dates/. 'repeat' should look something along the lines of "certain_days-1,3,4,5".
   # 1 meaning monday, 2 tuesday, ..., 6 saturday, and 0 sunday.
+  # This is a helper method for dates_in_range_with_repeat.
   def select_certain_dates(dates)
     weekday_nums = repeat.split('-')[1].split(',').map(&:to_i)
     dates.select { |day| weekday_nums.include?(day.wday) }
   end
 
-  # just yet another helper function
+  # Similar to select_custom_repeat_dates, except the repeat dates are predefined.
+  # This is a helper method for dates_in_range_with_repeat.
   def select_repeat_dates(start_date, end_date, step)
     first_weekday = (start_date...end_date).find { |day| day.wday == date.wday }
     range first_weekday, end_date, step
