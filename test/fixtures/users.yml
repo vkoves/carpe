@@ -13,7 +13,30 @@ norm:
   name: "Norman Norm"
   admin: null
   email: "normannorm@normannormsnormalemporium.com" #just needed an invalid email
+  public_profile: false
+  image_url: "putin.png"
 
 viktors_friend:
-  name: "Friend"
+  name: "Vim"
   email: "t@friends.com"
+
+putin:
+  name: "Pladimir Vutin"
+  email: "vlad@russia.org"
+  custom_url: "motherland"
+  public_profile: true
+  image_url: "putin.png"
+  provider: "google_oauth2"
+
+# Users for testing search
+donald1:
+  name: "Donald Jones"
+  email: "donald1@emai.com"
+
+donald2:
+  name: "Jones Donald"
+  email: "donald2@emai.com"
+
+donald3:
+  name: "Lily McDonald"
+  email: "donald3@emai.com"

@@ -33,3 +33,23 @@ repeat_daily:
   repeat_exceptions: null
   category: main
   user: viktor
+
+current_event_1:
+  name: Current Event 1
+  category: main
+  user: norm
+
+current_event_2:
+  name: Current Event 2
+  category: main
+  user: norm
+
+current_event_3:
+  name: Current Event 3
+  category: main
+  user: norm
+
+nameless_event:
+  name: ""
+  category: main
+  user: norm

@@ -1,11 +1,10 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: MyString
-  description: MyText
-  image_url: MyString
+  name: LazyGroup
+  description: This group has no custom stuff
 
 two:
-  name: MyString
-  description: MyText
-  image_url: MyString
+  name: A Group
+  description: What a group
+  image_url: image.png
