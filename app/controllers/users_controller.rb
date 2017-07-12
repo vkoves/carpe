@@ -67,6 +67,7 @@ class UsersController < ApplicationController
       format.json {
         # Return the users in their public JSON form
         user_map = @users.map(&:convert_to_json)
+        
         render :json => user_map
       }
     end

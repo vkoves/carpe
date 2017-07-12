@@ -101,20 +101,17 @@ class UsersControllerTest < ActionController::TestCase
     assert_response :missing
   end
 
-  test "signed in users can perform an empty search query" do
-    sign_in @putin
+  test "can perform an empty search query" do
     get :search, q: nil
     assert_response :success, "Accepts empty search queries"
   end
 
-  test "signed in users can perform a search query" do
-    sign_in @putin
+  test "can perform a search query" do
     get :search, q: "v"
     assert_response :success
   end
 
-  test "signed in users can perform a `json` search query" do
-    sign_in @putin
+  test "can perform a `json` search query" do
     get :search, q: "v", format: "json"
     assert_response :success
   end

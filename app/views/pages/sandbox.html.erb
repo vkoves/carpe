@@ -41,9 +41,7 @@ $(document).ready(function()
 	<br><br><br>
 
 	User adder (for adding users to categories, inviting people to events, etc.)
-	<%= form_tag("/search_users", method: "get", class: "user-entry") do %>
-  		<%= text_field_tag(:q, nil, placeholder: "Search placeholderple", autocomplete: "off") %>
-	<% end %>
+	<%= render "shared/user_adder", name: "user_ids" %>
 	<br><br>
 
 
@@ -51,7 +49,7 @@ $(document).ready(function()
 	<span class="default red" id="confirm-test">Launch?</span>
 
 	<br><br>
-	
+
 	Animated alert dialog <br>
 	<span class="default" id="alert-test">Press Me!</span>
 
@@ -59,9 +57,9 @@ $(document).ready(function()
 
 	Schedule iframe <br>
 	<% if Rails.env.production? %>
-		<iframe src="http://www.carpe.us/schedule?uid=82&iframe=true" width="1000px" height="600px"></iframe>
+		<iframe src="https://www.carpe.us/schedule?uid=82&iframe=true" width="1000px" height="600px"></iframe>
 	<% else %>
-		<iframe src="http://localhost:5000/schedule?uid=4&iframe=true" width="1000px" height="600px"></iframe>
+		<iframe src="http://localhost:3000/schedule?uid=4&iframe=true" width="1000px" height="600px"></iframe>
 	<% end %>
 
 	<br>
