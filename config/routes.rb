@@ -18,13 +18,8 @@ Rails.application.routes.draw do
   resources :relationships
 
   #Group Rotes
-  get "/groups" => 'groups#index'
-  get "/groups/create" => 'groups#create'
-  get "/groups/destroy" => 'groups#destroy'
+  resources :groups
   get "/groups/add-users/:id" => 'groups#add_users'
-  get "/group/:id" => 'groups#show', :as => :group
-  get "/group/:id/edit" => 'groups#edit'
-  post "/group/:id" => 'groups#update'
 
   #Admin Routes
   get "/promote" => 'pages#promote'
