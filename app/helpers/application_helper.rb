@@ -165,7 +165,22 @@ module ApplicationHelper
 
   def link_to_block(name = nil, options = nil, html_options = nil)
     link_to(options, html_options) do
-      raw "<span>" + name + "</span>"
+      raw "<span>#{name}</span>"
+    end
+  end
+
+  # Adds :size parameter to html_options. This is the size of the image
+  # being requested.
+  def link_avatar(options, html_options = {})
+    # adds default avatar class to html options
+    html_options.merge! class: "rounded-button " do |_, old, new|
+      old.prepend(new)
+    end
+
+    url = options.avatar_url(html_options[:size] || 256)
+
+    link_to options, html_options do
+      raw "<img src='#{url}'>"
     end
   end
 end
