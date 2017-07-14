@@ -137,7 +137,7 @@ class User < ActiveRecord::Base
   ##### AVATAR METHODS #####
   ##########################
 
-	def user_avatar(size) #returns a url to the avatar with the width in pixels
+	def avatar_url(size) #returns a url to the avatar with the width in pixels
     unless self.has_avatar #if this user has no avatar, or the Google default, return the gravatar avatar
       return "https://www.gravatar.com/avatar/?d=mm"
     end
@@ -309,7 +309,7 @@ class User < ActiveRecord::Base
 
     # Required fields for search/tokenInput - name and image url
     user_obj[:name] = self.name
-    user_obj[:image_url] = self.user_avatar(50)
+    user_obj[:image_url] = self.avatar_url(50)
     user_obj[:id_or_url] = self.id
     user_obj[:model_name] = "User" # specify what type of object this is (used for site search, which handles many object types)
 

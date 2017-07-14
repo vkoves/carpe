@@ -31,6 +31,7 @@
 		<% if current_user %>
 			<a href="/schedule" class="<%= current_page?('/schedule') ? 'active' : ''%>">My Schedule</a>
 		<% end %>
+    <a href="/group" class="<%= current_page?('/group') ? 'active' : ''%>">Groups</a>
 		<a href="/about" class="<%= current_page?('/about') ? 'active' : ''%>">About</a>
 		<a href="/status" class="<%= current_page?('/status') ? 'active' : ''%>">Status</a>
 		<a href="http://carpe-dev.tumblr.com/" target="_blank">
@@ -57,7 +58,7 @@
 				<%= image_tag "bellg.svg", class: "bell" %>
 			</div>
 			<div id="user-avatar" class="avatar">
-				<img src="<%= current_user.user_avatar(90) %>">
+				<img src="<%= current_user.avatar_url(90) %>">
 			</div>
 			<span class="name"><%= current_user.name.split(" ")[0] %></span>
 		</div>
@@ -87,7 +88,7 @@
 				<div class="notif" fid="<%= n.id %>">
 					<%= link_to(n.follower) do %>
 						<div id="user-avatar" class="avatar">
-							<img src="<%= n.follower.user_avatar(90) %>">
+							<img src="<%= n.follower.avatar_url(90) %>">
 						</div>
 					<% end %>
 					<span><%= n.follower.name %></span>
@@ -106,7 +107,7 @@
 			<div class="notif general">
 				<%= link_to(n.sender) do %>
 					<div id="user-avatar">
-						<img src="<%= n.sender.user_avatar(90) %>">
+						<img src="<%= n.sender.avatar_url(90) %>">
 					</div>
 				<% end %>
 				<div><%= n.sender.name %> <%= n.message %></div>
