@@ -1,0 +1,16 @@
+<% n_members = "#{group.users.count} #{'Member'.pluralize(group.users.count)}"%>
+
+<div class="large-card">
+  <%= link_avatar group, class: "group-avatar" %>
+
+  <main>
+    <%= link_to group.name, group_path(group), class: [:normal, :title] %>
+    <h3 class="members"><%= n_members %></h3>
+
+    <% if group.in_group? current_user %>
+      <h3>You're already in this group!</h3>
+    <% else %>
+        <%= link_to_block "Join Group", group_add_user_path(group), class: :default %>
+    <% end %>
+  </main>
+</div>

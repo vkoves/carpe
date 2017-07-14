@@ -1,31 +1,28 @@
 class Group < ActiveRecord::Base
   has_many :users_groups
-  has_many :users, :through => :users_groups
+  has_many :users, through: :users_groups
 
   has_many :categories
   has_many :events
   has_many :repeat_exceptions
 
-  def avatar_url #returns the image_url or a default
-    if image_url and !image_url.empty?
-      return image_url
-    else
-      return "https://www.gravatar.com/avatar/?d=mm"
-    end
+  # defaults to 'mm', which is a silhouette of a man.
+  def make_gravatar_url(size)
+    "https://www.gravatar.com/avatar/?default=mm&size=#{size}"
   end
 
-  def get_role(user) #get the role of a user in this group
-  	user_group = UsersGroup.where(user_id: user.id, group_id: self.id).first
-  	if user_group
-  		return user_group.role
-  	else
-  		return "none"
-  	end
+  def avatar_url(size = 256)
+    image_url.present? ? image_url : make_gravatar_url(size)
   end
 
-  #returns whether the user is in the group
+  # Returns the role of /user/ in this group (e.g. 'admin') or
+  # "none" if the user isn't even a member of this group.
+  def get_role(user)
+    UsersGroup.find_by(user_id: user.id, group_id: id)&.role || "none"
+  end
+
+  # Returns true if user is in this group, false otherwise.
   def in_group?(user)
-    role = self.get_role(user)
-    role == "none" ? false : true
+    UsersGroup.exists?(user_id: user.id, group_id: id)
   end
 end

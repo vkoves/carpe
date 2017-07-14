@@ -2,7 +2,8 @@ class GroupsController < ApplicationController
   before_filter :authorize_signed_in
 
   def index
-    @groups = current_user.groups.all
+    @user_groups = current_user.groups.all
+    @visible_groups = Group.all # Group.where(privacy: [:public, :private])
   end
 
   def create

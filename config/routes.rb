@@ -10,16 +10,16 @@ Rails.application.routes.draw do
   get "/home" => 'home#index', :as => :home
   get "/schedule" => 'schedule#schedule'
   get "/userviewer" => 'pages#userviewer'
-
+  get "/group" => 'groups#index'
   get "/about" => 'pages#about'
   get "/status" => 'pages#status'
 
   #Follow Routes
   resources :relationships
 
-  #Group Rotes
+  # Group Routes
   resources :groups
-  get "/groups/add-users/:id" => 'groups#add_users'
+  get "/groups/add-users/:id" => 'groups#add_users', as: :group_add_user
 
   #Admin Routes
   get "/promote" => 'pages#promote'

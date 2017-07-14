@@ -1,20 +1,26 @@
-<br>
-<h1>Your Groups</h1>
-<% @groups.each do |group| %>
-	<div class="group-cont">
-		<a href="/group/<%= group.id %>"><%= group.name %></a>
-		<a href="/group/<%= group.id %>/edit">Edit Group</a>
-		Role: <%= group.get_role(current_user) %>
-		<a href="/groups/destroy?id=<%= group.id %>" class="default red"><span>Delete Group</span></a>
-		<% group.users.each do |user| %>
-			<div class="avatar small">
-				<%= link_to(user) do %>
-					<img src="<%= user.user_avatar(100) %>">
-				<% end %>
-			</div>
-		<% end %>
-		<br>
-	</div>
-<% end %>
-<br>
-<a href="/groups/create?name=New+Group" class="default"><span>Create Group</span></a>
+<%= stylesheet_link_tag "groups" %>
+
+<div id="body">
+  <aisde id="left-sidebar">
+    <h2>Groups You Belong To</h2>
+    <%= render partial: "small_group_card", collection: @user_groups, as: :group %>
+  </aisde>
+
+  <div id="right-body">
+    <div id="groups-list-header">
+      <div id="header-info">
+        <div class="groups-title">
+          <h1>Hi</h1>
+          <h2>Groups</h2>
+        </div>
+        <%= link_to_block "Create Group", new_group_path, class: "default green" %>
+      </div>
+
+      <p>The groups listed below are all public. Check your notifications for private group invitations.</p>
+    </div>
+
+    <main class="flex-list">
+      <%= render partial: "big_group_card", collection: @visible_groups, as: :group %>
+    </main>
+  </div>
+</div>

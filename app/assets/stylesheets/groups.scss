@@ -1,0 +1,122 @@
+html, body {
+  height: 100%;
+}
+
+#body {
+  display: flex;
+  height: 100%;
+  flex: 1;
+}
+
+#left-sidebar {
+  flex: 1;
+  min-width: 300px;
+  padding: 10px;
+  padding-top: 50px;
+  background: rgb(225, 225, 225);
+  text-align: center;
+}
+
+#right-body {
+  display: flex;
+  flex: 4;
+  flex-direction: column;
+  padding: 0 16px;
+}
+
+#groups-list-header {
+  display: flex;
+  flex: 0 1 128px;
+  flex-direction: column;
+  margin-top: 20px;
+  text-align: left;
+}
+
+#header-info {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: space-between;
+  height: 75%;
+  padding: 0;
+  text-align: left;
+
+  .groups-title {
+	display: flex;
+	align-items: center;
+  }
+}
+
+.flex-list {
+  display: flex;
+  flex: 1;
+  flex-flow: row wrap;
+  align-content: flex-start;
+  margin: 10px -5px; /* uses negative margin to counteract flex item margins */
+  overflow-y: auto;
+}
+
+/* base class, see .small-card and .large-card */
+.card {
+  display: flex;
+  align-items: center;
+  margin: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: rgb(179, 179, 179) 3px 3px 7px;
+  background: white;
+
+  .rounded-button {
+	margin-left: 2.5%;
+	margin-right: 7.5%;
+  }
+
+  main {
+	display: flex;
+	flex: 3;
+	align-items: flex-start;
+	flex-direction: column;
+
+	/* space out all of the items to the right of the avatar evenly*/
+	& > * {
+	  margin-top: 5px;
+	  margin-bottom: 5px;
+	}
+
+	.title {
+	  font-size: 24px;
+	  font-weight: bold;
+	}
+  }
+}
+
+.small-card {
+  @extend .card;
+  width: 95%;
+  height: 80px;
+}
+
+.large-card {
+  @extend .card;
+  width: 500px; /* width should be about 3x the length for a card-like shape */
+  height: 160px;
+}
+
+.rounded-button {
+  height: 25%;
+
+  display: inline-block;
+  border-radius: 100%;
+  overflow: hidden;
+
+  img {
+	height: 100%; /* centers image */
+  }
+}
+
+.group-avatar {
+  height: 85%;
+  display: block;
+  border: solid gray 1px;
+  margin: auto; /* force img to center */
+}
