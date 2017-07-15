@@ -1,4 +1,6 @@
 class Group < ActiveRecord::Base
+  enum privacy: { PUBLIC: 0, PRIVATE: 1, SECRET: 2 }
+
   has_many :users_groups
   has_many :users, through: :users_groups
 

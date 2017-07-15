@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170329054137) do
+ActiveRecord::Schema.define(version: 20170714132740) do
 
   create_table "categories", force: :cascade do |t|
     t.string   "name"
@@ -70,6 +70,7 @@ ActiveRecord::Schema.define(version: 20170329054137) do
     t.datetime "updated_at",        null: false
     t.string   "banner_image_url"
     t.boolean  "posts_preapproved"
+    t.integer  "privacy",           default: 0
   end
 
   create_table "notifications", force: :cascade do |t|
@@ -139,7 +140,7 @@ ActiveRecord::Schema.define(version: 20170329054137) do
   create_table "users_groups", force: :cascade do |t|
     t.integer "user_id"
     t.integer "group_id"
-    t.string  "role"
+    t.integer "role",          default: 0
   end
 
   add_index "users_groups", ["group_id"], name: "index_users_groups_on_group_id"
