@@ -1,0 +1,25 @@
+{
+  "name": "carpe",
+  "version": "1.0.0",
+  "description": "The social scheduler",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vkoves/Carpe.git"
+  },
+  "author": "indigoBox Studios",
+  "bugs": {
+    "url": "https://github.com/vkoves/Carpe/issues"
+  },
+  "homepage": "https://github.com/vkoves/Carpe#readme",
+  "devDependencies": {
+    "codeceptjs-webdriverio": "^1.1.0",
+    "istanbul": "^0.4.5",
+    "jsdoc": "^3.5.3"
+  }
+}
