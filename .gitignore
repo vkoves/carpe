@@ -44,5 +44,5 @@ jsdoc-out
 # Windows System File
 *.db
 
-# Ignore Node Modules
-node_modules
+# Ignore CodeceptJS error output
+spec/codeceptjs/output/
