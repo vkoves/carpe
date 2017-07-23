@@ -3,9 +3,10 @@
   "timeout": 10000,
   "output": "./spec/codeceptjs/output",
   "helpers": {
-    "WebDriverIO": {
+    "Nightmare": {
       "url": "http://localhost:3000",
-      "browser": "chrome"
+      "show": false,
+      "restart": false
     }
   },
   "include": {
