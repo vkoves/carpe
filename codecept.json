@@ -13,6 +13,10 @@
     "I": "./spec/steps_file.js"
   },
   "bootstrap": false,
-  "mocha": {},
+  "mocha": {
+    "reporterOptions": {
+        "reportDir": "public/codeceptjs_out"
+    }
+  },
   "name": "Carpe"
 }

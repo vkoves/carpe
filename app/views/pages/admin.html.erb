@@ -23,11 +23,16 @@
 		</div>
 
 		<h3 class="no-bold">CodeceptJS Acceptance Tests</h3>
-		CodeceptJS lets us run lovely acceptance tests. Run them using <code>codeceptjs run</code> optionally
+		<%= link_to "/codeceptjs_out/mochawesome.html", target: "_blank", class: "default" do %>
+			<span>CodeceptJS Test Results</span>
+		<% end %>
+		<br>
+		CodeceptJS lets us run lovely acceptance tests. Run them using <code>codeceptjs run --reporter mochawesome</code> optionally
 		with <code>--steps</code> for extra info.
 		<div class="tip">
 			Install CodeceptJS with <code>npm install -g codeceptjs-nightmare</code> or see the
-			<a href="http://codecept.io/nightmare/">Nightmare guide</a>.
+			<a href="http://codecept.io/nightmare/">Nightmare guide</a>. Also install Mochawesome with
+			<code>npm install -g mochawesome</code> to get the HTML reports linked above.
 		</div>
 
 		<h3 class="no-bold">JSDoc</h3>
