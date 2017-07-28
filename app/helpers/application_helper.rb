@@ -165,22 +165,36 @@ module ApplicationHelper
 
   def link_to_block(name = nil, options = nil, html_options = nil)
     link_to(options, html_options) do
-      raw "<span>#{name}</span>"
+      content_tag :span, name
     end
   end
 
   # Adds :size parameter to html_options. This is the size of the image
   # being requested.
   def link_avatar(options, html_options = {})
-    # adds default avatar class to html options
-    html_options.merge! class: "rounded-button " do |_, old, new|
-      old.prepend(new)
-    end
-
+    html_options.merge!(class: " round-avatar") { |_, old, new| old + new }
     url = options.avatar_url(html_options[:size] || 256)
 
     link_to options, html_options do
-      raw "<img src='#{url}'>"
+      image_tag url
     end
+  end
+
+  def validation_error_messages!(resource)
+    return "" if resource.errors.empty?
+
+    messages = resource.errors.full_messages.map { |msg| content_tag(:li, msg) }.join
+    sentence = I18n.t("errors.messages.not_saved",
+                      count: resource.errors.count,
+                      resource: resource.class.model_name.human.downcase)
+
+    html = <<-HTML
+    <div id="error_explanation">
+      <h2>#{sentence}</h2>
+      <ul>#{messages}</ul>
+    </div>
+    HTML
+
+    html.html_safe
   end
 end
