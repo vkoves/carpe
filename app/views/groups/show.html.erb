@@ -1,32 +1,43 @@
 <%= stylesheet_link_tag "profile" %>
+<%= stylesheet_link_tag "groups" %>
 
-<div id="profile-header">
-
-	<% if @group.banner_image_url and !@group.banner_image_url.empty? %>
-		<div id="header-image-blur" style="background-image:url(<%= @group.banner_image_url %>);"></div>
+<div class="group profile-header">
+	<% if @group.banner.exists? %>
+    <div id="header-image" style="background-image:url(<%= @group.banner.url(:desktop) %>);"></div>
 	<% else %>
 		<div id="header-image"></div>
 	<% end %>
 
-	<div class="page-container">
-		<div class="profile-avatar avatar">
-			<img src=<%= @group.avatar_url %>>
-		</div>
-		<div id="profile-text">
-			<h1 id="profile-name"><%= @group.name %>
-			<%= link_to_block "Edit", "/group/" + params[:id] + "/edit", class: "default" %>
-			<%= link_to_block "Manage Users", "/groups/add-users/" + params[:id], class: "default" %>
-			</h1>
-			<%= link_to_block "All Groups", "/groups", class: "default" %>
-		</div>
-	</div>
+    <div class="header-block">
+      <div class="round-avatar">
+        <img src=<%= @group.avatar_url %>>
+      </div>
+
+      <div class="profile-name-block">
+        <div class="profile-name"><%= @group.name %></div>
+
+          <div class="privacy-block">
+            <div class="profile-privacy"><%= @group.privacy.titleize %> Group</div>
+            <%= link_to "Edit Group", edit_group_path(@group), class: "edit button" %>
+          </div>
+      </div>
+    </div>
+
+    <div id="profile-buttons">
+      <%= link_to group_path(@group, page: :overview) do %>
+        <div class="<%= "curr" if @current_page == :overview %>">Overview</div>
+      <% end %>
+
+      <%= link_to group_path(@group, page: :schedule) do %>
+        <div class="<%= "curr" if @current_page == :schedule %>">Schedule</div>
+      <% end %>
+
+      <%= link_to group_path(@group, page: :members) do %>
+        <div class="<%= "curr" if @current_page == :members %>">
+          <%= pluralize(@group.users.count, "Member") %>
+        </div>
+      <% end %>
+    </div>
 </div>
 
-<!--
-<h3 class="zero-top">
-	Role: <%= @role %>
-</h3>
--->
-
-<% #render the group's schedule with the schedule partial %>
-<%= render "shared/schedule"%>
+<%= render "groups/pages/#{@current_page.to_s}" %>

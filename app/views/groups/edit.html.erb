@@ -1,33 +1,10 @@
-<h2 class="page-titler">Edit <%= @group.name %></h2>
+<h1>Group Settings (for <%= @group.name %>)</h1>
 
-<%= link_to_block "Back To Group Page", group_path(@group), class: "default" %>
+<%= render 'form' %>
 
 <%= form_for(@group, url: group_path(@group), :method => :POST, :html => {:class => 'thin'}) do |f| %>
-	<%= f.label "Name" %><br>
-	<%= f.text_field :name %><br><br>
-
-  <%= f.label "Description"%><br>
-  <%= f.text_area :description, :rows => 5 %><br><br>
-
-  <%= f.label "Avatar Image Url" %><br>
-  <%= f.text_field :image_url %><br><br>
-
-  <%= f.label "Banner Image Url" %><br>
-  <%= f.text_field :banner_image_url %><br><br>
-
-  <%= f.label "Pre-appropved posting?" %>
-  <%= f.check_box :posts_preapproved, title: "If checked, the group owner must approve group schedule changes made by fellow group members" %><br>
-
-  <%= f.submit "Save" %><br><br>
 <% end %>
 
-<h2> Set Member Role </h2>
 <%= form_for(@group, url: {action: "update"}, :method => :get) do |f| %>
-    Member: <br>
-    <%= select_tag :selected_member, options_from_collection_for_select(@group.users, :uid, :name) %><br><br>
-
-    Role: <br>
-    <%= select_tag :new_role, options_for_select(@available_roles) %><br><br>
-
-    <%= f.submit "Submit" %>
+    <%= select_tag :selected_member, options_from_collection_for_select(@group.users, :uid, :name) %>
 <% end %>

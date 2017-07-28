@@ -6,7 +6,7 @@
 		<%= link_to_block "Follow", relationships_path(:followed_id => user.id), :method => :post, :remote => true, :class => "default green friend-button", "uid" => user.id %>
 	<% elsif status == "confirmed" %>
 		<% relationship = Relationship.where(followed_id: user.id, follower_id: current_user.id).first %>
-		<%= link_to_block "Following", relationship_path(relationship), :method => :delete, :remote => true, :class => "default following-btn", "fid" => relationship.id %>
+		<%= link_to_block "Following", relationship_path(relationship), :method => :delete, :remote => true, :class => "button js-following", "fid" => relationship.id %>
 	<% elsif status == "pending" || status == "denied" %>
 		<span class="friend-label">Pending</span>
 	<% end %>

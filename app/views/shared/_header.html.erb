@@ -31,7 +31,7 @@
 		<% if current_user %>
 			<a href="/schedule" class="<%= current_page?('/schedule') ? 'active' : ''%>">My Schedule</a>
 		<% end %>
-    <a href="/group" class="<%= current_page?('/group') ? 'active' : ''%>">Groups</a>
+    <a href="/groups" class="<%= current_page?('/groups') ? 'active' : ''%>">Groups</a>
 		<a href="/about" class="<%= current_page?('/about') ? 'active' : ''%>">About</a>
 		<a href="/status" class="<%= current_page?('/status') ? 'active' : ''%>">Status</a>
 		<a href="http://carpe-dev.tumblr.com/" target="_blank">
@@ -47,13 +47,17 @@
 		<% end %>
 	</span>
 	<% if current_user %>
-		<div id="user-name-panel" class="carpe-color">
+    <%
+      follow_requests = current_user.passive_relationships.where(confirmed: nil)
+      general_notifications = current_user.notifications.where(viewed: false)
+      group_invites = current_user.users_groups.where(accepted: false)
+      notif_count = general_notifications.size + follow_requests.size + group_invites.size
+    %>
+
+    <div id="user-name-panel" class="carpe-color">
 			<div class="bell-hold">
-				<% @follow_requests = current_user.passive_relationships.where(:confirmed => nil) %>
-				<% @notif_general = current_user.notifications.where(:viewed => false) %>
-				<% @notif_count = @notif_general.size + @follow_requests.size %>
-				<% if @notif_count > 0 %>
-					<div id="num"><%= @notif_count %></div>
+				<% if notif_count > 0 %>
+					<div id="num"><%= notif_count %></div>
 				<% end %>
 				<%= image_tag "bellg.svg", class: "bell" %>
 			</div>
@@ -81,37 +85,51 @@
 		<% end %>
 		<%= link_to destroy_user_session_path, :method => :delete do %><div>Sign out</div><% end %>
 	</div>
+
 	<div id="notif-panel" class="menu">
-		<% if @follow_requests.size > 0 %>
+		<% unless follow_requests.empty? %>
 			<div id="notif-title">Follow Requests</div>
-			<% @follow_requests.each do |n| %>
-				<div class="notif" fid="<%= n.id %>">
-					<%= link_to(n.follower) do %>
-						<div id="user-avatar" class="avatar">
-							<img src="<%= n.follower.avatar_url(90) %>">
-						</div>
-					<% end %>
+			<% follow_requests.each do |n| %>
+
+        <div class="notif" fid="<%= n.id %>">
+          <%= link_avatar n.follower, size: 40 %>
 					<span><%= n.follower.name %></span>
-					<%= link_to relationship_path(n, "relationship[confirmed]" => true), :method => :put, :remote => true do %>
+					<%= link_to relationship_path(n, "relationship[confirmed]": true), :method => :put, :remote => true do %>
 						<div class="confirm"></div>
 					<% end %>
-					<%= link_to relationship_path(n, "relationship[confirmed]" => false), :method => :put, :remote => true do %>
+					<%= link_to relationship_path(n, "relationship[confirmed]": false), :method => :put, :remote => true do %>
 						<div class="deny"></div>
 					<% end %>
 				</div>
+
 			<% end %>
 		<% end %>
-		<div id="no-notifs" <%= raw 'style="display: none"' if @follow_requests.size > 0 %>>You don't have any notifications right now.</div>
+		<div id="no-notifs" style="<%= 'display: none' if notif_count > 0 %>">You don't have any notifications right now.</div>
 
-		<% @notif_general.each do |n| %>
-			<div class="notif general">
-				<%= link_to(n.sender) do %>
-					<div id="user-avatar">
-						<img src="<%= n.sender.avatar_url(90) %>">
-					</div>
-				<% end %>
-				<div><%= n.sender.name %> <%= n.message %></div>
-			</div>
-		<% end %>
+  <% unless group_invites.empty? %>
+    <div id="notif-title">Group Invites</div>
+    <% group_invites.each do |n| %>
+
+      <div class="notif" fid="<%= n.id %>">
+        <%= link_avatar n.group, size: 40 %>
+        <span><%= n.group.name %></span>
+        <%= link_to user_group_path(n, confirm: "true"), method: :put, remote: true do %>
+          <div class="confirm"></div>
+        <% end %>
+        <%= link_to user_group_path(n, confirm: "false"), method: :put, remote: true do %>
+          <div class="deny"></div>
+        <% end %>
+      </div>
+
+    <% end %>
+  <% end %>
 	</div>
+
+  <% general_notifications.each do |n| %>
+    <div class="notif general">
+      <%= link_avatar n.sender, size: 40 %>
+      <div><%= "#{n.sender.name n.message}" %></div>
+    </div>
+  <% end %>
+  </div>
 <% end %>

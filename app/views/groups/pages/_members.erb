@@ -1,0 +1,33 @@
+<h2 class="no-bold">All Members</h2>
+
+<%
+  members = UsersGroup.where(group_id: @group.id)
+  num_members = members.count
+  num_editors = members.where(role: :editor).count
+  num_admins = members.where(role: :admin).count
+%>
+
+<div class="subtle-container">
+  <header class="member-stats">
+    <h3>Members</h3>
+    <h4><%= num_members %></h4>
+
+    <h3>Editors</h3>
+    <h4><%= num_editors %></h4>
+
+    <h3>Admins</h3>
+    <h4><%= num_admins %></h4>
+
+    <%= link_to "Invite Members", "some ajax path...", class: "wide button" %>
+    <%= link_to "Manage Members", group_path(@group, page: :manage_members), class: "wide button" %>
+  </header>
+
+  <main class="flex-list">
+    <% @group.users.all.each do |member| %>
+      <div class="basic-member-block">
+        <%= link_avatar member %>
+        <main><%= member.name %></main>
+      </div>
+    <% end %>
+  </main>
+</div>

@@ -1,19 +1,19 @@
 <%= stylesheet_link_tag "groups" %>
 
 <div id="body">
-  <aisde id="left-sidebar">
+  <aside id="left-sidebar">
     <h2>Groups You Belong To</h2>
-    <%= render partial: "small_group_card", collection: @user_groups, as: :group %>
-  </aisde>
+    <%= render partial: "small_group_card", collection: current_user&.groups&.all, as: :group %>
+  </aside>
 
   <div id="right-body">
     <div id="groups-list-header">
       <div id="header-info">
-        <div class="groups-title">
+        <div id="groups-title">
           <h1>Hi</h1>
           <h2>Groups</h2>
         </div>
-        <%= link_to_block "Create Group", new_group_path, class: "default green" %>
+        <%= link_to_block "+ Create Group", new_group_path, class: "large green button" %>
       </div>
 
       <p>The groups listed below are all public. Check your notifications for private group invitations.</p>

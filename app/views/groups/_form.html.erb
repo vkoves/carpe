@@ -1,0 +1,71 @@
+<%
+  group_privacy_explanation =
+      "As a 'public' group, anyone can join without invitation.
+       As a 'private' group, members must be invited to join.
+       As a 'secret' group, other (non-invited) users cannot view this group."
+
+  approved_posting_explanation =
+      "If checked, the group owner must approve group schedule changes made by fellow group members"
+
+  # e.g. [[Public, PUBLIC], [Private, PRIVATE], ...]
+  group_privacy_options = Group.privacies.keys.map { |opt| [opt.titleize, opt] }
+%>
+
+<div class="flex center-horizontal">
+  <%= form_for @group, html: { class: "basic" } do |f| %>
+    <%= validation_error_messages! @group %>
+
+    <div class="form-group">
+      <%= f.label :name, "Name", class: "heading" %>
+      <%= f.text_field :name, maxlength: 32, autofocus: true, placeholder: "Pick a group name" %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :description, "Description", class: "heading" %>
+      <%= f.text_area :description, :rows => 4, placeholder: "Tell others what your group is about", maxlength: 256 %>
+    </div>
+
+    <div class="form-group flex col">
+      <%= f.label "Avatar Image", class: "heading" %>
+
+      <% if @group.avatar.exists? %>
+        <%= image_tag @group.avatar.url(:profile), class: "avatar-preview" %>
+      <% end %>
+
+      <%= f.file_field :avatar, class: "hide", accept: 'image/png,image/gif,image/jpeg' %>
+      <%= f.label :avatar, "Upload Image", class: "gray button" %>
+    </div>
+
+    <div class="form-group flex col">
+      <%= f.label "Banner Image", class: "heading" %>
+
+      <% if @group.banner.exists? %>
+        <%= image_tag @group.banner.url(:mobile), class: "banner-preview" %>
+      <% end %>
+
+      <%= f.file_field :banner, class: 'hide', accept: 'image/png,image/gif,image/jpeg' %>
+      <%= f.label :banner, "Upload Image", class: "gray button" %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :custom_url, "Custom Url", class: "heading" %>
+      <%= f.text_field :custom_url %>
+    </div>
+
+    <div class="form-group">
+      <%= f.check_box :posts_preapproved, title: approved_posting_explanation %>
+      <%= f.label :posts_preapproved, "Pre-appropved posting", class: "heading" %>
+    </div>
+
+    <div class="form-group">
+      <div class="explained-label">
+        <%= f.label :privacy, "Group Privacy", class: "heading" %>
+        <%= image_tag "question-circle.svg", width: 20, class: "faded question-tooltip", title: group_privacy_explanation %>
+      </div>
+
+      <%= f.select :privacy, group_privacy_options %>
+    </div>
+
+    <%= f.submit class: "large button" %>
+  <% end %>
+</div>

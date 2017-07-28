@@ -36,11 +36,11 @@
 
   <br>
   <h2>Groups</h2>
-  <% if @user_groups.empty? %>
+  <% if @user.groups.empty? %>
       <p>This user is not a part of any groups yet!</p>
   <% else %>
       <ul class="pretty-list">
-        <% @user_groups.each do |user_group| %>
+        <% @user.groups.each do |user_group| %>
             <li><b><%= user_group.role %></b>
               of <%= link_to(user_group.group.name, group_path(user_group.group_id)) %></li>
         <% end %>
