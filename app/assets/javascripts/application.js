@@ -234,7 +234,7 @@ function initializeEventListeners()
 	initializeUserAdder(".user-adder-input");
 
 	// Add event handling for the following-btn, which can unfollow a user
-	$(".following-btn").hover(function()
+	$(".js-following").hover(function()
 	{
 		$(this).find("span").text("Unfollow");
 		$(this).addClass("red");
@@ -248,7 +248,7 @@ function initializeEventListeners()
 		// TODO - Make this triggered by a JSON success call probably instead of just by the click?
 		fadeToText($(this).find("span"), "Follow"); //and fade to Promote text
 		$(this).off(); // disable event handlers
-		$(this).removeClass("red").removeClass("following-btn").addClass("green");
+		$(this).removeClass("red").removeClass("js-following").addClass("green");
 	});
 }
 
