@@ -1,122 +1,242 @@
-html, body {
-  height: 100%;
+html, body
+{
+	height: 100%;
 }
 
-#body {
-  display: flex;
-  height: 100%;
-  flex: 1;
+#body
+{
+	display: flex;
+	height: 100%;
+	flex: 1;
 }
 
-#left-sidebar {
-  flex: 1;
-  min-width: 300px;
-  padding: 10px;
-  padding-top: 50px;
-  background: rgb(225, 225, 225);
-  text-align: center;
+#left-sidebar
+{
+	flex: 1;
+	min-width: 300px;
+	padding: 50px 10px 10px;
+	background: rgb(225, 225, 225);
+	text-align: center;
 }
 
-#right-body {
-  display: flex;
-  flex: 4;
-  flex-direction: column;
-  padding: 0 16px;
+#right-body
+{
+	display: flex;
+	flex: 4;
+	flex-direction: column;
+	padding: 0 16px;
 }
 
-#groups-list-header {
-  display: flex;
-  flex: 0 1 128px;
-  flex-direction: column;
-  margin-top: 20px;
-  text-align: left;
+#groups-list-header
+{
+	display: flex;
+	flex: 0 1 128px;
+	flex-direction: column;
+	margin-top: 20px;
+	text-align: left;
 }
 
-#header-info {
-  display: flex;
-  flex: 1;
-  align-items: center;
-  justify-content: space-between;
-  height: 75%;
-  padding: 0;
-  text-align: left;
+#header-info
+{
+	display: flex;
+	flex: 1;
+	align-items: center;
+	justify-content: space-between;
+	height: 75%;
+	padding: 0;
+	text-align: left;
+}
 
-  .groups-title {
+#groups-title
+{
 	display: flex;
 	align-items: center;
-  }
 }
 
-.flex-list {
-  display: flex;
-  flex: 1;
-  flex-flow: row wrap;
-  align-content: flex-start;
-  margin: 10px -5px; /* uses negative margin to counteract flex item margins */
-  overflow-y: auto;
+.flex-list
+{
+	display: flex;
+	flex: 1;
+	flex-flow: row wrap;
+	align-content: flex-start;
+	margin: 10px -5px; /* uses negative margin to counteract flex item margins */
+	overflow-y: auto;
 }
 
 /* base class, see .small-card and .large-card */
-.card {
-  display: flex;
-  align-items: center;
-  margin: 15px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-shadow: rgb(179, 179, 179) 3px 3px 7px;
-  background: white;
-
-  .rounded-button {
-	margin-left: 2.5%;
-	margin-right: 7.5%;
-  }
-
-  main {
+.card
+{
 	display: flex;
-	flex: 3;
-	align-items: flex-start;
-	flex-direction: column;
+	align-items: center;
+	margin: 15px;
+	text-align: left;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	box-shadow: rgb(179, 179, 179) 3px 3px 7px;
+	background: white;
 
-	/* space out all of the items to the right of the avatar evenly*/
-	& > * {
-	  margin-top: 5px;
-	  margin-bottom: 5px;
+	.round-avatar
+	{
+		margin-left: 2.5%;
+		margin-right: 7.5%;
 	}
 
-	.title {
-	  font-size: 24px;
-	  font-weight: bold;
+	main
+	{
+		display: flex;
+		flex: 3;
+		align-items: flex-start;
+		justify-content: flex-end;
+		flex-direction: column;
+		height: 90%;
+		overflow: hidden;
+
+		/* space out all of the items to the right of the avatar evenly*/
+		& > *
+		{
+			margin-top: 5px;
+			margin-bottom: 5px;
+		}
+
+		.title
+		{
+			height: 3em;
+			line-height: 1.5em;
+			font-size: 24px;
+			font-weight: bold;
+			overflow: hidden;
+		}
 	}
-  }
 }
 
-.small-card {
-  @extend .card;
-  width: 95%;
-  height: 80px;
+.small-card
+{
+	@extend .card;
+	width: auto;
+	height: 80px;
+	margin: 10px 5px 10px 10px;
+
+	main
+	{
+		justify-content: center;
+
+		.title
+		{
+			display: flex;
+			align-items: center;
+			font-size: 18px;
+			vertical-align: center;
+		}
+	}
 }
 
-.large-card {
-  @extend .card;
-  width: 500px; /* width should be about 3x the length for a card-like shape */
-  height: 160px;
+.large-card
+{
+	@extend .card;
+	width: 455px; /* width should be about 3x the length for a card-like shape */
+	height: 175px;
 }
 
-.rounded-button {
-  height: 25%;
+.basic-member-block
+{
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	width: 400px;
+	height: 200px;
 
-  display: inline-block;
-  border-radius: 100%;
-  overflow: hidden;
+	.round-avatar
+	{
+		margin-left: 5%;
+		margin-right: 5%;
+	}
 
-  img {
-	height: 100%; /* centers image */
-  }
+	main
+	{
+		display: flex;
+		flex: 3;
+		height: 3em;
+		line-height: 1.5em;
+		font-size: 24px;
+		font-weight: bold;
+		overflow: hidden;
+	}
 }
 
-.group-avatar {
-  height: 85%;
-  display: block;
-  border: solid gray 1px;
-  margin: auto; /* force img to center */
+.member-stats
+{
+	display: flex;
+	align-items: center;
+	width: 100%;
+
+	h3
+	{
+		color: black;
+		margin-right: 5px;
+		font-weight: 500;
+		font-size: 20px;
+	}
+
+	h4
+	{
+		color: dimgray;
+		margin-right: 10px;
+		font-weight: 500;
+		font-size: 24px;
+	}
+
+	a
+	{
+		margin-left: 32px;
+	}
+}
+
+.subtle-container
+{
+	margin: 0 2.5%;
+}
+
+.group.profile-header
+{
+	.header-block
+	{
+		display: flex;
+		align-items: center;
+		text-align: left;
+		width: 100%;
+		height: 100%;
+
+		.round-avatar
+		{
+			margin-left: 4%;
+			margin-right: 2%;
+		}
+	}
+
+	.profile-name-block
+	{
+		display: flex;
+		flex-direction: column;
+		color: white;
+	}
+
+	.privacy-block
+	{
+		display: flex;
+	}
+
+	.profile-name
+	{
+		font-size: 48px;
+		font-weight: 500;
+		text-shadow: 2px 2px black;
+	}
+
+	.profile-privacy
+	{
+		margin: 0 20px 0 0;
+		font-size: 28px;
+		font-weight: 400;
+		text-shadow: 2px 2px black;
+	}
 }

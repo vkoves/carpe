@@ -15,8 +15,10 @@
 	height: 150px;
 	border-width: 3px;
 }
-#profile-header
+.profile-header
 {
+	display: flex;
+	align-items: center;
 	position: relative;
 	width: 100%;
 	height: 200px;
