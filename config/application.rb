@@ -20,5 +20,37 @@ module RubyGettingStarted
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
+
+    config.paperclip_avatar_settings = [
+      styles: {
+        thumb: '60x60#',
+        profile: '150x150#'
+      },
+      convert_options: {
+        thumb: "-quality 75 -strip -layers optimize",
+        profile: "-quality 75 -strip -layers optimize"
+      }
+    ]
+
+    config.paperclip_avatar_validations = {
+      content_type: { content_type: /\Aimage/ },
+      size: { in: 0..3.megabytes }
+    }
+
+    config.paperclip_banner_settings = [
+      styles: {
+        desktop: { geometry: '1500x200#', animated: false },
+        mobile: { geometry: '500x200#', animated: false }
+      },
+      convert_options: {
+        desktop: "-quality 75 -strip",
+        mobile: "-quality 50 -strip"
+      }
+    ]
+
+    config.paperclip_banner_validations = {
+      content_type: { content_type: /\Aimage/ },
+      size: { in: 0..5.megabytes }
+    }
   end
 end

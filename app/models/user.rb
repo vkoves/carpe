@@ -1,3 +1,4 @@
+
 #The User model, which defines a unique user and all of the properties they have
 class User < ActiveRecord::Base
   has_many :active_relationships,  class_name:  "Relationship",
@@ -11,7 +12,7 @@ class User < ActiveRecord::Base
   has_many :all_followers, through: :passive_relationships, source: :follower #all followers, including pending
 
   has_many :users_groups
-  has_many :groups, :through => :users_groups
+  has_many :groups, -> { where users_groups: { accepted: true } }, :through => :users_groups
   has_many :notifications, :class_name => 'Notification', :foreign_key => 'receiver_id'
 
   # Include default devise modules. Others available are:
@@ -25,24 +26,11 @@ class User < ActiveRecord::Base
 	has_many :events
   has_many :repeat_exceptions
 
-  # Attach the avatar image. -quality [0-100] sets quality, -strip removes meta data, -layers optimize optimizes gif layers
-  has_attached_file :avatar, styles: {
-    thumb: '60x60#',
-    profile: '150x150#'
-  }, :convert_options => {
-    :thumb => "-quality 75 -strip -layers optimize", :profile => "-quality 75 -strip -layers optimize"}
+  has_attached_file :avatar, *Rails.application.config.paperclip_avatar_settings
+  validates_attachment :avatar, Rails.application.config.paperclip_avatar_validations
 
-  # Validate the attached avatar is an image and is under 3 Megabytes
-  validates_attachment :avatar, content_type: {content_type: /\Aimage\/.*\Z/}, size: { in: 0..3.megabytes }
-
-  has_attached_file :banner, styles: {
-    desktop: {geometry: '1500x200#', animated: false},
-    mobile: {geometry: '500x200#', animated: false}
-  }, :convert_options => {
-    :desktop => "-quality 75 -strip", :mobile => "-quality 50 -strip" }
-
-  # Validate the attached banner photo is an image and is under 5 Megabytes
-  validates_attachment :banner, content_type: {content_type: /\Aimage\/.*\Z/}, size: { in: 0..5.megabytes }
+  has_attached_file :banner, *Rails.application.config.paperclip_banner_settings
+  validates_attachment :banner, Rails.application.config.paperclip_banner_validations
 
   after_create :send_signup_email
 
@@ -52,7 +40,9 @@ class User < ActiveRecord::Base
 
   # Validate the custom_url ...
   REGEX_VALID_URL_CHARACTERS = /\A[a-zA-Z0-9_\-]*\Z/
-  REGEX_USER_ID = /\A\d+\Z/
+
+  @@REGEX_USER_ID = /\A\d+\Z/
+  mattr_accessor :REGEX_USER_ID
 
   validates :custom_url,
             format: { with: REGEX_VALID_URL_CHARACTERS,
@@ -62,7 +52,7 @@ class User < ActiveRecord::Base
             length: { maximum: 64 }
 
   validates :custom_url,
-            format: { without: REGEX_USER_ID,
+            format: { without: @@REGEX_USER_ID,
                       message: 'cannot be an integer'}
 
   def has_custom_url?
