@@ -1,75 +1,64 @@
 class UsersController < ApplicationController
-  before_filter  :authorize_admin, :only => [:index] #authorize admin on the user viewing page
-
+  before_action :authorize_admin, only: [:index]
+  before_action :set_user, only: [:show]
 
   def index
-    @users = User.all.sort_by(&:name) # fetch all users (including current, to see admin info)
+    @users = User.all.sort_by(&:name)
     @admin_tiles = true
   end
 
   def show
-    using_id = (params[:id_or_url] =~ /\A[0-9]+\Z/)
-    if using_id
-      @user = User.find_by(id: params[:id_or_url]) or not_found
-      redirect_to user_path(@user) if @user.has_custom_url?
-    else
-      @user = User.find_by(custom_url: params[:id_or_url])  or not_found
-    end
+    # is this a user looking at their own profile?
+    @profile = current_user == @user
 
-    @profile = false
-    if current_user and current_user == @user #this is the user looking at their own profile
-      @profile = true
-    end
-
-    case params[:page]
-    when "followers"
-      @tab = "followers"
-    when "activity"
-      @tab = "activity"
+    @current_page = params[:page]&.to_sym || :schedule
+    case @current_page
+    when :activity
+      @page_view = "activity"
       @activity = @user.following_relationships + @user.followers_relationships
-    when "mutual_friends"
-      @tab = "mutual"
-    when "schedule"
-      @tab = "schedule"
-    when "following"
-      @tab = "following"
+    when :followers
+      @page_view = "follower_listing"
+      @all_friends = @user.followers_relationships
+    when :following
+      @page_view = "following_listing"
       @following = @user.following_relationships
-    else #default, aka no params
-      @tab = "schedule"
-    end
-
-    if @tab == "mutual"
+    when :mutual
+      @page_view = "mutual_friends_listing"
       @mutual_friends = current_user.mutual_friends(@user)
-    else
-      @all_friends = @user.followers_relationships #and fetch all of the user's followers
+    when :schedule
+      @page_view = "schedule"
     end
   end
 
-  #User search. Used to add users to stuff, like the sandbox user adder
+  # User search. Used to add users to stuff, like the sandbox user adder
   def search
-    if params[:q]
-      q = params[:q].strip
-    else
-      q = ""
-    end
+    q = params[:q]&.strip
+    return unless q.present?
 
-    if q != "" #only search if it's not silly
-      if request.path_parameters[:format] == 'json'
-        @users = User.where('name LIKE ?', "%#{q}%").limit(10)
-        @users = User.rank(@users, q)
-      else
-        @users = User.where('name LIKE ?', "%#{q}%")
-      end
+    if request.path_parameters[:format] == 'json'
+      @users = User.where('name LIKE ?', "%#{q}%").limit(10)
+      @users = User.rank(@users, q)
+    else
+      @users = User.where('name LIKE ?', "%#{q}%")
     end
 
     respond_to do |format|
       format.html
-      format.json {
-        # Return the users in their public JSON form
+      format.json do
         user_map = @users.map(&:convert_to_json)
-        
-        render :json => user_map
-      }
+        render json: user_map
+      end
+    end
+  end
+
+  private
+
+  def set_user
+    if params[:id_or_url] =~ User.REGEX_USER_ID
+      @user = User.find_by! id: params[:id_or_url]
+      redirect_to user_path(@user) if @user.has_custom_url?
+    else
+      @user = User.find_by! custom_url: params[:id_or_url]
     end
   end
 end

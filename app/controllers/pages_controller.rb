@@ -19,7 +19,6 @@ class PagesController < ApplicationController
 
   def admin_user_info
     @user = User.find(params[:id])
-    @user_groups = UsersGroup.where(user_id: @user.id)
   end
 
   def admin #admin page
