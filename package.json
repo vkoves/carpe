@@ -1,0 +1,26 @@
+{
+  "name": "carpe",
+  "version": "1.0.0",
+  "description": "The social scheduler",
+  "scripts": {
+    "jsdoc": "jsdoc app/assets/javascripts -d public/jsdoc-out",
+    "codeceptjs": "phantomjs --webdriver=4444 | (codeceptjs run --reporter mochawesome && node stop-phantomjs.js)",
+    "teaspoon": "bundle exec teaspoon --coverage=default"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vkoves/Carpe.git"
+  },
+  "author": "indigoBox Studios",
+  "bugs": {
+    "url": "https://github.com/vkoves/Carpe/issues"
+  },
+  "homepage": "https://github.com/vkoves/Carpe#readme",
+  "devDependencies": {
+    "phantomjs-prebuilt": "^2.1.14",
+    "codeceptjs-webdriverio": "^1.1.0",
+    "istanbul": "^0.4.5",
+    "jsdoc": "^3.5.3",
+    "mochawesome": "^2.3.0"
+  }
+}
