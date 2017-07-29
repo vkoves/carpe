@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "The social scheduler",
   "scripts": {
-    "jsdoc": "jsdoc app/assets/javascripts -d public/jsdoc-out",
+    "jsdoc": "jsdoc app/assets/javascripts -d public/jsdoc-out -r README.md",
     "codeceptjs": "phantomjs --webdriver=4444 | (codeceptjs run --reporter mochawesome && node stop-phantomjs.js)",
     "teaspoon": "bundle exec teaspoon --coverage=default"
   },
