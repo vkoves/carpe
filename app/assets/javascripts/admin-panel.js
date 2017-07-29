@@ -16,14 +16,14 @@ function setupEvents() {
 		e.preventDefault();
 
 		var $button = $("#" + this.id);
-		if ($button.hasClass("js-loading")) { return; }
+		if ($button.hasClass("loading")) { return; }
 
 		$.ajax({
 			url: "/run_command",
 			type: "POST",
 			data: {button_id: this.id},
 
-			beforeSend: function() { $button.addClass("js-loading");},
+			beforeSend: function() { $button.addClass("loading");},
 			success: repeatedlyCheckIfCommandIsFinished
 		});
 	});
@@ -36,7 +36,7 @@ function repeatedlyCheckIfCommandIsFinished(data) {
 		data: {pid: data["pid"]},
 		success: function(cmd) {
 			if (cmd["finished"] === "true") {
-				$("#" + data["button_id"]).removeClass("js-loading");
+				$("#" + data["button_id"]).removeClass("loading");
 			} else {
 				// check again
 				console.log(cmd["finished"]);
