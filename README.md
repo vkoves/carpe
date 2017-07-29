@@ -18,22 +18,37 @@ Run with foreman using `foreman start`
 
 Which will run the local server at `localhost:5000`
 
-Alternatively `rails s` can be used to the same effect, but the site will be visible at `localhost:3000`
+Alternatively `rails s` can be used to the same effect, but the site will be visible at `localhost:3000`.
+
+Since you can run Carpe with either foreman or the default Rails server, all localhost links in this document use `<localhost>` to stand in for either `localhost:3000` or `localhost:5000`.
 
 ## Testing Carpe
 
-Carpe is setup with the default testing suite for Ruby, which is [Minitest](https://github.com/seattlerb/minitest). All files related to tests are located in the `test` directory, where you can find fixtures (the data used when running tests), and tests for controllers, models, and helpers, as well as integration tests. To get a good overview of how testing in Rails works, see this [RailsGuides guide](http://guides.rubyonrails.org/testing.html) on the subject.
+Carpe is setup with the default testing suite for Ruby, [Minitest](https://github.com/seattlerb/minitest). All files related to tests are located in the `test` directory, where you can find fixtures (the data used when running tests), and tests for controllers, models, and helpers, as well as integration tests. To get a good overview of how testing in Rails works, see this [RailsGuides guide](http://guides.rubyonrails.org/testing.html) on the subject.
 
-Carpe also is setup with Travis CI, which automatically runs builds on push or on a pull request being made. You can see the build status at the top of the README, and can click on it to see build progress and logs.
+Carpe is also setup with Javascript testing via [Teaspoon](https://github.com/jejacks0n/teaspoon) and acceptance tests via [CodeceptJS](http://codecept.io/). We also use [Istanbul](https://github.com/gotwarlost/istanbul) for checking Teaspoon Javascript test code coverage.
 
-To run all Ruby on Rails tests for Carpe, run `bundle exec rake test` in the Carpe directory.
+The Carpe repository also is setup with Travis CI, which automatically runs builds on push or on a pull request being made. You can see the build status at the top of the README, and can click on it to see build progress and logs.
+
+### Running Ruby Tests
+
+To run all Ruby on Rails tests for Carpe, use the local admin panel or run `bundle exec rake test` in the Carpe directory.
 
 To run a specific test, run `bundle exec rake test test_file_path`
+
 Ex: `bundle exec rake test test/controllers/event_test.rb`
 
 #### Checking Test Coverage
 
-A large part of making sure Carpe is well tested is ensuring that it has proper test coverage. Carpe uses the [SimpleCov gem](https://github.com/colszowka/simplecov) to help with this. To use SimpleCov, simply run all tests and then open `coverage/index.html` in the Carpe directory.
+A large part of making sure Carpe is well tested is ensuring that it has proper test coverage. Carpe uses the [SimpleCov gem](https://github.com/colszowka/simplecov) to help with this. To use SimpleCov, simply run all tests (either via the local admin panel, or manually) and then go to `<localhost>/coverage/index.html`.
+
+### Running Javascript Tests
+
+To run Teaspoon tests on carpe, either use the local admin panel or run `bundle exec teaspoon --coverage=default` from the Carpe directory. This will simultaneously run Teaspoon tests and  Istanbul code coverage. You can access teaspoon tests results at '<localhost>/teaspoon/default', and Istanbulc code coverage at `<localhost>/coveragejs/default/`.
+
+### Running CodeceptJS Acceptance Tests
+
+CodeceptJS lets us run lovely acceptance tests. Run them from the local admin panel or manually by running `codeceptjs run --reporter mochawesome` optionally with `--steps` for extra info. HTML reports of the results will be available at `<localhost>/codeceptjs_out/mochawesome.html`.
 
 ## Checking Code Quality
 
@@ -43,21 +58,23 @@ To run Ruby Critic, run `rubycritic` in the Carpe directory.
 
 ## JSDoc
 
-Carpe uses JSDoc to document Javascript, which you can learn more about at [JSDoc's Getting Started](http://usejsdoc.org/about-getting-started.html). Check out the admin panel for the specific command to run to update the JSDoc and to view it.
+Carpe uses JSDoc to document Javascript, which you can learn more about at [JSDoc's Getting Started](http://usejsdoc.org/about-getting-started.html).
+
+You can run JSDoc from the local admin panel or by running `jsdoc app/assets/javascripts -r README.md -d public/jsdoc-out` in command line.
 
 ## Checking Site Speed
 
-Carpe uses [rack-mini-profiler](https://github.com/MiniProfiler/rack-mini-profiler) as a way of understanding site speed and optimizing queries. When running Carpe locally, a site speed badge will show up in the top left, allowing you to explore site speed. On production, this badge is hidden by defualt, and can be made visiblue using *Alt + P*. This shortcut can also be used to hide the profiler when running Carpe locally.
+Carpe uses [rack-mini-profiler](https://github.com/MiniProfiler/rack-mini-profiler) as a way of understanding site speed and optimizing queries. When running Carpe locally, a site speed badge will show up in the top left, allowing you to explore site speed. On production, this badge is hidden by defualt, and can be made visible using *Alt + P*. This shortcut can also be used to hide the profiler when running Carpe locally.
 
 ## Previewing Emails
 
-Although it has not been worked on extensively, Carpe is hooked up to SendGrid and has capabilities to send emails. Rails likewise has support for previewing emails through [Action Mailer Previews](https://github.com/rails/rails/blob/master/guides/source/4_1_release_notes.md#action-mailer-previews). Currently you can view all our emails (currenly only an email sent on signup) by going [here](http://localhost:5000/rails/mailers/user_notifier) if you use Foreman as your local server. Otherwise just change the port as you require.
+Although it has not been worked on extensively, Carpe is hooked up to SendGrid and has capabilities to send emails. Rails likewise has support for previewing emails through [Action Mailer Previews](https://github.com/rails/rails/blob/master/guides/source/4_1_release_notes.md#action-mailer-previews). Currently you can view all our emails (currently only an email sent on signup) by going to `<localhost>/rails/mailers/user_notifier`.
 
 ## Deploying Changes
 
 Before deploying changes, make sure to run the automated tests (see _Testing Carpe_) to make sure nothing is broken.
 
-Then to deploy, push to origin and then heroku, like so:
+Then to deploy, push to origin and then Heroku, like so:
 
 ``
 git push origin master
