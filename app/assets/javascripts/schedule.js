@@ -724,6 +724,12 @@ function addStartingListeners()
 		highlightCurrent();
 	});
 
+	$("#edit-invite").click(function()
+	{
+		setupInvitedUsers()
+		UIManager.slideInShowOverlay("#invite-users-overlay-box");
+	});
+
 	$("#embed-button").click(function()
 	{
 		var iframeUrl = "http://www.carpe.us/schedule?iframe=true&uid=" + userId; //create the iframe URL
@@ -784,6 +790,11 @@ function addStartingListeners()
 	$("#break-adder-overlay-box .close").click(function()
 	{
 		UIManager.slideOutHideOverlay("#break-adder-overlay-box");
+	});
+
+	$("#invite-users-overlay-box .close").click(function()
+	{
+		UIManager.slideOutHideOverlay("#invite-users-overlay-box");
 	});
 
 	$("#view-monthly").click(initializeMonthlyView);
@@ -1875,6 +1886,10 @@ function showBreakCreateOverlay()
 {
 	$("#break-overlay-box input").val(""); //clear all inputs
 	UIManager.slideInShowOverlay("#break-overlay-box"); //and fade in
+}
+
+function setupInvitedUsers() {
+	/* TODO retrieve users from associated event_invite obj */
 }
 
 // Sets up an overlay to add breaks. If managing,

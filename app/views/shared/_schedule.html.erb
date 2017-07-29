@@ -46,7 +46,7 @@
 		<span id="add-break-event" class="default green">Add Break</span>
 		<div id="invite-title" class="small-title">
 			Invite Members
-			<span id="edit-desc" class="edit">Edit</span>
+			<span id="edit-invite" class="edit">Edit</span>
 		</div>
 		<%= render "shared/user_adder", name: "user_ids" %>
 		<div id="desc-title" class="small-title">
@@ -78,6 +78,15 @@
 		<span class="default green" id="create-break-inside-add-break">Create Break</span>
 		<div id="break-cont">
 		</div>
+	</div>
+
+	<div id="invite-users-overlay-box" class="overlay-box">
+		<span class="default red close"></span>
+		<h3>Invite Users</h3>
+		Users will be notified when they receive an invite for the first time.
+		<div id="users-invited-cont">
+		</div>
+		<%= render "shared/user_adder", name: "user_ids" %>
 	</div>
 
 	<div id="evnt-delete" class="overlay-box">
