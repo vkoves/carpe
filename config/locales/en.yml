@@ -21,3 +21,10 @@
 
 en:
   hello: "Hello world"
+  # Groups
+  groups:
+    approved_posting_explanation: "If checked, the group owner must approve group schedule changes made by fellow group members"
+    group_privacy_explanation:
+        "As a 'public' group, anyone can join without invitation.
+         As a 'private' group, members must be invited to join.
+         As a 'secret' group, other (non-invited) users cannot view this group."
