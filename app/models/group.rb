@@ -64,4 +64,14 @@ class Group < ActiveRecord::Base
 
     true
   end
+
+  # Returns the count of members matching a role
+  # If no role is passed, returns a count of all members
+  def members_count(role = nil)
+    if role
+      self.users_groups.where(role: role, accepted: true).count
+    else
+      self.users.count
+    end
+  end
 end
