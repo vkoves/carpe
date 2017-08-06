@@ -62,7 +62,7 @@ class PagesController < ApplicationController
   def check_if_command_is_finished
     # signal 0 checks if the processor exists
     Process.kill 0, params[:pid].to_i
-    render json: { finished: "fasle" }
+    render json: { finished: "false" }
   rescue
     # (mostly likely) the process no longer exists
     render json: { finished: "true" }
