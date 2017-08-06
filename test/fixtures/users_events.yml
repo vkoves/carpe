@@ -5,11 +5,11 @@ one:
   status: 1
   sender_id: 1
   event_id: 1
-  recipient_id: 1
+  receiver_id: 1
 
 two:
   role: MyString
   status: 1
   sender_id: 1
   event_id: 1
-  recipient_id: 1
+  receiver_id: 1
