@@ -45,6 +45,8 @@ class PagesController < ApplicationController
     @past_month_events_modified = Event.where('created_at >= ?', Time.zone.now - 1.months).group(:updated_at).count
   end
 
+  # runs a command based on a given admin panel button id
+  # button id is passed via params[:button_id]
   def run_command
     cmd =
       case params[:button_id]
@@ -59,6 +61,8 @@ class PagesController < ApplicationController
     render json: { button_id: params[:button_id], pid: pid }
   end
 
+  # Checks if a command run on a given pid is complete
+  # pid is grabbed from params[:pid]
   def check_if_command_is_finished
     # signal 0 checks if the processor exists
     Process.kill 0, params[:pid].to_i
