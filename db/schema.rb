@@ -137,13 +137,13 @@ ActiveRecord::Schema.define(version: 20170805054349) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 
   create_table "users_events", force: :cascade do |t|
+    t.integer  "event_id"
     t.string   "role"
     t.integer  "status"
     t.integer  "sender_id"
-    t.integer  "event_id"
-    t.integer  "recipient_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.integer  "receiver_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "users_groups", force: :cascade do |t|

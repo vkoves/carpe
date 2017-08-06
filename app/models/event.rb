@@ -3,7 +3,10 @@ class Event < ActiveRecord::Base
   belongs_to :user
   belongs_to :group
   belongs_to :category
-  belongs_to :users_event
+
+  has_many :users_events, :class_name => 'UsersEvent'
+  has_many :invited_users, :through => :users_events, :source => 'receiver'
+
   has_and_belongs_to_many :repeat_exceptions
 
   def get_html_name #returns the event name, or an italicized untitled

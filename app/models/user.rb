@@ -14,8 +14,10 @@ class User < ActiveRecord::Base
   has_many :groups, :through => :users_groups
   has_many :notifications, :class_name => 'Notification', :foreign_key => 'receiver_id'
 
-  has_many :users_events, :class_name => 'UsersEvent', :foreign_key => 'receiver_id'
-  has_many :users_events, :class_name => 'UsersEvent', :foreign_key => 'sender_id'
+  has_many :event_invites, :class_name => 'UsersEvent', :foreign_key => 'receiver_id'
+  has_many :event_invites_sent, :class_name => 'UsersEvent', :foreign_key => 'sender_id'
+
+  has_many :events_invited_to, :through => :event_invites, :source => 'event'
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
