@@ -30,6 +30,12 @@ function setupEvents() {
 }
 
 function repeatedlyCheckIfCommandIsFinished(data) {
+	if(data["error"] == "true") {
+		$("#" + data["button_id"]).removeClass("loading");
+		UIManager.alertUI("That command didn't work! Check server logs to diagnose the issue.");
+		return;
+	}
+
 	$.ajax({
 		url: "/check_if_command_is_finished",
 		type: "POST",

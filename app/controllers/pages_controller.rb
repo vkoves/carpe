@@ -59,6 +59,8 @@ class PagesController < ApplicationController
     pid = Process.spawn cmd
     Process.detach pid # prevents zombie processes
     render json: { button_id: params[:button_id], pid: pid }
+  rescue
+    render json: { button_id: params[:button_id], pid: pid, error: "true" }
   end
 
   # Checks if a command run on a given pid is complete
