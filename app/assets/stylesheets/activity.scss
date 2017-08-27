@@ -41,10 +41,11 @@
 
 	#sidebar
 	{
+		box-sizing: border-box;
 		padding-top:5px;
 		right:0px;
 		position: relative;
-		width: 340px;
+		width: 100%;
 		min-height: calc(100vh - 55px);
 		background-color: #EBEBEB;
 		border-left: solid 2px #ACACAC;
@@ -84,7 +85,7 @@
 	{
 		width: 94%;
 	}
-	#sidebar /* Hide the sidebar on mobile by default */
+	#sidebar-cont #sidebar /* Hide the sidebar on mobile by default */
 	{
 		right: -340px;
 	}
