@@ -32,6 +32,8 @@ Rails.application.routes.draw do
   get "/admin" => 'pages#admin', :as => :admin_panel
   match "/destroy_user/:id" => 'pages#destroy_user', :via => :delete, :as => :admin_destroy_user
   get "/admin_user_info/:id" => 'pages#admin_user_info', :as => :admin_user_info
+  post "/run_command" => 'pages#run_command'
+  post "/check_if_command_is_finished" => 'pages#check_if_command_is_finished'
 
   #User Routes
   get "/search_users" => 'users#search'

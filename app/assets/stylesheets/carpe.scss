@@ -264,6 +264,36 @@ a.default.green *, span.default.green, input.default.green
 	background: #18B918;
 	&:hover {background: #39DA39;}
 }
+
+/*
+	Styling for loading inputs. .can-load makes them animate the icon in
+	while .loading indicates the icon should be shown
+ */
+a.default.can-load *, span.default.can-load, input.default.can-load
+{
+	transition: padding-right 0.5s;
+
+	&:after {
+		content: '';
+		display: block;
+		position: absolute;
+		top: 2px;
+		right: 5px;
+		height: 24px;
+		width: 24px;
+		background-image: url(/assets/spinner.svg);
+		background-size: 100%;
+		opacity: 0;
+		transition: opacity 0.5s;
+	}
+}
+a.default.loading *, span.default.loading, input.default.loading
+{
+	padding-right: 32px;
+
+	&:after { opacity: 1; }
+	&:hover { cursor: wait; }
+}
 a.default.following-btn *
 {
 	background-color: #5B5BFF;
