@@ -14,7 +14,7 @@
 //= require jquery_ujs
 //= require jquery-ui
 //= require jquery.ui.touch-punch.min
-//= require local_time
+//= require local-time
 //= require jquery.tokeninput
 //= require jsapi
 //= require chartkick

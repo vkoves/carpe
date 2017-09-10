@@ -118,8 +118,7 @@ GEM
     jwt (1.5.5)
     launchy (2.4.3)
       addressable (~> 2.3)
-    local_time (1.0.3)
-      coffee-rails
+    local_time (2.0.0)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     mail (2.6.4)

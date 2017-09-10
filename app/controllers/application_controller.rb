@@ -64,6 +64,8 @@ class ApplicationController < ActionController::Base
       }
 
       render :json => user_map # + group_map
+    else
+      render :json => {} # render nothing to prevent a no template error
     end
   end
 
