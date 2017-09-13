@@ -4,11 +4,9 @@ Rails.application.routes.draw do
   get "u/:id_or_url(/:page)", to: "users#show", :as => :user
 
   resources :users, only: [:index] do
-    get "join_group/:group_id", to: 'group_invitations#join_group', as: :join_group
-    get "leave_group/:group_id", to: 'group_invitations#leave_group', as: :leave_group
+    get "join_group/:group_id", to: 'user_groups#join_group', as: :join_group
+    get "leave_group/:group_id", to: 'user_groups#leave_group', as: :leave_group
   end
-
-  resources :user_groups, controller: "group_invitations", only: [:update]
 
   # get "/users", to: "users#index"
   devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks", :registrations => "users/registrations" }
@@ -24,10 +22,8 @@ Rails.application.routes.draw do
   resources :relationships
 
   #Group Routes
-  resources :groups do
-    get "invite_users/:ids", to: 'group_invitations#invite_users', as: :invite_users
-    get "remove_users/:ids", to: 'group_invitations#remove_users', as: :remove_users
-  end
+  resources :groups
+  resources :user_groups, only: [:create, :update, :destroy]
 
   #Admin Routes
   get "/promote" => 'pages#promote'

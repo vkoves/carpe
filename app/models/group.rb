@@ -35,7 +35,7 @@ class Group < ActiveRecord::Base
   # Returns the role of /user/ in this group (e.g. 'admin') or
   # nil if the user isn't even a member of this group.
   def get_role(user)
-    UsersGroup.find_by(user_id: user.id, group_id: id, accepted: true)&.role
+    UsersGroup.find_by(user_id: user.id, group_id: id, accepted: true)&.role&.to_sym
   end
 
   # Returns true if user is in this group, false otherwise.
@@ -44,7 +44,7 @@ class Group < ActiveRecord::Base
   end
 
   # can the user access the page at all?
-  def can_view?(user)
+  def viewable_by?(user)
     # user must be signed in
     return false unless user.present?
 
@@ -57,7 +57,7 @@ class Group < ActiveRecord::Base
   # can the user view the schedule, group members, etc?
   def can_view_details?(user)
     # user must be able to view the group
-    return false unless can_view? user
+    return false unless viewable_by? user
 
     # user must be part of the private group
     return false if private_group? and not in_group? user
