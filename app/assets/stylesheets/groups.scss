@@ -8,23 +8,31 @@ html, body
 	display: flex;
 	height: 100%;
 	flex: 1;
+
+	& > .sidebar
+	{
+		flex: 1;
+		min-width: 300px;
+		padding: 50px 10px 10px;
+		text-align: center;
+	}
+
+	& > .content
+	{
+		display: flex;
+		flex: 4;
+		flex-direction: column;
+		padding: 0 16px;
+	}
 }
 
-#left-sidebar
-{
-	flex: 1;
-	min-width: 300px;
-	padding: 50px 10px 10px;
+.shaded {
 	background: rgb(225, 225, 225);
-	text-align: center;
 }
 
-#right-body
-{
-	display: flex;
-	flex: 4;
-	flex-direction: column;
-	padding: 0 16px;
+.with-horizontal-borders {
+	border-left: solid 2px #ACACAC;
+	border-right: solid 2px #ACACAC;
 }
 
 #groups-list-header
@@ -59,8 +67,16 @@ html, body
 	flex: 1;
 	flex-flow: row wrap;
 	align-content: flex-start;
-	margin: 10px -5px; /* uses negative margin to counteract flex item margins */
-	overflow-y: auto;
+
+	&.vertical
+	{
+		flex-flow: column;
+	}
+
+	&.with-space-between
+	{
+		align-content: space-between;
+	}
 }
 
 /* base class, see .small-card and .large-card */
@@ -135,6 +151,19 @@ html, body
 	@extend .card;
 	width: 455px; /* width should be about 3x the length for a card-like shape */
 	height: 175px;
+
+	.group-title
+	{
+		height: 3em;
+		width: 100%;
+
+		line-height: 1.5em;
+		font-size: 24px;
+		font-weight: bold;
+
+		color: #313131;
+		text-decoration: none;
+	}
 }
 
 .basic-member-block
@@ -185,10 +214,38 @@ html, body
 		font-size: 24px;
 	}
 
-	a
+	.buttons
 	{
-		margin-left: 32px;
+		display: flex;
+		margin-left: auto;
+
+		& > *
+		{
+			margin: 0 8px;
+		}
+
+		#member-search
+		{
+			min-width: 150px;
+			min-height: 30px;
+			padding-left: 10px;
+			padding-right: 40px;
+
+			background-image: url("search.svg");
+			background-size: auto 65%;
+			background-repeat: no-repeat;
+			background-position: 95%;
+			border: 1px solid dimgray;
+		}
 	}
+}
+
+#manage-members-container
+{
+	min-width: 720px;
+	max-width: 1080px;
+	margin: 0 auto;
+	align-self: flex-end;
 }
 
 .subtle-container
@@ -238,5 +295,75 @@ html, body
 		font-size: 28px;
 		font-weight: 400;
 		text-shadow: 2px 2px black;
+	}
+}
+
+
+.user-with-options
+{
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	box-shadow: 0 1px 1px grey;
+
+	.overview
+	{
+		height: 64px;
+		padding: 8px;
+		background: #efefef;
+
+		display: flex;
+		justify-content: space-between;
+
+		.name-and-avatar
+		{
+			.round-avatar
+			{
+				margin-right: 16px;
+			}
+			display: flex;
+			height: 100%;
+		}
+
+		.role
+		{
+			padding-right: 32px;
+			background-image: url("dropdown-arrow.svg");
+			background-size: auto 75%;
+			background-repeat: no-repeat;
+			background-position: 95% center;
+		}
+
+		&:hover
+		{
+			cursor: pointer;
+		}
+	}
+
+	.options
+	{
+		display: flex; // starts hidden
+		justify-content: space-between;
+		padding: 8px;
+		background: #efefef;
+	}
+}
+
+// TODO: Selecting arbitrary z-index values seems like a bad idea.
+.token-input-dropdown
+{
+	z-index: 1001;
+}
+
+#invite-members
+{
+	margin: 0 10px 0 5px;
+}
+
+#group-overview-info
+{
+	*
+	{
+		text-align: left;
 	}
 }

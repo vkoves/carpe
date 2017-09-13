@@ -4,13 +4,13 @@
   <%= link_avatar group %>
 
   <main>
-    <%= link_to group.name, group, class: [:normal, :title] %>
+    <%= link_to group.name, group, class: "group-title" %>
     <h3 class="members"><%= n_members %></h3>
 
     <% if group.in_group? current_user %>
       <h3>You're already in this group!</h3>
     <% else %>
-        <%= link_to_block "Join Group", user_join_group_path(current_user, group), class: "wide button" %>
+        <%= link_to "Join Group", user_join_group_path(current_user, group), class: "wide button" %>
     <% end %>
   </main>
 </div>

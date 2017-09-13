@@ -4,7 +4,3 @@
 
 <%= form_for(@group, url: group_path(@group), :method => :POST, :html => {:class => 'thin'}) do |f| %>
 <% end %>
-
-<%= form_for(@group, url: {action: "update"}, :method => :get) do |f| %>
-    <%= select_tag :selected_member, options_from_collection_for_select(@group.users, :uid, :name) %>
-<% end %>

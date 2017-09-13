@@ -11,16 +11,9 @@
     <h3>Admins</h3>
     <h4><%= @group.members_count(:admin) %></h4>
 
-    <%= link_to "Invite Members", "some ajax path...", class: "wide button" %>
-    <%= link_to "Manage Members", group_path(@group, page: :manage_members), class: "wide button" %>
+    <%= content_tag(:span, "Invite Members", id: "invite-members", class: "wide button") if can_invite_members? %>
+    <%= link_to("Manage Members", group_path(@group, view: :manage_members), class: "wide button") if can_manage_members? %>
   </header>
 
-  <main class="flex-list">
-    <% @group.users.all.each do |member| %>
-      <div class="basic-member-block">
-        <%= link_avatar member %>
-        <main><%= member.name %></main>
-      </div>
-    <% end %>
-  </main>
+  <main class="flex-list js-lazy-loading-list" data-next-page-path="<%= path_to_next_page @members %>?view=members"></main>
 </div>

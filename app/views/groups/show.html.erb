@@ -1,5 +1,6 @@
 <%= stylesheet_link_tag "profile" %>
 <%= stylesheet_link_tag "groups" %>
+<%= javascript_include_tag "group" %>
 
 <div class="group profile-header">
 	<% if @group.banner.exists? %>
@@ -17,27 +18,27 @@
         <div class="profile-name"><%= @group.name %></div>
 
           <div class="privacy-block">
-            <div class="profile-privacy"><%= @group.privacy.titleize %> Group</div>
-            <%= link_to "Edit Group", edit_group_path(@group), class: "edit button" %>
+            <div class="profile-privacy"><%= @group.privacy.titleize %></div>
+            <%= link_to("Edit Group", edit_group_path(@group), class: "edit button") if can_edit_group? %>
           </div>
       </div>
     </div>
 
     <div id="profile-buttons">
-      <%= link_to group_path(@group, page: :overview) do %>
-        <div class="<%= "curr" if @current_page == :overview %>">Overview</div>
+      <%= link_to group_path(@group, view: :overview) do %>
+        <div class="<%= "curr" if @view == :overview %>">Overview</div>
       <% end %>
 
-      <%= link_to group_path(@group, page: :schedule) do %>
-        <div class="<%= "curr" if @current_page == :schedule %>">Schedule</div>
+      <%= link_to group_path(@group, view: :schedule) do %>
+        <div class="<%= "curr" if @view == :schedule %>">Schedule</div>
       <% end %>
 
-      <%= link_to group_path(@group, page: :members) do %>
-        <div class="<%= "curr" if @current_page == :members %>">
+      <%= link_to group_path(@group, view: :members) do %>
+        <div class="<%= "curr" if @view == :members %>">
           <%= pluralize(@group.users.count, "Member") %>
         </div>
       <% end %>
     </div>
 </div>
 
-<%= render "groups/pages/#{@current_page.to_s}" %>
+<%= render "groups/pages/#{@view.to_s}" %>

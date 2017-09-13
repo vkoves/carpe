@@ -944,6 +944,32 @@ form.thin
 	}
 }
 
+/* custom button styling options*/
+.button.hollow
+{
+	background: transparent;
+	&:hover { background: transparent; }
+
+	border: solid 1px dimgray;
+	border-radius: 3px;
+	box-shadow: none;
+
+	font-weight: 600;
+	font-size: 18px;
+
+	&.orange
+	{
+		color: orange;
+		&:hover { color: #FFC14E; }
+	}
+
+	&.red
+	{
+		color: #FD1A1A;
+		&:hover { color: #FF4A4A; }
+	}
+}
+
 /*---------------------------------------------------------------------------*/
 /* Basic Form */
 /*---------------------------------------------------------------------------*/
