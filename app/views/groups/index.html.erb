@@ -1,26 +1,24 @@
 <%= stylesheet_link_tag "groups" %>
 
 <div id="body">
-  <aside id="left-sidebar">
+  <aside class="shaded sidebar">
     <h2>Groups You Belong To</h2>
     <%= render partial: "small_group_card", collection: current_user&.groups&.all, as: :group %>
   </aside>
 
-  <div id="right-body">
+  <main class="content">
     <div id="groups-list-header">
       <div id="header-info">
         <div id="groups-title">
           <h1>Hi</h1>
           <h2>Groups</h2>
         </div>
-        <%= link_to_block "+ Create Group", new_group_path, class: "large green button" %>
+        <%= link_to "+ Create Group", new_group_path, class: "large green button" %>
       </div>
 
       <p>The groups listed below are all public. Check your notifications for private group invitations.</p>
     </div>
 
-    <main class="flex-list">
-      <%= render partial: "big_group_card", collection: @visible_groups, as: :group %>
-    </main>
-  </div>
+    <main class="flex-list js-lazy-loading-list" data-next-page-path="<%= path_to_next_page @visible_groups %>"></main>
+  </main>
 </div>

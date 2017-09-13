@@ -3,17 +3,47 @@ class GroupsController < ApplicationController
   before_action :set_group, only: [:show, :edit, :update, :destroy]
 
   def index
-    @visible_groups = Group.all # Group.where privacy: [:public, :private]
+    @visible_groups = Group.where(privacy: 'public_group')
+                           .page(params[:page]).per(25)
+
+    respond_to do |format|
+      format.html
+      format.js {
+        render partial: "shared/lazy_list_loader",
+               locals: { collection: @visible_groups,
+                         item_name: :group,
+                         partial: "big_group_card" }
+      }
+    end
   end
 
   def show
-    unless @group.can_view? current_user
+    unless @group.viewable_by? current_user
       redirect_to groups_path, alert: "You don't have permission to view this group"
     end
 
     @role = @group.get_role current_user
+    @view = params[:view]&.to_sym || :schedule
 
-    @current_page = params[:page]&.to_sym || :schedule
+    case @view
+    when :manage_members
+      authorize_roles! [:owner, :moderator]
+    when :members
+      @members = @group.users.page(params[:page]).per(25)
+
+      respond_to do |format|
+        format.html
+        format.js {
+          render partial: "shared/lazy_list_loader",
+                 locals: { collection: @members,
+                           item_name: :member,
+                           partial: "basic_user_block" }
+        }
+      end
+
+    when :overview
+      @upcoming_events = current_user.events_in_range(DateTime.now - 5.day, DateTime.now.end_of_day + 10.day)
+    end
   end
 
   def new
@@ -28,7 +58,7 @@ class GroupsController < ApplicationController
     @group = Group.new group_create_params
 
     if @group.save
-      current_user.users_groups.create group: @group, role: :owner
+      UsersGroup.create user: current_user, group: @group, role: :owner, accepted: true
       redirect_to @group, notice: "Group was successfully created."
     else
       render :new
@@ -65,5 +95,11 @@ class GroupsController < ApplicationController
     params.require(:group)
           .permit(:name, :description, :avatar, :banner,
                   :posts_preapproved, :custom_url, :privacy)
+  end
+
+  def authorize_roles!(authorized_roles)
+    unless authorized_roles.include? @role
+      redirect_to groups_path, alert: "You don't have permission to access that page!"
+    end
   end
 end

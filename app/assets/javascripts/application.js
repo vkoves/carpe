@@ -20,6 +20,7 @@
 //= require chartkick
 //= require ui-manager
 //= require partials/user-adder
+//= require lazy-list
 
 // require jquery-ui.min
 // Removed to prevent schedule js being loaded everywhere

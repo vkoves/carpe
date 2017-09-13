@@ -95,3 +95,6 @@ gem "teaspoon-mocha"
 
 # Minitest reporting
 gem "minitest-reporters"
+
+# Kaminari helps lazy load large database lists (https://github.com/kaminari/kaminari)
+gem 'kaminari'
