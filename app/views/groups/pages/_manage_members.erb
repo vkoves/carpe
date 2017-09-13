@@ -1,1 +1,32 @@
 <h2 class="no-bold">Manage Members</h2>
+
+<div id="manage-members-container">
+  <div>
+    <header class="member-stats">
+      <h3>Members</h3>
+      <h4><%= @group.members_count %></h4>
+
+      <h3>Editors</h3>
+      <h4><%= @group.members_count(:editor) %></h4>
+
+      <h3>Admins</h3>
+      <h4><%= @group.members_count(:admin) %></h4>
+
+      <div class="buttons">
+        <%= content_tag(:span, "Invite Members", id: "invite-members", class: "wide button") if can_invite_members? %>
+        <%= text_field_tag "member-search", nil, placeholder: "Search", autocomplete: "off" %>
+      </div>
+    </header>
+  </div>
+
+  <div id="manage-member-list">
+    <%= render partial: "groups/manage_user_card", collection: @group.users_groups, as: :membership %>
+  </div>
+</div>
+
+<div id="user-invites-overlay-box" class="overlay-box">
+  <!--<span class="red close button"></span>-->
+  <h3>Invite Members</h3>
+  <%= render "shared/user_adder", name: "user_ids" %>
+  <span class="green button" id="group-inviter-send-invite">Send Invite</span>
+</div>
