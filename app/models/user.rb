@@ -55,6 +55,10 @@ class User < ActiveRecord::Base
             format: { without: @@REGEX_USER_ID,
                       message: 'cannot be an integer'}
 
+  def self.from_param(param)
+    User.find_by!(param =~ User.REGEX_USER_ID ? { id: param } : { custom_url: param })
+  end
+
   def has_custom_url?
     !custom_url.empty?
   end
