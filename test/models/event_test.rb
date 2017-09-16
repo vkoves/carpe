@@ -136,10 +136,10 @@ class EventTest < ActiveSupport::TestCase
     event.end_date = start + 2.hours
 
     event.repeat = "daily"
-    events = events(:repeat_daily).events_in_range start, start+ 4.days
+    events = event.events_in_range start, start + 4.days
     assert_equal 4, events.length, "daily event should only repeat 4 times in 4 days"
 
-    events = events(:repeat_daily).events_in_range start, start + 4.days + 3.hours
+    events = event.events_in_range start, start + 4.days + 3.hours
     assert_equal 5, events.length, "daily event should only repeat 5 times in 4.25 days"
 
     event.repeat = "weekly"
@@ -204,14 +204,14 @@ class EventTest < ActiveSupport::TestCase
     event.repeat = "custom-2-weeks"
     event.repeat_end = start + 4.weeks
 
-    assert_equal 3, event.events_in_range(start, start + 4.weeks).length,
+    assert_equal 2, event.events_in_range(start, start + 4.weeks).length,
                  "event should appear every other week over the course of the next 4 weeks"
 
     # every n months
     event.repeat = "custom-2-months"
     event.repeat_end = start + 4.months
 
-    assert_equal 3, event.events_in_range(start, start + 4.month).length
+    assert_equal 2, event.events_in_range(start, start + 4.month).length
 
     # every n years
     event.repeat = "custom-2-years"
