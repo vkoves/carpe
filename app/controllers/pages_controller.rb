@@ -11,14 +11,14 @@ class PagesController < ApplicationController
   end
 
   def destroy_user
-    user = User.find(params[:id])
+    user = User.from_param params[:id]
     user.destroy
 
     redirect_to "/admin"
   end
 
   def admin_user_info
-    @user = User.find(params[:id])
+    @user = User.from_param params[:id]
     @user_groups = UsersGroup.where(user_id: @user.id)
   end
 
