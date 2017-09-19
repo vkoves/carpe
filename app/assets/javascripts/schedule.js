@@ -437,9 +437,6 @@ function scheduleReady()
 		$(".edit, #repeat, #add-break-event").remove(); //remove repeat functionality, and adding breaks
 		$("#overlay-loc, #overlay-desc, #overlay-title").attr("contenteditable", "false"); //disable editing on location title and description
 		$("#time-start, #time-end").attr("readonly", true); //disable editing of time
-		$(".col-snap .sch-evnt").click(function(){
-			editEvent($(this)); //and make it so clicking an event immediately opens it
-		});
 	}
 
 	$("#sch-save").addClass("disabled");
