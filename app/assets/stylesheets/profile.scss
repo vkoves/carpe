@@ -1,7 +1,8 @@
 /* Shown on all the user profile pages */
 
 $profile-photo-height: 150px;
-$camera-height: 27px;
+$avatar-camera-height: 27px;
+$cover-camera-height: 20px;
 
 /* Profile page stuff */
 .profile-avatar
@@ -30,23 +31,29 @@ $camera-height: 27px;
     background-color: rgba(0,0,0,0.5);
 }
 
+.camera-profile{
+	opacity: 0.75;
+	background: none!important;
+    border-radius: 0!important;
+    border: none!important;
+}
+
+.upload-profile{
+	font-weight: bold;
+	color: rgba(255,255,255,0.95);
+}
+
 .profile-avatar .profile-avatar-overlay img
 {
-	width: $camera-height;
-	height: $camera-height;
-	opacity: 0.75;
-	background: none;
-    border-radius: 0;
-    border: none;
-    margin-top: $profile-photo-height / 2 - $camera-height;
+	width: $avatar-camera-height;
+	height: $avatar-camera-height;
+    margin-top: $profile-photo-height / 2 - $avatar-camera-height;
 }
 
 .profile-avatar .profile-avatar-overlay span
 {
 	margin-top: 7px;
 	display: block;
-	font-weight: bold;
-	color: rgba(255,255,255,0.95);
 }
 
 .profile-avatar:hover .profile-avatar-overlay
@@ -58,6 +65,7 @@ $camera-height: 27px;
 	position: relative;
 	width: 100%;
 	height: 200px;
+	z-index: 0;
 	overflow:hidden;
 }
 
@@ -66,7 +74,7 @@ $camera-height: 27px;
 	width: 100%;
 	height: 200px;
 	position: absolute;
-	z-index: -1;
+	z-index: 0;
 	background-image: image-url("water_Krakkened.png");
 	background-color: #848484; /* As a backup if the image is stupid */
 	background-size: cover;
@@ -75,7 +83,30 @@ $camera-height: 27px;
 	/* background-size: 100%;
 	background-position: 20% 40%;
 	-webkit-filter: blur(0px) brightness(0.5); */
+	.profile-cover-overlay{
+		display: none;
+		z-index: 100;
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		background-color: rgba(0,0,0,0.5);
+		border: 1px solid white;
+		padding: 5px 15px;
+		img {
+			width: $cover-camera-height;
+			height: $cover-camera-height;
+		}
+		span {
+			vertical-align: top;
+		}
+	}
 
+}
+
+#profile-header:hover{
+	.profile-cover-overlay{
+		display: initial;
+	}
 }
 #header-image-blur
 {
