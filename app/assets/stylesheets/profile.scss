@@ -12,23 +12,41 @@ $cover-camera-height: 20px;
 	margin-left: 30px;
 	margin-top: 20px;
 	z-index: 1;
+	img {
+		width: $profile-photo-height;
+		height: $profile-photo-height;
+		border-width: 3px;
+	}
+	.profile-avatar-overlay
+	{
+		display: none;
+		width: $profile-photo-height;
+	    height: $profile-photo-height;
+	    border-radius: 100px;
+	    top: 3px;
+	    left: 3px;
+	    position: absolute;
+	    background-color: rgba(0,0,0,0.5);
+	    img
+		{
+			width: $avatar-camera-height;
+			height: $avatar-camera-height;
+		    margin-top: $profile-photo-height / 2 - $avatar-camera-height;
+		}
+		span
+		{
+			margin-top: 7px;
+			display: block;
+		}
+	}
 }
-.profile-avatar img
-{
-	width: $profile-photo-height;
-	height: $profile-photo-height;
-	border-width: 3px;
-}
-.profile-avatar .profile-avatar-overlay
-{
-	display: none;
-	width: $profile-photo-height;
-    height: $profile-photo-height;
-    border-radius: 100px;
-    top: 3px;
-    left: 3px;
-    position: absolute;
-    background-color: rgba(0,0,0,0.5);
+
+.profile-avatar:hover
+{ 
+	.profile-avatar-overlay
+	{
+		display: initial;
+	}
 }
 
 .camera-profile{
@@ -43,23 +61,6 @@ $cover-camera-height: 20px;
 	color: rgba(255,255,255,0.95);
 }
 
-.profile-avatar .profile-avatar-overlay img
-{
-	width: $avatar-camera-height;
-	height: $avatar-camera-height;
-    margin-top: $profile-photo-height / 2 - $avatar-camera-height;
-}
-
-.profile-avatar .profile-avatar-overlay span
-{
-	margin-top: 7px;
-	display: block;
-}
-
-.profile-avatar:hover .profile-avatar-overlay
-{
-	display: initial;
-}
 #profile-header
 {
 	position: relative;
