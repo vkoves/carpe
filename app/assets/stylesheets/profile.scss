@@ -21,17 +21,17 @@ $cover-camera-height: 20px;
 	{
 		display: none;
 		width: $profile-photo-height;
-	    height: $profile-photo-height;
-	    border-radius: 100px;
-	    top: 3px;
-	    left: 3px;
-	    position: absolute;
-	    background-color: rgba(0,0,0,0.5);
-	    img
+		height: $profile-photo-height;
+		border-radius: 100px;
+		top: 3px;
+		left: 3px;
+		position: absolute;
+		background-color: rgba(0,0,0,0.5);
+		img
 		{
 			width: $avatar-camera-height;
 			height: $avatar-camera-height;
-		    margin-top: $profile-photo-height / 2 - $avatar-camera-height;
+			margin-top: $profile-photo-height / 2 - $avatar-camera-height;
 		}
 		span
 		{
@@ -42,7 +42,7 @@ $cover-camera-height: 20px;
 }
 
 .profile-avatar:hover
-{ 
+{
 	.profile-avatar-overlay
 	{
 		display: initial;
@@ -52,8 +52,8 @@ $cover-camera-height: 20px;
 .camera-profile{
 	opacity: 0.75;
 	background: none!important;
-    border-radius: 0!important;
-    border: none!important;
+	border-radius: 0!important;
+	border: none!important;
 }
 
 .upload-profile{
