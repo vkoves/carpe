@@ -14,6 +14,12 @@
 
 	<div class="page-container">
 		<div class="profile-avatar avatar">
+			<%= link_to edit_user_registration_path do %>
+				<div class="profile-avatar-overlay">
+						<%= image_tag "camera.svg" %>
+						<span>Upload Avatar</span>
+				</div>
+			<%end%>
 			<img src=<%= @user.user_avatar(200)%>>
 		</div>
 		<div id="profile-text">

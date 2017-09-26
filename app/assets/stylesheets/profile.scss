@@ -1,5 +1,8 @@
 /* Shown on all the user profile pages */
 
+$profile-photo-height: 150px;
+$camera-height: 27px;
+
 /* Profile page stuff */
 .profile-avatar
 {
@@ -11,9 +14,44 @@
 }
 .profile-avatar img
 {
-	width: 150px;
-	height: 150px;
+	width: $profile-photo-height;
+	height: $profile-photo-height;
 	border-width: 3px;
+}
+.profile-avatar .profile-avatar-overlay
+{
+	display: none;
+	width: $profile-photo-height;
+    height: $profile-photo-height;
+    border-radius: 100px;
+    top: 3px;
+    left: 3px;
+    position: absolute;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.profile-avatar .profile-avatar-overlay img
+{
+	width: $camera-height;
+	height: $camera-height;
+	opacity: 0.75;
+	background: none;
+    border-radius: 0;
+    border: none;
+    margin-top: $profile-photo-height / 2 - $camera-height;
+}
+
+.profile-avatar .profile-avatar-overlay span
+{
+	margin-top: 7px;
+	display: block;
+	font-weight: bold;
+	color: rgba(255,255,255,0.95);
+}
+
+.profile-avatar:hover .profile-avatar-overlay
+{
+	display: initial;
 }
 #profile-header
 {
