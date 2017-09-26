@@ -21,14 +21,11 @@ $cover-camera-height: 20px;
 	}
 	.profile-overlay.avatar
 	{
-		display: none;
 		width: $profile-photo-height;
 		height: $profile-photo-height;
 		border-radius: 100px;
 		top: 3px;
 		left: 3px;
-		position: absolute;
-		background-color: rgba(0,0,0,0.5);
 
 		img
 		{
@@ -46,11 +43,16 @@ $cover-camera-height: 20px;
 
 .profile-avatar:hover
 {
-	.profile-overlay.avatar { display: initial; }
+	.profile-overlay.avatar { opacity: 1; }
 }
 
 .profile-overlay
 {
+	position: absolute;
+	opacity: 0;
+	background-color: rgba(0,0,0,0.5);
+	transition: opacity 0.2s;
+
 	.camera-profile
 	{
 		opacity: 0.75;
@@ -91,12 +93,9 @@ $cover-camera-height: 20px;
 
 	.profile-overlay.cover
 	{
-		display: none;
 		z-index: 100;
-		position: absolute;
 		top: 10px;
 		right: 10px;
-		background-color: rgba(0,0,0,0.5);
 		border: 1px solid white;
 		padding: 5px 15px;
 
@@ -104,15 +103,16 @@ $cover-camera-height: 20px;
 		{
 			width: $cover-camera-height;
 			height: $cover-camera-height;
+			vertical-align: top;
+			margin-right: 10px;
 		}
-		span { vertical-align: top; }
 	}
 
 }
 
 #profile-header:hover
 {
-	.profile-overlay.cover { display: initial; }
+	.profile-overlay.cover { opacity: 1; }
 }
 #header-image-blur
 {
