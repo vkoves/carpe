@@ -12,12 +12,14 @@ $cover-camera-height: 20px;
 	margin-left: 30px;
 	margin-top: 20px;
 	z-index: 1;
-	img {
+
+	img
+	{
 		width: $profile-photo-height;
 		height: $profile-photo-height;
 		border-width: 3px;
 	}
-	.profile-avatar-overlay
+	.profile-overlay.avatar
 	{
 		display: none;
 		width: $profile-photo-height;
@@ -27,6 +29,7 @@ $cover-camera-height: 20px;
 		left: 3px;
 		position: absolute;
 		background-color: rgba(0,0,0,0.5);
+
 		img
 		{
 			width: $avatar-camera-height;
@@ -43,22 +46,23 @@ $cover-camera-height: 20px;
 
 .profile-avatar:hover
 {
-	.profile-avatar-overlay
+	.profile-overlay.avatar { display: initial; }
+}
+
+.profile-overlay
+{
+	.camera-profile
 	{
-		display: initial;
+		opacity: 0.75;
+		background: none;
+		border-radius: 0;
+		border: none;
 	}
-}
-
-.camera-profile{
-	opacity: 0.75;
-	background: none!important;
-	border-radius: 0!important;
-	border: none!important;
-}
-
-.upload-profile{
-	font-weight: bold;
-	color: rgba(255,255,255,0.95);
+	.upload-profile
+	{
+		font-weight: bold;
+		color: rgba(255,255,255,0.95);
+	}
 }
 
 #profile-header
@@ -84,7 +88,9 @@ $cover-camera-height: 20px;
 	/* background-size: 100%;
 	background-position: 20% 40%;
 	-webkit-filter: blur(0px) brightness(0.5); */
-	.profile-cover-overlay{
+
+	.profile-overlay.cover
+	{
 		display: none;
 		z-index: 100;
 		position: absolute;
@@ -93,21 +99,20 @@ $cover-camera-height: 20px;
 		background-color: rgba(0,0,0,0.5);
 		border: 1px solid white;
 		padding: 5px 15px;
-		img {
+
+		img
+		{
 			width: $cover-camera-height;
 			height: $cover-camera-height;
 		}
-		span {
-			vertical-align: top;
-		}
+		span { vertical-align: top; }
 	}
 
 }
 
-#profile-header:hover{
-	.profile-cover-overlay{
-		display: initial;
-	}
+#profile-header:hover
+{
+	.profile-overlay.cover { display: initial; }
 }
 #header-image-blur
 {
