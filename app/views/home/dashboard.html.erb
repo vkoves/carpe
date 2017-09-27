@@ -40,7 +40,7 @@
 								Description: <%= event.description %>
 								<% end %>
 							</div>
-							<div class="square" style="color: <%= event.category.color %>"><%= event.category.name %></div>
+							<div class="square" style="color: <%= event.category.color %>"><%= event.category.name.html_safe %></div>
 						</div>
 
 						<% if event.current? %>
