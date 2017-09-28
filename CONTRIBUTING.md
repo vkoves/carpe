@@ -64,6 +64,10 @@ into `master`.
 		- Be tested locally and on the [test server](https://carpe-test.herokuapp.com/) by reviewers
 		- Be approved by two team members, one of which must be a co-founder (Robert or Viktor)
 
+Pull requests going into `master` should be assigned to a co-founder, whose responsibility it is to perform the
+final merge and to deploy the changes onto production. This is to prevent changes being merged onto `master` and
+then not being deployed.
+
 All pull requests have some formatting requirements:
 - **A clear descriptive title** - this should describe the basics of what the pull request does and should not
 contain issue numbers.
