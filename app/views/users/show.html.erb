@@ -11,12 +11,6 @@
 	<% else %>
 		<div id="header-image">
 	<% end %>
-		<%= link_to edit_user_registration_path do %>
-			<div class="profile-overlay cover">
-				<%= image_tag "camera.svg", class: "camera-profile" %>
-				<span class="upload-profile">Upload Cover</span>
-			</div>
-		<%end%>
 	</div>
 
 	<div class="page-container">
@@ -48,6 +42,12 @@
 				</div>
 			<% end %>
 		</div>
+		<%= link_to edit_user_registration_path do %>
+			<div class="profile-overlay cover">
+				<%= image_tag "camera.svg", class: "camera-profile" %>
+				<span class="upload-profile">Upload Cover</span>
+			</div>
+		<%end%>
 		<div id="profile-buttons">
 			<%= link_to user_path(@user, page: "schedule") do %>
 				<div class="<%= "curr" if @tab == "schedule" %>">Schedule</div>
