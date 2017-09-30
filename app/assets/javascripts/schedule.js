@@ -448,6 +448,12 @@ function scheduleReady()
  */
 function addStartingListeners()
 {
+	$('.auto-resize-verticaly').each(function () {
+	  this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
+	}).on('input', function () {
+	  this.style.height = 'auto';
+	  this.style.height = (this.scrollHeight) + 'px';
+	});
 	$(".date-field").datepicker( //show the datepicker when clicking on the field
 	{
 		firstDay: 1, //set Monday as the first day

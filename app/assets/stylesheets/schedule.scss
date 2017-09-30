@@ -351,8 +351,12 @@
 	{
 		min-height: 22px;
 		margin: 0px 20px;
+		width: calc(100% - 40px);
+		resize: none;
+		border: none;
 		text-align: left;
 		padding: 3px 0px;
+		background: none;
 
 		/* Disable hover background effect */
 		&:hover:not(:focus) { background: none; }
