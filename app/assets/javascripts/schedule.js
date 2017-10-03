@@ -1911,7 +1911,7 @@ function setupBreakAddOverlay(managing)
 		}
 
 
-		$("#break-cont").append("<div class='break-elem " +  classAdd +"' data-id='" + id + "' >"
+		$("#break-cont").prepend("<div class='break-elem " +  classAdd +"' data-id='" + id + "' >"
 				+ checkbox
 				+ breakInstance.name + " | " + dateToString(breakInstance.startDate) + " | " + dateToString(breakInstance.endDate)
 			+ "</div>");
