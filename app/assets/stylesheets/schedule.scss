@@ -356,7 +356,6 @@
 		border: none;
 		text-align: left;
 		padding: 3px 0px;
-		background: none;
 
 		/* Disable hover background effect */
 		&:hover:not(:focus) { background: none; }
@@ -606,17 +605,13 @@ input[readonly="readonly"]
 	/* background: rgba(255,0,0,0.4); */
 }
 /* End Scroll Bar Styling */
-
-.overlay-box div[contenteditable="true"]
-{
-	cursor: pointer;
-	outline: none;
-	transition: all 0.3s;
-}
-.overlay-box div[contenteditable="true"]
+.overlay-box textarea
 {
 	border-radius: 5px;
-
+	cursor: pointer;
+	outline: none;
+	background: none;
+	transition: all 0.3s;
 	&:focus
 	{
 		cursor: text;
