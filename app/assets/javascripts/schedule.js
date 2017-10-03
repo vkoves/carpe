@@ -435,7 +435,8 @@ function scheduleReady()
 	if(readOnly) //allow viewing of all events with single click
 	{
 		$(".edit, #repeat, #add-break-event").remove(); //remove repeat functionality, and adding breaks
-		$("#overlay-loc, #overlay-desc, #overlay-title").attr("contenteditable", "false"); //disable editing on location title and description
+		$("#overlay-title").attr("contenteditable", "false"); //disable editing on location title and description
+		$("#overlay-loc, #overlay-desc").prop('disabled', true);
 		$("#time-start, #time-end").attr("readonly", true); //disable editing of time
 	}
 
@@ -679,7 +680,7 @@ function addStartingListeners()
 	})
 	.focusout(function()
 	{
-		currEvent.setDescription($(this).text());
+		currEvent.setDescription($(this).val());
 		removeHighlight();
 	});
 
@@ -688,7 +689,7 @@ function addStartingListeners()
 	})
 	.focusout(function()
 	{
-		currEvent.setLocation($(this).text());
+		currEvent.setLocation($(this).val());
 		removeHighlight();
 	});
 
