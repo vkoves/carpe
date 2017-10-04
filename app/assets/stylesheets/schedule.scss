@@ -610,6 +610,7 @@ input[readonly="readonly"]
 	border-radius: 5px;
 	cursor: pointer;
 	outline: none;
+	font-family: inherit;
 	background: none;
 	transition: all 0.3s;
 	&:focus

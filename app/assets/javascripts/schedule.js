@@ -1874,6 +1874,12 @@ function editEvent(elem)
 		//$(".overlay-time").html(convertTo12Hour(time.split(":")) + " - " + convertTo12Hour(endTime.split(":")));
 		$("#time-start").val(convertTo12HourFromArray(startArr));
 		$("#time-end").val(convertTo12HourFromArray(endArr));
+
+		// resize the textareas to the appropriate size
+		$('.auto-resize-vertically').each(function () {
+		  $(this).height(this.scrollHeight);
+		  $(this).css('overflow-y', 'hidden');
+		});
 	}
 }
 
