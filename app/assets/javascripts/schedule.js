@@ -1911,6 +1911,7 @@ function setupBreakAddOverlay(managing)
 		}
 
 
+		// Prepend each break so that the most recently created break created comes first in the list
 		$("#break-cont").prepend("<div class='break-elem " +  classAdd +"' data-id='" + id + "' >"
 				+ checkbox
 				+ breakInstance.name + " | " + dateToString(breakInstance.startDate) + " | " + dateToString(breakInstance.endDate)
