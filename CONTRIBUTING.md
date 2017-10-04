@@ -19,6 +19,8 @@ an issue for a bug make sure to:
 	- **Describe steps for recreating the bug** - step by step instructions will make it possible for others to
 	reproduce the issue and debug it, so the better the instructions, the more likely the problem will get
 	solved.
+	- **Provide environment information** - a bug report should contain the browser and operating system you were using
+	when you found the bug, which should include version numbers.
 	- **Give an urgency assessment** - at the end of the issue, give your personal assessment of how important this
 	issue is. Does the bug make the platform completely unusable? It probably deserves more attention.
 
