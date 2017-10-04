@@ -449,12 +449,15 @@ function scheduleReady()
  */
 function addStartingListeners()
 {
+	// resizes textboxes to give them height based on the content inside
 	$('.auto-resize-vertically').each(function () {
-	  this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
+	  $(this).height(this.scrollHeight);
+	  $(this).css('overflow-y', 'hidden');
 	}).on('input', function () {
-	  this.style.height = 'auto';
-	  this.style.height = (this.scrollHeight) + 'px';
+	  $(this).height('auto');
+	  $(this).height(this.scrollHeight);
 	});
+
 	$(".date-field").datepicker( //show the datepicker when clicking on the field
 	{
 		firstDay: 1, //set Monday as the first day
