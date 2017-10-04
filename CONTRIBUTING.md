@@ -56,9 +56,9 @@ Carpe since the last release. These pull requests go from `dev` into `master`.
 	- Merge Requirements:
 		- Be tested locally and on the [test server](https://carpe-test.herokuapp.com/) by reviewers
 		- Be approved by three or more team members, including at least one co-founder (Robert or Viktor)
-		- Has been open for more than 48 hours
+		- Be open for more than 48 hours
 - **Hotfix** - a hotfix PR is a critical bugfix or feature that circumvents the typical deployment process for
-the sake of gaining speed. Hotfixes go from a hotfix branch (which **must** be created off of `master`) back
+the sake of immediate app stability or base functionality. Hotfixes go from a hotfix branch (which **must** be created off of `master`) back
 into `master`.
 	- Merge Requirements:
 		- Be tested locally and on the [test server](https://carpe-test.herokuapp.com/) by reviewers
@@ -69,9 +69,9 @@ final merge and to deploy the changes onto production. This is to prevent change
 then not being deployed.
 
 All pull requests have some formatting requirements:
-- **A clear descriptive title** - this should describe the basics of what the pull request does and should not
+- **A clear, descriptive title** - this should describe the basics of what the pull request does and should not
 contain issue numbers.
-- **A thorough, explanatory, description** - this should describe the approach taken to solving the problem,
+- **A thorough, explanatory description** - this should describe the approach taken to solving the problem,
 **all** changes made by the pull request, and any anticipated risks for breaking other work. If the change is
 primarily visual, you should show GIFs or screenshots of your changes.
 - **Links to relevant issues** - all issues being resolved by the pull request should be linked in the
