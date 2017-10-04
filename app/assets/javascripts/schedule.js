@@ -449,7 +449,7 @@ function scheduleReady()
  */
 function addStartingListeners()
 {
-	$('.auto-resize-verticaly').each(function () {
+	$('.auto-resize-vertically').each(function () {
 	  this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
 	}).on('input', function () {
 	  this.style.height = 'auto';
