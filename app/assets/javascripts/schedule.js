@@ -450,10 +450,7 @@ function scheduleReady()
 function addStartingListeners()
 {
 	// resizes textboxes to give them height based on the content inside
-	$('.auto-resize-vertically').each(function () {
-	  $(this).height(this.scrollHeight);
-	  $(this).css('overflow-y', 'hidden');
-	}).on('input', function () {
+	$('.auto-resize-vertically').on('input', function () {
 	  $(this).height('auto');
 	  $(this).height(this.scrollHeight);
 	});
