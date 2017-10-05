@@ -451,8 +451,14 @@ function addStartingListeners()
 {
 	// resizes textboxes to give them height based on the content inside
 	$('.auto-resize-vertically').on('input', function () {
-	  $(this).height('auto');
-	  $(this).height(this.scrollHeight);
+	  	$(this).height('auto');
+	  	// check if textarea contains new line, keeps the text area from taking up 2 unnessisary lines
+	  	if(/\r|\n/.exec($(this).val())){
+	  		$(this).height(this.scrollHeight);
+		}
+		else {
+			$(this).height(0);
+		}
 	});
 
 	$(".date-field").datepicker( //show the datepicker when clicking on the field
@@ -1874,8 +1880,14 @@ function editEvent(elem)
 
 		// resize the textareas to the appropriate size
 		$('.auto-resize-vertically').each(function () {
-		  $(this).height(this.scrollHeight);
-		  $(this).css('overflow-y', 'hidden');
+			//check if the textbox contains a new line or else it takes up 2 unnessisary lines
+		  	if(/\r|\n/.exec($(this).val())){
+		  		$(this).height(this.scrollHeight);
+			}
+			else {
+				$(this).height(0);
+			}
+			$(this).css('overflow-y', 'hidden');
 		});
 	}
 }
