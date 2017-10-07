@@ -1853,8 +1853,8 @@ function editEvent(elem)
 
 		var desc = currEvent.description || ""; //in case the description is null
 		var loc = currEvent.location || ""; //in case the location is null
-		$("#overlay-desc").html(desc);
-		$("#overlay-loc").html(loc);
+		$("#overlay-desc").val(desc);
+		$("#overlay-loc").val(loc);
 
 		if(desc.length == 0 && readOnly) //if this is readOnly and there is no description
 			$("#overlay-desc, #desc-title").hide(); //hide the field and the title
