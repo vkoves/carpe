@@ -451,14 +451,9 @@ function addStartingListeners()
 {
 	// resizes textboxes to give them height based on the content inside
 	$('.auto-resize-vertically').on('input', function () {
-	  	$(this).height('auto');
-	  	// check if textarea contains new line, keeps the text area from taking up 2 unnessisary lines
-	  	if(/\r|\n/.exec($(this).val())){
-	  		$(this).height(this.scrollHeight);
-		}
-		else {
-			$(this).height(0);
-		}
+	  $(this).height('auto');
+	  // check if textarea contains new line, keeps the text area from taking up 2 unnessisary lines
+	  textareaSetHeight(this);
 	});
 
 	$(".date-field").datepicker( //show the datepicker when clicking on the field
@@ -1881,12 +1876,7 @@ function editEvent(elem)
 		// resize the textareas to the appropriate size
 		$('.auto-resize-vertically').each(function () {
 			//check if the textbox contains a new line or else it takes up 2 unnessisary lines
-		  	if(/\r|\n/.exec($(this).val())){
-		  		$(this).height(this.scrollHeight);
-			}
-			else {
-				$(this).height(0);
-			}
+		  textareaSetHeight(this);
 			$(this).css('overflow-y', 'hidden');
 		});
 	}
@@ -2412,6 +2402,17 @@ function highlightCurrent()
 function cloneDate(date)
 {
 	return new Date(date.getTime());
+}
+
+// makes the textarea the correct height based of the inner content
+function textareaSetHeight(el){
+	var newLineRegex = /\r|\n/;
+	if(newLineRegex.exec($(el).val())){
+  	$(el).height(el.scrollHeight);
+	}
+	else {
+		$(el).height(0);
+	}
 }
 
 // converts a date string from dashes to slashes (e.g. 2016-10-25 to 2016/10/25)
