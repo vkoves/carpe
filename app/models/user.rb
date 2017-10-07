@@ -45,6 +45,12 @@ class User < ActiveRecord::Base
   validates_attachment :banner, content_type: {content_type: /\Aimage\/.*\Z/}, size: { in: 0..5.megabytes }
 
   after_create :send_signup_email
+  after_validation :clean_paperclip_errors
+
+  def clean_paperclip_errors
+    errors.delete(:avatar_file_size)
+    errors.delete(:banner_file_size)
+  end
 
   def send_signup_email
     UserNotifier.send_signup_email(self).deliver_now
