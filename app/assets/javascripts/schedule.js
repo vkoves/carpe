@@ -2405,14 +2405,14 @@ function cloneDate(date)
 }
 
 // makes the textarea the correct height based of the inner content
-function textareaSetHeight(el){
+function textareaSetHeight(elem)
+{
 	var newLineRegex = /\r|\n/;
-	if(newLineRegex.exec($(el).val())){
-  	$(el).height(el.scrollHeight);
-	}
-	else {
-		$(el).height(0);
-	}
+	
+	if(newLineRegex.exec($(elem).val()))
+  		$(elem).height(el.scrollHeight);
+	else
+		$(elem).height(0);
 }
 
 // converts a date string from dashes to slashes (e.g. 2016-10-25 to 2016/10/25)
