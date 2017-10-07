@@ -20,6 +20,7 @@
 //= require chartkick
 //= require ui-manager
 //= require partials/user-adder
+//= require dom-loader
 
 // require jquery-ui.min
 // Removed to prevent schedule js being loaded everywhere
@@ -525,3 +526,21 @@ function getCookie(cname)
 	}
 	return "";
 }
+
+function verticallyAutoResizeAllTextAreaToContent()
+{
+	// resize when user edits textarea
+	$(document).on('input', 'textarea', function (){
+		$(this).height('auto').height(this.scrollHeight)
+	})
+
+	// size newly created textareas to their initial contents
+	registerDomLoadEvent('textarea', ($elem) => {
+		$elem.attr('rows', '1'); // replace silly default of 2
+		$elem.css('overflow', 'hidden'); // get rid of scrollbar
+		$elem.trigger('input'); // trigger textarea to actually resize
+	})
+}
+
+// called before dom is finished loading
+verticallyAutoResizeAllTextAreaToContent()
