@@ -1,0 +1,37 @@
+@header {
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'>
+	<!-- Google font from "https://www.google.com/fonts#QuickUsePlace:quickUse/Family:Open+Sans" -->
+
+	<link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+	<!-- Google font from "https://www.google.com/fonts#QuickUsePlace:quickUse/Family:Pacifico" -->
+
+	<div class="top-nav">
+		<div class="inner">
+			<span class="carpe-font">Carpe</span>
+		</div>
+	</div>
+}
+
+@style font-family: Open Sans, sans-serif;
+@style color: #393939;
+
+@scss ../application.scss
+@scss ../carpe.scss
+
+@css
+	@at-root
+		.top-nav {
+			background-color: #f2f2f2;
+			padding: 8px 0px;
+			position: fixed;
+			width: 100%;
+			top: 0px;
+			font-size: 22px;
+			z-index: 1;
+			box-shadow: 0px 0px 10px #a5a5a5;
+		}
+	@at-root
+		.inner {
+			margin: auto;
+			max-width: 720px;
+		}
