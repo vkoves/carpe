@@ -19,7 +19,6 @@ Rails.application.config.assets.precompile += %w( token-input-facebook.css )
 Rails.application.config.assets.precompile += %w( token-input.css )
 Rails.application.config.assets.precompile += %w( pages.css )
 Rails.application.config.assets.precompile += %w( home.css )
-Rails.application.config.assets.precompile += %w( dom-loader.js )
 
 # Pages
 Rails.application.config.assets.precompile += %w( pages/admin.css )
