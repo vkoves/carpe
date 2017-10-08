@@ -48,8 +48,9 @@ class User < ActiveRecord::Base
   after_validation :clean_paperclip_errors
 
   def clean_paperclip_errors
-    errors.delete(:avatar_file_size)
-    errors.delete(:banner_file_size)
+    # Remove avatar/banner file size error if the avatar/banner error's exist
+    errors.delete(:avatar_file_size) unless errors[:avatar].empty?
+    errors.delete(:banner_file_size) unless errors[:banner].empty?
   end
 
   def send_signup_email
