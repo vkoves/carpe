@@ -35,3 +35,7 @@
 			margin: auto;
 			max-width: 720px;
 		}
+	@at-root
+		body {
+			padding-top: 50px !important;
+		}

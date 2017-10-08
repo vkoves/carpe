@@ -1,0 +1,33 @@
+@title Carpe Living Style Guide - Users
+
+@import styleguide/shared
+@scss profile.scss
+
+# Users
+
+Users are one of the most critical parts of Carpe, and we use a consistent visual language to describe them on our site.
+
+## User Listing
+
+<div class="inner">
+	<div class="user-listing grey-box ">
+		<a href="https://www.carpe.us/u/82">
+			<div class="avatar">
+					<img src="https://lh5.googleusercontent.com/-O0da35K3TG8/AAAAAAAAAAI/AAAAAAAAAdI/-Vqg-ZuvaDg/photo.jpg?sz=100">
+			</div>
+		</a>
+
+		<div class="user-details">
+
+			<span class="user-name">Viktor Köves</span><br>
+			<span id="mutual-friends">15 followers</span>
+			<br>
+			<a class="default green friend-button"><span>Follow</span></a>
+
+		</div>
+	</div>
+</div>
+
+```html
+<%= render "shared/user_box_horizontal", user: user_object %>
+```
