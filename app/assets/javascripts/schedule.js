@@ -2410,7 +2410,7 @@ function textareaSetHeight(elem)
 	var newLineRegex = /\r|\n/;
 	
 	if(newLineRegex.exec($(elem).val()))
-  		$(elem).height(el.scrollHeight);
+  		$(elem).height(elem.scrollHeight);
 	else
 		$(elem).height(0);
 }
