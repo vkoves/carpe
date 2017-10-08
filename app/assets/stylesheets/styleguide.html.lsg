@@ -1,8 +1,18 @@
-// Replace with your default Sass/SCSS file name:
-@scss application.css
+@header {
 
-// Set the HTML title of the document:
-@title My Living Style Guide
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'>
+	<!-- Google font from "https://www.google.com/fonts#QuickUsePlace:quickUse/Family:Open+Sans" -->
 
-// Import all your style guide files
-@import **/*.lsg
+	<link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+	<!-- Google font from "https://www.google.com/fonts#QuickUsePlace:quickUse/Family:Pacifico" -->
+}
+
+@style font-family: Open Sans, sans-serif;
+@style color: #393939;
+
+@scss application.scss
+@scss carpe.scss
+
+@title Carpe Living Style Guide
+
+@import main.lsg

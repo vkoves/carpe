@@ -1,0 +1,55 @@
+# Carpe Living Style Guide
+
+
+## Colors
+
+@colors {
+	$carpe-orange $carpe-grey $text-color
+}
+
+
+- Carpe Orange (`$carpe-orange`) is the Carpe brand color. Whenever possible the Carpe logotype should be in Carpe Orange.
+- Carpe Grey (`$carpe-grey`) is a grey color commonly used on Carpe.
+- Primary Text Color (`$text-color`) is the color used for most text on Carpe, and is used by default.
+
+
+## Typography
+
+
+### Pacifico
+This is the font used for the Carpe logotype. It should not be used anywhere else.
+
+@font-example 32px 'Pacifico', cursive {
+	Carpe
+}
+
+
+The Carpe color and font are combined in the `.carpe-font` class.
+
+```
+<span class="carpe-font">Carpe</span>
+@css {
+	.carpe-font { font-size: 32px; }
+}
+```
+
+
+
+### Open Sans
+This is used for all text on Carpe that is not the logo and serves as the primary font for our site
+
+@font-example 32px 'Open Sans', sans-serif {
+	ABCDEFGHIJKLMNOPQRSTUVWXYZ
+	abcdefghijklmnopqrstuvwxyz
+	01234567890!@#$%^&*()-_=+
+}
+
+
+@css {
+	.lsg-font-example-text::first-line { font-size: 1em; }
+	.lsg-color-swatch {
+		width: 150px;
+		height: 150px;
+		padding-top: 90px;
+	}
+}

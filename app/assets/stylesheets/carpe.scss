@@ -1,6 +1,8 @@
 /* Define variables */
 
 $carpe-orange: #ff7400;
+$carpe-grey: #f2f2f2;
+$text-color: #393939;
 
 /* Body styling to apply font, min-width and padding */
 body
@@ -10,7 +12,7 @@ body
 	width: 100%;
 	min-width: 400px;
 	box-sizing: border-box;
-	color: #393939;
+	color: $text-color;
 
 	&.in-iframe { padding-bottom: 0px; }
 }
@@ -498,7 +500,7 @@ input.danger:hover
 		&.token-input-token
 		{
 			display: inline-block;
-			background: #F2F2F2;
+			background: $carpe-grey;
 			margin-right: 10px;
 			padding: 0px 10px;
 			border-radius: 5px;
@@ -678,7 +680,7 @@ form.thin
 	width: 50%;
 	margin-left: auto;
 	margin-right: auto;
-	background: #F2F2F2;
+	background: $carpe-grey;
 	padding: 5px 20px;
 	border-radius: 5px;
 	height: 70px;
