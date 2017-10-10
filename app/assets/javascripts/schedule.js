@@ -2393,9 +2393,13 @@ function removeHighlight()
 }
 
 //highlight the entirety of the field currently selected (that the user has cursor in)
+//runs HTMLInputElement.select if an input is in focus, otherwise runs 'selectAll' on the document
 function highlightCurrent()
 {
-	document.execCommand('selectAll',false,null);
+	if($("textarea:focus").length > 0 || $("input:focus").length > 0)
+		$(":focus").select();
+	else
+		document.execCommand('selectAll',false,null);
 }
 
 //creates a clone of the date
