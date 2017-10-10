@@ -1550,19 +1550,22 @@ function getStartDate(dateObj, useMonth)
 	return {startDate: copyDate, lastMonth: lastMonth}
 }
 
-/**
- * Clears events from the schedule before running populateEvents(). Used when the schedule gets updated
- */
+/** Clears events from the schedule before running populateEvents(). Used when the schedule gets updated */
 function repopulateEvents()
 {
 	$("#sch-holder .sch-evnt, #sch-holder .sch-month-evnt").remove(); // remove week and month events
 	populateEvents(); // and then populate events
 }
 
-//Populate the events in the current week from the hashmap
+/** Populate the events in the current week */
 function populateEvents()
 {
-	function place(eventObject, i)
+	/**
+	 * place an event on the calender
+	 * @param {ScheduleItem} eventObject - The Schedule event object to be placed on the schedule
+	 * @param {number} visibleDate - the index of the date the event falls on in the currently visible dates
+	 */
+	function place(eventObject, visibleDate)
 	{
 		var color = categories[eventObject.categoryId].color;
 		var currentElem = eventObject.tempElement.clone();
@@ -1734,6 +1737,7 @@ function populateEvents()
 			monthlyTileDroppable();
 		}
 
+		/** make each monthly event dragable (e.g. sidebar)  */
 		function monthlyEventDraggable()
 		{
 			$(".sch-month-evnt").draggable(
@@ -1777,6 +1781,7 @@ function populateEvents()
 			});
 		}
 
+		/** make each monthly event dropable into the schedule (e.g. moving sidebar event into schedule)  */
 		function monthlyTileDroppable() {
 			$(".sch-day-tile").droppable(
 			{
@@ -1806,7 +1811,11 @@ function populateEvents()
 	}
 }
 
-//Edit an event's title inline (without the overlay)
+/**
+ * Edit an event's title inline (without the overlay)
+ * @param {ScheduleItem} event - item to edit title of
+ * @param {JQuery} elem - element to edit title of
+ */
 function editEventTitle(event, elem)
 {
 	//return if this is in the sidebar
@@ -1822,7 +1831,11 @@ function editEventTitle(event, elem)
 	$(elem).siblings(".sch-evnt-save").css("display","inline");
 }
 
-//Edit a category using the category overlay
+
+/**
+ * Edit a category using the category overlay
+ * @param {JQuery} elem - category element to update
+ */
 function editCategory(elem)
 {
 	var categoryId = $(elem).attr("data-id");
@@ -1860,7 +1873,10 @@ function editCategory(elem)
 	});
 }
 
-//show the event editing overlay
+/**
+ * Edit an event using the event overlay
+ * @param {JQuery} elem - event element to update
+ */
 function editEvent(elem)
 {
 	var editingEvent = $(document.activeElement).hasClass("evnt-title");
@@ -1932,16 +1948,18 @@ function editEvent(elem)
 	}
 }
 
-//Show the overlay for creating a new break
+/** Show the overlay for creating a new break */
 function showBreakCreateOverlay()
 {
 	$("#break-overlay-box input").val(""); //clear all inputs
 	UIManager.slideInShowOverlay("#break-overlay-box"); //and fade in
 }
 
-// Sets up an overlay to add breaks. If managing,
-// it is actually for editing and deleting breaks rather
-// than enabling or disabling breaks on the currente vent
+/** Sets up an overlay to add breaks. If managing,
+ * it is actually for editing and deleting breaks rather
+ * than enabling or disabling breaks on the currente vent
+ * @param {Boolean} managing - if true, show 'managing breaks', if false show 'adding breaks'
+ */
 function setupBreakAddOverlay(managing)
 {
 	var currObj;
