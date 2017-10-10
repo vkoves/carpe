@@ -47,6 +47,11 @@ $(document).on('page:load', scheduleReady);
 $(document).unbind('page:before-change'); //unbind page before change from last time viewing
 $(document).on('page:before-change', pageChange); //and load again
 
+
+/**
+ * If items on page are not saved will alert the user that they have unsaved changes and should stay on page
+ * @return {boolean} true if the person wants to leave, false if the user wants to stay
+ */
 function pageChange() //called by Turbolinks before-change
 {
 	if(!isSafeToLeave()) //if the save button is active (they have changes) and this is the user's schedule
@@ -144,6 +149,11 @@ function ScheduleItem()
 		updatedEvents(this.tempId, "Destroy");
 	};
 
+	/** Sets a start date time for the current event
+	 * @param {Date} newStartDateTime - the new start date time that should be set
+	 * @param {Boolean} resize - true if the object is being resized, false if the object is being moved
+	 * @param {Boolean} userSet - checks if the user is the one who updated the time directly
+	 */
 	this.setStartDateTime = function(newStartDateTime, resize, userSet) //if resize is true, we do not move the end time
 	{
 		if(newStartDateTime.getTime() > this.endDateTime.getTime() && userSet) //if trying to set start before end
@@ -158,6 +168,11 @@ function ScheduleItem()
 			updatedEvents(this.tempId, "setStartDateTime"); // indicate the event was modified, triggering autocomplete
 	};
 
+	/** Sets an end date time for the current event
+	 * @param {Date} newEndDateTime - the new end date time that should be set
+	 * @param {Boolean} resize - true if the object is being resized, false if the object is being moved
+	 * @param {Boolean} userSet - checks if the user is the one who updated the time directly
+	 */
 	this.setEndDateTime = function(newEndDateTime, resize, userSet) //if resize, we don't move the start time
 	{
 		if(newEndDateTime.getTime() < this.startDateTime.getTime() && userSet) //if trying to set end before start
@@ -171,6 +186,9 @@ function ScheduleItem()
 		updatedEvents(this.tempId, "setEndDateTime");
 	};
 
+	/** Changes the name of the current event
+	 * @param {String} newName - the new name that should be set
+	 */
 	this.setName = function(newName)
 	{
 		if(this.name != newName) // check for changes
@@ -181,6 +199,10 @@ function ScheduleItem()
 		}
 	};
 
+	/** Changes the repeat type of the current event
+	 * @param {String} newRepeatType - new repeat type that should be set
+	 * @see COMMING SOON
+	 */
 	this.setRepeatType = function(newRepeatType)
 	{
 		if(this.repeatType != newRepeatType) // check for changes
@@ -190,6 +212,9 @@ function ScheduleItem()
 		}
 	};
 
+	/** Set the date time where the repeating should start for the current event
+	 * @param {Date} newRepeatStart - where the repeating should start
+	 */
 	this.setRepeatStart = function(newRepeatStart)
 	{
 		if(this.repeatStart != newRepeatStart) // check for changes
@@ -199,6 +224,9 @@ function ScheduleItem()
 		}
 	};
 
+	/** Set the date time where the repeating should end for the current event
+	 * @param {Date} newRepeatEnd - where the repeating should end
+	 */
 	this.setRepeatEnd = function(newRepeatEnd)
 	{
 		if(this.repeatEnd != newRepeatEnd) // check for changes
@@ -208,6 +236,9 @@ function ScheduleItem()
 		}
 	};
 
+	/** Set the description of the current event
+	 * @param {Date} newDescription - new description
+	 */
 	this.setDescription = function(newDescription)
 	{
 		if(this.description != newDescription) // check for changes
@@ -217,6 +248,9 @@ function ScheduleItem()
 		}
 	}
 
+	/** Set the location of the current event
+	 * @param {Date} newLocation - new location
+	 */
 	this.setLocation = function(newLocation)
 	{
 		if(this.location != newLocation) // check for changes
@@ -226,6 +260,10 @@ function ScheduleItem()
 		}
 	}
 
+	/** Runs once user has stoped dragging an event, either to resize or move
+	 * @param {JQuery} elem - element that was dragged
+	 * @param {Boolean} resize - true if the object is being resized, false if the object is being moved
+	 */
 	this.dragComplete = function(elem, resize)
 	{
 		var dateString = elem.parent().siblings(".col-titler").children(".evnt-fulldate").html();
@@ -242,6 +280,9 @@ function ScheduleItem()
 			updatedEvents(this.tempId, "dragComplete");
 	};
 
+	/** Runs once user has stoped resizing an event
+	 * @param {JQuery} elem - element that has been resized
+	 */
 	this.resizeComplete = function(elem)
 	{
 		this.dragComplete(elem, true);
@@ -268,7 +309,7 @@ function ScheduleItem()
 		offsets.push(gridHeight*(this.endDateTime.getMinutes()/60));
 		return offsets;
 	};
-
+	/** changes height of current event based on the time it takes up */
 	this.updateHeight = function()
 	{
 		this.element().css("height", gridHeight*this.lengthInHours() - border);
@@ -1218,7 +1259,10 @@ function handleClone(elem, ui)
 	addDrag(clone); //and redo dragging
 }
 
-//called on new events dragged from the sidebar
+/**
+ * Called when new events are dragged from the sidebar
+ * @param {jQuery} elem - The element that was dragged
+ */
 function handleNewEvent(elem)
 {
 	var schItem = new ScheduleItem();
@@ -1248,7 +1292,12 @@ function handleNewEvent(elem)
 	eventTempId++;
 }
 
-//Change time while items are being dragged or resized, and also snap to a vertical grid
+/**
+ * Change time while items are being dragged or resized, and also snap to a vertical grid
+ * @param {jQuery} elem - element the time is being updated on
+ * @param {Object} ui - UI object from jQuery drag handler
+ * @param {Boolean} resize - true if resizing event, false if moving event 
+ */
 function updateTime(elem, ui, resize) //if we're resizing, don't snap, just update time
 {
 	//TODO: Make this really important function not suck
@@ -1323,7 +1372,13 @@ function updateTime(elem, ui, resize) //if we're resizing, don't snap, just upda
 /****************************/
 
 
-//called by next and previous buttons on click
+/** 
+ * moves the calender forward or backward in time 
+ * (e.g. by clicking next on weekly view)
+ * @param {Date} newDateObj - new date to start from
+ * @param {Boolean} refresh - if true, cleans off all events from scheduler
+ * @param {Boolean} startToday - if true starts the weekly view on the current day
+ */
 function addDates(newDateObj, refresh, startToday)
 {
 	refDate = newDateObj; //set the global date to this new
@@ -1425,6 +1480,7 @@ function addDates(newDateObj, refresh, startToday)
 	populateEvents(); // After refreshing the dates, populate the...er...schedule items for this week. As you can see, the terminology still confuses some.
 }
 
+/** Initializes the monthly view calender */
 function initializeMonthlyView()
 {
 	viewMode = "month";
@@ -1437,6 +1493,7 @@ function initializeMonthlyView()
 	addDates(refDate, true);
 }
 
+/** Initializes the weekly view calender */
 function initializeWeeklyView()
 {
 	viewMode = "week";
@@ -1449,13 +1506,21 @@ function initializeWeeklyView()
 	addDates(refDate, true);
 }
 
-//Takes the month number (1 is Jan.) and the year
+/** converts a month and a year to a data object
+ * @param {number} month - 1(January) thru 12(December)
+ * @param {number} year - e.g. 2017
+ * @return {Date} - date object made from year and month
+ */
 function daysInMonth(month,year)
 {
 	return new Date(year, month, 0).getDate();
 }
 
-//returns the date the schedule starts on as well as whether it's in this month
+/** gets the date the schedule starts on
+ * @param {Date} dateObj - date of event
+ * @param {Boolean} useMonth - if true, sets date to first day of month
+ * @return {Object} - object consisting of the start date of an event, and if its start was in the last month
+ */
 function getStartDate(dateObj, useMonth)
 {
 	var copyDate = cloneDate(dateObj);
