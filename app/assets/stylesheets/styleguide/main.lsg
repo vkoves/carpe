@@ -1,4 +1,4 @@
-## Colors
+# Colors
 
 @colors {
 	$carpe-orange $carpe-grey $text-color
@@ -10,10 +10,10 @@
 - Primary Text Color (`$text-color`) is the color used for most text on Carpe, and is used by default.
 
 
-## Typography
+# Typography
 
 
-### Pacifico
+## Pacifico
 This is the font used for the Carpe logotype. It should not be used anywhere else.
 
 @font-example 32px 'Pacifico', cursive {
@@ -32,7 +32,7 @@ The Carpe color and font are combined in the `.carpe-font` class.
 
 
 
-### Open Sans
+## Open Sans
 This is used for all text on Carpe that is not the logo and serves as the primary font for our site
 
 @font-example 32px 'Open Sans', sans-serif {
