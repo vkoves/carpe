@@ -41,6 +41,32 @@ This is used for all text on Carpe that is not the logo and serves as the primar
 	01234567890!@#$%^&*()-_=+
 }
 
+# Alerts & Notices
+
+Users often need to be notified that an action they attempted went through successfully or failed
+for some reason. These are called notices and alerts, respectively, and are handled via Ruby on
+Rails' [flash object](http://api.rubyonrails.org/v5.1/classes/ActionDispatch/Flash.html).
+
+Here is an example notice:
+
+<span class="notice">
+	This is a positive notice - everything is working fine!
+	<img src="/assets/close-wht.png" alt="Close wht">
+</span>
+
+This was shown by setting `flash[:notice] = "This is is positive notice...`
+
+Here is an example alert:
+
+<span class="alert">
+	This is a negative notice - something went wrong!
+	<img src="/assets/close-wht.png" alt="Close wht">
+</span>
+
+Similarly, this was shown by setting `flash[:alert] = "This is a negative notice...`
+
+The application layout handles the logic and HTML for displaying alerts and notices.
+
 
 @css {
 	.lsg-font-example-text::first-line { font-size: 1em; }
