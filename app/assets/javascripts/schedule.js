@@ -75,7 +75,7 @@ $(window).on('beforeunload', function()
  * by the active state of the Save button on the page; on other pages,
  * it is always safe for the user to leave the page, as there is no data
  * to be saved.
- * @return {Boolean} - returns true if changes are saved, nothing otherwise
+ * @return {Boolean} returns true if changes are saved, nothing otherwise
  */
 function isSafeToLeave()
 {
@@ -1509,7 +1509,7 @@ function initializeWeeklyView()
 /** converts a month and a year to a data object
  * @param {number} month - 1(January) thru 12(December)
  * @param {number} year - e.g. 2017
- * @return {Date} - date object made from year and month
+ * @return {Date} date object made from year and month
  */
 function daysInMonth(month,year)
 {
@@ -1519,7 +1519,7 @@ function daysInMonth(month,year)
 /** gets the date the schedule starts on
  * @param {Date} dateObj - date of event
  * @param {Boolean} useMonth - if true, sets date to first day of month
- * @return {Object} - object consisting of the start date of an event, and if its start was in the last month
+ * @return {Object} object consisting of the start date of an event, and if its start was in the last month
  */
 function getStartDate(dateObj, useMonth)
 {
@@ -2431,7 +2431,7 @@ function createBreak(name, startDate, endDate, callback)
 /**
  * converts a date from 24 hour to 12 hour time string format
  * @param {Date} date - date to convert to 12 hour time format
- * @return {String} - date in 12 hour time format
+ * @return {String} date in 12 hour time format
  */
 function convertTo12Hour(date)
 {
@@ -2442,7 +2442,7 @@ function convertTo12Hour(date)
 /**
  * converts a date from time array to 12 hour time string format
  * @param {Array} timeArr - array to convert to 12 hour time format
- * @return {String} - date in 12 hour time format
+ * @return {String} date in 12 hour time format
  */
 function convertTo12HourFromArray(timeArr)
 {
@@ -2471,7 +2471,7 @@ function convertTo12HourFromArray(timeArr)
 /**
  * checks whether the element is in a schedule column (basically has it been placed in the schedule)
  * @param {JQuery} elem - element to check
- * @return {Boolean} - true if element is in schedule, false if not
+ * @return {Boolean} true if element is in schedule, false if not
  */
 function inColumn(elem)
 {
@@ -2499,7 +2499,7 @@ function setHeight(getElem, setElem, hoursLength)
 /** 
  * returns the minutes of a date
  * @param {Date} date - date to get minutes from
- * @return {String} - minutes in padded form (e.g. 03 instead of just 3)
+ * @return {String} minutes in padded form (e.g. 03 instead of just 3)
  */
 function paddedMinutes(date)
 {
@@ -2510,7 +2510,7 @@ function paddedMinutes(date)
 /** 
  * zero pads a number to two digits
  * @param {number} num - number to be zero padded
- * @return {String} - zero padded number (e.g. 3 to 03 or 13 to 13)
+ * @return {String} zero padded number (e.g. 3 to 03 or 13 to 13)
  */
 function paddedNumber(num)
 {
@@ -2533,7 +2533,7 @@ function highlightCurrent()
 /** 
  * creates a clone of the date
  * @param {Date} date - date to clone
- * @return {Date} - clone of date
+ * @return {Date} clone of date
  */
 function cloneDate(date)
 {
@@ -2543,7 +2543,7 @@ function cloneDate(date)
 /** 
  * converts a date string from dashes to slashes (e.g. 2016-10-25 to 2016/10/25)
  * @param {String} dateString - date with slashes
- * @return {String} - date without slashes
+ * @return {String} date without slashes
  */
 function dateFromDashesToSlashes(dateString)
 {
@@ -2553,7 +2553,7 @@ function dateFromDashesToSlashes(dateString)
 /** 
  * convert a date into a string without zero padding
  * @param {Date} date - date to be converted to string
- * @return {String} - date in the standard string format, with no zero padding in M/D/YY format (e.g. 6/2/16)
+ * @return {String} date in the standard string format, with no zero padding in M/D/YY format (e.g. 6/2/16)
  */
 function dateToString(date)
 {
@@ -2572,7 +2572,7 @@ function dateToString(date)
 /** 
  * convert a date into a string with zero padding
  * @param {Date} date - date to be converted to string
- * @return {String} - date string in the format of MM/DD/YYYY, always printing zero padding if needed (e.g. 06/02/2016)
+ * @return {String} date string in the format of MM/DD/YYYY, always printing zero padding if needed (e.g. 06/02/2016)
  */
 function verboseDateToString(date)
 {
@@ -2592,7 +2592,7 @@ function verboseDateToString(date)
 /**
  * converts a date from 24 hour to 12 hour time string format
  * @param {Date} date - date to convert to 12 hour time format
- * @return {String} - date in 12 hour time format
+ * @return {String} date in 12 hour time format
  */
 function dateToTimeString(date)
 {
@@ -2603,7 +2603,7 @@ function dateToTimeString(date)
  * takes to dates and makes a string to express the range between them
  * @param {Date} startDate - start date
  * @param {Date} endDate - end date
- * @return {String} - date range (e.g. 12:00AM to 3:00PM)
+ * @return {String} date range (e.g. 12:00AM to 3:00PM)
  */
 function datesToTimeRange(startDate, endDate)
 {
