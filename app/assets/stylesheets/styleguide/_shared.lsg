@@ -1,4 +1,7 @@
 @header {
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<!-- Load jQuery -->
+
 	<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'>
 	<!-- Google font from "https://www.google.com/fonts#QuickUsePlace:quickUse/Family:Open+Sans" -->
 
