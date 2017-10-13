@@ -2010,6 +2010,7 @@ function setupBreakAddOverlay(managing)
 	if(!managing)
 		setupBreakClickHandlers();
 
+	/** Sets up so clicking on breaks edits them */
 	function setupBreakClickHandlers()
 	{
 		$(".break-elem").click(function()
@@ -2047,13 +2048,21 @@ function setupBreakAddOverlay(managing)
 	}
 }
 
-//Update the color of the category overlay from a color being picked
+/** 
+ * Update the color of the category overlay from a color being picked
+ * @param {JQuery} elem - element to take background color from
+ */
 function changeCategoryColor(elem)
 {
 	$(".cat-top-overlay").css("background-color",$(elem).css("background-color"));
 }
 
-//Setup properties of a place schedule item from the db, setting position and height
+/**
+ * Setup properties of a place schedule item from the db, setting position and height
+ * @param {JQuery} elem -
+ * @param {number} hours - the height of the object is proportional to the hours
+ * @param {number} lengthHours - the amount of hours an element takes up
+ */
 function placeInSchedule(elem, hours, lengthHours)
 {
 	//console.log("Length: " + lengthHours);
@@ -2061,7 +2070,11 @@ function placeInSchedule(elem, hours, lengthHours)
 	$(elem).css("top", hours); //set the top position by gridHeight times the hour
 }
 
-// Events were updated. Called by any modification of an event, which triggers auto saving
+/** 
+ * Events were updated. Called by any modification of an event, which triggers auto saving
+ * @param {number} eventId - id of the event being modified
+ * @param {msg} msg - message to show when events were updated... not currently used
+ */
 function updatedEvents(eventId, msg)
 {
 	// console.log("Events were updated!" + msg);
@@ -2080,6 +2093,7 @@ function updatedEvents(eventId, msg)
 /*** JSON SERVER METHODS ****/
 /****************************/
 
+/** saves all events */
 function saveEvents()
 {
 	if($("#sch-save").hasClass("disabled") || $("#sch-save").hasClass("loading")) //if the save button is disabled or already saving
@@ -2133,6 +2147,11 @@ function saveEvents()
 	});
 }
 
+/** 
+ * Deletes an event 
+ * @param {Event} event - event from preforming an action... stops propagation of this event
+ * @param {JQuery} elem -element to delete
+ */
 function deleteEvent(event, elem)
 {
 	event.stopImmediatePropagation();
@@ -2162,7 +2181,7 @@ function deleteEvent(event, elem)
 		confirmUI("Are you sure you want to delete this event?", deleteEventProper);
 	}
 
-	// Deletes a single event among a repeating set by making a new repeat break and applying it
+	/** Deletes a single event among a repeating set by making a new repeat break and applying it */
 	function deleteSingleEvent()
 	{
 		var tempId = $(elem).parent().attr("evnt-temp-id");
@@ -2209,7 +2228,7 @@ function deleteEvent(event, elem)
 		UIManager.slideOutHideOverlay("#evnt-delete.overlay-box");
 	}
 
-	// Deletes the associated event object, like the old delete. This gets rid of all items repeating
+	/** Deletes the associated event object, like the old delete. This gets rid of all items repeating */
 	function deleteEventProper()
 	{
 		var eId = $(elem).parent().attr("event-id");
@@ -2243,6 +2262,7 @@ function deleteEvent(event, elem)
 	}
 }
 
+/** Creates category */
 function createCategory()
 {
 	$.ajax({
@@ -2279,6 +2299,12 @@ function createCategory()
 	});
 }
 
+/**
+ * Deletes category
+ * @param {Event} event - event from action
+ * @param {Jquery} elem - element of category to be deleted
+ * @param {number} id - id of data in element to remove from database
+ */
 function deleteCategory(event, elem, id)
 {
 	confirmUI("Are you sure you want to delete this category?", function(confirmed)
@@ -2313,6 +2339,12 @@ function deleteCategory(event, elem, id)
 	});
 }
 
+/**
+ * Saves Category
+ * @param {Event} event - event from action
+ * @param {Jquery} elem - element of category to be saved
+ * @param {number} id - id of data in element to add to database
+ */
 function saveCategory(event,elem,id)
 {
 	$.ajax({
@@ -2340,10 +2372,13 @@ function saveCategory(event,elem,id)
 	});
 }
 
-// Creates a new break with a given name and starting at startDate
-// and ending at endDate, where both are strings.
-// Fires the passed in callback when the break has been made, passing
-// the break as a parameter
+/** 
+ * Creates a new break
+ * @param {String} name - name of break
+ * @param {Date} startDate - start date for the break
+ * @param {Date} endDate - end date for the break
+ * @param {function} callback - once the date has been created run this function
+ */
 function createBreak(name, startDate, endDate, callback)
 {
 	// console.log("Make the break: " + name + ", " + startDate + ", " + endDate);
@@ -2393,13 +2428,22 @@ function createBreak(name, startDate, endDate, callback)
 /***** HELPER METHODS *******/
 /****************************/
 
-//converts a date from 24 hour to 12 hour time string format
+/**
+ * converts a date from 24 hour to 12 hour time string format
+ * @param {Date} date - date to convert to 12 hour time format
+ * @return {String} - date in 12 hour time format
+ */
 function convertTo12Hour(date)
 {
 	var timeArr = [date.getHours(), paddedMinutes(date)]; //and reset the field
 	return convertTo12HourFromArray(timeArr);
 }
 
+/**
+ * converts a date from time array to 12 hour time string format
+ * @param {Array} timeArr - array to convert to 12 hour time format
+ * @return {String} - date in 12 hour time format
+ */
 function convertTo12HourFromArray(timeArr)
 {
 	if(timeArr[0] >= 12)
@@ -2408,7 +2452,7 @@ function convertTo12HourFromArray(timeArr)
 			timeArr[0] -= 12;
 
 		if(timeArr[0] == 0)
-			timeArr[0] == "00";
+			timeArr[0] = "00";
 
 		return timeArr.join(":") + " PM";
 	}
@@ -2418,13 +2462,17 @@ function convertTo12HourFromArray(timeArr)
 			timeArr[0] = 12;
 
 		if(timeArr[0] == 0)
-			timeArr[0] == "00";
+			timeArr[0] = "00";
 
 		return timeArr.join(":") + " AM";
 	}
 }
 
-//returns whether the element is in a schedule column (basically has it been placed in the schedule)
+/**
+ * checks whether the element is in a schedule column (basically has it been placed in the schedule)
+ * @param {JQuery} elem - element to check
+ * @return {Boolean} - true if element is in schedule, false if not
+ */
 function inColumn(elem)
 {
 	var class_data = elem.parent().attr("class"); //get the parent's class data
@@ -2434,54 +2482,79 @@ function inColumn(elem)
 		return false;
 }
 
-function setHeight(getElem, setElem, hoursLength) //get the height of getElem and set the height of setElem if the height is not a proper height (divisible by gridheight)
+/** 
+ * set the height of an element if the height of another element 
+ * is not a proper height (divisible by gridheight)
+ * @param {JQuery} getElem - element to check the height of
+ * @param {JQuery} setElem - element to set height of
+ * @param {number} hoursLength - hours to set the height too
+ */
+function setHeight(getElem, setElem, hoursLength)
 {
 	var height = parseFloat($(getElem).css("height"));
 	if((height+border)%gridHeight != 0)
 		$(setElem).css("height", (gridHeight*hoursLength)-border);
 }
 
-//returns the minutes of a date in padded form (e.g. 03 instead of just 3)
+/** 
+ * returns the minutes of a date
+ * @param {Date} date - date to get minutes from
+ * @return {String} - minutes in padded form (e.g. 03 instead of just 3)
+ */
 function paddedMinutes(date)
 {
 	var minutes = (date.getMinutes() < 10? '0' : '') + date.getMinutes(); //add zero the the beginning of minutes if less than 10
 	return minutes;
 }
 
-//zero pads a number to two digits (9 -> 09, 1 -> 01, 13 -> 13) used for zero padded dates and times (e.g. 2:04 pm type things)
+/** 
+ * zero pads a number to two digits
+ * @param {number} num - number to be zero padded
+ * @return {String} - zero padded number (e.g. 3 to 03 or 13 to 13)
+ */
 function paddedNumber(num)
 {
 	var paddedNum = (num < 10? '0' : '') + num; //add zero the the beginning of minutes if less than 10
 	return paddedNum;
 }
 
-//removes cursor highlight on page
+/** removes cursor highlight on page */
 function removeHighlight()
 {
 	window.getSelection().removeAllRanges();
 }
 
-//highlight the entirety of the field currently selected (that the user has cursor in)
+/** highlight the entirety of the field currently selected (that the user has cursor in) */
 function highlightCurrent()
 {
 	document.execCommand('selectAll',false,null);
 }
 
-//creates a clone of the date
+/** 
+ * creates a clone of the date
+ * @param {Date} date - date to clone
+ * @return {Date} - clone of date
+ */
 function cloneDate(date)
 {
 	return new Date(date.getTime());
 }
 
-// converts a date string from dashes to slashes (e.g. 2016-10-25 to 2016/10/25)
-// This is needed as browsers don't like dash date formats much, but it's how Ruby prints dates by default
-// On Chrome, dashes with dates are interpreted as the ISO format, and are used in UTC, while Firefox just refuses the date at all
+/** 
+ * converts a date string from dashes to slashes (e.g. 2016-10-25 to 2016/10/25)
+ * @param {String} dateString - date with slashes
+ * @return {String} - date without slashes
+ */
 function dateFromDashesToSlashes(dateString)
 {
 	return dateString.split("-").join("/");
 }
 
-//convert a date into a standard string format, with no zero padding in M/D/YY format (e.g. 6/2/16)
+/** 
+ * convert a date into a string without zero padding
+ * @param {Date} date - date to be converted to string
+ * @return {String} - date in the standard string format, with no zero padding in M/D/YY format (e.g. 6/2/16)
+ */
 function dateToString(date)
 {
 	if(!date || !(date instanceof Date)) //if the date is null or not a date object
@@ -2496,8 +2569,11 @@ function dateToString(date)
 	return dateString; //and return
 }
 
-
-//Converts a date oject to a date string in the format of MM/DD/YYYY, always printing zero padding if needed (e.g. 06/02/2016)
+/** 
+ * convert a date into a string with zero padding
+ * @param {Date} date - date to be converted to string
+ * @return {String} - date string in the format of MM/DD/YYYY, always printing zero padding if needed (e.g. 06/02/2016)
+ */
 function verboseDateToString(date)
 {
 	if(!date || !(date instanceof Date)) //if the date is null or not a date object
@@ -2513,12 +2589,22 @@ function verboseDateToString(date)
    return (monthStr[1]?monthStr:"0"+monthStr[0]) + "/" + (dateStr[1]?dateStr:"0"+dateStr[0]) + "/" + yearStr; // padding
 }
 
-
+/**
+ * converts a date from 24 hour to 12 hour time string format
+ * @param {Date} date - date to convert to 12 hour time format
+ * @return {String} - date in 12 hour time format
+ */
 function dateToTimeString(date)
 {
 	return convertTo12Hour(date);
 }
 
+/**
+ * takes to dates and makes a string to express the range between them
+ * @param {Date} startDate - start date
+ * @param {Date} endDate - end date
+ * @return {String} - date range (e.g. 12:00AM to 3:00PM)
+ */
 function datesToTimeRange(startDate, endDate)
 {
 	return dateToTimeString(startDate) + " to " + dateToTimeString(endDate);
@@ -2532,10 +2618,13 @@ function datesToTimeRange(startDate, endDate)
 /**** HTML TIED METHODS *****/
 /****************************/
 
-//Used by the next and previous buttons to change the part of the schedule being shown
-//If forward is true, the schedules moves forward one week, otherwise back one week
-//Worth noting that when the schedule loads, the first day is the current day, not the Monday of that week
-//so that case is accounted for to move the schedule forward to the next Monday
+/** 
+ * Used by the next and previous buttons to change the part of the schedule being shown
+ * If forward is true, the schedules moves forward one week, otherwise back one week
+ * Worth noting that when the schedule loads, the first day is the current day, not the Monday of that week
+ * so that case is accounted for to move the schedule forward to the next Monday
+ * @param {Boolean} forward - true if the forward button was pressed
+ */
 function moveWeek(forward)
 {
 	var newDate;
