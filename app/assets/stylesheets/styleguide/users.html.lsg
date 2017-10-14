@@ -1,6 +1,6 @@
 @title Carpe Living Style Guide - Users
 
-@import styleguide/shared
+@import shared
 @scss profile.scss
 
 # Users

@@ -1,9 +1,9 @@
 @title Carpe Living Style Guide - Main
 
-@import styleguide/shared
+@import shared
 
 # Carpe Living Style Guide - Main
 
 Welcome to the Carpe style guide. This is the central location for all CSS and assets that power [Carpe](https://www.carpe.us/).
 
-@import styleguide/main.lsg
+@import main.lsg
