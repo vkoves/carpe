@@ -41,7 +41,7 @@
 			width: 100%;
 			top: 0px;
 			font-size: 22px;
-			z-index: 1;
+			z-index: 10;
 			box-shadow: 0px 0px 10px #a5a5a5;
 
 			.inner {
