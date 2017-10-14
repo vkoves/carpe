@@ -36,7 +36,7 @@
 					<% if user.is_busy? %>
 						<div class="red circle"></div>
 						<% if user.current_events[0].has_access?(current_user) %>
-							<% event_name = raw user.current_events[0].get_html_name %>
+							<% event_name = user.current_events[0].get_html_name.html_safe %>
 							<span class="carpe-color"><%= event_name %></span>
 						<% else %>
 							Busy
