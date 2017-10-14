@@ -111,6 +111,29 @@ The button above toggles its loading state on click.
 	});
 </script>
 
+
+# Miscellaneous
+
+## Simple Text Helpers
+
+The classes `.no-bold`, `.center-text`, and `.small-text` can serve straight-forward uses in helping
+to format text and handle common needs.
+
+```
+<h4>Normal Header</h4>
+<h4 class="no-bold">No Bold Header</h4>
+<h4 class="center-text">Centered Header</h4>
+<span>Normal text</span>
+<span class="small-text">Small text</span>
+```
+
+## Zero Top & Bot
+
+The helper classes `.zero-top` and `.zero-bot` zero out margins and padding on the top and bottom
+of an element. They were created primarily to help with using headers.
+
+
+
 @css {
 	.lsg-font-example-text::first-line { font-size: 1em; }
 	.lsg-color-swatch {
