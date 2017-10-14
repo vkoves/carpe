@@ -149,7 +149,8 @@ function ScheduleItem()
 		updatedEvents(this.tempId, "Destroy");
 	};
 
-	/** Sets a start date time for the current event
+	/**
+	 * Sets a start date time for the current event
 	 * @param {Date} newStartDateTime - the new start date time that should be set
 	 * @param {Boolean} resize - true if the object is being resized, false if the object is being moved
 	 * @param {Boolean} userSet - checks if the user is the one who updated the time directly
@@ -168,7 +169,8 @@ function ScheduleItem()
 			updatedEvents(this.tempId, "setStartDateTime"); // indicate the event was modified, triggering autocomplete
 	};
 
-	/** Sets an end date time for the current event
+	/**
+	 * Sets an end date time for the current event
 	 * @param {Date} newEndDateTime - the new end date time that should be set
 	 * @param {Boolean} resize - true if the object is being resized, false if the object is being moved
 	 * @param {Boolean} userSet - checks if the user is the one who updated the time directly
@@ -186,7 +188,8 @@ function ScheduleItem()
 		updatedEvents(this.tempId, "setEndDateTime");
 	};
 
-	/** Changes the name of the current event
+	/**
+	 * Changes the name of the current event
 	 * @param {String} newName - the new name that should be set
 	 */
 	this.setName = function(newName)
@@ -199,7 +202,8 @@ function ScheduleItem()
 		}
 	};
 
-	/** Changes the repeat type of the current event
+	/**
+	 * Changes the repeat type of the current event
 	 * @param {String} newRepeatType - new repeat type that should be set
 	 * @see COMMING SOON
 	 */
@@ -212,7 +216,8 @@ function ScheduleItem()
 		}
 	};
 
-	/** Set the date time where the repeating should start for the current event
+	/**
+	 * Set the date time where the repeating should start for the current event
 	 * @param {Date} newRepeatStart - where the repeating should start
 	 */
 	this.setRepeatStart = function(newRepeatStart)
@@ -224,7 +229,8 @@ function ScheduleItem()
 		}
 	};
 
-	/** Set the date time where the repeating should end for the current event
+	/**
+	 * Set the date time where the repeating should end for the current event
 	 * @param {Date} newRepeatEnd - where the repeating should end
 	 */
 	this.setRepeatEnd = function(newRepeatEnd)
@@ -236,7 +242,8 @@ function ScheduleItem()
 		}
 	};
 
-	/** Set the description of the current event
+	/**
+	 * Set the description of the current event
 	 * @param {Date} newDescription - new description
 	 */
 	this.setDescription = function(newDescription)
@@ -248,7 +255,8 @@ function ScheduleItem()
 		}
 	}
 
-	/** Set the location of the current event
+	/**
+	 * Set the location of the current event
 	 * @param {Date} newLocation - new location
 	 */
 	this.setLocation = function(newLocation)
@@ -260,7 +268,8 @@ function ScheduleItem()
 		}
 	}
 
-	/** Runs once user has stoped dragging an event, either to resize or move
+	/**
+	 * Runs once user has stoped dragging an event, either to resize or move
 	 * @param {JQuery} elem - element that was dragged
 	 * @param {Boolean} resize - true if the object is being resized, false if the object is being moved
 	 */
@@ -280,7 +289,8 @@ function ScheduleItem()
 			updatedEvents(this.tempId, "dragComplete");
 	};
 
-	/** Runs once user has stoped resizing an event
+	/**
+	 * Runs once user has stoped resizing an event
 	 * @param {JQuery} elem - element that has been resized
 	 */
 	this.resizeComplete = function(elem)
@@ -1372,7 +1382,7 @@ function updateTime(elem, ui, resize) //if we're resizing, don't snap, just upda
 /****************************/
 
 
-/** 
+/**
  * moves the calender forward or backward in time 
  * (e.g. by clicking next on weekly view)
  * @param {Date} newDateObj - new date to start from
@@ -1506,7 +1516,8 @@ function initializeWeeklyView()
 	addDates(refDate, true);
 }
 
-/** converts a month and a year to a data object
+/**
+ * converts a month and a year to a data object
  * @param {number} month - 1(January) thru 12(December)
  * @param {number} year - e.g. 2017
  * @return {Date} date object made from year and month
@@ -1516,7 +1527,8 @@ function daysInMonth(month,year)
 	return new Date(year, month, 0).getDate();
 }
 
-/** gets the date the schedule starts on
+/**
+ * gets the date the schedule starts on
  * @param {Date} dateObj - date of event
  * @param {Boolean} useMonth - if true, sets date to first day of month
  * @return {Object} object consisting of the start date of an event, and if its start was in the last month
@@ -1955,7 +1967,8 @@ function showBreakCreateOverlay()
 	UIManager.slideInShowOverlay("#break-overlay-box"); //and fade in
 }
 
-/** Sets up an overlay to add breaks. If managing,
+/**
+ * Sets up an overlay to add breaks. If managing,
  * it is actually for editing and deleting breaks rather
  * than enabling or disabling breaks on the currente vent
  * @param {Boolean} managing - if true, show 'managing breaks', if false show 'adding breaks'
