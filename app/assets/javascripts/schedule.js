@@ -205,7 +205,15 @@ function ScheduleItem()
 	/**
 	 * Changes the repeat type of the current event
 	 * @param {String} newRepeatType - new repeat type that should be set
-	 * @see COMMING SOON
+	 * putting here for the time being
+	 * 1. these will (like the name implies) happen every day/week/month/year
+	 *   `daily`, `weekly`, `monthly`, `yearly`
+	 * 2. events that happen on certain days every week, string will look like this
+	 *   `certain_days-<comma seperated day values>`
+	 *   e.g. certain_days-1,3,5 (1,3,5 is mon wed fri)
+	 * 3. events that are entirely custom are built like so
+	 *   `custom-<amount>-<unit>`
+	 *   e.g. custom-3-weeks (will happen every 3 weeks)
 	 */
 	this.setRepeatType = function(newRepeatType)
 	{
