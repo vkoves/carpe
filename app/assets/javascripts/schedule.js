@@ -451,8 +451,6 @@ function addStartingListeners()
 {
 	// resizes textboxes to give them height based on the content inside
 	$('.auto-resize-vertically').on('input', function () {
-	  $(this).height('auto');
-	  // check if textarea contains new line, keeps the text area from taking up 2 unnessisary lines
 	  textareaSetHeight(this);
 	});
 
@@ -2412,12 +2410,8 @@ function cloneDate(date)
 // makes the textarea the correct height based of the inner content
 function textareaSetHeight(elem)
 {
-	var newLineRegex = /\r|\n/;
-	
-	if(newLineRegex.exec($(elem).val()))
-  		$(elem).height(elem.scrollHeight);
-	else
-		$(elem).height(0);
+	$(elem).attr('rows', 1);
+	$(elem).height('auto').height(elem.scrollHeight);
 }
 
 // converts a date string from dashes to slashes (e.g. 2016-10-25 to 2016/10/25)
