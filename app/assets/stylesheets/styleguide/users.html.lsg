@@ -10,7 +10,7 @@ Users are one of the most critical parts of Carpe, and we use a consistent visua
 ## User Listing
 
 <div class="inner">
-	<div class="user-listing grey-box ">
+	<div class="user-listing grey-box profile">
 		<a href="https://www.carpe.us/u/82">
 			<div class="avatar">
 					<img src="https://lh5.googleusercontent.com/-O0da35K3TG8/AAAAAAAAAAI/AAAAAAAAAdI/-Vqg-ZuvaDg/photo.jpg?sz=100">
@@ -30,4 +30,58 @@ Users are one of the most critical parts of Carpe, and we use a consistent visua
 
 ```html
 <%= render "shared/user_box_horizontal", user: user_object %>
+```
+
+```
+<div class="profile-avatar avatar">
+	<img src="https://lh5.googleusercontent.com/-O0da35K3TG8/AAAAAAAAAAI/AAAAAAAABAk/BhWscsonKLo/photo.jpg?sz=200">
+</div>
+@scss {
+	.profile-avatar {
+		float: none;
+		margin: 0px;
+	}
+}
+```
+
+```
+<div class="user-listing grey-box ">
+	<div class="avatar">
+		<img src="https://lh5.googleusercontent.com/-O0da35K3TG8/AAAAAAAAAAI/AAAAAAAABAk/BhWscsonKLo/photo.jpg?sz=60" style="width:60px;height:60px;">
+	</div>
+	<div class="user-details">
+		<span class="user-name">Viktor Köves</span><br>
+		<div class="green circle"></div>
+		Free the rest of the day
+	</div>
+</div>
+```
+
+```
+<div class="activity-listing grey-box">
+	<a href="/u/82">
+		<div class="avatar" style="float: left">
+			<img src="https://lh5.googleusercontent.com/-O0da35K3TG8/AAAAAAAAAAI/AAAAAAAAAdI/-Vqg-ZuvaDg/photo.jpg?sz=50" style="width: 50px; height: 50px;">
+			</div>
+	</a>
+	<div class="text">
+		Jack Altman was followed by Viktor Köves on Oct. 08, 2017
+	</div>
+</div>
+```
+
+
+```
+<div id="profile-buttons">
+	<a> <div class="curr">Schedule</div> </a>
+	<a> <div class="">3 Followers</div> </a>
+	<a> <div class="">3 Following </div> </a>
+	<a> <div class="">Activity</div> </a>
+</div>
+@scss {
+	#profile-buttons {
+		position: initial;
+		float: none;
+	}
+}
 ```
