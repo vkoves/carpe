@@ -75,7 +75,7 @@ $(window).on('beforeunload', function()
  * by the active state of the Save button on the page; on other pages,
  * it is always safe for the user to leave the page, as there is no data
  * to be saved.
- * @return {Boolean} returns true if changes are saved, nothing otherwise
+ * @return {boolean} returns true if changes are saved, nothing otherwise
  */
 function isSafeToLeave()
 {
@@ -152,8 +152,8 @@ function ScheduleItem()
 	/**
 	 * Sets a start date time for the current event
 	 * @param {Date} newStartDateTime - the new start date time that should be set
-	 * @param {Boolean} resize - true if the object is being resized, false if the object is being moved
-	 * @param {Boolean} userSet - checks if the user is the one who updated the time directly
+	 * @param {boolean} resize - true if the object is being resized, false if the object is being moved
+	 * @param {boolean} userSet - checks if the user is the one who updated the time directly
 	 */
 	this.setStartDateTime = function(newStartDateTime, resize, userSet) //if resize is true, we do not move the end time
 	{
@@ -172,8 +172,8 @@ function ScheduleItem()
 	/**
 	 * Sets an end date time for the current event
 	 * @param {Date} newEndDateTime - the new end date time that should be set
-	 * @param {Boolean} resize - true if the object is being resized, false if the object is being moved
-	 * @param {Boolean} userSet - checks if the user is the one who updated the time directly
+	 * @param {boolean} resize - true if the object is being resized, false if the object is being moved
+	 * @param {boolean} userSet - checks if the user is the one who updated the time directly
 	 */
 	this.setEndDateTime = function(newEndDateTime, resize, userSet) //if resize, we don't move the start time
 	{
@@ -271,7 +271,7 @@ function ScheduleItem()
 	/**
 	 * Runs once user has stoped dragging an event, either to resize or move
 	 * @param {JQuery} elem - element that was dragged
-	 * @param {Boolean} resize - true if the object is being resized, false if the object is being moved
+	 * @param {boolean} resize - true if the object is being resized, false if the object is being moved
 	 */
 	this.dragComplete = function(elem, resize)
 	{
@@ -352,10 +352,10 @@ function ScheduleItem()
 
 	/**
 	 * Sets the start or end date/time for an event on a user's schedule.
-	 * @param {Boolean}  isStart - Whether or not the Date object being passed in is an event's starting time
+	 * @param {boolean}  isStart - Whether or not the Date object being passed in is an event's starting time
 	 * @param {Date}    dateTime - The date/time this event is being changed to; can be start or end date
 	 * @param {string}   schItem - The jQuery selector for the schedule item being modified
-	 * @param {Boolean}   resize - Whether or not we are resizing the schedule item we're setting the time for
+	 * @param {boolean}   resize - Whether or not we are resizing the schedule item we're setting the time for
 	 */
 	function setDateTime(isStart, dateTime, schItem, resize)
 	{
@@ -400,7 +400,7 @@ function ScheduleItem()
 	 * whether or not to round that result to the nearest number of hours.
 	 * @param  {Date}    start - Starting date for the difference calculation
 	 * @param  {Date}      end - Ending date for the difference calculation
-	 * @param  {Boolean} round - If true, round difference up or down to the nearest hour,
+	 * @param  {boolean} round - If true, round difference up or down to the nearest hour,
 	 *                             rounding up to one if the result of the rounding is zero
 	 * @return {Date}        - the difference between the two given dates, in hours
 	 */
@@ -1306,7 +1306,7 @@ function handleNewEvent(elem)
  * Change time while items are being dragged or resized, and also snap to a vertical grid
  * @param {jQuery} elem - element the time is being updated on
  * @param {Object} ui - UI object from jQuery drag handler
- * @param {Boolean} resize - true if resizing event, false if moving event 
+ * @param {boolean} resize - true if resizing event, false if moving event 
  */
 function updateTime(elem, ui, resize) //if we're resizing, don't snap, just update time
 {
@@ -1386,8 +1386,8 @@ function updateTime(elem, ui, resize) //if we're resizing, don't snap, just upda
  * moves the calender forward or backward in time 
  * (e.g. by clicking next on weekly view)
  * @param {Date} newDateObj - new date to start from
- * @param {Boolean} refresh - if true, cleans off all events from scheduler
- * @param {Boolean} startToday - if true starts the weekly view on the current day
+ * @param {boolean} refresh - if true, cleans off all events from scheduler
+ * @param {boolean} startToday - if true starts the weekly view on the current day
  */
 function addDates(newDateObj, refresh, startToday)
 {
@@ -1530,7 +1530,7 @@ function daysInMonth(month,year)
 /**
  * gets the date the schedule starts on
  * @param {Date} dateObj - date of event
- * @param {Boolean} useMonth - if true, sets date to first day of month
+ * @param {boolean} useMonth - if true, sets date to first day of month
  * @return {Object} object consisting of the start date of an event, and if its start was in the last month
  */
 function getStartDate(dateObj, useMonth)
@@ -1971,7 +1971,7 @@ function showBreakCreateOverlay()
  * Sets up an overlay to add breaks. If managing,
  * it is actually for editing and deleting breaks rather
  * than enabling or disabling breaks on the currente vent
- * @param {Boolean} managing - if true, show 'managing breaks', if false show 'adding breaks'
+ * @param {boolean} managing - if true, show 'managing breaks', if false show 'adding breaks'
  */
 function setupBreakAddOverlay(managing)
 {
@@ -2061,7 +2061,7 @@ function setupBreakAddOverlay(managing)
 	}
 }
 
-/** 
+/**
  * Update the color of the category overlay from a color being picked
  * @param {JQuery} elem - element to take background color from
  */
@@ -2083,7 +2083,7 @@ function placeInSchedule(elem, hours, lengthHours)
 	$(elem).css("top", hours); //set the top position by gridHeight times the hour
 }
 
-/** 
+/**
  * Events were updated. Called by any modification of an event, which triggers auto saving
  * @param {number} eventId - id of the event being modified
  * @param {msg} msg - message to show when events were updated... not currently used
@@ -2160,7 +2160,7 @@ function saveEvents()
 	});
 }
 
-/** 
+/**
  * Deletes an event 
  * @param {Event} event - event from preforming an action... stops propagation of this event
  * @param {JQuery} elem -element to delete
@@ -2385,7 +2385,7 @@ function saveCategory(event,elem,id)
 	});
 }
 
-/** 
+/**
  * Creates a new break
  * @param {String} name - name of break
  * @param {Date} startDate - start date for the break
@@ -2484,7 +2484,7 @@ function convertTo12HourFromArray(timeArr)
 /**
  * checks whether the element is in a schedule column (basically has it been placed in the schedule)
  * @param {JQuery} elem - element to check
- * @return {Boolean} true if element is in schedule, false if not
+ * @return {boolean} true if element is in schedule, false if not
  */
 function inColumn(elem)
 {
@@ -2636,7 +2636,7 @@ function datesToTimeRange(startDate, endDate)
  * If forward is true, the schedules moves forward one week, otherwise back one week
  * Worth noting that when the schedule loads, the first day is the current day, not the Monday of that week
  * so that case is accounted for to move the schedule forward to the next Monday
- * @param {Boolean} forward - true if the forward button was pressed
+ * @param {boolean} forward - true if the forward button was pressed
  */
 function moveWeek(forward)
 {
