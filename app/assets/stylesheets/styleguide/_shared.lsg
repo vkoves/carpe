@@ -10,7 +10,11 @@
 
 	<div class="top-nav">
 		<div class="inner">
-			<span class="carpe-font">Carpe</span>
+			<span class="carpe-font">Carpe</span><span class="title-end">Living Style Guide</span>
+			<a href="home.html">Home</a>
+			<a href="main.html">Main</a>
+			<a href="schedule.html">Schedule</a>
+			<a href="users.html">Users</a>
 		</div>
 	</div>
 }
@@ -21,8 +25,11 @@
 @scss ../application.scss
 @scss ../carpe.scss
 
-@css
-	@at-root
+@scss {
+	@at-root {
+		body {
+			padding-top: 50px !important;
+		}
 		.top-nav {
 			background-color: #f2f2f2;
 			padding: 8px 0px;
@@ -33,12 +40,38 @@
 			z-index: 1;
 			box-shadow: 0px 0px 10px #a5a5a5;
 		}
-	@at-root
+		.title-end {
+			color: #3a3a3a;
+			font-size: 16px;
+		}
 		.inner {
 			margin: auto;
 			max-width: 720px;
+
+			span {
+				margin-right: 10px;
+			}
+			a {
+				color: #a5a5a5;
+				text-decoration: none;
+				font-size: 16px;
+				margin: 0px 10px;
+
+				&:hover, &.active {
+					color: $carpe-orange;
+				}
+			}
 		}
-	@at-root
-		body {
-			padding-top: 50px !important;
-		}
+	}
+}
+
+@javascript-after {
+	// Add the active class to the page currently being shown
+	$(".inner a").each(function( index ) {
+		var link = $(this).attr("href");
+
+		// if the page URL is contained in the link, the link is being visited
+		if(window.location.href.indexOf(link) > -1)
+			$(this).addClass('active');
+	});
+}
