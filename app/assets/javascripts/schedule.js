@@ -374,7 +374,7 @@ function ScheduleItem()
 function Category(id)
 {
 	this.id = id; //the id of the category in the db
-	this.name = null; //the name of the category, as a string.
+	this.name; //the name of the category, as a string.
 	this.color; //the color of the category, as a CSS acceptable string
 	this.privacy = "private"; //the privacy of the category, right now either private || followers || public
 	this.breaks = []; //an array of the repeat exceptions of this category.
@@ -809,7 +809,7 @@ function loadInitialCategories()
 			var catInstance = new Category(currCat.id);
 			catInstance.privacy = currCat.privacy;
 			catInstance.color = currCat.color;
-			catInstance.name = currCat.name || Category.defaultHtmlName;
+			catInstance.name = currCat.name;
 			catInstance.breaks = currCat.break_ids;
 
 			categories[catInstance.id] = catInstance;
