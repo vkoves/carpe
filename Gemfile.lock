@@ -327,7 +327,7 @@ DEPENDENCIES
   rails_12factor
   roadie (~> 3.1.1)
   rubycritic
-  sass-rails
+  sass-rails (>= 5.0.5)
   sdoc (~> 0.4.0)
   simplecov
   sqlite3
