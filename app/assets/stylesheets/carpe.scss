@@ -882,3 +882,11 @@ form.thin
 
 	&.right { float: right; }
 }
+
+/* Custom Font Additions (Carpe Font / Pacifico) */
+@font-face {
+  font-family: 'Pacifico';
+  src: url('Pacifico_1.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
