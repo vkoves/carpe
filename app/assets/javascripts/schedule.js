@@ -437,7 +437,8 @@ function scheduleReady()
 	if(readOnly) //allow viewing of all events with single click
 	{
 		$(".edit, #repeat, #add-break-event").remove(); //remove repeat functionality, and adding breaks
-		$("#overlay-loc, #overlay-desc, #overlay-title").attr("contenteditable", "false"); //disable editing on location title and description
+		$("#overlay-title").attr("contenteditable", "false"); //disable editing on location title and description
+		$("#overlay-loc, #overlay-desc").prop('disabled', true);
 		$("#time-start, #time-end").attr("readonly", true); //disable editing of time
 	}
 
@@ -450,6 +451,11 @@ function scheduleReady()
  */
 function addStartingListeners()
 {
+	// resizes textboxes to give them height based on the content inside
+	$('.auto-resize-vertically').on('input', function () {
+	  textareaSetHeight(this);
+	});
+
 	$(".date-field").datepicker( //show the datepicker when clicking on the field
 	{
 		firstDay: 1, //set Monday as the first day
@@ -675,7 +681,7 @@ function addStartingListeners()
 	})
 	.focusout(function()
 	{
-		currEvent.setDescription($(this).text());
+		currEvent.setDescription($(this).val());
 		removeHighlight();
 	});
 
@@ -684,7 +690,7 @@ function addStartingListeners()
 	})
 	.focusout(function()
 	{
-		currEvent.setLocation($(this).text());
+		currEvent.setLocation($(this).val());
 		removeHighlight();
 	});
 
@@ -1847,8 +1853,8 @@ function editEvent(elem)
 
 		var desc = currEvent.description || ""; //in case the description is null
 		var loc = currEvent.location || ""; //in case the location is null
-		$("#overlay-desc").text(desc);
-		$("#overlay-loc").text(loc);
+		$("#overlay-desc").val(desc);
+		$("#overlay-loc").val(loc);
 
 		if(desc.length == 0 && readOnly) //if this is readOnly and there is no description
 			$("#overlay-desc, #desc-title").hide(); //hide the field and the title
@@ -1866,6 +1872,13 @@ function editEvent(elem)
 		//$(".overlay-time").html(convertTo12Hour(time.split(":")) + " - " + convertTo12Hour(endTime.split(":")));
 		$("#time-start").val(convertTo12HourFromArray(startArr));
 		$("#time-end").val(convertTo12HourFromArray(endArr));
+
+		// resize the textareas to the appropriate size
+		$('.auto-resize-vertically').each(function () {
+			//check if the textbox contains a new line or else it takes up 2 unnessisary lines
+		  textareaSetHeight(this);
+			$(this).css('overflow-y', 'hidden');
+		});
 	}
 }
 
@@ -2384,15 +2397,26 @@ function removeHighlight()
 }
 
 //highlight the entirety of the field currently selected (that the user has cursor in)
+//runs HTMLInputElement.select if an input is in focus, otherwise runs 'selectAll' on the document
 function highlightCurrent()
 {
-	document.execCommand('selectAll',false,null);
+	if($("textarea:focus").length > 0 || $("input:focus").length > 0)
+		$(":focus").select();
+	else
+		document.execCommand('selectAll',false,null);
 }
 
 //creates a clone of the date
 function cloneDate(date)
 {
 	return new Date(date.getTime());
+}
+
+// makes the textarea the correct height based of the inner content
+function textareaSetHeight(elem)
+{
+	$(elem).attr('rows', 1);
+	$(elem).height('auto').height(elem.scrollHeight);
 }
 
 // converts a date string from dashes to slashes (e.g. 2016-10-25 to 2016/10/25)
