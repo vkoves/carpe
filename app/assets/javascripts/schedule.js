@@ -35,6 +35,8 @@ var viewMode = "week"; //either "week" or "month"
 
 var saveEventsTimeout; // timeout for save events so it doesn't happen too often
 
+var PLACEHOLDER_NAME = "<i>Untitled</i>"; // used by newly created categories and events
+
 /****************************/
 /**** DOCUMENT FUNCTIONS ****/
 /****************************/
@@ -276,14 +278,9 @@ function ScheduleItem()
 	};
 
 	/** a way of getting the name that handles untitled */
-	this.getName = function(useHTML)
+	this.getHtmlName = function()
 	{
-		if(this.name)
-			return this.name;
-		else if(useHTML)
-			return "<i>Untitled</i>";
-		else
-			return "Untitled";
+		return this.name ? escapeHtml(this.name) : PLACEHOLDER_NAME;
 	}
 
 	/** Returns the HTML element for this schedule item, or elements if it is repeating */
@@ -377,10 +374,15 @@ function ScheduleItem()
 function Category(id)
 {
 	this.id = id; //the id of the category in the db
-	this.name = "<i>Untitled</i>"; //the name of the category, as a string. Defaults to Untitled
+	this.name; //the name of the category, as a string.
 	this.color; //the color of the category, as a CSS acceptable string
 	this.privacy = "private"; //the privacy of the category, right now either private || followers || public
 	this.breaks = []; //an array of the repeat exceptions of this category.
+
+	this.getHtmlName = function()
+	{
+		return this.name ? escapeHtml(this.name) : PLACEHOLDER_NAME;
+	}
 }
 
 /**
@@ -563,7 +565,7 @@ function addStartingListeners()
 		}
 	}).click(function()
 	{
-		if($(this).html() == "<i>Untitled</i>")
+		if($(this).html() == PLACEHOLDER_NAME)
 			$(this).text("");
 	})
 	.focusin(function() {
@@ -573,7 +575,7 @@ function addStartingListeners()
 	{
 		// If no name, set to Untitled
 		if($(this).text() == "")
-			$(this).html("<i>Untitled</i>");
+			$(this).html(PLACEHOLDER_NAME);
 
 		removeHighlight();
 	});
@@ -697,7 +699,7 @@ function addStartingListeners()
 	})
 	.focusin(function() {
 		// If the name is Untitled, remove it
-		if($(this).html() == "<i>Untitled</i>")
+		if($(this).html() == PLACEHOLDER_NAME)
 			$(this).text("");
 
 		setTimeout(highlightCurrent, 100); // highlight the whole name after focus
@@ -896,7 +898,7 @@ function loadInitialEvents()
 			clone.attr("time", time);
 			clone.attr("event-id", evnt.id);
 			clone.attr("evnt-temp-id", i); //Set the temp id
-			clone.children(".evnt-desc").html(evnt.description);
+			clone.children(".evnt-desc").text(evnt.description);
 
 			scheduleItems[i].tempElement = clone; //Store the element
 
@@ -967,7 +969,7 @@ function addDrag(selector)
 		scheduleItems[$(this).parent().attr("evnt-temp-id")].setName($(this).text());
 
 		if($(this).text() == "")
-			$(this).html("<i>Untitled</i>");
+			$(this).html(PLACEHOLDER_NAME);
 
 		removeHighlight();
 	});
@@ -1002,7 +1004,7 @@ function addDrag(selector)
 	})
 	.focusin(function() {
 		// If the name is Untitled, remove it
-		if($(this).html() == "<i>Untitled</i>")
+		if($(this).html() == PLACEHOLDER_NAME)
 			$(this).text("");
 
 		setTimeout(highlightCurrent, 100); // highlight the whole name after focus
@@ -1505,7 +1507,7 @@ function populateEvents()
 		if(viewMode == "week")
 		{
 			currentElem.css("background-color", color);
-			currentElem.find(".evnt-title").html(eventObject.getName(true));
+			currentElem.find(".evnt-title").html(eventObject.getHtmlName());
 			$(".sch-day-col:eq(" + i + ") .col-snap").append(currentElem);
 		}
 		else if(viewMode == "month")
@@ -1525,7 +1527,7 @@ function populateEvents()
 			$(".sch-day-tile:eq(" + i + ") .inner").append("<div class='sch-month-evnt" + className + "' evnt-temp-id='" + eventObject.tempId
 				+ "' " + eventId + " data-id='" + eventObject.categoryId + "' data-hour='" + eventObject.startDateTime.getHours() + "' style='color: "
 				+  color +  "; color: " + color + ";'>"
-					+ "<span class='evnt-title'>" + eventObject.getName(true) + "</span>"
+					+ "<span class='evnt-title'>" + eventObject.getHtmlName() + "</span>"
 					+ "<div class='time'>"
 						+ datesToTimeRange(eventObject.startDateTime, eventObject.endDateTime)
 					+ "</div>"
@@ -1783,7 +1785,7 @@ function editCategory(elem)
 	else //if the color was null or empty remove the background-color
 		$(".cat-top-overlay").css("background-color",""); */
 
-	$(".cat-overlay-title").html(currCategory.name);
+	$(".cat-overlay-title").html(currCategory.getHtmlName());
 	$("#cat-overlay-box").attr("data-id", categoryId);
 
 	$(".color-swatch").removeClass("selected");
@@ -1840,13 +1842,13 @@ function editEvent(elem)
 
 		UIManager.slideInShowOverlay("#event-overlay-box");
 
-		$("#overlay-title").html(currEvent.name || "<i>Untitled</i>");
+		$("#overlay-title").html(currEvent.getHtmlName());
 		$("#overlay-color-bar").css("background-color", categories[currEvent.categoryId].color);
 
 		var desc = currEvent.description || ""; //in case the description is null
 		var loc = currEvent.location || ""; //in case the location is null
-		$("#overlay-desc").html(desc);
-		$("#overlay-loc").html(loc);
+		$("#overlay-desc").text(desc);
+		$("#overlay-loc").text(loc);
 
 		if(desc.length == 0 && readOnly) //if this is readOnly and there is no description
 			$("#overlay-desc, #desc-title").hide(); //hide the field and the title
@@ -2165,7 +2167,7 @@ function createCategory()
 	$.ajax({
 		url: "/create_category",
 		type: "POST",
-		data: {name: "<i>Untitled</i>", user_id: userId, group_id: groupID, color: "silver"},
+		data: {name: "", user_id: userId, group_id: groupID, color: "silver"},
 		success: function(resp)
 		{
 			console.log("Create category complete.");
@@ -2175,7 +2177,7 @@ function createCategory()
 			newCat.show();
 			newCat.attr("data-id", resp.id);
 			newCat.attr("privacy", "private");
-			newCat.find(".evnt-title").html(resp.name);
+			newCat.find(".evnt-title").html(resp.name || PLACEHOLDER_NAME);
 			newCat.attr("id", "");
 			addDrag();
 			// TODO - Make saving the sideHTML a function, as this line is called so many times
@@ -2232,17 +2234,20 @@ function deleteCategory(event, elem, id)
 
 function saveCategory(event,elem,id)
 {
+	// uses dom to determine if the category has been given an actual name.
+	var categoryName = ( $(".cat-overlay-title").html() === PLACEHOLDER_NAME ? "" : $(".cat-overlay-title").text());
+
 	$.ajax({
 		url: "/create_category",
 		type: "POST",
-		data: {name: $(".cat-overlay-title").html(), id: id, color: $(".cat-top-overlay").css("background-color"),
+		data: {name: categoryName, id: id, color: $(".cat-top-overlay").css("background-color"),
 			privacy: currCategory.privacy, breaks: currCategory.breaks, group_id: groupID},
 		success: function(resp)
 		{
 			console.log("Update category complete.");
 
 			// TODO - Literally what is this doing? These should be functions
-			currCategory.name = $(".cat-overlay-title").html();
+			currCategory.name = $(".cat-overlay-title").text();
 			$("#sch-sidebar .sch-evnt[data-id=" + id + "]").find(".evnt-title").html($(".cat-overlay-title").html()); //Update name in sidebar
 			$(".sch-evnt[data-id=" + id + "]").css("background-color", $(".cat-top-overlay").css("background-color")); //Update color of events
 			sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
