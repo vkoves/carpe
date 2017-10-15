@@ -21,11 +21,11 @@ class ApplicationController < ActionController::Base
   rescue_from ActiveRecord::RecordNotFound, with: :render_404
 
   def render_404
-    render file: "#{Rails.root}/public/404.html", status: 404
+    render file: "#{Rails.root}/public/404.html", status: :not_found, layout: false
   end
 
   def not_found
-    raise ActiveRecord::RecordNotFound.new('Not Found')
+    raise ActiveRecord::RecordNotFound, 'Not Found'
   end
 
   #Core Carpe search. Searches groups and users
