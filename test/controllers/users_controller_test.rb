@@ -14,22 +14,22 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "should route to user" do # test if the users route is working properly
-    assert_routing '/u/1', controller: "users", action: "show", id_or_url: "1"
+    assert_routing '/users/1', controller: "users", action: "show", id: "1"
   end
 
   test "signed in user should be able to view other user" do
     sign_in @viktor
-    get :show, id_or_url: @norm.id
+    get :show, id: @norm.id
     assert_response :success
   end
 
   test "non-signed in user should be able to view user" do
-    get :show, id_or_url: @norm.id
+    get :show, id: @norm.id
     assert_response :success
   end
 
   test "user views can be accessed through their custom urls" do
-    get :show, id_or_url: @putin.custom_url
+    get :show, id: @putin.custom_url
     assert_response :success
   end
 
@@ -42,7 +42,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "routes to a user's id should redirect to their custom url when present" do
-    get :show, id_or_url: @viktor.id
+    get :show, id: @viktor.id
     assert_redirected_to user_path(@viktor)
   end
 
@@ -60,44 +60,44 @@ class UsersControllerTest < ActionController::TestCase
 
   test "signed in users can view their own profile" do
     sign_in @viktor
-    get :show, id_or_url: @viktor.id
+    get :show, id: @viktor.id
     assert_select "#profile-info", false,
                   "Users viewing themself should not see 'X Follower(s) You Know'"
   end
 
   test "users can navigate to the schedule tab" do
-    get :show, id_or_url: @norm.id, page: "schedule"
+    get :show, id: @norm.id, page: "schedule"
     assert_response :success
   end
 
   test "users can navigate to the followers tab" do
-    get :show, id_or_url: @norm.id, page: "followers"
+    get :show, id: @norm.id, page: "followers"
     assert_response :success
   end
 
   test "users can navigate to the following tab" do
-    get :show, id_or_url: @norm.id, page: "following"
+    get :show, id: @norm.id, page: "following"
     assert_response :success
   end
 
   test "users can navigate to the activity tab" do
-    get :show, id_or_url: @norm.id, page: "activity"
+    get :show, id: @norm.id, page: "activity"
     assert_response :success
   end
 
   # mutual_friends not fully implemented yet
   # test "users can navigate to the mutual friends tab" do
-  #   get :show, id_or_url: @norm.id, page: 'mutual_friends'
+  #   get :show, id: @norm.id, page: 'mutual_friends'
   #   assert_response :success
   # end
 
   test "users will navigate to the schedule tab by default" do
-    get :show, id_or_url: @norm.id, page: ""
+    get :show, id: @norm.id
     assert_response :success
   end
 
   test "trying to view users that do not exist should redirect to the 404 page" do
-    get :show, id_or_url: "01010101010101"
+    get :show, id: "01010101010101"
     assert_response :missing
   end
 
@@ -113,6 +113,44 @@ class UsersControllerTest < ActionController::TestCase
 
   test "can perform a `json` search query" do
     get :search, q: "v", format: "json"
+    assert_response :success
+  end
+
+  test "only admins (or the account owner) can delete users" do
+    sign_in @norm
+    assert_no_difference 'User.count' do
+      delete :destroy, id: @viktor
+    end
+
+    sign_out @norm
+
+    sign_in @viktor
+    assert_difference 'User.count', -1 do
+      delete :destroy, id: @norm
+    end
+  end
+
+  test "only admins can promote users" do
+    sign_in @norm
+    get :promote, id: @putin
+    assert_not User.find(@putin).admin, "non-admin successfully promoted a user"
+
+    sign_out @norm
+
+    sign_in @viktor
+    get :promote, id: @putin
+    assert User.find(@putin).admin, "admin was unable to promote user"
+  end
+
+  test "only admins can view user information" do
+    sign_in @norm
+    get :inspect, id: @norm
+    assert_response :redirect
+
+    sign_out @norm
+
+    sign_in @viktor
+    get :inspect, id: @norm
     assert_response :success
   end
 end

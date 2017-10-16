@@ -1,26 +1,6 @@
 class PagesController < ApplicationController
   before_filter :authorize_admin,
-                only: [:promote, :admin, :sandbox, :destroy_user, :admin_user_info]
-
-  def promote # promote or demote users admin status
-    @user = User.find(params[:id])
-    @user.admin = (params[:de] != "true") # they're an admin if not being demoted
-    @user.save
-
-    render json: { action: "promote", uid: params[:id] }
-  end
-
-  def destroy_user
-    user = User.from_param params[:id]
-    user.destroy
-
-    redirect_to "/admin"
-  end
-
-  def admin_user_info
-    @user = User.from_param params[:id]
-    @user_groups = UsersGroup.where(user_id: @user.id)
-  end
+                only: [:admin, :sandbox]
 
   def admin #admin page
     @now = Time.zone.now
