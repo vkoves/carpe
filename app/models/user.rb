@@ -52,7 +52,9 @@ class User < ActiveRecord::Base
 
   # Validate the custom_url ...
   REGEX_VALID_URL_CHARACTERS = /\A[a-zA-Z0-9_\-]*\Z/
-  REGEX_USER_ID = /\A\d+\Z/
+
+  @@REGEX_USER_ID = /\A\d+\Z/
+  mattr_accessor :REGEX_USER_ID
 
   validates :custom_url,
             format: { with: REGEX_VALID_URL_CHARACTERS,
@@ -62,19 +64,11 @@ class User < ActiveRecord::Base
             length: { maximum: 64 }
 
   validates :custom_url,
-            format: { without: REGEX_USER_ID,
+            format: { without: @@REGEX_USER_ID,
                       message: 'cannot be an integer'}
 
   def has_custom_url?
     !custom_url.empty?
-  end
-
-  def to_param
-    has_custom_url? ? custom_url : id.to_s
-  end
-
-  def self.from_param(param)
-    User.find_by!(param =~ REGEX_USER_ID ? { id: param } : { custom_url: param })
   end
 
   ##########################
