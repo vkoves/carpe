@@ -56,10 +56,12 @@
 				<% end %>
 				<%= image_tag "bellg.svg", class: "bell" %>
 			</div>
-			<div id="user-avatar" class="avatar">
-				<img src="<%= current_user.user_avatar(90) %>">
+			<div id="user-menu-toggler">
+				<div id="user-avatar" class="avatar">
+					<img src="<%= current_user.user_avatar(90) %>">
+				</div>
+				<span class="name"><%= current_user.name.split(" ")[0] %></span>
 			</div>
-			<span class="name"><%= current_user.name.split(" ")[0] %></span>
 		</div>
 	<% else %>
 		<div id="user-name-panel" class="carpe-color">
