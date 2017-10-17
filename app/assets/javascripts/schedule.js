@@ -1081,6 +1081,10 @@ function addDrag(selector)
 				var currItem = scheduleItems[eventTempId - 1];
 				currItem.startDateTime = new Date($(this).attr("data-date"));
 				currItem.endDateTime = new Date($(this).attr("data-date"));
+
+				// Set end time to 11:59 PM so it's easier to edit the time
+				currItem.endDateTime.setHours(23);
+				currItem.endDateTime.setMinutes(59);
 				repopulateEvents();
 			}
 
