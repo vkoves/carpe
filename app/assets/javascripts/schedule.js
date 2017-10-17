@@ -1525,7 +1525,7 @@ function populateEvents()
 			currentElem.find(".evnt-time.top").text(convertTo12Hour(eventObject.startDateTime));
 			currentElem.find(".evnt-time.bot").text(convertTo12Hour(eventObject.endDateTime));
 			currentElem.css("height", gridHeight*eventObject.lengthInHours() - border);
-			currentElem.css("top", eventObject.getTop());
+			currentElem.css("top", gridHeight*eventObject.lengthInHours());
 
 			// Add the event
 			$(".sch-day-col:eq(" + i + ") .col-snap").append(currentElem);
