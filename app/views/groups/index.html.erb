@@ -18,9 +18,13 @@
 
       <p>The groups listed below are all public. Check your notifications for private group invitations.</p>
     </div>
-    
-    <%= render partial: "big_group_card", collection: @visible_groups, as: :group %>
 
-    <main class="flex-list js-lazy-loading-list" data-next-page-path="<%= path_to_next_page @visible_groups %>"></main>
+    <% @visible_groups.each do |group| %>
+      <% if !group.in_group?(current_user) %>
+       <%= render partial: "big_group_card", locals:{group:group} %>
+      <% end %>
+    <% end %>
+    
+    <main class="flex-list js-lazy-loading-list" data-next-page-path="<%#= path_to_next_page @visible_groups %>"></main>
   </main>
 </div>
