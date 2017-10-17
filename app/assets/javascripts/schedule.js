@@ -634,8 +634,7 @@ function addStartingListeners()
 	{
 		//TODO: Fix this not working across different days (try noon in your local time)
 
-		//TODO - Fix this reading HTML and parsing it. It's terrible.
-		var dateE = currEvent.element().parent().siblings(".col-titler").children(".evnt-fulldate").html(); //the date the elem is on
+		var dateE = currEvent.startDateTime.toDateString();
 
 		var val = $(this).val();
 
@@ -659,7 +658,7 @@ function addStartingListeners()
 	{
 		//TODO: Fix this not working across different days (try noon in your local time)
 
-		var dateE = currEvent.element().parent().siblings(".col-titler").children(".evnt-fulldate").html(); //the date the elem is on
+		var dateE = currEvent.startDateTime.toDateString();
 
 		var val = $(this).val();
 
