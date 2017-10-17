@@ -332,20 +332,19 @@ function ScheduleItem()
 		{
 			schItem.startDateTime = topDT;
 			elem.css("top", schItem.getTop()); //set the top position by gridHeight times the hour
-			elem.children(".evnt-time.top").text(convertTo12Hour(topDT)).show();
 		}
 
 		if(!isStart || !resize) //only set the bottom stuff if this is setting the end time or we are not resizing
 		{
 			schItem.endDateTime = botDT;
-			elem.children(".evnt-time.bot").text(convertTo12Hour(botDT)).show();
 		}
 
 		elem.attr("time", topDT.getHours() + ":" + paddedMinutes(topDT)); //set the time attribute
-		schItem.tempElement = elem; // update temp element for later populateEvents() calls
 
 		if(viewMode == "month")
 			repopulateEvents();
+		else if(viewMode == "week")
+			schItem.tempElement = elem; // update temp element for later populateEvents() calls - only used by weekly view
 	}
 
 	/**
@@ -903,8 +902,6 @@ function loadInitialEvents()
 			var time = dateE.getHours() + ":" + paddedMinutes(dateE);
 
 			clone.children(".evnt-title").text(evnt.name);
-			clone.children(".evnt-time.top").text(convertTo12Hour(dateE)).show();
-			clone.children(".evnt-time.bot").text(convertTo12Hour(dateEnd)).show();
 			clone.attr("time", time);
 			clone.attr("event-id", evnt.id);
 			clone.attr("evnt-temp-id", i); //Set the temp id
@@ -1522,6 +1519,8 @@ function populateEvents()
 		{
 			currentElem.css("background-color", color);
 			currentElem.find(".evnt-title").html(eventObject.getHtmlName());
+			currentElem.find(".evnt-time.top").text(convertTo12Hour(eventObject.startDateTime));
+			currentElem.find(".evnt-time.bot").text(convertTo12Hour(eventObject.endDateTime));
 			$(".sch-day-col:eq(" + i + ") .col-snap").append(currentElem);
 		}
 		else if(viewMode == "month")
