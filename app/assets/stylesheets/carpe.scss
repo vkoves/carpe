@@ -68,7 +68,59 @@ label
 	margin-right: auto;
 	margin-top: 5px;
 }
+.help-text
+{
+	font-size: 11px;
+	margin-left: 5px;
+}
+/* End Sign Up and Sign In Styling */
 
+/* Edit Profile Styling */
+.edit-profile
+{
+	&.left
+	{
+		float: left;
+		width: 50%;
+		text-align: right;
+		padding-top: 100px;
+
+		.avatar img
+		{
+			width: 150px;
+			height: 150px;
+		}
+	}
+	&.right
+	{
+		float: left;
+		width: 320px;
+		margin-left: 30px;
+
+		.cancel-box
+		{
+			input[type="submit"]
+			{
+				margin: 20px;
+			}
+		}
+
+		.pass-holder
+		{
+			#pass-hider
+			{
+				display: none;
+
+				.field:last-of-type { margin-bottom: 5px; }
+			}
+			span.default
+			{
+				font-size: 14px;
+				margin-left: 10px;
+			}
+		}
+	}
+}
 
 .avatar img
 {
@@ -78,7 +130,25 @@ label
 	border: solid orange 3px;
 	transition: box-shadow 0.25s;
 	background: white;
+
+	&.width-60
+	{
+		height: 60px;
+		width: 60px;
+	}
+	&.width-50
+	{
+		height: 50px;
+		width: 50px;
+	}
+	&.carpe-logo
+	{
+		width: 30px;
+		height: 30px;
+		padding: 10px;
+	}
 }
+.avatar.float { float: left;}
 a .avatar img:hover, .avatar a img:hover
 {
 	box-shadow: 0px 2px 2px #777;
@@ -193,6 +263,36 @@ a.default.green *, span.default.green, input.default.green
 {
 	background: #18B918;
 	&:hover {background: #39DA39;}
+}
+
+/*
+	Styling for loading inputs. .can-load makes them animate the icon in
+	while .loading indicates the icon should be shown
+ */
+a.default.can-load *, span.default.can-load, input.default.can-load
+{
+	transition: padding-right 0.5s;
+
+	&:after {
+		content: '';
+		display: block;
+		position: absolute;
+		top: 2px;
+		right: 5px;
+		height: 24px;
+		width: 24px;
+		background-image: url(/assets/spinner.svg);
+		background-size: 100%;
+		opacity: 0;
+		transition: opacity 0.5s;
+	}
+}
+a.default.loading *, span.default.loading, input.default.loading
+{
+	padding-right: 32px;
+
+	&:after { opacity: 1; }
+	&:hover { cursor: wait; }
 }
 a.default.following-btn *
 {
@@ -455,6 +555,35 @@ input.danger:hover
 	border-radius: 5px;
 	box-shadow: 1px 1px 1px silver;
 }
+.grey-box.admin-box
+{
+	width: 200px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 200px;
+	height: 56px;
+	padding: 5px 10px;
+	border-radius: 5px;
+	margin-bottom: 10px;
+
+	.avatar
+	{
+		float: left;
+
+		img
+		{
+			width: 50px;
+			height: 50px;
+		}
+	}
+	.name
+	{
+		position: relative;
+		top: 15px;
+		margin-left: 60px;
+		font-weight: 600;
+	}
+}
 .square
 {
 	// float: left;
@@ -648,6 +777,8 @@ form.thin
 /* Keyboard Shortcut Overlay Styling */
 #shortcut-overlay-box
 {
+	z-index: 100000;
+
 	ul
 	{
 		list-style: none;

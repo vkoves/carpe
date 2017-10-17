@@ -45,29 +45,56 @@ class User < ActiveRecord::Base
   validates_attachment :banner, content_type: {content_type: /\Aimage\/.*\Z/}, size: { in: 0..5.megabytes }
 
   after_create :send_signup_email
+  after_validation :clean_paperclip_errors
+
+  def clean_paperclip_errors
+    # Remove avatar/banner file size error if the avatar/banner error's exist
+    errors.delete(:avatar_file_size) unless errors[:avatar].empty?
+    errors.delete(:banner_file_size) unless errors[:banner].empty?
+  end
 
   def send_signup_email
-    UserNotifier.send_signup_email(self).deliver
+    UserNotifier.send_signup_email(self).deliver_now
+  end
+
+  # Validate the custom_url ...
+  REGEX_VALID_URL_CHARACTERS = /\A[a-zA-Z0-9_\-]*\Z/
+  REGEX_USER_ID = /\A\d+\Z/
+
+  validates :custom_url,
+            format: { with: REGEX_VALID_URL_CHARACTERS,
+                      message: 'must be alphanumeric' },
+            allow_blank: true,
+            uniqueness: true,
+            length: { maximum: 64 }
+
+  validates :custom_url,
+            format: { without: REGEX_USER_ID,
+                      message: 'cannot be an integer'}
+
+  def has_custom_url?
+    !custom_url.empty?
+  end
+
+  def to_param
+    has_custom_url? ? custom_url : id.to_s
+  end
+
+  def self.from_param(param)
+    User.find_by!(param =~ REGEX_USER_ID ? { id: param } : { custom_url: param })
   end
 
   ##########################
   ##### EVENT METHODS ######
   ##########################
 
-  def current_events #return events that are currently going on
-    now = Time.now.in_time_zone("Central Time (US & Canada)")
-    dt_now = DateTime.now
-    busy_events = self.events_in_range(dt_now.beginning_of_day, dt_now.end_of_day) #get events that occur today
-    busy_events = busy_events.select{|event| (event.date <= now and event.end_date >= now)} #get events going on right now
-    return busy_events.sort_by(&:end_date) #return the busy events sorted by which ends soonest
+  # TODO: events_in_range? events_start_in_range is probably a better name for that method
+  def current_events # return events that are currently going on
+    events_in_range(1.day.ago, DateTime.current).select(&:current?).sort_by(&:end_date)
   end
 
   def next_event #returns the next upcoming event within the next day
-    now = Time.now.in_time_zone("Central Time (US & Canada)")
-    dt_now = DateTime.now
-    upcoming_events = self.events_in_range(dt_now.beginning_of_day, dt_now.end_of_day)
-    upcoming_events = upcoming_events.select{|event| (event.date > now and event.date.in_time_zone("Central Time (US & Canada)").to_date == Date.today)} #get future events that occur today
-    return upcoming_events.sort_by(&:date)[0]
+    events_in_range(DateTime.current, 1.day.from_now).min_by(&:date)
   end
 
   def is_busy? #returns whether the user is currently busy (has an event going on)
@@ -161,11 +188,6 @@ class User < ActiveRecord::Base
     else
       active_relationships.create(followed_id: other_user.id)
     end
-  end
-
-  # TEMP - Forces following, only used for converting from friends to followers
-  def force_follow(other_user)
-    active_relationships.create(followed_id: other_user.id, confirmed: true)
   end
 
   # Unfollows a user.
@@ -285,5 +307,52 @@ class User < ActiveRecord::Base
   ##########################
   ## END GEN USER METHODS ##
   ##########################
+
+  ##########################
+  ##     MISC METHODS     ##
+  ##########################
+
+  # Convert the user into a hash with the least data needed to show search
+  # Recall that clients can see the JSON with a bit of inspection, so only
+  # public information should be included here
+  def convert_to_json
+    user_obj = {} #create a hash representing the user
+
+    # Required fields for search/tokenInput - name and image url
+    user_obj[:name] = self.name
+    user_obj[:image_url] = self.user_avatar(50)
+    user_obj[:id_or_url] = self.id
+    user_obj[:model_name] = "User" # specify what type of object this is (used for site search, which handles many object types)
+
+    user_obj #and return the user
+  end
+
+  # Ranks a collection of users for a given search query
+  def self.rank(users, query)
+    query = query.downcase
+
+    users.sort {|a,b| b.rank(query) <=> a.rank(query) } # return users by rank descending (hence sort is flipped)
+  end
+
+  # Ranks the user based on the query
+  # The ranking prioritizes the first name starting with the query
+  # then the middle/last name starting with the query
+  # and finally the query being included at all (handled by SQL)
+  def rank(query)
+    score = 0 # default score is 0
+
+    if name.downcase.starts_with?(query)
+      score = 2
+    elsif name.downcase.include?(" " + query)
+      score = 1
+    end
+
+    return score
+  end
+
+  ##########################
+  ##   END MISC METHODS   ##
+  ##########################
+
 
 end

@@ -1,19 +1,40 @@
 require 'test_helper'
 
 class CategoryTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  def setup
+    @norm, @putin = users(:norm, :putin)
+  end
 
   test "not signed in users don't have permission to see private categories" do
-  	assert categories(:private).has_access?(nil) == false, "Not signed in user could access the private category!"
+    assert_not categories(:private).has_access?(nil),
+               "Not signed in user could access the private category!"
   end
 
-  test "not signed in users should have permission to see private categories" do
-  	assert categories(:public).has_access?(nil) == true, "Not signed in user couldn't access the public category!"
+  test "not signed in users should have permission to see public categories" do
+    assert categories(:public).has_access?(nil),
+           "Not signed in user couldn't access the public category!"
   end
 
-  # test "friend user should have permission to see friends categories" do
-  	# assert categories(:friend).has_access(users(:viktors_friend)) == true, "Friend doesn't have access to friends category!"
-  # end
+  test "categories can be destroyed" do
+    categories(:main).destroy
+    assert_empty categories(:main).events, "All related events should have been destroyed"
+    assert_not categories(:main).persisted?, "Category should be marked as destroyed/deleted"
+  end
+
+  test "users have access to categories in their group" do
+    private_category = categories(:private)
+    private_category.group = groups(:one)
+
+    assert private_category.has_access?(@norm),
+           "Member of group does not have access to their group category!"
+  end
+
+  test "followers should be able to view categories with 'followers' privacy" do
+    putins_category = categories(:followers)
+    putins_category.user = @putin
+    @norm.follow(@putin)
+
+    assert putins_category.has_access?(@norm),
+           "Follower does not have access to category with 'followers' privacy"
+  end
 end

@@ -40,7 +40,7 @@
     <div class="field text-field">
       <%= f.label :password %>
       <% if @minimum_password_length %>
-      <em style="font-size: 11px; margin-left: 5px;">(<%= @minimum_password_length %> characters minimum)</em>
+      <em class="help-text">(<%= @minimum_password_length %> characters minimum)</em>
       <% end %><br>
       <%= f.password_field :password, class: "text-input",  autocomplete: "off" %>
     </div>

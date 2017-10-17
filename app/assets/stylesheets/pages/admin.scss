@@ -4,6 +4,38 @@
 	margin-left: auto;
 	margin-right: auto;
 }
+.dev-tools
+{
+	max-width: 600px;
+	margin: auto;
+	background: lightgrey;
+	text-align: left;
+	padding: 20px 30px;
+	border-radius: 5px;
+
+	h3 { margin-bottom: 5px; }
+	.tip {
+		margin-top: 10px;
+		color: #4e4e4e;
+
+		.sub-tip
+		{
+			font-size: 12px;
+			margin-top: 10px;
+		}
+	}
+	code {
+		background: white;
+		padding: 3px 8px;
+		background-color: #ffffff;
+		color: #426f44;
+		border-radius: 3px;
+	}
+	.can-load {
+		span { transition: padding-right 0.5s, background 0.3s; }
+		&.loading span { background-color: #ed7d31; }
+	}
+}
 
 /* The users panel acessible only to admins */
 .admin-users

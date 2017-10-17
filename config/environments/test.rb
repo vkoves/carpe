@@ -37,6 +37,12 @@ Rails.application.configure do
   #Make test go in sorted order???
   config.active_support.test_order = :sorted
 
+  # Make paperclip happy
+  # Setting this flag to true makes it so that active record test
+  # callbacks propagate normally instead of being silently logged.
+  # (This is default behaviour in Rails 5)
+  config.active_record.raise_in_transactional_callbacks = true
+
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 end

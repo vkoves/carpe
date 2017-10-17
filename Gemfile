@@ -85,3 +85,13 @@ if Gem.win_platform?
 
   gem 'coffee-script-source', '>= 1.12.2'
 end
+
+# Add SimpleCov to check test coverage (https://github.com/colszowka/simplecov)
+gem 'simplecov', :require => false, :group => :test
+
+# Add teaspoon gem for JS testing (https://github.com/jejacks0n/teaspoon) with Mocha
+gem "teaspoon"
+gem "teaspoon-mocha"
+
+# Minitest reporting
+gem "minitest-reporters"

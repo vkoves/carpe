@@ -1,73 +1,79 @@
-<% content_for :title do %> - Edit Profile<% end %>
+<% content_for :title do %> - Edit Profile
+<% end %>
 
-<div class="left" style="float: left; width: 50%; text-align: right; padding-top: 100px;">
-	<div class="avatar">
-		<img src="<%= current_user.user_avatar(150) %>" style="width: 150px; height: 150px;">
-	</div>
-	<h2 class="zero-top"><%= current_user.name %></h2>
+<div class="left edit-profile">
+  <div class="avatar">
+    <img src="<%= current_user.user_avatar(150) %>">
+  </div>
+  <h2 class="zero-top"><%= current_user.name %></h2>
 </div>
-<div class="right" style="float: left; width: 320px; margin-left: 30px;">
-	<h2 class="no-bold zero-bot">Edit Profile</h2>
+<div class="right edit-profile">
+  <h2 class="no-bold zero-bot">Edit Profile</h2>
 
-	<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-	  <%= devise_error_messages! %>
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: {method: :put}) do |f| %>
+      <%= devise_error_messages! %>
 
-	  <div class="field">
-	    <%= f.label :name %><br />
-	    <%= f.text_field :name, class: "text-input", autofocus: true %>
-	  </div>
+      <div class="field">
+        <%= f.label :name %><br/>
+        <%= f.text_field :name, class: "text-input", autofocus: true %>
+      </div>
 
-	  <div class="field">
-	    <%= f.check_box :public_profile %>
-	    <%= f.label :public_profile %>
-	    <%= image_tag "question-circle.svg", width: 15, class: "question-tooltip right", title: "Public profiles auto accept followers. Use this if you don't want to confirm each follower you receive." %>
-	    <br>
-	  </div>
+      <div class="field">
+        <%= f.check_box :public_profile %>
+        <%= f.label :public_profile %>
+        <%= image_tag "question-circle.svg", width: 15, class: "question-tooltip right", title: "Public profiles auto accept followers. Use this if you don't want to confirm each follower you receive." %>
+        <br>
+      </div>
 
-	  <div class="field">
-	    <%= f.label :home_time_zone %><br />
-	    <%= time_zone_select(:user, :home_time_zone, nil, {}, {:class => "dropdown"}) %>
-	  </div>
+      <div class="field">
+        <%= f.label :home_time_zone %><br/>
+        <%= time_zone_select(:user, :home_time_zone, nil, {}, {:class => "dropdown"}) %>
+      </div>
 
-	<% if current_user.provider %>
-		<!-- Since you are logged in with <%= current_user.provider_name %>, <br> you don't have to give your password to make changes. <br> -->
-	<% else %>
-	  <div class="field">
-	    <%= f.label :email %><br />
-	    <%= f.email_field :email, class: "text-input", autofocus: true %>
-	  </div>
+      <% if current_user.provider %>
+          <!-- Since you are logged in with <%= current_user.provider_name %>, <br> you don't have to give your password to make changes. <br> -->
+      <% else %>
+          <div class="field">
+            <%= f.label :email %><br/>
+            <%= f.email_field :email, class: "text-input", autofocus: true %>
+          </div>
 
-	  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-	    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-	  <% end %>
+          <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+              <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+          <% end %>
 
-		<div class="field">
-	    	<%= f.label :avatar %>
-	    	<%= f.file_field :avatar, accept: 'image/png,image/gif,image/jpeg' %>
-	  	</div>
-	<% end %>
+          <div class="field">
+            <%= f.label :avatar %>
+            <%= f.file_field :avatar, accept: 'image/png,image/gif,image/jpeg' %>
+          </div>
+      <% end %>
 
-	  	<div class="field">
-	  	  <%= f.label :banner %>
-	  	  <%= f.file_field :banner, accept: 'image/png,image/gif,image/jpeg' %>
-	  	</div>
+      <div class="field">
+        <%= f.label :custom_url %>
+        <%= f.text_field :custom_url, class: "text-input" %>
+      </div>
 
-	<% unless current_user.provider %>
-		<div class="pass-holder">
-			Change Password
-			<span class="default"
-				style="font-size: 14px; margin-left: 10px;"
-				onclick="$('#pass-hider').toggle();">
+      <div class="field">
+        <%= f.label :banner %>
+        <%= f.file_field :banner, accept: 'image/png,image/gif,image/jpeg' %>
+      </div>
+
+      <% unless current_user.provider %>
+          <div class="pass-holder">
+            Change Password
+            <span class="default"
+                  onclick="$('#pass-hider').toggle();">
 				Edit
 			</span>
-			<div id="pass-hider" style="display: none;">
+
+			<div id="pass-hider">
 			  <div class="field">
 			    <%= f.label :password %> <br>
 			    <!--<i>(leave blank if you don't want to change it)</i><br>-->
 			    <%= f.password_field :password, class: "text-input", autocomplete: "off" %>
 			  </div>
 
-			  <div class="field" style="margin-bottom: 5px;">
+			  <div class="field">
 			    <%= f.label :password_confirmation %><br />
 			    <%= f.password_field :password_confirmation, class: "text-input", autocomplete: "off" %>
 			  </div>
@@ -85,9 +91,7 @@
 	<% end %>
 
 	<div class="cancel-box">
-	<p class="zero-bot" style="margin-top: 10px;">
-		<%= button_to "Delete my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, :class => "default red" %>
-	</p>
+  		<%= button_to "Delete my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, :class => "default red" %>
 	</div>
 
 	<div class="link-default">

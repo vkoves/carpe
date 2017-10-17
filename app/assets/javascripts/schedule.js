@@ -1,4 +1,4 @@
-/**
+/*
  * Instantiates and handles the Carpe scheduling interface, populating
  * the users schedule, handling switching between weeks, and communicating
  * with the server about changes to the schedule, such as creating, moving
@@ -21,8 +21,8 @@ var breaks = {};
 
 var eventTempId = 0; //the temp id that the next event will have, incremented on each event creation or load
 
-var currEvent; //scheduleEvent Object - the event being currently edited
-var currCategory; //DOM ELEMENT - the category being currently edited. TODO: Make this use the Category object
+var currEvent; //scheduleItem Object - the event being currently edited
+var currCategory; //Category Object - the category being currently edited
 var currMins; //the current top value offset caused by the minutes of the current item
 
 var readied = false; //whether the ready function has been called
@@ -34,6 +34,8 @@ var dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Sat
 var viewMode = "week"; //either "week" or "month"
 
 var saveEventsTimeout; // timeout for save events so it doesn't happen too often
+
+var PLACEHOLDER_NAME = "<i>Untitled</i>"; // used by newly created categories and events
 
 /****************************/
 /**** DOCUMENT FUNCTIONS ****/
@@ -98,35 +100,46 @@ function isSafeToLeave()
  */
 function ScheduleItem()
 {
-	this.categoryId; //the id of the associated category
-	this.eventId; //the id of the event in the db
-	this.tempId; //the id of the event in the hashmap
+	/** The id of the associated category */
+	this.categoryId
+	this.eventId;
+	/** The id of the event in the hashmap */
+	this.tempId;
+	/** The start date and time, as a js Date() */
+	this.startDateTime;
+	/** The end date and time */
+	this.endDateTime;
+	/** The repeat type as a string */
+	this.repeatType;
+	/** The date the repeating starts on */
+	this.startRepeatType;
+	/** The date the repeating starts on */
+	this.endRepeatType;
+	/** An array of the repeat exceptions of this event. Does not include category level repeat exceptions */
+	this.breaks = [];
+	/** The name of the event */
+	this.name;
+	/** The event description */
+	this.description;
+	/** The event location */
+	this.location;
+	/** Whether this object has bee updated since last save */
+	this.needsSaving = false;
 
-	this.startDateTime; //the start date and time, as a js Date()
-	this.endDateTime; //the end date and time
-
-	this.repeatType; //the repeat type as a string
-	this.startRepeatType; //the date the repeating starts on
-	this.endRepeatType; //the date the repeating starts on
-	this.breaks = []; //an array of the repeat exceptions of this event. Does not include category level repeat exceptions
-
-	this.name; //the name of the event
-	this.description; //the event description
-	this.location; //the event location
-
-	this.needsSaving = false; //whether this object has bee updated since last save
-
-	this.lengthInHours = function() //returns an float of the length of the event in hours
+	/** Returns an float of the length of the event in hours */
+	this.lengthInHours = function()
 	{
 		return differenceInHours(this.startDateTime, this.endDateTime, false);
 	};
 
-	this.hoursSpanned = function() //returns an integer of the difference in the hours
+	/** Returns an integer of the difference in the hours */
+	this.hoursSpanned = function()
 	{
 		return this.endDateTime.getHours() - this.startDateTime.getHours();
 	};
 
-	this.destroy = function() //deletes the schedule item from the frontend
+	/** Deletes the schedule item from the frontend */
+	this.destroy = function()
 	{
 		this.element().slideUp("normal", function() { $(this).remove(); }); //slide up the element and remove after that is done
 		delete scheduleItems[this.tempId]; //then delete from the scheduleItems map
@@ -241,14 +254,16 @@ function ScheduleItem()
 		updatedEvents(this.tempId, "resizeComplete");
 	};
 
-	this.getTop = function() //returns the top value based on the hours and minutes of the start
+	/** Returns the top value based on the hours and minutes of the start */
+	this.getTop = function()
 	{
 		var hourStart = this.startDateTime.getHours() + (this.startDateTime.getMinutes()/60);
 		var height =  gridHeight * hourStart;
 		return height;
 	};
 
-	this.getMinutesOffsets = function() //returns the pixel offsets caused by the minutes as an array
+	/** Returns the pixel offsets caused by the minutes as an array */
+	this.getMinutesOffsets = function()
 	{
 		var offsets = [];
 		offsets.push(gridHeight*(this.startDateTime.getMinutes()/60));
@@ -258,24 +273,27 @@ function ScheduleItem()
 
 	this.updateHeight = function()
 	{
-		this.element().css("height", gridHeight*this.lengthInHours() - border);
-		updatedEvents(this.tempId, "updateHeight");
+		// only update height in view mode's where size indicates duration
+		if(viewMode == "week")
+		{
+			this.element().css("height", gridHeight*this.lengthInHours() - border);
+			updatedEvents(this.tempId, "updateHeight");
+		}
 	};
 
-	//a way of getting the name that handles untitled
-	this.getName = function(useHTML)
+	/** a way of getting the name that handles untitled */
+	this.getHtmlName = function()
 	{
-		if(this.name)
-			return this.name;
-		else if(useHTML)
-			return "<i>Untitled</i>";
-		else
-			return "Untitled";
+		return this.name ? escapeHtml(this.name) : PLACEHOLDER_NAME;
 	}
 
-	this.element = function() //returns the HTML element for this schedule item, or elements if it is repeating
+	/** Returns the HTML element for this schedule item, or elements if it is repeating */
+	this.element = function()
 	{
-		return $(".sch-evnt[evnt-temp-id="+ this.tempId + "]");
+		if(viewMode == "week")
+			return $(".sch-evnt[evnt-temp-id="+ this.tempId + "]");
+		else if(viewMode == "month")
+			return $(".sch-month-evnt[evnt-temp-id="+ this.tempId + "]");
 	};
 
 	/****************************/
@@ -324,6 +342,11 @@ function ScheduleItem()
 		}
 
 		elem.attr("time", topDT.getHours() + ":" + paddedMinutes(topDT)); //set the time attribute
+
+		if(viewMode == "month")
+			repopulateEvents();
+		else if(viewMode == "week")
+			schItem.tempElement = elem; // update temp element for later populateEvents() calls - only used by weekly view
 	}
 
 	/**
@@ -359,10 +382,15 @@ function ScheduleItem()
 function Category(id)
 {
 	this.id = id; //the id of the category in the db
-	this.name = "Untitled"; //the name of the category, as a string
+	this.name; //the name of the category, as a string.
 	this.color; //the color of the category, as a CSS acceptable string
 	this.privacy = "private"; //the privacy of the category, right now either private || followers || public
 	this.breaks = []; //an array of the repeat exceptions of this category.
+
+	this.getHtmlName = function()
+	{
+		return this.name ? escapeHtml(this.name) : PLACEHOLDER_NAME;
+	}
 }
 
 /**
@@ -417,11 +445,9 @@ function scheduleReady()
 	if(readOnly) //allow viewing of all events with single click
 	{
 		$(".edit, #repeat, #add-break-event").remove(); //remove repeat functionality, and adding breaks
-		$("#overlay-loc, #overlay-desc, #overlay-title").attr("contenteditable", "false"); //disable editing on location title and description
+		$("#overlay-title").attr("contenteditable", "false"); //disable editing on location title and description
+		$("#overlay-loc, #overlay-desc").prop('disabled', true);
 		$("#time-start, #time-end").attr("readonly", true); //disable editing of time
-		$(".col-snap .sch-evnt").click(function(){
-			editEvent($(this)); //and make it so clicking an event immediately opens it
-		});
 	}
 
 	$("#sch-save").addClass("disabled");
@@ -433,14 +459,10 @@ function scheduleReady()
  */
 function addStartingListeners()
 {
-	$(document).keyup(function(e) //add event listener to close overlays on pressing escape
-	{
-		if (e.keyCode == 27) // escape key maps to keycode `27`
-		{
-			hideOverlay();
-		}
+	// resizes textboxes to give them height based on the content inside
+	$('.auto-resize-vertically').on('input', function () {
+	  textareaSetHeight(this);
 	});
-
 
 	$(".date-field").datepicker( //show the datepicker when clicking on the field
 	{
@@ -464,6 +486,7 @@ function addStartingListeners()
 		{
 			currEvent.setRepeatEnd(new Date($(this).val()));
 		}
+		repopulateEvents();
 	});
 
 	$("#repeat-custom").click(function()
@@ -511,19 +534,26 @@ function addStartingListeners()
 	});
 
 	//Add break button click handler, which shows the overlay
-	$("#create-break, #create-break-inside-add-break").click(function()
+	$("#create-break-inside-add-break").click(function()
 	{
 		showBreakCreateOverlay();
 	});
 
+	$("#manage-breaks").click(function()
+	{
+		setupBreakAddOverlay(true);
+		UIManager.slideInShowOverlay("#break-adder-overlay-box");
+	});
+
 	$("#break-overlay-box .close").click(function()
 	{
-		hideBreakCreateOverlay();
+		UIManager.slideOutHideOverlay("#break-overlay-box");
 	});
 
 	$("#add-break-event, #add-break-category").click(function()
 	{
-		showBreakAddOverlay();
+		setupBreakAddOverlay();
+		UIManager.slideInShowOverlay("#break-adder-overlay-box");
 	});
 
 	//Submit break button in the overaly
@@ -549,15 +579,20 @@ function addStartingListeners()
 		}
 	}).click(function()
 	{
-		if($(this).text() == "Untitled")
-		{
+		if($(this).html() == PLACEHOLDER_NAME)
 			$(this).text("");
-		}
 	})
 	.focusin(function() {
 		setTimeout(highlightCurrent, 100); // highlight the whole name after focus
 	})
-	.focusout(removeHighlight);
+	.focusout(function()
+	{
+		// If no name, set to Untitled
+		if($(this).text() == "")
+			$(this).html(PLACEHOLDER_NAME);
+
+		removeHighlight();
+	});
 
 	$(".repeat-option").click(function()
 	{
@@ -607,8 +642,7 @@ function addStartingListeners()
 	{
 		//TODO: Fix this not working across different days (try noon in your local time)
 
-		//TODO - Fix this reading HTML and parsing it. It's terrible.
-		var dateE = currEvent.element().parent().siblings(".col-titler").children(".evnt-fulldate").html(); //the date the elem is on
+		var dateE = currEvent.startDateTime.toDateString();
 
 		var val = $(this).val();
 
@@ -625,14 +659,13 @@ function addStartingListeners()
 
 		currEvent.setStartDateTime(newDateTime, true, true); //and set!
 		currEvent.updateHeight();
-
 	});
 
 	$("#time-end").change(function()
 	{
 		//TODO: Fix this not working across different days (try noon in your local time)
 
-		var dateE = currEvent.element().parent().siblings(".col-titler").children(".evnt-fulldate").html(); //the date the elem is on
+		var dateE = currEvent.startDateTime.toDateString();
 
 		var val = $(this).val();
 
@@ -646,7 +679,6 @@ function addStartingListeners()
 
 		currEvent.setEndDateTime(newDateTime, true, true);
 		currEvent.updateHeight();
-
 	});
 
 	$("#overlay-desc").focusin(function() {
@@ -654,7 +686,7 @@ function addStartingListeners()
 	})
 	.focusout(function()
 	{
-		currEvent.setDescription($(this).text());
+		currEvent.setDescription($(this).val());
 		removeHighlight();
 	});
 
@@ -663,7 +695,7 @@ function addStartingListeners()
 	})
 	.focusout(function()
 	{
-		currEvent.setLocation($(this).text());
+		currEvent.setLocation($(this).val());
 		removeHighlight();
 	});
 
@@ -677,6 +709,10 @@ function addStartingListeners()
 		}
 	})
 	.focusin(function() {
+		// If the name is Untitled, remove it
+		if($(this).html() == PLACEHOLDER_NAME)
+			$(this).text("");
+
 		setTimeout(highlightCurrent, 100); // highlight the whole name after focus
 	})
 	.focusout(function()
@@ -749,14 +785,15 @@ function addStartingListeners()
 		$('#repeat-menu').toggle();
 	});
 
-	$("#event-overlay-box .default.red, .ui-widget-overlay").click(function()
+	$("#event-overlay-box .default.red").click(function()
 	{
-		hideOverlay();
+		UIManager.slideOutHideOverlay("#event-overlay-box");
+		currEvent = null; // indicate there's no current event
 	});
 
 	$("#break-adder-overlay-box .close").click(function()
 	{
-		hideBreakAddOverlay();
+		UIManager.slideOutHideOverlay("#break-adder-overlay-box");
 	});
 
 	$("#view-monthly").click(initializeMonthlyView);
@@ -867,12 +904,10 @@ function loadInitialEvents()
 			var time = dateE.getHours() + ":" + paddedMinutes(dateE);
 
 			clone.children(".evnt-title").text(evnt.name);
-			clone.children(".evnt-time.top").text(convertTo12Hour(dateE)).show();
-			clone.children(".evnt-time.bot").text(convertTo12Hour(dateEnd)).show();
 			clone.attr("time", time);
 			clone.attr("event-id", evnt.id);
 			clone.attr("evnt-temp-id", i); //Set the temp id
-			clone.children(".evnt-desc").html(evnt.description);
+			clone.children(".evnt-desc").text(evnt.description);
 
 			scheduleItems[i].tempElement = clone; //Store the element
 
@@ -932,10 +967,7 @@ function addDrag(selector)
 		{
 			e.preventDefault();
 			$(this).parent().draggable("enable");
-			$(this).blur();  // lose focus
-
-			scheduleItems[$(this).parent().attr("evnt-temp-id")].setName($(this).text());
-
+			$(this).blur();  // lose focus, which prompts saving and all that via focusout below
 		}
 	})
 	.focusout(function()
@@ -944,6 +976,9 @@ function addDrag(selector)
 		$(this).parent().draggable("enable");
 
 		scheduleItems[$(this).parent().attr("evnt-temp-id")].setName($(this).text());
+
+		if($(this).text() == "")
+			$(this).html(PLACEHOLDER_NAME);
 
 		removeHighlight();
 	});
@@ -977,6 +1012,10 @@ function addDrag(selector)
 		editEventTitle(event, $(this));
 	})
 	.focusin(function() {
+		// If the name is Untitled, remove it
+		if($(this).html() == PLACEHOLDER_NAME)
+			$(this).text("");
+
 		setTimeout(highlightCurrent, 100); // highlight the whole name after focus
 	});
 
@@ -1029,14 +1068,26 @@ function addDrag(selector)
 		{
 			var newItem = false;
 
-			if(!inColumn($(this))) //if this event was not placed
+			if(viewMode == "week" && !inColumn($(this))) //if this event was not placed
 				return; //return
 
-			if($(this).css("opacity") == 1) //if opacity is 1, this is a new event
+			if(viewMode == "week" && $(this).css("opacity") == 1) //if opacity is 1, this is a new event
 			{
 				$(this).css("height", gridHeight*3 - border);
 				handleNewEvent(this);
 				newItem = true;
+			}
+			else if(viewMode == "month" && $(this).attr("data-date")) // if monthly view, check for date from being over a date tile
+			{
+				handleNewEvent(this);
+				var currItem = scheduleItems[eventTempId - 1];
+				currItem.startDateTime = new Date($(this).attr("data-date"));
+				currItem.endDateTime = new Date($(this).attr("data-date"));
+
+				// Set end time to 11:59 PM so it's easier to edit the time
+				currItem.endDateTime.setHours(23);
+				currItem.endDateTime.setMinutes(59);
+				repopulateEvents();
 			}
 
 			$("#sch-tiles").html(sideHTML); //reset the sidebar
@@ -1044,18 +1095,21 @@ function addDrag(selector)
 
 			var tempItem = scheduleItems[$(this).attr("evnt-temp-id")];
 
-			handlePosition(this, ui);
-			if(!newItem) //if this is not a new item
-				tempItem.dragComplete($(this)); //say it's been moved
-			else //otherwise
+			if(viewMode == "week")
 			{
-				tempItem.resizeComplete($(this)); //say it's been resized, to read all properties
-				tempItem.endDateTime.setMinutes(0);
-			}
+				handlePosition(this, ui);
+				if(!newItem) //if this is not a new item
+					tempItem.dragComplete($(this)); //say it's been moved
+				else //otherwise
+				{
+					tempItem.resizeComplete($(this)); //say it's been resized, to read all properties
+					tempItem.endDateTime.setMinutes(0);
+				}
 
-			if(tempItem.repeatType && tempItem.repeatType != "none" && tempItem.repeatType != "") //if this is a repeating event
-			{
-				repopulateEvents(); //and populate
+				if(tempItem.repeatType && tempItem.repeatType != "none" && tempItem.repeatType != "") //if this is a repeating event
+				{
+					repopulateEvents(); //and populate
+				}
 			}
 
 			addDrag(); //add drag to the sidebar again
@@ -1145,7 +1199,7 @@ function handlePosition(elem, ui)
 
 /**
  * Called when creating a clone, copying a specified element.
- * @param  {jQuery element} elem - The element being copied
+ * @param  {jQuery} elem - The element being copied
  * @param  {Object}   ui - UI object from jQuery drag handler
  */
 function handleClone(elem, ui)
@@ -1196,13 +1250,17 @@ function handleNewEvent(elem)
 	schItem.needsSaving = true;
 	scheduleItems[eventTempId] = schItem;
 
-	$(elem).children(".evnt-title").attr("contenteditable", "true");
-	$(elem).children(".evnt-title").trigger('focus');
-	highlightCurrent(); // Suggests to the user to change the schedule item title by making it editable upon drop here.
-	document.execCommand('delete',false,null); // Suggests to the user to change the schedule item title by making it editable upon drop here.
-	$(elem).attr("evnt-temp-id", eventTempId);
+	if(viewMode == "week")
+	{
+		$(elem).children(".evnt-title").attr("contenteditable", "true");
+		$(elem).children(".evnt-title").trigger('focus');
+		highlightCurrent(); // Suggests to the user to change the schedule item title by making it editable upon drop here.
+		document.execCommand('delete',false,null); // Suggests to the user to change the schedule item title by making it editable upon drop here.
+		$(elem).attr("evnt-temp-id", eventTempId);
+		addResizing($(elem)); //since the sidebar events don't have resizing, we have to add it on stop
+	}
+
 	eventTempId++;
-	addResizing($(elem)); //since the sidebar events don't have resizing, we have to add it on stop
 }
 
 //Change time while items are being dragged or resized, and also snap to a vertical grid
@@ -1312,6 +1370,8 @@ function addDates(newDateObj, refresh, startToday)
 
 		$(".sch-day-col").each(function(index, col)
 		{
+			$(col).attr("data-date", dateToString(currDate));
+
 			var fullDate = monthNames[currDate.getMonth()] + " " + currDate.getDate() + ", " + currDate.getFullYear();
 
 			$(col).children(".col-titler").prepend("<div class='evnt-date'>" + currDate.getDate() + "</div> "); //prepend the numeric date (e.g. 25)
@@ -1350,7 +1410,7 @@ function addDates(newDateObj, refresh, startToday)
 		{
 			var tileClass = "sch-day-tile";
 
-			if(counter <= oldDatesCount && startDateData.lastMonth) //if going through dates from the last month
+			if(counter < oldDatesCount && startDateData.lastMonth) //if going through dates from the last month
 				tileClass = tileClass + " last-month";
 
 			if(counter >= oldDatesCount + monthLength) //if we are going through dates from the next month
@@ -1361,7 +1421,7 @@ function addDates(newDateObj, refresh, startToday)
 			if(currDate < todaySimple)
 				tileClass = tileClass + " in-past";
 
-			$("#sch-monthly-view #tiles-cont").append("<div class='" + tileClass + "'>"
+			$("#sch-monthly-view #tiles-cont").append("<div class='" + tileClass + "' data-date='" + dateToString(currDate) + "' >"
 					+ "<div class='inner'>"
 						+ "<div class='day-of-month'>" + currDate.getDate() + "</div>"
 					+ "</div>"
@@ -1390,12 +1450,6 @@ function initializeMonthlyView()
 	$("#sch-monthly-view").show();
 
 	addDates(refDate, true);
-	$(".sch-month-evnt:not(.private)").click(function()
-	{
-		editEvent($(this));
-	})
-
-
 }
 
 function initializeWeeklyView()
@@ -1451,8 +1505,8 @@ function getStartDate(dateObj, useMonth)
  */
 function repopulateEvents()
 {
-	$("#sch-holder .sch-evnt").remove();
-	populateEvents();
+	$("#sch-holder .sch-evnt, #sch-holder .sch-month-evnt").remove(); // remove week and month events
+	populateEvents(); // and then populate events
 }
 
 //Populate the events in the current week from the hashmap
@@ -1465,8 +1519,16 @@ function populateEvents()
 
 		if(viewMode == "week")
 		{
+			// Setup the UI element's color, text, and height to represent the schedule item
 			currentElem.css("background-color", color);
-			currentElem.find(".evnt-title").html(eventObject.getName(true));
+			currentElem.find(".evnt-title").html(eventObject.getHtmlName());
+			currentElem.find(".evnt-time.top").text(convertTo12Hour(eventObject.startDateTime));
+			currentElem.find(".evnt-time.bot").text(convertTo12Hour(eventObject.endDateTime));
+			currentElem.css("height", gridHeight*eventObject.lengthInHours() - border);
+			currentElem.css("top", eventObject.getTop());
+			currentElem.attr("evnt-temp-id", eventObject.tempId);
+
+			// Add the event
 			$(".sch-day-col:eq(" + i + ") .col-snap").append(currentElem);
 		}
 		else if(viewMode == "month")
@@ -1475,13 +1537,22 @@ function populateEvents()
 			if(eventObject.name == "<i>Private</i>")
 				className = " private";
 
+			var eventId = "";
+			if(eventObject.eventId)
+				eventId = "event-id='" + eventObject.eventId + "'";
+
+			var closeBtn = "";
+			if(!readOnly) // close button shouldn't show up if you can't edit this schedule
+				closeBtn = "<div class='close'></div>";
+
 			$(".sch-day-tile:eq(" + i + ") .inner").append("<div class='sch-month-evnt" + className + "' evnt-temp-id='" + eventObject.tempId
-				+ "' data-id='" + eventObject.categoryId + "' data-hour='" + eventObject.startDateTime.getHours() + "' style='color: "
+				+ "' " + eventId + " data-id='" + eventObject.categoryId + "' data-hour='" + eventObject.startDateTime.getHours() + "' style='color: "
 				+  color +  "; color: " + color + ";'>"
-					+ eventObject.getName(true)
+					+ "<span class='evnt-title'>" + eventObject.getHtmlName() + "</span>"
 					+ "<div class='time'>"
 						+ datesToTimeRange(eventObject.startDateTime, eventObject.endDateTime)
 					+ "</div>"
+					+ closeBtn
 				+ "</div>");
 		}
 	}
@@ -1591,7 +1662,6 @@ function populateEvents()
 			var monthTileEvents = $(this).find(".sch-month-evnt");
 			$(this).find(".sch-month-evnt").remove();
 
-			console.log(monthTileEvents.length);
 			monthTileEvents.sort(function(a, b) {
 				a = parseInt($(a).attr("data-hour"));
 				b = parseInt($(b).attr("data-hour"));
@@ -1605,6 +1675,85 @@ function populateEvents()
 
 			$(this).find(".inner").append(monthTileEvents);
 		});
+
+		$(".sch-month-evnt:not(.private)").click(function()
+		{
+			editEvent($(this));
+		});
+
+		if(!readOnly)
+		{
+			$(".sch-month-evnt .close").click(function(event)
+			{
+				deleteEvent(event, $(this));
+			});
+
+			monthlyEventDraggable();
+			monthlyTileDroppable();
+		}
+
+		function monthlyEventDraggable()
+		{
+			$(".sch-month-evnt").draggable(
+			{
+				containment: "#sch-holder",
+				appendTo: "body",
+				cancel: "img",
+				revertDuration: 0,
+				distance: 10,
+				scroll: false,
+				revert: "invalid",
+				stack: ".sch-month-evnt",
+				helper: function()
+				{
+					$copy = $(this).clone(); // copy the monthly event
+
+					$(this).css('opacity', '0'); // hide the original
+
+					$copy.css('width', $(this).css('width')); // set the copy's width (since % don't work without inheritance)
+					$copy.css('z-index', '10'); // and increase the copy's z-index
+
+					return $copy;
+				},
+				stop: function() {
+					if($(this).attr('data-date')) // check for a data-date from being over a date tile
+					{
+						var currItem = scheduleItems[$(this).attr("evnt-temp-id")];
+						var newDate = new Date($(this).attr('data-date'));
+						currItem.startDateTime.setMonth(newDate.getMonth());
+						currItem.startDateTime.setDate(newDate.getDate());
+						currItem.startDateTime.setYear(newDate.getFullYear());
+						currItem.endDateTime.setMonth(newDate.getMonth());
+						currItem.endDateTime.setDate(newDate.getDate());
+						currItem.endDateTime.setYear(newDate.getFullYear());
+						updatedEvents(currItem.tempId, "Dragged monthly event");
+
+						$(this).attr('data-date', ''); // remove data-date now that it's been used
+					}
+					repopulateEvents();
+				}
+			});
+		}
+
+		function monthlyTileDroppable() {
+			$(".sch-day-tile").droppable(
+			{
+				drop: function( event, ui ) //called when event is dropped on a new column (not called on moving it in the column)
+				{
+					var element = ui.draggable;
+					element.attr('data-date', $(this).attr('data-date'));
+					$(this).removeClass("over"); //dehighlight on drop
+				},
+				over: function( event, ui )
+				{
+					$(this).addClass("over"); //highlight
+				},
+				out: function( event, ui )
+				{
+					$(this).removeClass("over"); //unhighlight
+				}
+			});
+		}
 	}
 
 	if(readOnly)
@@ -1646,7 +1795,7 @@ function editCategory(elem)
 
 	$(".cat-overlay-title").trigger('focus');
 
-	$(".ui-widget-overlay, #cat-overlay-box").fadeIn(250);
+	UIManager.slideInShowOverlay("#cat-overlay-box");
 
 	var colForTop = currCategory.color;
 
@@ -1657,7 +1806,7 @@ function editCategory(elem)
 	else //if the color was null or empty remove the background-color
 		$(".cat-top-overlay").css("background-color",""); */
 
-	$(".cat-overlay-title").html(currCategory.name);
+	$(".cat-overlay-title").html(currCategory.getHtmlName());
 	$("#cat-overlay-box").attr("data-id", categoryId);
 
 	$(".color-swatch").removeClass("selected");
@@ -1712,15 +1861,15 @@ function editEvent(elem)
 		$("#repeat-start").val(verboseDateToString(currEvent.repeatStart));
 		$("#repeat-end").val(verboseDateToString(currEvent.repeatEnd));
 
-		$(".ui-widget-overlay, #event-overlay-box").fadeIn(250);
+		UIManager.slideInShowOverlay("#event-overlay-box");
 
-		$("#overlay-title").html(currEvent.name);
+		$("#overlay-title").html(currEvent.getHtmlName());
 		$("#overlay-color-bar").css("background-color", categories[currEvent.categoryId].color);
 
 		var desc = currEvent.description || ""; //in case the description is null
 		var loc = currEvent.location || ""; //in case the location is null
-		$("#overlay-desc").html(desc);
-		$("#overlay-loc").html(loc);
+		$("#overlay-desc").val(desc);
+		$("#overlay-loc").val(loc);
 
 		if(desc.length == 0 && readOnly) //if this is readOnly and there is no description
 			$("#overlay-desc, #desc-title").hide(); //hide the field and the title
@@ -1738,6 +1887,13 @@ function editEvent(elem)
 		//$(".overlay-time").html(convertTo12Hour(time.split(":")) + " - " + convertTo12Hour(endTime.split(":")));
 		$("#time-start").val(convertTo12HourFromArray(startArr));
 		$("#time-end").val(convertTo12HourFromArray(endArr));
+
+		// resize the textareas to the appropriate size
+		$('.auto-resize-vertically').each(function () {
+			//check if the textbox contains a new line or else it takes up 2 unnessisary lines
+		  textareaSetHeight(this);
+			$(this).css('overflow-y', 'hidden');
+		});
 	}
 }
 
@@ -1745,10 +1901,13 @@ function editEvent(elem)
 function showBreakCreateOverlay()
 {
 	$("#break-overlay-box input").val(""); //clear all inputs
-	$(".ui-widget-overlay, #break-overlay-box").fadeIn(250); //and fade in
+	UIManager.slideInShowOverlay("#break-overlay-box"); //and fade in
 }
 
-function showBreakAddOverlay()
+// Sets up an overlay to add breaks. If managing,
+// it is actually for editing and deleting breaks rather
+// than enabling or disabling breaks on the currente vent
+function setupBreakAddOverlay(managing)
 {
 	var currObj;
 	if(currEvent)
@@ -1757,18 +1916,34 @@ function showBreakAddOverlay()
 		currObj = currCategory;
 
 	$("#break-cont").html(""); //clear the break container
+
+	var checkbox = "<div class='check-box'></div>";
+
+	if(managing)
+	{
+		checkbox = "";
+		$("#break-adder-overlay-box h3").text("Manage Breaks");
+	}
+	else
+	{
+		$("#break-adder-overlay-box h3").text("Add Breaks");
+	}
+
 	for (var id in breaks) //do a foreach since this is a hashmap
 	{
 		var breakInstance = breaks[id]; //and add each break
 
 		var classAdd = "";
-		if(currObj.breaks.indexOf(parseInt(id)) > -1)
+
+		if(!managing && currObj.breaks.indexOf(parseInt(id)) > -1)
 		{
 			classAdd = "active"
 		}
 
-		$("#break-cont").append("<div class='break-elem " +  classAdd +"' data-id='" + id + "' >"
-				+ "<div class='check-box'></div>"
+
+		// Prepend each break so that the most recently created break created comes first in the list
+		$("#break-cont").prepend("<div class='break-elem " +  classAdd +"' data-id='" + id + "' >"
+				+ checkbox
 				+ breakInstance.name + " | " + dateToString(breakInstance.startDate) + " | " + dateToString(breakInstance.endDate)
 			+ "</div>");
 	}
@@ -1779,65 +1954,43 @@ function showBreakAddOverlay()
 			+ "<br>Make some by pressing \"Create Break\" on your schedule!");
 	}
 
-	$(".break-elem").click(function()
+	if(!managing)
+		setupBreakClickHandlers();
+
+	function setupBreakClickHandlers()
 	{
-		var currId = parseInt($(this).attr("data-id")); //get the id of the current break
-
-		var currObj;
-		if(currEvent)
-			currObj = currEvent;
-		else
-			currObj = currCategory;
-
-		if($(this).hasClass("active")) //disable this
+		$(".break-elem").click(function()
 		{
-			var index = currObj.breaks.indexOf(currId);
+			var currId = parseInt($(this).attr("data-id")); //get the id of the current break
 
-			if(index > -1) //if this is indeed a current break
+			var currObj;
+			if(currEvent)
+				currObj = currEvent;
+			else
+				currObj = currCategory;
+
+			if($(this).hasClass("active")) //disable this
 			{
-				$(this).removeClass("active");
-				currObj.breaks.splice(index, 1); //and remove
+				var index = currObj.breaks.indexOf(currId);
+
+				if(index > -1) //if this is indeed a current break
+				{
+					$(this).removeClass("active");
+					currObj.breaks.splice(index, 1); //and remove
+				}
 			}
-		}
-		else
-		{
-			$(this).addClass("active");
+			else
+			{
+				$(this).addClass("active");
 
-			currObj.breaks.push(currId);
-		}
+				currObj.breaks.push(currId);
+			}
 
-		if(currEvent)
-			updatedEvents(currEvent.tempId, "breaks"); //mark that the events changed to enable saving
+			if(currEvent)
+				updatedEvents(currEvent.tempId, "breaks"); //mark that the events changed to enable saving
 
-		repopulateEvents();
-	});
-
-	$(".ui-widget-overlay, #break-adder-overlay-box").fadeIn(250);
-}
-
-//Hide any type of overlay
-function hideOverlay()
-{
-	//Hide overlay, the repeat menu and category and event overlays
-	$(".ui-widget-overlay, #repeat-menu, #event-overlay-box, #cat-overlay-box, #break-overlay-box, #break-adder-overlay-box, .overlay-box").fadeOut(250);
-	currCategory = null;
-	currEvent = null;
-}
-
-//Hide the break adding overlay
-function hideBreakAddOverlay()
-{
-	$("#break-adder-overlay-box").fadeOut(250);
-}
-
-//Hide the break adding overlay
-function hideBreakCreateOverlay()
-{
-	var addingBreakUiIsVisible = $("#break-adder-overlay-box").is(":visible");
-	if (!addingBreakUiIsVisible) {
-		hideOverlay();
-	} else {
-		$("#break-overlay-box").fadeOut(250);
+			repopulateEvents();
+		});
 	}
 }
 
@@ -1931,35 +2084,119 @@ function deleteEvent(event, elem)
 {
 	event.stopImmediatePropagation();
 
-	confirmUI("Are you sure you want to delete this event?", function(confirmed)
+	var tempId = $(elem).parent().attr("evnt-temp-id");
+	var schItem = scheduleItems[tempId];
+
+	if(schItem.repeatType && schItem.repeatType != "none")
 	{
-		if(confirmed)
+		// Show the event deletion overlay for repeating elements
+		UIManager.showOverlay();
+		UIManager.slideIn("#evnt-delete.overlay-box");
+
+		$("#evnt-delete.overlay-box .default").off(); // remove events from buttons
+
+		$("#evnt-delete.overlay-box #single-evnt").click(deleteSingleEvent);
+		$("#evnt-delete.overlay-box #all-evnts").click(deleteEventProper);
+
+		// On cancel just hide overlay
+		$("#evnt-delete.overlay-box .close, #evnt-delete.overlay-box #cancel").click(function()
 		{
-			var eId = $(elem).parent().attr("event-id");
-			var tempId = $(elem).parent().attr("evnt-temp-id");
+			UIManager.slideOutHideOverlay("#evnt-delete.overlay-box");
+		});
+	}
+	else
+	{
+		confirmUI("Are you sure you want to delete this event?", deleteEventProper);
+	}
 
-			$(".sch-evnt[evnt-temp-id='" + tempId + "']").slideUp("normal", function() {$(this).remove();});
+	// Deletes a single event among a repeating set by making a new repeat break and applying it
+	function deleteSingleEvent()
+	{
+		var tempId = $(elem).parent().attr("evnt-temp-id");
+		var event = scheduleItems[tempId];
 
-			delete scheduleItems[tempId]; //remove event map
+		var breakDateString;
+		if(viewMode == "week")
+			breakDateString = $(elem).parents(".sch-day-col").attr("data-date");
+		else if(viewMode == "month")
+			breakDateString = $(elem).parents(".sch-day-tile").attr("data-date");
 
-			if(!eId) // if no event, this event has not been saved, so no ajax is needed to delete it
-				return;
+		if(!breakDateString) // if the date string is undefined, return to prevent further errors
+			return;
 
-			$.ajax({
-				url: "/delete_event",
-				type: "POST",
-				data: {id: eId, group_id: groupID},
-				success: function(resp)
-				{
-					console.log("Delete complete.");
-				},
-				error: function(resp)
-				{
-					alertUI("Deleting event failed :/");
-				}
+		// Format auto made break names as "No _event-name_ On _date_"
+		// e.g. 'No Baseball Training On 9/27/17'
+		var breakTitle = "No " + schItem.name + " On " + breakDateString;
+
+		var newBreakId;
+
+		// Check for existing break with this name to see if it was made
+		for(var breakId in breaks)
+		{
+			if(breaks[breakId].name == breakTitle)
+				newBreakId = breakId;
+		}
+
+		// If we didn't find an existing break with that name, make one
+		if(typeof newBreakId == "undefined")
+		{
+			createBreak(breakTitle, breakDateString, breakDateString, function(newBreak)
+			{
+				newBreakId = newBreak.id;
+				applyNewBreak(); // apply new break after server responds with our break ID
 			});
 		}
-	});
+		else
+		{
+			applyNewBreak();
+		}
+
+		// Add the new break to the schedule item and repopulate the schedule to apply it
+		function applyNewBreak()
+		{
+			// Now that we have a break that will make this event be skipped, add it and update UI accordingly
+			schItem.breaks.push(newBreakId);
+
+			updatedEvents(schItem.tempId, "breaks"); //mark that the events changed to enable saving
+
+			repopulateEvents();
+
+			UIManager.slideOutHideOverlay("#evnt-delete.overlay-box");
+		}
+	}
+
+	// Deletes the associated event object, like the old delete. This gets rid of all items repeating
+	function deleteEventProper()
+	{
+		var eId = $(elem).parent().attr("event-id");
+		var tempId = $(elem).parent().attr("evnt-temp-id");
+
+		if(viewMode == "week")
+			$(".sch-evnt[evnt-temp-id='" + tempId + "']").slideUp("normal", function() {$(this).remove();});
+		else if(viewMode == "month")
+			$(".sch-month-evnt[evnt-temp-id='" + tempId + "']").slideUp("normal", function() {$(this).remove();});
+
+		delete scheduleItems[tempId]; //remove event map
+
+		UIManager.slideOutHideOverlay("#evnt-delete.overlay-box");
+
+		if(!eId) // if no event, this event has not been saved, so no ajax is needed to delete it
+			return;
+
+		$.ajax({
+			url: "/delete_event",
+			type: "POST",
+			data: {id: eId, group_id: groupID},
+			success: function(resp)
+			{
+				console.log("Delete complete.");
+			},
+			error: function(resp)
+			{
+				alertUI("Deleting event failed :/");
+			}
+		});
+	}
 }
 
 function createCategory()
@@ -1967,7 +2204,7 @@ function createCategory()
 	$.ajax({
 		url: "/create_category",
 		type: "POST",
-		data: {name: "Untitled", user_id: userId, group_id: groupID, color: "silver"},
+		data: {name: "", user_id: userId, group_id: groupID, color: "silver"},
 		success: function(resp)
 		{
 			console.log("Create category complete.");
@@ -1977,7 +2214,7 @@ function createCategory()
 			newCat.show();
 			newCat.attr("data-id", resp.id);
 			newCat.attr("privacy", "private");
-			newCat.find(".evnt-title").text(resp.name);
+			newCat.find(".evnt-title").html(resp.name || PLACEHOLDER_NAME);
 			newCat.attr("id", "");
 			addDrag();
 			// TODO - Make saving the sideHTML a function, as this line is called so many times
@@ -2002,45 +2239,45 @@ function deleteCategory(event, elem, id)
 {
 	confirmUI("Are you sure you want to delete this category?", function(confirmed)
 	{
-		if(confirmed)
-		{
-			$.ajax({
-				url: "/delete_category",
-				type: "POST",
-				data: {id: id, group_id: groupID},
-				success: function(resp) //after the server says the delete worked
+		$.ajax({
+			url: "/delete_category",
+			type: "POST",
+			data: {id: id, group_id: groupID},
+			success: function(resp) //after the server says the delete worked
+			{
+				console.log("Delete category complete.");
+				$(elem).parent().slideUp("normal", function() //slide up the div, hiding it
 				{
-					console.log("Delete category complete.");
-					$(elem).parent().slideUp("normal", function() //slide up the div, hiding it
+					$(this).remove(); //and when that's done, remove the div
+					sideHTML = $("#sch-tiles").html(); //and save the sidebar html for restoration upon drops
+					//Remove all events of this category from scheduleItems
+					$(".col-snap .sch-evnt[data-id=" + id + "]").slideUp();
+					for (var index in scheduleItems) //do a foreach since this is a hashmap
 					{
-						$(this).remove(); //and when that's done, remove the div
-						sideHTML = $("#sch-tiles").html(); //and save the sidebar html for restoration upon drops
-						//Remove all events of this category from scheduleItems
-						$(".col-snap .sch-evnt[data-id=" + id + "]").slideUp();
-						for (var index in scheduleItems) //do a foreach since this is a hashmap
+						if(scheduleItems[index].categoryId = id)
 						{
-							if(scheduleItems[index].categoryId = id)
-							{
-								delete scheduleItems[index];
-							}
+							delete scheduleItems[index];
 						}
-					});
-				},
-				error: function(resp)
-				{
-					alertUI("Deleting category failed :(");
-				}
-			});
-		}
+					}
+				});
+			},
+			error: function(resp)
+			{
+				alertUI("Deleting category failed :(");
+			}
+		});
 	});
 }
 
 function saveCategory(event,elem,id)
 {
+	// uses dom to determine if the category has been given an actual name.
+	var categoryName = ( $(".cat-overlay-title").html() === PLACEHOLDER_NAME ? "" : $(".cat-overlay-title").text());
+
 	$.ajax({
 		url: "/create_category",
 		type: "POST",
-		data: {name: $(".cat-overlay-title").text(), id: id, color: $(".cat-top-overlay").css("background-color"),
+		data: {name: categoryName, id: id, color: $(".cat-top-overlay").css("background-color"),
 			privacy: currCategory.privacy, breaks: currCategory.breaks, group_id: groupID},
 		success: function(resp)
 		{
@@ -2052,7 +2289,8 @@ function saveCategory(event,elem,id)
 			$(".sch-evnt[data-id=" + id + "]").css("background-color", $(".cat-top-overlay").css("background-color")); //Update color of events
 			sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
 
-			hideOverlay(); //Hide category editing panel
+			UIManager.slideOutHideOverlay("#cat-overlay-box"); // Hide category editing panel
+			currCategory = null; // and indicate there's no current category
 		},
 		error: function(resp)
 		{
@@ -2061,9 +2299,13 @@ function saveCategory(event,elem,id)
 	});
 }
 
-function createBreak(name, startDate, endDate)
+// Creates a new break with a given name and starting at startDate
+// and ending at endDate, where both are strings.
+// Fires the passed in callback when the break has been made, passing
+// the break as a parameter
+function createBreak(name, startDate, endDate, callback)
 {
-	console.log("Make the break: " + name + ", " + startDate + ", " + endDate);
+	// console.log("Make the break: " + name + ", " + startDate + ", " + endDate);
 	var startD = new Date(startDate);
 	startD.setHours(0,0,0,0); //clear any time
 	var endD = new Date(endDate);
@@ -2082,13 +2324,18 @@ function createBreak(name, startDate, endDate)
 			brk.endDate = endD;
 			breaks[brk.id] = brk; //and add to the hashmap
 
-			hideBreakCreateOverlay(); //Hide category editing panel
+			UIManager.slideOutHideOverlay("#break-overlay-box"); // hide break create panel
 
+			// if the adding break UI is visible, update it
 			var addingBreakUiIsVisible = $("#break-adder-overlay-box").is(":visible");
+
 			if (addingBreakUiIsVisible) {
-				hideBreakAddOverlay();
-				showBreakAddOverlay();
+				setupBreakAddOverlay();
 			}
+
+			// Call the callback and pass in the new break
+			if(callback)
+				callback(brk);
 		},
 		error: function(resp)
 		{
@@ -2174,15 +2421,26 @@ function removeHighlight()
 }
 
 //highlight the entirety of the field currently selected (that the user has cursor in)
+//runs HTMLInputElement.select if an input is in focus, otherwise runs 'selectAll' on the document
 function highlightCurrent()
 {
-	document.execCommand('selectAll',false,null);
+	if($("textarea:focus").length > 0 || $("input:focus").length > 0)
+		$(":focus").select();
+	else
+		document.execCommand('selectAll',false,null);
 }
 
 //creates a clone of the date
 function cloneDate(date)
 {
 	return new Date(date.getTime());
+}
+
+// makes the textarea the correct height based of the inner content
+function textareaSetHeight(elem)
+{
+	$(elem).attr('rows', 1);
+	$(elem).height('auto').height(elem.scrollHeight);
 }
 
 // converts a date string from dashes to slashes (e.g. 2016-10-25 to 2016/10/25)

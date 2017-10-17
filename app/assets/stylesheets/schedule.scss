@@ -350,9 +350,18 @@
 	#overlay-desc, #overlay-loc
 	{
 		min-height: 22px;
-		margin-left: 30px;
-		margin-right: 30px;
-		padding: 3px;
+		margin: 0px 20px;
+		width: calc(100% - 40px);
+		resize: none;
+		border: none;
+		color: inherit;
+		font-size: inherit;
+		text-align: left;
+		padding: 3px 0px;
+
+		/* Disable hover background effect */
+		&:hover:not(:focus) { background: none; }
+		&:focus { padding: 3px 5px; }
 	}
 	.overlay-time
 	{
@@ -368,6 +377,19 @@
 		/* font-family:Open Sans, sans-serif; */
 	}
 }
+
+#evnt-delete.overlay-box
+{
+	/* Add spacing to the options */
+	span.default:not(.close)
+	{
+		display: block;
+		margin: 5px auto;
+		width: 200px;
+	}
+	#single-evnt { margin-top: 20px; }
+}
+
 input[readonly="readonly"]
 {
 	background: transparent;
@@ -479,6 +501,7 @@ input[readonly="readonly"]
 	{
 		text-align: left;
 		padding-left: 20px;
+		padding-top: 5px;
 		max-height: 300px;
 		overflow-y: auto;
 	}
@@ -584,17 +607,14 @@ input[readonly="readonly"]
 	/* background: rgba(255,0,0,0.4); */
 }
 /* End Scroll Bar Styling */
-
-.overlay-box div[contenteditable="true"]
-{
-	cursor: pointer;
-	outline: none;
-	transition: all 0.3s;
-}
-.overlay-box div[contenteditable="true"]
+.overlay-box textarea
 {
 	border-radius: 5px;
-
+	cursor: pointer;
+	outline: none;
+	font-family: inherit;
+	background: none;
+	transition: all 0.3s;
 	&:focus
 	{
 		cursor: text;
@@ -736,6 +756,26 @@ input[readonly="readonly"]
 }
 #embed-button { position: relative; top: -5px;}
 
+/* Read only styling */
+.read-only
+{
+	/* Hide edit and close icons */
+	.sch-cat-icon, .sch-evnt-icon
+	{
+		display: none !important;
+	}
+	/* Make it clear you can't drag schedule events and can't edit titles */
+	.sch-evnt, .evnt-title
+	{
+		cursor: default !important;
+	}
+	/* Hide "Add Category" button */
+	.cat-add
+	{
+		display: none;
+	}
+}
+
 /***************************/
 /** MONTHLY VIEW STYLING ***/
 /***************************/
@@ -776,22 +816,10 @@ input[readonly="readonly"]
 			// transition: opacity 0.25s;
 		}
 	}
-	.sch-month-evnt
-	{
-		margin: 0px 2px 4px 2px;
-		position: relative;
-		color: grey;
-		border-left: solid 3px;
-		padding-left: 5px;
-		background: white;
-		text-align: left;
-		line-height: 1.1;
-		font-size: 14px;
-
-		.time
-		{
-			font-size: 10px;
-			color: grey;
+	&.over {
+		.inner { background: rgb(255, 255, 151); }
+		&.last-month, &.next-month {
+			.inner { background: rgba(255, 255, 151, 0.5); }
 		}
 	}
 	.day-of-month
@@ -804,7 +832,7 @@ input[readonly="readonly"]
 	&.last-month, &.next-month
 	{
 		.inner { background-color: #d9d9d9; }
-		#day-of-month { color: gray;}
+		.day-of-month { color: gray;}
 	}
 	&#sch-today
 	{
@@ -814,6 +842,58 @@ input[readonly="readonly"]
 		.day-of-month { font-weight: bold; }
 	}
 }
+
+.sch-month-evnt
+{
+	margin: 0px 2px 4px 2px;
+	position: relative;
+	color: grey;
+	border-left: solid 3px;
+	padding-left: 5px;
+	background: white;
+	text-align: left;
+	line-height: 1.1;
+	font-size: 14px;
+	transition: box-shadow 0.3s;
+	cursor: pointer;
+
+	.time
+	{
+		font-size: 10px;
+		color: grey;
+	}
+	.close
+	{
+		opacity: 0;
+		background-image: image-url("close-wht.png");
+		background-repeat: no-repeat;
+		background-size: 90%;
+		background-position: center;
+		background-color: rgba(54, 54, 54, 0.5);
+		position: absolute;
+		border-radius: 100px;
+		cursor: pointer;
+		top: 2px;
+		right: 2px;
+		width: 15px;
+		height: 15px;
+		transition: background-color 0.3s, opacity 0.3s;
+
+		&:hover { background-color: rgb(54, 54, 54); }
+	}
+	/* Show close button when hovering over an event, but not when dragging it */
+	&:not(.ui-draggable-dragging):hover
+	{
+		box-shadow: 0px 0px 5px black;
+
+		.close { opacity: 1; }
+	}
+	&.ui-draggable-dragging
+	{
+		box-shadow: 0px 0px 5px black;
+	}
+}
+
 /* On hover show all events */
 .sch-day-tile:hover
 {
