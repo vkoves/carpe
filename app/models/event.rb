@@ -68,7 +68,7 @@ class Event < ActiveRecord::Base
 
   def private_version #returns the event with details hidden
     private_event = self.dup
-    private_event.name = "<i>Private</i>"
+    private_event.name = "Private"
     private_event.description = ""
     private_event.location = ""
     return private_event
