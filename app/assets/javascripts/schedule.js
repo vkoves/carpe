@@ -273,8 +273,12 @@ function ScheduleItem()
 
 	this.updateHeight = function()
 	{
-		this.element().css("height", gridHeight*this.lengthInHours() - border);
-		updatedEvents(this.tempId, "updateHeight");
+		// only update height in view mode's where size indicates duration
+		if(viewMode == "week")
+		{
+			this.element().css("height", gridHeight*this.lengthInHours() - border);
+			updatedEvents(this.tempId, "updateHeight");
+		}
 	};
 
 	/** a way of getting the name that handles untitled */
@@ -651,7 +655,6 @@ function addStartingListeners()
 
 		currEvent.setStartDateTime(newDateTime, true, true); //and set!
 		currEvent.updateHeight();
-
 	});
 
 	$("#time-end").change(function()
@@ -672,7 +675,6 @@ function addStartingListeners()
 
 		currEvent.setEndDateTime(newDateTime, true, true);
 		currEvent.updateHeight();
-
 	});
 
 	$("#overlay-desc").focusin(function() {
