@@ -1525,7 +1525,7 @@ function populateEvents()
 			currentElem.find(".evnt-time.top").text(convertTo12Hour(eventObject.startDateTime));
 			currentElem.find(".evnt-time.bot").text(convertTo12Hour(eventObject.endDateTime));
 			currentElem.css("height", gridHeight*eventObject.lengthInHours() - border);
-			currentElem.css("top", gridHeight*eventObject.lengthInHours());
+			currentElem.css("top", eventObject.getTop());
 
 			// Add the event
 			$(".sch-day-col:eq(" + i + ") .col-snap").append(currentElem);
@@ -2142,17 +2142,26 @@ function deleteEvent(event, elem)
 			createBreak(breakTitle, breakDateString, breakDateString, function(newBreak)
 			{
 				newBreakId = newBreak.id;
+				applyNewBreak(); // apply new break after server responds with our break ID
 			});
 		}
+		else
+		{
+			applyNewBreak();
+		}
 
-		// Now that we have a break that will make this event be skipped, add it and update UI accordingly
-		schItem.breaks.push(newBreakId);
+		// Add the new break to the schedule item and repopulate the schedule to apply it
+		function applyNewBreak()
+		{
+			// Now that we have a break that will make this event be skipped, add it and update UI accordingly
+			schItem.breaks.push(newBreakId);
 
-		updatedEvents(schItem.tempId, "breaks"); //mark that the events changed to enable saving
+			updatedEvents(schItem.tempId, "breaks"); //mark that the events changed to enable saving
 
-		repopulateEvents();
+			repopulateEvents();
 
-		UIManager.slideOutHideOverlay("#evnt-delete.overlay-box");
+			UIManager.slideOutHideOverlay("#evnt-delete.overlay-box");
+		}
 	}
 
 	// Deletes the associated event object, like the old delete. This gets rid of all items repeating
