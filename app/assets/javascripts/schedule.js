@@ -1534,7 +1534,7 @@ function populateEvents()
 		else if(viewMode == "month")
 		{
 			var className = "";
-			if(eventObject.name == "<i>Private</i>")
+			if(eventObject.name == "Private")
 				className = " private";
 
 			var eventId = "";
