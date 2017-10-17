@@ -1517,10 +1517,14 @@ function populateEvents()
 
 		if(viewMode == "week")
 		{
+			// Setup the UI element's color, text, and height to represent the schedule item
 			currentElem.css("background-color", color);
 			currentElem.find(".evnt-title").html(eventObject.getHtmlName());
 			currentElem.find(".evnt-time.top").text(convertTo12Hour(eventObject.startDateTime));
 			currentElem.find(".evnt-time.bot").text(convertTo12Hour(eventObject.endDateTime));
+			currentElem.css("height", gridHeight*eventObject.lengthInHours() - border);
+
+			// Add the event
 			$(".sch-day-col:eq(" + i + ") .col-snap").append(currentElem);
 		}
 		else if(viewMode == "month")
