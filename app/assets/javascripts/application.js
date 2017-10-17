@@ -95,7 +95,7 @@ function initializeEventListeners()
 	});
 
 	//Start initializing event listeners for everything
-	$("#user-name-panel").click(function()
+	$("#user-menu-toggler").click(function()
 	{
 		$("#user-panel").slideToggle(300);
 		$("#notif-panel").slideUp(300);
