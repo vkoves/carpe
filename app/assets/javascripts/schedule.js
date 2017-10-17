@@ -273,8 +273,12 @@ function ScheduleItem()
 
 	this.updateHeight = function()
 	{
-		this.element().css("height", gridHeight*this.lengthInHours() - border);
-		updatedEvents(this.tempId, "updateHeight");
+		// only update height in view mode's where size indicates duration
+		if(viewMode == "week")
+		{
+			this.element().css("height", gridHeight*this.lengthInHours() - border);
+			updatedEvents(this.tempId, "updateHeight");
+		}
 	};
 
 	/** a way of getting the name that handles untitled */
@@ -338,7 +342,11 @@ function ScheduleItem()
 		}
 
 		elem.attr("time", topDT.getHours() + ":" + paddedMinutes(topDT)); //set the time attribute
-		schItem.tempElement = elem; // update temp element for later populateEvents() calls
+
+		if(viewMode == "month")
+			repopulateEvents();
+		else if(viewMode == "week")
+			schItem.tempElement = elem; // update temp element for later populateEvents() calls - only used by weekly view
 	}
 
 	/**
@@ -634,8 +642,7 @@ function addStartingListeners()
 	{
 		//TODO: Fix this not working across different days (try noon in your local time)
 
-		//TODO - Fix this reading HTML and parsing it. It's terrible.
-		var dateE = currEvent.element().parent().siblings(".col-titler").children(".evnt-fulldate").html(); //the date the elem is on
+		var dateE = currEvent.startDateTime.toDateString();
 
 		var val = $(this).val();
 
@@ -652,14 +659,13 @@ function addStartingListeners()
 
 		currEvent.setStartDateTime(newDateTime, true, true); //and set!
 		currEvent.updateHeight();
-
 	});
 
 	$("#time-end").change(function()
 	{
 		//TODO: Fix this not working across different days (try noon in your local time)
 
-		var dateE = currEvent.element().parent().siblings(".col-titler").children(".evnt-fulldate").html(); //the date the elem is on
+		var dateE = currEvent.startDateTime.toDateString();
 
 		var val = $(this).val();
 
@@ -673,7 +679,6 @@ function addStartingListeners()
 
 		currEvent.setEndDateTime(newDateTime, true, true);
 		currEvent.updateHeight();
-
 	});
 
 	$("#overlay-desc").focusin(function() {
@@ -899,8 +904,6 @@ function loadInitialEvents()
 			var time = dateE.getHours() + ":" + paddedMinutes(dateE);
 
 			clone.children(".evnt-title").text(evnt.name);
-			clone.children(".evnt-time.top").text(convertTo12Hour(dateE)).show();
-			clone.children(".evnt-time.bot").text(convertTo12Hour(dateEnd)).show();
 			clone.attr("time", time);
 			clone.attr("event-id", evnt.id);
 			clone.attr("evnt-temp-id", i); //Set the temp id
@@ -1080,6 +1083,10 @@ function addDrag(selector)
 				var currItem = scheduleItems[eventTempId - 1];
 				currItem.startDateTime = new Date($(this).attr("data-date"));
 				currItem.endDateTime = new Date($(this).attr("data-date"));
+
+				// Set end time to 11:59 PM so it's easier to edit the time
+				currItem.endDateTime.setHours(23);
+				currItem.endDateTime.setMinutes(59);
 				repopulateEvents();
 			}
 
@@ -1512,8 +1519,15 @@ function populateEvents()
 
 		if(viewMode == "week")
 		{
+			// Setup the UI element's color, text, and height to represent the schedule item
 			currentElem.css("background-color", color);
 			currentElem.find(".evnt-title").html(eventObject.getHtmlName());
+			currentElem.find(".evnt-time.top").text(convertTo12Hour(eventObject.startDateTime));
+			currentElem.find(".evnt-time.bot").text(convertTo12Hour(eventObject.endDateTime));
+			currentElem.css("height", gridHeight*eventObject.lengthInHours() - border);
+			currentElem.css("top", gridHeight*eventObject.lengthInHours());
+
+			// Add the event
 			$(".sch-day-col:eq(" + i + ") .col-snap").append(currentElem);
 		}
 		else if(viewMode == "month")
