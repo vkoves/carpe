@@ -332,11 +332,13 @@ function ScheduleItem()
 		{
 			schItem.startDateTime = topDT;
 			elem.css("top", schItem.getTop()); //set the top position by gridHeight times the hour
+			elem.children(".evnt-time.top").text(convertTo12Hour(topDT)).show();
 		}
 
 		if(!isStart || !resize) //only set the bottom stuff if this is setting the end time or we are not resizing
 		{
 			schItem.endDateTime = botDT;
+			elem.children(".evnt-time.bot").text(convertTo12Hour(botDT)).show();
 		}
 
 		elem.attr("time", topDT.getHours() + ":" + paddedMinutes(topDT)); //set the time attribute
@@ -1523,6 +1525,7 @@ function populateEvents()
 			currentElem.find(".evnt-time.top").text(convertTo12Hour(eventObject.startDateTime));
 			currentElem.find(".evnt-time.bot").text(convertTo12Hour(eventObject.endDateTime));
 			currentElem.css("height", gridHeight*eventObject.lengthInHours() - border);
+			currentElem.css("top", gridHeight*eventObject.lengthInHours());
 
 			// Add the event
 			$(".sch-day-col:eq(" + i + ") .col-snap").append(currentElem);
