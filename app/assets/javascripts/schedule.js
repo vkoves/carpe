@@ -343,6 +343,9 @@ function ScheduleItem()
 
 		elem.attr("time", topDT.getHours() + ":" + paddedMinutes(topDT)); //set the time attribute
 		schItem.tempElement = elem; // update temp element for later populateEvents() calls
+
+		if(viewMode == "month")
+			repopulateEvents();
 	}
 
 	/**
