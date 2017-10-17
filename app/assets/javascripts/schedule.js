@@ -1526,6 +1526,7 @@ function populateEvents()
 			currentElem.find(".evnt-time.bot").text(convertTo12Hour(eventObject.endDateTime));
 			currentElem.css("height", gridHeight*eventObject.lengthInHours() - border);
 			currentElem.css("top", eventObject.getTop());
+			currentElem.attr("evnt-temp-id", eventObject.tempId);
 
 			// Add the event
 			$(".sch-day-col:eq(" + i + ") .col-snap").append(currentElem);
