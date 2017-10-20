@@ -21,10 +21,14 @@ class UserGroupsController < ApplicationController
 
   # user leaves group
   def leave_group
+    @group = Group.find params[:group_id]
+    @user = User.from_param params[:user_id]
+
     @membership = UsersGroup.find_by group_id: @group.id, user_id: @user.id, accepted: true
     @membership.destroy
 
     # TODO: notify group (who?) that a user has left?
+    redirect_to groups_path
   end
 
   # group invites user(s)
