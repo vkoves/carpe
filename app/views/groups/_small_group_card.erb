@@ -3,6 +3,6 @@
 
   <main>
     <%= link_to group.name, group, class: [:normal, :title] %>
-    <%= link_to("Leave Group", user_leave_group_path(current_user, group), class: "red button") if !can_edit_group? %>
+    <%= link_to("Leave Group", user_leave_group_path(current_user, group), class: "red button") %>
   </main>
 </div>

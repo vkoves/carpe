@@ -16,7 +16,8 @@ class UserGroupsController < ApplicationController
     end
 
     # TODO: notify private group that user would like to join
-    redirect_to groups_path
+    # this redirects back to current page
+    redirect_to request.referrer
   end
 
   # user leaves group
