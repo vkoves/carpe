@@ -10,11 +10,31 @@
 The UI Manager is a structure for handling common UI interactions in Carpe. Right now, it manages
 overlays and exposes methods for a styled `alert` and `confirm` dialog.
 
-Animated confirmation dialog <br>
-<span class="default red" id="confirm-test">Launch?</span>
+## Animated confirmation dialog
 
-Animated alert dialog <br>
+```
+<span class="default red" id="confirm-test">Launch?</span>
+```
+
+```javascript
+$("#confirm-test").click(function()
+{
+	confirmUI("Are you sure you want to launch?");
+});
+```
+
+## Animated alert dialog
+
+```
 <span class="default" id="alert-test">Press Me!</span>
+```
+
+```javascript
+$("#alert-test").click(function()
+{
+	alertUI("You fell for it!");
+});
+```
 
 @javascript-after {
 	$("#confirm-test").click(function()
