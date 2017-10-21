@@ -84,9 +84,9 @@ pull request description. *Tip:* You can automatically close issues relating to 
 
 ### Core Principles
 When writing code for Carpe, it's important to keep the following principles in mind:
- - **Readability** - code should be clean, readable, and well documented to ensure that others can read your work
- and that you can read you work far in the future.
- - **Reusability** - code should be modular so that it can be applied to solving more than one problem. Most solutions
+ - **Readability** - code should be clean, readable, and well-documented to ensure that others can read your work
+ and that you can read your work in the (near and far) future.
+ - **Reusability** - code should be modular, so that it can be applied to solving more than one problem. Most solutions
  can apply to more than just the problem that necessitated them.
  - **Testability** - code should be testable in an automated fashion via unit, integration, and acceptance tests.
  This makes it so folks working after you can ensure they aren't breaking the functionality you created, and decreases
