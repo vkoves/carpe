@@ -4,7 +4,7 @@
 
 Issues are how we track work to be done on Carpe, including bugs and features.
 If you think there's something that needs to get done on Carpe, an issue is how you can start that process.
-This part of the contribution guide describes creating issues for bugs and enhancements.
+This part of the contribution guide describes how to create issues for bugs and enhancements.
 
 ### Reporting Bugs
 One of the most common types of issues are bugs. If you find a bug on Carpe, follow these steps:
@@ -12,31 +12,31 @@ One of the most common types of issues are bugs. If you find a bug on Carpe, fol
 - Check if the bug has already been reported - a quick search through our open issues should show you if
 you are the first person reporting this bug. If someone else has reported the bug, you might want to add
 your voice to the conversation to indicate that the issue can be replicated.
-- Report the bug - create a new issue with the label *bug* and any other relevant labels. When creating
+- Report the bug - If the bug hasn't been reported yet, create a new issue with the label *bug* and any other relevant labels. When creating
 an issue for a bug make sure to:
 	- **Write a clear title** - this makes it easy to sort through issues and find ones that might be more urgent
 	or touch certain code.
-	- **Describe steps for recreating the bug** - step by step instructions will make it possible for others to
+	- **Describe steps for recreating the bug** - step-by-step instructions will make it possible for others to
 	reproduce the issue and debug it, so the better the instructions, the more likely the problem will get
 	solved.
 	- **Provide environment information** - a bug report should contain the browser and operating system you were using
 	when you found the bug, which should include version numbers.
 	- **Give an urgency assessment** - at the end of the issue, give your personal assessment of how important this
-	issue is. Does the bug make the platform completely unusable? It probably deserves more attention.
+	issue is. Does the bug make the platform completely unusable? If so, it probably deserves more attention.
 
 ### Suggesting Enhancements
 If you found a place where Carpe could improve, create an issue! Feedback is critical to creating a good product,
 and that applies to everyone. To submit an enhancement:
 
 - Check if the enhancement has been submitted - similarly to a bug, see if anyone else has proposed the same
-improvement you have. If someone already suggested something similar, chime in on their issue with your alternate
-idea to continue the discussion there.
-- Create the enhancement issue - create a new issue labeled *enhancement* that describes the improvement you
+improvement you have. If someone already suggested something similar, chime in on their issue with any alternate
+ideas to continue the discussion there.
+- Create the enhancement issue - If there isn't a similar enhancement submitted yet, create a new issue labeled *enhancement* that describes the improvement you
 would like to see. Make sure your issue contains the following:
-	 - **A clear title** - describe your enhancement in a few words to lure people in and allow for easy issue browsing
-	 - **A fleshed out concept** - for other people to take action on your idea, describe it in as much detail as you
-	can, citing any outside influences that may have inspired you, such as other websites with similar features as
-	you may be requesting. If you are so inclined, mockups, sketches, or system diagrams can help. Screenshots of the
+	 - **A clear title** - describe your enhancement in a few words to lure people in and allow for easy issue browsing.
+	 - **A fleshed-out concept** - for other people to act on your idea, describe it in as much detail as you
+	can, citing any outside influences that may have inspired you, such as other websites with similar features to
+	what you may be requesting. If you are so inclined, mockups, sketches, or system diagrams can help. Screenshots of the
 	existing functionality to be enhanced are also useful. Feedback from users who have requested this enhancement
 	or who would take value from it are even better.
 	- **A value statement** - explain why we should take on this enhancement. Who does it serve, and how does it
