@@ -49,6 +49,10 @@ This is used for all text on Carpe that is not the logo and serves as the primar
 
 Carpe has a few icons that are used repeatedly in interface elements.
 
+**Important Note:** in this section, a dashed icon indicates the outer edge ofan image (with the border not being part of the image)
+Also, PNG images do not have a size specified, so as to show them in their largest size. All SVG images are shown at 50px wide, but
+(due to being SVGs) be scaled to any size.
+
 ```
 <img src="/assets/new-tab-orange.svg" class="icon" width="50px">
 <img src="/assets/new-tab.svg" class="icon" width="50px">
@@ -79,6 +83,12 @@ Carpe has a few icons that are used repeatedly in interface elements.
 ```
 <img src="/assets/menu.svg" class="icon" width="50px">
 <img src="/assets/menu.svg" class="icon dark-back" width="50px">
+```
+
+```
+<img src="/assets/close.png" class="icon">
+<img src="/assets/close-wht.png" class="icon dark-back">
+<img src="/assets/closeThick-wht.svg" class="icon dark-back" width="50px">
 ```
 
 ```
