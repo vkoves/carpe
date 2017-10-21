@@ -45,6 +45,42 @@ This is used for all text on Carpe that is not the logo and serves as the primar
 	01234567890!@#$%^&*()-_=+
 }
 
+# Icons
+
+Carpe has a few icons that are used repeatedly in interface elements.
+
+```
+<img src="/assets/new-tab-orange.svg" class="icon" width="50px">
+<img src="/assets/new-tab.svg" class="icon" width="50px">
+```
+
+```
+<img src="/assets/quill.png" class="icon">
+<img src="/assets/quill-wht.png" class="icon dark-back">
+```
+
+```
+<img src="/assets/checkmark.png" class="icon">
+<img src="/assets/checkmark-wht.png" class="icon dark-back">
+```
+
+```
+<img src="/assets/question-circle.svg" class="icon" width="50px">
+```
+
+```
+<img src="/assets/search.svg" class="icon" width="50px">
+```
+
+```
+<img src="/assets/calendar.svg" class="icon" width="50px">
+```
+
+```
+<img src="/assets/menu.svg" class="icon" width="50px">
+<img src="/assets/menu.svg" class="icon dark-back" width="50px">
+```
+
 # Alerts & Notices
 
 Users often need to be notified that an action they attempted went through successfully or failed
@@ -138,11 +174,18 @@ of an element. They were created primarily to help with using headers.
 
 
 
-@css {
+@scss {
 	.lsg-font-example-text::first-line { font-size: 1em; }
 	.lsg-color-swatch {
 		width: 150px;
 		height: 150px;
 		padding-top: 90px;
+	}
+	img.icon {
+		border: dashed rgba(0, 0, 0, 0.2);
+
+		&.dark-back {
+			background: $carpe-orange;
+		}
 	}
 }
