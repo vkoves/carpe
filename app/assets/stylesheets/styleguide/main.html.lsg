@@ -81,6 +81,33 @@ Carpe has a few icons that are used repeatedly in interface elements.
 <img src="/assets/menu.svg" class="icon dark-back" width="50px">
 ```
 
+```
+<img src="/assets/spinner.svg" class="icon dark-back" width="50px">
+```
+
+<section class="lsg-example lsg-html-example" style="margin-bottom: -20px">
+	<div class="lsg-html">
+		<div class="icon" style="width: 50px; height: 50px;">
+			<svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+			width="50px" height="50px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+				<path fill="#000" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z">
+					<animateTransform attributeType="xml"
+					attributeName="transform"
+					type="rotate"
+					from="0 25 25"
+					to="360 25 25"
+					dur="1.0s"
+					repeatCount="indefinite"/>
+				</path>
+			</svg>
+		</div>
+	</div>
+</section>
+
+```html
+	<%= render "shared/loading_icon", locals: {color: "#000", size: "50px"} %>
+```
+
 # Alerts & Notices
 
 Users often need to be notified that an action they attempted went through successfully or failed
@@ -181,7 +208,7 @@ of an element. They were created primarily to help with using headers.
 		height: 150px;
 		padding-top: 90px;
 	}
-	img.icon {
+	.icon {
 		border: dashed rgba(0, 0, 0, 0.2);
 
 		&.dark-back {
