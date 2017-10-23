@@ -11,7 +11,7 @@ class GroupsControllerTest < ActionController::TestCase
   test "signed in users can create a group" do
     sign_in users(:norm)
     assert_difference 'Group.count', +1 do
-      get :create, name: "Test Group"
+      get :create, params: { name: "Test Group" }
     end
   end
 end

@@ -1,5 +1,5 @@
 #The User model, which defines a unique user and all of the properties they have
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   has_many :active_relationships,  class_name:  "Relationship",
                                    foreign_key: "follower_id",
                                    dependent:   :destroy
@@ -103,11 +103,11 @@ class User < ActiveRecord::Base
 
   def events_in_range(start_date_time, end_date_time) #returns all instances of events, including cloned version of repeating events
     #fetch not repeating events first
-    event_instances = events.where(:date => start_date_time...end_date_time, :repeat => nil)
+    event_instances = events.where(:date => start_date_time...end_date_time, :repeat => nil).to_a
 
     #then repeating events
     events.includes(:repeat_exceptions, category: :repeat_exceptions).where.not(repeat: nil).each do |rep_event| #get all repeating events
-      event_instances.concat(rep_event.events_in_range(start_date_time, end_date_time)) #and add them to the event array
+      event_instances.concat rep_event.events_in_range(start_date_time, end_date_time) #and add them to the event array
     end
 
     event_instances = event_instances.sort_by(&:date) #and of course sort by date

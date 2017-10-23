@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
-  before_filter :authorize_admin,
+  before_action :authorize_admin,
                 only: [:promote, :admin, :sandbox, :destroy_user, :admin_user_info]
 
   def promote # promote or demote users admin status
@@ -39,7 +39,7 @@ class PagesController < ApplicationController
       when "run-jsdoc"               then "npm run jsdoc"
       when "run-js-unit-tests"       then "npm run teaspoon"
       when "run-js-acceptance-tests" then "npm run codeceptjs"
-      when "run-rails-unit-tests"    then "bundle exec rake test"
+      when "run-rails-unit-tests"    then "bundle exec rails test"
       end
 
     pid = Process.spawn cmd

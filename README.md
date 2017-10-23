@@ -32,11 +32,11 @@ The Carpe repository also is setup with Travis CI, which automatically runs buil
 
 ### Running Ruby Tests
 
-To run all Ruby on Rails tests for Carpe, use the local admin panel or run `bundle exec rake test` in the Carpe directory.
+To run all Ruby on Rails tests for Carpe, use the local admin panel or run `bundle exec rails test` in the Carpe directory.
 
-To run a specific test, run `bundle exec rake test test_file_path`
+To run a specific test, run `bundle exec rails test test_file_path`
 
-Ex: `bundle exec rake test test/controllers/event_test.rb`
+Ex: `bundle exec rails test test/controllers/event_test.rb`
 
 #### Checking Test Coverage
 

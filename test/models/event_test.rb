@@ -1,8 +1,8 @@
 # To run all tests, in the project directory run the command:
-# bundle exec rake test
+# bundle exec rails test
 # ----------------------------------------
 # To run this test, in the project directory run the command:
-# bundle exec rake test test/models/event_test.rb
+# bundle exec rails test test/models/event_test.rb
 
 require 'test_helper'
 

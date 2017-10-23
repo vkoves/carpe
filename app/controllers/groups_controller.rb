@@ -1,5 +1,5 @@
 class GroupsController < ApplicationController
-  before_filter :authorize_signed_in
+  before_action :authorize_signed_in
 
   def index
     @groups = current_user.groups.all

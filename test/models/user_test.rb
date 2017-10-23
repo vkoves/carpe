@@ -1,8 +1,8 @@
 # To run all tests, in the project directory run the command:
-# bundle exec rake test
+# bundle exec rails test
 # ----------------------------------------
 # To run this test, in the project directory run the command:
-# bundle exec rake test test/controllers/event_test.rb
+# bundle exec rails test test/controllers/event_test.rb
 
 require 'test_helper'
 
@@ -248,10 +248,10 @@ class UserTest < ActiveSupport::TestCase
     users(:viktor).current_sign_in_ip = "192.168.1.1" # set sign in IP on user
     users(:viktor).encrypted_password = "EnCryptedPassword" # set encrypted password on user
 
-    assert_not_equal nil, users(:viktor).current_sign_in_ip, "test user should have a sign in IP"
+    assert_not_nil users(:viktor).current_sign_in_ip, "test user should have a sign in IP"
     assert_not_empty users(:viktor).encrypted_password, "test user should have an encrypted password"
 
-    assert_equal nil, users(:viktor).convert_to_json["current_sign_in_ip"], "convert_to_json should not contain sign in IP"
-    assert_equal nil, users(:viktor).convert_to_json["encrypted_password"], "convert_to_json should not contain encrypted_password"
+    assert_nil users(:viktor).convert_to_json["current_sign_in_ip"], "convert_to_json should not contain sign in IP"
+    assert_nil users(:viktor).convert_to_json["encrypted_password"], "convert_to_json should not contain encrypted_password"
   end
 end

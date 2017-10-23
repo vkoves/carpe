@@ -1,4 +1,4 @@
-class Category < ActiveRecord::Base
+class Category < ApplicationRecord
 	belongs_to :user
 	belongs_to :group
 	has_many :events
