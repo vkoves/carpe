@@ -48,12 +48,12 @@
 			Description:
 			<span id="edit-desc" class="edit">Edit</span>
 		</div>
-		<div id="overlay-desc" contenteditable="true">Description goes here</div>
+		<textarea id="overlay-desc" class="auto-resize-vertically">Description goes here</textarea>
 		<div id="loc-title" class="small-title">
 			Location:
 			<span id="edit-loc" class="edit">Edit</span>
 		</div>
-		<div id="overlay-loc" contenteditable="true">Location goes here</div>
+		<textarea id="overlay-loc" class="auto-resize-vertically">Location goes here</textarea>
 	</div>
 
 	<div id="break-overlay-box" class="overlay-box">
@@ -144,7 +144,7 @@
 							style="background-color:<%= cat.color %>; /*top: <%= 105*index %>*/">
 							<div class="evnt-time top">7:00</div>
 							<div class="evnt-time bot">7:00</div>
-							<div class="evnt-title vertical-center center-text dis-sel" contenteditable="false"><%= raw cat.name %></div>
+							<div class="evnt-title vertical-center center-text dis-sel" contenteditable="false"><%= cat.get_html_name.html_safe %></div>
 							<div class="evnt-desc dis-sel"></div>
 							<%= image_tag "quill-wht.png", :class => "sch-evnt-edit-cat sch-cat-icon no-drag" %>
 							<%= image_tag "close-wht.png", :class => "sch-evnt-del-cat sch-cat-icon no-drag" %>
