@@ -329,6 +329,8 @@
 	width: 200px !important;
 	border-color: #C0BABA;
 }
+/* TODO: Token input styling is general and shouldn't be here with the header */
+.token-input-dropdown { text-align: center; }
 #users-search ul, .token-input-dropdown ul
 {
 	padding: 0;

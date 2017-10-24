@@ -85,3 +85,9 @@ Users are one of the most critical parts of Carpe, and we use a consistent visua
 	}
 }
 ```
+
+```
+<div class="user-entry">
+	<input type="text" name="user_ids" id="user_ids" autocomplete="off" class="user-adder-input" />
+</div>
+```

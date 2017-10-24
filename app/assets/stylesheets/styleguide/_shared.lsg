@@ -1,5 +1,5 @@
 @header {
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script src=""></script>
 	<!-- Load jQuery -->
 
 	<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'>
@@ -25,6 +25,10 @@
 
 @scss ../application.scss
 @scss ../carpe.scss
+@scss ../header.scss
+
+@javascript-before ../application.js
+@javascript-before https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js
 
 @scss {
 	@at-root {
