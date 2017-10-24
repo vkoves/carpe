@@ -20,6 +20,7 @@
 //= require chartkick
 //= require ui-manager
 //= require partials/user-adder
+//= require utilities
 
 // require jquery-ui.min
 // Removed to prevent schedule js being loaded everywhere
@@ -94,7 +95,7 @@ function initializeEventListeners()
 	});
 
 	//Start initializing event listeners for everything
-	$("#user-name-panel").click(function()
+	$("#user-menu-toggler").click(function()
 	{
 		$("#user-panel").slideToggle(300);
 		$("#notif-panel").slideUp(300);
@@ -225,7 +226,7 @@ function initializeEventListeners()
 		{
 			img_url = element.image_url || "https://www.gravatar.com/avatar/?d=mm";
 			return 	"<li>" +
-						"<div class='avatar search-avatar'><img src='" + img_url + "'></div><div class='name with-type'>" + element.name + "</div>" +
+						"<div class='avatar search-avatar'><img src='" + img_url + "'></div><div class='name with-type'>" + escapeHtml(element.name) + "</div>" +
 						"<div class='type'>" + element.model_name + "</div>" +
 					"</li>";
 		}
