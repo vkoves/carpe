@@ -29,7 +29,11 @@ class UserGroupsController < ApplicationController
     @membership.destroy
 
     # TODO: notify group (who?) that a user has left?
-    redirect_to groups_path
+    if(@group.privacy == 'public_group')
+      redirect_to request.referrer
+    else
+      redirect_to groups_path
+    end
   end
 
   # group invites user(s)
