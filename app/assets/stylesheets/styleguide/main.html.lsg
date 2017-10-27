@@ -9,7 +9,7 @@
 }
 
 
-- Carpe Orange (`$carpe-orange`) is the Carpe brand color. Whenever possible the Carpe logotype should be in Carpe Orange.
+- Carpe Orange (`$carpe-orange`) is the Carpe brand color. Whenever possible, the Carpe logotype should be in Carpe Orange.
 - Carpe Grey (`$carpe-grey`) is a grey color commonly used on Carpe.
 - Primary Text Color (`$text-color`) is the color used for most text on Carpe, and is used by default.
 
@@ -37,12 +37,10 @@ The Carpe color and font are combined in the `.carpe-font` class.
 
 
 ## Open Sans
-This is used for all text on Carpe that is not the logo and serves as the primary font for our site
+This is used for all text on Carpe that is not the logo and serves as the primary font for our site.
 
 @font-example 32px 'Open Sans', sans-serif {
-	ABCDEFGHIJKLMNOPQRSTUVWXYZ
-	abcdefghijklmnopqrstuvwxyz
-	01234567890!@#$%^&*()-_=+
+	The quick brown fox jumps over the lazy dog
 }
 
 # Icons
