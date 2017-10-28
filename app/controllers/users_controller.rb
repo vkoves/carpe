@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action  :authorize_admin, :only => [:index] #authorize admin on the user viewing page
+  before_action :authorize_admin!, :only => [:index]
 
 
   def index

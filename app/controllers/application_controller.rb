@@ -78,18 +78,16 @@ class ApplicationController < ActionController::Base
   end
 
   # Authorize if a user is signed in and is admin before viewing a pge
-  def authorize_admin
-  	unless current_user and current_user.admin
-  		redirect_to home_path
-      throw :abort
-  	end
+  def authorize_admin!
+    unless current_user&.admin
+      redirect_to home_path
+    end
   end
 
   # Authorize if a user is signed in
-  def authorize_signed_in
+  def authorize_signed_in!
     unless current_user
       redirect_to user_session_path, alert: "You have to be signed in to do that!"
-      throw :abort
     end
   end
 end

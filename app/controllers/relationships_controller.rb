@@ -1,5 +1,5 @@
 class RelationshipsController < ApplicationController
-  before_action  :authorize_signed_in # make sure a user is signed in before allowing any of this
+  before_action  :authorize_signed_in!
 
   def create
     @user = User.find(params[:followed_id])

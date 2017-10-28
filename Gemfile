@@ -10,6 +10,12 @@ gem 'sass-rails', '~> 5.0'
 gem 'puma', '~> 3.10'
 gem 'coffee-rails', '~> 4.2'
 # gem "turbolinks", "~> 5"
+gem 'tzinfo-data', platforms: [:mswin, :mingw, :x64_mingw]
+
+# Note:
+# The mingw version of bcrypt does not work correctly on Windows.
+# A temporary workaround is to run the following command:
+# gem uninstall bcrypt --all --force && gem install bcrypt --platform=ruby
 
 #####################################
 ####### Actual Carpe Gems ###########
@@ -49,15 +55,6 @@ gem 'paperclip', '~> 5.1'
 
 # AWS SDK gem for connecting to Amazon S3 and other tools (https://github.com/aws/aws-sdk-ruby)
 gem 'aws-sdk', '~> 3', group: :production
-
-if Gem.win_platform?
-  # Required by active support for handling time zones on Widnows.
-  gem 'tzinfo-data'
-
-  # The mingw version of bcrypt does not work correctly on Windows.
-  # A temporary workaround is to run the following command:
-  # gem uninstall bcrypt --all --force && gem install bcrypt --platform=ruby
-end
 
 # Add SimpleCov to check test coverage (https://github.com/colszowka/simplecov)
 gem 'simplecov', :require => false, :group => :test
