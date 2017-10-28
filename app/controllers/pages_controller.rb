@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
-  before_action :authorize_admin,
+  before_action :authorize_admin!,
                 only: [:promote, :admin, :sandbox, :destroy_user, :admin_user_info]
 
   def promote # promote or demote users admin status
@@ -31,32 +31,38 @@ class PagesController < ApplicationController
     @past_month_events_modified = Event.where('created_at >= ?', Time.zone.now - 1.months).group(:updated_at).count
   end
 
-  # runs a command based on a given admin panel button id
-  # button id is passed via params[:button_id]
-  def run_command
-    cmd =
-      case params[:button_id]
-      when "run-jsdoc"               then "npm run jsdoc"
-      when "run-js-unit-tests"       then "npm run teaspoon"
-      when "run-js-acceptance-tests" then "npm run codeceptjs"
-      when "run-rails-unit-tests"    then "bundle exec rails test"
-      end
+  # Used by run_command to keep track of command logs
+  @@command_output_pipes = {}
 
-    pid = Process.spawn cmd
-    Process.detach pid # prevents zombie processes
-    render json: { button_id: params[:button_id], pid: pid }
-  rescue
-    render json: { button_id: params[:button_id], pid: pid, error: "true" }
+  # Runs predefined server commands requested from the admin panel.
+  def run_command
+    cmd = case params[:button_id]
+          when "run-jsdoc"               then "npm run jsdoc --silent"
+          when "run-js-unit-tests"       then "npm run teaspoon --silent"
+          when "run-js-acceptance-tests" then "npm run acceptance-tests --silent"
+          when "run-rails-unit-tests"    then "npm run minitest --silent"
+          end
+
+    begin
+      read, write = IO.pipe
+      pid = Process.spawn cmd, out: File::NULL, err: write
+    rescue StandardError => e
+      render json: params.merge(cmd_error: e.inspect)
+    else
+      @@command_output_pipes[pid] = [read, write]
+      render json: params.merge(pid: pid)
+    end
   end
 
-  # Checks if a command run on a given pid is complete
-  # pid is grabbed from params[:pid]
   def check_if_command_is_finished
-    # signal 0 checks if the processor exists
-    Process.kill 0, params[:pid].to_i
-    render json: { finished: "false" }
-  rescue
-    # (mostly likely) the process no longer exists
-    render json: { finished: "true" }
+    pid, status = Process.waitpid2 params[:pid].to_i, Process::WNOHANG
+
+    if status.nil?
+      render json: {check_again: true}
+    else
+      cmd_log, write = @@command_output_pipes.delete pid
+      write.close
+      render json: {log: (status.success? ? "SUCCESS" : cmd_log.read)}
+    end
   end
 end

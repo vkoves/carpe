@@ -18,34 +18,35 @@ function setupEvents() {
 		var $button = $("#" + this.id);
 		if ($button.hasClass("loading")) { return; }
 
-		$.ajax({
-			url: "/run_command",
-			type: "POST",
-			data: {button_id: this.id},
-
-			beforeSend: function() { $button.addClass("loading");},
-			success: repeatedlyCheckIfCommandIsFinished
-		});
+		$.post("/run_command", {button_id: this.id}, repeatedlyCheckIfCommandIsFinished);
+		$button.addClass("loading");
 	});
 }
 
 function repeatedlyCheckIfCommandIsFinished(data) {
-	if(data["error"] == "true") {
+	if (data["cmd_error"]) {
 		$("#" + data["button_id"]).removeClass("loading");
+		alert("Command failed. See console output for log.");
+		console.error(data["cmd_error"]);
+		console.error("Make sure you install npm and run `npm install`.");
 		return;
 	}
 
-	$.ajax({
-		url: "/check_if_command_is_finished",
-		type: "POST",
-		data: {pid: data["pid"]},
-		success: function(cmd) {
-			if (cmd["finished"] === "true") {
-				$("#" + data["button_id"]).removeClass("loading");
+	$.post("/check_if_command_is_finished", {pid: data["pid"]}, function(cmd) {
+		if (cmd["check_again"]) {
+			window.setTimeout(repeatedlyCheckIfCommandIsFinished, 1000, data);
+			return;
+		}
+
+		$("#" + data["button_id"]).removeClass("loading");
+
+		if(cmd["log"] !== "SUCCESS") {
+			if (cmd["log"]) {
+				alert("Command failed. See console output for log.");
+				console.error(cmd["log"]);
 			} else {
-				// check again
-				console.log(cmd["finished"]);
-				window.setTimeout(repeatedlyCheckIfCommandIsFinished, 500, data)
+				// failing unit tests, for example, will cause this to be executed.
+				console.log("Command returned with failing exit status but is probably fine.")
 			}
 		}
 	});
