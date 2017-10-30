@@ -1,3 +1,5 @@
+require 'tasky'
+
 class PagesController < ApplicationController
   before_action :authorize_admin!,
                 only: [:promote, :admin, :sandbox, :destroy_user, :admin_user_info]
@@ -31,9 +33,6 @@ class PagesController < ApplicationController
     @past_month_events_modified = Event.where('created_at >= ?', Time.zone.now - 1.months).group(:updated_at).count
   end
 
-  # Used by run_command to keep track of command logs
-  @@command_output_pipes = {}
-
   # Runs predefined server commands requested from the admin panel.
   def run_command
     cmd = case params[:button_id]
@@ -43,26 +42,19 @@ class PagesController < ApplicationController
           when "run-rails-unit-tests"    then "npm run minitest --silent"
           end
 
-    begin
-      read, write = IO.pipe
-      pid = Process.spawn cmd, out: File::NULL, err: write
-    rescue StandardError => e
-      render json: params.merge(cmd_error: e.inspect)
-    else
-      @@command_output_pipes[pid] = [read, write]
-      render json: params.merge(pid: pid)
-    end
+    task_id = Tasky::run cmd
+    render json: params.merge(task_id: task_id)
+  rescue Tasky::CommandError => e
+    render json: params.merge(cmd_error: e.inspect)
   end
 
   def check_if_command_is_finished
-    pid, status = Process.waitpid2 params[:pid].to_i, Process::WNOHANG
+    task = Tasky::fetch_task params[:task_id]
 
-    if status.nil?
-      render json: {check_again: true}
+    if task.finished?
+      render json: {log: (task.success? ? "SUCCESS" : task.error_log)}
     else
-      cmd_log, write = @@command_output_pipes.delete pid
-      write.close
-      render json: {log: (status.success? ? "SUCCESS" : cmd_log.read)}
+      render json: {check_again: true}
     end
   end
 end

@@ -32,7 +32,7 @@ function repeatedlyCheckIfCommandIsFinished(data) {
 		return;
 	}
 
-	$.post("/check_if_command_is_finished", {pid: data["pid"]}, function(cmd) {
+	$.post("/check_if_command_is_finished", {task_id: data["task_id"]}, function(cmd) {
 		if (cmd["check_again"]) {
 			window.setTimeout(repeatedlyCheckIfCommandIsFinished, 1000, data);
 			return;
