@@ -8,7 +8,7 @@
     "codeceptjs": "codeceptjs run --reporter mochawesome",
     "acceptance-tests": "bundle exec rails db:seed & node run-codeceptjs-using-phantomjs.js",
     "teaspoon": "bundle exec teaspoon --coverage=default",
-    "minitest": "bundle exec rake test"
+    "minitest": "bundle exec rails test"
   },
   "repository": {
     "type": "git",

@@ -4,9 +4,5 @@ cache: bundler # Cache the bundler. Makes builds run faster, automatically rerun
 rvm:
   - 2.3.0
 script:
-  - gem install bundler --pre
-  - bundle exec rails
+  - bundle exec rails test
   - bundle exec rails teaspoon
-
-before_install:
-  - gem update bundler --pre
