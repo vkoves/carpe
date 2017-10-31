@@ -35,6 +35,8 @@ var viewMode = "week"; //either "week" or "month"
 
 var saveEventsTimeout; // timeout for save events so it doesn't happen too often
 
+var PLACEHOLDER_NAME = "<i>Untitled</i>"; // used by newly created categories and events
+
 /****************************/
 /**** DOCUMENT FUNCTIONS ****/
 /****************************/
@@ -332,19 +334,18 @@ function ScheduleItem()
 	/** Changes height of current event based on the time it takes up */
 	this.updateHeight = function()
 	{
-		this.element().css("height", gridHeight*this.lengthInHours() - border);
-		updatedEvents(this.tempId, "updateHeight");
+		// only update height in view mode's where size indicates duration
+		if(viewMode == "week")
+		{
+			this.element().css("height", gridHeight*this.lengthInHours() - border);
+			updatedEvents(this.tempId, "updateHeight");
+		}
 	};
 
-	/** A way of getting the name that handles untitled */
-	this.getName = function(useHTML)
+	/** a way of getting the name that handles untitled */
+	this.getHtmlName = function()
 	{
-		if(this.name)
-			return this.name;
-		else if(useHTML)
-			return "<i>Untitled</i>";
-		else
-			return "Untitled";
+		return this.name ? escapeHtml(this.name) : PLACEHOLDER_NAME;
 	}
 
 	/** Returns the HTML element for this schedule item, or elements if it is repeating */
@@ -402,7 +403,11 @@ function ScheduleItem()
 		}
 
 		elem.attr("time", topDT.getHours() + ":" + paddedMinutes(topDT)); //set the time attribute
-		schItem.tempElement = elem; // update temp element for later populateEvents() calls
+
+		if(viewMode == "month")
+			repopulateEvents();
+		else if(viewMode == "week")
+			schItem.tempElement = elem; // update temp element for later populateEvents() calls - only used by weekly view
 	}
 
 	/**
@@ -438,10 +443,15 @@ function ScheduleItem()
 function Category(id)
 {
 	this.id = id; //the id of the category in the db
-	this.name = "<i>Untitled</i>"; //the name of the category, as a string. Defaults to Untitled
+	this.name; //the name of the category, as a string.
 	this.color; //the color of the category, as a CSS acceptable string
 	this.privacy = "private"; //the privacy of the category, right now either private || followers || public
 	this.breaks = []; //an array of the repeat exceptions of this category.
+
+	this.getHtmlName = function()
+	{
+		return this.name ? escapeHtml(this.name) : PLACEHOLDER_NAME;
+	}
 }
 
 /**
@@ -496,7 +506,8 @@ function scheduleReady()
 	if(readOnly) //allow viewing of all events with single click
 	{
 		$(".edit, #repeat, #add-break-event").remove(); //remove repeat functionality, and adding breaks
-		$("#overlay-loc, #overlay-desc, #overlay-title").attr("contenteditable", "false"); //disable editing on location title and description
+		$("#overlay-title").attr("contenteditable", "false"); //disable editing on location title and description
+		$("#overlay-loc, #overlay-desc").prop('disabled', true);
 		$("#time-start, #time-end").attr("readonly", true); //disable editing of time
 	}
 
@@ -509,6 +520,11 @@ function scheduleReady()
  */
 function addStartingListeners()
 {
+	// resizes textboxes to give them height based on the content inside
+	$('.auto-resize-vertically').on('input', function () {
+	  textareaSetHeight(this);
+	});
+
 	$(".date-field").datepicker( //show the datepicker when clicking on the field
 	{
 		firstDay: 1, //set Monday as the first day
@@ -624,7 +640,7 @@ function addStartingListeners()
 		}
 	}).click(function()
 	{
-		if($(this).html() == "<i>Untitled</i>")
+		if($(this).html() == PLACEHOLDER_NAME)
 			$(this).text("");
 	})
 	.focusin(function() {
@@ -634,7 +650,7 @@ function addStartingListeners()
 	{
 		// If no name, set to Untitled
 		if($(this).text() == "")
-			$(this).html("<i>Untitled</i>");
+			$(this).html(PLACEHOLDER_NAME);
 
 		removeHighlight();
 	});
@@ -687,8 +703,7 @@ function addStartingListeners()
 	{
 		//TODO: Fix this not working across different days (try noon in your local time)
 
-		//TODO - Fix this reading HTML and parsing it. It's terrible.
-		var dateE = currEvent.element().parent().siblings(".col-titler").children(".evnt-fulldate").html(); //the date the elem is on
+		var dateE = currEvent.startDateTime.toDateString();
 
 		var val = $(this).val();
 
@@ -705,14 +720,13 @@ function addStartingListeners()
 
 		currEvent.setStartDateTime(newDateTime, true, true); //and set!
 		currEvent.updateHeight();
-
 	});
 
 	$("#time-end").change(function()
 	{
 		//TODO: Fix this not working across different days (try noon in your local time)
 
-		var dateE = currEvent.element().parent().siblings(".col-titler").children(".evnt-fulldate").html(); //the date the elem is on
+		var dateE = currEvent.startDateTime.toDateString();
 
 		var val = $(this).val();
 
@@ -726,7 +740,6 @@ function addStartingListeners()
 
 		currEvent.setEndDateTime(newDateTime, true, true);
 		currEvent.updateHeight();
-
 	});
 
 	$("#overlay-desc").focusin(function() {
@@ -734,7 +747,7 @@ function addStartingListeners()
 	})
 	.focusout(function()
 	{
-		currEvent.setDescription($(this).text());
+		currEvent.setDescription($(this).val());
 		removeHighlight();
 	});
 
@@ -743,7 +756,7 @@ function addStartingListeners()
 	})
 	.focusout(function()
 	{
-		currEvent.setLocation($(this).text());
+		currEvent.setLocation($(this).val());
 		removeHighlight();
 	});
 
@@ -758,7 +771,7 @@ function addStartingListeners()
 	})
 	.focusin(function() {
 		// If the name is Untitled, remove it
-		if($(this).html() == "<i>Untitled</i>")
+		if($(this).html() == PLACEHOLDER_NAME)
 			$(this).text("");
 
 		setTimeout(highlightCurrent, 100); // highlight the whole name after focus
@@ -952,12 +965,10 @@ function loadInitialEvents()
 			var time = dateE.getHours() + ":" + paddedMinutes(dateE);
 
 			clone.children(".evnt-title").text(evnt.name);
-			clone.children(".evnt-time.top").text(convertTo12Hour(dateE)).show();
-			clone.children(".evnt-time.bot").text(convertTo12Hour(dateEnd)).show();
 			clone.attr("time", time);
 			clone.attr("event-id", evnt.id);
 			clone.attr("evnt-temp-id", i); //Set the temp id
-			clone.children(".evnt-desc").html(evnt.description);
+			clone.children(".evnt-desc").text(evnt.description);
 
 			scheduleItems[i].tempElement = clone; //Store the element
 
@@ -1028,7 +1039,7 @@ function addDrag(selector)
 		scheduleItems[$(this).parent().attr("evnt-temp-id")].setName($(this).text());
 
 		if($(this).text() == "")
-			$(this).html("<i>Untitled</i>");
+			$(this).html(PLACEHOLDER_NAME);
 
 		removeHighlight();
 	});
@@ -1063,7 +1074,7 @@ function addDrag(selector)
 	})
 	.focusin(function() {
 		// If the name is Untitled, remove it
-		if($(this).html() == "<i>Untitled</i>")
+		if($(this).html() == PLACEHOLDER_NAME)
 			$(this).text("");
 
 		setTimeout(highlightCurrent, 100); // highlight the whole name after focus
@@ -1133,6 +1144,10 @@ function addDrag(selector)
 				var currItem = scheduleItems[eventTempId - 1];
 				currItem.startDateTime = new Date($(this).attr("data-date"));
 				currItem.endDateTime = new Date($(this).attr("data-date"));
+
+				// Set end time to 11:59 PM so it's easier to edit the time
+				currItem.endDateTime.setHours(23);
+				currItem.endDateTime.setMinutes(59);
 				repopulateEvents();
 			}
 
@@ -1594,14 +1609,22 @@ function populateEvents()
 
 		if(viewMode == "week")
 		{
+			// Setup the UI element's color, text, and height to represent the schedule item
 			currentElem.css("background-color", color);
-			currentElem.find(".evnt-title").html(eventObject.getName(true));
+			currentElem.find(".evnt-title").html(eventObject.getHtmlName());
+			currentElem.find(".evnt-time.top").text(convertTo12Hour(eventObject.startDateTime));
+			currentElem.find(".evnt-time.bot").text(convertTo12Hour(eventObject.endDateTime));
+			currentElem.css("height", gridHeight*eventObject.lengthInHours() - border);
+			currentElem.css("top", eventObject.getTop());
+			currentElem.attr("evnt-temp-id", eventObject.tempId);
+
+			// Add the event
 			$(".sch-day-col:eq(" + i + ") .col-snap").append(currentElem);
 		}
 		else if(viewMode == "month")
 		{
 			var className = "";
-			if(eventObject.name == "<i>Private</i>")
+			if(eventObject.name == "Private")
 				className = " private";
 
 			var eventId = "";
@@ -1615,7 +1638,7 @@ function populateEvents()
 			$(".sch-day-tile:eq(" + i + ") .inner").append("<div class='sch-month-evnt" + className + "' evnt-temp-id='" + eventObject.tempId
 				+ "' " + eventId + " data-id='" + eventObject.categoryId + "' data-hour='" + eventObject.startDateTime.getHours() + "' style='color: "
 				+  color +  "; color: " + color + ";'>"
-					+ "<span class='evnt-title'>" + eventObject.getName(true) + "</span>"
+					+ "<span class='evnt-title'>" + eventObject.getHtmlName() + "</span>"
 					+ "<div class='time'>"
 						+ datesToTimeRange(eventObject.startDateTime, eventObject.endDateTime)
 					+ "</div>"
@@ -1883,7 +1906,7 @@ function editCategory(elem)
 	else //if the color was null or empty remove the background-color
 		$(".cat-top-overlay").css("background-color",""); */
 
-	$(".cat-overlay-title").html(currCategory.name);
+	$(".cat-overlay-title").html(currCategory.getHtmlName());
 	$("#cat-overlay-box").attr("data-id", categoryId);
 
 	$(".color-swatch").removeClass("selected");
@@ -1943,13 +1966,13 @@ function editEvent(elem)
 
 		UIManager.slideInShowOverlay("#event-overlay-box");
 
-		$("#overlay-title").html(currEvent.name || "<i>Untitled</i>");
+		$("#overlay-title").html(currEvent.getHtmlName());
 		$("#overlay-color-bar").css("background-color", categories[currEvent.categoryId].color);
 
 		var desc = currEvent.description || ""; //in case the description is null
 		var loc = currEvent.location || ""; //in case the location is null
-		$("#overlay-desc").html(desc);
-		$("#overlay-loc").html(loc);
+		$("#overlay-desc").val(desc);
+		$("#overlay-loc").val(loc);
 
 		if(desc.length == 0 && readOnly) //if this is readOnly and there is no description
 			$("#overlay-desc, #desc-title").hide(); //hide the field and the title
@@ -1967,6 +1990,13 @@ function editEvent(elem)
 		//$(".overlay-time").html(convertTo12Hour(time.split(":")) + " - " + convertTo12Hour(endTime.split(":")));
 		$("#time-start").val(convertTo12HourFromArray(startArr));
 		$("#time-end").val(convertTo12HourFromArray(endArr));
+
+		// resize the textareas to the appropriate size
+		$('.auto-resize-vertically').each(function () {
+			//check if the textbox contains a new line or else it takes up 2 unnessisary lines
+		  textareaSetHeight(this);
+			$(this).css('overflow-y', 'hidden');
+		});
 	}
 }
 
@@ -2238,17 +2268,26 @@ function deleteEvent(event, elem)
 			createBreak(breakTitle, breakDateString, breakDateString, function(newBreak)
 			{
 				newBreakId = newBreak.id;
+				applyNewBreak(); // apply new break after server responds with our break ID
 			});
 		}
+		else
+		{
+			applyNewBreak();
+		}
 
-		// Now that we have a break that will make this event be skipped, add it and update UI accordingly
-		schItem.breaks.push(newBreakId);
+		// Add the new break to the schedule item and repopulate the schedule to apply it
+		function applyNewBreak()
+		{
+			// Now that we have a break that will make this event be skipped, add it and update UI accordingly
+			schItem.breaks.push(newBreakId);
 
-		updatedEvents(schItem.tempId, "breaks"); //mark that the events changed to enable saving
+			updatedEvents(schItem.tempId, "breaks"); //mark that the events changed to enable saving
 
-		repopulateEvents();
+			repopulateEvents();
 
-		UIManager.slideOutHideOverlay("#evnt-delete.overlay-box");
+			UIManager.slideOutHideOverlay("#evnt-delete.overlay-box");
+		}
 	}
 
 	/** Deletes the associated event object, like the old delete. This gets rid of all items repeating */
@@ -2291,7 +2330,7 @@ function createCategory()
 	$.ajax({
 		url: "/create_category",
 		type: "POST",
-		data: {name: "<i>Untitled</i>", user_id: userId, group_id: groupID, color: "silver"},
+		data: {name: "", user_id: userId, group_id: groupID, color: "silver"},
 		success: function(resp)
 		{
 			console.log("Create category complete.");
@@ -2301,7 +2340,7 @@ function createCategory()
 			newCat.show();
 			newCat.attr("data-id", resp.id);
 			newCat.attr("privacy", "private");
-			newCat.find(".evnt-title").html(resp.name);
+			newCat.find(".evnt-title").html(resp.name || PLACEHOLDER_NAME);
 			newCat.attr("id", "");
 			addDrag();
 			// TODO - Make saving the sideHTML a function, as this line is called so many times
@@ -2370,17 +2409,20 @@ function deleteCategory(event, elem, id)
  */
 function saveCategory(event,elem,id)
 {
+	// uses dom to determine if the category has been given an actual name.
+	var categoryName = ( $(".cat-overlay-title").html() === PLACEHOLDER_NAME ? "" : $(".cat-overlay-title").text());
+
 	$.ajax({
 		url: "/create_category",
 		type: "POST",
-		data: {name: $(".cat-overlay-title").html(), id: id, color: $(".cat-top-overlay").css("background-color"),
+		data: {name: categoryName, id: id, color: $(".cat-top-overlay").css("background-color"),
 			privacy: currCategory.privacy, breaks: currCategory.breaks, group_id: groupID},
 		success: function(resp)
 		{
 			console.log("Update category complete.");
 
 			// TODO - Literally what is this doing? These should be functions
-			currCategory.name = $(".cat-overlay-title").html();
+			currCategory.name = $(".cat-overlay-title").text();
 			$("#sch-sidebar .sch-evnt[data-id=" + id + "]").find(".evnt-title").html($(".cat-overlay-title").html()); //Update name in sidebar
 			$(".sch-evnt[data-id=" + id + "]").css("background-color", $(".cat-top-overlay").css("background-color")); //Update color of events
 			sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
@@ -2547,10 +2589,18 @@ function removeHighlight()
 	window.getSelection().removeAllRanges();
 }
 
+<<<<<<< HEAD
 /** Highlight the entirety of the field currently selected (that the user has cursor in) */
+=======
+//highlight the entirety of the field currently selected (that the user has cursor in)
+//runs HTMLInputElement.select if an input is in focus, otherwise runs 'selectAll' on the document
+>>>>>>> dev
 function highlightCurrent()
 {
-	document.execCommand('selectAll',false,null);
+	if($("textarea:focus").length > 0 || $("input:focus").length > 0)
+		$(":focus").select();
+	else
+		document.execCommand('selectAll',false,null);
 }
 
 /** 
@@ -2563,11 +2613,24 @@ function cloneDate(date)
 	return new Date(date.getTime());
 }
 
+<<<<<<< HEAD
 /** 
  * Converts a date string from dashes to slashes (e.g. 2016-10-25 to 2016/10/25)
  * @param {String} dateString - date with slashes
  * @return {String} date without slashes
  */
+=======
+// makes the textarea the correct height based of the inner content
+function textareaSetHeight(elem)
+{
+	$(elem).attr('rows', 1);
+	$(elem).height('auto').height(elem.scrollHeight);
+}
+
+// converts a date string from dashes to slashes (e.g. 2016-10-25 to 2016/10/25)
+// This is needed as browsers don't like dash date formats much, but it's how Ruby prints dates by default
+// On Chrome, dashes with dates are interpreted as the ISO format, and are used in UTC, while Firefox just refuses the date at all
+>>>>>>> dev
 function dateFromDashesToSlashes(dateString)
 {
 	return dateString.split("-").join("/");
