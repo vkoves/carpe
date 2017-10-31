@@ -23,10 +23,3 @@
     <%= render partial: "groups/manage_user_card", collection: @group.users_groups, as: :membership %>
   </div>
 </div>
-
-<div id="user-invites-overlay-box" class="overlay-box">
-  <!--<span class="red close button"></span>-->
-  <h3>Invite Members</h3>
-  <%= render "shared/user_adder", name: "user_ids" %>
-  <span class="green button" id="group-inviter-send-invite">Send Invite</span>
-</div>
