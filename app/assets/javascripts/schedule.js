@@ -49,8 +49,10 @@ $(document).on('page:before-change', pageChange); //and load again
 
 
 /**
- * If items on page are not saved will alert the user that they have unsaved changes and should stay on page
- * @return {boolean} true if the person wants to leave, false if the user wants to stay
+ * If the user is allowed to leave, returns undefined. 
+ * If it is not a good time to leave, returns if the user is sure they want to leave.
+ * run beforeunload
+ * @return {boolean} true if the person wants to leave, false if the user wants to stay, undefined if user can leave
  */
 function pageChange() //called by Turbolinks before-change
 {
@@ -327,14 +329,14 @@ function ScheduleItem()
 		offsets.push(gridHeight*(this.endDateTime.getMinutes()/60));
 		return offsets;
 	};
-	/** changes height of current event based on the time it takes up */
+	/** Changes height of current event based on the time it takes up */
 	this.updateHeight = function()
 	{
 		this.element().css("height", gridHeight*this.lengthInHours() - border);
 		updatedEvents(this.tempId, "updateHeight");
 	};
 
-	/** a way of getting the name that handles untitled */
+	/** A way of getting the name that handles untitled */
 	this.getName = function(useHTML)
 	{
 		if(this.name)
@@ -1391,7 +1393,7 @@ function updateTime(elem, ui, resize) //if we're resizing, don't snap, just upda
 
 
 /**
- * moves the calender forward or backward in time 
+ * Moves the calender forward or backward in time 
  * (e.g. by clicking next on weekly view)
  * @param {Date} newDateObj - new date to start from
  * @param {boolean} refresh - if true, cleans off all events from scheduler
@@ -1525,7 +1527,7 @@ function initializeWeeklyView()
 }
 
 /**
- * converts a month and a year to a data object
+ * Converts a month and a year to a data object
  * @param {number} month - 1(January) thru 12(December)
  * @param {number} year - e.g. 2017
  * @return {Date} date object made from year and month
@@ -1536,8 +1538,8 @@ function daysInMonth(month,year)
 }
 
 /**
- * gets the date the schedule starts on
- * @param {Date} dateObj - date of event
+ * Gets the date the schedule starts on
+ * @param {Date} dateObj - user inputed date used as a reference point to where the schedule should start
  * @param {boolean} useMonth - if true, sets date to first day of month
  * @return {Object} object consisting of the start date of an event, and if its start was in the last month
  */
@@ -1577,11 +1579,11 @@ function repopulateEvents()
 	populateEvents(); // and then populate events
 }
 
-/** Populate the events in the current week */
+/** Fills in events in the current week or month, loads from the scheduleItems hash */
 function populateEvents()
 {
 	/**
-	 * place an event on the calender
+	 * Place an event on the calender
 	 * @param {ScheduleItem} eventObject - The Schedule event object to be placed on the schedule
 	 * @param {number} visibleDate - the index of the date the event falls on in the currently visible dates
 	 */
@@ -1757,7 +1759,7 @@ function populateEvents()
 			monthlyTileDroppable();
 		}
 
-		/** make each monthly event dragable (e.g. sidebar)  */
+		/** Make each monthly event dragable (e.g. sidebar)  */
 		function monthlyEventDraggable()
 		{
 			$(".sch-month-evnt").draggable(
@@ -1801,7 +1803,7 @@ function populateEvents()
 			});
 		}
 
-		/** make each monthly event dropable into the schedule (e.g. moving sidebar event into schedule)  */
+		/** Make each monthly event dropable into the schedule (e.g. moving sidebar event into schedule)  */
 		function monthlyTileDroppable() {
 			$(".sch-day-tile").droppable(
 			{
@@ -1978,7 +1980,7 @@ function showBreakCreateOverlay()
 /**
  * Sets up an overlay to add breaks. If managing,
  * it is actually for editing and deleting breaks rather
- * than enabling or disabling breaks on the currente vent
+ * than enabling or disabling breaks on the currente event
  * @param {boolean} managing - if true, show 'managing breaks', if false show 'adding breaks'
  */
 function setupBreakAddOverlay(managing)
@@ -2031,7 +2033,7 @@ function setupBreakAddOverlay(managing)
 	if(!managing)
 		setupBreakClickHandlers();
 
-	/** Sets up so clicking on breaks edits them */
+	/** Sets up toggles for if the event or category has breaks enabled */
 	function setupBreakClickHandlers()
 	{
 		$(".break-elem").click(function()
@@ -2114,7 +2116,7 @@ function updatedEvents(eventId, msg)
 /*** JSON SERVER METHODS ****/
 /****************************/
 
-/** saves all events */
+/** Saves all events */
 function saveEvents()
 {
 	if($("#sch-save").hasClass("disabled") || $("#sch-save").hasClass("loading")) //if the save button is disabled or already saving
@@ -2450,7 +2452,7 @@ function createBreak(name, startDate, endDate, callback)
 /****************************/
 
 /**
- * converts a date from 24 hour to 12 hour time string format
+ * Converts a date from 24 hour to 12 hour time string format
  * @param {Date} date - date to convert to 12 hour time format
  * @return {String} date in 12 hour time format
  */
@@ -2461,7 +2463,7 @@ function convertTo12Hour(date)
 }
 
 /**
- * converts a date from time array to 12 hour time string format
+ * Converts a date from time array to 12 hour time string format
  * @param {Array} timeArr - array to convert to 12 hour time format
  * @return {String} date in 12 hour time format
  */
@@ -2490,7 +2492,7 @@ function convertTo12HourFromArray(timeArr)
 }
 
 /**
- * checks whether the element is in a schedule column (basically has it been placed in the schedule)
+ * Checks whether the element is in a schedule column (basically has it been placed in the schedule)
  * @param {JQuery} elem - element to check
  * @return {boolean} true if element is in schedule, false if not
  */
@@ -2504,7 +2506,7 @@ function inColumn(elem)
 }
 
 /** 
- * set the height of an element if the height of another element 
+ * Set the height of an element if the height of another element 
  * is not a proper height (divisible by gridheight)
  * @param {JQuery} getElem - element to check the height of
  * @param {JQuery} setElem - element to set height of
@@ -2518,7 +2520,7 @@ function setHeight(getElem, setElem, hoursLength)
 }
 
 /** 
- * returns the minutes of a date
+ * Returns the minutes of a date
  * @param {Date} date - date to get minutes from
  * @return {String} minutes in padded form (e.g. 03 instead of just 3)
  */
@@ -2529,7 +2531,7 @@ function paddedMinutes(date)
 }
 
 /** 
- * zero pads a number to two digits
+ * Zero pads a number to two digits
  * @param {number} num - number to be zero padded
  * @return {String} zero padded number (e.g. 3 to 03 or 13 to 13)
  */
@@ -2539,20 +2541,20 @@ function paddedNumber(num)
 	return paddedNum;
 }
 
-/** removes cursor highlight on page */
+/** Removes cursor highlight on page */
 function removeHighlight()
 {
 	window.getSelection().removeAllRanges();
 }
 
-/** highlight the entirety of the field currently selected (that the user has cursor in) */
+/** Highlight the entirety of the field currently selected (that the user has cursor in) */
 function highlightCurrent()
 {
 	document.execCommand('selectAll',false,null);
 }
 
 /** 
- * creates a clone of the date
+ * Creates a clone of the date
  * @param {Date} date - date to clone
  * @return {Date} clone of date
  */
@@ -2562,7 +2564,7 @@ function cloneDate(date)
 }
 
 /** 
- * converts a date string from dashes to slashes (e.g. 2016-10-25 to 2016/10/25)
+ * Converts a date string from dashes to slashes (e.g. 2016-10-25 to 2016/10/25)
  * @param {String} dateString - date with slashes
  * @return {String} date without slashes
  */
@@ -2572,7 +2574,7 @@ function dateFromDashesToSlashes(dateString)
 }
 
 /** 
- * convert a date into a string without zero padding
+ * Convert a date into a string without zero padding
  * @param {Date} date - date to be converted to string
  * @return {String} date in the standard string format, with no zero padding in M/D/YY format (e.g. 6/2/16)
  */
@@ -2591,7 +2593,7 @@ function dateToString(date)
 }
 
 /** 
- * convert a date into a string with zero padding
+ * Convert a date into a string with zero padding
  * @param {Date} date - date to be converted to string
  * @return {String} date string in the format of MM/DD/YYYY, always printing zero padding if needed (e.g. 06/02/2016)
  */
@@ -2611,7 +2613,7 @@ function verboseDateToString(date)
 }
 
 /**
- * converts a date from 24 hour to 12 hour time string format
+ * Converts a date from 24 hour to 12 hour time string format
  * @param {Date} date - date to convert to 12 hour time format
  * @return {String} date in 12 hour time format
  */
@@ -2621,7 +2623,7 @@ function dateToTimeString(date)
 }
 
 /**
- * takes to dates and makes a string to express the range between them
+ * Takes to dates and makes a string to express the range between them
  * @param {Date} startDate - start date
  * @param {Date} endDate - end date
  * @return {String} date range (e.g. 12:00AM to 3:00PM)
