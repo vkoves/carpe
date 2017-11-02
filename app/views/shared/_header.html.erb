@@ -30,8 +30,8 @@
 		<a href="/" class="<%= current_page?('/') ? 'active' : ''%>">Home</a>
 		<% if current_user %>
 			<a href="/schedule" class="<%= current_page?('/schedule') ? 'active' : ''%>">My Schedule</a>
-		<% end %>
-    <a href="/groups" class="<%= current_page?('/groups') ? 'active' : ''%>">Groups</a>
+		  <a href="/groups" class="<%= current_page?('/groups') ? 'active' : ''%>">Groups</a>
+    <% end %>
 		<a href="/about" class="<%= current_page?('/about') ? 'active' : ''%>">About</a>
 		<a href="/status" class="<%= current_page?('/status') ? 'active' : ''%>">Status</a>
 		<a href="http://carpe-dev.tumblr.com/" target="_blank">
