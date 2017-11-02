@@ -33,3 +33,16 @@ function showRelevantUsers(searchText) {
 		}
 	});
 }
+
+function sendInvites(self, groupId){
+	var people = $(self).parent().find(".user-entry .token-input-list .token-input-token p");
+	$(people).each(function () {
+		$.ajax({
+			type: "POST",
+			data: "/users/" + $(this).attr('id') + "/join_group/" + groupId,
+			success: function(res){
+				console.log("aaaa");
+			}
+		});
+	})
+}

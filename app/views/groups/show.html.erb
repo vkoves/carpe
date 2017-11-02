@@ -50,7 +50,7 @@
   <!--<span class="red close button"></span>-->
   <h3>Invite Members</h3>
   <%= render "shared/user_adder", name: "user_ids" %>
-  <span class="green button" id="group-inviter-send-invite">Send Invite</span>
+  <span class="green button" id="group-inviter-send-invite" onclick="sendInvites(this, <%= @group.id %>)">Send Invite</span>
 </div>
 
 <%= render "groups/pages/#{@view.to_s}" %>
