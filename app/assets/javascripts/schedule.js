@@ -2126,7 +2126,7 @@ function placeInSchedule(elem, hours, lengthHours)
 /**
  * Events were updated. Called by any modification of an event, which triggers auto saving
  * @param {number} eventId - id of the event being modified
- * @param {msg} msg - message to show when events were updated... not currently used
+ * @param {msg} string - message to show when events were updated... not currently used
  */
 function updatedEvents(eventId, msg)
 {
