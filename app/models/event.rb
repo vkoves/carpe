@@ -8,7 +8,7 @@ class Event < ActiveRecord::Base
   has_and_belongs_to_many :repeat_exceptions
 
   def get_html_name #returns the event name, or an italicized untitled
-    name.empty? ? "<i>Untitled</i>" : name
+    name.present? ? ERB::Util.html_escape(name) : "<i>Untitled</i>"
   end
 
   def get_name #returns the event name as a plain string
@@ -68,7 +68,7 @@ class Event < ActiveRecord::Base
 
   def private_version #returns the event with details hidden
     private_event = self.dup
-    private_event.name = "<i>Private</i>"
+    private_event.name = "Private"
     private_event.description = ""
     private_event.location = ""
     return private_event
@@ -119,7 +119,9 @@ class Event < ActiveRecord::Base
     repeat_data = repeat.split("-")
     repeat_num = repeat_data[1].to_i # repeat this event every n
     repeat_unit = repeat_data[2] # days/weeks/months/years
-    first_weekday = (start_date...end_date).find { |day| (day.wday - date.wday) % repeat_num == 0}
+
+    dates = range(start_date, end_date, 1.day)
+    first_weekday = dates.find { |day| (day.wday - date.wday) % repeat_num == 0 }
 
     case repeat_unit
     when 'days'   then range first_weekday, end_date, repeat_num.days
@@ -141,7 +143,8 @@ class Event < ActiveRecord::Base
   # Similar to select_custom_repeat_dates, except the repeat dates are predefined.
   # This is a helper method for dates_in_range_with_repeat.
   def select_repeat_dates(start_date, end_date, step)
-    first_weekday = (start_date...end_date).find { |day| day.wday == date.wday }
+    dates = range(start_date, end_date, 1.day)
+    first_weekday = dates.find { |day| day.wday == date.wday }
     range first_weekday, end_date, step
   end
 
@@ -149,11 +152,11 @@ class Event < ActiveRecord::Base
   # a collection of dates in this range that the current event object applies to.
   def dates_in_range_with_repeat(start_date, end_date)
     case repeat
-    when 'daily'        then start_date...end_date # this event repeats every day
+    when 'daily'        then range start_date, end_date, 1.day
     when 'weekly'       then select_repeat_dates start_date, end_date, 1.week
     when 'monthly'      then select_repeat_dates start_date, end_date, 1.month
     when 'yearly'       then select_repeat_dates start_date, end_date, 1.year
-    when /certain_days/ then select_certain_dates start_date...end_date
+    when /certain_days/ then select_certain_dates range(start_date, end_date, 1.day)
     when /custom/       then select_custom_repeat_dates start_date, end_date
     else [date] # this event doesn't repeat
     end

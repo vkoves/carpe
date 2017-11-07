@@ -19,7 +19,7 @@ module Utilities
 
     Enumerator.new do |y|
       y << start
-      while (start += step) <= finish
+      while (start += step) < finish
         y << start
       end
     end

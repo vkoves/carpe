@@ -33,6 +33,13 @@ class User < ActiveRecord::Base
   validates_attachment :banner, Rails.application.config.paperclip_banner_validations
 
   after_create :send_signup_email
+  after_validation :clean_paperclip_errors
+
+  def clean_paperclip_errors
+    # Remove avatar/banner file size error if the avatar/banner error's exist
+    errors.delete(:avatar_file_size) unless errors[:avatar].empty?
+    errors.delete(:banner_file_size) unless errors[:banner].empty?
+  end
 
   def send_signup_email
     UserNotifier.send_signup_email(self).deliver_now
@@ -65,6 +72,10 @@ class User < ActiveRecord::Base
 
   def to_param
     has_custom_url? ? custom_url : id.to_s
+  end
+
+  def self.from_param(param)
+    User.find_by!(param =~ REGEX_USER_ID ? { id: param } : { custom_url: param })
   end
 
   ##########################
