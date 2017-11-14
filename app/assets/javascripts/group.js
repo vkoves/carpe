@@ -39,7 +39,7 @@ function sendInvites(self, groupId){
 	$(people).each(function () {
 		$.ajax({
 			type: "POST",
-			data: "/users/" + $(this).attr('id') + "/join_group/" + groupId,
+			data: "/users/" + $(this).attr('id') + "/invite_to_group/" + groupId,
 			success: function(res){
 				console.log("aaaa");
 			}

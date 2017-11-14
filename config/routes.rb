@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :users, only: [:index] do
     get "join_group/:group_id", to: 'user_groups#join_group', as: :join_group
     get "leave_group/:group_id", to: 'user_groups#leave_group', as: :leave_group
+    post "invite_to_group/:group_id", to: 'user_groups#invite_to_group', as: :invite_to_group
   end
 
   # get "/users", to: "users#index"
