@@ -74,10 +74,6 @@ class User < ActiveRecord::Base
     has_custom_url? ? custom_url : id.to_s
   end
 
-  def self.from_param(param)
-    User.find_by!(param =~ REGEX_USER_ID ? { id: param } : { custom_url: param })
-  end
-
   ##########################
   ##### EVENT METHODS ######
   ##########################
