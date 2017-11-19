@@ -2,11 +2,12 @@ const child_process = require('child_process')
 const phantomjs = require('phantomjs-prebuilt')
 const pinger = require('tcp-ping')
 
-pinger.ping({address: 'localhost', port: 3000, attempts: 1}, (error, alive) => {
+pinger.probe('localhost', 3000, (error, alive) => {
 	if (alive) {
 		runCodeceptJsAndPhantomJs()
 	} else {
 		console.error("You must start the rails server before running acceptance tests.")
+		if (error) { console.error(error) }
 		process.exit(1)
 	}
 })
