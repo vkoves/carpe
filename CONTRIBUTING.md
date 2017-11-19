@@ -21,8 +21,19 @@ an issue for a bug make sure to:
 	solved.
 	- **Provide environment information** - a bug report should contain the browser and operating system you were using
 	when you found the bug, which should include version numbers.
-	- **Give an urgency assessment** - at the end of the issue, give your personal assessment of how important this
-	issue is. Does the bug make the platform completely unusable? It probably deserves more attention.
+	- **Give a bug priority** - at the end of the issue specify a priority for the bug and why you believe it is that
+	priority. If you are unsure of a bug priority, ask for a second opinion. See the following bug priorities section
+
+#### Bug Priorities
+
+- **Critical** - A critical Carpe function does not work at all for a significant portion of users. Some examples of core functionality:
+	- Creating events
+	- Signing in
+	- Loading the dashboard
+	- Viewing another user's schedule
+- **High** - Core functionality has is impaired (partially not working) or non-core functionality on Carpe is not working at all.
+- **Medium** - Non-core functionality is impaired or core functionality has a usability issue (such as a cosmetic/UX issue or being difficult to understand).
+- **Low** - Non-core functionality has a usability issue.
 
 ### Suggesting Enhancements
 If you found a place where Carpe could improve, create an issue! Feedback is critical to creating a good product,
@@ -91,3 +102,4 @@ When writing code for Carpe, it's important to keep the following principles in 
  - **Testability** - code should be testable in an automated fashion via unit, integration, and acceptance tests.
  This makes it so folks working after you can ensure they aren't breaking the functionality you created, and decreases
  the rate at which large errors make it out to production.
+
