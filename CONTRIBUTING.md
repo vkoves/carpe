@@ -21,8 +21,8 @@ an issue for a bug make sure to:
 	solved.
 	- **Provide environment information** - a bug report should contain the browser and operating system you were using
 	when you found the bug, which should include version numbers.
-	- **Give a bug priority** - at the end of the issue specify a priority for the bug and why you believe it is that
-	priority. If you are unsure of a bug priority, ask for a second opinion. See the following bug priorities section
+	- **Give a bug priority** - at the end of the issue specify a priority for the bug (both in the issue text and as a label) and why you believe it is that
+	priority. If you are unsure of a bug priority, ask for a second opinion. See the bug priorities section later in this document.
 	- **Label the bug** - apply any relevant label to the bug via GitHub issue labels, so that it can easily be found by
 	team members working on specific sets of bugs. In particular, make sure to label a bug as "development" or "release-candidate". Bugs not marked as development or release-candidate are assumed to be on production.
 
@@ -33,7 +33,7 @@ an issue for a bug make sure to:
 	- Signing in
 	- Loading the dashboard
 	- Viewing another user's schedule
-- **High** - Core functionality has is impaired (partially not working) or non-core functionality on Carpe is not working at all.
+- **High** - Core functionality is impaired (partially not working) or non-core functionality on Carpe is not working at all.
 - **Medium** - Non-core functionality is impaired or core functionality has a usability issue (such as a cosmetic/UX issue or being difficult to understand).
 - **Low** - Non-core functionality has a usability issue.
 
