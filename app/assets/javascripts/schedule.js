@@ -2611,9 +2611,8 @@ function cloneDate(date)
 }
 
 /**
- * Converts a date string from dashes to slashes (e.g. 2016-10-25 to 2016/10/25)
- * @param {String} dateString - date with slashes
- * @return {String} date without slashes
+ * Determines the size of the description or location text area height dependent on content.
+ * @param {Jquery} elem - The textarea element in question. 
  */
 function textareaSetHeight(elem)
 {
@@ -2621,9 +2620,13 @@ function textareaSetHeight(elem)
 	$(elem).height('auto').height(elem.scrollHeight);
 }
 
-// converts a date string from dashes to slashes (e.g. 2016-10-25 to 2016/10/25)
-// This is needed as browsers don't like dash date formats much, but it's how Ruby prints dates by default
-// On Chrome, dashes with dates are interpreted as the ISO format, and are used in UTC, while Firefox just refuses the date at all
+/**
+ * Converts a date string from dashes to slashes (e.g. 2016-10-25 to 2016/10/25).
+ * This is needed as browsers don't like dash date formats much, but it's how Ruby prints dates by default.
+ * On Chrome, dashes with dates are interpreted as the ISO format, and are used in UTC, while Firefox just refuses the date at all.
+ * @param {String} dateString - date with slashes
+ * @return {String} date without slashes
+ */
 function dateFromDashesToSlashes(dateString)
 {
 	return dateString.split("-").join("/");
