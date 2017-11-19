@@ -23,6 +23,8 @@ an issue for a bug make sure to:
 	when you found the bug, which should include version numbers.
 	- **Give a bug priority** - at the end of the issue specify a priority for the bug and why you believe it is that
 	priority. If you are unsure of a bug priority, ask for a second opinion. See the following bug priorities section
+	- **Label the bug** - apply any relevant label to the bug via GitHub issue labels, so that it can easily be found by
+	team members working on specific sets of bugs. In particular, make sure to label a bug as "development" or "release-candidate". Bugs not marked as development or release-candidate are assumed to be on production.
 
 #### Bug Priorities
 
@@ -108,3 +110,23 @@ When writing code for Carpe, it's important to keep the following principles in 
 Deploying Carpe should be done carefully and in a planned fashion, as it is a live application that should have relatively guaranteed uptime.
 - All releases must go through a one week QA period on a release branch - During this time, no new features are merged in and QA should be done locally and on test Heroku to ensure that all core functionality is working properly.
 - All releases must have been frozen for 48 hours prior to the release time - For the 48 hours before a release, QA should be carried out with **absolutely no changes** made to the release candidate. This release lock time allows for a final set of testing that can verify that all functionality is working properly without any risk of new changes breaking it. If critical bugs are found that need to delay deployment, the 48 hour release candidate lock must begin anew when the fix is applied to the release branch, and the full deployment QA process must be rerun.
+- Before a deployment (but after making a release candidate), go through all development issues and change them to be labelled release-candidate instead of development, as they are now on the release candidate branch.
+- After deployment:
+ - Remove the release-candidate label from any remaining issues, as they are now on production if they have not been resolved.
+ - Open a pull request from `master` into `dev` to get fixes applied to the release-candidate into the development environment.
+
+# Testing Carpe
+
+Before and after deployment, the following manual checks must be made:
+
+- [ ] A user can login to Carpe via a Google account
+- [ ] A user can login to Carpe via an email and password
+- [ ] A user can view their dashboard with their upcoming events and the availability of users they are following
+- [ ] A user can view their schedule
+- [ ] A user can create an event
+- [ ] A user can edit an existing event
+- [ ] A user can view another user's profile
+
+Copy paste this list into the deployment pull request and check off these items during the 48 hour release candidate lock. If the release candidate is changed, uncheck all of these results and rerun these manual tests.
+
+When creating a new issue, make sure to follow the guidelines laid out in the Creating Issues section of this document.
