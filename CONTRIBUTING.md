@@ -103,3 +103,8 @@ When writing code for Carpe, it's important to keep the following principles in 
  This makes it so folks working after you can ensure they aren't breaking the functionality you created, and decreases
  the rate at which large errors make it out to production.
 
+# Deploying Carpe
+
+Deploying Carpe should be done carefully and in a planned fashion, as it is a live application that should have relatively guaranteed uptime.
+- All releases must go through a one week QA period on a release branch - During this time, no new features are merged in and QA should be done locally and on test Heroku to ensure that all core functionality is working properly.
+- All releases must have been frozen for 48 hours prior to the release time - For the 48 hours before a release, QA should be carried out with **absolutely no changes** made to the release candidate. This release lock time allows for a final set of testing that can verify that all functionality is working properly without any risk of new changes breaking it. If critical bugs are found that need to delay deployment, the 48 hour release candidate lock must begin anew when the fix is applied to the release branch, and the full deployment QA process must be rerun.
