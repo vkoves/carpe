@@ -2612,7 +2612,7 @@ function cloneDate(date)
 
 /**
  * Updates a textarea element's height based on the content passed to display in it.
- * Specific to Carpe in its current state, this will update the size of the
+ * Used specifically for event editing on My Schedule, this will update the size of the
  * description or location text area height dependent on content.
  * @param {Jquery} elem - The textarea element in question. 
  */
