@@ -112,8 +112,8 @@ Deploying Carpe should be done carefully and in a planned fashion, as it is a li
 - All releases must have been frozen for 48 hours prior to the release time - For the 48 hours before a release, QA should be carried out with **absolutely no changes** made to the release candidate. This release lock time allows for a final set of testing that can verify that all functionality is working properly without any risk of new changes breaking it. If critical bugs are found that need to delay deployment, the 48 hour release candidate lock must begin anew when the fix is applied to the release branch, and the full deployment QA process must be rerun.
 - Before a deployment (but after making a release candidate), go through all development issues and change them to be labelled release-candidate instead of development, as they are now on the release candidate branch.
 - After deployment:
- - Remove the release-candidate label from any remaining issues, as they are now on production if they have not been resolved.
- - Open a pull request from `master` into `dev` to get fixes applied to the release-candidate into the development environment.
+	 - Remove the release-candidate label from any remaining issues, as they are now on production if they have not been resolved.
+	 - Open a pull request from `master` into `dev` to get fixes applied to the release-candidate into the development environment.
 
 # Testing Carpe
 
