@@ -39,9 +39,6 @@ class UserGroupsController < ApplicationController
 
   # user joins a group
   def invite_to_group
-    puts("-------------------")
-    puts params[:group_id]
-    puts params[:user_id]
     @group = Group.find params[:group_id]
     @user = User.from_param params[:user_id]
 
