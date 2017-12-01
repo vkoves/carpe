@@ -3,6 +3,8 @@
 $carpe-orange: #ff7400;
 $carpe-grey: #f2f2f2;
 $text-color: #393939;
+$carpe-red: #ff4a4a;
+$carpe-green: #3ebb3e;
 
 /* Body styling to apply font, min-width and padding */
 body
@@ -258,13 +260,13 @@ a.default *, span.default, input.default /* default link styling */
 }
 a.default.red *, span.default.red, input.default.red
 {
-	background: #FD1A1A;
-	&:hover {background: #FF4A4A;}
+	background: $carpe-red;
+	&:hover { background: lighten($carpe-red, 10%); }
 }
 a.default.green *, span.default.green, input.default.green
 {
-	background: #18B918;
-	&:hover {background: #39DA39;}
+	background: $carpe-green;
+	&:hover { background: lighten($carpe-green, 10%); }
 }
 
 /*
@@ -300,7 +302,7 @@ a.default.following-btn *
 {
 	background-color: #5B5BFF;
 
-	&:hover { background-color: #FD1A1A; }
+	&:hover { background-color: $carpe-red; }
 }
 /* END LINK STYLING */
 
@@ -353,7 +355,7 @@ input.danger:hover
 }
 .circle.red
 {
-	background: #FD1A1A;
+	background: $carpe-red;
 }
 .circle.green
 {
@@ -458,12 +460,12 @@ input.danger:hover
 }
 .notice
 {
-  background-color: #3EBB3E;
+  background-color: $carpe-green;
   color: white;
 }
 .alert
 {
-  background-color: #FF4A4A;
+  background-color: $carpe-red;
   color: white;
 }
 
