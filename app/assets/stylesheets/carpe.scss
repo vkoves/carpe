@@ -1,6 +1,7 @@
 /* Define variables */
 
 $carpe-orange: #ff7400;
+$light-orange: orange;
 $carpe-grey: #f2f2f2;
 $text-color: #393939;
 $carpe-red: #ff4a4a;
@@ -131,7 +132,7 @@ label
 	border-radius: 100px;
 	width: 80px;
 	height: 80px;
-	border: solid orange 3px;
+	border: solid $light-orange 3px;
 	transition: box-shadow 0.25s;
 	background: white;
 
@@ -203,7 +204,7 @@ a .avatar img:hover, .avatar a img:hover
 /* General page things */
 .page-titler
 {
-	color: orange;
+	color: $light-orange;
 	font-weight: normal;
 	margin-bottom: 10px;
 }
@@ -237,7 +238,7 @@ a.default *, span.default, input.default /* default link styling */
 	cursor: pointer;
 	position: relative;
 	padding: 3px 15px 3px 15px;
-	background: orange;
+	background: $light-orange;
 	color: white;
 	text-decoration: none;
 	font-weight: bold;
@@ -628,7 +629,7 @@ input.danger:hover
 	.toggle-details
 	{
 		cursor: pointer;
-		color: orange;
+		color: $light-orange;
 	}
 	.details
 	{
@@ -643,7 +644,7 @@ input.danger:hover
 	.current-label
 	{
 		margin-left: 20px;
-		background-color: orange;
+		background-color: $light-orange;
 		padding-left: 10px;
 	}
 }

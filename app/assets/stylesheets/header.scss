@@ -26,7 +26,7 @@
 }
 .header-main a:hover, .menu a:hover
 {
-	color: orange;
+	color: $light-orange;
 }
 
 /* The actual main navigation at the top of the header */
@@ -41,7 +41,7 @@
 	transition: width 0.5s, opacity 0.5s;
 
 	a { margin-right: 25px; }
-	.active { color: orange; }
+	.active { color: $light-orange; }
 }
 
 
@@ -75,7 +75,7 @@
 		height: 40px;
 		width: 40px;
 		border-radius: 35px;
-		border: solid orange 2px;
+		border: solid $light-orange 2px;
 		margin-top: 7%;
 	}
 	#user-email
@@ -126,7 +126,7 @@
 	}
 	div:hover > a
 	{
-		color: orange;
+		color: $light-orange;
 	}
 }
 
@@ -208,7 +208,7 @@
 	{
 		position: absolute;
 		border-radius: 100%;
-		background-color: orange;
+		background-color: $light-orange;
 		width: 16px;
 		height: 15px;
 		font-size: 11px;

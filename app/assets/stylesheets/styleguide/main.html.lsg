@@ -5,7 +5,7 @@
 # Colors
 
 @colors {
-	$carpe-orange $carpe-grey $text-color
+	$carpe-orange $light-orange $carpe-grey $text-color $carpe-red $carpe-green
 }
 
 
@@ -211,11 +211,6 @@ of an element. They were created primarily to help with using headers.
 
 @scss {
 	.lsg-font-example-text::first-line { font-size: 1em; }
-	.lsg-color-swatch {
-		width: 150px;
-		height: 150px;
-		padding-top: 90px;
-	}
 	.icon {
 		border: dashed rgba(0, 0, 0, 0.2);
 

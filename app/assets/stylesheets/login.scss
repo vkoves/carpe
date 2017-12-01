@@ -21,7 +21,7 @@ form
 }
 #left h1
 {
-	color: orange;
+	color: $light-orange;
 	font-size: 36px;
 	margin-bottom: 10px;
 }
@@ -31,7 +31,7 @@ form
 	font-size: 16px;
 	margin-top: 0px;
 }
-.field label{color: orange;}
+.field label{color: $light-orange;}
 @media (max-width: 800px)
 {
 	#right
