@@ -21,8 +21,21 @@ an issue for a bug make sure to:
 	solved.
 	- **Provide environment information** - a bug report should contain the browser and operating system you were using
 	when you found the bug, which should include version numbers.
-	- **Give an urgency assessment** - at the end of the issue, give your personal assessment of how important this
-	issue is. Does the bug make the platform completely unusable? If so, it probably deserves more attention.
+	- **Give a bug priority** - at the end of the issue specify a priority for the bug (both in the issue text and as a label) and why you believe it is that
+	priority. If you are unsure of a bug priority, ask for a second opinion. See the bug priorities section later in this document.
+	- **Label the bug** - apply any relevant label to the bug via GitHub issue labels, so that it can easily be found by
+	team members working on specific sets of bugs. In particular, make sure to label a bug as "development" or "release-candidate". Bugs not marked as development or release-candidate are assumed to be on production.
+
+#### Bug Priorities
+
+- **Critical** - A critical Carpe function does not work at all for a significant portion of users. Some examples of core functionality:
+	- Creating events
+	- Signing in
+	- Loading the dashboard
+	- Viewing another user's schedule
+- **High** - Core functionality is impaired (partially not working) or non-core functionality on Carpe is not working at all.
+- **Medium** - Non-core functionality is impaired or core functionality has a usability issue (such as a cosmetic/UX issue or being difficult to understand).
+- **Low** - Non-core functionality has a usability issue.
 
 ### Suggesting Enhancements
 If you found a place where Carpe could improve, create an issue! Feedback is critical to creating a good product,
@@ -91,3 +104,30 @@ When writing code for Carpe, it's important to keep the following principles in 
  - **Testability** - code should be testable in an automated fashion via unit, integration, and acceptance tests.
  This makes it so folks working after you can ensure they aren't breaking the functionality you created, and decreases
  the rate at which large errors make it out to production.
+
+# Deploying Carpe
+
+Deploying Carpe should be done carefully and in a planned fashion, as it is a live application that should have relatively guaranteed uptime.
+- All releases must go through a one week QA period on a release branch - During this time, no new features are merged in and QA should be done locally and on test Heroku to ensure that all core functionality is working properly.
+- All releases must have been frozen for 48 hours prior to the release time - For the 48 hours before a release, QA should be carried out with **absolutely no changes** made to the release candidate. This release lock time allows for a final set of testing that can verify that all functionality is working properly without any risk of new changes breaking it. If critical bugs are found that need to delay deployment, the 48 hour release candidate lock must begin anew when the fix is applied to the release branch, and the full deployment QA process must be rerun.
+- Before a deployment (but after making a release candidate), go through all development issues and change them to be labelled release-candidate instead of development, as they are now on the release candidate branch.
+- After deployment:
+	 - Remove the release-candidate label from any remaining issues, as they are now on production if they have not been resolved.
+	 - Open a pull request from `master` into `dev` to get fixes applied to the release-candidate into the development environment.
+
+# Testing Carpe
+
+Before and after deployment, the following manual checks must be made:
+
+- [ ] A user can login to Carpe via a Google account
+- [ ] A user can login to Carpe via an email and password
+- [ ] A user can view their dashboard with their upcoming events and the availability of users they are following
+- [ ] A user can view their schedule
+- [ ] A user can create an event
+- [ ] A user can edit an existing event
+- [ ] A user can view another user's profile
+
+Copy paste this list into the deployment pull request and check off these items during the 48 hour release candidate lock. If the release candidate is changed, uncheck all of these results and rerun these manual tests.
+
+When creating a new issue, make sure to follow the guidelines laid out in the Creating Issues section of this document.
+
