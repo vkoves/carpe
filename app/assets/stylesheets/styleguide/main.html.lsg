@@ -5,13 +5,16 @@
 # Colors
 
 @colors {
-	$carpe-orange $light-orange $carpe-grey $text-color $carpe-red $carpe-green
+	$carpe-orange $light-orange $text-color $grey $red $green
 }
 
 
 - Carpe Orange (`$carpe-orange`) is the Carpe brand color. Whenever possible, the Carpe logotype should be in Carpe Orange.
-- Carpe Grey (`$carpe-grey`) is a grey color commonly used on Carpe.
+- Light Orange (`$light-orange`) is a faint orange color used for many buttons.
 - Primary Text Color (`$text-color`) is the color used for most text on Carpe, and is used by default.
+- Grey (`$grey`) is a grey color commonly used on Carpe.
+- Red (`$red`) is a red color commonly used for error alerts and red warning buttons.
+- Green (`$green`) is a green color commonly used for success alerts and green buttons.
 
 
 # Typography
