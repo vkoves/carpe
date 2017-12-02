@@ -2,7 +2,7 @@ class RelationshipsController < ApplicationController
   before_filter  :authorize_signed_in # make sure a user is signed in before allowing any of this
 
   def create
-    @user = User.find(params[:followed_id])
+    @user = User.from_param(params[:followed_id])
     current_user.follow(@user)
     respond_to do |format|
       format.html { redirect_to @user }

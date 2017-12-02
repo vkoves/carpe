@@ -8,13 +8,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    using_id = (params[:id] =~ /\A[0-9]+\Z/)
-    if using_id
-      @user = User.find_by(id: params[:id]) or not_found
-      redirect_to user_path(@user) if @user.has_custom_url?
-    else
-      @user = User.find_by(custom_url: params[:id]) or not_found
-    end
+    @user = User.from_param params[:id]
 
     @profile = false
     @profile = true if current_user and current_user == @user # this is the user looking at their own profile
