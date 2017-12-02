@@ -33,9 +33,17 @@ class UsersControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "the user path of users with a custom url should be their custom url" do
+    assert_match /.*viktor/, user_path(@viktor)
+  end
+
+  test "the user path of users without a custom url should be their user id" do
+    assert_match /.*2/, user_path(@norm)
+  end
+
   test "routes to a user's id should redirect to their custom url when present" do
     get :show, id: @viktor.id
-    assert_response :moved_permanently
+    assert_redirected_to user_path(@viktor)
   end
 
   test "should not be able to go to users panel if user is not an admin" do
@@ -125,13 +133,13 @@ class UsersControllerTest < ActionController::TestCase
   test "only admins can promote users" do
     sign_in @norm
     get :promote, id: @putin
-    assert_not User.find(@putin.id).admin, "non-admin successfully promoted a user"
+    assert_not User.find(@putin).admin, "non-admin successfully promoted a user"
 
     sign_out @norm
 
     sign_in @viktor
     get :promote, id: @putin
-    assert User.find(@putin.id).admin, "admin was unable to promote user"
+    assert User.find(@putin).admin, "admin was unable to promote user"
   end
 
   test "only admins can view user information" do
