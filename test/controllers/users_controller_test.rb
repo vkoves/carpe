@@ -133,13 +133,13 @@ class UsersControllerTest < ActionController::TestCase
   test "only admins can promote users" do
     sign_in @norm
     get :promote, id: @putin
-    assert_not User.from_param(@putin).admin, "non-admin successfully promoted a user"
+    assert_not User.find(@putin.id).admin, "non-admin successfully promoted a user"
 
     sign_out @norm
 
     sign_in @viktor
     get :promote, id: @putin
-    assert User.from_param(@putin).admin, "admin was unable to promote user"
+    assert User.find(@putin.id).admin, "admin was unable to promote user"
   end
 
   test "only admins can view user information" do
