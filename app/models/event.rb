@@ -8,7 +8,7 @@ class Event < ActiveRecord::Base
   has_and_belongs_to_many :repeat_exceptions
 
   def get_html_name #returns the event name, or an italicized untitled
-    name.empty? ? "<i>Untitled</i>" : name
+    name.present? ? ERB::Util.html_escape(name) : "<i>Untitled</i>"
   end
 
   def get_name #returns the event name as a plain string
@@ -68,7 +68,7 @@ class Event < ActiveRecord::Base
 
   def private_version #returns the event with details hidden
     private_event = self.dup
-    private_event.name = "<i>Private</i>"
+    private_event.name = "Private"
     private_event.description = ""
     private_event.location = ""
     return private_event
