@@ -8,10 +8,14 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.from_param params[:id]
+    if params[:id] =~ /\A[0-9]+\Z/
+      @user = User.find_by!(id: params[:id])
+      redirect_to user_path(@user) if @user.has_custom_url?
+    else
+      @user = User.find_by!(custom_url: params[:id])
+    end
 
-    @profile = false
-    @profile = true if current_user and current_user == @user # this is the user looking at their own profile
+    @profile = current_user == @user # this is the user looking at their profile
 
     case params[:page]
     when "followers"
@@ -78,7 +82,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @user = User.from_param params[:id]
+    @user = User.from_param(params[:id])
 
     if current_user.admin
       @user.destroy
@@ -92,7 +96,7 @@ class UsersController < ApplicationController
   end
 
   def inspect
-    @user = User.from_param params[:id]
+    @user = User.from_param(params[:id])
     @user_groups = UsersGroup.where(user_id: @user.id)
   end
 end

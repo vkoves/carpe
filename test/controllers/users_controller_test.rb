@@ -60,9 +60,8 @@ class UsersControllerTest < ActionController::TestCase
 
   test "signed in users can view their own profile" do
     sign_in @viktor
-    get :show, id: @viktor.id
-    assert_select "#profile-info", false,
-                  "Users viewing themself should not see 'X Follower(s) You Know'"
+    get :show, id: @viktor
+    assert_select "div#profile-header"
   end
 
   test "users can navigate to the schedule tab" do

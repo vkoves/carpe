@@ -81,7 +81,7 @@ class User < ActiveRecord::Base
   end
 
   def self.from_param(param)
-    User.find_by!(param =~ REGEX_USER_ID ? { id: param } : { custom_url: param })
+    User.find_by!(param.to_s =~ REGEX_USER_ID ? { id: param } : { custom_url: param })
   end
 
   ##########################
