@@ -1,7 +1,7 @@
 require 'utilities'
 
 #An event describes a schedule item, that is a single item occuring on a person's schedule
-class Event < ActiveRecord::Base
+class Event < ApplicationRecord
   belongs_to :user
   belongs_to :group
   belongs_to :category
