@@ -7,7 +7,8 @@ class ScheduleController < ApplicationController
     if params[:uid] #if a uid was passed, show that schedule in read only mode
       @user = User.find(params[:uid])
       @read_only = true
-    elsif authorize_signed_in #if the user is logged in, show their schedule
+    else #show their schedule
+      authorize_signed_in! and return unless user_signed_in?
       @user = current_user
     end
 
