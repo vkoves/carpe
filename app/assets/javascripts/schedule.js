@@ -51,7 +51,7 @@ $(document).on('page:before-change', pageChange); //and load again
 
 
 /**
- * If the user is allowed to leave, returns undefined. 
+ * If the user is allowed to leave, returns undefined.
  * If it is not a good time to leave, returns if the user is sure they want to leave.
  * run beforeunload
  * @return {boolean} true if the person wants to leave, false if the user wants to stay, undefined if user can leave
@@ -1331,7 +1331,7 @@ function handleNewEvent(elem)
  * Change time while items are being dragged or resized, and also snap to a vertical grid
  * @param {jQuery} elem - element the time is being updated on
  * @param {Object} ui - UI object from jQuery drag handler
- * @param {boolean} resize - true if resizing event, false if moving event 
+ * @param {boolean} resize - true if resizing event, false if moving event
  */
 function updateTime(elem, ui, resize) //if we're resizing, don't snap, just update time
 {
@@ -1408,7 +1408,7 @@ function updateTime(elem, ui, resize) //if we're resizing, don't snap, just upda
 
 
 /**
- * Moves the calender forward or backward in time 
+ * Moves the calender forward or backward in time
  * (e.g. by clicking next on weekly view)
  * @param {Date} newDateObj - new date to start from
  * @param {boolean} refresh - if true, cleans off all events from scheduler
@@ -2201,7 +2201,7 @@ function saveEvents()
 }
 
 /**
- * Deletes an event 
+ * Deletes an event
  * @param {Event} event - event from preforming an action... stops propagation of this event
  * @param {JQuery} elem -element to delete
  */
@@ -2547,8 +2547,8 @@ function inColumn(elem)
 		return false;
 }
 
-/** 
- * Set the height of an element if the height of another element 
+/**
+ * Set the height of an element if the height of another element
  * is not a proper height (divisible by gridheight)
  * @param {JQuery} getElem - element to check the height of
  * @param {JQuery} setElem - element to set height of
@@ -2561,7 +2561,7 @@ function setHeight(getElem, setElem, hoursLength)
 		$(setElem).css("height", (gridHeight*hoursLength)-border);
 }
 
-/** 
+/**
  * Returns the minutes of a date
  * @param {Date} date - date to get minutes from
  * @return {String} minutes in padded form (e.g. 03 instead of just 3)
@@ -2572,7 +2572,7 @@ function paddedMinutes(date)
 	return minutes;
 }
 
-/** 
+/**
  * Zero pads a number to two digits
  * @param {number} num - number to be zero padded
  * @return {String} zero padded number (e.g. 3 to 03 or 13 to 13)
@@ -2589,12 +2589,9 @@ function removeHighlight()
 	window.getSelection().removeAllRanges();
 }
 
-<<<<<<< HEAD
-/** Highlight the entirety of the field currently selected (that the user has cursor in) */
-=======
-//highlight the entirety of the field currently selected (that the user has cursor in)
-//runs HTMLInputElement.select if an input is in focus, otherwise runs 'selectAll' on the document
->>>>>>> dev
+/** Highlight the entirety of the field currently selected (that the user has cursor in).
+ * Runs HTMLInputElement.select if an input is in focus, otherwise runs 'selectAll' on document.
+ */
 function highlightCurrent()
 {
 	if($("textarea:focus").length > 0 || $("input:focus").length > 0)
@@ -2603,7 +2600,7 @@ function highlightCurrent()
 		document.execCommand('selectAll',false,null);
 }
 
-/** 
+/**
  * Creates a clone of the date
  * @param {Date} date - date to clone
  * @return {Date} clone of date
@@ -2613,30 +2610,31 @@ function cloneDate(date)
 	return new Date(date.getTime());
 }
 
-<<<<<<< HEAD
-/** 
- * Converts a date string from dashes to slashes (e.g. 2016-10-25 to 2016/10/25)
- * @param {String} dateString - date with slashes
- * @return {String} date without slashes
+/**
+ * Updates a textarea element's height based on the content passed to display in it.
+ * Used specifically for event editing on My Schedule, this will update the size of the
+ * description or location text area height dependent on content.
+ * @param {Jquery} elem - The textarea element in question. 
  */
-=======
-// makes the textarea the correct height based of the inner content
 function textareaSetHeight(elem)
 {
 	$(elem).attr('rows', 1);
 	$(elem).height('auto').height(elem.scrollHeight);
 }
 
-// converts a date string from dashes to slashes (e.g. 2016-10-25 to 2016/10/25)
-// This is needed as browsers don't like dash date formats much, but it's how Ruby prints dates by default
-// On Chrome, dashes with dates are interpreted as the ISO format, and are used in UTC, while Firefox just refuses the date at all
->>>>>>> dev
+/**
+ * Converts a date string from dashes to slashes (e.g. 2016-10-25 to 2016/10/25).
+ * This is needed as browsers don't like dash date formats much, but it's how Ruby prints dates by default.
+ * On Chrome, dashes with dates are interpreted as the ISO format, and are used in UTC, while Firefox just refuses the date at all.
+ * @param {String} dateString - date with slashes
+ * @return {String} date without slashes
+ */
 function dateFromDashesToSlashes(dateString)
 {
 	return dateString.split("-").join("/");
 }
 
-/** 
+/**
  * Convert a date into a string without zero padding
  * @param {Date} date - date to be converted to string
  * @return {String} date in the standard string format, with no zero padding in M/D/YY format (e.g. 6/2/16)
@@ -2655,7 +2653,7 @@ function dateToString(date)
 	return dateString; //and return
 }
 
-/** 
+/**
  * Convert a date into a string with zero padding
  * @param {Date} date - date to be converted to string
  * @return {String} date string in the format of MM/DD/YYYY, always printing zero padding if needed (e.g. 06/02/2016)
@@ -2704,7 +2702,7 @@ function datesToTimeRange(startDate, endDate)
 /**** HTML TIED METHODS *****/
 /****************************/
 
-/** 
+/**
  * Used by the next and previous buttons to change the part of the schedule being shown
  * If forward is true, the schedules moves forward one week, otherwise back one week
  * Worth noting that when the schedule loads, the first day is the current day, not the Monday of that week

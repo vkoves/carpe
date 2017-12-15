@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
-  before_filter :authorize_admin, only: [:index, :promote, :demote, :inspect] # authorize admin on the user viewing page
-  before_action :authorize_signed_in, only: [:destroy]
+  before_action :authorize_admin!, only: [:index, :promote, :demote, :inspect]
+  before_action :authorize_signed_in!, only: [:destroy]
+
 
   def index
     @users = User.all.sort_by(&:name) # fetch all users (including current, to see admin info)
@@ -43,11 +44,11 @@ class UsersController < ApplicationController
 
   # User search. Used to add users to stuff, like the sandbox user adder
   def search
-    q = if params[:q]
-          params[:q].strip
-        else
-          ""
-        end
+    if params[:q]
+      q = params[:q].strip
+    else
+      q = ""
+    end
 
     if q != "" # only search if it's not silly
       if request.path_parameters[:format] == 'json'
