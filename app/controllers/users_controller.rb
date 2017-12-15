@@ -9,11 +9,11 @@ class UsersController < ApplicationController
   end
 
   def show
-    if params[:id] =~ /\A[0-9]+\Z/
-      @user = User.find_by!(id: params[:id])
-      redirect_to user_path(@user) if @user.has_custom_url?
-    else
-      @user = User.find_by!(custom_url: params[:id])
+    @user = User.from_param(params[:id])
+
+    # forces custom urls to be displayed (when applicable)
+    if params[:id].is_int? and @user.has_custom_url?
+      redirect_to user_path(@user), status: :moved_permanently
     end
 
     @profile = current_user == @user # this is the user looking at their profile
