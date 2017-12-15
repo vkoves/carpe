@@ -5,7 +5,7 @@ class ScheduleController < ApplicationController
 
   def schedule
     if params[:uid] #if a uid was passed, show that schedule in read only mode
-      @user = User.from_param(params[:uid])
+      @user = User.find(params[:uid])
       @read_only = true
     else #show their schedule
       authorize_signed_in! and return unless user_signed_in?
@@ -32,7 +32,7 @@ class ScheduleController < ApplicationController
     end
 
     if(params[:user_id])
-      @cat.user = User.from_param(params[:user_id])
+      @cat.user = User.find(params[:user_id])
     end
 
     if(params[:privacy])

@@ -71,13 +71,13 @@ class UsersController < ApplicationController
   end
 
   def promote
-    @user = User.from_param(params[:id])
+    @user = User.find(params[:id])
     @user.update(admin: true)
     render json: { action: "promote", uid: @user.id, new_href: demote_user_path(@user)}
   end
 
   def demote
-    @user = User.from_param(params[:id])
+    @user = User.find(params[:id])
     @user.update(admin: false)
     render json: { action: "demote", uid: @user.id, new_href: promote_user_path(@user)}
   end
@@ -97,7 +97,7 @@ class UsersController < ApplicationController
   end
 
   def inspect
-    @user = User.from_param(params[:id])
+    @user = User.find(params[:id])
     @user_groups = UsersGroup.where(user_id: @user.id)
   end
 end

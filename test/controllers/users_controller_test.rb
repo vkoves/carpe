@@ -60,7 +60,7 @@ class UsersControllerTest < ActionController::TestCase
 
   test "signed in users can view their own profile" do
     sign_in @viktor
-    get :show, params: { id: @viktor }
+    get :show, params: { id: @viktor.custom_url }
     assert_select "div#profile-header"
   end
 
@@ -118,38 +118,38 @@ class UsersControllerTest < ActionController::TestCase
   test "only admins (or the account owner) can delete users" do
     sign_in @norm
     assert_no_difference 'User.count' do
-      delete :destroy, params: { id: @viktor }
+      delete :destroy, params: { id: @viktor.id }
     end
 
     sign_out @norm
 
     sign_in @viktor
     assert_difference 'User.count', -1 do
-      delete :destroy, params: { id: @norm }
+      delete :destroy, params: { id: @norm.id }
     end
   end
 
   test "only admins can promote users" do
     sign_in @norm
-    get :promote, params: { id: @putin }
+    get :promote, params: { id: @putin.id }
     assert_not User.find(@putin.id).admin, "non-admin successfully promoted a user"
 
     sign_out @norm
 
     sign_in @viktor
-    get :promote, params: { id: @putin }
+    get :promote, params: { id: @putin.id }
     assert User.find(@putin.id).admin, "admin was unable to promote user"
   end
 
   test "only admins can view user information" do
     sign_in @norm
-    get :inspect, params: { id: @norm }
+    get :inspect, params: { id: @norm.id }
     assert_response :redirect
 
     sign_out @norm
 
     sign_in @viktor
-    get :inspect, params: { id: @norm }
+    get :inspect, params: { id: @norm.id }
     assert_response :success
   end
 end

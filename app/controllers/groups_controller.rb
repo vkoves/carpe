@@ -51,7 +51,7 @@ class GroupsController < ApplicationController
   def add_users
     @group = Group.find(params[:id])
     if params[:uid]
-      user = User.from_param(params[:uid])
+      user = User.find(params[:uid])
       if(params[:del]) #remove the user
         @group.users.delete(user)
       elsif !@group.users.include? user #add the user

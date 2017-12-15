@@ -2,7 +2,7 @@ class RelationshipsController < ApplicationController
   before_action  :authorize_signed_in!
 
   def create
-    @user = User.from_param(params[:followed_id])
+    @user = User.find(params[:followed_id])
     current_user.follow(@user)
     respond_to do |format|
       format.html { redirect_to @user }
