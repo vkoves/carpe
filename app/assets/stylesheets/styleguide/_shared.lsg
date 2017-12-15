@@ -54,8 +54,9 @@
 					margin-right: 10px;
 				}
 				.title-end {
-					color: #3a3a3a;
+					color: #393939;
 					font-size: 16px;
+					font-weight: 600;
 				}
 				a {
 					color: #a5a5a5;
