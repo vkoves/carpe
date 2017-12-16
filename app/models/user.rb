@@ -76,10 +76,6 @@ class User < ApplicationRecord
     !custom_url.empty?
   end
 
-  def to_param
-    has_custom_url? ? custom_url : id.to_s
-  end
-
   def self.from_param(param)
     User.find_by!(param.to_s =~ REGEX_USER_ID ? { id: param } : { custom_url: param })
   end
