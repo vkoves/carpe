@@ -143,13 +143,19 @@ class UsersControllerTest < ActionController::TestCase
 
   test "only admins can view user information" do
     sign_in @norm
-    get :inspect, params: { id: @norm.id }
+
+    get :inspect, params: { id: @viktor.id }
     assert_response :redirect
 
     sign_out @norm
-
     sign_in @viktor
+
+    # user without custom url
     get :inspect, params: { id: @norm.id }
+    assert_response :success
+
+    # user with custom url
+    get :inspect, params: { id: @viktor.id }
     assert_response :success
   end
 end
