@@ -145,3 +145,43 @@ h2 {
 		padding-bottom: 2.5vw;
 	}
 }
+
+@media (max-width: 500px)
+{
+	#home-sl1 {
+		height: 20rem;
+		h1 {
+			font-size: 1.9rem;
+			padding: 0px 1rem;
+			letter-spacing: 0;
+		}
+		h2 {
+    	font-size: 1.2rem;
+    	padding: 0 4rem;
+    	margin-top: 3rem;
+		}
+		.alphawarn {
+			display: none;
+		}
+		.home-signup-btn {
+			margin-top: 3rem;
+		}
+	}
+	#home-sl2 {
+		height: 20rem;
+		#home-sl2-textcontainer {
+			width: 45vw;
+			h1 {
+				font-size: 1.5rem;
+			}
+			h2 {
+				font-size: 1.2rem;
+			}
+		}
+		#home-sl2-img {
+			height: 18.4rem;
+      top: -11.6rem;
+      left: calc(50% + -9vw);
+		}
+	}
+}
