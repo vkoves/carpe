@@ -175,13 +175,33 @@ h2 {
 				font-size: 1.5rem;
 			}
 			h2 {
-				font-size: 1.2rem;
+				font-size: 1rem;
 			}
 		}
 		#home-sl2-img {
 			height: 18.4rem;
-      top: -11.6rem;
-      left: calc(50% + -9vw);
+    	top: 1rem;
+    	left: calc(50% + -9vw);
+    	position: absolute;
+		}
+	}
+	#home-sl3 {
+		height: 20rem;
+		#home-sl3-textcontainer {
+			width: 45vw;
+    	top: 12vw;
+    	left: 50vw;
+			h1 {
+				font-size: 1.5rem;
+			}
+			h2 {
+				font-size: 1rem;
+			}
+		}
+		#home-sl3-img {
+			height: 18.4rem;
+    	top: 1rem;
+    	position: absolute;
 		}
 	}
 }
