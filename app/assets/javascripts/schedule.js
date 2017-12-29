@@ -1445,7 +1445,7 @@ function addDates(newDateObj, refresh, startToday)
 
 		$(".sch-day-col").each(function(index, col)
 		{
-			$(col).attr("data-date", dateToString(currDate));
+			$(col).attr("data-date", verboseDateToString(currDate));
 
 			var fullDate = monthNames[currDate.getMonth()] + " " + currDate.getDate() + ", " + currDate.getFullYear();
 
@@ -1496,7 +1496,7 @@ function addDates(newDateObj, refresh, startToday)
 			if(currDate < todaySimple)
 				tileClass = tileClass + " in-past";
 
-			$("#sch-monthly-view #tiles-cont").append("<div class='" + tileClass + "' data-date='" + dateToString(currDate) + "' >"
+			$("#sch-monthly-view #tiles-cont").append("<div class='" + tileClass + "' data-date='" + verboseDateToString(currDate) + "' >"
 					+ "<div class='inner'>"
 						+ "<div class='day-of-month'>" + currDate.getDate() + "</div>"
 					+ "</div>"
@@ -2614,7 +2614,7 @@ function cloneDate(date)
  * Updates a textarea element's height based on the content passed to display in it.
  * Used specifically for event editing on My Schedule, this will update the size of the
  * description or location text area height dependent on content.
- * @param {Jquery} elem - The textarea element in question. 
+ * @param {Jquery} elem - The textarea element in question.
  */
 function textareaSetHeight(elem)
 {
