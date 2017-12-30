@@ -56,7 +56,7 @@ class ScheduleController < ApplicationController
     category = Category.find(params[:id])
     if current_user and (category.user == current_user or category.group.in_group?(current_user)) #if user is owner or in owning group
       Category.destroy(params[:id])
-      render :text => "Category destroyed"
+      render plain: "Category destroyed"
     end
   end
 
@@ -80,7 +80,7 @@ class ScheduleController < ApplicationController
     new_event_ids = {}
 
     unless params[:map] #if there is no map param defined
-      render :text => "No events to save!" and return #say so and return
+      render plain: "No events to save!" and return #say so and return
     end
 
     params[:map].each do |key, obj|
@@ -134,7 +134,7 @@ class ScheduleController < ApplicationController
     event = Event.find(params[:id])
     if current_user and (event.user == current_user or event.group.in_group?(current_user)) #if the current user is the owner or in the owner group
       Event.destroy(params[:id])
-      render :text => "Event deleted."
+      render plain: "Event deleted."
     end
   end
 
