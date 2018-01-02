@@ -11,6 +11,10 @@ module.exports = {
     I = require('../steps_file.js')();
   },
 
+  overlays: {
+    category: '#cat-overlay-box.visible'
+  },
+
   loginToSchedule() {
     I.amOnPage('/schedule');
     I.seeElement('.alert-holder .alert'); // an error should be thrown for visiting a page that requires authentication
