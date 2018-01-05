@@ -2,6 +2,9 @@
   "name": "carpe",
   "version": "1.0.0",
   "description": "The social scheduler",
+  "engines": {
+    "node": "8"
+  },
   "scripts": {
     "jsdoc": "jsdoc app/assets/javascripts -d public/jsdoc-out -r README.md",
     "phantomjs": "phantomjs --webdriver=4444",
