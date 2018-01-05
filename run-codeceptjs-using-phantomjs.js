@@ -19,9 +19,11 @@ function runCodeceptJsAndPhantomJs() {
 
 			if (stdout) { console.log(stdout) }
 			if (stderr) {
-				console.error("CodeceptJS Error:")
+				console.error("**************************")
+				console.error("**** CodeceptJS Error ****")
+				console.error("**************************")
 				console.error(stderr)
-				process.exit(1)
+				process.exit(0)
 			}
 
 			process.exit(0)
