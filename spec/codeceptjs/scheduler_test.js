@@ -1,14 +1,18 @@
 
 Feature('Scheduler Tests');
 
-Scenario('can load schedule page', (I, schedulePage) => {
+
+// Login to schedule, since all tests need it
+Before((I, schedulePage) => { // or Background
 	schedulePage.loginToSchedule(); // loads schedule page and logs in after prompt (see pages/schedule.js for details)
+});
+
+Scenario('can load schedule page', (I, schedulePage) => {
 	I.seeElement('#sch-main'); // check for schedule element
 });
 
 
 Scenario('can create category', async (I, schedulePage) => {
-	schedulePage.loginToSchedule(); // loads schedule page
 	I.dontSeeElement(schedulePage.overlays.category); // ensure category overlay starts hidden
 
 	let previousCategoryCount = await I.grabNumberOfVisibleElements('#sch-sidebar .category:not([data-id="-1"])'); // count existing categories
@@ -18,13 +22,11 @@ Scenario('can create category', async (I, schedulePage) => {
 });
 
 Scenario('can edit category', (I, schedulePage) => {
-	schedulePage.loginToSchedule(); // loads schedule page
 	I.click('#sch-sidebar .category:not([data-id="-1"]) .sch-evnt-edit-cat'); // click edit on first category
 	I.seeElement(schedulePage.overlays.category); // check the overlay is present
 });
 
 Scenario('can delete category with confirmation', async (I, schedulePage) => {
-	schedulePage.loginToSchedule(); // loads schedule page
 	let previousCategoryCount = await I.grabNumberOfVisibleElements('#sch-sidebar .category:not([data-id="-1"])'); // count existing categories
 
 	I.dontSeeElement('#overlay-confirm.visible'); // ensure confirm overlay starts hidden
