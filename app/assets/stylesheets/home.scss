@@ -206,6 +206,28 @@ h2 {
     	position: absolute;
 		}
 	}
+
+	#home-sl4 {
+		height: 110vw;
+		#home-sl4-textcontainer {
+			position: absolute;
+			bottom: 1vw;
+			text-align: center;
+			h1 {
+				font-size: 1.5rem;
+			}
+			h2 {
+				font-size: 1rem;
+			}
+		}
+		#home-sl4-img {
+    width: 90vw;
+    height:auto;
+    left: 5vw;
+    top: 0;
+    position: relative;
+		}
+	}
 	#home-sl5 {
 		h1 {
 			font-size: 1rem;
