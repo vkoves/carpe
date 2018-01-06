@@ -25,6 +25,10 @@ Scenario('can edit category', (I, schedulePage) => {
 	I.click('#sch-sidebar .category:not([data-id="-1"]) .sch-evnt-edit-cat'); // click edit on first category
 	I.seeElement(schedulePage.overlays.category); // check the overlay was made visible
 	I.waitForVisible(`${schedulePage.overlays.category} .sch-evnt-save-cat`); // wait for overlay to finish coming on screen
+
+	// Verify editing a category loads expected new category default data
+	I.seeElement('.color-swatch.selected.grey'); // expect grey color to be selected
+
 	I.click(`${schedulePage.overlays.category} .sch-evnt-save-cat`); // click confirm
 	I.waitForInvisible(schedulePage.overlays.category, 2); // wait 2 sec for the overlay to hide
 	I.dontSeeElement(schedulePage.overlays.category); // check the overlay is hidden
