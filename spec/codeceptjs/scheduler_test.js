@@ -30,18 +30,18 @@ Scenario('can edit category', (I, schedulePage) => {
 	I.dontSeeElement(schedulePage.overlays.category); // check the overlay is hidden
 });
 
-Scenario('can delete category with confirmation', async (I, schedulePage) => {
+Scenario('can delete category with confirmation', async (I, schedulePage, UIManager) => {
 	let previousCategoryCount = await I.grabNumberOfVisibleElements('#sch-sidebar .category:not([data-id="-1"])'); // count existing categories
 
-	I.dontSeeElement('#overlay-confirm.visible'); // ensure confirm overlay starts hidden
+	I.dontSeeElement(UIManager.overlays.confirm); // ensure confirm overlay starts hidden
 
 	I.click('#sch-sidebar .category:not([data-id="-1"]) .sch-evnt-del-cat'); // click delete on first category
 
-	I.seeElement('#overlay-confirm.visible'); // verify confirmation overlay appears
+	I.seeElement(UIManager.overlays.confirm); // verify confirmation overlay appears
 
-	I.click('#overlay-confirm #confirm') // click confirm on the deletion
+	I.click(`${UIManager.overlays.confirm} #confirm`) // click confirm on the deletion
 
-	I.dontSeeElement('#overlay-confirm.visible'); // ensure confirm overlay is hidden again
+	I.dontSeeElement(UIManager.overlays.confirm); // ensure confirm overlay is hidden again
 
 	I.seeNumberOfVisibleElements('#sch-sidebar .category:not([data-id="-1"])', previousCategoryCount - 1); // verify there is one less category than before
 });

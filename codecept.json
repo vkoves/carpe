@@ -11,7 +11,8 @@
   },
   "include": {
     "I": "./spec/codeceptjs/steps_file.js",
-    "schedulePage": "./spec/codeceptjs/pages/schedule.js"
+    "schedulePage": "./spec/codeceptjs/pages/schedule.js",
+    "UIManager": "./spec/codeceptjs/pages/ui-manager.js"
   },
   "mocha": {
     "reporterOptions": {
