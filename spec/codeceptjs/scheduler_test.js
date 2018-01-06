@@ -23,7 +23,11 @@ Scenario('can create category', async (I, schedulePage) => {
 
 Scenario('can edit category', (I, schedulePage) => {
 	I.click('#sch-sidebar .category:not([data-id="-1"]) .sch-evnt-edit-cat'); // click edit on first category
-	I.seeElement(schedulePage.overlays.category); // check the overlay is present
+	I.seeElement(schedulePage.overlays.category); // check the overlay was made visible
+	I.waitForVisible(`${schedulePage.overlays.category} .sch-evnt-save-cat`); // wait for overlay to finish coming on screen
+	I.click(`${schedulePage.overlays.category} .sch-evnt-save-cat`); // click confirm
+	I.waitForInvisible(schedulePage.overlays.category, 2); // wait 2 sec for the overlay to hide
+	I.dontSeeElement(schedulePage.overlays.category); // check the overlay is hidden
 });
 
 Scenario('can delete category with confirmation', async (I, schedulePage) => {

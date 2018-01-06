@@ -5,7 +5,8 @@
       "browser": "phantomjs",
       "url": "http://localhost:3000",
       "show": false,
-      "restart": false
+      "restart": false,
+      "windowSize": "1920x1080"
     }
   },
   "include": {
