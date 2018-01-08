@@ -799,8 +799,8 @@ input[readonly="readonly"]
 	float: left;
 	// Removed precision due to Edge over-calculating value, shifting tile off screen.
 	// Formerly written as 100 % / 7, but this is kept as a fairly equivalent value
-	// to still ensure ~ 7 items can show in a row. 
-	width: calc(14.28%);
+	// to still ensure ~ 7 items can show in a row.
+	width: 14.28%;
 	height: 25%;
 	padding: 2px;
 	box-sizing: border-box;
@@ -912,7 +912,7 @@ input[readonly="readonly"]
 	font-size: 0px;
 }
 .day-label {
-	width: calc(14.28%);
+	width: 14.28%;
 	display: inline-block;
 	font-size: 14px;
 	text-align: left;
