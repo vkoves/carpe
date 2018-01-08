@@ -54,6 +54,17 @@
 			<span id="edit-loc" class="edit">Edit</span>
 		</div>
 		<textarea id="overlay-loc" class="auto-resize-vertically">Location goes here</textarea>
+		<!-- Code for Google Maps API injection. Provided by Google.
+		TODO don't place the key here, use an environment variable.
+		Alternatively, change the settings for the key to only allow it to be used from carpe.us. !-->
+		<iframe
+			id="overlay-map"
+		  width="100%"
+		  height="300px"
+		  frameborder="0" style="border:0"
+		  src="https://www.google.com/maps/embed/v1/place?key=AIzaSyD46VOjfOyC12t9s3daUJ0svhcS65C0FVw
+		    &q=''" allowfullscreen visible=false>
+		</iframe>
 	</div>
 
 	<div id="break-overlay-box" class="overlay-box">

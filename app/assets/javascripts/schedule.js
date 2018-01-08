@@ -1974,6 +1974,16 @@ function editEvent(elem)
 		$("#overlay-desc").val(desc);
 		$("#overlay-loc").val(loc);
 
+		var map_loc = "https://www.google.com/maps/embed/v1/place?key=AIzaSyD46VOjfOyC12t9s3daUJ0svhcS65C0FVw\
+			&q=" + loc;
+
+		if (loc == "") {
+			map_loc = "https://www.google.com/maps/embed/v1/place?key=AIzaSyD46VOjfOyC12t9s3daUJ0svhcS65C0FVw\
+				&q=''"; // Generates a map of the world instead, since no location set.
+		}
+
+		$("#overlay-map").attr("src",map_loc);
+
 		if(desc.length == 0 && readOnly) //if this is readOnly and there is no description
 			$("#overlay-desc, #desc-title").hide(); //hide the field and the title
 		else
@@ -2614,7 +2624,7 @@ function cloneDate(date)
  * Updates a textarea element's height based on the content passed to display in it.
  * Used specifically for event editing on My Schedule, this will update the size of the
  * description or location text area height dependent on content.
- * @param {Jquery} elem - The textarea element in question. 
+ * @param {Jquery} elem - The textarea element in question.
  */
 function textareaSetHeight(elem)
 {
