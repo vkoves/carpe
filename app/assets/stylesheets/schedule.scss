@@ -1,4 +1,6 @@
 /* SCHEDULE CSS */
+@import 'colors';
+
 #cont-hold
 {
 	width: 96%;
@@ -418,7 +420,7 @@ input[readonly="readonly"]
 
 		&.active
 		{
-			background: orange;
+			background: $light-orange;
 			box-shadow: 1px 1px 3px grey inset;
 		}
 	}
@@ -465,7 +467,7 @@ input[readonly="readonly"]
 	.evnt-date
 	{
 		font-size: 24px;
-		color:Orange;
+		color: $light-orange;
 		float: left;
 		left: 10px;
 		top:2px;
@@ -715,7 +717,7 @@ input[readonly="readonly"]
 }
 .ui-datepicker .ui-datepicker-header
 {
-	background: orange;
+	background: $light-orange;
 }
 /* End Date Picker Styling */
 
@@ -809,7 +811,7 @@ input[readonly="readonly"]
 	.inner
 	{
 		height: 100%;
-		background: #f2f2f2;
+		background: $grey;
 	}
 	&.in-past
 	{

@@ -1,5 +1,5 @@
 /* Header CSS */
-
+@import 'colors';
 
 .header-main
 {
@@ -26,7 +26,7 @@
 }
 .header-main a:hover, .menu a:hover
 {
-	color: orange;
+	color: $light-orange;
 }
 
 /* The actual main navigation at the top of the header */
@@ -41,7 +41,7 @@
 	transition: width 0.5s, opacity 0.5s;
 
 	a { margin-right: 25px; }
-	.active { color: orange; }
+	.active { color: $light-orange; }
 }
 
 
@@ -75,7 +75,7 @@
 		height: 40px;
 		width: 40px;
 		border-radius: 35px;
-		border: solid orange 2px;
+		border: solid $light-orange 2px;
 		margin-top: 7%;
 	}
 	#user-email
@@ -126,7 +126,7 @@
 	}
 	div:hover > a
 	{
-		color: orange;
+		color: $light-orange;
 	}
 }
 
@@ -208,7 +208,7 @@
 	{
 		position: absolute;
 		border-radius: 100%;
-		background-color: orange;
+		background-color: $light-orange;
 		width: 16px;
 		height: 15px;
 		font-size: 11px;
@@ -332,6 +332,8 @@
 	width: 200px !important;
 	border-color: #C0BABA;
 }
+/* TODO: Token input styling is general and shouldn't be here with the header */
+.token-input-dropdown { text-align: center; }
 #users-search ul, .token-input-dropdown ul
 {
 	padding: 0;
@@ -377,7 +379,7 @@
 }
 .token-input-dropdown
 {
-	background: #F2F2F2;
+	background: $grey;
 	width: 212px;
 	border-bottom-left-radius: 5px;
 	border-bottom-right-radius: 5px;
@@ -417,7 +419,7 @@ a:hover > .new-tab-icon
 	#users-search
 	{
 		box-sizing: border-box;
-		background: #f2f2f2;
+		background: $grey;
 		border-radius: 5px;
 		padding: 5px;
 		width: 100%;
