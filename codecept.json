@@ -2,7 +2,7 @@
   "output": "./spec/codeceptjs/output",
   "helpers": {
     "WebDriverIO": {
-      "browser": "phantomjs",
+      "browser": "chrome",
       "url": "http://localhost:3000",
       "show": false,
       "restart": false,

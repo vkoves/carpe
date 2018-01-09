@@ -9,7 +9,7 @@
     "jsdoc": "jsdoc app/assets/javascripts -d public/jsdoc-out -r README.md",
     "phantomjs": "phantomjs --webdriver=4444",
     "codeceptjs": "codeceptjs run --reporter mochawesome",
-    "acceptance-tests": "bundle exec rails db:seed & node run-codeceptjs-using-phantomjs.js",
+    "acceptance-tests": "bundle exec rails db:seed & codeceptjs run ; rails acceptance_cleanup",
     "teaspoon": "bundle exec teaspoon --coverage=default",
     "minitest": "bundle exec rails test"
   },
