@@ -317,8 +317,7 @@ function keyboardShortcutHandlers()
 }
 
 /**
- * Toggles the sidebar, or force opens it
- * @param  {Boolean} forceOpen Whether the sidebar should be forced open, overriding default toggle
+ * Toggles the sidebar being open, applying .open class if it is open
  */
 function toggleSidebar() {
 	mobileSidebarOpen = !mobileSidebarOpen;
