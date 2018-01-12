@@ -28,6 +28,7 @@
 
 
 var unloadAssigned = false; //if unload is assigned
+var mobileSidebarOpen = false;
 
 //Handle window resizing
 $(window).resize(function()
@@ -35,11 +36,6 @@ $(window).resize(function()
 	if($( window ).width() > 800)
 	{
 		$("#mobile-menu").slideUp(300);
-		$("#sidebar").css("right", "0%");
-	}
-	else if(parseInt($("#sidebar").css("right")) >= 0)
-	{
-		$("#sidebar-button").css("right", "340px");
 	}
 });
 
@@ -136,19 +132,7 @@ function initializeEventListeners()
 	});
 
 	//Toggle sidebar that lists friend availability on click
-	$("#sidebar-button").click(function()
-	{
-		if(parseInt($("#sidebar").css("right")) < 0) //if the sidebar is closed
-		{
-			$("#sidebar-button").css("right", "340px"); //move the button
-			$("#sidebar").css("right", "0%"); //and open the sidebar
-		}
-		else //otherwise, close it
-		{
-			$("#sidebar-button").css("right", "0%");
-			$("#sidebar").css("right", "-340px");
-		}
-	});
+	$("#sidebar-button").click(toggleSidebar);
 
 	//Add friend button success. The friend button calls a POST event, this is run when that completes (that's what ajax:success does)
 	$(".friend-button").bind('ajax:success', function(event, data, status, xhr){
@@ -330,6 +314,18 @@ function keyboardShortcutHandlers()
 			return Boolean(e.keyCode == charString.charCodeAt(0));
 		}
 	});
+}
+
+/**
+ * Toggles the sidebar being open, applying .open class if it is open
+ */
+function toggleSidebar() {
+	mobileSidebarOpen = !mobileSidebarOpen;
+
+	if(mobileSidebarOpen)
+		$('#sidebar-cont').addClass('open');
+	else
+		$('#sidebar-cont').removeClass('open');
 }
 
 /**
