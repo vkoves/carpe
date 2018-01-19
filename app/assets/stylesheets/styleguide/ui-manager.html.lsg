@@ -1,0 +1,49 @@
+@title Carpe Living Style Guide - UI Manager
+
+@import shared
+
+@javascript-after "../ui-manager.js"
+@javascript-after "https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"
+
+# UI Manager
+
+The UI Manager is a structure for handling common UI interactions in Carpe. Right now, it manages
+overlays and exposes methods for a styled `alert` and `confirm` dialog.
+
+## Animated confirmation dialog
+
+```
+<span class="default red" id="confirm-test">Launch?</span>
+```
+
+```javascript
+$("#confirm-test").click(function()
+{
+	confirmUI("Are you sure you want to launch?");
+});
+```
+
+## Animated alert dialog
+
+```
+<span class="default" id="alert-test">Press Me!</span>
+```
+
+```javascript
+$("#alert-test").click(function()
+{
+	alertUI("You fell for it!");
+});
+```
+
+@javascript-after {
+	$("#confirm-test").click(function()
+	{
+		confirmUI("Are you sure you want to launch?");
+	});
+
+	$("#alert-test").click(function()
+	{
+		alertUI("You fell for it!");
+	});
+}

@@ -1,10 +1,18 @@
 Rails.application.routes.draw do
   resources :categories
 
-  get "u/:id_or_url(/:page)", to: "users#show", :as => :user
-  get "/users", to: "users#index"
-
   devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks", :registrations => "users/registrations" }
+  resources :users, only: [:index, :destroy, :show] do
+    member do
+      get "promote"
+      get "demote"
+      get "inspect"
+    end
+
+    collection do
+      get "search"
+    end
+  end
 
   #General page routes
   get "/home" => 'home#index', :as => :home
@@ -27,16 +35,12 @@ Rails.application.routes.draw do
   post "/group/:id" => 'groups#update'
 
   #Admin Routes
-  get "/promote" => 'pages#promote'
   get "/sandbox" => 'pages#sandbox'
   get "/admin" => 'pages#admin', :as => :admin_panel
-  match "/destroy_user/:id" => 'pages#destroy_user', :via => :delete, :as => :admin_destroy_user
-  get "/admin_user_info/:id" => 'pages#admin_user_info', :as => :admin_user_info
   post "/run_command" => 'pages#run_command'
   post "/check_if_command_is_finished" => 'pages#check_if_command_is_finished'
 
   #User Routes
-  get "/search_users" => 'users#search'
   get "/search_core" => 'application#search_core'
   post "/deny_friend" => 'friendships#deny'
   post "/confirm_friend" => 'friendships#confirm'

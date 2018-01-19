@@ -13,8 +13,8 @@ repeat_none_with_start_and_end:
 simple:
   name: Simple Event
   description: Description
-  date: 2015-12-16 02:12:19
-  end_date: 2015-12-16 02:12:19
+  date: 2015-11-16 02:12:19
+  end_date: 2015-11-16 02:12:19
   repeat: none
   repeat_start: null
   repeat_end: null
@@ -25,8 +25,8 @@ simple:
 repeat_daily:
   name: Test Repeat None with Start
   description: MyText
-  date: 2015-12-16 02:12:19
-  end_date: 2015-12-16 02:12:19
+  date: 2015-10-16 02:12:19
+  end_date: 2015-10-16 02:12:19
   repeat: daily
   repeat_start: null
   repeat_end: null
@@ -46,6 +46,12 @@ current_event_2:
 
 current_event_3:
   name: Current Event 3
+  category: main
+  user: norm
+
+event_to_delte:
+  id: 101
+  name: Test Event to Delete
   category: main
   user: norm
 
