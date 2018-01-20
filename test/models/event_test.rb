@@ -98,8 +98,8 @@ class EventTest < ActiveSupport::TestCase
   end
 
   test "events_in_range takes daylight savings (DST) into account" do
-    # On March 12, 2017 at 2:00am, Chicago's clocks "moved ahead 1 hour" as they transition
-    # from CST to DST. Meaning, 2:00am - 2:59am wasn't a thing and I lost some of my beauty.
+    # On March 12, 2017 at 2:00am, Chicago's clocks "moved ahead 1 hour" as they transitioned
+    # from CST to DST. Meaning, 2:00am - 2:59am wasn't a thing and I lost some of my beauty sleep.
     #
     # An event scheduled at 1:30am, on that day, is 7:30:00 UTC.
     # An event scheduled at 3:30am, on that day, is 8:30:00 UTC.
