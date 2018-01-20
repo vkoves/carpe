@@ -54,7 +54,8 @@ gem 'rack-mini-profiler', group: [:development, :production]
 gem 'paperclip', '~> 5.1'
 
 # AWS SDK gem for connecting to Amazon S3 and other tools (https://github.com/aws/aws-sdk-ruby)
-gem 'aws-sdk', '~> 3', group: :production
+# TODO: Update to AWS 3 when paperclip adds support
+gem 'aws-sdk', '~> 2.10.2', group: :production
 
 # Add SimpleCov to check test coverage (https://github.com/colszowka/simplecov)
 gem 'simplecov', :require => false, :group => :test
