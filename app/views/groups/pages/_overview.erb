@@ -4,7 +4,7 @@
   <main class="content">
     <span class="carpe-color">Current Events</span>
       <% @upcoming_events.each do |event| %>
-        <div> <%= event.name %> </div>
+        <%= render "shared/event_tile", event:event %>
       <% end %>
   </main>
 
