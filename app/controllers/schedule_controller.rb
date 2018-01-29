@@ -51,6 +51,10 @@ class ScheduleController < ApplicationController
     render json: @cat
   end
 
+  ###
+  # Authenticated
+  # Verifies the user deleting is the owner
+  ###
   def delete_category
     category = Category.find(params[:id])
     if current_user and (category.user == current_user or category.group.in_group?(current_user)) #if user is owner or in owning group
@@ -74,6 +78,10 @@ class ScheduleController < ApplicationController
     render json: @exception.id #return the id of the repeat exception
   end
 
+  ###
+  # Authenticated
+  # Verifies the user changing events is the owner
+  ###
   def save_events #save events
     text = params.to_s
     new_event_ids = {}
@@ -85,11 +93,17 @@ class ScheduleController < ApplicationController
     params[:map].each do |key, obj|
         unless obj["eventId"].empty? #if this is an existing item
           evnt = Event.find(obj["eventId"].to_i)
+
+          # If a user tries to edit an event they don't own, cancel the request
+          unless current_user == evnt.user or (evnt.group and evnt.group.in_group?(current_user))
+            render :text => "You don't have permission to change this event!", :status => :forbidden and return
+          end
         else
           evnt = Event.new()
+          evnt.user = current_user
         end
+
         evnt.name = obj["name"]
-        evnt.user = current_user
         unless params[:group_id].empty?
           evnt.group = Group.find(params[:group_id])
         end
@@ -129,6 +143,10 @@ class ScheduleController < ApplicationController
     #render :json => params[:map] #useful for seeing what data was passed
   end
 
+  ###
+  # Authenticated
+  # Verifies the user changing events is the owner
+  ###
   def delete_event #delete events
     event = Event.find(params[:id])
     if current_user and (event.user == current_user or event.group.in_group?(current_user)) #if the current user is the owner or in the owner group
