@@ -1,5 +1,7 @@
 #The controller for schedule related pages and actions, such as the schedule page
 #as well as creating and editing categories
+#
+# TODO: Most requests should enforce user being signed in, as data can't be made anonymously
 class ScheduleController < ApplicationController
   after_action :allow_iframe, only: :schedule
 
@@ -95,7 +97,7 @@ class ScheduleController < ApplicationController
           evnt = Event.find(obj["eventId"].to_i)
 
           # If a user tries to edit an event they don't own, cancel the request
-          unless current_user == evnt.user or (evnt.group and evnt.group.in_group?(current_user))
+          unless current_user == evnt.user or (evnt.group and evnt.group.in_group?(current_user)) # TODO: Make an event helper for whether the user can change the event
             render :text => "You don't have permission to change this event!", :status => :forbidden and return
           end
         else
@@ -105,7 +107,7 @@ class ScheduleController < ApplicationController
 
         evnt.name = obj["name"]
         unless params[:group_id].empty?
-          evnt.group = Group.find(params[:group_id])
+          evnt.group = Group.find(params[:group_id]) # TODO: Do we need to find the group for this?
         end
         evnt.repeat = obj["repeatType"]
         evnt.date = DateTime.parse(obj["startDateTime"])
@@ -125,7 +127,7 @@ class ScheduleController < ApplicationController
         evnt.repeat_exceptions.clear #empty out
         if obj["breaks"]
           obj["breaks"].each do |break_id| #then add the current things
-            evnt.repeat_exceptions << RepeatException.find(break_id)
+            evnt.repeat_exceptions << RepeatException.find(break_id) # TODO: Do we need to find the repeat exceptions for this?
           end
         end
 
