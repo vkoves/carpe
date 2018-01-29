@@ -1,4 +1,4 @@
-class AddBannerToUser < ActiveRecord::Migration
+class AddBannerToUser < ActiveRecord::Migration[4.2]
 	def self.up
 	  add_attachment :users, :banner
 	end

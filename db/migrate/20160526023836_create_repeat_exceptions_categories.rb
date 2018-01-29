@@ -1,4 +1,4 @@
-class CreateRepeatExceptionsCategories < ActiveRecord::Migration
+class CreateRepeatExceptionsCategories < ActiveRecord::Migration[4.2]
   def change
     create_table :categories_repeat_exceptions, id: false do |t|
       t.belongs_to :repeat_exception, index: true
