@@ -74,7 +74,7 @@ gem 'roadie', '~> 3.1.1'
 gem 'rack-mini-profiler', group: [:development, :production]
 
 # Paperclip gem for managing user uploaded images and such (https://github.com/thoughtbot/paperclip)
-gem 'paperclip'
+gem 'paperclip', '> 5.2.0'
 
 # AWS SDK gem for connecting to Amazon S3 and other tools (https://github.com/aws/aws-sdk-ruby)
 gem 'aws-sdk', '~> 2', group: :production
