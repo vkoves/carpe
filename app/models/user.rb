@@ -76,12 +76,8 @@ class User < ApplicationRecord
     !custom_url.empty?
   end
 
-  def to_param
-    has_custom_url? ? custom_url : id.to_s
-  end
-
   def self.from_param(param)
-    User.find_by!(param =~ REGEX_USER_ID ? { id: param } : { custom_url: param })
+    User.find_by!(param.to_s =~ REGEX_USER_ID ? { id: param } : { custom_url: param })
   end
 
   ##########################
@@ -321,7 +317,7 @@ class User < ApplicationRecord
     # Required fields for search/tokenInput - name and image url
     user_obj[:name] = self.name
     user_obj[:image_url] = self.user_avatar(50)
-    user_obj[:id_or_url] = self.id
+    user_obj[:id] = self.id
     user_obj[:model_name] = "User" # specify what type of object this is (used for site search, which handles many object types)
 
     user_obj #and return the user

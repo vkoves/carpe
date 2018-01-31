@@ -1,9 +1,9 @@
 <% if @home # make the whole tile link if on home %>
-	<a href="<%= user_url(user) %>">
+	<a href="<%= user_path(user) %>">
 <% end %>
 	<div class="user-listing grey-box <%= @profile ? "profile" : "" %>">
 		<% unless @home # don't make avatar link if on home %>
-			<a href="<%= user_url(user) %>">
+			<a href="<%= user_path(user) %>">
 		<% end %>
 			<div class="avatar">
 				<% if @home %>

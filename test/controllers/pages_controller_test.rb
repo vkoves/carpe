@@ -1,8 +1,8 @@
 # To run all tests, in the project directory run the command:
-# bundle exec rails test
+# bundle exec rake test
 # ----------------------------------------
 # To run this test, in the project directory run the command:
-# bundle exec rails test test/controllers/pages_controller_test.rb
+# bundle exec rake test test/controllers/pages_controller_test.rb
 
 require 'test_helper'
 
@@ -46,40 +46,6 @@ class PagesControllerTest < ActionController::TestCase
   test "should be able to go to sandbox if user is admin" do
     sign_in @viktor
     get :sandbox
-    assert_response :success
-  end
-
-  test "only admins can delete users" do
-    sign_in @norm
-    assert_no_difference 'User.count' do
-      delete :destroy_user, params: { id: @viktor.id }
-    end
-
-    sign_out @norm
-
-    sign_in @viktor
-    assert_difference 'User.count', -1 do
-      delete :destroy_user, params: { id: @norm.id }
-    end
-  end
-
-  test "only admins can promote/demote users" do
-    sign_in @norm
-    get :promote, params: { id: @putin.id, de: false }
-    assert_not User.find(@putin.id).admin,
-               "non-admin successfully promoted a user"
-
-    sign_out @norm
-
-    sign_in @viktor
-    get :promote, params: { id: @putin.id, de: false }
-    assert User.find(@putin.id).admin,
-           "admin was unable to promote user"
-  end
-
-  test "admins can view user information" do
-    sign_in @viktor
-    get :admin_user_info, params: { id: @norm.id }
     assert_response :success
   end
 end

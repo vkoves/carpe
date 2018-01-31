@@ -4,6 +4,10 @@ module CoreExtensions
       def valid_html?
         Nokogiri::XML(self).errors.empty?
       end
+
+      def is_int?
+        self.to_i.to_s == self
+      end
     end
   end
 end
