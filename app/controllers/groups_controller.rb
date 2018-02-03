@@ -1,5 +1,5 @@
 class GroupsController < ApplicationController
-  before_action :authorize_signed_in, except: [:index]
+  before_action :authorize_signed_in!, except: [:index]
   before_action :set_group, only: [:show, :edit, :update, :destroy]
 
   def index

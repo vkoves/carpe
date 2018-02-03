@@ -1,4 +1,4 @@
-class AddAvatarAndBannerToGroupsForReal < ActiveRecord::Migration
+class AddAvatarAndBannerToGroupsForReal < ActiveRecord::Migration[4.2]
   def self.up
     # apparently add_attachment does more than just add these columns, so this just removes
     # the columns that were entered manually in a previous migration.

@@ -15,10 +15,12 @@
 	<div class="page-container">
 		<div class="profile-avatar avatar">
 			<%= link_to edit_user_registration_path do %>
-				<div class="profile-overlay avatar">
-						<%= image_tag "camera.svg", class: "camera-profile" %>
-						<span class="upload-profile">Upload Avatar</span>
-				</div>
+				<% if @profile %>
+					<div class="profile-overlay avatar">
+							<%= image_tag "camera.svg", class: "camera-profile" %>
+							<span class="upload-profile">Upload Avatar</span>
+					</div>
+				<% end %>
 			<%end%>
 			<img src=<%= @user.avatar_url(200)%>>
 		</div>
@@ -41,12 +43,14 @@
 				</div>
 			<% end %>
 		</div>
-		<%= link_to edit_user_registration_path do %>
-			<div class="profile-overlay cover">
-				<%= image_tag "camera.svg", class: "camera-profile" %>
-				<span class="upload-profile">Upload Cover</span>
-			</div>
-		<%end%>
+		<% if @profile %>
+			<%= link_to edit_user_registration_path do %>
+				<div class="profile-overlay cover">
+					<%= image_tag "camera.svg", class: "camera-profile" %>
+					<span class="upload-profile">Upload Cover</span>
+				</div>
+			<% end %>
+		<% end %>
 		<div id="profile-buttons">
 			<%= link_to user_path(@user, page: "schedule") do %>
 				<div class="<%= "curr" if @tab == "schedule" %>">Schedule</div>

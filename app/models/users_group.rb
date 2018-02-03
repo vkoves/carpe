@@ -1,4 +1,4 @@
-class UsersGroup < ActiveRecord::Base
+class UsersGroup < ApplicationRecord
   enum role: { member: 0, admin: 1, owner: 2, editor: 3 }
 
   belongs_to :user

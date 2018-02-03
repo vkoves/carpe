@@ -1,4 +1,4 @@
-class AddColumnsToGroups < ActiveRecord::Migration
+class AddColumnsToGroups < ActiveRecord::Migration[4.2]
   def change
     add_column :groups, :custom_url, :string
     add_column :groups, :banner_file_name, :string

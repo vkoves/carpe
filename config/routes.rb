@@ -1,17 +1,20 @@
 Rails.application.routes.draw do
   resources :categories
 
-  get "u/:id_or_url(/:page)", to: "users#show", :as => :user
-
-  resources :users, only: [:index] do
+  devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks", :registrations => "users/registrations" }
+  resources :users, only: [:index, :destroy, :show] do
     get "join_group/:group_id", to: 'user_groups#join_group', as: :join_group
     get "leave_group/:group_id", to: 'user_groups#leave_group', as: :leave_group
+    member do
+      get "promote"
+      get "demote"
+      get "inspect"
+    end
+
+    collection do
+      get "search"
+    end
   end
-
-  post "/invite_to_group", to: 'user_groups#invite_to_group', as: :invite_to_group
-
-  # get "/users", to: "users#index"
-  devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks", :registrations => "users/registrations" }
 
   #General page routes
   get "/home" => 'home#index', :as => :home
@@ -26,18 +29,15 @@ Rails.application.routes.draw do
   #Group Routes
   resources :groups
   resources :user_groups, only: [:create, :update, :destroy]
+  post "/invite_to_group", to: 'user_groups#invite_to_group', as: :invite_to_group
 
   #Admin Routes
-  get "/promote" => 'pages#promote'
   get "/sandbox" => 'pages#sandbox'
   get "/admin" => 'pages#admin', :as => :admin_panel
-  match "/destroy_user/:id" => 'pages#destroy_user', :via => :delete, :as => :admin_destroy_user
-  get "/admin_user_info/:id" => 'pages#admin_user_info', :as => :admin_user_info
   post "/run_command" => 'pages#run_command'
   post "/check_if_command_is_finished" => 'pages#check_if_command_is_finished'
 
   #User Routes
-  get "/search_users" => 'users#search'
   get "/search_core" => 'application#search_core'
   post "/deny_friend" => 'friendships#deny'
   post "/confirm_friend" => 'friendships#confirm'

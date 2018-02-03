@@ -1,5 +1,5 @@
 # enum role: { member: 0, admin: 1, owner: 2 }
-class ChangeUsersGroupsToInt < ActiveRecord::Migration
+class ChangeUsersGroupsToInt < ActiveRecord::Migration[4.2]
 
   def self.up
     change_column :users_groups, :role, :integer, default: 0

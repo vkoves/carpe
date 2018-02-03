@@ -1,5 +1,5 @@
 
-class Group < ActiveRecord::Base
+class Group < ApplicationRecord
   enum privacy: { public_group: 0, private_group: 1, secret_group: 2 }
 
   has_many :users_groups

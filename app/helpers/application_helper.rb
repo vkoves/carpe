@@ -1,4 +1,8 @@
+require 'overridden_helpers'
+
 module ApplicationHelper
+  include OverriddenHelpers
+
   def relative_time_ago (datetime, start_caps)
     time_format = "%l:%M %p" #anything today that's not an hour away, say this
 
