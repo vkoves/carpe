@@ -1,3 +1,5 @@
+@import 'colors';
+
 #greeting
 {
 	height:200px;
@@ -37,7 +39,7 @@
 	top:50px;
 	right: 0px;
 	min-height:calc(100% - 55px);
-	overflow: hidden;
+	transition: right 1s;
 
 	#sidebar
 	{
@@ -50,7 +52,6 @@
 		background-color: #EBEBEB;
 		border-left: solid 2px #ACACAC;
 		overflow:auto;
-		transition: right 1s;
 		z-index: 2;
 
 		.user-listing { margin: 5px; }
@@ -63,7 +64,7 @@
 	display: none;
 	cursor: pointer;
 	position: absolute;
-	right: 0%;
+	right: 100%;
 	top: 55px;
 	z-index: 1;
 	padding: 5px 7px;
@@ -85,7 +86,7 @@
 	{
 		width: 94%;
 	}
-	#sidebar-cont #sidebar /* Hide the sidebar on mobile by default */
+	#sidebar-cont:not(.open)
 	{
 		right: -340px;
 	}

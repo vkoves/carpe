@@ -9,7 +9,7 @@ function confirmUI(message, callback)
 	$("#overlay-confirm").remove(); //Delete existing div
 
 	//Then append the box to the body
-	$("body").append("<div id='overlay-confirm' class='overlay-box'>"
+	$("body").append("<div id='overlay-confirm' class='overlay-box center-text'>"
 		+ "<h3>" + message + "</h3>"
 		+ "<span id='cancel' class='default green'>Cancel</span>"
 		+ "<span id='confirm' class='default red'>OK</span>"
@@ -59,7 +59,7 @@ function customAlertUI(message, content, callback)
 	$("#overlay-alert").remove(); //Delete existing div
 
 	//Then append the box to the body
-	$("body").append("<div id='overlay-alert' class='overlay-box'>"
+	$("body").append("<div id='overlay-alert' class='overlay-box center-text'>"
 		+ "<h3>" + message + "</h3>"
 		+ content
 		+ "<span id='alert-close' class='default red'>OK</span>"
