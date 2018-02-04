@@ -68,6 +68,7 @@ h2 {
 		order: 1;
 		width: 54%;
 		flex-grow: 1;
+		padding: 0 1rem;
 		h2
 		{
 			font-size: 1.4vw;
@@ -79,11 +80,6 @@ h2 {
 		padding: 1rem 0;
 		order: 2;
 	}
-	.home-container-text, .home-container-img {
-		// position: relative;
-		// top: 12vw;
-		// height: 38vw;
-	}
 }
 
 #home-sl2, #home-sl4
@@ -93,9 +89,6 @@ h2 {
 	h1 { color: rgb(38,38,38); }
 
 	h2 { color: rgb(64,64,64); }
-	.home-container-text {
-		padding-left: 1rem;
-	}
 	#home-sl4-img-mobile {
 		display: none;
 	}
@@ -111,9 +104,6 @@ h2 {
 	background-size: cover;
 	h1 { color: rgb(217,217,217); }
 	h2 { color: rgb(217,217,217); }
-	.home-container-text {
-		padding-right: 1rem;
-	}
 }
 
 // Slide 5
