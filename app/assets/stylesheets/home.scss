@@ -138,7 +138,7 @@ h2 {
 			h2 { font-size: 0.7rem; }
 		}
 		.home-img-container{
-			width: 70%;
+			width: 58%;
 			height: unset;
 			overflow: visible;
 			.home-container-img{
@@ -173,6 +173,7 @@ h2 {
 
 	#home-sl4 {
 		flex-direction: column-reverse;
+		align-items:normal;
 		#home-sl4-textcontainer {
 			text-align: center;
 	    width: auto;
