@@ -8,6 +8,7 @@ repeat_none_with_start_and_end:
   repeat: none
   repeat_start: 2016-05-01
   repeat_end: 2016-05-01
+  category: main
   user: viktor
 
 simple:

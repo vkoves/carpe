@@ -98,36 +98,32 @@ class EventTest < ActiveSupport::TestCase
   end
 
   test "events_in_range takes daylight savings (DST) into account" do
+    # On March 12, 2017 at 2:00am, Chicago's clocks "moved ahead 1 hour" as they transitioned
+    # from CST to DST. Meaning, 2:00am - 2:59am wasn't a thing and I lost some of my beauty sleep.
+    #
+    # An event scheduled at 1:30am, on that day, is 7:30:00 UTC.
+    # An event scheduled at 3:30am, on that day, is 8:30:00 UTC.
+    #
+    # Even though 1:30 to 3:30 is a 2 hour gap, UTC only moved ahead one hour.
+    # That's to be expected since UTC doesn't care about timezones (thank goodness).
+    #
+    # The problem with this is that when events_in_range is cloning events repeating
+    # events, it has to know what timezone it is using in order to properly take DST
+    # into account. This is done by offsetting the UTC time so that cloned events show
+    # the same time as the original event. In order for events_in_range to do this, it
+    # must know what time zone it is about to display events in.
+
     zone = Time.find_zone('America/Chicago')
-    event = events(:simple)
+    @daily.date = zone.parse('12th Mar 2017 01:00:00 AM')
+    @daily.end_date = @daily.date + 1.hour
 
-    # March 12, 2017 @ 3:30am
-    event.date = zone.local(2017, 3, 12, 2, 30).utc
+    events = @daily.events_in_range(@daily.date, @daily.date + 2.days, 'America/Chicago')
 
-    # March 12, 2017 @ 4:00am
-    event.end_date = zone.local(2017, 3, 12, 4).utc
+    # making sure the original time works
+    assert_equal 1, events.first.date.in_time_zone('America/Chicago').hour
 
-    # March 12, 2017 @ 1:00am
-    # 1 hour before daylight saving times begins (CST -> DST)
-    start = zone.local(2017, 3, 12, 1).utc
-
-    # March 12, 2017, 3:15am
-    # 30 minutes after daylight savings begins. At this point, the the
-    # "clock moves ahead 1 hour". So, it is actually 3:30am
-    finish = zone.local(2017, 3, 12, 2, 15).utc
-
-    events = event.events_in_range(start, finish)
-    assert_equal 0, events.length,
-                 "events_in_range between 1:00-3:15 got an event between 3:30-4:00"
-
-    # event now starts at 3:30am
-    event.date = zone.local(2017, 3, 12, 3, 30).utc
-
-    # and we're searching for events up till 3:45am (due to DST)
-    finish = zone.local(2017, 3, 12, 2, 45).utc
-
-    assert_equal 1, event.events_in_range(start, finish).length,
-                 "events_in_range between 1:00-3:45 failed to get event between 3:30-4:00"
+    assert_equal 1, events.last.date.in_time_zone('America/Chicago').hour,
+                 "events_in_range didn't adjust the UTC time to take into account DST"
   end
 
   test "events can be repeated daily, weekly, monthly, and yearly" do
@@ -187,7 +183,7 @@ class EventTest < ActiveSupport::TestCase
     event = events(:repeat_daily)
 
     # event is set for monday morning
-    start = event.date.to_datetime.at_beginning_of_week
+    start = event.date.beginning_of_week
     event.date = start + 1.hour
     event.end_date = start + 2.hours
     event.repeat_start = start
@@ -196,9 +192,18 @@ class EventTest < ActiveSupport::TestCase
     event.repeat = "custom-2-days" # implementation detail
     event.repeat_end = start + 1.week
 
-    # the event should occur on monday, wednesday, friday, and sunday.
-    assert_equal 4, event.events_in_range(start, start + 1.week).length,
-                 "event should appear every other day of the week"
+    assert_equal 4, event.events_in_range(start, start + 1.week).length
+
+    # negative test
+    assert_empty event.events_in_range(start - 4.weeks, start  - 2.weeks),
+                 "events_in_range returned events outside of the event's range"
+
+    assert_empty event.events_in_range(start + 2.weeks, start  + 4.weeks),
+                 "events_in_range returned events outside of the event's range"
+
+    # randomly specific test
+    assert_equal 2, event.events_in_range(start - 2.day, start + 4.days).length
+
 
     # every n weeks
     event.repeat = "custom-2-weeks"
@@ -207,17 +212,53 @@ class EventTest < ActiveSupport::TestCase
     assert_equal 2, event.events_in_range(start, start + 4.weeks).length,
                  "event should appear every other week over the course of the next 4 weeks"
 
+    # negative test
+    assert_empty event.events_in_range(start - 4.weeks, start  - 2.weeks),
+                 "events_in_range returned events outside of the event's range"
+
+
     # every n months
     event.repeat = "custom-2-months"
     event.repeat_end = start + 4.months
 
     assert_equal 2, event.events_in_range(start, start + 4.month).length
 
+    # negative test
+    assert_empty event.events_in_range(start - 4.weeks, start  - 2.weeks),
+                 "events_in_range returned events outside of the event's range"
+
+
     # every n years
     event.repeat = "custom-2-years"
     event.repeat_end = start + 3.years
 
     assert_equal 2, event.events_in_range(start, start + 3.year).length
-    assert_empty event.events_in_range(start - 2.hour, start - 1.hour)
+
+    # negative test
+    assert_empty event.events_in_range(start - 4.weeks, start  - 2.weeks),
+                 "events_in_range returned events outside of the event's range"
+  end
+
+  test "events that repeat yearly appear on the correct dates" do
+    event = events(:simple)
+    event.date = Date.new(2015, 10, 21)
+    event.end_date = event.date + 1.day
+    event.repeat = "yearly"
+
+    clone_date = event.events_in_range(Date.new(2017, 10, 1), Date.new(2017, 10, 30)).first.date.to_date
+    assert_equal Date.new(2017, 10, 21), clone_date
+
+    assert_equal 1, event.events_in_range(Date.new(2017, 10, 7), Date.new(2017, 10, 28)).length
+
+    # negative tests:
+    # in right day range but wrong month
+    assert_empty event.events_in_range(Date.new(2017, 7, 1), Date.new(2017, 7, 30))
+
+    # in right month but before event
+    assert_empty event.events_in_range(Date.new(2017, 10, 7), Date.new(2017, 10, 20))
+    assert_empty event.events_in_range(Date.new(2017, 10, 13), Date.new(2017, 10, 20))
+
+    # in right month but after event
+    assert_empty event.events_in_range(Date.new(2017, 10, 22), Date.new(2017, 10, 29))
   end
 end

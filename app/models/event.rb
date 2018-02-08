@@ -20,32 +20,22 @@ class Event < ApplicationRecord
     repeat.present? and repeat != 'none'
   end
 
-  # Returns true if this event is currently on break at the given time, false otherwise.
+  # Returns true if this event is on break at the given time, false otherwise.
   def on_break?(datetime)
-    all_repeat_exceptions.any? { |brk| datetime.between? brk.start, brk.end }
+    all_repeat_exceptions.any? { |brk| datetime.to_date.between? brk.start, brk.end }
   end
 
-  # Returns true if this event is currently repeating at the given time, false otherwise.
-  def repeating?(datetime)
-    return false if repeat_start.present? and datetime < repeat_start
-    return false if repeat_end.present? and datetime > repeat_end
-    return false if on_break? datetime
-
-    true
+  # Returns how long this event goes on for in seconds
+  def duration
+    end_date - date
   end
 
-  # Returns copies of the event on every day it applies to between /start/ and /end/.
-  def events_in_range(start_datetime, end_datetime)
-    unless repeats?
-      # just return the current event, as it's the only relevant one.
-      return date.between?(start_datetime, end_datetime) ? [self] : []
-    end
-
-    # get all candidate dates for the event (ignores exceptions and repeat date range)
-    candidate_dates = dates_in_range_with_repeat start_datetime, end_datetime
-
-    # now only take candidates actually in this event's repeat range that aren't on break.
-    candidate_dates.map { |day| repeat_clone day if repeating? day }.compact
+  # Returns an array of copies of this event on every day that this event applies
+  # to between the given start time and end time. In addition a ActiveSupport::TimeZone
+  # may be specified if daylight savings needs to be taken into account.
+  def events_in_range(start_time, end_time, time_zone = "UTC")
+    event_days = dates_in_range_with_repeat(start_time, end_time, time_zone)
+    event_days.select { |day| can_occur_on? day }.map { |day| repeat_clone day }
   end
 
   #returns all repeat_exceptions that apply to this event, a combination of event and category level ones
@@ -80,85 +70,87 @@ class Event < ApplicationRecord
 
   private
 
-  def repeat_clone(date)
-    self_date = self.date
-    self_dst = self_date.utc.in_time_zone("Central Time (US & Canada)").dst? #get whether this event is in daylight savings time
-    now_dst = Time.now.utc.in_time_zone("Central Time (US & Canada)").dst? #get whether the current time is in daylight savings
-    one_hour = 1.hour
+  # Returns true if this event can occur at the given time, false otherwise.
+  def can_occur_on?(day)
+    return false if on_break? day
 
-    new_event = self.dup #duplicate the base element without creating a database clone
-    new_start_date = self_date.change(day: date.day, month: date.month, year: date.year) #and determine the new start date
-    new_end_date = new_start_date + (self.end_date - self_date) #determine proper end datetime by adding event duration to the proper start
-
-    if self_dst != now_dst #if the date is in daylight savings, but we are not, or vice versa
-      if self_dst
-        new_event.date = new_start_date + one_hour
-        new_event.end_date = new_end_date + one_hour
-      else
-        new_event.date = new_start_date - one_hour
-        new_event.end_date = new_end_date - one_hour
-      end
-    else
-      new_event.date = new_start_date
-      new_event.end_date = new_end_date
+    # what days a repeating event can occur on can be optionally limited
+    if repeats?
+      return false if repeat_start and day < repeat_start
+      return false if repeat_end and day > repeat_end
     end
 
+    return true
+  end
+
+  # Returns a copy of the this event with a new starting time.
+  def repeat_clone(start_time)
+    new_event = self.dup
+    new_event.attributes = { date: start_time, end_date: start_time + duration }
     return new_event
   end
 
-  # Returns an enumerator of all the dates between /start_date/ and /end_date/
-  # that this custom repeating event will occur on. This is a helper method for
-  # dates_in_range_with_repeat.
-  #
-  # For example, if an event occurs on 7/11/17 and repeats every 3 days - and
-  # we want all the dates this applies to between 7/04/17 - 7/15/17. Then this
-  # method will return (7/5, 7/8, 7/11, 7/14). It does so by finding the
-  # day that the repeating event will occur on in the specified range
-  # and stepping through dates until it has reached the given 'end date'.
-  def select_custom_repeat_dates(start_date, end_date)
-    repeat_data = repeat.split("-")
-    repeat_num = repeat_data[1].to_i # repeat this event every n
-    repeat_unit = repeat_data[2] # days/weeks/months/years
+  # Returns the first date this event will repeat on for a given
+  # range of time and repeat duration. If this event does not
+  # repeat during the given time, nil is returned instead.
+  def first_repeat(start_time, end_time, time_zone)
+    origin = date.in_time_zone(time_zone)
+    step = repeat_interval
+    offset = (start_time.to_time - date.to_time).abs
 
-    dates = range(start_date, end_date, 1.day)
-    first_weekday = dates.find { |day| (day.wday - date.wday) % repeat_num == 0 }
+    if start_time >= date
+      first_repeat_date = origin + (offset / step).ceil * step
+    else
+      first_repeat_date = origin - (offset / step).floor * step
+    end
 
-    case repeat_unit
-    when 'days'   then range first_weekday, end_date, repeat_num.days
-    when 'weeks'  then range first_weekday, end_date, repeat_num.weeks
-    when 'months' then range first_weekday, end_date, repeat_num.months
-    when 'years'  then range first_weekday, end_date, repeat_num.years
+    return first_repeat_date if first_repeat_date.between?(start_time, end_time)
+  end
+
+  # Returns an ActiveRecord::Duration indicating the fixed interval at which
+  # this event repeats. If this event does not repeat or does not repeat
+  # on a fixed interval, nil is returned instead.
+  def repeat_interval
+    case repeat
+    when 'daily' then 1.day
+    when 'weekly' then 1.week
+    when 'monthly' then 1.month
+    when 'yearly' then 1.year
+    when /custom/ then
+      _, repeat_num, repeat_unit = repeat.split("-")
+      repeat_num.to_i.send(repeat_unit) # e.g. 1.day, 5.weeks
     end
   end
 
-  # Returns an array of dates from taking only certain weekdays from the array
-  # of /dates/. 'repeat' should look something along the lines of "certain_days-1,3,4,5".
-  # 1 meaning monday, 2 tuesday, ..., 6 saturday, and 0 sunday.
-  # This is a helper method for dates_in_range_with_repeat.
-  def select_certain_dates(dates)
-    weekday_nums = repeat.split('-')[1].split(',').map(&:to_i)
-    dates.select { |day| weekday_nums.include?(day.wday) }
+  def repeats_on_fixed_interval?
+    repeat_interval != nil
   end
 
-  # Similar to select_custom_repeat_dates, except the repeat dates are predefined.
-  # This is a helper method for dates_in_range_with_repeat.
-  def select_repeat_dates(start_date, end_date, step)
-    dates = range(start_date, end_date, 1.day)
-    first_weekday = dates.find { |day| day.wday == date.wday }
-    range first_weekday, end_date, step
+  def dates_in_range_fixed_timestep(start_time, end_time, time_zone)
+    first_time = first_repeat(start_time, end_time, time_zone) || end_time
+    range first_time, end_time, repeat_interval
   end
 
-  # Takes a DateTime /start_date/ and a DateTime /end_date/ and returns
-  # a collection of dates in this range that the current event object applies to.
-  def dates_in_range_with_repeat(start_date, end_date)
-    case repeat
-    when 'daily'        then range start_date, end_date, 1.day
-    when 'weekly'       then select_repeat_dates start_date, end_date, 1.week
-    when 'monthly'      then select_repeat_dates start_date, end_date, 1.month
-    when 'yearly'       then select_repeat_dates start_date, end_date, 1.year
-    when /certain_days/ then select_certain_dates range(start_date, end_date, 1.day)
-    when /custom/       then select_custom_repeat_dates start_date, end_date
-    else [date] # this event doesn't repeat
+  def dates_in_range_certain_weekdays(start_time, end_time, time_zone)
+    # generate an array of times  this event may take place on to select from
+    first_time = date.change(year: start_time.year, month: start_time.month,
+                             day: start_time.day).in_time_zone(time_zone)
+    dates = range(first_time, end_time, 1.day)
+
+    # e.g. "certain_days-0,1,2,6" / 0-6 represent weekdays - sunday being 0
+    weekdays = repeat.split('-')[1].split(',').map(&:to_i)
+    dates.select { |day| weekdays.include?(day.wday) }
+  end
+
+  # Returns an array of times that this event object may apply to between
+  # the given start time and end time.
+  def dates_in_range_with_repeat(start_time, end_time, time_zone)
+    if repeats_on_fixed_interval?
+      dates_in_range_fixed_timestep(start_time, end_time, time_zone)
+    elsif repeat.include? "certain_days"
+      dates_in_range_certain_weekdays(start_time, end_time, time_zone)
+    else # this event doesn't repeat
+      date.between?(start_time, end_time) ? [date] : []
     end
   end
 end
