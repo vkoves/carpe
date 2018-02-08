@@ -6,6 +6,8 @@
 #
 # The API is targeted towards polling-based web-server actions.
 
+require 'tempfile'
+
 class Tasky
   class CommandError < StandardError
     def initialize(msg="The command is invalid or the program missing.")
@@ -15,9 +17,10 @@ class Tasky
 
   class Task
     def initialize(cmd)
+      @output_log = Tempfile.new('tasky_output')
+
       begin
-        @error_read, @error_write = IO.pipe
-        @pid = Process.spawn cmd, [:out, :err] => @error_write
+        @pid = Process.spawn cmd, [:out, :err] => @output_log
       rescue StandardError => e
           raise CommandError, e.inspect
       end
@@ -40,8 +43,10 @@ class Tasky
       if status.nil?
         false
       else # this will only be executed once
-        @error_write.close
-        @error_log = @error_read.read
+        @output_log.rewind # read from the beginning of file
+        @error_log = @output_log.read
+        @output_log.close! # delete it
+
         @successful = status.success?
         true
       end

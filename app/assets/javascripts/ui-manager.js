@@ -116,7 +116,10 @@ var UIManager = {
 	/** Takes a string selector and slides in */
 	slideIn: function(selector, callback)
 	{
-		$(selector).css("top", this.hiddenTop(selector) ).show().animate({ top: this.visibleTop }, 700, 'easeOutExpo', callback);
+		$(selector).css("top", this.hiddenTop(selector) )
+			.show()
+			.animate({ top: this.visibleTop }, 700, 'easeOutExpo', callback)
+			.addClass('visible');
 		this.overlayBoxes.push(selector);
 	},
 	/** Takes a string selector and slides out. Also hides after */
@@ -124,7 +127,7 @@ var UIManager = {
 	{
 		$(selector).animate({ top: this.hiddenTop(selector) }, 400, 'swing', function()
 		{
-			$(this).hide()
+			$(this).hide().removeClass('visible');
 
 			if(callback)
 				callback();
