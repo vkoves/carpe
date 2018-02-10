@@ -66,8 +66,8 @@ feature branch and go into the `dev` branch.
 	- Merge Requirements:
 		- Be tested locally by reviewers
 		- Be approved by two team members
-- **Deployment** - a deployment PR is one that signifies a deployment of the approved development work done on
-Carpe since the last release. These pull requests go from `dev` into `master`.
+- **Release** - a release PR is one that signifies a deployment of the approved development work done on
+Carpe since the last release. These pull requests go from a release-branc (e.g. `release-Q4`, `release-group`) into `master`.
 	- Merge Requirements:
 		- Be tested locally and on the [test server](https://carpe-test.herokuapp.com/) by reviewers
 		- Be approved by three or more team members, including at least one co-founder (Robert or Viktor)
@@ -105,9 +105,9 @@ When writing code for Carpe, it's important to keep the following principles in 
  This makes it so folks working after you can ensure they aren't breaking the functionality you created, and decreases
  the rate at which large errors make it out to production.
 
-# Deploying Carpe
+# Releasing Carpe
 
-Deploying Carpe should be done carefully and in a planned fashion, as it is a live application that should have relatively guaranteed uptime.
+Deploying a Carpe release should be done carefully and in a planned fashion, as it is a live application that should have relatively guaranteed uptime.
 - All releases must go through a one week QA period on a release branch - During this time, no new features are merged in and QA should be done locally and on test Heroku to ensure that all core functionality is working properly.
 - All releases must have been frozen for 48 hours prior to the release time - For the 48 hours before a release, QA should be carried out with **absolutely no changes** made to the release candidate. This release lock time allows for a final set of testing that can verify that all functionality is working properly without any risk of new changes breaking it. If critical bugs are found that need to delay deployment, the 48 hour release candidate lock must begin anew when the fix is applied to the release branch, and the full deployment QA process must be rerun.
 - Before a deployment (but after making a release candidate), go through all development issues and change them to be labelled release-candidate instead of development, as they are now on the release candidate branch.
