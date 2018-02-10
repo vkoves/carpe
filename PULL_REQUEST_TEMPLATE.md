@@ -25,6 +25,8 @@ Based on the [contributor's guide][contrib-guide], this PR is of type:
 - [ ] _Process:_ **(Hotfixes & Deployments)** I have assigned a user to this PR to handle merging and deployment
 - [ ] _Process:_ **(Hotfixes & Deployments)** I have pushed up my changes to [Carpe test][carpe-test] for review and tested my changes there
 
+## How This Has Been Tested
+_Give specific details of how you tested these changes to ensure that they work and don't break other functionality. Details may include device, browser, and what actions/cases you tested._
 
 ## Release & Hotfix Checklist
 _If this is not a hotfix or release, delete this section._
