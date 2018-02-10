@@ -67,7 +67,7 @@ feature branch and go into the `dev` branch.
 		- Be tested locally by reviewers
 		- Be approved by two team members
 - **Release** - a release PR is one that signifies a deployment of the approved development work done on
-Carpe since the last release. These pull requests go from a release-branc (e.g. `release-Q4`, `release-group`) into `master`.
+Carpe since the last release. These pull requests go from a release-branch (e.g. `release-Q4`, `release-group`) into `master`.
 	- Merge Requirements:
 		- Be tested locally and on the [test server](https://carpe-test.herokuapp.com/) by reviewers
 		- Be approved by three or more team members, including at least one co-founder (Robert or Viktor)
