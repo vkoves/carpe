@@ -2,7 +2,7 @@
 
 <div id="body">
   <main class="content">
-    <span class="carpe-color">Current Events</span>
+    <span class="carpe-color current-header">Current Events</span>
       <% @upcoming_events.each do |event| %>
         <%= render "shared/event_tile", event:event %>
       <% end %>
