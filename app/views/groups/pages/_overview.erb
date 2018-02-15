@@ -17,19 +17,18 @@
     <div>
       <div class="flex-list with-space-between">
         <h2>Members</h2>
+        <% @group.users_groups[0 .. 10].each do |user| %>
+          <%= render "shared/user_box", user: user.user %>
+        <% end %>
         <%= link_to "View More", group_path(@group, view: :members), id:"view-all-link" %>
       </div>
-
-      <% @group.users_groups[0 .. 10].each do |user| %>
-        <%= user %>
-      <% end %>
       <span id="members-preview" class="flex-list"></span>
     </div>
 
     <div>
       <h2>Recent Actions</h2>
       <% @activity.each do |act| %>
-        <%= act %>
+        <%= act.name %> : <%= act.created_at %><br>
       <% end %>
       <div id="recent-actions-container" class="vertical flex-list"></div>
     </div>
