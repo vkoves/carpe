@@ -15,14 +15,12 @@
     </div>
 
     <div>
-      <div class="flex-list with-space-between">
-        <h2>Members</h2>
-        <% @group.users_groups[0 .. 10].each do |user| %>
-          <%= render "shared/user_box", user: user.user %>
+      <div id="side-member-pane">
+        <h2>Members <%= link_to "View More", group_path(@group, view: :members), id:"view-all-link" %></h2>
+        <% @group.users_groups[0 .. 4].each do |user| %>
+          <%= link_avatar user.user %>
         <% end %>
-        <%= link_to "View More", group_path(@group, view: :members), id:"view-all-link" %>
       </div>
-      <span id="members-preview" class="flex-list"></span>
     </div>
 
     <div>
