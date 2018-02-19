@@ -1,26 +1,30 @@
 require 'test_helper'
 
 class GroupTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  def setup
+    @viktor, @norm = users(:viktor, :norm)
+    @group1, @group2 = groups(:one, :two)
+  end
+  
+  test "#avatar_url uses correct avatar" do
+    assert_match /gravatar/, @group1.avatar_url,
+                 "Expected group without avatar to use gravatar as a default avatar"
 
-  test "group image helper falls back to gravatar" do
-    assert_equal(groups(:two).avatar_url, groups(:two).image_url, "Group with image url uses that image")
-    assert_match(/gravatar/, groups(:one).avatar_url, "Lazy group with no avatar uses a gravatar backup")
+    @group2.avatar = sample_file("sample_avatar.jpg")
+    @group2.save!
+
+    assert_match /sample_avatar/, @group2.avatar_url,
+                 "Expected url to be the path to the group's uploaded avatar"
   end
 
-  test "group should fetch user role" do
-    assert_equal(groups(:one).get_role(users(:viktor)), "admin", "Admin user should have role returned admin")
-    assert_equal(groups(:one).get_role(users(:norm)), "member", "Other user should have role returned as stored")
+  test "#get_role returns the correct group member roles" do
+    assert_equal "admin", @group1.get_role(@viktor)
+    assert_equal "member", @group1.get_role(@norm)
+    assert_equal "none", @group2.get_role(@viktor)
   end
 
-  test "group role should recognize non members" do
-    assert_equal(groups(:two).get_role(users(:viktor)), "none", "Non members should have role returned as none")
-  end
-
-  test "in group should return membership" do
-    assert_equal(groups(:one).in_group?(users(:viktor)), true, "Member in group should have in_group? return true")
-    assert_equal(groups(:one).in_group?(users(:viktors_friend)), false, "Member not in group should have in_group? return false")
+  test "#in_group? correctly returns whether user is a group member" do
+    assert @group1.in_group?(@viktor)
+    assert_not @group1.in_group?(users(:viktors_friend))
   end
 end

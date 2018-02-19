@@ -4,7 +4,7 @@ class UserGroupsController < ApplicationController
   # user joins a group
   def join_group
     @group = Group.find params[:group_id]
-    @user = User.from_param params[:user_id]
+    @user = User.find params[:user_id]
 
     # prevent possible duplicate entries
     return redirect_to groups_path if @group.in_group? @user
@@ -23,7 +23,7 @@ class UserGroupsController < ApplicationController
   # user leaves group
   def leave_group
     @group = Group.find params[:group_id]
-    @user = User.from_param params[:user_id]
+    @user = User.find params[:user_id]
 
     @membership = UsersGroup.find_by group_id: @group.id, user_id: @user.id, accepted: true
     @membership.destroy
@@ -40,7 +40,7 @@ class UserGroupsController < ApplicationController
   # user joins a group
   def invite_to_group
     @group = Group.find params[:group_id]
-    @user = User.from_param params[:user_id]
+    @user = User.find params[:user_id]
 
     # prevent possible duplicate entries
     return redirect_to groups_path if @group.in_group? @user

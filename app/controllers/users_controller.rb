@@ -8,7 +8,6 @@ class UsersController < ApplicationController
   end
 
   def show
-
     @user = User.from_param(params[:id])
 
     # is this a user looking at their own profile?
@@ -18,7 +17,6 @@ class UsersController < ApplicationController
     if params[:id].is_int? and @user.has_custom_url?
       redirect_to user_path(@user), status: :moved_permanently
     end
-
 
     @current_page = params[:page]&.to_sym || :schedule
     case @current_page

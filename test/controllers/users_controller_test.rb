@@ -19,12 +19,12 @@ class UsersControllerTest < ActionController::TestCase
 
   test "signed in user should be able to view other user" do
     sign_in @viktor
-    get :show, params: { id: @norm.id }
+    get :show, params: { id: @norm }
     assert_response :success
   end
 
   test "non-signed in user should be able to view user" do
-    get :show, params: { id: @norm.id }
+    get :show, params: { id: @norm }
     assert_response :success
   end
 
@@ -42,7 +42,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "routes to a user's id should redirect to their custom url when present" do
-    get :show, params: { id: @viktor.id }
+    get :show, params: { id: @viktor }
     assert_redirected_to user_path(@viktor)
   end
 
@@ -61,37 +61,37 @@ class UsersControllerTest < ActionController::TestCase
   test "signed in users can view their own profile" do
     sign_in @viktor
     get :show, params: { id: @viktor.custom_url }
-    assert_select "div#profile-header"
+    assert_select ".profile-header"
   end
 
   test "users can navigate to the schedule tab" do
-    get :show, params: { id: @norm.id, page: "schedule" }
+    get :show, params: { id: @norm, page: "schedule" }
     assert_response :success
   end
 
   test "users can navigate to the followers tab" do
-    get :show, params: { id: @norm.id, page: "followers" }
+    get :show, params: { id: @norm, page: "followers" }
     assert_response :success
   end
 
   test "users can navigate to the following tab" do
-    get :show, params: { id: @norm.id, page: "following" }
+    get :show, params: { id: @norm, page: "following" }
     assert_response :success
   end
 
   test "users can navigate to the activity tab" do
-    get :show, params: { id: @norm.id, page: "activity" }
+    get :show, params: { id: @norm, page: "activity" }
     assert_response :success
   end
 
   # mutual_friends not fully implemented yet
   # test "users can navigate to the mutual friends tab" do
-  #   get :show, id: @norm.id, page: 'mutual_friends'
+  #   get :show, id: @norm, page: 'mutual_friends'
   #   assert_response :success
   # end
 
   test "users will navigate to the schedule tab by default" do
-    get :show, params: { id: @norm.id }
+    get :show, params: { id: @norm }
     assert_response :success
   end
 
@@ -118,44 +118,44 @@ class UsersControllerTest < ActionController::TestCase
   test "only admins (or the account owner) can delete users" do
     sign_in @norm
     assert_no_difference 'User.count' do
-      delete :destroy, params: { id: @viktor.id }
+      delete :destroy, params: { id: @viktor }
     end
 
     sign_out @norm
 
     sign_in @viktor
     assert_difference 'User.count', -1 do
-      delete :destroy, params: { id: @norm.id }
+      delete :destroy, params: { id: @norm }
     end
   end
 
   test "only admins can promote users" do
     sign_in @norm
-    get :promote, params: { id: @putin.id }
+    get :promote, params: { id: @putin }
     assert_not User.find(@putin.id).admin, "non-admin successfully promoted a user"
 
     sign_out @norm
 
     sign_in @viktor
-    get :promote, params: { id: @putin.id }
+    get :promote, params: { id: @putin }
     assert User.find(@putin.id).admin, "admin was unable to promote user"
   end
 
   test "only admins can view user information" do
     sign_in @norm
 
-    get :inspect, params: { id: @viktor.id }
+    get :inspect, params: { id: @viktor }
     assert_response :redirect
 
     sign_out @norm
     sign_in @viktor
 
     # user without custom url
-    get :inspect, params: { id: @norm.id }
+    get :inspect, params: { id: @norm }
     assert_response :success
 
     # user with custom url
-    get :inspect, params: { id: @viktor.id }
+    get :inspect, params: { id: @viktor }
     assert_response :success
   end
 end

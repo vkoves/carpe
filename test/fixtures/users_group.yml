@@ -4,8 +4,10 @@ one:
   user: norm
   group: one
   role: member
+  accepted: true
 
 two:
   user: viktor
   group: one
   role: admin
+  accepted: true

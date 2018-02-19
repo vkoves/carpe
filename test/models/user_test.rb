@@ -194,12 +194,12 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "has_avatar returns true when a profile has an avatar" do
-    assert @putin.has_avatar, "Returned false despite user having an avatar"
-    assert_not @norm.has_avatar, "Returned true despite user not having an avatar"
+    assert @putin.has_avatar?, "Returned false despite user having an avatar"
+    assert_not @norm.has_avatar?, "Returned true despite user not having an avatar"
   end
 
   test "user_avatar returns custom avatar url" do
-    @viktor.avatar = File.new("test/fixtures/sample_avatar.jpg")
+    @viktor.avatar = sample_file("sample_avatar.jpg")
     @viktor.save!
 
     assert_includes @viktor.avatar_url(30), "sample_avatar", "avatar thumbnails don't work"

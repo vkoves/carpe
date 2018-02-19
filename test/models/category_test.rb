@@ -24,6 +24,7 @@ class CategoryTest < ActiveSupport::TestCase
   test "users have access to categories in their group" do
     private_category = categories(:private)
     private_category.group = groups(:one)
+    private_category.save!
 
     assert private_category.has_access?(@norm),
            "Member of group does not have access to their group category!"

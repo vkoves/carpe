@@ -1,6 +1,8 @@
 
 #The User model, which defines a unique user and all of the properties they have
 class User < ApplicationRecord
+  include Profile
+
   has_many :active_relationships,  class_name:  "Relationship",
                                    foreign_key: "follower_id",
                                    dependent:   :destroy
@@ -26,53 +28,11 @@ class User < ApplicationRecord
 	has_many :events
   has_many :repeat_exceptions
 
-  has_attached_file :avatar, *Rails.application.config.paperclip_avatar_settings
-  validates_attachment :avatar, Rails.application.config.paperclip_avatar_validations
-
-  has_attached_file :banner, *Rails.application.config.paperclip_banner_settings
-  validates_attachment :banner, Rails.application.config.paperclip_banner_validations
-
-  after_create :send_signup_email
-  after_validation :clean_paperclip_errors
-
-  def clean_paperclip_errors
-    # Remove avatar/banner file size error if the avatar/banner error's exist
-    errors.delete(:avatar_file_size) unless errors[:avatar].empty?
-    errors.delete(:banner_file_size) unless errors[:banner].empty?
-  end
-
   def send_signup_email
     UserNotifier.send_signup_email(self).deliver_now
   end
 
-  # Validate the custom_url ...
-  REGEX_VALID_URL_CHARACTERS = /\A[a-zA-Z0-9_\-]*\Z/
-
-  @@REGEX_USER_ID = /\A\d+\Z/
-  mattr_accessor :REGEX_USER_ID
-
-  validates :custom_url,
-            format: { with: REGEX_VALID_URL_CHARACTERS,
-                      message: 'must be alphanumeric' },
-            allow_blank: true,
-            uniqueness: true,
-            length: { maximum: 64 }
-
-  validates :custom_url,
-            format: { without: @@REGEX_USER_ID,
-                      message: 'cannot be an integer'}
-
-  def self.from_param(param)
-    User.find_by!(param =~ User.REGEX_USER_ID ? { id: param } : { custom_url: param })
-  end
-
-  def has_custom_url?
-    !custom_url.empty?
-  end
-
-  def self.from_param(param)
-    User.find_by!(param.to_s =~ REGEX_USER_ID ? { id: param } : { custom_url: param })
-  end
+  after_create :send_signup_email
 
   ##########################
   ##### EVENT METHODS ######
@@ -138,28 +98,22 @@ class User < ApplicationRecord
   ##### AVATAR METHODS #####
   ##########################
 
-	def avatar_url(size) #returns a url to the avatar with the width in pixels
-    unless self.has_avatar #if this user has no avatar, or the Google default, return the gravatar avatar
-      return "https://www.gravatar.com/avatar/?d=mm"
-    end
-
-    if provider
-      return image_url.split("?")[0] + "?sz=" + size.to_s
-    else
-      if size <= 60 # if image request is 60px wide or less, use thumb, which is 60px wide
-        return avatar.url(:thumb)
-      else # otherwise use profile, which is 150px wide
-        return avatar.url(:profile)
-      end
-    end
+  # Returns a url to the avatar with the width in pixels.
+	def avatar_url(size)
+    return "#{image_url.split("?")[0]}?sz=#{size}" if has_google_avatar? # google avatar
+    return avatar.url(size <= 60 ? :thumb : :profile) if avatar.exists? # uploaded avatar
+    gravatar_url(size) # default avatar
 	end
 
-  def has_avatar #returns whether the user has a non-default avatar
-    if (image_url.present? and provider and !image_url.include? "/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M") or avatar.exists?
-        return true #if the image is present and is not the Google default, return true
-    else
-      return false #if the image is not present, or is a Google default return false
-    end
+  DEFAULT_GOOGLE_AVATAR_URL = "/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M"
+
+  def has_google_avatar?
+    provider.present? and image_url.present? and image_url.exclude?(DEFAULT_GOOGLE_AVATAR_URL)
+  end
+
+  # Returns whether the user has a non-default avatar.
+  def has_avatar?
+    avatar.exists? or has_google_avatar?
   end
 
   ##########################

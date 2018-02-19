@@ -1,6 +1,5 @@
 class GroupsController < ApplicationController
   before_action :authorize_signed_in!, except: [:index]
-  before_action :set_group, only: [:show, :edit, :update, :destroy]
 
   def index
     @visible_groups = Group.where(privacy: 'public_group')
@@ -18,6 +17,8 @@ class GroupsController < ApplicationController
   end
 
   def show
+    @group = Group.from_param(params[:id])
+
     unless @group.viewable_by? current_user
       redirect_to groups_path, alert: "You don't have permission to view this group"
     end
@@ -52,6 +53,7 @@ class GroupsController < ApplicationController
   end
 
   def edit
+    @group = Group.from_param(params[:id])
     # uses same form as 'new'
   end
 
@@ -67,6 +69,7 @@ class GroupsController < ApplicationController
   end
 
   def update
+    @group = Group.from_param(params[:id])
     @membership = UsersGroup.find_by group_id: @group.id, user_id: current_user.id, accepted: false
     @membership[:accepted] = true
     @membership.save
@@ -79,6 +82,7 @@ class GroupsController < ApplicationController
   end
 
   def destroy
+    @group = Group.from_param(params[:id])
     @group.destroy
     redirect_to groups_url, notice: "Group was successfully destroyed."
   end
@@ -91,10 +95,6 @@ class GroupsController < ApplicationController
   end
 
   private
-
-  def set_group
-    @group = Group.find params[:id]
-  end
 
   def group_create_params
     params.require(:group)

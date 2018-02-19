@@ -40,7 +40,7 @@
       <p>This user is not a part of any groups yet!</p>
   <% else %>
       <ul class="pretty-list">
-        <% @user.groups.each do |user_group| %>
+        <% UsersGroup.where(user_id: @user.id).each do |user_group| %>
             <li><b><%= user_group.role %></b>
               of <%= link_to(user_group.group.name, group_path(user_group.group_id)) %></li>
         <% end %>
