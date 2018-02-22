@@ -26,7 +26,7 @@
     <div>
       <h2>Recent Actions</h2>
       <% @activity.each do |act| %>
-        <%= act.name %> : <%= act.created_at %><br>
+        <%= render "small_activity_card", act:act %>
       <% end %>
       <div id="recent-actions-container" class="vertical flex-list"></div>
     </div>

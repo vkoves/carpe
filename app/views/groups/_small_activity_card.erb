@@ -1,0 +1,9 @@
+<div class="small-activity-card">
+  <% curruser = User.find(act.user_id) %>
+  <%= link_avatar curruser %>
+  <div class="user-information">
+    <div class="user-name"><%= curruser.name %></div>
+    <div class="act-name"> created <%= act.name %> </div>
+    <div class="time-ago"> <%= relative_time_ago(act.created_at, false) %> </div>
+  </div>
+</div>

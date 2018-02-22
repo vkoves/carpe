@@ -44,7 +44,7 @@ class GroupsController < ApplicationController
 
     when :overview
       @upcoming_events = current_user.events_in_range(DateTime.now - 1.day, DateTime.now.end_of_day + 10.day)
-      @activity = (@group.users + @group.categories + @group.events).sort_by(&:created_at).reverse.first(5)
+      @activity = (@group.users + @group.categories + @group.events).sort_by(&:created_at).reverse.first(2)
     end
   end
 
