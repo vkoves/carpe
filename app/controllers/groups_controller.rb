@@ -24,7 +24,7 @@ class GroupsController < ApplicationController
     end
 
     @role = @group.get_role current_user
-    @view = params[:view]&.to_sym || :schedule
+    @view = params[:view]&.to_sym || :overview
 
     case @view
     when :manage_members
