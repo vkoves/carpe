@@ -1,9 +1,17 @@
 <div class="small-activity-card">
-  <% curruser = User.find(act.user_id) %>
-  <%= link_avatar curruser %>
-  <div class="user-information">
-    <div class="user-name"><%= curruser.name %></div>
-    <div class="act-name"> created <%= act.name %> </div>
-    <div class="time-ago"> <%= relative_time_ago(act.created_at, false) %> </div>
-  </div>
+  <% if act != nil %>
+    <%= link_avatar act %>
+    <div class="user-information">
+      <div class="user-name"><%= act.name %></div>
+      <div class="time-ago"> <%= relative_time_ago(UsersGroup.find_by(user_id:act.id,group_id: @group).created_at, false) %> </div>
+    </div>
+  <% else %>
+    <% curruser = User.find(act.user_id) %>
+    <%= link_avatar curruser %>
+    <div class="user-information">
+      <div class="user-name"><%= curruser.name %></div>
+      <div class="act-name"> created <%= act.name %> </div>
+      <div class="time-ago"> <%= relative_time_ago(act.created_at, false) %> </div>
+    </div>
+  <% end %>
 </div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170724042653) do
+ActiveRecord::Schema.define(version: 20180301220141) do
 
   create_table "categories", force: :cascade do |t|
     t.string "name"
@@ -144,6 +144,8 @@ ActiveRecord::Schema.define(version: 20170724042653) do
     t.integer "group_id"
     t.integer "role", default: 0
     t.boolean "accepted", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["group_id"], name: "index_users_groups_on_group_id"
     t.index ["user_id"], name: "index_users_groups_on_user_id"
   end
