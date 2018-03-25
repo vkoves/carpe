@@ -1,0 +1,19 @@
+<% relationship = notification.entity %>
+
+<div class="notif" fid="<%= relationship.id %>">
+  <%= link_to(notification.sender) do %>
+    <div id="user-avatar" class="avatar">
+      <img src="<%= notification.sender.user_avatar(90) %>">
+    </div>
+  <% end %>
+
+  <span><%= notification.sender.name %></span>
+
+  <%= link_to notification_updated_path(notification, "confirm"), method: :post, remote: true do %>
+    <div class="confirm"></div>
+  <% end %>
+
+  <%= link_to notification_updated_path(notification, "deny"), method: :post,remote: true do %>
+    <div class="deny"></div>
+  <% end %>
+</div>
