@@ -1,5 +1,5 @@
 class UserGroupsController < ApplicationController
-  before_action :authorize_signed_in
+  before_action :authorize_signed_in!
 
   # user joins a group
   def join_group
