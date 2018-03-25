@@ -1,7 +1,7 @@
 <div class="small-activity-card">
-  <% if act.user_id == nil %>
+  <% if act.is_a?(User) %>
     <% currusergroup = UsersGroup.find_by(user_id:act.id,group_id: @group); curruser = act.id %>
-    <%= link_avatar curruser %>
+    <%= link_avatar act %>
     <div class="user-information">
       <div class="user-name"><%= act.name %></div>
       <div class="time-ago"> <%= relative_time_ago(currusergroup.created_at, false) %> </div>
