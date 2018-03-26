@@ -1,8 +1,8 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one: {}
-  # user_id: 1
-
-two: {}
-  # user_id: 1
+one:
+  receiver: norm
+  sender: viktor
+  event: system_message
+  message: "you've got mail!"
 
