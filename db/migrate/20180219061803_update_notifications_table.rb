@@ -2,6 +2,8 @@ class UpdateNotificationsTable < ActiveRecord::Migration[5.1]
   def self.up
     # enforce database integrity
     change_column :notifications, :receiver_id, :integer, null: false
+
+    Notification.where(viewed: nil).update_all(viewed: false)
     change_column :notifications, :viewed, :boolean, default: false, null: false
 
     # notifications reference other objects (i.e. it's a polymorphic association)
