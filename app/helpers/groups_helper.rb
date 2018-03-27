@@ -14,6 +14,6 @@ module GroupsHelper
   private
 
   def allow(roles)
-    roles.include? @role
+    roles.include? @role.to_sym
   end
 end
