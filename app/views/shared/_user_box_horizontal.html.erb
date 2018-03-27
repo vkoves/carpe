@@ -43,9 +43,10 @@
 						<% end %>
 						until <%= relative_time_ago(user.current_events[0].end_date, false) %>
 					<% else %>
+						<% next_event = user.next_event %>
 						<div class="green circle"></div>
-						<% if user.next_event %>
-							Free until <%= relative_time_ago(user.next_event.date, false) %>
+						<% if next_event %>
+							Free until <%= relative_time_ago(next_event.date, false) %>
 						<% else %>
 							Free the rest of the day
 						<% end %>

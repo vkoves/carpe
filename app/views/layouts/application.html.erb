@@ -55,7 +55,7 @@
 
   <% if current_user and false # commented this out for now %>
     <script>
-      var todaysEvents = <%= raw current_user.events_in_range(DateTime.now.beginning_of_day, DateTime.now.end_of_day).to_json %>;
+      var todaysEvents = <%= raw current_user.events_in_range(DateTime.now.beginning_of_day, DateTime.now.end_of_day, current_user.home_time_zone).to_json %>;
       <% #Fix this time zone %>
     </script>
   <% end %>

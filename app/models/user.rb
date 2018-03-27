@@ -38,7 +38,6 @@ class User < ApplicationRecord
   ##### EVENT METHODS ######
   ##########################
 
-  # TODO: events_in_range? events_start_in_range is probably a better name for that method
   def current_events # return events that are currently going on
     events_in_range(1.day.ago, DateTime.current).select(&:current?).sort_by(&:end_date)
   end
@@ -57,7 +56,7 @@ class User < ApplicationRecord
 
     #then repeating events
     events.includes(:repeat_exceptions, category: :repeat_exceptions).where.not(repeat: nil).each do |rep_event| #get all repeating events
-      event_instances.concat(rep_event.events_in_range(start_date_time, end_date_time)) #and add them to the event array
+      event_instances.concat(rep_event.events_in_range(start_date_time, end_date_time, home_time_zone)) #and add them to the event array
     end
 
     event_instances = event_instances.sort_by(&:date) #and of course sort by date
