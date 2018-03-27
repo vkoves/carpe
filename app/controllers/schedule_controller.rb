@@ -1,5 +1,7 @@
 #The controller for schedule related pages and actions, such as the schedule page
 #as well as creating and editing categories
+#
+# TODO: Most requests should enforce user being signed in, as data can't be made anonymously
 class ScheduleController < ApplicationController
   after_action :allow_iframe, only: :schedule
 
@@ -52,6 +54,10 @@ class ScheduleController < ApplicationController
     render json: @cat
   end
 
+  ###
+  # Authenticated
+  # Verifies the user deleting is the owner
+  ###
   def delete_category
     category = Category.find(params[:id])
     if current_user and (category.user == current_user or category.group.in_group?(current_user)) #if user is owner or in owning group
@@ -75,6 +81,10 @@ class ScheduleController < ApplicationController
     render json: @exception.id #return the id of the repeat exception
   end
 
+  ###
+  # Authenticated
+  # Verifies the user changing events is the owner
+  ###
   def save_events #save events
     text = params.to_s
     new_event_ids = {}
@@ -86,13 +96,19 @@ class ScheduleController < ApplicationController
     params[:map].each do |key, obj|
         unless obj["eventId"].empty? #if this is an existing item
           evnt = Event.find(obj["eventId"].to_i)
+
+          # If a user tries to edit an event they don't own, cancel the request
+          unless current_user == evnt.user or (evnt.group and evnt.group.in_group?(current_user)) # TODO: Make an event helper for whether the user can change the event
+            render :text => "You don't have permission to change this event!", :status => :forbidden and return
+          end
         else
           evnt = Event.new()
+          evnt.user = current_user
         end
+
         evnt.name = obj["name"]
-        evnt.user = current_user
         unless params[:group_id].empty?
-          evnt.group = Group.find(params[:group_id])
+          evnt.group = Group.find(params[:group_id]) # TODO: Do we need to find the group for this?
         end
         evnt.repeat = obj["repeatType"]
         evnt.date = DateTime.parse(obj["startDateTime"])
@@ -112,7 +128,7 @@ class ScheduleController < ApplicationController
         evnt.repeat_exceptions.clear #empty out
         if obj["breaks"]
           obj["breaks"].each do |break_id| #then add the current things
-            evnt.repeat_exceptions << RepeatException.find(break_id)
+            evnt.repeat_exceptions << RepeatException.find(break_id) # TODO: Do we need to find the repeat exceptions for this?
           end
         end
 
@@ -130,6 +146,10 @@ class ScheduleController < ApplicationController
     #render :json => params[:map] #useful for seeing what data was passed
   end
 
+  ###
+  # Authenticated
+  # Verifies the user changing events is the owner
+  ###
   def delete_event #delete events
     event = Event.find(params[:id])
     if current_user and (event.user == current_user or event.group.in_group?(current_user)) #if the current user is the owner or in the owner group
