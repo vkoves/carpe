@@ -4,14 +4,23 @@
     <%= link_avatar act %>
     <div class="user-information">
       <div class="user-name"><%= act.name %></div>
+      <div class="act-name">Joined</div>
       <div class="time-ago"> <%= relative_time_ago(currusergroup.created_at, false) %> </div>
     </div>
-  <% else %>
+  <% elsif act.is_a?(Category) %>
     <% curruser = User.find(act.user_id) %>
     <%= link_avatar curruser %>
     <div class="user-information">
       <div class="user-name"><%= curruser.name %></div>
-      <div class="act-name"> created <%= act.name %> </div>
+      <div class="act-name"> Created category <%= act.name %> </div>
+      <div class="time-ago"> <%= relative_time_ago(act.created_at, false) %> </div>
+    </div>
+  <% elsif act.is_a?(Event) %>
+    <% curruser = User.find(act.user_id) %>
+    <%= link_avatar curruser %>
+    <div class="user-information">
+      <div class="user-name"><%= curruser.name %></div>
+      <div class="act-name"> Created event <%= act.name %></div>
       <div class="time-ago"> <%= relative_time_ago(act.created_at, false) %> </div>
     </div>
   <% end %>
