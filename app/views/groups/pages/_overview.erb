@@ -3,8 +3,12 @@
 <div id="body">
   <main class="content">
     <span class="carpe-color current-header">Current Events</span>
-      <% @upcoming_events.each do |event| %>
-        <%= render "shared/event_tile", event:event %>
+      <% if @upcoming_events.length > 0 %>
+        <% @upcoming_events.each do |event| %>
+          <%= render "shared/event_tile", event:event %>
+        <% end %>
+      <% else %>
+        <span> There doesnt seem to be any events </span>
       <% end %>
   </main>
 
@@ -16,19 +20,27 @@
 
     <div>
       <div id="side-member-pane">
-        <h2>Members <%= link_to "View More", group_path(@group, view: :members), id:"view-all-link" %></h2>
-        <% @group.users_groups[0 .. 4].each do |user| %>
-          <%= link_avatar user.user %>
+        <% if @group.users_groups.length > 0 %>
+          <h2>Members <%= link_to "View More", group_path(@group, view: :members), id:"view-all-link" %></h2>
+          <% @group.users_groups[0 .. 4].each do |user| %>
+            <%= link_avatar user.user %>
+          <% end %>
+        <% else %>
+          <span> This group has no members </span>
         <% end %>
       </div>
     </div>
 
     <div>
       <h2>Recent Actions</h2>
-      <% @activity.each do |act| %>
-        <%= render "small_activity_card", act:act %>
+      <% if @activity.length > 0 %>
+        <% @activity.each do |act| %>
+          <%= render "small_activity_card", act:act %>
+        <% end %>
+        <div id="recent-actions-container" class="vertical flex-list"></div>
+      <% else %>
+       <span> no recent actions </span>
       <% end %>
-      <div id="recent-actions-container" class="vertical flex-list"></div>
     </div>
   </aside>
 </div>
