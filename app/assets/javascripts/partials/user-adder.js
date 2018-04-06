@@ -1,7 +1,7 @@
 // Tokenizer implementation for the user entry
 function initializeUserAdder(selector)
 {
-	$(selector).tokenInput("/search_users.json", {
+	$(selector).tokenInput("/search_core", {
 		crossDomain: false,
 		placeholder: "Add people",
 		searchDelay: 0,
