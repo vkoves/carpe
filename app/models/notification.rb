@@ -1,5 +1,5 @@
 class Notification < ApplicationRecord
-  enum event: { system_message: 0, follow_request: 1 }
+  enum event: { system_message: 0, follow_request: 1, user_message: 2 }
 
   belongs_to :entity, polymorphic: true
 

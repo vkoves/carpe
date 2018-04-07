@@ -1,9 +1,3 @@
 <div class="notif general">
-  <%= link_to(notification.sender) do %>
-    <div id="user-avatar">
-      <img src="<%= notification.sender.user_avatar(90) %>">
-    </div>
-  <% end %>
-
-  <div><%= notification.sender.name %> <%= notification.message %></div>
+  <div><%= notification.message %></div>
 </div>

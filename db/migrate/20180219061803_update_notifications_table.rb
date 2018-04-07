@@ -16,10 +16,6 @@ class UpdateNotificationsTable < ActiveRecord::Migration[5.1]
                default: Notification.events[:system_message], null: false
 
     add_index :notifications, [:entity_id, :event], unique: true
-
-    # get rid of evil nil values
-    Relationship.where(confirmed: nil).update_all(confirmed: false)
-    change_column :relationships, :confirmed, :boolean, default: false, null: false
   end
 
   def self.down
@@ -29,7 +25,5 @@ class UpdateNotificationsTable < ActiveRecord::Migration[5.1]
     remove_column :notifications, :entity_id
     remove_column :notifications, :entity_type
     remove_column :notifications, :event
-
-    change_column :relationships, :confirmed, :boolean, default: nil, null: true
   end
 end

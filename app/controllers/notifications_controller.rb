@@ -23,10 +23,6 @@ class NotificationsController < ApplicationController
     Notification.events.key?(@notification.event)
   end
 
-  def system_message
-
-  end
-
   def follow_request
     relationship = @notification.entity
 
@@ -34,6 +30,7 @@ class NotificationsController < ApplicationController
       relationship.update(confirmed: true)
       render json: { action: "confirm_friend", fid: relationship.id }
     elsif params[:response] == "deny"
+      relationship.update(confirmed: false)
       render json: { action: "deny_friend", fid: relationship.id }
     end
 

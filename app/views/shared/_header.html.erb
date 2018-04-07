@@ -87,6 +87,12 @@
         You don't have any notifications right now.
       </div>
 
-    <%= render current_user.notifications %>
+    <% unless current_user.notifications.follow_request.empty? %>
+      <div id="notif-title">Follow Requests</div>
+      <%= render current_user.notifications.follow_request %>
+    <% end %>
+
+
+    <%= render current_user.notifications.system_message %>
 	</div>
 <% end %>
