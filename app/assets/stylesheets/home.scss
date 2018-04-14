@@ -143,6 +143,10 @@ h2 {
 			.home-container-img{
 				height: 75vw;
 			}
+			&.mobile-one-col {
+				width: 100%;
+				padding: 5rem 0rem 1rem 0rem;
+			}
 		}
 	}
 
@@ -176,7 +180,7 @@ h2 {
 		#home-sl4-textcontainer {
 			text-align: center;
 			width: auto;
-			padding-bottom: 3vw;
+			padding-bottom: 2rem;
 		}
 		#home-sl4-img-mobile {
 			display: initial;
