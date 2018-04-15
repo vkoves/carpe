@@ -1,6 +1,9 @@
 $(document).ready(setupEvents);
 $(document).on('page:load', setupEvents);
 
+/* setups events for the group calender on page load
+ * such as setting up key bindings, and clickable items
+ */
 function setupEvents() {
 	// show/hide member options on the 'Manage Members' page
 	$('.user-with-options .overview').click(function(event) {
@@ -17,6 +20,10 @@ function setupEvents() {
 	});
 }
 
+/* for each user on in the group show the user cards of the users 
+ * whose name matches a given string. similar to 'LIKE % %' in sql.
+ * @param {String} searchText - text to find user names that are similar to
+ */
 function showRelevantUsers(searchText) {
 	// similar to SQL 'name LIKE %...%'
 	var isRelevant = function (a, b) {
@@ -34,6 +41,11 @@ function showRelevantUsers(searchText) {
 	});
 }
 
+/* send invite to join a group to a given user
+ * POSTs to invite_to_group route in groups controler 
+ * @param {HtmlElement} self - html object of the user card to get the user id from
+ * @param {String} groupId - id of group to invite user to
+ */
 function sendInvites(self, groupId){
 	var people = $(self).parent().find(".user-entry .token-input-list .token-input-token p");
 	$(people).each(function () {
