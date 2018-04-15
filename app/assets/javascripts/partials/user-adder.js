@@ -30,8 +30,11 @@ function initializeUserAdder(selector)
 		},
 		tokenFormatter: function(element)
 		{
+			//TODO find someway to clean these next two lines up
+			id = element.link_url.split("/")
+			id = id[id.length-1]
 			img_url = element.image_url || "https://www.gravatar.com/avatar/?d=mm";
-			return "<li>" + "<div class='avatar'><img src='" + img_url + "'></div><p id=\"" + element.id_or_url + "\">" + element.name + "</p></li>";
+			return "<li>" + "<div class='avatar'><img src='" + img_url + "'></div><p id=\"" + id + "\">" + element.name + "</p></li>";
 		}
 	});
 }
