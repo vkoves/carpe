@@ -37,7 +37,6 @@
         <% @activity.each do |act| %>
           <%= render "small_activity_card", act:act %>
         <% end %>
-        <div id="recent-actions-container" class="vertical flex-list"></div>
       <% else %>
        <span> This group has no recent actions </span>
       <% end %>
