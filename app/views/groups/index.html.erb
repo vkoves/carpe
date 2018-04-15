@@ -3,7 +3,7 @@
 <div id="body">
   <aside class="shaded sidebar">
     <h2>Groups You Belong To</h2>
-    <% if (current_user&.groups&.all).size > 0 %>
+    <% unless current_user.groups.empty? %>
       <%= render partial: "small_group_card", collection: current_user&.groups&.all, as: :group %>
     <% else %>
       <h4> You don't belong to any groups! Join a group and it will show up here. </h4>
