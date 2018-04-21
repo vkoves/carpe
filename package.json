@@ -2,10 +2,17 @@
   "name": "carpe",
   "version": "1.0.0",
   "description": "The social scheduler",
+  "engines": {
+    "node": "8"
+  },
   "scripts": {
+    "postinstall": "run-s -ns global-installs selenium-setup",
+    "global-installs": "npm install -g codeceptjs-webdriverio selenium-standalone",
+    "selenium-setup": "selenium-standalone install",
     "jsdoc": "jsdoc app/assets/javascripts -d public/jsdoc-out -r README.md",
-    "codeceptjs": "phantomjs --webdriver=4444 | (codeceptjs run --reporter mochawesome && node stop-phantomjs.js)",
-    "teaspoon": "bundle exec teaspoon --coverage=default"
+    "acceptance-tests": "node run-codeceptjs-with-server.js",
+    "teaspoon": "bundle exec teaspoon --coverage=default",
+    "minitest": "bundle exec rails test"
   },
   "repository": {
     "type": "git",
@@ -17,10 +24,13 @@
   },
   "homepage": "https://github.com/vkoves/Carpe#readme",
   "devDependencies": {
-    "phantomjs-prebuilt": "^2.1.14",
     "codeceptjs-webdriverio": "^1.1.0",
     "istanbul": "^0.4.5",
-    "jsdoc": "^3.5.3",
-    "mochawesome": "^2.3.0"
+    "jsdoc": "^3.5.5",
+    "mochawesome": "^2.3.1",
+    "npm-run-all": "^4.1.2",
+    "phantomjs-prebuilt": "^2.1.15",
+    "tree-kill": "^1.2.0",
+    "tcp-ping": "^0.1.1"
   }
 }

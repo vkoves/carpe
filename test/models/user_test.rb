@@ -1,8 +1,8 @@
 # To run all tests, in the project directory run the command:
-# bundle exec rake test
+# bundle exec rails test
 # ----------------------------------------
 # To run this test, in the project directory run the command:
-# bundle exec rake test test/controllers/event_test.rb
+# bundle exec rails test test/controllers/event_test.rb
 
 require 'test_helper'
 
@@ -58,16 +58,6 @@ class UserTest < ActiveSupport::TestCase
   test "has_custom_url should return whether or not the user has a custom url" do
     assert_not @norm.has_custom_url?,
                "has_custom_url returning true for users not using a custom url"
-  end
-
-  test "to_param should return the custom_url for users with a custom_url" do
-    assert_equal @viktor.custom_url, @viktor.to_param,
-                 "to_param isn't return the custom url for users with a custom url"
-  end
-
-  test "to_param should return the id for users without a custom_url" do
-    assert_equal @norm.id.to_s, @norm.to_param,
-                 "to_param isn't returning the user id for users without a custom url"
   end
 
   # TODO: is this actually the desired behaviour?
@@ -248,10 +238,10 @@ class UserTest < ActiveSupport::TestCase
     users(:viktor).current_sign_in_ip = "192.168.1.1" # set sign in IP on user
     users(:viktor).encrypted_password = "EnCryptedPassword" # set encrypted password on user
 
-    assert_not_equal nil, users(:viktor).current_sign_in_ip, "test user should have a sign in IP"
+    assert_not_nil users(:viktor).current_sign_in_ip, "test user should have a sign in IP"
     assert_not_empty users(:viktor).encrypted_password, "test user should have an encrypted password"
 
-    assert_equal nil, users(:viktor).convert_to_json["current_sign_in_ip"], "convert_to_json should not contain sign in IP"
-    assert_equal nil, users(:viktor).convert_to_json["encrypted_password"], "convert_to_json should not contain encrypted_password"
+    assert_nil users(:viktor).convert_to_json["current_sign_in_ip"], "convert_to_json should not contain sign in IP"
+    assert_nil users(:viktor).convert_to_json["encrypted_password"], "convert_to_json should not contain encrypted_password"
   end
 end

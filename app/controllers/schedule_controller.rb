@@ -9,7 +9,8 @@ class ScheduleController < ApplicationController
     if params[:uid] #if a uid was passed, show that schedule in read only mode
       @user = User.find(params[:uid])
       @read_only = true
-    elsif authorize_signed_in #if the user is logged in, show their schedule
+    else #show their schedule
+      authorize_signed_in! and return unless user_signed_in?
       @user = current_user
     end
 
@@ -61,7 +62,7 @@ class ScheduleController < ApplicationController
     category = Category.find(params[:id])
     if current_user and (category.user == current_user or category.group.in_group?(current_user)) #if user is owner or in owning group
       Category.destroy(params[:id])
-      render :text => "Category destroyed"
+      render plain: "Category destroyed"
     end
   end
 
@@ -89,7 +90,7 @@ class ScheduleController < ApplicationController
     new_event_ids = {}
 
     unless params[:map] #if there is no map param defined
-      render :text => "No events to save!" and return #say so and return
+      render plain: "No events to save!" and return #say so and return
     end
 
     params[:map].each do |key, obj|
@@ -153,7 +154,7 @@ class ScheduleController < ApplicationController
     event = Event.find(params[:id])
     if current_user and (event.user == current_user or event.group.in_group?(current_user)) #if the current user is the owner or in the owner group
       Event.destroy(params[:id])
-      render :text => "Event deleted."
+      render plain: "Event deleted."
     end
   end
 

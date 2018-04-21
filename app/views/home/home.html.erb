@@ -3,34 +3,41 @@
 
 <div id="home-sl1">
 	<h1>Scheduling for the modern age.</h1>
-	<h2>Meet Carpe. It's a social, powerful planning tool for the modern world.</h2>
+	<h2>Meet Carpe. It's a social, powerful planning tool for today's world.</h2>
 	<div class="alphawarn">You can try out Carpe in our open Alpha.</div>
 
 	<%= link_to_block "Sign Up", new_user_registration_path(:refer => "wlcm-tp"), :class => "home-signup-btn" %>
 </div>
 
-<div id="home-sl2">
-	<div id="home-sl2-textcontainer">
+<div id="home-sl2" class="home-container">
+	<div id="home-sl2-textcontainer" class="home-container-text">
 		<h1>Know what's next.</h1>
 		<h2>Using the Dashboard, you can plan out your week, keep track of events going on right now, and always arrive on time.</h2>
 	</div>
-	<%= image_tag("dash.png", id: "home-sl2-img") %>
+	<div class="home-img-container">
+		<%= image_tag("dash.png", id: "home-sl2-img", class: "home-container-img") %>
+	</div>
 </div>
 
-<div id="home-sl3">
-	<div id="home-sl3-textcontainer">
+<div id="home-sl3" class="home-container">
+	<div id="home-sl3-textcontainer" class="home-container-text">
 		<h1>Make the most of the moment.</h1>
 		<h2>On the Sidebar, all the information you need is at your fingertips. Simply glance to the right of the Dashboard and see who's available without a single click.</h2>
 	</div>
-	<%= image_tag("sidebar.png", id: "home-sl3-img") %>
+	<div class="home-img-container">
+		<%= image_tag("sidebar.png", id: "home-sl3-img", class: "home-container-img") %>
+	</div>
 </div>
 
-<div id="home-sl4">
-	<div id="home-sl2-textcontainer">
+<div id="home-sl4" class="home-container">
+	<div id="home-sl4-textcontainer" class="home-container-text">
 		<h1>Don't guess when they're free.</h1>
 		<h2>With Carpe, you can view your contacts' schedules and plan the perfect hangout or meeting. If they choose to, contacts can even add a location to their events, so you know when they're nearby.</h2>
 	</div>
-	<%= image_tag("profile.png", id: "home-sl4-img") %>
+	<div class="home-img-container mobile-one-col">
+		<%= image_tag("profile.png", id: "home-sl4-img", class: "home-container-img") %>
+		<%= image_tag("iMacJasper.png", id: "home-sl4-img-mobile", class: "home-container-img") %>
+	</div>
 </div>
 
 <div id="home-sl5">

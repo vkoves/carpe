@@ -1,8 +1,8 @@
 # To run all tests, in the project directory run the command:
-# bundle exec rake test
+# bundle exec rails test
 # ----------------------------------------
 # To run this test, in the project directory run the command:
-# bundle exec rake test test/controllers/users_controller_test.rb
+# bundle exec rails test test/controllers/users_controller_test.rb
 
 require 'test_helper'
 
@@ -14,22 +14,22 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "should route to user" do # test if the users route is working properly
-    assert_routing '/u/1', controller: "users", action: "show", id_or_url: "1"
+    assert_routing '/users/1', controller: "users", action: "show", id: "1"
   end
 
   test "signed in user should be able to view other user" do
     sign_in @viktor
-    get :show, id_or_url: @norm.id
+    get :show, params: { id: @norm.id }
     assert_response :success
   end
 
   test "non-signed in user should be able to view user" do
-    get :show, id_or_url: @norm.id
+    get :show, params: { id: @norm.id }
     assert_response :success
   end
 
   test "user views can be accessed through their custom urls" do
-    get :show, id_or_url: @putin.custom_url
+    get :show, params: { id: @putin.custom_url }
     assert_response :success
   end
 
@@ -42,7 +42,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "routes to a user's id should redirect to their custom url when present" do
-    get :show, id_or_url: @viktor.id
+    get :show, params: { id: @viktor.id }
     assert_redirected_to user_path(@viktor)
   end
 
@@ -60,59 +60,102 @@ class UsersControllerTest < ActionController::TestCase
 
   test "signed in users can view their own profile" do
     sign_in @viktor
-    get :show, id_or_url: @viktor.id
-    assert_select "#profile-info", false,
-                  "Users viewing themself should not see 'X Follower(s) You Know'"
+    get :show, params: { id: @viktor.custom_url }
+    assert_select "div#profile-header"
   end
 
   test "users can navigate to the schedule tab" do
-    get :show, id_or_url: @norm.id, page: "schedule"
+    get :show, params: { id: @norm.id, page: "schedule" }
     assert_response :success
   end
 
   test "users can navigate to the followers tab" do
-    get :show, id_or_url: @norm.id, page: "followers"
+    get :show, params: { id: @norm.id, page: "followers" }
     assert_response :success
   end
 
   test "users can navigate to the following tab" do
-    get :show, id_or_url: @norm.id, page: "following"
+    get :show, params: { id: @norm.id, page: "following" }
     assert_response :success
   end
 
   test "users can navigate to the activity tab" do
-    get :show, id_or_url: @norm.id, page: "activity"
+    get :show, params: { id: @norm.id, page: "activity" }
     assert_response :success
   end
 
   # mutual_friends not fully implemented yet
   # test "users can navigate to the mutual friends tab" do
-  #   get :show, id_or_url: @norm.id, page: 'mutual_friends'
+  #   get :show, id: @norm.id, page: 'mutual_friends'
   #   assert_response :success
   # end
 
   test "users will navigate to the schedule tab by default" do
-    get :show, id_or_url: @norm.id, page: ""
+    get :show, params: { id: @norm.id }
     assert_response :success
   end
 
   test "trying to view users that do not exist should redirect to the 404 page" do
-    get :show, id_or_url: "01010101010101"
+    get :show, params: { id: "01010101010101" }
     assert_response :missing
   end
 
   test "can perform an empty search query" do
-    get :search, q: nil
+    get :search, params: { q: nil }
     assert_response :success, "Accepts empty search queries"
   end
 
   test "can perform a search query" do
-    get :search, q: "v"
+    get :search, params: { q: "v" }
     assert_response :success
   end
 
   test "can perform a `json` search query" do
-    get :search, q: "v", format: "json"
+    get :search, params: { q: "v", format: "json" }
+    assert_response :success
+  end
+
+  test "only admins (or the account owner) can delete users" do
+    sign_in @norm
+    assert_no_difference 'User.count' do
+      delete :destroy, params: { id: @viktor.id }
+    end
+
+    sign_out @norm
+
+    sign_in @viktor
+    assert_difference 'User.count', -1 do
+      delete :destroy, params: { id: @norm.id }
+    end
+  end
+
+  test "only admins can promote users" do
+    sign_in @norm
+    get :promote, params: { id: @putin.id }
+    assert_not User.find(@putin.id).admin, "non-admin successfully promoted a user"
+
+    sign_out @norm
+
+    sign_in @viktor
+    get :promote, params: { id: @putin.id }
+    assert User.find(@putin.id).admin, "admin was unable to promote user"
+  end
+
+  test "only admins can view user information" do
+    sign_in @norm
+
+    get :inspect, params: { id: @viktor.id }
+    assert_response :redirect
+
+    sign_out @norm
+    sign_in @viktor
+
+    # user without custom url
+    get :inspect, params: { id: @norm.id }
+    assert_response :success
+
+    # user with custom url
+    get :inspect, params: { id: @viktor.id }
     assert_response :success
   end
 end

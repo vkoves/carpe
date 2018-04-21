@@ -1,5 +1,5 @@
 #The User model, which defines a unique user and all of the properties they have
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   has_many :active_relationships,  class_name:  "Relationship",
                                    foreign_key: "follower_id",
                                    dependent:   :destroy
@@ -76,19 +76,14 @@ class User < ActiveRecord::Base
     !custom_url.empty?
   end
 
-  def to_param
-    has_custom_url? ? custom_url : id.to_s
-  end
-
   def self.from_param(param)
-    User.find_by!(param =~ REGEX_USER_ID ? { id: param } : { custom_url: param })
+    User.find_by!(param.to_s =~ REGEX_USER_ID ? { id: param } : { custom_url: param })
   end
 
   ##########################
   ##### EVENT METHODS ######
   ##########################
 
-  # TODO: events_in_range? events_start_in_range is probably a better name for that method
   def current_events # return events that are currently going on
     events_in_range(1.day.ago, DateTime.current).select(&:current?).sort_by(&:end_date)
   end
@@ -103,11 +98,11 @@ class User < ActiveRecord::Base
 
   def events_in_range(start_date_time, end_date_time) #returns all instances of events, including cloned version of repeating events
     #fetch not repeating events first
-    event_instances = events.where(:date => start_date_time...end_date_time, :repeat => nil)
+    event_instances = events.where(:date => start_date_time...end_date_time, :repeat => nil).to_a
 
     #then repeating events
     events.includes(:repeat_exceptions, category: :repeat_exceptions).where.not(repeat: nil).each do |rep_event| #get all repeating events
-      event_instances.concat(rep_event.events_in_range(start_date_time, end_date_time)) #and add them to the event array
+      event_instances.concat(rep_event.events_in_range(start_date_time, end_date_time, home_time_zone)) #and add them to the event array
     end
 
     event_instances = event_instances.sort_by(&:date) #and of course sort by date
@@ -321,7 +316,7 @@ class User < ActiveRecord::Base
     # Required fields for search/tokenInput - name and image url
     user_obj[:name] = self.name
     user_obj[:image_url] = self.user_avatar(50)
-    user_obj[:id_or_url] = self.id
+    user_obj[:id] = self.id
     user_obj[:model_name] = "User" # specify what type of object this is (used for site search, which handles many object types)
 
     user_obj #and return the user

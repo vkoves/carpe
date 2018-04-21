@@ -1,6 +1,4 @@
-/* Define variables */
-
-$carpe-orange: #ff7400;
+@import 'colors';
 
 /* Body styling to apply font, min-width and padding */
 body
@@ -10,7 +8,7 @@ body
 	width: 100%;
 	min-width: 400px;
 	box-sizing: border-box;
-	color: #393939;
+	color: $text-color;
 
 	&.in-iframe { padding-bottom: 0px; }
 }
@@ -127,7 +125,7 @@ label
 	border-radius: 100px;
 	width: 80px;
 	height: 80px;
-	border: solid orange 3px;
+	border: solid $light-orange 3px;
 	transition: box-shadow 0.25s;
 	background: white;
 
@@ -199,7 +197,7 @@ a .avatar img:hover, .avatar a img:hover
 /* General page things */
 .page-titler
 {
-	color: orange;
+	color: $light-orange;
 	font-weight: normal;
 	margin-bottom: 10px;
 }
@@ -233,7 +231,7 @@ a.default *, span.default, input.default /* default link styling */
 	cursor: pointer;
 	position: relative;
 	padding: 3px 15px 3px 15px;
-	background: orange;
+	background: $light-orange;
 	color: white;
 	text-decoration: none;
 	font-weight: bold;
@@ -256,13 +254,13 @@ a.default *, span.default, input.default /* default link styling */
 }
 a.default.red *, span.default.red, input.default.red
 {
-	background: #FD1A1A;
-	&:hover {background: #FF4A4A;}
+	background: $red;
+	&:hover { background: lighten($red, 10%); }
 }
 a.default.green *, span.default.green, input.default.green
 {
-	background: #18B918;
-	&:hover {background: #39DA39;}
+	background: $green;
+	&:hover { background: lighten($green, 10%); }
 }
 
 /*
@@ -281,7 +279,7 @@ a.default.can-load *, span.default.can-load, input.default.can-load
 		right: 5px;
 		height: 24px;
 		width: 24px;
-		background-image: url(/assets/spinner.svg);
+		background-image: image-url('/assets/spinner.svg');
 		background-size: 100%;
 		opacity: 0;
 		transition: opacity 0.5s;
@@ -298,7 +296,7 @@ a.default.following-btn *
 {
 	background-color: #5B5BFF;
 
-	&:hover { background-color: #FD1A1A; }
+	&:hover { background-color: $red; }
 }
 /* END LINK STYLING */
 
@@ -351,7 +349,7 @@ input.danger:hover
 }
 .circle.red
 {
-	background: #FD1A1A;
+	background: $red;
 }
 .circle.green
 {
@@ -456,12 +454,12 @@ input.danger:hover
 }
 .notice
 {
-  background-color: #3EBB3E;
+  background-color: $green;
   color: white;
 }
 .alert
 {
-  background-color: #FF4A4A;
+  background-color: $red;
   color: white;
 }
 
@@ -498,7 +496,7 @@ input.danger:hover
 		&.token-input-token
 		{
 			display: inline-block;
-			background: #F2F2F2;
+			background: $grey;
 			margin-right: 10px;
 			padding: 0px 10px;
 			border-radius: 5px;
@@ -598,6 +596,7 @@ input.danger:hover
 {
 	width: auto;
 	margin-bottom: 10px;
+	word-wrap: break-word;
 
 	&.current
 	{
@@ -623,7 +622,7 @@ input.danger:hover
 	.toggle-details
 	{
 		cursor: pointer;
-		color: orange;
+		color: $light-orange;
 	}
 	.details
 	{
@@ -632,11 +631,13 @@ input.danger:hover
 		padding-left: 10px;
 		background-color: #dad1d1;
 		padding-left: 5px;
+
+		p { display: inline; }
 	}
 	.current-label
 	{
 		margin-left: 20px;
-		background-color: orange;
+		background-color: $light-orange;
 		padding-left: 10px;
 	}
 }
@@ -678,7 +679,7 @@ form.thin
 	width: 50%;
 	margin-left: auto;
 	margin-right: auto;
-	background: #F2F2F2;
+	background: $grey;
 	padding: 5px 20px;
 	border-radius: 5px;
 	height: 70px;
@@ -881,4 +882,12 @@ form.thin
 	top: 2px;
 
 	&.right { float: right; }
+}
+
+/* Custom Font Additions (Carpe Font / Pacifico) */
+@font-face {
+  font-family: 'Pacifico';
+  src: font-url('Pacifico_1.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }

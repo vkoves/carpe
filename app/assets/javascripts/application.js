@@ -170,22 +170,21 @@ function initializeEventListeners()
 
 	//Promote buttons POST completion
 	$(".promotion span").parent().bind('ajax:success', function(event, data, status, xhr){
-		if(data && data["action"] && data["action"] == "promote")
+		if(data && data["action"] && data["action"] === "promote" || data["action"] === "demote")
 		{
 			//since the ajax:success is called on every promotion button, only run code if this is the one that was clicked
 			if($(this).attr("uid") == parseInt(data["uid"]))
 			{
-				var href = $(this).attr("href"); //get the href
 				var span = $(this).find("span"); //get the span tag in this button
 
 				if($(this).hasClass("red")) //if the user was demoted (the button was red)
 				{
-					$(this).attr("href", href.split("&")[0]); //remove demote parameter
+					$(this).attr("href", data["new_href"]); //remove demote parameter
 					fadeToText(span, "Promote"); //and fade to Promote text
 				}
 				else //if the user was promoted (the button was not red)
 				{
-					$(this).attr("href", href + "&de=true"); //add the demote parameter
+					$(this).attr("href", data["new_href"]); //add the demote parameter
 					fadeToText(span, "Demote"); //and fade to Demote text
 				}
 				$(this).toggleClass("red"); //and toggle class red

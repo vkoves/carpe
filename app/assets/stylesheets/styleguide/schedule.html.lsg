@@ -1,0 +1,103 @@
+@title Carpe Living Style Guide - Schedule
+
+@import shared
+@scss ../schedule.scss
+
+
+```
+<input class="date-field hasDatePicker">
+```
+
+```
+<div class="cont">
+	<span class="col-titler">
+		<div class="evnt-date">16</div>
+		<span class="evnt-day">Monday</span>
+		<div class="evnt-fulldate">Oct 16, 2017</div>
+	</span>
+</div>
+
+@scss {
+	.cont {
+		position: relative;
+		height: 50px;
+	}
+}
+```
+
+
+```
+<div id="sch-sidebar">
+	<div id="sch-tiles">
+		<div class="sch-evnt category ui-draggable ui-draggable-handle" time="0:00" data-id="1059638633" privacy="private" style="background-color:rgb(255, 180, 0); /*top: 0*/">
+			<div class="evnt-time top">7:00</div>
+			<div class="evnt-time bot">7:00</div>
+			<div class="evnt-title vertical-center center-text dis-sel" contenteditable="false">Party</div>
+			<div class="evnt-desc dis-sel"></div>
+			<img class="sch-evnt-edit-cat sch-cat-icon no-drag" src="/assets/quill-wht.png" alt="Quill wht">
+			<img class="sch-evnt-del-cat sch-cat-icon no-drag" src="/assets/close-wht.png" alt="Close wht">
+			<img class="sch-evnt-edit sch-evnt-icon no-drag" src="/assets/quill-wht.png" alt="Quill wht">
+			<img class="sch-evnt-close sch-evnt-icon no-drag" src="/assets/close-wht.png" alt="Close wht">
+			<div class="evnt-divider no-drag"></div>
+		</div>
+	</div>
+</div>
+
+@scss {
+	#sch-sidebar {
+		float: none;
+		height: 110px;
+		background: none;
+
+		#sch-tiles {
+			height: 100%;
+		}
+	}
+}
+```
+
+```
+<div class="col-snap">
+	<div class="sch-evnt category ui-draggable ui-draggable-handle" time="0:00" data-id="1059638633" privacy="private" style="background-color:rgb(255, 180, 0); /*top: 0*/">
+		<div class="evnt-time top">7:00</div>
+		<div class="evnt-time bot">7:00</div>
+		<div class="evnt-title vertical-center center-text dis-sel" contenteditable="false">Party</div>
+		<div class="evnt-desc dis-sel"></div>
+		<img class="sch-evnt-edit-cat sch-cat-icon no-drag" src="/assets/quill-wht.png" alt="Quill wht">
+		<img class="sch-evnt-del-cat sch-cat-icon no-drag" src="/assets/close-wht.png" alt="Close wht">
+		<img class="sch-evnt-edit sch-evnt-icon no-drag" src="/assets/quill-wht.png" alt="Quill wht">
+		<img class="sch-evnt-close sch-evnt-icon no-drag" src="/assets/close-wht.png" alt="Close wht">
+		<div class="evnt-divider no-drag"></div>
+	</div>
+</div>
+
+@scss {
+	.col-snap {
+		position: relative;
+		height: 90px;
+		margin: 0px;
+		top: 0px;
+	}
+}
+```
+
+```
+<div class="sch-day-tile">
+	<div class="inner">
+		<div class="day-of-month">14</div>
+		<div class="sch-month-evnt" style="color: rgb(255, 180, 0); color: rgb(255, 180, 0);">
+			<span class="evnt-title">Cooking At Home</span>
+			<div class="time">11:00 AM to 2:00 PM</div>
+			<div class="close"></div>
+		</div>
+	</div>
+</div>
+
+@scss {
+	.sch-day-tile {
+		float: none;
+		height: 150px;
+		width: 150px;
+	}
+}
+```

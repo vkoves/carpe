@@ -1,4 +1,6 @@
 /* SCHEDULE CSS */
+@import 'colors';
+
 #cont-hold
 {
 	width: 96%;
@@ -418,7 +420,7 @@ input[readonly="readonly"]
 
 		&.active
 		{
-			background: orange;
+			background: $light-orange;
 			box-shadow: 1px 1px 3px grey inset;
 		}
 	}
@@ -465,7 +467,7 @@ input[readonly="readonly"]
 	.evnt-date
 	{
 		font-size: 24px;
-		color:Orange;
+		color: $light-orange;
 		float: left;
 		left: 10px;
 		top:2px;
@@ -715,7 +717,7 @@ input[readonly="readonly"]
 }
 .ui-datepicker .ui-datepicker-header
 {
-	background: orange;
+	background: $light-orange;
 }
 /* End Date Picker Styling */
 
@@ -797,7 +799,10 @@ input[readonly="readonly"]
 .sch-day-tile
 {
 	float: left;
-	width: calc(100% / 7);
+	// Removed precision due to Edge over-calculating value, shifting tile off screen.
+	// Formerly written as 100 % / 7, but this is kept as a fairly equivalent value
+	// to still ensure ~ 7 items can show in a row.
+	width: 14.28%;
 	height: 25%;
 	padding: 2px;
 	box-sizing: border-box;
@@ -806,7 +811,7 @@ input[readonly="readonly"]
 	.inner
 	{
 		height: 100%;
-		background: #f2f2f2;
+		background: $grey;
 	}
 	&.in-past
 	{
@@ -909,7 +914,7 @@ input[readonly="readonly"]
 	font-size: 0px;
 }
 .day-label {
-	width: calc(100% / 7);
+	width: 14.28%;
 	display: inline-block;
 	font-size: 14px;
 	text-align: left;

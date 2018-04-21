@@ -37,7 +37,7 @@
 							<div class="details">
 								<%= relative_time_ago(event.date, true) %> to <%= relative_time_ago(event.end_date, false) %>. <br>
 								<% unless event.description.empty? %>
-								Description: <%= event.description %>
+								Description: <%= simple_format(html_escape(event.description)) %>
 								<% end %>
 							</div>
 							<div class="square" style="color: <%= event.category.color %>"><%= event.category.get_html_name.html_safe %></div>
