@@ -5,6 +5,15 @@ class GroupsController < ApplicationController
     @visible_groups = Group.where(privacy: 'public_group')
                            .page(params[:page]).per(25)
 
+    @joinable_groups = Array.new
+
+    public_groups = Group.where(privacy: 'public_group').page(params[:page]).per(25)
+    public_groups.each do |group|
+      if !group.in_group?(current_user)
+        @joinable_groups.push(group);
+      end
+    end
+
     respond_to do |format|
       format.html
       format.js {

@@ -22,11 +22,9 @@
       <p>The groups listed below are all public. Check your notifications for private group invitations.</p>
     </div>
     
-    <% if @visible_groups.size - (current_user&.groups&.all).size > 0 %>
-      <% @visible_groups.each do |group| %>
-        <% if !group.in_group?(current_user) %>
-         <%= render partial: "big_group_card", locals:{group:group} %>
-        <% end %>
+    <% if @joinable_groups %>
+      <% @joinable_groups.each do |group| %>
+        <%= render partial: "big_group_card", locals:{group:group} %>
       <% end %>
     <% else %>
       <h4> There are no public groups you don't belong to on Carpe, but that means you can make one! Create a public group and all Carpe users will see it here. </h4>
