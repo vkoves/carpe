@@ -25,6 +25,12 @@ class GroupsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "users not in private group cant see it" do
+    sign_in users(:norm)
+    get :show, params: {id:4}
+    assert_response :redirect
+  end
+
   test "user must be signed in to create a group" do
     get :create
     assert_response :redirect

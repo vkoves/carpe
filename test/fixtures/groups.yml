@@ -13,3 +13,9 @@ three:
   name: The second best group
   description: It's pretty cool, if you ask me
   privacy: 0
+
+four:
+  id: 4
+  name: Super Secret Group
+  description: You're not invited
+  privacy: 2
