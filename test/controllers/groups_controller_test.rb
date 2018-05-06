@@ -15,15 +15,13 @@ class GroupsControllerTest < ActionController::TestCase
   end
 
   test "user must be signed in to see public group" do
-    get :show,
-      params: {id:1}
+    get :show, params: {id:3}
     assert_response :redirect
   end
 
   test "signed in users can see a public group" do
     sign_in users(:norm)
-    get :show,
-      params: {id:1}
+    get :show, params: {id:3}
     assert_response :success
   end
 

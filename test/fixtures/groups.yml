@@ -3,9 +3,13 @@
 one:
   name: LazyGroup
   description: This group has no custom stuff
-  privacy: 0
 
 two:
   name: A Group
   description: What a group
-  privacy: 1
+
+three:
+  id: 3
+  name: The second best group
+  description: It's pretty cool, if you ask me
+  privacy: 0
