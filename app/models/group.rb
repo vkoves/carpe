@@ -39,7 +39,6 @@ class Group < ApplicationRecord
   def viewable_by?(user)
     # user must be signed in
     return false unless user.present?
-
     # user must be part of secret group to view it
     return false if secret_group? and not in_group? user
 

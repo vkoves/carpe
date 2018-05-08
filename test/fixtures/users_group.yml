@@ -11,3 +11,9 @@ two:
   group: one
   role: admin
   accepted: true
+
+three:
+  user: joe
+  group: four
+  role: admin
+  accepted: true

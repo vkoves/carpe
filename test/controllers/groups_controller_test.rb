@@ -25,10 +25,19 @@ class GroupsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "users not in private group cant see it" do
+  test "users not in secret group cant see it" do
     sign_in users(:norm)
     get :show, params: {id:4}
     assert_response :redirect
+  end
+
+  test "users in secret group can see it" do
+    sign_in users(:joe)
+    puts(users(:joe))
+    puts(users(:joe).groups)
+    puts(users(:viktor).groups)
+    get :show, params: {id:4}
+    assert_response :success
   end
 
   test "user must be signed in to create a group" do

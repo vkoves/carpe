@@ -16,6 +16,10 @@ norm:
   public_profile: false
   image_url: "putin.png"
 
+joe:
+  name: "Joe joe"
+  email: "joe@joe.joe"
+
 viktors_friend:
   name: "Vim"
   email: "t@friends.com"
