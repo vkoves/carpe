@@ -63,6 +63,8 @@ class GroupsController < ApplicationController
 
   def edit
     @group = Group.from_param(params[:id])
+    @role = @group.get_role current_user
+    isOwner!
     # uses same form as 'new'
   end
 
@@ -109,6 +111,12 @@ class GroupsController < ApplicationController
     params.require(:group)
           .permit(:name, :description, :avatar, :banner,
                   :posts_preapproved, :custom_url, :privacy)
+  end
+
+  def isOwner!
+    unless @role == "owner"
+      redirect_back fallback_location: groups_path, alert: "You don't have permission to access that page!"
+    end
   end
 
   def authorize_roles!(authorized_roles)
