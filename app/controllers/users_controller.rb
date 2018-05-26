@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  before_filter  :authorize_admin, :only => [:index] #authorize admin on the user viewing page
+  before_action :authorize_admin!, only: [:index, :promote, :demote, :inspect]
+  before_action :authorize_signed_in!, only: [:destroy]
 
 
   def index
@@ -8,48 +9,40 @@ class UsersController < ApplicationController
   end
 
   def show
-    using_id = (params[:id_or_url] =~ /\A[0-9]+\Z/)
-    if using_id
-      @user = User.find_by(id: params[:id_or_url])
-      redirect_to user_path(@user) if @user.has_custom_url?
-    else
-      @user = User.find_by(custom_url: params[:id_or_url])
+    @user = User.from_param(params[:id])
+
+    # forces custom urls to be displayed (when applicable)
+    if params[:id].is_int? and @user.has_custom_url?
+      redirect_to user_path(@user), status: :moved_permanently
     end
 
-    @profile = false
-    if @user
-      if current_user and current_user == @user #this is the user looking at their own profile
-        @profile = true
-      end
+    @profile = current_user == @user # this is the user looking at their profile
 
-      case params[:page]
-      when "followers"
-        @tab = "followers"
-      when "activity"
-        @tab = "activity"
-        @activity = @user.following_relationships + @user.followers_relationships
-      when "mutual_friends"
-        @tab = "mutual"
-      when "schedule"
-        @tab = "schedule"
-      when "following"
-        @tab = "following"
-        @following = @user.following_relationships
-      else #default, aka no params
-        @tab = "schedule"
-      end
+    case params[:page]
+    when "followers"
+      @tab = "followers"
+    when "activity"
+      @tab = "activity"
+      @activity = @user.following_relationships + @user.followers_relationships
+    when "mutual_friends"
+      @tab = "mutual"
+    when "schedule"
+      @tab = "schedule"
+    when "following"
+      @tab = "following"
+      @following = @user.following_relationships
+    else # default, aka no params
+      @tab = "schedule"
+    end
 
-      if @tab == "mutual"
-        @mutual_friends = current_user.mutual_friends(@user)
-      else
-        @all_friends = @user.followers_relationships #and fetch all of the user's followers
-      end
+    if @tab == "mutual"
+      @mutual_friends = current_user.mutual_friends(@user)
     else
-      redirect_to "/404"
+      @all_friends = @user.followers_relationships # and fetch all of the user's followers
     end
   end
 
-  #User search. Used to add users to stuff, like the sandbox user adder
+  # User search. Used to add users to stuff, like the sandbox user adder
   def search
     if params[:q]
       q = params[:q].strip
@@ -57,29 +50,10 @@ class UsersController < ApplicationController
       q = ""
     end
 
-    if q != "" #only search if it's not silly
+    if q != "" # only search if it's not silly
       if request.path_parameters[:format] == 'json'
         @users = User.where('name LIKE ?', "%#{q}%").limit(10)
-        @users = @users.sort {|a,b|
-          a_rank = 0
-          b_rank = 0
-
-
-          if a.name.downcase.starts_with?(q.downcase) #if the users name starts with the query
-            a_rank = 2 #it's a great match (score 2)
-          elsif a.name.downcase.include?(" " + q.downcase) #if the users middle or last name starts with the query
-            a_rank = 1 #it's an okay match (score 1)
-          end #otherwise we get the default score of 0 for having the query in their name
-
-          #repeat for b
-          if b.name.downcase.starts_with?(q.downcase)
-            b_rank = 2
-          elsif b.name.downcase.include?(" " + q.downcase)
-            b_rank = 1
-          end
-
-          b_rank <=> a_rank #return comparison of ranks, with highest preferred first
-        }
+        @users = User.rank(@users, q)
       else
         @users = User.where('name LIKE ?', "%#{q}%")
       end
@@ -87,27 +61,43 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json {
-        # Convert the users into a hash with the least data needed to show search. Recall that users can see the JSON
-        # the search returns in the network tab, so it's crucial we don't pass unused attributes
-        user_map = @users.map{|user|
-          user_obj = {} #create a hash representing the user
+      format.json do
+        # Return the users in their public JSON form
+        user_map = @users.map(&:convert_to_json)
 
-          # Required fields for search - name and image url
-          user_obj[:name] = user.name
-          user_obj[:image_url] = user.image_url
-          user_obj[:id] = user.id
-
-          # Handle avatars
-          unless user and user.has_avatar #if this is a valid user that has no avatar
-            user_obj[:image_url] = "https://www.gravatar.com/avatar/?d=mm" #change to the default avatar
-          end
-
-          user_obj #and return the user
-        }
-        render :json => user_map
-        #render :json => @users.map(&:attributes)
-      }
+        render json: user_map
+      end
     end
+  end
+
+  def promote
+    @user = User.find(params[:id])
+    @user.update(admin: true)
+    render json: { action: "promote", uid: @user.id, new_href: demote_user_path(@user)}
+  end
+
+  def demote
+    @user = User.find(params[:id])
+    @user.update(admin: false)
+    render json: { action: "demote", uid: @user.id, new_href: promote_user_path(@user)}
+  end
+
+  def destroy
+    @user = User.from_param(params[:id])
+
+    if current_user.admin
+      @user.destroy
+      redirect_to admin_panel_path, notice: "User deleted"
+    elsif current_user == @user
+      @user.destroy
+      redirect_to home_path, notice: "Account deleted"
+    else
+      redirect_to user_session_path, alert: "You don't have permission to do that!"
+    end
+  end
+
+  def inspect
+    @user = User.find(params[:id])
+    @user_groups = UsersGroup.where(user_id: @user.id)
   end
 end

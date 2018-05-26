@@ -1,4 +1,4 @@
-class Category < ActiveRecord::Base
+class Category < ApplicationRecord
 	belongs_to :user
 	belongs_to :group
 	has_many :events
@@ -19,7 +19,7 @@ class Category < ActiveRecord::Base
 	    return true #everyone has access
 	  elsif privacy == "private" #if it is private
 	  	if user_in and self.group and self.group.get_role(user_in) != "none" #if this category has a group, and the user is in it
-	  		return true #they have access 
+	  		return true #they have access
 	  	else #if this is not a group category
 		    return false #no one has access
 		end
@@ -40,5 +40,9 @@ class Category < ActiveRecord::Base
 	  private_category.updated_at = nil
 	  private_category.color = "grey"
 	  return private_category
-	end
+  end
+
+  def get_html_name
+	  name.present? ? ERB::Util.html_escape(name) : "<i>Untitled</i>"
+  end
 end

@@ -1,0 +1,28 @@
+{
+  "output": "./spec/codeceptjs/output",
+  "helpers": {
+    "WebDriverIO": {
+      "browser": "chrome",
+      "url": "http://localhost:3000",
+      "show": false,
+      "restart": false,
+      "windowSize": "1920x1080"
+    }
+  },
+  "include": {
+    "I": "./spec/codeceptjs/steps_file.js",
+    "schedulePage": "./spec/codeceptjs/pages/schedule.js",
+    "UIManager": "./spec/codeceptjs/pages/ui-manager.js"
+  },
+  "mocha": {
+    "reporterOptions": {
+      "reportDir": "public/codeceptjs_out"
+    }
+  },
+  "bootstrap": false,
+  "teardown": null,
+  "hooks": [],
+  "tests": "./spec/codeceptjs/*_test.js",
+  "timeout": 10000,
+  "name": "Carpe"
+}

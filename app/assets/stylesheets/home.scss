@@ -1,3 +1,5 @@
+@import 'colors';
+
 // Slide 1
 
 h1 {
@@ -37,59 +39,61 @@ h2 {
 
 .home-signup-btn
 {
-  display: inline-block;
-  cursor: pointer;
-  position: relative;
-  padding: 8px 110px 8px 110px;
-  background: white;
-  color: #ff7400;
-  text-decoration: none;
-  font-weight: 600;
-  border-radius: 5px;
-  transition: background 0.3s;
-  border: none;
-  font-size: 18px;
+	display: inline-block;
+	cursor: pointer;
+	position: relative;
+	padding: 8px 110px 8px 110px;
+	background: white;
+	color: #ff7400;
+	text-decoration: none;
+	font-weight: 600;
+	border-radius: 5px;
+	transition: background 0.3s;
+	border: none;
+	font-size: 18px;
 }
 
 // Slide 2 & 4
 
-#home-sl2, #home-sl4
-{
-	height: 46vw;
-	width: 100%;
-	background-color: #FFF;
+.home-container{
+	height: auto;
+	display: flex;
+	align-items:center;
+	width:100%;
 	position: relative;
 	text-align: left;
 	overflow: hidden;
 
+	.home-container-text {
+		flex-grow: 1;
+		padding: 0 3rem;
+		h2
+		{
+			font-size: 1.4vw;
+			letter-spacing: 1px;
+		}
+	}
+	.home-img-container{
+		width: 59%;
+		height: 35vw;
+		padding: 5rem 0;
+		overflow: hidden;
+		.home-container-img {
+			height: 100%;
+			position: relative;
+		}
+	}
+}
+
+#home-sl2, #home-sl4
+{
+	background-color: #FFF;
+
 	h1 { color: rgb(38,38,38); }
 
-	h2
-	{
-		font-size: 1.4vw;
-		letter-spacing: 1px;
-		color: rgb(64,64,64);
-	}
-	#home-sl2-textcontainer
-	{
-		left: 5vw;
-		position: relative;
-		top: 12vw;
-		width: 54vw;
-	}
-	#home-sl2-img
-	{
-		height: 38vw;
-		top: -5vw;
-		left: calc(50% + 10vw);
-		position: relative;
-	}
-	#home-sl4-img
-	{
-		height: 38vw;
-		top: -5vw;
-		left: calc(50% + 18vw);
-		position: relative;
+	h2 { color: rgb(64,64,64); }
+	#home-sl4-img-mobile {
+		display: none;
 	}
 }
 
@@ -98,34 +102,11 @@ h2 {
 
 #home-sl3
 {
-	height: 46vw;
+	flex-direction:row-reverse;
 	background-image: image-url("sidebar_bg.jpg");
 	background-size: cover;
-	position: relative;
-	text-align: left;
-	overflow: hidden;
-
-	h2
-	{
-		font-size: 1.4vw;
-		letter-spacing: 1px;
-		color: rgb(217,217,217);
-	}
-	#home-sl3-textcontainer
-	{
-		left: calc(50% - 15vw);
-		position: relative;
-		top: 12vw;
-		width: 54vw;
-		color: White;
-	}
-	#home-sl3-img
-	{
-		height: 38vw;
-		top: -5vw;
-		left: 0px;
-		position: relative;
-	}
+	h1 { color: rgb(217,217,217); }
+	h2 { color: rgb(217,217,217); }
 }
 
 // Slide 5
@@ -143,5 +124,79 @@ h2 {
 	{
 		font-size: 1.6vw;
 		padding-bottom: 2.5vw;
+	}
+}
+
+@media (max-width: 800px)
+{
+
+	.home-container{
+		.home-container-text {
+			padding: 0 1rem;
+			h1 { font-size: 1.5rem; }
+			h2 { font-size: 0.7rem; }
+		}
+		.home-img-container{
+			width: 58%;
+			height: unset;
+			overflow: visible;
+			.home-container-img{
+				height: 75vw;
+			}
+			&.mobile-one-col {
+				width: 100%;
+				padding: 5rem 0rem 1rem 0rem;
+			}
+		}
+	}
+
+	#home-sl1 {
+		height: 20rem;
+		h1 {
+			font-size: 1.9rem;
+			padding: 0px 1rem;
+			letter-spacing: 0;
+		}
+		h2 {
+			font-size: 1.2rem;
+			padding: 0 4rem;
+			margin-top: 3rem;
+		}
+		.alphawarn {
+			display: none;
+		}
+		.home-signup-btn {
+			margin-top: 3rem;
+		}
+	}
+	#home-sl3 {
+		background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), image-url('office-meeting.jpg');
+		background-size: cover;
+	}
+
+	#home-sl4 {
+		flex-direction: column-reverse;
+		align-items:normal;
+		#home-sl4-textcontainer {
+			text-align: center;
+			width: auto;
+			padding-bottom: 2rem;
+		}
+		#home-sl4-img-mobile {
+			display: initial;
+			width: 90vw;
+			height: auto;
+			padding: 0 5vw;
+		}
+		#home-sl4-img {
+			display: none;
+		}
+	}
+	#home-sl5 {
+		h1 { font-size: 2rem; }
+		h2 { font-size: 1rem; }
+		.home-signup-btn {
+			font-size: 1.3rem;
+		}
 	}
 }

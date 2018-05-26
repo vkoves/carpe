@@ -1,0 +1,224 @@
+@title Carpe Living Style Guide - Main
+
+@import shared
+
+# Colors
+
+@colors {
+	$carpe-orange $light-orange $text-color $grey $red $green
+}
+
+
+- Carpe Orange (`$carpe-orange`) is the Carpe brand color. Whenever possible, the Carpe logotype should be in Carpe Orange.
+- Light Orange (`$light-orange`) is a faint orange color used for many buttons.
+- Primary Text Color (`$text-color`) is the color used for most text on Carpe, and is used by default.
+- Grey (`$grey`) is a grey color commonly used on Carpe.
+- Red (`$red`) is a red color commonly used for error alerts and red warning buttons.
+- Green (`$green`) is a green color commonly used for success alerts and green buttons.
+
+
+# Typography
+
+
+## Pacifico
+This is the font used for the Carpe logotype. It should not be used anywhere else.
+
+@font-example 32px 'Pacifico', cursive {
+	Carpe
+}
+
+
+The Carpe color and font are combined in the `.carpe-font` class.
+
+```
+<span class="carpe-font">Carpe</span>
+@css {
+	.carpe-font { font-size: 32px; }
+}
+```
+
+
+
+## Open Sans
+This is used for all text on Carpe that is not the logo and serves as the primary font for our site.
+
+@font-example 32px 'Open Sans', sans-serif {
+	The quick brown fox jumps over the lazy dog
+}
+
+# Icons
+
+Carpe has a few icons that are used repeatedly in interface elements.
+
+**Important Note:** in this section, a dashed icon indicates the outer edge ofan image (with the border not being part of the image)
+Also, PNG images do not have a size specified, so as to show them in their largest size. All SVG images are shown at 50px wide, but
+(due to being SVGs) be scaled to any size.
+
+```
+<img src="/assets/new-tab-orange.svg" class="icon" width="50px">
+<img src="/assets/new-tab.svg" class="icon" width="50px">
+```
+
+```
+<img src="/assets/quill.png" class="icon">
+<img src="/assets/quill-wht.png" class="icon dark-back">
+```
+
+```
+<img src="/assets/checkmark.png" class="icon">
+<img src="/assets/checkmark-wht.png" class="icon dark-back">
+```
+
+```
+<img src="/assets/question-circle.svg" class="icon" width="50px">
+```
+
+```
+<img src="/assets/search.svg" class="icon" width="50px">
+```
+
+```
+<img src="/assets/calendar.svg" class="icon" width="50px">
+```
+
+```
+<img src="/assets/menu.svg" class="icon" width="50px">
+<img src="/assets/menu.svg" class="icon dark-back" width="50px">
+```
+
+```
+<img src="/assets/close.png" class="icon">
+<img src="/assets/close-wht.png" class="icon dark-back">
+<img src="/assets/closeThick-wht.svg" class="icon dark-back" width="50px">
+```
+
+```
+<img src="/assets/spinner.svg" class="icon dark-back" width="50px">
+```
+
+<section class="lsg-example lsg-html-example" style="margin-bottom: -20px">
+	<div class="lsg-html">
+		<div class="icon" style="width: 50px; height: 50px;">
+			<svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+			width="50px" height="50px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+				<path fill="#000" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z">
+					<animateTransform attributeType="xml"
+					attributeName="transform"
+					type="rotate"
+					from="0 25 25"
+					to="360 25 25"
+					dur="1.0s"
+					repeatCount="indefinite"/>
+				</path>
+			</svg>
+		</div>
+	</div>
+</section>
+
+```html
+	<%= render "shared/loading_icon", locals: {color: "#000", size: "50px"} %>
+```
+
+# Alerts & Notices
+
+Users often need to be notified that an action they attempted went through successfully or failed
+for some reason. These are called notices and alerts, respectively, and are handled via Ruby on
+Rails' [flash object](http://api.rubyonrails.org/v5.1/classes/ActionDispatch/Flash.html).
+
+Here is an example notice:
+
+<span class="notice">
+	This is a positive notice - everything is working fine!
+	<img src="/assets/close-wht.png" alt="Close wht">
+</span>
+
+This was shown by setting `flash[:notice] = "This is is positive notice...`
+
+Here is an example alert:
+
+<span class="alert">
+	This is a negative notice - something went wrong!
+	<img src="/assets/close-wht.png" alt="Close wht">
+</span>
+
+Similarly, this was shown by setting `flash[:alert] = "This is a negative notice...`
+
+The application layout handles the logic and HTML for displaying alerts and notices.
+
+# Links
+
+For inline text, we can use the normal class to get a very basic link.
+
+```
+This is text with a <a href="#" class="normal">normal link</a> in it.
+```
+
+## Default Links
+
+The default links are a set of buttons that are used across Carpe. They typically are not used
+inline with text, but are used as part of the interface.
+
+```
+This is text with a <a href="#links" class="default"><span>default button</span></a> in it.
+```
+
+### Variants
+
+There are several variants of default links that can be used with different intent.
+
+Color variants are available for the buttons.
+
+```
+<a class="default red"><span>default button</span></a>
+<a class="default green"><span>default button</span></a>
+```
+
+The `.default.can-load` button loads in a loading spinner and adds transitions to animate it in
+and out. Adding the class `.loading` on a `.can-load` button will show the loading spinner,
+animating it in and animating it out when the `.loading` class is removed.
+
+
+```
+<a class="default can-load"><span>loading button</span></a>
+```
+The button above toggles its loading state on click.
+
+<script>
+	$('.can-load').click(function(){
+		$(this).toggleClass('loading');
+	});
+</script>
+
+
+# Miscellaneous
+
+## Simple Text Helpers
+
+The classes `.no-bold`, `.center-text`, and `.small-text` can serve straight-forward uses in helping
+to format text and handle common needs.
+
+```
+<h4>Normal Header</h4>
+<h4 class="no-bold">No Bold Header</h4>
+<h4 class="center-text">Centered Header</h4>
+<span>Normal text</span>
+<span class="small-text">Small text</span>
+```
+
+## Zero Top & Bot
+
+The helper classes `.zero-top` and `.zero-bot` zero out margins and padding on the top and bottom
+of an element. They were created primarily to help with using headers.
+
+
+
+@scss {
+	.lsg-font-example-text::first-line { font-size: 1em; }
+	.icon {
+		border: dashed rgba(0, 0, 0, 0.2);
+
+		&.dark-back {
+			background: $carpe-orange;
+		}
+	}
+}

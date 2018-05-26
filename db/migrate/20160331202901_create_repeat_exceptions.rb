@@ -1,4 +1,4 @@
-class CreateRepeatExceptions < ActiveRecord::Migration
+class CreateRepeatExceptions < ActiveRecord::Migration[4.2]
   def change
     create_table :repeat_exceptions do |t|
       t.string :name

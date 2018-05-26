@@ -13,15 +13,17 @@
 		<!-- Show promotion and demotion admin buttons -->
 		<div class="promotion">
 			<% if user.admin and user != current_user %>
-				<%= link_to_block "Demote", "/promote?id=" + user.id.to_s + "&de=true", :class => "default red", :remote => true, "uid" => user.id.to_s %>
+				<%= link_to_block "Demote", demote_user_path(user), :class => "default red", :remote => true, "uid" => user.id %>
 			<% elsif user != current_user %>
-				<%= link_to_block "Promote", "/promote?id=" + user.id.to_s, :class => "default", :remote => true, "uid" => user.id.to_s %>
+				<%= link_to_block "Promote", promote_user_path(user), :class => "default", :remote => true, "uid" => user.id %>
 			<% end %>
 		</div>
-		<%= link_to_block "Delete", admin_destroy_user_path(user), :method => :delete, data: { confirm: 'Are you sure?' }, :class => "default red" %>
-		<%= link_to_block "Info", admin_user_info_path(user), :class => "default green" %>
+		<%= link_to_block "Delete", user_path(user), :method => :delete, data: { confirm: 'Are you sure?' }, :class => "default red" %>
+		<%= link_to_block "Info", inspect_user_path(user), :class => "default green" %>
 	<% else %>
-		<%= render "/users/follow_button", user: user %>
+    <% if current_user.present? %>
+      <%= render "/users/follow_button", user: user %>
+    <% end %>
 	<% end %>
 
 	<% if @group and !@group.users.include? user %>

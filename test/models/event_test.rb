@@ -1,47 +1,264 @@
 # To run all tests, in the project directory run the command:
-# bundle exec rake test
+# bundle exec rails test
 # ----------------------------------------
 # To run this test, in the project directory run the command:
-# bundle exec rake test test/controllers/event_test.rb
+# bundle exec rails test test/models/event_test.rb
 
 require 'test_helper'
 
 class EventTest < ActiveSupport::TestCase
-  test "repeat start and end shouldn't impact original event if repeat type is none" do
-  	event = events(:repeat_none_with_start_and_end)
-  	start_date_time = (event.date - 2.day).to_datetime
-  	end_date_time = (event.end_date + 2.day).to_datetime
-  	repeat_events = event.events_in_range(start_date_time, end_date_time)
-  	assert repeat_events.length == 1, "Repeat dates length was supposed to be 1, was " + repeat_events.length.to_s
+  def setup
+    @daily = events(:repeat_daily)
+    @morning = @daily.date.to_datetime.at_beginning_of_day
   end
 
-  test "repeat daily should happen once a day" do
-  	event = events(:repeat_daily)
-  	#Create a 4 day date range
-  	start_date_time = (event.date - 2.day).to_datetime
-  	end_date_time = (event.end_date + 2.day).to_datetime
-  	#Get all the repeat instances
-  	repeat_events = event.events_in_range(start_date_time, end_date_time)
-  	#And make sure there were 4 of them, since this repeats daily
-  	assert repeat_events.length == 4, "Repeat dates length was supposed to be 4, was " + repeat_events.length.to_s
+  test "repeat start and end shouldn't impact original event if repeat type is none" do
+    event = events(:repeat_none_with_start_and_end)
+    repeat_events = event.events_in_range event.date - 2.days, event.end_date + 2.days
+    assert_equal 1, repeat_events.length
+  end
+
+  test "users should have access to their own events" do
+    assert categories(:private).has_access?(users(:viktor)),
+           "user does not have access to their own events (according to has_access?)"
+  end
+
+  test "private_version should return an event with its details hidden" do
+    private_event = events(:simple).private_version
+    assert_empty private_event.description, "event details were not hidden"
   end
 
   test "repeat clones should have proper date" do
+    start_date = (@daily.date - 2.days).to_datetime
+    end_date = (@daily.end_date + 2.days).to_datetime
+    repeat_dates = (start_date...end_date).map(&:to_date)
+
+    # get the dates the repeat instances fall on
+    event_dates = @daily.events_in_range(start_date, end_date).map { |r| r.date.to_date }
+
+    # since the event repeats daily, it should use all of the dates.
+    assert_equal repeat_dates, event_dates
+  end
+
+  test "get_name will return either the event name or a placeholder" do
+    assert_equal events(:simple).name, events(:simple).get_name,
+                 "Named event did not return it's name"
+
+    assert_not_empty events(:nameless_event).get_name,
+                     "Nameless event should return some placeholder name"
+  end
+
+  test "get_html_name will return either the event name or an html placeholder" do
+    assert_equal events(:simple).name, events(:simple).get_html_name,
+                 "Named event did not return it's name"
+
+
+    html_name = events(:nameless_event).get_html_name
+    assert_not_empty html_name, "Nameless event should return some placeholder name"
+    assert html_name.valid_html?, "Placeholder name must be valid html"
+  end
+
+  test "current? should return true for events that are happening right now" do
+    event = events(:simple)
+
+    event.date = 1.hour.ago
+    event.end_date = 1.hour.from_now
+    assert event.current?, "Current event was not considered current"
+
+    event.date = 1.hour.from_now
+    event.end_date = 2.hours.from_now
+    assert_not event.current?, "Non-current event considered current"
+  end
+
+  test "events_in_range should ignore repeat events that have not started yet" do
+    @daily.repeat_start = @morning + 1.day
+    @daily.repeat_end = @morning + 3.days
+    events = @daily.events_in_range(@morning, @morning + 4.days)
+
+    assert_not_includes events, @daily
+  end
+
+  test "events_in_range should work with 1 directional infinite repeats" do
+    @daily.repeat_start = @morning
+    @daily.repeat_end = nil
+    events = @daily.events_in_range(@morning - 5.days, @morning + 77.days)
+
+    assert_equal 77, events.length
+  end
+
+  test "events_in_range should not include repeat events that are on break" do
+    exception = repeat_exceptions(:one)
+
+    exception.start = @morning
+    exception.end = @morning.at_end_of_day + 2.days
+    @daily.repeat_exceptions << exception
+
+    events = @daily.events_in_range(@morning, @morning.at_end_of_day + 3.days)
+    assert_equal 1, events.length, "repeated events that are on break not being excluded"
+  end
+
+  test "events_in_range takes daylight savings (DST) into account" do
+    # On March 12, 2017 at 2:00am, Chicago's clocks "moved ahead 1 hour" as they transitioned
+    # from CST to DST. Meaning, 2:00am - 2:59am wasn't a thing and I lost some of my beauty sleep.
+    #
+    # An event scheduled at 1:30am, on that day, is 7:30:00 UTC.
+    # An event scheduled at 3:30am, on that day, is 8:30:00 UTC.
+    #
+    # Even though 1:30 to 3:30 is a 2 hour gap, UTC only moved ahead one hour.
+    # That's to be expected since UTC doesn't care about timezones (thank goodness).
+    #
+    # The problem with this is that when events_in_range is cloning events repeating
+    # events, it has to know what timezone it is using in order to properly take DST
+    # into account. This is done by offsetting the UTC time so that cloned events show
+    # the same time as the original event. In order for events_in_range to do this, it
+    # must know what time zone it is about to display events in.
+
+    zone = Time.find_zone('America/Chicago')
+    @daily.date = zone.parse('12th Mar 2017 01:00:00 AM')
+    @daily.end_date = @daily.date + 1.hour
+
+    events = @daily.events_in_range(@daily.date, @daily.date + 2.days, 'America/Chicago')
+
+    # making sure the original time works
+    assert_equal 1, events.first.date.in_time_zone('America/Chicago').hour
+
+    assert_equal 1, events.last.date.in_time_zone('America/Chicago').hour,
+                 "events_in_range didn't adjust the UTC time to take into account DST"
+  end
+
+  test "events can be repeated daily, weekly, monthly, and yearly" do
     event = events(:repeat_daily)
-    #Create a 4 day date range
-    start_date_time = (event.date - 2.day).to_datetime
-    end_date_time = (event.end_date + 2.day).to_datetime
-    repeat_dates = (start_date_time ... end_date_time).to_a #create a range of dates and convert to array
-    repeat_dates = repeat_dates.map{|d| d.to_date} #convert to date from date_time
+    start = event.date.to_datetime
+    event.end_date = start + 2.hours
 
-    #Get all the repeat instances
-    repeat_events = event.events_in_range(start_date_time, end_date_time)
-    #Then get the dates the repeat instances fall on
-    repeat_events_dates =  repeat_events.map{|r| r.date.to_date}
+    event.repeat = "daily"
+    events = event.events_in_range start, start + 4.days
+    assert_equal 4, events.length, "daily event should only repeat 4 times in 4 days"
 
-    #Then test that the repeat instance dates are the same as the range of dates, since this event repeats daily
-    assert repeat_dates - repeat_events_dates == [], "The repeat clones dates were supposed to line up with the date range." + 
-    "\nRepeat clones dates were instead \n" + repeat_events_dates.to_s +
-    "\nWhile the date range was \n" + repeat_dates.to_s
+    events = event.events_in_range start, start + 4.days + 3.hours
+    assert_equal 5, events.length, "daily event should only repeat 5 times in 4.25 days"
+
+    event.repeat = "weekly"
+    events = event.events_in_range start.to_date.at_beginning_of_month,
+                                   start.to_date.at_end_of_month
+    assert_equal 5, events.length,
+                 "this weekly event should repeat 5 times in december of 2015"
+
+    event.repeat = "monthly"
+    events = event.events_in_range(start.at_beginning_of_year, start.at_end_of_year)
+    assert_equal 12, events.length, "monthly event should only repeat 12 times in 1 year"
+
+    event.repeat = "yearly"
+    events = event.events_in_range(start.at_beginning_of_year, start.at_beginning_of_year + 2.years)
+    assert_equal 2, events.length, "yearly event should only repeat 2 times in 2 years"
+  end
+
+  test "events can occur on certain days" do
+    start_date = DateTime.current.at_beginning_of_week
+    end_date = DateTime.current.at_end_of_week
+
+    event = events(:repeat_daily)
+    event.repeat = "certain_days-1,3,4,5" # M,W,R,F, totally an implementation detail
+    event.repeat_start = start_date
+    event.repeat_end = end_date
+
+    assert_equal 4, event.events_in_range(start_date, end_date).length,
+                 "event should only repeat on 4/7 days of the week"
+  end
+
+  test "events with an improper repeat field just do not repeat" do
+    event = events(:repeat_daily)
+    event.repeat = "noot"
+    event.date = 1.hour.from_now
+    event.end_date = 2.hours.from_now
+
+    event.repeat_start = DateTime.current
+    event.repeat_end = 3.days.from_now
+
+    events = event.events_in_range 1.week.ago.to_date, 1.week.from_now.to_date
+    assert_equal 1, events.length
+  end
+
+  test "custom repeat events work" do
+    event = events(:repeat_daily)
+
+    # event is set for monday morning
+    start = event.date.beginning_of_week
+    event.date = start + 1.hour
+    event.end_date = start + 2.hours
+    event.repeat_start = start
+
+    # every n days
+    event.repeat = "custom-2-days" # implementation detail
+    event.repeat_end = start + 1.week
+
+    assert_equal 4, event.events_in_range(start, start + 1.week).length
+
+    # negative test
+    assert_empty event.events_in_range(start - 4.weeks, start  - 2.weeks),
+                 "events_in_range returned events outside of the event's range"
+
+    assert_empty event.events_in_range(start + 2.weeks, start  + 4.weeks),
+                 "events_in_range returned events outside of the event's range"
+
+    # randomly specific test
+    assert_equal 2, event.events_in_range(start - 2.day, start + 4.days).length
+
+
+    # every n weeks
+    event.repeat = "custom-2-weeks"
+    event.repeat_end = start + 4.weeks
+
+    assert_equal 2, event.events_in_range(start, start + 4.weeks).length,
+                 "event should appear every other week over the course of the next 4 weeks"
+
+    # negative test
+    assert_empty event.events_in_range(start - 4.weeks, start  - 2.weeks),
+                 "events_in_range returned events outside of the event's range"
+
+
+    # every n months
+    event.repeat = "custom-2-months"
+    event.repeat_end = start + 4.months
+
+    assert_equal 2, event.events_in_range(start, start + 4.month).length
+
+    # negative test
+    assert_empty event.events_in_range(start - 4.weeks, start  - 2.weeks),
+                 "events_in_range returned events outside of the event's range"
+
+
+    # every n years
+    event.repeat = "custom-2-years"
+    event.repeat_end = start + 3.years
+
+    assert_equal 2, event.events_in_range(start, start + 3.year).length
+
+    # negative test
+    assert_empty event.events_in_range(start - 4.weeks, start  - 2.weeks),
+                 "events_in_range returned events outside of the event's range"
+  end
+
+  test "events that repeat yearly appear on the correct dates" do
+    event = events(:simple)
+    event.date = Date.new(2015, 10, 21)
+    event.end_date = event.date + 1.day
+    event.repeat = "yearly"
+
+    clone_date = event.events_in_range(Date.new(2017, 10, 1), Date.new(2017, 10, 30)).first.date.to_date
+    assert_equal Date.new(2017, 10, 21), clone_date
+
+    assert_equal 1, event.events_in_range(Date.new(2017, 10, 7), Date.new(2017, 10, 28)).length
+
+    # negative tests:
+    # in right day range but wrong month
+    assert_empty event.events_in_range(Date.new(2017, 7, 1), Date.new(2017, 7, 30))
+
+    # in right month but before event
+    assert_empty event.events_in_range(Date.new(2017, 10, 7), Date.new(2017, 10, 20))
+    assert_empty event.events_in_range(Date.new(2017, 10, 13), Date.new(2017, 10, 20))
+
+    # in right month but after event
+    assert_empty event.events_in_range(Date.new(2017, 10, 22), Date.new(2017, 10, 29))
   end
 end

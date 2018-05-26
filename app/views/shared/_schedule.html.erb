@@ -53,12 +53,12 @@
 			Description:
 			<span id="edit-desc" class="edit">Edit</span>
 		</div>
-		<div id="overlay-desc" contenteditable="true">Description goes here</div>
+		<textarea id="overlay-desc" class="auto-resize-vertically">Description goes here</textarea>
 		<div id="loc-title" class="small-title">
 			Location:
 			<span id="edit-loc" class="edit">Edit</span>
 		</div>
-		<div id="overlay-loc" contenteditable="true">Location goes here</div>
+		<textarea id="overlay-loc" class="auto-resize-vertically">Location goes here</textarea>
 	</div>
 
 	<div id="break-overlay-box" class="overlay-box">
@@ -113,15 +113,15 @@
 			</div>
 			<span id="add-break-category" class="default green">Add Break</span>
 			<div class="future-colors">
-				<div class="color-swatch" style="background-color: #FF2626;"></div> <!-- red -->
-				<div class="color-swatch" style="background-color: #FA6300;"></div> <!-- orange -->
-				<div class="color-swatch" style="background-color: #FFB400;"></div> <!-- yellow orange -->
-				<div class="color-swatch" style="background-color: #3EA73E;"></div> <!-- green -->
+				<div class="color-swatch red" style="background-color: #FF2626;"></div> <!-- red -->
+				<div class="color-swatch orange" style="background-color: #FA6300;"></div> <!-- orange -->
+				<div class="color-swatch yellow" style="background-color: #FFB400;"></div> <!-- yellow orange -->
+				<div class="color-swatch green" style="background-color: #3EA73E;"></div> <!-- green -->
 				<br>
-				<div class="color-swatch" style="background-color: #4285F5;"></div> <!-- light blue -->
-				<div class="color-swatch" style="background-color:#7D14E6;"></div> <!-- purple -->
-				<div class="color-swatch" style="background-color: #FF79FF;"></div> <!-- pink -->
-				<div class="color-swatch" style="background-color:silver;"></div>
+				<div class="color-swatch blue" style="background-color: #4285F5;"></div> <!-- light blue -->
+				<div class="color-swatch purple" style="background-color:#7D14E6;"></div> <!-- purple -->
+				<div class="color-swatch pink" style="background-color: #FF79FF;"></div> <!-- pink -->
+				<div class="color-swatch grey" style="background-color:silver;"></div>
 			</div>
 		</div>
 	</div>
@@ -158,7 +158,7 @@
 							style="background-color:<%= cat.color %>; /*top: <%= 105*index %>*/">
 							<div class="evnt-time top">7:00</div>
 							<div class="evnt-time bot">7:00</div>
-							<div class="evnt-title vertical-center center-text dis-sel" contenteditable="false"><%= raw cat.name %></div>
+							<div class="evnt-title vertical-center center-text dis-sel" contenteditable="false"><%= cat.get_html_name.html_safe %></div>
 							<div class="evnt-desc dis-sel"></div>
 							<%= image_tag "quill-wht.png", :class => "sch-evnt-edit-cat sch-cat-icon no-drag" %>
 							<%= image_tag "close-wht.png", :class => "sch-evnt-del-cat sch-cat-icon no-drag" %>

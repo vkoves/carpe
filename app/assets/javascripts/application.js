@@ -14,12 +14,13 @@
 //= require jquery_ujs
 //= require jquery-ui
 //= require jquery.ui.touch-punch.min
-//= require local_time
+//= require local-time
 //= require jquery.tokeninput
 //= require jsapi
 //= require chartkick
 //= require ui-manager
 //= require partials/user-adder
+//= require utilities
 
 // require jquery-ui.min
 // Removed to prevent schedule js being loaded everywhere
@@ -27,6 +28,7 @@
 
 
 var unloadAssigned = false; //if unload is assigned
+var mobileSidebarOpen = false;
 
 //Handle window resizing
 $(window).resize(function()
@@ -34,11 +36,6 @@ $(window).resize(function()
 	if($( window ).width() > 800)
 	{
 		$("#mobile-menu").slideUp(300);
-		$("#sidebar").css("right", "0%");
-	}
-	else if(parseInt($("#sidebar").css("right")) >= 0)
-	{
-		$("#sidebar-button").css("right", "340px");
 	}
 });
 
@@ -94,7 +91,7 @@ function initializeEventListeners()
 	});
 
 	//Start initializing event listeners for everything
-	$("#user-name-panel").click(function()
+	$("#user-menu-toggler").click(function()
 	{
 		$("#user-panel").slideToggle(300);
 		$("#notif-panel").slideUp(300);
@@ -135,19 +132,7 @@ function initializeEventListeners()
 	});
 
 	//Toggle sidebar that lists friend availability on click
-	$("#sidebar-button").click(function()
-	{
-		if(parseInt($("#sidebar").css("right")) < 0) //if the sidebar is closed
-		{
-			$("#sidebar-button").css("right", "340px"); //move the button
-			$("#sidebar").css("right", "0%"); //and open the sidebar
-		}
-		else //otherwise, close it
-		{
-			$("#sidebar-button").css("right", "0%");
-			$("#sidebar").css("right", "-340px");
-		}
-	});
+	$("#sidebar-button").click(toggleSidebar);
 
 	//Add friend button success. The friend button calls a POST event, this is run when that completes (that's what ajax:success does)
 	$(".friend-button").bind('ajax:success', function(event, data, status, xhr){
@@ -185,22 +170,21 @@ function initializeEventListeners()
 
 	//Promote buttons POST completion
 	$(".promotion span").parent().bind('ajax:success', function(event, data, status, xhr){
-		if(data && data["action"] && data["action"] == "promote")
+		if(data && data["action"] && data["action"] === "promote" || data["action"] === "demote")
 		{
 			//since the ajax:success is called on every promotion button, only run code if this is the one that was clicked
 			if($(this).attr("uid") == parseInt(data["uid"]))
 			{
-				var href = $(this).attr("href"); //get the href
 				var span = $(this).find("span"); //get the span tag in this button
 
 				if($(this).hasClass("red")) //if the user was demoted (the button was red)
 				{
-					$(this).attr("href", href.split("&")[0]); //remove demote parameter
+					$(this).attr("href", data["new_href"]); //remove demote parameter
 					fadeToText(span, "Promote"); //and fade to Promote text
 				}
 				else //if the user was promoted (the button was not red)
 				{
-					$(this).attr("href", href + "&de=true"); //add the demote parameter
+					$(this).attr("href", data["new_href"]); //add the demote parameter
 					fadeToText(span, "Demote"); //and fade to Demote text
 				}
 				$(this).toggleClass("red"); //and toggle class red
@@ -225,7 +209,7 @@ function initializeEventListeners()
 		{
 			img_url = element.image_url || "https://www.gravatar.com/avatar/?d=mm";
 			return 	"<li>" +
-						"<div class='avatar search-avatar'><img src='" + img_url + "'></div><div class='name with-type'>" + element.name + "</div>" +
+						"<div class='avatar search-avatar'><img src='" + img_url + "'></div><div class='name with-type'>" + escapeHtml(element.name) + "</div>" +
 						"<div class='type'>" + element.model_name + "</div>" +
 					"</li>";
 		}
@@ -329,6 +313,18 @@ function keyboardShortcutHandlers()
 			return Boolean(e.keyCode == charString.charCodeAt(0));
 		}
 	});
+}
+
+/**
+ * Toggles the sidebar being open, applying .open class if it is open
+ */
+function toggleSidebar() {
+	mobileSidebarOpen = !mobileSidebarOpen;
+
+	if(mobileSidebarOpen)
+		$('#sidebar-cont').addClass('open');
+	else
+		$('#sidebar-cont').removeClass('open');
 }
 
 /**
