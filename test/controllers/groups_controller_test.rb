@@ -48,25 +48,4 @@ class GroupsControllerTest < ActionController::TestCase
       get :create, params: { group: { name: "Test Group" } }
     end
   end
-
-  test "signed in users can join public groups" do
-    user = users(:joe)
-    sign_in user
-    get :join_group, params: { id: user.id, group_id: groups(:four).id }
-    assert groups(:three).in_group?(user)
-  end
-
-  test "not signed in users can not join public groups" do
-    user = users(:joe)
-    get user_join_group_path(user, groups(:four))
-    assert !groups(:three).in_group?(user)
-  end
-
-  test "signed in users can join secret groups they were invited to" do
-    user = users(:joe)
-    sign_in user
-    get user_join_group_path(user, groups(:four))
-    assert groups(:three).in_group?(user)
-  end
-
 end
