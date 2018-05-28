@@ -32,13 +32,13 @@
 /* The actual main navigation at the top of the header */
 .header-text
 {
-	padding-top:10px;
+	box-sizing: border-box;
+	padding: 10px 0px;
 	left:150px;
 	position:absolute;
 	white-space: nowrap;
 	overflow: hidden;
 	height: 50px;
-	transition: width 0.5s, opacity 0.5s;
 
 	a { margin-right: 25px; }
 	.active { color: $light-orange; }
@@ -48,12 +48,12 @@
 #user-name-panel
 {
 	float: right;
-	position: relative;
-	right: 0px;
 	padding-right: 20px;
 	padding-left: 10px;
 	height: 50px;
+	box-sizing: border-box;
 
+	&.signup-links { padding: 10px; }
 	#user-menu-toggler {
 		display: inline-block;
 		cursor: pointer;
@@ -65,37 +65,17 @@
 		position: relative;
 		height: 100%;
 		margin-left: 5px;
-	}
-	#user-avatar img:hover
-	{
-		box-shadow: 0px 0px 3px grey;
-	}
-	#user-avatar img
-	{
-		height: 40px;
-		width: 40px;
-		border-radius: 35px;
-		border: solid $light-orange 2px;
-		margin-top: 7%;
-	}
-	#user-email
-	{
-		float: left;
-		position: absolute;
-		top: 24px;
-		color: grey;
-		right: 80px;
-		font-size: 13px;
-	}
-	.header-logintext
-	{
-		padding-top: 14px;
-		right:10px;
-		width:400px;
-		text-align:right;
-		position:absolute;
-		top:-5px;
-		position:absolute;
+
+		img
+		{
+			height: 40px;
+			width: 40px;
+			border-radius: 35px;
+			border: solid $light-orange 2px;
+			margin-top: 7%;
+
+			&:hover { box-shadow: 0px 0px 3px grey; }
+		}
 	}
 }
 
@@ -112,21 +92,16 @@
 	padding:10px 0px;
 	margin-bottom:10px;
 
-	div
+	.link
 	{
 		padding: 5px 10px 5px 10px;
 		width: 250px;
 		margin-left: auto;
 		margin-right: auto;
 		transition: background 0.2s;
-	}
-	div:hover
-	{
-		background: white;
-	}
-	div:hover > a
-	{
-		color: $light-orange;
+
+		&:hover { background: white; }
+		&:hover > a { color: $light-orange; }
 	}
 }
 
@@ -134,7 +109,6 @@
 {
 	position: relative;
 	left: -35px;
-	transition: left 0.5s;
 	height: 100%;
 	float: left;
 
@@ -142,11 +116,8 @@
 	{
 		float: left;
 		height: 100%;
-		position: relative;
 
-		.carpeheader {
-			height:100%;
-		}
+		.carpeheader { height: 100%; }
 	}
 	#header-mob-menu
 	{
@@ -429,8 +400,10 @@ a:hover > .new-tab-icon
 }
 @media (max-width: 800px)
 {
-	.header-text {width: 0px; opacity: 0;}
-	/* #header-mob-menu {width: 55px;} */
+	/* Hide all elements tagged desktop */
+	.header-main { .desktop { display: none; } }
+
+	/* Slide the mobile menu icon in from the left */
 	#header-mob-menu {left: 0px !important;}
 	#mobile-menu {width: 146px;}
 	#menu-holder {left: 0px !important;}
