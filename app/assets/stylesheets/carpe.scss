@@ -445,12 +445,12 @@ input.danger:hover
 
   img
   {
-  	cursor: pointer;
-  	float: right;
-  	margin-left: 20px;
-  	opacity: 0.75;
+	cursor: pointer;
+	float: right;
+	margin-left: 20px;
+	opacity: 0.75;
 
-  	&:hover { opacity: 1; }
+	&:hover { opacity: 1; }
   }
 }
 .notice
@@ -663,16 +663,14 @@ form.thin
 	font-weight: bold;
 	transition: left 0.5s;
 
+	&:hover { left: -5px; }
+
 	/* Style and position the bug icon */
 	img
 	{
 		position: absolute;
 		right: 2px;
 		top: 3px;
-	}
-	&:hover
-	{
-		left: -5px;
 	}
 }
 .group-cont
