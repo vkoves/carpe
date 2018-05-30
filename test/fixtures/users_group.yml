@@ -17,3 +17,9 @@ three:
   group: four
   role: admin
   accepted: true
+
+four:
+  user: viktor
+  group: four
+  role: member
+  accepted: false

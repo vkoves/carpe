@@ -98,6 +98,48 @@ class GroupsController < ApplicationController
     redirect_to groups_url, notice: "Group was successfully destroyed."
   end
 
+  def join
+    @group = Group.from_param(params[:id])
+    @user = current_user
+
+    # prevent possible duplicate entries
+    return redirect_to groups_path if @group.in_group? @user
+    if @group.public_group?
+      UsersGroup.create group_id: @group.id, user_id: @user.id, accepted: true
+    elsif @group.private_group?
+      if @group.was_invited? @user
+        @usergroup = UsersGroup.find_by group_id: @group.id, user_id: @user.id
+        @usergroup.update(accepted: true)
+      else
+        UsersGroup.create group_id: @group.id, user_id: @user.id, accepted: false
+      end
+    elsif @group.secret_group?
+      if @group.was_invited? @user
+        @usergroup = UsersGroup.find_by group_id: @group.id, user_id: @user.id
+        @usergroup.update(accepted: true)
+      end
+    end
+
+    # TODO: notify private group that user would like to join
+    # this redirects back to current page
+    redirect_to request.referrer
+  end
+
+  def leave
+    @group = Group.from_param(params[:id])
+    @user = current_user
+
+    @membership = UsersGroup.find_by group_id: @group.id, user_id: @user.id, accepted: true
+    @membership.destroy
+
+    # TODO: notify group (who?) that a user has left?
+    if(@group.privacy == 'public_group')
+      redirect_to request.referrer
+    else
+      redirect_to groups_path
+    end
+  end
+  
   protected
 
   # 'edit' and 'new' will redirect back to the group modified

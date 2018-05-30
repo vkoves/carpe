@@ -3,8 +3,6 @@ Rails.application.routes.draw do
 
   devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks", :registrations => "users/registrations" }
   resources :users, only: [:index, :destroy, :show] do
-    get "join_group/:group_id", to: 'user_groups#join_group', as: :join_group
-    get "leave_group/:group_id", to: 'user_groups#leave_group', as: :leave_group
     member do
       get "promote"
       get "demote"
@@ -30,6 +28,8 @@ Rails.application.routes.draw do
   resources :groups
   resources :user_groups, only: [:create, :update, :destroy]
   post "/invite_to_group", to: 'user_groups#invite_to_group', as: :invite_to_group
+  get "join_group/:id", to: 'groups#join', as: :join_group
+  get "leave_group/:id", to: 'groups#leave', as: :leave_group
 
   #Admin Routes
   get "/sandbox" => 'pages#sandbox'

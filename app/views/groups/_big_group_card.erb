@@ -10,7 +10,7 @@
     <% if group.in_group? current_user %>
       <h3>You're already in this group!</h3>
     <% else %>
-        <%= link_to "Join Group", user_join_group_path(current_user, group), class: "wide button" %>
+        <%= link_to "Join Group", join_group_path(group), class: "wide button" %>
     <% end %>
   </main>
 </div>

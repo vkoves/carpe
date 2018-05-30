@@ -21,9 +21,9 @@
             <div class="profile-privacy"><%= @group.privacy.titleize %></div>
             <%= link_to("Edit Group", edit_group_path(@group), class: "edit button") if can_edit_group? %>
             <% if @group.in_group?(current_user) %>
-              <%= link_to("Leave Group", user_leave_group_path(current_user, @group), class: "red button") if !can_edit_group? %>
+              <%= link_to("Leave Group", leave_group_path(@group), class: "red button") if !can_edit_group? %>
             <% else %>
-              <%= link_to "Join Group", user_join_group_path(current_user, @group), class: "green button" %>
+              <%= link_to "Join Group", join_group_path(@group), class: "green button" %>
             <% end %>
           </div>
       </div>

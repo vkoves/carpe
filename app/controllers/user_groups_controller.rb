@@ -2,42 +2,6 @@ class UserGroupsController < ApplicationController
   before_action :authorize_signed_in!
 
   # user joins a group
-  def join_group
-    @group = Group.find params[:group_id]
-    @user = User.find params[:user_id]
-
-    # prevent possible duplicate entries
-    return redirect_to groups_path if @group.in_group? @user
-
-    if @group.public_group?
-      UsersGroup.create group_id: @group.id, user_id: @user.id, accepted: true
-    elsif @group.private_group?
-      UsersGroup.create group_id: @group.id, user_id: @user.id, accepted: false
-    end
-
-    # TODO: notify private group that user would like to join
-    # this redirects back to current page
-    redirect_to request.referrer
-  end
-
-  # user leaves group
-  def leave_group
-    @group = Group.find params[:group_id]
-    @user = User.find params[:user_id]
-
-    @membership = UsersGroup.find_by group_id: @group.id, user_id: @user.id, accepted: true
-    @membership.destroy
-
-    # TODO: notify group (who?) that a user has left?
-    if(@group.privacy == 'public_group')
-      redirect_to request.referrer
-    else
-      redirect_to groups_path
-    end
-  end
-
-
-  # user joins a group
   def invite_to_group
     @group = Group.find params[:group_id]
     @user = User.find params[:user_id]

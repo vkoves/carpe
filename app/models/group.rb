@@ -35,6 +35,10 @@ class Group < ApplicationRecord
     UsersGroup.exists?(user_id: user.id, group_id: id, accepted: true)
   end
 
+  def was_invited?(user)
+    UsersGroup.exists?(user_id: user.id, group_id: id, accepted: false)
+  end
+
   # can the user access the page at all?
   def viewable_by?(user)
     # user must be signed in
