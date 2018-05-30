@@ -138,6 +138,12 @@
 	}
 }
 
-
-
-/* End Status Page */
+@media (max-width: 800px) {
+	.status-tile {
+		box-sizing: border-box;
+		width: 100%;
+		margin-bottom: 25px;
+	}
+	.tile-text { text-align: left; }
+}
+/* End Status/About Page */
