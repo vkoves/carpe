@@ -671,6 +671,7 @@ form.thin
 		position: absolute;
 		right: 2px;
 		top: 3px;
+		height: 25px;
 	}
 }
 .group-cont
@@ -690,6 +691,19 @@ form.thin
 	font-size: 22px;
 	color: grey;
 }
+
+@media(max-width: 800px) {
+	#bug-submission {
+		top: 80px;
+		padding: 10px 55px 10px 25px;
+
+		img {
+			height: 40px;
+			top: 0px;
+		}
+	}
+}
+
 /* Overlay Shenangians? */
 .ui-widget-overlay
 {
