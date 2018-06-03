@@ -109,7 +109,7 @@
 #menu-holder
 {
 	position: relative;
-	left: -35px;
+	left: -54px;
 	height: 100%;
 	float: left;
 
@@ -117,6 +117,7 @@
 	{
 		float: left;
 		height: 100%;
+		border-left: solid 6px #ED7D31;
 
 		.carpeheader { height: 100%; }
 	}
@@ -126,11 +127,9 @@
 		position: relative;
 		background-color: #ED7D31;
 		height: 100%;
-		margin-right: -30px;
-		padding-right: 10px;
 		cursor: pointer;
 		overflow: hidden;
-		left: -10px;
+		margin-right: -2px;
 		transition: left 0.25s;
 
 		img
@@ -388,7 +387,7 @@ a:hover > .new-tab-icon
 @media (max-width: 1000px)
 {
 	.tablet-br  { display: block; }
-	.header-text { height: 80px; }
+	.header-text { height: 90px; }
 	#users-search
 	{
 		box-sizing: border-box;
@@ -406,7 +405,6 @@ a:hover > .new-tab-icon
 	.header-main { .desktop { display: none; } }
 
 	/* Slide the mobile menu icon in from the left */
-	#header-mob-menu { left: 0px !important; }
 	#menu-holder { left: 0px !important; }
 
 	/* Increase header size */
