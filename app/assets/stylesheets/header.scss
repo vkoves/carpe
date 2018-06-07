@@ -82,6 +82,7 @@
 	}
 }
 
+// TODO: Make this a child of the main header
 #user-panel
 {
 	display: none;
@@ -196,9 +197,11 @@
 		padding-right: 1px;
 	}
 }
+
+// TODO: Make this a child of the main header
 #notif-panel
 {
-	position: absolute;
+	position: fixed;
 	width: 350px;
 	top: 50px;
 	right: 15px;
