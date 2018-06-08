@@ -35,19 +35,20 @@
 #sidebar-cont
 {
 	position: absolute;
-	width: 345px;
-	top:50px;
+	top: 50px;
 	right: 0px;
-	min-height:calc(100% - 55px);
-	transition: right 1s;
+	min-height: calc(100% - 55px);
+	overflow: hidden;
 
+	#sidebar, #sidebar-button { transition: left 1s; }
 	#sidebar
 	{
+		position: relative;
+		left: 0px;
+		width: 340px;
 		box-sizing: border-box;
 		padding-top:5px;
-		right:0px;
-		position: relative;
-		width: 100%;
+		margin-left: 44px;
 		min-height: calc(100vh - 55px);
 		background-color: #EBEBEB;
 		border-left: solid 2px #ACACAC;
@@ -56,28 +57,27 @@
 
 		.user-listing { margin: 5px; }
 	}
+	#sidebar-button
+	{
+		display: none;
+		cursor: pointer;
+		position: absolute;
+		left: 0px;
+		top: 55px;
+		z-index: 1;
+		padding: 5px 7px;
+		background: #E4E4E4;
+		border-top-left-radius: 7px;
+		border-bottom-left-radius: 6px;
+		font-weight: bold;
+		font-size: 24px;
+		border: solid #ACACAC;
+		color: #565656;
+		border-right: 0;
+	}
 }
 
 
-#sidebar-button
-{
-	display: none;
-	cursor: pointer;
-	position: absolute;
-	right: 100%;
-	top: 55px;
-	z-index: 1;
-	padding: 5px 7px;
-	background: #E4E4E4;
-	border-top-left-radius: 7px;
-	border-bottom-left-radius: 6px;
-	font-weight: bold;
-	font-size: 24px;
-	border: solid #ACACAC;
-	color: #565656;
-	border-right: 0;
-	transition: right 1s;
-}
 
 
 @media (max-width: 660px)
@@ -86,12 +86,12 @@
 	{
 		width: 94%;
 	}
-	#sidebar-cont:not(.open)
+	#sidebar-cont
 	{
-		right: -340px;
-	}
-	#sidebar-button
-	{
-		display: block;
+		&:not(.open) {
+			#sidebar-button, #sidebar { left: 335px; }
+		}
+
+		#sidebar-button { display: block; }
 	}
 }

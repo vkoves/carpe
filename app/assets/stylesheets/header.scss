@@ -1,11 +1,17 @@
 /* Header CSS */
 @import 'colors';
 
+$header-height-desktop: 50px;
+$header-height-mobile: 60px;
+
+body {
+	padding-top: $header-height-desktop;
+}
 .header-main
 {
 	position: fixed;
 	width: 100vw;
-	height: 50px;
+	height: $header-height-desktop;
 	top: 0px;
 	background: rgb(242, 242, 242);
 	color: rgb(200, 200, 200);
@@ -88,7 +94,7 @@
 	display: none;
 	position: fixed;
 	right: 15px;
-	top: 50px;
+	top: $header-height-desktop;
 	width: 270px;
 	z-index: 10;
 	background-color: rgb(230, 230, 230);
@@ -203,7 +209,7 @@
 {
 	position: fixed;
 	width: 350px;
-	top: 50px;
+	top: $header-height-desktop;
 	right: 15px;
 	background: rgb(230, 230, 230);
 	display: none;
@@ -407,6 +413,9 @@ a:hover > .new-tab-icon
 }
 @media (max-width: 800px)
 {
+	body { padding-top: $header-height-mobile; }
+	#user-panel, #notif-panel { top: $header-height-mobile; }
+
 	/* Hide all elements tagged desktop */
 	.header-main { .desktop { display: none; } }
 
