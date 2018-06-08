@@ -413,8 +413,9 @@ a:hover > .new-tab-icon
 }
 @media (max-width: 800px)
 {
+	/* Move all absolute elements to respond to header size */
 	body { padding-top: $header-height-mobile; }
-	#user-panel, #notif-panel { top: $header-height-mobile; }
+	#user-panel, #notif-panel, #sidebar-cont { top: $header-height-mobile !important; }
 
 	/* Hide all elements tagged desktop */
 	.header-main { .desktop { display: none; } }
@@ -424,7 +425,7 @@ a:hover > .new-tab-icon
 
 	/* Increase header size */
 	.header-main {
-		height: 60px;
+		height: $header-height-mobile;
 		font-size: 24px;
 
 		a { font-size: 24px; }
