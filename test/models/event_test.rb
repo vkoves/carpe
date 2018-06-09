@@ -126,6 +126,19 @@ class EventTest < ActiveSupport::TestCase
                  "events_in_range didn't adjust the UTC time to take into account DST"
   end
 
+  test "dates_in_range_certain_weekdays correctly takes dst into account" do
+    zone = Time.find_zone('America/Chicago')
+
+    event = events(:current_event_1)
+    event.date = Time.parse('1st March 2018 7:00:00 PM')
+    event.end_date = event.date + 2.hour
+    event.repeat = "certain_days-1" # repeat every monday
+
+    events = event.events_in_range(Date.new(2018, 6, 4), Date.new(2018, 6, 10))
+    event_time = events.first.date.in_time_zone(zone)
+    assert_equal "19:00", event_time.strftime('%H:%M')
+  end
+
   test "events can be repeated daily, weekly, monthly, and yearly" do
     event = events(:repeat_daily)
     start = event.date.to_datetime
