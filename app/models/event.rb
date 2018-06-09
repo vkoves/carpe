@@ -133,8 +133,9 @@ class Event < ApplicationRecord
 
   def dates_in_range_certain_weekdays(start_time, end_time, time_zone)
     # generate an array of times  this event may take place on to select from
-    first_time = date.change(year: start_time.year, month: start_time.month,
-                             day: start_time.day).in_time_zone(time_zone)
+    first_time = date.in_time_zone(time_zone).change(year: start_time.year,
+                                                     month: start_time.month,
+                                                     day: start_time.day)
     dates = range(first_time, end_time, 1.day)
 
     # e.g. "certain_days-0,1,2,6" / 0-6 represent weekdays - sunday being 0
