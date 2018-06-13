@@ -130,8 +130,12 @@ class GroupsController < ApplicationController
     @user = current_user
 
     @membership = UsersGroup.find_by group_id: @group.id, user_id: @user.id, accepted: true
-    @membership.destroy
-
+    if(@membership)
+      @membership.destroy
+    else
+      redirect_to request.referrer, alert: "You can't leave a group you are not in!"
+      return
+    end
     # TODO: notify group (who?) that a user has left?
     if(@group.privacy == 'public_group')
       redirect_to request.referrer

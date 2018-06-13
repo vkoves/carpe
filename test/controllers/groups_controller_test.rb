@@ -70,4 +70,20 @@ class GroupsControllerTest < ActionController::TestCase
     get :join, params: {id: groups(:three).id }
     assert groups(:three).in_group?(user)
   end
+
+  test "signed in users can leave group" do
+    user = users(:viktor)
+    sign_in user
+    @request.env['HTTP_REFERER'] = '/groups'
+    get :leave, params: {id: groups(:one).id }
+    assert !groups(:three).in_group?(user)
+  end
+
+  test "leaving group user is not in doesn't crash" do
+    user = users(:joe)
+    sign_in user
+    @request.env['HTTP_REFERER'] = '/groups'
+    get :leave, params: {id: groups(:three).id }
+    assert !groups(:three).in_group?(user)
+  end
 end
