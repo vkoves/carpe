@@ -132,7 +132,7 @@ class EventTest < ActiveSupport::TestCase
   end
 
   # see DST EXPLAINED
-  test "events_in_range_fixed_timestep takes dst into account" do
+  test "events_in_range_fixed_timestep preserves event time across DST" do
     zone = Time.find_zone('America/Chicago')
     @daily.date = zone.parse('12th Mar 2017 01:00:00 AM') # event occurs before DST
     @daily.end_date = @daily.date + 1.hour
@@ -145,7 +145,7 @@ class EventTest < ActiveSupport::TestCase
   end
 
   # see DST EXPLAINED
-  test "dates_in_range_certain_weekdays takes dst into account" do
+  test "dates_in_range_certain_weekdays preserves event time across DST" do
     zone = Time.find_zone('America/Chicago')
 
     event = events(:current_event_1)
