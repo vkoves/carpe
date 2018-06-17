@@ -90,9 +90,8 @@ class GroupsControllerTest < ActionController::TestCase
   test "user can change group name" do
     user = users(:joe)
     sign_in user
-    puts groups(:four).name
-    post :edit, params: { id: groups(:four).id }
-    puts groups(:four).name
+    post :update, params: { id: groups(:four).id, group: {name:"kyle"} }
+    groups(:four).reload
     assert groups(:four).name == "kyle"
   end
 end
