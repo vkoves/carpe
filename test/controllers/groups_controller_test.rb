@@ -86,4 +86,13 @@ class GroupsControllerTest < ActionController::TestCase
     get :leave, params: {id: groups(:three).id }
     assert !groups(:three).in_group?(user)
   end
+
+  test "user can change group name" do
+    user = users(:joe)
+    sign_in user
+    puts groups(:four).name
+    post :edit, params: {name:"kyle", id: groups(:four).id }
+    puts groups(:four).name
+    assert groups(:four).name == "kyle"
+  end
 end

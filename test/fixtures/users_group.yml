@@ -15,7 +15,7 @@ two:
 three:
   user: joe
   group: four
-  role: admin
+  role: owner
   accepted: true
 
 four:

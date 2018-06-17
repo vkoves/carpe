@@ -94,8 +94,11 @@ class GroupsController < ApplicationController
 
   def destroy
     @group = Group.from_param(params[:id])
-    @group.destroy
-    redirect_to groups_url, notice: "Group was successfully destroyed."
+    if(@group.destroy)
+      redirect_to groups_url, notice: "Group was successfully destroyed."
+    else
+      redirect_to request.referrer, alert: "Couldn't destroy group"
+    end
   end
 
   def join
