@@ -1,6 +1,7 @@
 class UpdateNotificationsTable < ActiveRecord::Migration[5.1]
   def self.up
     # enforce database integrity
+    Notification.where(receiver_id: nil).delete_all
     change_column :notifications, :receiver_id, :integer, null: false
 
     Notification.where(viewed: nil).update_all(viewed: false)

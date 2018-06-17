@@ -9,19 +9,11 @@ class NotificationsController < ApplicationController
   def updated
     @notification = Notification.find(params[:id])
 
-    unless valid_notification?
-      render plain: "Unrecognized notification type", status: :bad_request and return
-    end
-
     # dispatches call to private method (if implemented)
     self.send(@notification.event) if self.respond_to?(@notification.event, true)
   end
 
   private
-
-  def valid_notification?
-    Notification.events.key?(@notification.event)
-  end
 
   def follow_request
     relationship = @notification.entity
