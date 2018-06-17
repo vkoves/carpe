@@ -131,8 +131,10 @@ class Event < ApplicationRecord
     range first_time, end_time, repeat_interval
   end
 
+  # Works by generating an array of days this event may take place on and then
+  # filtering out ones with the correct day of the week.
   def dates_in_range_certain_weekdays(start_time, end_time, time_zone)
-    # generate an array of times  this event may take place on to select from
+    # time zone takes into account DST so it's relative to the original event date
     first_time = date.in_time_zone(time_zone).change(year: start_time.year,
                                                      month: start_time.month,
                                                      day: start_time.day)
