@@ -91,7 +91,7 @@ class GroupsControllerTest < ActionController::TestCase
     user = users(:joe)
     sign_in user
     puts groups(:four).name
-    post :edit, params: {name:"kyle", id: groups(:four).id }
+    post :edit, params: { id: groups(:four).id }
     puts groups(:four).name
     assert groups(:four).name == "kyle"
   end

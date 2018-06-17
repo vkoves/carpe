@@ -81,9 +81,6 @@ class GroupsController < ApplicationController
 
   def update
     @group = Group.from_param(params[:id])
-    @membership = UsersGroup.find_by group_id: @group.id, user_id: current_user.id, accepted: false
-    @membership[:accepted] = true
-    @membership.save
 
     if params[:group] && (@group.update group_create_params)
       redirect_to @group, notice: "Group was successfully updated."
