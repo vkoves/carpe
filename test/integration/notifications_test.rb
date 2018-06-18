@@ -43,7 +43,7 @@ class NotificationsTest < ActionDispatch::IntegrationTest
 
     assert_not @norm.following?(@viktor)
 
-    # viktor accepts follow request
+    # viktor denies follow request
     assert_difference -> { @viktor.notifications.count }, -1 do
       post notification_updated_path(@viktor.notifications.last, "deny")
     end
