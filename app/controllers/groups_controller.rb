@@ -27,17 +27,14 @@ class GroupsController < ApplicationController
 
   def show
     @group = Group.from_param(params[:id])
-
-    unless @group.viewable_by? current_user
-      redirect_to groups_path, alert: "You don't have permission to view this group"
-    end
-
     @role = @group.role(current_user)
     @view = params[:view]&.to_sym || :overview
 
+    authorize! :view
+
     case @view
     when :manage_members
-      authorize_roles! [:owner, :moderator]
+      authorize! :manage_members
     when :members
       @members = @group.members.page(params[:page]).per(25)
 
@@ -64,8 +61,7 @@ class GroupsController < ApplicationController
   def edit
     @group = Group.from_param(params[:id])
     @role = @group.role(current_user)
-    isOwner!
-    # uses same form as 'new'
+    authorize! :update
   end
 
   def create
@@ -159,15 +155,7 @@ class GroupsController < ApplicationController
                   :posts_preapproved, :custom_url, :privacy)
   end
 
-  def isOwner!
-    unless @role == "owner"
-      redirect_back fallback_location: groups_path, alert: "You don't have permission to access that page!"
-    end
-  end
-
-  def authorize_roles!(authorized_roles)
-    unless authorized_roles.include? @role
-      redirect_to groups_path, alert: "You don't have permission to access that page!"
-    end
+  rescue_from CanCan::AccessDenied do
+    redirect_to groups_path, alert: "You don't have permission to do that!"
   end
 end
