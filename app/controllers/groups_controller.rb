@@ -30,11 +30,11 @@ class GroupsController < ApplicationController
     @role = @group.role(current_user)
     @view = params[:view]&.to_sym || :overview
 
-    authorize! :view
+    authorize! :view, @group
 
     case @view
     when :manage_members
-      authorize! :manage_members
+      authorize! :manage_members, @group
     when :members
       @members = @group.members.page(params[:page]).per(25)
 
@@ -61,7 +61,7 @@ class GroupsController < ApplicationController
   def edit
     @group = Group.from_param(params[:id])
     @role = @group.role(current_user)
-    authorize! :update
+    authorize! :update, @group
   end
 
   def create

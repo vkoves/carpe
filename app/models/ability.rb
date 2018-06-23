@@ -14,22 +14,9 @@ class Ability
       false
     end
 
-    can :update, Group do |group|
-      group.role(user) == :owner
-    end
-
-    can :manage_members, Group do |group|
-      role = group.role(user)
-      [:owner, :moderator].include?(role)
-    end
-
-    can :invite_members, Group do |group|
-      role = group.role(user)
-      [:owner, :moderator].include?(role)
-    end
-
-    can :view, Group do |group|
-      group.viewable_by?(user)
-    end
+    can :update, Group, users_groups: { role: :owner }
+    can :manage_members, Group, users_groups: { role: [:owner, :moderator] }
+    can :invite_members, Group, users_groups: { role: [:owner, :moderator] }
+    can :view, Group, ->(group) { group.viewable_by?(user) }
   end
 end
