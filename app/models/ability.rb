@@ -17,6 +17,9 @@ class Ability
     can :update, Group, users_groups: { role: :owner }
     can :manage_members, Group, users_groups: { role: [:owner, :moderator] }
     can :invite_members, Group, users_groups: { role: [:owner, :moderator] }
-    can :view, Group, ->(group) { group.viewable_by?(user) }
+
+    can :view, Group do |group|
+      group.viewable_by?(user)
+    end
   end
 end
