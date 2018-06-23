@@ -18,7 +18,7 @@ class Category < ApplicationRecord
 	  if privacy == "public" #if the category is public
 	    return true #everyone has access
 	  elsif privacy == "private" #if it is private
-	  	if user_in and self.group and self.group.get_role(user_in) != "none" #if this category has a group, and the user is in it
+	  	if user_in and self.group&.member?(user_in) #if this category has a group, and the user is in it
 	  		return true #they have access
 	  	else #if this is not a group category
 		    return false #no one has access

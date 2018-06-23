@@ -60,7 +60,7 @@ class ScheduleController < ApplicationController
   ###
   def delete_category
     category = Category.find(params[:id])
-    if current_user and (category.user == current_user or category.group.in_group?(current_user)) #if user is owner or in owning group
+    if current_user and (category.user == current_user or current_user.in_group?(category.group)) #if user is owner or in owning group
       Category.destroy(params[:id])
       render plain: "Category destroyed"
     end
@@ -98,7 +98,7 @@ class ScheduleController < ApplicationController
           evnt = Event.find(obj["eventId"].to_i)
 
           # If a user tries to edit an event they don't own, cancel the request
-          unless current_user == evnt.user or (evnt.group and evnt.group.in_group?(current_user)) # TODO: Make an event helper for whether the user can change the event
+          unless current_user == evnt.user or (evnt.group and current_user.in_group?(evnt.group)) # TODO: Make an event helper for whether the user can change the event
             render :text => "You don't have permission to change this event!", :status => :forbidden and return
           end
         else
@@ -152,7 +152,7 @@ class ScheduleController < ApplicationController
   ###
   def delete_event #delete events
     event = Event.find(params[:id])
-    if current_user and (event.user == current_user or event.group.in_group?(current_user)) #if the current user is the owner or in the owner group
+    if current_user and (event.user == current_user or current_user.in_group?(event.group)) #if the current user is the owner or in the owner group
       Event.destroy(params[:id])
       render plain: "Event deleted."
     end

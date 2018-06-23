@@ -46,4 +46,18 @@ module Profile
   def gravatar_url(size)
     "https://www.gravatar.com/avatar/?default=mm&size=#{size}"
   end
+
+  def events_in_range(start_date_time, end_date_time, home_time_zone="UTC") #returns all instances of events, including cloned version of repeating events
+    #fetch not repeating events first
+    event_instances = events.where(:date => start_date_time...end_date_time, :repeat => nil).to_a
+
+    #then repeating events
+    events.includes(:repeat_exceptions, category: :repeat_exceptions).where.not(repeat: nil).each do |rep_event| #get all repeating events
+      event_instances.concat(rep_event.events_in_range(start_date_time, end_date_time, home_time_zone)) #and add them to the event array
+    end
+
+    event_instances = event_instances.sort_by(&:date) #and of course sort by date
+
+    return event_instances #and return
+  end
 end

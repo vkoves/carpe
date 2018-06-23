@@ -20,13 +20,13 @@
 
     <div>
       <div id="side-member-pane">
-        <% if @group.users_groups.length > 0 %>
+        <% if @group.empty? %>
+          <span> This group has no members </span>
+        <% else %>
           <h2>Members <%= link_to "View More", group_path(@group, view: :members), id:"view-all-link" %></h2>
           <% @group.users_groups[0 .. 4].each do |user| %>
             <%= link_avatar user.user %>
           <% end %>
-        <% else %>
-          <span> This group has no members </span>
         <% end %>
       </div>
     </div>

@@ -4,13 +4,13 @@
   <div>
     <header class="member-stats">
       <h3>Members</h3>
-      <h4><%= @group.members_count %></h4>
+      <h4><%= @group.members.count %></h4>
 
       <h3>Editors</h3>
-      <h4><%= @group.members_count(:editor) %></h4>
+      <h4><%= @group.members_with_role(:editor).count %></h4>
 
       <h3>Admins</h3>
-      <h4><%= @group.members_count(:admin) %></h4>
+      <h4><%= @group.members_with_role(:admin).count %></h4>
 
       <div class="buttons">
         <%= content_tag(:span, "Invite Members", id: "invite-members", class: "wide button") if can_invite_members? %>

@@ -13,7 +13,9 @@
 			To keep up with Carpe updates, check out <a href="http://carpe-dev.tumblr.com" target="_blank" class="normal carpe-color">our development blog!</a>
 
 			<h3>Current &amp; Upcoming Events</h3>
-			<% if @upcoming_events and @upcoming_events.length > 0 %>
+			<% if @upcoming_events.empty? %>
+				You don't have any events going on or coming up soon! Go to <%= link_to "your schedule", "/schedule", class: "normal carpe-color" %> to add some.
+			<% else %>
 				<% printed = 0 %>
 				<% @upcoming_events.each do |event| %>
 					<% next if event.end_date.past? #skip events that have ended %>
@@ -21,8 +23,6 @@
 					<% printed += 1 %>
 					<%= render "shared/event_tile", event:event %>
 				<% end %>
-			<% else %>
-				You don't have any events going on or coming up soon! Go to <%= link_to "your schedule", "/schedule", class: "normal carpe-color" %> to add some.
 			<% end %>
 		</div>
 	</span>

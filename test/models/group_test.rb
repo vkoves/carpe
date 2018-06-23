@@ -17,14 +17,16 @@ class GroupTest < ActiveSupport::TestCase
                  "Expected url to be the path to the group's uploaded avatar"
   end
 
-  test "#get_role returns the correct group member roles" do
-    assert_equal "admin", @group1.get_role(@viktor)
-    assert_equal "member", @group1.get_role(@norm)
-    assert_equal "none", @group2.get_role(@viktor)
+  test "#role returns the correct group member roles" do
+    assert_equal :admin, @group1.role(@viktor)
+    assert_equal :member, @group1.role(@norm)
+    assert_equal :owner, groups(:four).role(users(:joe))
+    assert_nil @group2.role(@viktor)
   end
 
   test "#in_group? correctly returns whether user is a group member" do
-    assert @group1.in_group?(@viktor)
-    assert_not @group1.in_group?(users(:viktors_friend))
+    assert @viktor.in_group?(@group1)
+    assert_not users(:viktors_friend).in_group?(@group1)
   end
+
 end

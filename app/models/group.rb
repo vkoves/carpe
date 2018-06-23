@@ -6,6 +6,7 @@ class Group < ApplicationRecord
 
   has_many :users_groups
   has_many :users, -> { where users_groups: { accepted: true } }, through: :users_groups
+  alias_attribute :members, :users
 
   has_many :categories
   has_many :events
@@ -26,16 +27,11 @@ class Group < ApplicationRecord
 
   # Returns the role of user in this group (e.g. 'admin') or
   # nil if the user isn't even a member of this group.
-  def get_role(user)
-    UsersGroup.find_by(user_id: user.id, group_id: id, accepted: true)&.role || "none"
+  def role(user)
+    UsersGroup.find_by(user_id: user.id, group_id: id, accepted: true)&.role&.to_sym
   end
 
-  # Returns true if user is in this group, false otherwise.
-  def in_group?(user)
-    UsersGroup.exists?(user_id: user.id, group_id: id, accepted: true)
-  end
-
-  def was_invited?(user)
+  def invited?(user)
     UsersGroup.exists?(user_id: user.id, group_id: id, accepted: false)
   end
 
@@ -44,23 +40,9 @@ class Group < ApplicationRecord
     # user must be signed in
     return false unless user.present?
     # user must be part of secret group to view it
-    return false if secret_group? and not in_group? user
+    return false if secret_group? and not member?(user)
 
     true
-  end
-
-  def events_in_range(start_date_time, end_date_time, home_time_zone) #returns all instances of events, including cloned version of repeating events
-    #fetch not repeating events first
-    event_instances = events.where(:date => start_date_time...end_date_time, :repeat => nil).to_a
-
-    #then repeating events
-    events.includes(:repeat_exceptions, category: :repeat_exceptions).where.not(repeat: nil).each do |rep_event| #get all repeating events
-      event_instances.concat(rep_event.events_in_range(start_date_time, end_date_time, home_time_zone)) #and add them to the event array
-    end
-
-    event_instances = event_instances.sort_by(&:date) #and of course sort by date
-
-    return event_instances #and return
   end
 
   # can the user view the schedule, group members, etc?
@@ -69,18 +51,32 @@ class Group < ApplicationRecord
     return false unless viewable_by? user
 
     # user must be part of the private group
-    return false if private_group? and not in_group? user
+    return false if private_group? and not member?(user)
 
     true
   end
 
-  # Returns the count of members matching a role
-  # If no role is passed, returns a count of all members
-  def members_count(role = nil)
-    if role
-      self.users_groups.where(role: role, accepted: true).count
-    else
-      self.users.count
-    end
+  def members_with_role(role)
+      User.where(id: UsersGroup.where(group_id: id, accepted: true, role: role).select(:user_id))
+  end
+
+  def member?(user)
+    members.include?(user)
+  end
+
+  def empty?
+    members.empty?
+  end
+
+  def add(user, as: :member)
+    UsersGroup.create group_id: id, user_id: user.id, accepted: true, role: as
+  end
+
+  def invite(user, as: :member)
+    UsersGroup.create group_id: id, user_id: user.id, accepted: false, role: as
+  end
+
+  def membership(user)
+    UsersGroup.create group_id: id, user_id: user.id
   end
 end

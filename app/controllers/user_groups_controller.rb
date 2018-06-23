@@ -7,16 +7,16 @@ class UserGroupsController < ApplicationController
     @user = User.find params[:user_id]
 
     # prevent possible duplicate entries
-    return redirect_to groups_path if @group.in_group? @user
+    return redirect_to groups_path if @user.in_group?(@group)
 
-    UsersGroup.create group_id: @group.id, user_id: @user.id, accepted: false
+    @group.invite(@user)
 
     # this redirects back to current page
     redirect_to request.referrer
   end
   # group invites user(s)
   def new
-    @group.users << @user
+    @group.invite(@user)
     # invite is displayed in user notifications
   end
 
