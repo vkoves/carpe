@@ -94,4 +94,15 @@ class GroupsControllerTest < ActionController::TestCase
     groups(:four).reload
     assert groups(:four).name == "kyle"
   end
+  
+  # test "user can change group privacy" do
+  #   user = users(:joe)
+  #   sign_in user
+  #   post :update, params: { id: groups(:four).id, group: {privacy:1} }
+  #   groups(:four).reload
+  #   assert groups(:four).privacy == 1
+  #   post :update, params: { id: groups(:four).id, group: {privacy:2} }
+  #   groups(:four).reload
+  #   assert groups(:four).privacy == 2
+  # end
 end
