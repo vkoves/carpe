@@ -92,17 +92,17 @@ class GroupsControllerTest < ActionController::TestCase
     sign_in user
     post :update, params: { id: groups(:four).id, group: {name:"kyle"} }
     groups(:four).reload
-    assert groups(:four).name == "kyle"
+    assert_equal "kyle", groups(:four).name
   end
   
-  # test "user can change group privacy" do
-  #   user = users(:joe)
-  #   sign_in user
-  #   post :update, params: { id: groups(:four).id, group: {privacy:1} }
-  #   groups(:four).reload
-  #   assert groups(:four).privacy == 1
-  #   post :update, params: { id: groups(:four).id, group: {privacy:2} }
-  #   groups(:four).reload
-  #   assert groups(:four).privacy == 2
-  # end
+  test "user can change group privacy" do
+    user = users(:joe)
+    sign_in user
+    post :update, params: { id: groups(:four).id, group: {privacy: :private_group} }
+    groups(:four).reload
+    assert_equal :private_group.to_s, groups(:four).privacy
+    post :update, params: { id: groups(:four).id, group: { privacy: :secret_group } }
+    groups(:four).reload
+    assert_equal :secret_group.to_s, groups(:four).privacy
+  end
 end
