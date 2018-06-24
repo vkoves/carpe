@@ -81,3 +81,6 @@ gem 'jquery-rails', '~> 4.3'
 
 # Add jQuery UI gem
 gem 'jquery-ui-rails', '~> 6.0'
+
+# Used for permission authorization
+gem 'cancancan', '~> 2.2.0'

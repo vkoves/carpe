@@ -9,7 +9,7 @@ class GroupsController < ApplicationController
 
     public_groups = Group.where(privacy: 'public_group').page(params[:page]).per(25)
     public_groups.each do |group|
-      if !group.in_group?(current_user)
+      unless current_user.in_group?(group)
         @joinable_groups.push(group);
       end
     end
@@ -27,19 +27,16 @@ class GroupsController < ApplicationController
 
   def show
     @group = Group.from_param(params[:id])
-
-    unless @group.viewable_by? current_user
-      redirect_to groups_path, alert: "You don't have permission to view this group"
-    end
-
-    @role = @group.get_role current_user
+    @role = @group.role(current_user)
     @view = params[:view]&.to_sym || :overview
+
+    authorize! :view, @group
 
     case @view
     when :manage_members
-      authorize_roles! [:owner, :moderator]
+      authorize! :manage_members, @group
     when :members
-      @members = @group.users.page(params[:page]).per(25)
+      @members = @group.members.page(params[:page]).per(25)
 
       respond_to do |format|
         format.html
@@ -53,7 +50,7 @@ class GroupsController < ApplicationController
 
     when :overview
       @upcoming_events = @group.events_in_range(DateTime.now - 1.day, DateTime.now.end_of_day + 10.day, current_user.home_time_zone)
-      @activity = (@group.users + @group.categories + @group.events).sort_by(&:created_at).reverse.first(2)
+      @activity = (@group.members + @group.categories + @group.events).sort_by(&:created_at).reverse.first(2)
     end
   end
 
@@ -63,16 +60,15 @@ class GroupsController < ApplicationController
 
   def edit
     @group = Group.from_param(params[:id])
-    @role = @group.get_role current_user
-    isOwner!
-    # uses same form as 'new'
+    @role = @group.role(current_user)
+    authorize! :update, @group
   end
 
   def create
     @group = Group.new group_create_params
 
     if @group.save
-      UsersGroup.create user: current_user, group: @group, role: :owner, accepted: true
+      @group.add(current_user, as: :owner)
       redirect_to @group, notice: "Group was successfully created."
     else
       render :new
@@ -81,9 +77,6 @@ class GroupsController < ApplicationController
 
   def update
     @group = Group.from_param(params[:id])
-    @membership = UsersGroup.find_by group_id: @group.id, user_id: current_user.id, accepted: false
-    @membership[:accepted] = true
-    @membership.save
 
     if params[:group] && (@group.update group_create_params)
       redirect_to @group, notice: "Group was successfully updated."
@@ -94,8 +87,11 @@ class GroupsController < ApplicationController
 
   def destroy
     @group = Group.from_param(params[:id])
-    @group.destroy
-    redirect_to groups_url, notice: "Group was successfully destroyed."
+    if(@group.destroy)
+      redirect_to groups_url, notice: "Group was successfully destroyed."
+    else
+      redirect_to request.referrer, alert: "Couldn't destroy group"
+    end
   end
 
   def join
@@ -103,20 +99,19 @@ class GroupsController < ApplicationController
     @user = current_user
 
     # prevent possible duplicate entries
-    return redirect_to groups_path if @group.in_group? @user
+    return redirect_to groups_path if @user.in_group? @group
+
     if @group.public_group?
-      UsersGroup.create group_id: @group.id, user_id: @user.id, accepted: true
+      @group.add(@user)
     elsif @group.private_group?
-      if @group.was_invited? @user
-        @usergroup = UsersGroup.find_by group_id: @group.id, user_id: @user.id
-        @usergroup.update(accepted: true)
+      if @group.invited? @user
+        @group.membership(@user).confirm
       else
-        UsersGroup.create group_id: @group.id, user_id: @user.id, accepted: false
+        @group.invite(@user) # TODO: This is a bug
       end
     elsif @group.secret_group?
-      if @group.was_invited? @user
-        @usergroup = UsersGroup.find_by group_id: @group.id, user_id: @user.id
-        @usergroup.update(accepted: true)
+      if @group.invited? @user
+        @group.membership(@user).confirm
       end
     end
 
@@ -136,8 +131,9 @@ class GroupsController < ApplicationController
       redirect_to request.referrer, alert: "You can't leave a group you are not in!"
       return
     end
+
     # TODO: notify group (who?) that a user has left?
-    if(@group.privacy == 'public_group')
+    if @group.public_group?
       redirect_to request.referrer
     else
       redirect_to groups_path
@@ -159,15 +155,7 @@ class GroupsController < ApplicationController
                   :posts_preapproved, :custom_url, :privacy)
   end
 
-  def isOwner!
-    unless @role == "owner"
-      redirect_back fallback_location: groups_path, alert: "You don't have permission to access that page!"
-    end
-  end
-
-  def authorize_roles!(authorized_roles)
-    unless authorized_roles.include? @role
-      redirect_to groups_path, alert: "You don't have permission to access that page!"
-    end
+  rescue_from CanCan::AccessDenied do
+    redirect_to groups_path, alert: "You don't have permission to do that!"
   end
 end

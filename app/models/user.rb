@@ -39,29 +39,17 @@ class User < ApplicationRecord
   ##########################
 
   def current_events # return events that are currently going on
-    events_in_range(1.day.ago, DateTime.current).select(&:current?).sort_by(&:end_date)
+    events_in_range(1.day.ago, DateTime.current, home_time_zone)
+      .select(&:current?).sort_by(&:end_date)
   end
 
   def next_event #returns the next upcoming event within the next day
-    events_in_range(DateTime.current, 1.day.from_now).min_by(&:date)
+    events_in_range(DateTime.current, 1.day.from_now, home_time_zone)
+      .min_by(&:date)
   end
 
   def is_busy? #returns whether the user is currently busy (has an event going on)
-    return current_events.count > 0
-  end
-
-  def events_in_range(start_date_time, end_date_time) #returns all instances of events, including cloned version of repeating events
-    #fetch not repeating events first
-    event_instances = events.where(:date => start_date_time...end_date_time, :repeat => nil).to_a
-
-    #then repeating events
-    events.includes(:repeat_exceptions, category: :repeat_exceptions).where.not(repeat: nil).each do |rep_event| #get all repeating events
-      event_instances.concat(rep_event.events_in_range(start_date_time, end_date_time, home_time_zone)) #and add them to the event array
-    end
-
-    event_instances = event_instances.sort_by(&:date) #and of course sort by date
-
-    return event_instances #and return
+     current_events.count > 0
   end
 
   def get_events(user) #get events that are acessible to the user passed in
@@ -245,6 +233,10 @@ class User < ApplicationRecord
     else
       return nil
     end
+  end
+
+  def in_group?(group)
+    groups.include?(group)
   end
 
   ##########################

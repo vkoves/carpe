@@ -26,14 +26,16 @@
     <% end %>
 	<% end %>
 
-	<% if @group and !@group.users.include? user %>
-		<!-- Show adding and removing from group -->
-		<a href="?uid=<%= user.id %>" class="default">
-			<span>Add</span>
-		</a>
-	<% elsif @group %>
-		<a href="?uid=<%= user.id %>&del=t" class="default red">
-			<span>Remove</span>
-		</a>
-	<% end %>
+
+  <% if @group %>
+    <% if user.in_group? @group %>
+      <a href="?uid=<%= user.id %>&del=t" class="default red">
+        <span>Remove</span>
+      </a>
+    <% else %>
+      <a href="?uid=<%= user.id %>" class="default">
+        <span>Add</span>
+      </a>
+    <% end %>
+  <% end %>
 </div>

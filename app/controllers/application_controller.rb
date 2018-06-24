@@ -43,22 +43,7 @@ class ApplicationController < ActionController::Base
     if q != "" #only search if it's not silly
       users = User.where('name LIKE ?', "%#{q}%").limit(10)
       users = User.rank(users, q)
-
-      # groups = Group.where('name LIKE ?', "%#{q}%").limit(5)
-      # group_map = groups.map{|group|
-        #group_obj = {} #create a hash representing the group
-
-        # Required fields for search - name and image url
-        # group_obj[:name] = group.name
-        # group_obj[:image_url] = group.image_url
-
-        # Custom fields - model name and link_url for linking
-        # group_obj[:model_name] = "Group"
-        # group_obj[:link_url] = group_url(group)
-
-        # group_obj #return the group hash
-      # }
-
+      
       # Convert the users into a hash with the least data needed to show search. Recall that users can see the JSON
       # the search returns in the network tab, so it's crucial we don't pass unused attributes
       user_map = users.map{|user|
@@ -67,7 +52,22 @@ class ApplicationController < ActionController::Base
         user_obj # and return the modified JSON object
       }
 
-      render :json => user_map # + group_map
+      groups = Group.where('name LIKE ?', "%#{q}%").limit(5)
+      group_map = groups.map{|group|
+        group_obj = {} #create a hash representing the group
+
+        # Required fields for search - name and image url
+        group_obj[:name] = group.name
+        group_obj[:image_url] = group.image_url
+
+        # Custom fields - model name and link_url for linking
+        group_obj[:model_name] = "Group"
+        group_obj[:link_url] = group_url(group)
+
+        group_obj #return the group hash
+      }
+
+      render :json => user_map + group_map
     else
       render :json => {} # render nothing to prevent a no template error
     end

@@ -61,6 +61,7 @@ GEM
       erubi (>= 1.0.0)
       rack (>= 0.9.0)
     builder (3.2.3)
+    cancancan (2.2.0)
     chartkick (2.2.5)
     climate_control (0.2.0)
     cocaine (0.5.8)
@@ -308,6 +309,7 @@ PLATFORMS
 DEPENDENCIES
   aws-sdk (~> 2.10.2)
   better_errors
+  cancancan (~> 2.2.0)
   chartkick (~> 2.2)
   coffee-rails (~> 4.2)
   devise (~> 4.3)

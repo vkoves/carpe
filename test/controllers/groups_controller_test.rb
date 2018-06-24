@@ -52,7 +52,7 @@ class GroupsControllerTest < ActionController::TestCase
   test "not signed in users can not join public groups" do
     user = users(:joe)
     get :join, params: {id: groups(:three).id }
-    assert !groups(:three).in_group?(user)
+    assert_not user.in_group?(groups(:three))
   end
 
   test "signed in users can join secret groups they were invited to" do
@@ -60,7 +60,7 @@ class GroupsControllerTest < ActionController::TestCase
     sign_in user
     @request.env['HTTP_REFERER'] = '/groups'
     get :join, params: {id: groups(:four).id}
-    assert groups(:four).in_group?(user)
+    assert user.in_group?(groups(:four))
   end
 
   test "signed in users can join public groups" do
@@ -68,7 +68,7 @@ class GroupsControllerTest < ActionController::TestCase
     sign_in user
     @request.env['HTTP_REFERER'] = '/groups'
     get :join, params: {id: groups(:three).id }
-    assert groups(:three).in_group?(user)
+    assert user.in_group?(groups(:three))
   end
 
   test "signed in users can leave group" do
@@ -76,7 +76,7 @@ class GroupsControllerTest < ActionController::TestCase
     sign_in user
     @request.env['HTTP_REFERER'] = '/groups'
     get :leave, params: {id: groups(:one).id }
-    assert !groups(:three).in_group?(user)
+    assert_not user.in_group?(groups(:three))
   end
 
   test "leaving group user is not in doesn't crash" do
@@ -84,6 +84,25 @@ class GroupsControllerTest < ActionController::TestCase
     sign_in user
     @request.env['HTTP_REFERER'] = '/groups'
     get :leave, params: {id: groups(:three).id }
-    assert !groups(:three).in_group?(user)
+    assert_not user.in_group?(groups(:three))
+  end
+
+  test "user can change group name" do
+    user = users(:joe)
+    sign_in user
+    post :update, params: { id: groups(:four).id, group: {name:"kyle"} }
+    groups(:four).reload
+    assert_equal "kyle", groups(:four).name
+  end
+  
+  test "user can change group privacy" do
+    user = users(:joe)
+    sign_in user
+    post :update, params: { id: groups(:four).id, group: {privacy: :private_group} }
+    groups(:four).reload
+    assert_equal :private_group.to_s, groups(:four).privacy
+    post :update, params: { id: groups(:four).id, group: { privacy: :secret_group } }
+    groups(:four).reload
+    assert_equal :secret_group.to_s, groups(:four).privacy
   end
 end
