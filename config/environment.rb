@@ -12,3 +12,6 @@ ActionMailer::Base.smtp_settings = {
 
 # Initialize the Rails application.
 Rails.application.initialize!
+
+# Use the action mailer defaults which are defined per-environment
+Rails.application.default_url_options = Rails.application.config.action_mailer.default_url_options
