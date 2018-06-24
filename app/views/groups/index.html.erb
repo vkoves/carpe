@@ -21,15 +21,17 @@
 
       <p>The groups listed below are all public. Check your notifications for private group invitations.</p>
     </div>
-    
-    <% if @joinable_groups %>
-      <% @joinable_groups.each do |group| %>
-        <%= render partial: "big_group_card", locals:{group:group} %>
+
+    <div class="groups-list">
+      <% if @joinable_groups %>
+        <% @joinable_groups.each do |group| %>
+          <%= render partial: "big_group_card", locals:{group:group} %>
+        <% end %>
+      <% else %>
+        <h4> There are no public groups you don't belong to on Carpe, but that means you can make one! Create a public group and all Carpe users will see it here. </h4>
       <% end %>
-    <% else %>
-      <h4> There are no public groups you don't belong to on Carpe, but that means you can make one! Create a public group and all Carpe users will see it here. </h4>
-    <% end %>
-    
+    </div>
+
     <main class="flex-list js-lazy-loading-list" data-next-page-path="<%#= path_to_next_page @visible_groups %>"></main>
   </main>
 </div>
