@@ -71,7 +71,7 @@ gem "minitest-reporters"
 gem 'kaminari', '~> 1.1.1'
 
 # LSG
-# gem "livingstyleguide"
+gem "livingstyleguide"
 
 # A more informative exception template page
 gem 'better_errors', group: :development

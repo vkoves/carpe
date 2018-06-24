@@ -139,6 +139,12 @@ GEM
     kaminari-core (1.1.1)
     launchy (2.4.3)
       addressable (~> 2.3)
+    livingstyleguide (2.0.2)
+      minisyntax (>= 0.2.5)
+      redcarpet
+      sass
+      thor
+      tilt
     local_time (2.0.0)
     loofah (2.1.1)
       crass (~> 1.0.2)
@@ -152,6 +158,7 @@ GEM
     mimemagic (0.3.2)
     mini_mime (1.0.0)
     mini_portile2 (2.3.0)
+    minisyntax (0.2.5)
     minitest (5.10.3)
     minitest-reporters (1.1.19)
       ansi
@@ -229,6 +236,7 @@ GEM
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
     rdoc (4.3.0)
+    redcarpet (3.4.0)
     reek (4.7.3)
       codeclimate-engine-rb (~> 0.4.0)
       parser (>= 2.4.0.0, < 2.5)
@@ -317,6 +325,7 @@ DEPENDENCIES
   jquery-rails (~> 4.3)
   jquery-ui-rails (~> 6.0)
   kaminari (~> 1.1.1)
+  livingstyleguide
   local_time (~> 2.0)
   minitest-reporters
   mysql2
