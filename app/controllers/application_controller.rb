@@ -58,7 +58,7 @@ class ApplicationController < ActionController::Base
 
         # Required fields for search - name and image url
         group_obj[:name] = group.name
-        group_obj[:image_url] = group.image_url
+        group_obj[:image_url] = group.avatar_url
 
         # Custom fields - model name and link_url for linking
         group_obj[:model_name] = "Group"
