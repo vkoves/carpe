@@ -17,3 +17,18 @@ four:
   name: Super Secret Group
   description: You're not invited
   privacy: 2
+
+publicGroup:
+  name: Everyone loves this group
+  description: Like communism but cool
+  privacy: 0
+
+privateGroup:
+  name: Privacy is key
+  description: stop bitcoin mining on my mom's desktop
+  privacy: 1
+
+secretGroup:
+  name: shhhhh
+  description: shhhhhhhhhhhhhhhhhh
+  privacy: 2

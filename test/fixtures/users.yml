@@ -44,3 +44,20 @@ donald2:
 donald3:
   name: "Lily McDonald"
   email: "donald3@emai.com"
+
+
+ownerAlice:
+  name: "alice"
+  email: "alice@alice.alicea"
+
+memberMike:
+  name: "mike"
+  email: "mike@mike.mike"
+
+moderatorMaven:
+  name: "maven"
+  email: "maven@maven.maven"
+
+loserLarry:
+  name: "larry"
+  email: "larry@larry.larry"

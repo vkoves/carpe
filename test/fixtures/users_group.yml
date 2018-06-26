@@ -23,3 +23,57 @@ four:
   group: four
   role: member
   accepted: false
+
+five:
+  user: ownerAlice
+  group: publicGroup
+  role: owner
+  accepted: true
+
+six:
+  user: moderatorMaven
+  group: publicGroup
+  role: moderator
+  accepted: true
+
+seven:
+  user: memberMike
+  group: publicGroup
+  role: member
+  accepted: true
+
+eight:
+  user: ownerAlice
+  group: privateGroup
+  role: owner
+  accepted: true
+
+nine:
+  user: moderatorMaven
+  group: privateGroup
+  role: moderator
+  accepted: true
+
+ten:
+  user: memberMike
+  group: privateGroup
+  role: member
+  accepted: true
+
+eleven:
+  user: ownerAlice
+  group: secretGroup
+  role: owner
+  accepted: true
+
+twelve:
+  user: moderatorMaven
+  group: secretGroup
+  role: moderator
+  accepted: true
+
+thirteen:
+  user: memberMike
+  group: secretGroup
+  role: member
+  accepted: true
