@@ -86,14 +86,6 @@ class GroupsControllerTest < ActionController::TestCase
     get :leave, params: {id: groups(:three).id }
     assert_not user.in_group?(groups(:three))
   end
-
-  test "user can change group name" do
-    user = users(:joe)
-    sign_in user
-    post :update, params: { id: groups(:four).id, group: {name:"kyle"} }
-    groups(:four).reload
-    assert_equal "kyle", groups(:four).name
-  end
   
   test "user can change group privacy" do
     user = users(:joe)
@@ -105,4 +97,81 @@ class GroupsControllerTest < ActionController::TestCase
     groups(:four).reload
     assert_equal :secret_group.to_s, groups(:four).privacy
   end
+
+  test "owner can change group name in group" do
+    user = users(:moderatorMaven)
+    sign_in user
+
+    post :update, params: { id: groups(:publicGroup).id, group: {name:"newName"} }
+    groups(:publicGroup).reload
+    assert_equal "newName", groups(:publicGroup).name
+    
+    post :update, params: { id: groups(:privateGroup).id, group: {name:"newName"} }
+    groups(:privateGroup).reload
+    assert_equal "newName", groups(:privateGroup).name
+
+    post :update, params: { id: groups(:secretGroup).id, group: {name:"newName"} }
+    groups(:secretGroup).reload
+    assert_equal "newName", groups(:secretGroup).name
+
+    sign_out user
+  end
+
+  test "non-member cannot change group name in group" do
+    user = users(:loserLarry)
+    sign_in user
+
+    post :update, params: { id: groups(:publicGroup).id, group: {name:"newName"} }
+    groups(:publicGroup).reload
+    assert_equal "public", groups(:publicGroup).name
+    
+    post :update, params: { id: groups(:privateGroup).id, group: {name:"newName"} }
+    groups(:privateGroup).reload
+    assert_equal "private", groups(:privateGroup).name
+
+    post :update, params: { id: groups(:secretGroup).id, group: {name:"newName"} }
+    groups(:secretGroup).reload
+    assert_equal "secret", groups(:secretGroup).name
+
+    sign_out user
+  end
+
+  test "member cannot change group name in group" do
+    user = users(:memberMike)
+    sign_in user
+
+    post :update, params: { id: groups(:publicGroup).id, group: {name:"newName"} }
+    groups(:publicGroup).reload
+    assert_equal "public", groups(:publicGroup).name
+    
+    post :update, params: { id: groups(:privateGroup).id, group: {name:"newName"} }
+    groups(:privateGroup).reload
+    assert_equal "private", groups(:privateGroup).name
+
+    post :update, params: { id: groups(:secretGroup).id, group: {name:"newName"} }
+    groups(:secretGroup).reload
+    assert_equal "secret", groups(:secretGroup).name
+
+    sign_out user
+  end
+
+  test "moderator cannot change group name in group" do
+    user = users(:moderatorMaven)
+    sign_in user
+
+    post :update, params: { id: groups(:publicGroup).id, group: {name:"newName"} }
+    groups(:publicGroup).reload
+    assert_equal "public", groups(:publicGroup).name
+    
+    post :update, params: { id: groups(:privateGroup).id, group: {name:"newName"} }
+    groups(:privateGroup).reload
+    assert_equal "private", groups(:privateGroup).name
+
+    post :update, params: { id: groups(:secretGroup).id, group: {name:"newName"} }
+    groups(:secretGroup).reload
+    assert_equal "secret", groups(:secretGroup).name
+
+    sign_out user
+  end
+
 end

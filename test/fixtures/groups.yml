@@ -19,16 +19,16 @@ four:
   privacy: 2
 
 publicGroup:
-  name: Everyone loves this group
+  name: public
   description: Like communism but cool
   privacy: 0
 
 privateGroup:
-  name: Privacy is key
+  name: private
   description: stop bitcoin mining on my mom's desktop
   privacy: 1
 
 secretGroup:
-  name: shhhhh
+  name: secret
   description: shhhhhhhhhhhhhhhhhh
   privacy: 2
