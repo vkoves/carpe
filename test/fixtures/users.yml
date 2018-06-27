@@ -61,3 +61,7 @@ moderatorMaven:
 loserLarry:
   name: "larry"
   email: "larry@larry.larry"
+
+inviteIvan:
+  name: "Ivan"
+  email: "Ivan@Ivan.Ivan"

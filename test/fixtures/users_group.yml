@@ -77,3 +77,21 @@ thirteen:
   group: secretGroup
   role: member
   accepted: true
+
+fourteen:
+  user: inviteIvan
+  group: publicGroup
+  role: member
+  accepted: false
+
+fifteen:
+  user: inviteIvan
+  group: privateGroup
+  role: member
+  accepted: false
+
+sixteen:
+  user: inviteIvan
+  group: secretGroup
+  role: member
+  accepted: false
