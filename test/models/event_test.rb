@@ -97,33 +97,67 @@ class EventTest < ActiveSupport::TestCase
     assert_equal 1, events.length, "repeated events that are on break not being excluded"
   end
 
-  test "events_in_range takes daylight savings (DST) into account" do
-    # On March 12, 2017 at 2:00am, Chicago's clocks "moved ahead 1 hour" as they transitioned
-    # from CST to DST. Meaning, 2:00am - 2:59am wasn't a thing and I lost some of my beauty sleep.
-    #
-    # An event scheduled at 1:30am, on that day, is 7:30:00 UTC.
-    # An event scheduled at 3:30am, on that day, is 8:30:00 UTC.
-    #
-    # Even though 1:30 to 3:30 is a 2 hour gap, UTC only moved ahead one hour.
-    # That's to be expected since UTC doesn't care about timezones (thank goodness).
-    #
-    # The problem with this is that when events_in_range is cloning events repeating
-    # events, it has to know what timezone it is using in order to properly take DST
-    # into account. This is done by offsetting the UTC time so that cloned events show
-    # the same time as the original event. In order for events_in_range to do this, it
-    # must know what time zone it is about to display events in.
+  # DST EXPLAINED
+  #
+  # Chicago's time zone is Central Standard Time (CST); except, between dates such as
+  # March 12, 2017 at 2:00am - November 5, 2:00am, Chicago is in Daylight Savings Time (DST).
+  # When Chicago is in DST its clock "moves ahead 1 hour".
+  test "you understand how daylight savings works" do
+    user_time_zone = Time.find_zone('America/Chicago')
 
+    # typically we're given a time from a user and store it in the database in UTC time.
+    time_before_dst = user_time_zone.parse('1st March 2018 4:00:00 PM').utc
+    assert_equal "10:00 PM", time_before_dst.strftime("%I:%M %p") # CST -> UTC offset is +6 hours
+
+    # Now, UTC doesn't care about DST. If we go from CST to DST, it doesn't care.
+    time_after_dst = time_before_dst + 1.month
+    assert_equal "10:00 PM", time_after_dst.strftime("%I:%M %p")
+
+    # When converting back into a time zone it *does* care, though.
+    assert_equal "05:00 PM", time_after_dst.in_time_zone(user_time_zone).strftime("%I:%M %p")
+
+    # If our goal is to get a UTC time that represents 4:00 PM regardless of DST, then
+    # we must put our original date in the context of a time zone before generating any new
+    # dates relative to the original date.
+    test_time = time_before_dst.in_time_zone(user_time_zone) + 1.month
+    assert_equal "04:00 PM", test_time.strftime("%I:%M %p")
+
+    # Sure enough, the UTC time has been adjusted.
+    assert_equal "09:00 PM", test_time.utc.strftime("%I:%M %p")
+
+    # This is important because repeat events may have some dates that
+    # occur in DST while others don't. Thus, the 'date' property of clones,
+    # which is stored in UTC, must be adjusted in the same way this example was
+    # to ensure that all clone occur at the same time as the origin event.
+  end
+
+  # see DST EXPLAINED
+  test "events_in_range_fixed_timestep preserves event time across DST" do
     zone = Time.find_zone('America/Chicago')
-    @daily.date = zone.parse('12th Mar 2017 01:00:00 AM')
+    @daily.date = zone.parse('12th Mar 2017 01:00:00 AM') # event occurs before DST
     @daily.end_date = @daily.date + 1.hour
 
-    events = @daily.events_in_range(@daily.date, @daily.date + 2.days, 'America/Chicago')
+    # get events before and after DST goes into effect
+    events = @daily.events_in_range(@daily.date, @daily.date + 2.days, zone)
 
-    # making sure the original time works
-    assert_equal 1, events.first.date.in_time_zone('America/Chicago').hour
+    assert_equal 1, events.first.date.in_time_zone(zone).hour
+    assert_equal 1, events.last.date.in_time_zone(zone).hour
+  end
 
-    assert_equal 1, events.last.date.in_time_zone('America/Chicago').hour,
-                 "events_in_range didn't adjust the UTC time to take into account DST"
+  # see DST EXPLAINED
+  test "dates_in_range_certain_weekdays preserves event time across DST" do
+    zone = Time.find_zone('America/Chicago')
+
+    event = events(:current_event_1)
+    event.date = zone.parse('1st March 2018 7:00:00 PM') # event created before DST
+    event.end_date = event.date + 2.hour
+    event.repeat = "certain_days-1" # repeat every monday
+
+    # get events after DST has gone into effect
+    events = event.events_in_range(Date.new(2018, 6, 4), Date.new(2018, 6, 10), zone)
+    event_time = events.first.date.in_time_zone(zone).strftime("%I:%M %p")
+
+    assert_equal "07:00 PM", event_time
   end
 
   test "events can be repeated daily, weekly, monthly, and yearly" do
