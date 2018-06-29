@@ -60,6 +60,7 @@ class GroupsController < ApplicationController
 
   def edit
     @group = Group.from_param(params[:id])
+
     @role = @group.role(current_user)
     authorize! :update, @group
   end
@@ -78,19 +79,24 @@ class GroupsController < ApplicationController
   def update
     @group = Group.from_param(params[:id])
 
-    if params[:group] && (@group.update group_create_params)
-      redirect_to @group, notice: "Group was successfully updated."
-    else
-      render :edit
+    if can? :update, @group
+      if params[:group] && (@group.update group_create_params)
+        redirect_to @group, notice: "Group was successfully updated."
+      else
+        render :edit
+      end
     end
   end
 
   def destroy
     @group = Group.from_param(params[:id])
-    if(@group.destroy)
-      redirect_to groups_url, notice: "Group was successfully destroyed."
-    else
-      redirect_to request.referrer, alert: "Couldn't destroy group"
+
+    if can? :destroy, @group
+      if(@group.destroy)
+        redirect_to groups_url, notice: "Group was successfully destroyed."
+      else
+        redirect_to request.referrer, alert: "Couldn't destroy group"
+      end
     end
   end
 
@@ -139,7 +145,7 @@ class GroupsController < ApplicationController
       redirect_to groups_path
     end
   end
-  
+
   protected
 
   # 'edit' and 'new' will redirect back to the group modified

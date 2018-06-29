@@ -15,6 +15,7 @@ class Ability
     end
 
     can :update, Group, users_groups: { role: :owner }
+    can :destroy, Group, users_groups: { role: :owner }
     can :manage_members, Group, users_groups: { role: [:owner, :moderator] }
     can :invite_members, Group, users_groups: { role: [:owner, :moderator] }
 
