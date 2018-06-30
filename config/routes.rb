@@ -53,6 +53,7 @@ Rails.application.routes.draw do
 
   #Other backend stuff
   post "/read_notifications" => 'notifications#read_all'
+  post "/notification_updated/:id(/:response)" => 'notifications#updated', as: :notification_updated
 
   root 'home#index'
 
