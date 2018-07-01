@@ -1,22 +1,26 @@
 #The controller for schedule related pages and actions, such as the schedule page
 #as well as creating and editing categories
-#
+
 # TODO: Most requests should enforce user being signed in, as data can't be made anonymously
 class ScheduleController < ApplicationController
   after_action :allow_iframe, only: :schedule
 
   def schedule
-    if params[:uid] #if a uid was passed, show that schedule in read only mode
+    if params[:uid] # user viewing another user's schedule
       @user = User.find(params[:uid])
       @read_only = true
-    else #show their schedule
-      authorize_signed_in! and return unless user_signed_in?
+    else # user viewing their own schedule
+      unless user_signed_in?
+        redirect_to user_session_path, alert: "You have to be signed in to do that!" and return
+      end
+
       @user = current_user
     end
 
-    if params[:iframe] #if iframe
-      @holderClass = "iframe" #indicate with the holder class
-      @read_only = true #and force read_only no matter what
+    # embedded schedules should always be read-only
+    if params[:iframe]
+      @embedded = true
+      @read_only = true
     end
   end
 
@@ -33,9 +37,7 @@ class ScheduleController < ApplicationController
       @cat.group = Group.find(params[:group_id])
     end
 
-    if(params[:user_id])
-      @cat.user = User.find(params[:user_id])
-    end
+    @cat.user = current_user
 
     if(params[:privacy])
       @cat.privacy = params[:privacy]

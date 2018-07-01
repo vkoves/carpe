@@ -19,7 +19,7 @@ class EventTest < ActiveSupport::TestCase
   end
 
   test "users should have access to their own events" do
-    assert categories(:private).has_access?(users(:viktor)),
+    assert categories(:private).accessible_by?(users(:viktor)),
            "user does not have access to their own events (according to has_access?)"
   end
 

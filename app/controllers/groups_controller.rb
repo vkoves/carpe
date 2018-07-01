@@ -51,6 +51,8 @@ class GroupsController < ApplicationController
     when :overview
       @upcoming_events = @group.events_in_range(DateTime.now - 1.day, DateTime.now.end_of_day + 10.day, current_user.home_time_zone)
       @activity = (@group.members + @group.categories + @group.events).sort_by(&:created_at).reverse.first(2)
+    when :schedule
+      @read_only = (@role != :owner)
     end
   end
 

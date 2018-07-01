@@ -797,8 +797,7 @@ function addStartingListeners()
 
 	$("#embed-button").click(function()
 	{
-		var iframeUrl = "http://www.carpe.us/schedule?iframe=true&uid=" + userId; //create the iframe URL
-		var iframeCode = "<iframe src='" + iframeUrl + "' width='900px' height='600'>";
+		var iframeCode = "<iframe src='" + IFRAME_URL + "' width='900px' height='600'>";
 
 		customAlertUI("Embed your schedule!", "<input id='iframe-embed' class='text-input' type='text' style='width: 90%;'></input><br><br>");
 		$("#iframe-embed").val(iframeCode);
@@ -872,11 +871,11 @@ function addStartingListeners()
  */
 function loadInitialCategories()
 {
-	if(typeof categoriesLoaded !== 'undefined') //if categoriesLoaded is defined
+	if(typeof loadedCategories !== 'undefined') //if loadedCategories is defined
 	{
-		for(var i = 0; i < categoriesLoaded.length; i++) //iterate through the loaded categories
+		for(var i = 0; i < loadedCategories.length; i++) //iterate through the loaded categories
 		{
-			var currCat = categoriesLoaded[i];
+			var currCat = loadedCategories[i];
 
 			var catInstance = new Category(currCat.id);
 			catInstance.privacy = currCat.privacy;
@@ -895,11 +894,11 @@ function loadInitialCategories()
  */
 function loadInitialBreaks()
 {
-	if(typeof breaksLoaded !== 'undefined') //if categoriesLoaded is defined
+	if(typeof loadedBreaks !== 'undefined') //if loadedCategories is defined
 	{
-		for(var i = 0; i < breaksLoaded.length; i++) //iterate through the loaded categories
+		for(var i = 0; i < loadedBreaks.length; i++) //iterate through the loaded categories
 		{
-			var currBreak = breaksLoaded[i];
+			var currBreak = loadedBreaks[i];
 
 			var breakInstance = new Break();
 			breakInstance.id = currBreak.id;
@@ -921,11 +920,11 @@ function loadInitialBreaks()
 function loadInitialEvents()
 {
 	//Load in events
-	if (typeof eventsLoaded !== 'undefined') //if eventsLoaded is defined
+	if (typeof loadedEvents !== 'undefined') //if loadedEvents is defined
 	{
-		for(var i = 0; i < eventsLoaded.length; i++) //loop through it
+		for(var i = 0; i < loadedEvents.length; i++) //loop through it
 		{
-			var evnt = eventsLoaded[i]; //fetch the event at the current index
+			var evnt = loadedEvents[i]; //fetch the event at the current index
 
 			var schItem = new ScheduleItem();
 			schItem.startDateTime = new Date(evnt.date);
@@ -2330,7 +2329,7 @@ function createCategory()
 	$.ajax({
 		url: "/create_category",
 		type: "POST",
-		data: {name: "", user_id: userId, group_id: groupID, color: "silver"},
+		data: {name: "", group_id: groupID, color: "silver"},
 		success: function(resp)
 		{
 			console.log("Create category complete.");

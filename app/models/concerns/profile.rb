@@ -60,4 +60,26 @@ module Profile
 
     return event_instances #and return
   end
+
+  def events_accessible_by(user)
+    # optimization: user viewing own events or a group member viewing group events
+    if user == self or self&.member?(user)
+      return events.includes(:repeat_exceptions)
+    end
+
+    events.includes(:repeat_exceptions).map do |event|
+      event.accessible_by?(user) ? event : event.private_version
+    end
+  end
+
+  def categories_accessible_by(user)
+    # optimization: user viewing own events or a group member viewing group events
+    if user == self or self&.member?(user)
+      return self.categories
+    end
+
+    categories.map do |cat|
+      cat.accessible_by?(user) ? cat : cat.private_version
+    end
+  end
 end

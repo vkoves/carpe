@@ -2,7 +2,22 @@
 <%= stylesheet_link_tag "schedule" %>
 <%= javascript_include_tag "schedule" %>
 
-<div class="sch-all-cont <%= 'read-only' if @read_only %>">
+<%
+  # this is a list of the necessary local parameters and their defaults
+  embedded = false if local_assigns[:embedded].nil?
+  read_only = true if local_assigns[:read_only].nil?
+
+  # either a user or group must be given
+  user = nil if local_assigns[:user].nil?
+  group = nil if local_assigns[:group].nil?
+
+  # and here are some nice little variables to use later on
+  user_or_group = user || group
+  events = user_or_group.events_accessible_by(current_user)
+  categories = user_or_group.categories_accessible_by(current_user)
+%>
+
+<div class="sch-all-cont <%= 'read-only' if read_only %>">
 	<div id="event-overlay-box" class="overlay-box">
 		<div id="overlay-color-bar">
 			<div id="overlay-title" contenteditable="true">Event Title</div>
@@ -40,8 +55,8 @@
 				<span class="default" data-day="6">S</span>
 				<span class="default" data-day="0">Su</span>
 			</div>
-			Repeat From: <input id="repeat-start" class="date-field" type="text"></input>
-			To: <input id="repeat-end" class="date-field" type="text"></input>
+			Repeat From: <input id="repeat-start" class="date-field" type="text">
+			To: <input id="repeat-end" class="date-field" type="text"/>
 		</div>
 		<span id="add-break-event" class="default green">Add Break</span>
 		<div id="desc-title" class="small-title">
@@ -112,10 +127,10 @@
 		</div>
 	</div>
 
-	<div id="cont-hold" class="<%= @holderClass %>">
+	<div id="cont-hold" class="<%= 'iframe' if embedded %>">
 		<div id="sch-sidebar" class="sch-no-drag">
 			<span id="sidebar-title" title="Drag a category onto the schedule to create a calendar item.">Categories</span>
-			<% unless @read_only #don't show this text if you can't actually edit things %>
+			<% unless read_only #don't show this text if you can't actually edit things %>
 				<div id="side-desc">Drag a category onto the schedule to create a calendar item.</div>
 			<% end %>
 			<div id="sch-tiles">
@@ -133,13 +148,7 @@
 					</div>
 
 					<% #Load group's categories if we're showing a group schedule; otherwise, load user's categories %>
-					<% if @user %>
-						<% categories = @user.categories %>
-					<% elsif @group %>
-						<% categories = @group.categories %>
-					<% end %>
-					<% categories.each_with_index do |cat, index| %>
-						<% if cat.has_access?(current_user) %>
+          <% categories.each_with_index do |cat, index| %>
 						<div class="sch-evnt category" time="0:00" data-id="<%= cat.id %>" privacy="<%= cat.privacy %>"
 							style="background-color:<%= cat.color %>; /*top: <%= 105*index %>*/">
 							<div class="evnt-time top">7:00</div>
@@ -152,7 +161,6 @@
 							<%= image_tag "close-wht.png", :class => "sch-evnt-close sch-evnt-icon no-drag" %>
 							<div class="evnt-divider no-drag"></div>
 						</div>
-						<% end %>
 					<% end %>
 				</div>
 			</div>
@@ -165,16 +173,18 @@
 		<div id="sch-main">
 			<div class="sch-but-holder">
 				<span class="default sch-week-prev">Previous</span>
-				&nbsp;
+
 				<span class="default sch-week-next">Next</span>
-				<input id="week-date" class="date-field" type="text"></input>
-				<% if !@read_only %>
+        <input id="week-date" class="date-field" type="text"/>
+
+				<% unless read_only %>
 					<span class="default green disabled" id="sch-save">Save Events
 						<%= render "shared/loading_icon", locals: {color: "#FFF", size: "22px"} %>
 						<%= image_tag "checkmark-wht.png", id: "save-checkmark" %>
 					</span>
 					<span class="default green" id="manage-breaks">Manage Breaks</span>
 				<% end %>
+
 				<span class="sch-view-btn default active" id="view-weekly">Weekly</span>
 				<span class="sch-view-btn default" id="view-monthly">Monthly</span>
 			</div>
@@ -229,33 +239,15 @@
 </div>
 
 <script>
-	//User based variable
-	var readOnly = <%= @read_only ? true : false %>;
-	<% current_user ? id = current_user.id : id = -1 #get the current_user's id %>
-	<% #Probably unsafe. TODO - Remove dependance on userId variable %>
-	var userId = <%= id %>;
+	var readOnly = <%= read_only %>;
 
-	//Data variables
-	<% #Load group's events if we're showing a group schedule; otherwise, load user's events %>
-	<% eventsData = get_event_attributes(fetch_schedule_events(@user, @group)) %>
+	<% # this is only available for users at the moment %>
+  var IFRAME_URL = <%= raw user.present? ? (raw "'http://www.carpe.us/schedule?iframe=true&uid=#{user.id}'") : "'NOPE'" %>;
 
-	<% #Load group's categories if we're showing a group schedule; otherwise, load user's categories %>
-	<% categoriesData = get_category_attributes(fetch_schedule_categories(@user, @group)) %>
+	var loadedEvents = <%= raw events_as_hash(events).to_json %>;
+	var loadedCategories = <%= raw categories_as_hash(categories).to_json %>;
+  var loadedBreaks = <%= raw user_or_group.repeat_exceptions.to_json %>;
 
-	// TODO: rename these JSON variables to not sound like booleans
-	// (should be nouns, not ending in past-tense
-	//  verbs like these currently are)
-	var eventsLoaded = <%= raw eventsData.to_json %>;
-	var categoriesLoaded = <%= raw categoriesData.to_json %>;
-
-	<% 	# Added this if statement here temporarily, so these JSON objects
-		# will only be output for users, but will need to add relationships
-		# to groups for repeat exceptions eventually, for group scheduling
-		# to work as it should
-	%>
-	<% if @user %>
-		var breaksLoaded = <%= raw @user.repeat_exceptions.to_json %>;
-	<% end %>
-
-	var groupID = <%= @group ? @group.id : "null" %>;
+  <% # if this is a group schedule, all events, categories, etc created will make use of groupID %>
+	var groupID = <%= group&.id || "null" %>;
 </script>

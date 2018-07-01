@@ -52,30 +52,6 @@ class User < ApplicationRecord
      current_events.count > 0
   end
 
-  def get_events(user) #get events that are acessible to the user passed in
-   return events.includes(:repeat_exceptions) if user == self #if a user is trying to view their own events, return all events
-
-   events_array = [];
-
-   events.includes(:repeat_exceptions).each do |event| #for each event
-     event.has_access?(user) ? events_array.push(event) : events_array.push(event.private_version) #push the normal or private version
-   end
-
-   return events_array
-  end
-
-  def get_categories(user) #get categories that are acessible to the user passed in
-    return categories if user == self #if a user is viewing their own categories, return all
-
-    categories_array = [];
-
-    categories.each do |category| #for each category
-      category.has_access?(user) ? categories_array.push(category) : categories_array.push(category.private_version) #push the normal or private version
-    end
-
-    return categories_array
-  end
-
   ##########################
   ### END EVENT METHODS ####
   ##########################
