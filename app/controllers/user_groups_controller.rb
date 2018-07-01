@@ -9,7 +9,13 @@ class UserGroupsController < ApplicationController
     # prevent possible duplicate entries
     return redirect_to groups_path if @user.in_group?(@group)
 
-    @group.invite(@user)
+    user_group = @group.invite(@user)
+    Notification.create(
+      sender: current_user,
+      receiver: @user,
+      entity: user_group,
+      event: :group_invite
+    )
 
     # this redirects back to current page
     redirect_to request.referrer

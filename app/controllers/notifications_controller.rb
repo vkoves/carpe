@@ -20,12 +20,28 @@ class NotificationsController < ApplicationController
 
     if params[:response] == "confirm"
       relationship.update(confirmed: true)
-      render json: { action: "confirm_friend", fid: relationship.id }
     elsif params[:response] == "deny"
       relationship.update(confirmed: false)
-      render json: { action: "deny_friend", fid: relationship.id }
+    else
+      render plain: "invalid response", status: :bad_request and return
     end
 
     @notification.destroy
+    render json: {}, status: :ok
+  end
+
+  def group_invite
+    membership = @notification.entity
+
+    if params[:response] == "accepted"
+      membership.confirm
+    elsif params[:response] == "denied"
+      membership.destroy
+    else
+      render plain: "invalid response", status: :bad_request and return
+    end
+
+    @notification.destroy
+    render json: {}, status: :ok
   end
 end

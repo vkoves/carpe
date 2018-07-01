@@ -153,21 +153,14 @@ function initializeEventListeners()
 		}
 	});
 
-	//On deny friend request POST completion
-	$(".notif .deny").parent().bind('ajax:success', function(event, data, status, xhr){
-		if(data && data["action"] && data["action"] == "deny_friend")
-		{
-			followRequestAction(data["fid"], false);
-		}
-	});
+	$("#notif-panel").on("ajax:success", ".confirm, .deny", function()
+	{
+		const $button = $(this);
+		$button.animate({'background-color': "white"}, 300);
 
-	//On accept friend request POST completion
-	$(".notif .confirm").parent().bind('ajax:success', function(event, data, status, xhr){
-		if(data && data["action"] && data["action"] == "confirm_friend")
-		{
-			followRequestAction(data["fid"], true);
-		}
-	});
+		const $notifCard = $(this).parents(".notif");
+		$notifCard.delay(150).fadeOut(handleNotificationClosed);
+	})
 
 	//Promote buttons POST completion
 	$(".promotion span").parent().bind('ajax:success', function(event, data, status, xhr){
@@ -192,7 +185,6 @@ function initializeEventListeners()
 			}
 		}
 	});
-
 
 	//Tokenizer shenanigans for the search
 	// Uses jQuery tokeninput - http://loopj.com/jquery-tokeninput/
@@ -454,22 +446,13 @@ function followRequest(elem)
 	span.removeClass("green default").addClass("friend-label");
 }
 
-//Called by confirming or denying a friend request with a given fid
-function followRequestAction(fid, confirm)
-{
-	var notif = $(".notif[fid=" + fid + "]"); //find the notification for this friend request
-
-	var icon; //get the icon that was clicked
-	if(confirm)
-		icon = notif.find(".confirm");
-	else
-		icon = notif.find(".deny");
-
-	icon.animate({'background-color': "white"}, 300); //animate the icon to white
-	setTimeout(function(){ //and fade out the notification
-		notif.fadeOut(handleNotificationClosed);
-	}, 150);
-}
+// function closeNotifications()
+// {
+// 	icon.animate({'background-color': "white"}, 300); //animate the icon to white
+// 	setTimeout(function(){ //and fade out the notification
+// 		notif.fadeOut(handleNotificationClosed);
+// 	}, 150);
+// }
 
 // Called after a notification is closed. Check if there are notifications left, if not, show message
 function handleNotificationClosed()
