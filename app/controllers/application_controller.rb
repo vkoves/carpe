@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
   end
 
   # rather than catching exceptions in the actions, do it here.
-  rescue_from ActiveRecord::RecordNotFound, with: :render_404 if Rails.env.production?
+  rescue_from ActiveRecord::RecordNotFound, with: :render_404 unless Rails.env.development?
 
   def render_404
     render file: "#{Rails.root}/public/404.html", status: :not_found, layout: false

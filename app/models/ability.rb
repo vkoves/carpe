@@ -5,25 +5,20 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    can :promote, UsersGroup do |user_group|
-      target, group = user_group.user, user_group.group
+    alias_action :manage, :manage_members, :invite_members, to: :owner_actions
 
-      role = group.role(user)
-      target_role = group.role(target)
-
-      false
+    can :view, Group do |grp|
+      grp.public_group? or grp.private_group? or (grp.secret_group? and user.in_group?(grp))
     end
 
+    # must be signed in past this point
+    return false unless user.present?
+
+    can :manage, UsersGroup, group: { user: user, role: :owner }
     can :manage, RepeatException, user: user
     can(:manage, Event) { |event| user == event.owner or user.in_group?(event.group) }
     can(:manage, Category) { |cat| user == cat.owner or user.in_group?(cat.group) }
 
-    can [:update, :destroy, :manage_members, :invite_members], Group, users_groups: { role: :owner }
-
-    can :view, Group do |group|
-      group.public_group? or
-        (group.private_group? and user.in_group?(group)) or
-        (group.secret_group? and user.in_group?(group))
-    end
+    can :owner_actions, Group, users_groups: { user: user, role: :owner }
   end
 end

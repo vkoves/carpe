@@ -28,7 +28,8 @@ class UserGroupsController < ApplicationController
 
   # group removes user(s)
   def destroy
-    @membership = UsersGroup.find_by! params[:id]
+    @membership = UsersGroup.find(params[:id])
+    authorize! :destroy, @membership
     @membership.destroy
 
     msg = "You've been removed from the group '#{@membership.group.name}''"

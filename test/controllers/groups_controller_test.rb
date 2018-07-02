@@ -255,53 +255,44 @@ class GroupsControllerTest < ActionController::TestCase
   test "owner can delete group" do
     user = users(:ownerAlice)
     sign_in user
-    delete :destroy, params: {id: groups(:publicGroup).id }
-    assert_not groups.include?(:publicGroup)
 
-    delete :destroy, params: {id: groups(:privateGroup).id }
-    assert_not groups.include?(:privateGroup)
-
-    delete :destroy, params: {id: groups(:secretGroup).id }
-    assert_not groups.include?(:secretGroup)
+    groups(:publicGroup, :privateGroup, :secretGroup).each do |group|
+      assert_difference ->{ Group.count }, -1 do
+        delete :destroy, params: {id: group.id }
+      end
+    end
   end
 
   test "moderator cannot delete group" do
     user = users(:moderatorMaven)
     sign_in user
-    delete :destroy, params: {id: groups(:publicGroup).id }
-    assert groups.include?(:publicGroup)
 
-    delete :destroy, params: {id: groups(:privateGroup).id }
-    assert groups.include?(:privateGroup)
-
-    delete :destroy, params: {id: groups(:secretGroup).id }
-    assert groups.include?(:secretGroup)
+    groups(:publicGroup, :privateGroup, :secretGroup).each do |group|
+      assert_no_difference ->{ Group.count } do
+        delete :destroy, params: { id: group.id }
+      end
+    end
   end
 
   test "memeber cannot delete group" do
     user = users(:memberMike)
     sign_in user
-    delete :destroy, params: {id: groups(:publicGroup).id }
-    assert groups.include?(:publicGroup)
 
-    delete :destroy, params: {id: groups(:privateGroup).id }
-    assert groups.include?(:privateGroup)
-
-    delete :destroy, params: {id: groups(:secretGroup).id }
-    assert groups.include?(:secretGroup)
+    groups(:publicGroup, :privateGroup, :secretGroup).each do |group|
+      assert_no_difference ->{ Group.count } do
+        delete :destroy, params: { id: group.id }
+      end
+    end
   end
 
   test "non-member cannot delete group" do
     user = users(:loserLarry)
     sign_in user
-    delete :destroy, params: {id: groups(:publicGroup).id }
-    assert groups.include?(:publicGroup)
 
-    delete :destroy, params: {id: groups(:privateGroup).id }
-    assert groups.include?(:privateGroup)
-
-    delete :destroy, params: {id: groups(:secretGroup).id }
-    assert groups.include?(:secretGroup)
+    groups(:publicGroup, :privateGroup, :secretGroup).each do |group|
+      assert_no_difference ->{ Group.count } do
+        delete :destroy, params: { id: group.id }
+      end
+    end
   end
-
 end

@@ -46,11 +46,11 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "'Private' and 'Follower' category items should not be given to unrelated users" do
-    result = @viktor.get_categories(@putin).find { |cat| cat == categories(:private) }
+    result = @viktor.categories_accessible_by(@putin).find { |cat| cat == categories(:private) }
     assert_includes result.name, "Private",
                     "Private categories should not be visible to other users"
 
-    result = @viktor.get_categories(@putin).find { |cat| cat == categories(:followers) }
+    result = @viktor.categories_accessible_by(@putin).find { |cat| cat == categories(:followers) }
     assert_includes result.name, "Private",
                     "Follower categories should not be visible to non-following users"
   end
