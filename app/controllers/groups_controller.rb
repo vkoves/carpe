@@ -163,7 +163,7 @@ class GroupsController < ApplicationController
                   :posts_preapproved, :custom_url, :privacy)
   end
 
-  rescue_from CanCan::AccessDenied do
-    redirect_to groups_path, alert: "You don't have permission to do that!"
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to groups_path, alert: exception.message
   end
 end

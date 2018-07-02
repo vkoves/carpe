@@ -14,13 +14,16 @@ class Ability
       false
     end
 
-    can :update, Group, users_groups: { role: :owner }
-    can :destroy, Group, users_groups: { role: :owner }
-    can :manage_members, Group, users_groups: { role: [:owner, :moderator] }
-    can :invite_members, Group, users_groups: { role: [:owner, :moderator] }
+    can :manage, RepeatException, user: user
+    can(:manage, Event) { |event| user == event.owner or user.in_group?(event.group) }
+    can(:manage, Category) { |cat| user == cat.owner or user.in_group?(cat.group) }
+
+    can [:update, :destroy, :manage_members, :invite_members], Group, users_groups: { role: :owner }
 
     can :view, Group do |group|
-      group.viewable_by?(user)
+      group.public_group? or
+        (group.private_group? and user.in_group?(group)) or
+        (group.secret_group? and user.in_group?(group))
     end
   end
 end

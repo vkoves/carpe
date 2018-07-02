@@ -76,6 +76,9 @@ gem "livingstyleguide"
 # A more informative exception template page
 gem 'better_errors', group: :development
 
+# A repl that can be used on the exception template page
+gem 'binding_of_caller', group: :development
+
 # Use jQuery as the JavaScript library
 gem 'jquery-rails', '~> 4.3'
 

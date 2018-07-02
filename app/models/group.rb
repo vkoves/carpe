@@ -35,27 +35,6 @@ class Group < ApplicationRecord
     UsersGroup.exists?(user_id: user.id, group_id: id, accepted: false)
   end
 
-  # can the user access the page at all?
-  def viewable_by?(user)
-    # user must be signed in
-    return false unless user.present?
-    # user must be part of secret group to view it
-    return false if secret_group? and not member?(user)
-
-    true
-  end
-
-  # can the user view the schedule, group members, etc?
-  def can_view_details?(user)
-    # user must be able to view the group
-    return false unless viewable_by? user
-
-    # user must be part of the private group
-    return false if private_group? and not member?(user)
-
-    true
-  end
-
   def members_with_role(role)
       User.where(id: UsersGroup.where(group_id: id, accepted: true, role: role).select(:user_id))
   end

@@ -52,7 +52,7 @@ class Event < ApplicationRecord
     end
   end
 
-  def has_access?(user) #a wrapper for category has access
+  def accessible_by?(user) #a wrapper for category has access
     return category.accessible_by?(user)
   end
 
@@ -62,6 +62,10 @@ class Event < ApplicationRecord
     private_event.description = ""
     private_event.location = ""
     return private_event
+  end
+
+  def owner
+    self.group ? self.group : self.user
   end
 
   ##########################

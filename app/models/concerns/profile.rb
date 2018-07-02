@@ -63,7 +63,7 @@ module Profile
 
   def events_accessible_by(user)
     # optimization: user viewing own events or a group member viewing group events
-    if user == self or self&.member?(user)
+    if user == self or try(:member?, user)
       return events.includes(:repeat_exceptions)
     end
 
@@ -74,7 +74,7 @@ module Profile
 
   def categories_accessible_by(user)
     # optimization: user viewing own events or a group member viewing group events
-    if user == self or self&.member?(user)
+    if user == self or try(:member?, user)
       return self.categories
     end
 

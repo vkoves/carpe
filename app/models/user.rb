@@ -24,9 +24,11 @@ class User < ApplicationRecord
 	devise :omniauthable
 	validates_presence_of :name, :home_time_zone
 
-	has_many :categories
-	has_many :events
-  has_many :repeat_exceptions
+  # when group_id is used, user_id represents the creator of a
+  # category/event/exception (as opposed to its owner)
+	has_many :categories, -> { where group_id: nil }
+	has_many :events, -> { where group_id: nil }
+  has_many :repeat_exceptions, -> { where group_id: nil }
 
   def send_signup_email
     UserNotifier.send_signup_email(self).deliver_now

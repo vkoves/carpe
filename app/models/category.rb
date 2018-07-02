@@ -39,6 +39,6 @@ class Category < ApplicationRecord
   end
 
   def owner
-    user ? self.user : self.group
+    self.group ? self.group : self.user
   end
 end
