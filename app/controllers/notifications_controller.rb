@@ -1,16 +1,19 @@
 class NotificationsController < ApplicationController
-  def read_all #Mark all current notifications as read
+  def read_all
     @notifications = current_user.notifications
     @notifications.update_all viewed: true
     render plain: ""
   end
 
-  # Notification updates are routed through here.
+  # Notification responses/updates are routed through here.
   def updated
     @notification = Notification.find(params[:id])
 
     # dispatches call to private method (if implemented)
     self.send(@notification.event) if self.respond_to?(@notification.event, true)
+
+    @notification.destroy
+    render json: {}, status: :ok
   end
 
   private
@@ -22,26 +25,16 @@ class NotificationsController < ApplicationController
       relationship.update(confirmed: true)
     elsif params[:response] == "deny"
       relationship.update(confirmed: false)
-    else
-      render plain: "invalid response", status: :bad_request and return
     end
-
-    @notification.destroy
-    render json: {}, status: :ok
   end
 
   def group_invite
-    membership = @notification.entity
+    group = @notification.entity
+    group.add(current_user) if params[:response] == "accepted"
+  end
 
-    if params[:response] == "accepted"
-      membership.confirm
-    elsif params[:response] == "denied"
-      membership.destroy
-    else
-      render plain: "invalid response", status: :bad_request and return
-    end
-
-    @notification.destroy
-    render json: {}, status: :ok
+  def group_invite_request
+    group = @notification.entity
+    group.add(@notification.sender) if params[:response] == "accepted"
   end
 end

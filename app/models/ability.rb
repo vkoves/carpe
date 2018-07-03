@@ -14,11 +14,16 @@ class Ability
     # must be signed in past this point
     return false unless user.present?
 
-    can :manage, UsersGroup, group: { user: user, role: :owner }
-    can :manage, RepeatException, user: user
-    can(:manage, Event) { |event| user == event.owner or user.in_group?(event.group) }
-    can(:manage, Category) { |cat| user == cat.owner or user.in_group?(cat.group) }
+    can :manage, RepeatException, group: nil, user: user
+    can :manage, RepeatException, group: { users_groups: { user: user, role: :owner } }
 
+    can :manage, Event, group: nil, user: user
+    can :manage, Event, group: { users_groups: { user: user, role: :owner } }
+
+    can :manage, Category, group: nil, user: user
+    can :manage, Category, group: { users_groups: { user: user, role: :owner } }
+
+    can(:manage, UsersGroup) { |user_group| user_group.group.role(user) == :owner }
     can :owner_actions, Group, users_groups: { user: user, role: :owner }
   end
 end

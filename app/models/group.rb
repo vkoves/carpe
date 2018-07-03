@@ -32,11 +32,11 @@ class Group < ApplicationRecord
   end
 
   def invited?(user)
-    UsersGroup.exists?(user_id: user.id, group_id: id, accepted: false)
+    Notification.exists?(event: :group_invite, receiver: user, entity: self)
   end
 
   def members_with_role(role)
-      User.where(id: UsersGroup.where(group_id: id, accepted: true, role: role).select(:user_id))
+    User.where(id: UsersGroup.where(group_id: id, accepted: true, role: role).select(:user_id))
   end
 
   def member?(user)
@@ -51,11 +51,15 @@ class Group < ApplicationRecord
     UsersGroup.create group_id: id, user_id: user.id, accepted: true, role: as
   end
 
-  def invite(user, as: :member)
-    UsersGroup.create group_id: id, user_id: user.id, accepted: false, role: as
-  end
-
   def membership(user)
     UsersGroup.find_by group_id: id, user_id: user.id
+  end
+
+  def owner
+    User.find_by(id: UsersGroup.where(group_id: id, role: :owner).select(:user_id))
+  end
+
+  def pending_invite_request?(user)
+    Notification.exists?(event: :group_invite_request, sender: user, entity: self)
   end
 end

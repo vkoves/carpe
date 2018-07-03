@@ -52,8 +52,8 @@ class Event < ApplicationRecord
     end
   end
 
-  def accessible_by?(user) #a wrapper for category has access
-    return category.accessible_by?(user)
+  def accessible_by?(user)
+    category.accessible_by?(user)
   end
 
   def private_version #returns the event with details hidden

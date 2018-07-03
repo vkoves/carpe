@@ -2,12 +2,12 @@ class GroupsController < ApplicationController
   before_action :authorize_signed_in!
 
   def index
-    @visible_groups = Group.where(privacy: 'public_group')
+    @visible_groups = Group.where(privacy: [:public_group, :private_group])
                            .page(params[:page]).per(25)
 
     @joinable_groups = Array.new
 
-    public_groups = Group.where(privacy: 'public_group').page(params[:page]).per(25)
+    public_groups = Group.where(privacy: [:public_group, :private_group]).page(params[:page]).per(25)
     public_groups.each do |group|
       unless current_user.in_group?(group)
         @joinable_groups.push(group);
@@ -103,46 +103,37 @@ class GroupsController < ApplicationController
     @group = Group.from_param(params[:id])
     @user = current_user
 
-    # prevent possible duplicate entries
-    return redirect_to groups_path if @user.in_group? @group
-
     if @group.public_group?
       @group.add(@user)
     elsif @group.private_group?
-      if @group.invited? @user
-        @group.membership(@user).confirm
-      else
-        @group.invite(@user) # TODO: This is a bug
-      end
-    elsif @group.secret_group?
-      if @group.invited? @user
-        @group.membership(@user).confirm
-      end
+      Notification.create(sender: current_user, receiver: @group.owner,
+                          event: :group_invite_request, entity: @group)
     end
 
-    # TODO: notify private group that user would like to join
-    # this redirects back to current page
     redirect_to request.referrer
   end
 
   def leave
-    @group = Group.from_param(params[:id])
-    @user = current_user
+    group = Group.from_param(params[:id])
+    old_role = group.role(current_user)
+    membership = UsersGroup.find_by(group: group, user: current_user, accepted: true)
 
-    @membership = UsersGroup.find_by group_id: @group.id, user_id: @user.id, accepted: true
-    if(@membership)
-      @membership.destroy
+    if membership
+      membership.destroy
+
+      if group.empty?
+        group.destroy
+      elsif old_role == :owner
+        # looks like you're today's winner!
+        UsersGroup.find_by(group: group).update(role: :owner)
+      end
+
     else
       redirect_to request.referrer, alert: "You can't leave a group you are not in!"
       return
     end
 
-    # TODO: notify group (who?) that a user has left?
-    if @group.public_group?
-      redirect_to request.referrer
-    else
-      redirect_to groups_path
-    end
+    redirect_to groups_path
   end
 
   protected
@@ -154,13 +145,13 @@ class GroupsController < ApplicationController
 
   private
 
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to request.referrer, alert: exception.message
+  end
+
   def group_create_params
     params.require(:group)
           .permit(:name, :description, :avatar, :banner,
                   :posts_preapproved, :custom_url, :privacy)
-  end
-
-  rescue_from CanCan::AccessDenied do |exception|
-    redirect_to groups_path, alert: exception.message
   end
 end
