@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180219082149) do
+ActiveRecord::Schema.define(version: 20180703195151) do
 
   create_table "categories", force: :cascade do |t|
     t.string "name"
@@ -31,20 +31,6 @@ ActiveRecord::Schema.define(version: 20180219082149) do
     t.index ["repeat_exception_id"], name: "index_categories_repeat_exceptions_on_repeat_exception_id"
   end
 
-  create_table "event_invites", force: :cascade do |t|
-    t.string "role", default: "guest", null: false
-    t.string "status"
-    t.integer "sender_id", null: false
-    t.integer "event_id", null: false
-    t.integer "recipient_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["event_id", "recipient_id"], name: "index_event_invites_on_event_id_and_recipient_id", unique: true
-    t.index ["event_id"], name: "index_event_invites_on_event_id"
-    t.index ["recipient_id"], name: "index_event_invites_on_recipient_id"
-    t.index ["sender_id"], name: "index_event_invites_on_sender_id"
-  end
-
   create_table "events", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -59,9 +45,6 @@ ActiveRecord::Schema.define(version: 20180219082149) do
     t.date "repeat_start"
     t.date "repeat_end"
     t.integer "group_id"
-    t.string "privacy", default: "private", null: false
-    t.integer "base_event_id"
-    t.index ["base_event_id"], name: "index_events_on_base_event_id"
     t.index ["category_id"], name: "index_events_on_category_id"
     t.index ["group_id"], name: "index_events_on_group_id"
     t.index ["user_id"], name: "index_events_on_user_id"
@@ -82,16 +65,6 @@ ActiveRecord::Schema.define(version: 20180219082149) do
     t.datetime "updated_at", null: false
     t.string "banner_image_url"
     t.boolean "posts_preapproved"
-    t.integer "privacy", default: 0
-    t.string "custom_url"
-    t.string "avatar_file_name"
-    t.string "avatar_content_type"
-    t.integer "avatar_file_size"
-    t.datetime "avatar_updated_at"
-    t.string "banner_file_name"
-    t.string "banner_content_type"
-    t.integer "banner_file_size"
-    t.datetime "banner_updated_at"
   end
 
   create_table "notifications", force: :cascade do |t|
@@ -105,7 +78,7 @@ ActiveRecord::Schema.define(version: 20180219082149) do
     t.string "entity_type"
     t.integer "event", default: 0, null: false
     t.index ["entity_id", "entity_type"], name: "index_notifications_on_entity_id_and_entity_type"
-    t.index ["entity_id", "event"], name: "index_notifications_on_entity_id_and_event", unique: true
+    t.index ["event", "receiver_id", "sender_id", "entity_id", "message"], name: "index_unique_notifications", unique: true
   end
 
   create_table "relationships", force: :cascade do |t|
@@ -164,12 +137,8 @@ ActiveRecord::Schema.define(version: 20180219082149) do
   create_table "users_groups", force: :cascade do |t|
     t.integer "user_id"
     t.integer "group_id"
-    t.integer "role", default: 0
-    t.boolean "accepted", default: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string "role"
     t.index ["group_id"], name: "index_users_groups_on_group_id"
-    t.index ["user_id", "group_id"], name: "index_users_groups_on_user_id_and_group_id", unique: true
     t.index ["user_id"], name: "index_users_groups_on_user_id"
   end
 
