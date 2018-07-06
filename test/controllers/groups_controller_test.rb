@@ -3,8 +3,12 @@ require 'test_helper'
 class GroupsControllerTest < ActionController::TestCase
   include Devise::Test::ControllerHelpers
 
+  # called before every test
+  def setup
+    @request.env['HTTP_REFERER'] = '/groups'
+  end
+  
   # create
-
   test "user must be signed in to create a group" do
     get :create
     assert_response :redirect
@@ -150,7 +154,6 @@ class GroupsControllerTest < ActionController::TestCase
   test "any signed in user can join public groups" do
     user = users(:loserLarry)
     sign_in user
-    @request.env['HTTP_REFERER'] = '/groups'
     get :join, params: {id: groups(:publicGroup).id }
     assert user.in_group?(groups(:publicGroup))
   end
@@ -158,7 +161,6 @@ class GroupsControllerTest < ActionController::TestCase
   test "signed in users cannot join private groups they were not invited to" do
     user = users(:loserLarry)
     sign_in user
-    @request.env['HTTP_REFERER'] = '/groups'
     get :join, params: {id: groups(:privateGroup).id }
     assert_not user.in_group?(groups(:privateGroup))
   end
@@ -166,7 +168,6 @@ class GroupsControllerTest < ActionController::TestCase
   test "signed in users can join private groups they were invited to" do
     user = users(:inviteIvan)
     sign_in user
-    @request.env['HTTP_REFERER'] = '/groups'
     get :join, params: {id: groups(:privateGroup).id }
     assert user.in_group?(groups(:privateGroup))
   end
@@ -174,7 +175,6 @@ class GroupsControllerTest < ActionController::TestCase
   test "signed in users cannot join secret groups they were not invited to" do
     user = users(:loserLarry)
     sign_in user
-    @request.env['HTTP_REFERER'] = '/groups'
     get :join, params: {id: groups(:secretGroup).id }
     assert_not user.in_group?(groups(:secretGroup))
   end
@@ -182,7 +182,6 @@ class GroupsControllerTest < ActionController::TestCase
   test "signed in users can join secret groups they were invited to" do
     user = users(:inviteIvan)
     sign_in user
-    @request.env['HTTP_REFERER'] = '/groups'
     get :join, params: {id: groups(:secretGroup).id }
     assert user.in_group?(groups(:secretGroup))
   end
@@ -190,7 +189,6 @@ class GroupsControllerTest < ActionController::TestCase
   test "signed in users can leave public group" do
     user = users(:memberMike)
     sign_in user
-    @request.env['HTTP_REFERER'] = '/groups'
     get :leave, params: {id: groups(:publicGroup).id }
     assert_not user.in_group?(groups(:publicGroup))
   end
@@ -198,7 +196,6 @@ class GroupsControllerTest < ActionController::TestCase
   test "signed in users can leave private group" do
     user = users(:memberMike)
     sign_in user
-    @request.env['HTTP_REFERER'] = '/groups'
     get :leave, params: {id: groups(:privateGroup).id }
     assert_not user.in_group?(groups(:privateGroup))
   end
@@ -206,7 +203,6 @@ class GroupsControllerTest < ActionController::TestCase
   test "signed in users can leave secret group" do
     user = users(:memberMike)
     sign_in user
-    @request.env['HTTP_REFERER'] = '/groups'
     get :leave, params: {id: groups(:secretGroup).id }
     assert_not user.in_group?(groups(:secretGroup))
   end
@@ -214,7 +210,6 @@ class GroupsControllerTest < ActionController::TestCase
   test "leaving public group user is not in doesn't crash" do
     user = users(:loserLarry)
     sign_in user
-    @request.env['HTTP_REFERER'] = '/groups'
     get :leave, params: {id: groups(:publicGroup).id }
     assert_not user.in_group?(groups(:publicGroup))
   end
@@ -222,7 +217,6 @@ class GroupsControllerTest < ActionController::TestCase
   test "leaving private group user is not in doesn't crash" do
     user = users(:loserLarry)
     sign_in user
-    @request.env['HTTP_REFERER'] = '/groups'
     get :leave, params: {id: groups(:privateGroup).id }
     assert_not user.in_group?(groups(:privateGroup))
   end
@@ -230,7 +224,6 @@ class GroupsControllerTest < ActionController::TestCase
   test "leaving secret group user is not in doesn't crash" do
     user = users(:loserLarry)
     sign_in user
-    @request.env['HTTP_REFERER'] = '/groups'
     get :leave, params: {id: groups(:secretGroup).id }
     assert_not user.in_group?(groups(:secretGroup))
   end
