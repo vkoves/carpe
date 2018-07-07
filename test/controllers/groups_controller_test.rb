@@ -165,25 +165,11 @@ class GroupsControllerTest < ActionController::TestCase
     assert_not user.in_group?(groups(:privateGroup))
   end
 
-  test "signed in users can join private groups they were invited to" do
-    user = users(:inviteIvan)
-    sign_in user
-    get :join, params: {id: groups(:privateGroup).id }
-    assert user.in_group?(groups(:privateGroup))
-  end
-
   test "signed in users cannot join secret groups they were not invited to" do
     user = users(:loserLarry)
     sign_in user
     get :join, params: {id: groups(:secretGroup).id }
     assert_not user.in_group?(groups(:secretGroup))
-  end
-
-  test "signed in users can join secret groups they were invited to" do
-    user = users(:inviteIvan)
-    sign_in user
-    get :join, params: {id: groups(:secretGroup).id }
-    assert user.in_group?(groups(:secretGroup))
   end
 
   test "signed in users can leave public group" do

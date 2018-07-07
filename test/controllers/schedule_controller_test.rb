@@ -9,86 +9,72 @@ class ScheduleControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  # create
-
   test "group owner can add categories" do
-    user = users(:ownerAlice)
-    sign_in user
+    sign_in users(:ownerAlice)
 
     assert_difference -> { Category.count }, +1 do
-      post :create_category, params: { group_id: groups(:publicGroup).id, name: "cool category" }
+      post :create_category, params: { group_id: groups(:publicGroup).id,
+                                       name: "cool category" }
     end
-    sign_out user
   end
 
   test "group moderator can add categories" do
-    user = users(:moderatorMaven)
-    sign_in user
+    sign_in users(:moderatorMaven)
 
     assert_difference -> { Category.count }, +1 do
-      post :create_category, params: { group_id: groups(:publicGroup).id, name: "cool category" }
+      post :create_category, params: { group_id: groups(:publicGroup).id,
+                                       name: "cool category" }
     end
-    sign_out user
   end
 
   test "group memeber cannot add categories" do
-    user = users(:memberMike)
-    sign_in user
+    sign_in users(:memberMike)
 
     assert_no_difference -> { Category.count } do
-      post :create_category, params: { group_id: groups(:publicGroup).id, name: "cool category" }
+      post :create_category, params: { group_id: groups(:publicGroup).id,
+                                       name: "cool category" }
     end
-    sign_out user
   end
 
-  test "group non-memeber cannot add categories" do
-    user = users(:loserLarry)
-    sign_in user
+  test "non-group memebers cannot add categories" do
+    sign_in users(:loserLarry)
 
     assert_no_difference -> { Category.count } do
-      post :create_category, params: { group_id: groups(:publicGroup).id, name: "cool category" }
+      post :create_category, params: { group_id: groups(:publicGroup).id,
+                                       name: "cool category" }
     end
-    sign_out user
   end
 
   test "group owner can delete categories" do
-    user = users(:ownerAlice)
-    sign_in user
+    sign_in users(:ownerAlice)
 
     assert_difference -> { Category.count }, -1 do
       post :delete_category, params: { id: categories(:groupCategory) }
     end
-    sign_out user
   end
   
   test "group moderator can delete categories" do
-    user = users(:moderatorMaven)
-    sign_in user
+    sign_in users(:moderatorMaven)
 
     assert_difference -> { Category.count }, -1 do
       post :delete_category, params: { id: categories(:groupCategory) }
     end
-    sign_out user
   end
 
   test "group memeber cannot delete categories" do
-    user = users(:memberMike)
-    sign_in user
+    sign_in users(:memberMike)
 
     assert_no_difference -> { Category.count } do
       post :delete_category, params: { id: categories(:groupCategory) }
     end
-    sign_out user
   end
 
   test "group non-member can delete categories" do
-    user = users(:loserLarry)
-    sign_in user
+    sign_in users(:loserLarry)
 
     assert_no_difference -> { Category.count } do
       post :delete_category, params: { id: categories(:groupCategory) }
     end
-    sign_out user
   end
 
 end

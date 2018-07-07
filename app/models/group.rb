@@ -32,7 +32,7 @@ class Group < ApplicationRecord
   end
 
   def invited?(user)
-    Notification.exists?(event: :group_invite, receiver: user, entity: self)
+    invitation_for(user).exists?
   end
 
   def members_with_role(role)
@@ -61,5 +61,9 @@ class Group < ApplicationRecord
 
   def pending_invite_request?(user)
     Notification.exists?(event: :group_invite_request, sender: user, entity: self)
+  end
+
+  def invitation_for(user)
+    Notification.find_by(event: :group_invite, receiver: user, entity: self)
   end
 end

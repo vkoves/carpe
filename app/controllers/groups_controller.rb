@@ -80,6 +80,7 @@ class GroupsController < ApplicationController
 
     if @group.public_group?
       @group.add(@user)
+      @group.invitation_for(@user)&.destroy # remove outstanding invitations
     elsif @group.private_group?
       Notification.create(sender: current_user, receiver: @group.owner,
                           event: :group_invite_request, entity: @group)

@@ -21,7 +21,7 @@ class Ability
     can :manage, Event, group: { users_groups: { user: user, role: :owner } }
 
     can :manage, Category, group: nil, user: user
-    can :manage, Category, group: { users_groups: { user: user, role: :owner } }
+    can :manage, Category, group: { users_groups: { user: user, role: [:owner, :moderator] } }
 
     can(:manage, UsersGroup) { |user_group| user_group.group.role(user) == :owner }
     can :owner_actions, Group, users_groups: { user: user, role: :owner }

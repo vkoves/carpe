@@ -9,7 +9,7 @@ one:
 two:
   user: viktor
   group: one
-  role: admin
+  role: moderator
   accepted: true
 
 three:

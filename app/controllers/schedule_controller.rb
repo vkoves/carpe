@@ -40,7 +40,9 @@ class ScheduleController < ApplicationController
       @cat.repeat_exceptions = params[:breaks].map { |id| RepeatException.find(id) }
     end
 
+    authorize! :create, @cat
     @cat.save
+
     render json: @cat
   end
 
@@ -103,6 +105,9 @@ class ScheduleController < ApplicationController
       evnt.description = obj["description"] || ""
       evnt.location = obj["location"] || ""
       evnt.category_id = obj["categoryId"].to_i
+
+
+      authorize! :create, evnt
       evnt.save
 
       if obj["eventId"].empty? # if this is not an existing event
