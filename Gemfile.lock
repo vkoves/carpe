@@ -60,6 +60,8 @@ GEM
       coderay (>= 1.0.0)
       erubi (>= 1.0.0)
       rack (>= 0.9.0)
+    binding_of_caller (0.8.0)
+      debug_inspector (>= 0.0.1)
     builder (3.2.3)
     cancancan (2.2.0)
     chartkick (2.2.5)
@@ -82,6 +84,7 @@ GEM
     crass (1.0.3)
     css_parser (1.6.0)
       addressable
+    debug_inspector (0.0.3)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
     devise (4.3.0)
@@ -317,6 +320,7 @@ PLATFORMS
 DEPENDENCIES
   aws-sdk (~> 2.10.2)
   better_errors
+  binding_of_caller
   cancancan (~> 2.2.0)
   chartkick (~> 2.2)
   coffee-rails (~> 4.2)
