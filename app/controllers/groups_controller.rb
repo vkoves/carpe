@@ -2,57 +2,32 @@ class GroupsController < ApplicationController
   before_action :authorize_signed_in!
 
   def index
-    @visible_groups = Group.where(privacy: [:public_group, :private_group])
-                           .page(params[:page]).per(25)
-
-    @joinable_groups = Array.new
-
-    public_groups = Group.where(privacy: [:public_group, :private_group]).page(params[:page]).per(25)
-    public_groups.each do |group|
-      unless current_user.in_group?(group)
-        @joinable_groups.push(group);
-      end
-    end
-
-    respond_to do |format|
-      format.html
-      format.js {
-        render partial: "shared/lazy_list_loader",
-               locals: { collection: @visible_groups,
-                         item_name: :group,
-                         partial: "big_group_card" }
-      }
-    end
+    @joinable_groups = Group.where(privacy: [:public_group, :private_group])
+                         .where.not(id: current_user.groups)
+                         .page(params[:page]).per(25)
   end
 
   def show
     @group = Group.from_param(params[:id])
-    @role = @group.role(current_user)
-    @view = params[:view]&.to_sym || :overview
-
     authorize! :view, @group
+
+    # forces custom urls to be displayed (when applicable)
+    if params[:id].is_int? and @group.has_custom_url?
+      redirect_to group_path(@group), status: :moved_permanently
+    end
+
+    @view = params[:view]&.to_sym || :overview
 
     case @view
     when :manage_members
       authorize! :manage_members, @group
     when :members
       @members = @group.members.page(params[:page]).per(25)
-
-      respond_to do |format|
-        format.html
-        format.js {
-          render partial: "shared/lazy_list_loader",
-                 locals: { collection: @members,
-                           item_name: :member,
-                           partial: "basic_user_block" }
-        }
-      end
-
     when :overview
       @upcoming_events = @group.events_in_range(DateTime.now - 1.day, DateTime.now.end_of_day + 10.day, current_user.home_time_zone)
       @activity = (@group.members + @group.categories + @group.events).sort_by(&:created_at).reverse.first(2)
     when :schedule
-      @read_only = (@role != :owner)
+      @read_only = false if @group.role(current_user) == :owner
     end
   end
 

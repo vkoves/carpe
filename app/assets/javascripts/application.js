@@ -20,7 +20,6 @@
 //= require chartkick
 //= require ui-manager
 //= require partials/user-adder
-//= require lazy-list
 //= require utilities
 
 // require jquery-ui.min

@@ -9,8 +9,8 @@ class Notification < ApplicationRecord
 
   scope :unread, -> { where(viewed: false) }
 
-  validates :receiver_id, uniqueness: {
-    scope: [:sender_id, :entity_id],
+  validates :event, uniqueness: {
+    scope: [:receiver_id, :sender_id, :entity_id, :message],
     message: "This notification already exists"
   }
 end
