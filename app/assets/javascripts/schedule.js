@@ -881,7 +881,7 @@ function loadInitialCategories()
 			catInstance.privacy = currCat.privacy;
 			catInstance.color = currCat.color;
 			catInstance.name = currCat.name;
-			catInstance.breaks = currCat.break_ids;
+			catInstance.breaks = currCat.repeat_exceptions; // break ids
 
 			categories[catInstance.id] = catInstance;
 		}
@@ -948,7 +948,7 @@ function loadInitialEvents()
 			schItem.setRepeatType(evnt.repeat);
 			schItem.description = evnt.description;
 			schItem.location = evnt.location;
-			schItem.breaks = evnt.break_ids;
+			schItem.breaks = evnt.repeat_exceptions; // break ids
 			schItem.tempId = i;
 			scheduleItems[i] = schItem;
 
@@ -1668,7 +1668,7 @@ function populateEvents()
 
 			for(var breakIndex = 0; breakIndex < combinedBreaks.length; breakIndex++) //iterate through all breaks
 			{
-				var currBreak = breaks[combinedBreaks[breakIndex]];
+				var currBreak = breaks[combinedBreaks[breakIndex].id];
 				var dateClone = cloneDate(date).setHours(0,0,0,0); //clear time on the date so time doesn't factor into breaks
 				//otherwise since breaks times are the start of their day, an event on Sept. 30th at 3:00pm won't be impacted by a date
 				//on Sept. 30th, since that's technically Sept. 30th 00:00

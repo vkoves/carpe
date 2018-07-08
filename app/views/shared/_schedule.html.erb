@@ -242,10 +242,10 @@
 	var readOnly = <%= read_only %>;
 
 	<% # this is only available for users at the moment %>
-  var IFRAME_URL = <%= raw user.present? ? (raw "'http://www.carpe.us/schedule?iframe=true&uid=#{user.id}'") : "'NOPE'" %>;
+  var IFRAME_URL = <%= raw user.present? ? "'http://www.carpe.us/schedule?iframe=true&uid=#{user.id}'" : "'NOPE'" %>;
 
-	var loadedEvents = <%= raw events_as_hash(events).to_json %>;
-	var loadedCategories = <%= raw categories_as_hash(categories).to_json %>;
+	var loadedEvents = <%= raw events.to_json(include: { repeat_exceptions: { only: :id } }) %>;
+	var loadedCategories = <%= raw categories.to_json(include: { repeat_exceptions: { only: :id } }) %>;
   var loadedBreaks = <%= raw user_or_group.repeat_exceptions.to_json %>;
 
   <% # if this is a group schedule, all events, categories, etc created will make use of groupID %>

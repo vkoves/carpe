@@ -51,8 +51,8 @@
 	<% if current_user %>
 		<div id="user-name-panel" class="carpe-color">
 			<div class="bell-hold">
-				<% if current_user.notifications.count > 0 %>
-					<div id="num"><%= current_user.notifications.count %></div>
+				<% unless current_user.notifications.empty? %>
+					<div id="num"><%= current_user.notifications.size %></div>
 				<% end %>
 				<%= image_tag "bellg.svg", class: "bell" %>
 			</div>
@@ -88,11 +88,9 @@
       You don't have any notifications right now.
     </div>
 
-    <% Notification.events.keys.each do |event| %>
-      <% unless current_user.notifications.send(event).empty? %>
-        <div id="notif-title"><%= event.titleize.pluralize %></div>
-        <%= render current_user.notifications.send(event) %>
-      <% end %>
-  <% end %>
+    <% current_user.notifications.group_by(&:event).each do |event, notifs| %>
+      <div id="notif-title"><%= event.titleize.pluralize %></div>
+      <%= render notifs %>
+    <% end %>
   </div>
 <% end %>
