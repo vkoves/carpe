@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180219082149) do
+ActiveRecord::Schema.define(version: 20180703195151) do
 
   create_table "categories", force: :cascade do |t|
     t.string "name"
@@ -78,7 +78,7 @@ ActiveRecord::Schema.define(version: 20180219082149) do
     t.string "entity_type"
     t.integer "event", default: 0, null: false
     t.index ["entity_id", "entity_type"], name: "index_notifications_on_entity_id_and_entity_type"
-    t.index ["entity_id", "event"], name: "index_notifications_on_entity_id_and_event", unique: true
+    t.index ["event", "receiver_id", "sender_id", "entity_id", "message"], name: "index_unique_notifications", unique: true
   end
 
   create_table "relationships", force: :cascade do |t|
