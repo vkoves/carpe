@@ -12,7 +12,8 @@ class User < ApplicationRecord
 
   has_many :users_groups
   has_many :groups, :through => :users_groups
-  has_many :notifications, :class_name => 'Notification', :foreign_key => 'receiver_id'
+  has_many :notifications, class_name: 'Notification',
+           foreign_key: 'receiver_id', dependent: :destroy
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
