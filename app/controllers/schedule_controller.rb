@@ -31,7 +31,7 @@ class ScheduleController < ApplicationController
     @cat.color = params[:color]
 
     @cat.user = current_user
-    @cat.group = Group.find(params[:group_id]) if params[:group_id]
+    @cat.group = Group.find(params[:group_id]) if params[:group_id].present?
 
     @cat.privacy = params[:privacy] if params[:privacy]
     @cat.name = params[:name]
@@ -66,7 +66,7 @@ class ScheduleController < ApplicationController
     @exception.start = Date.parse(params[:start]) if params[:start]
     @exception.end =  Date.parse(params[:end]) if params[:end]
     @exception.user = current_user
-    @exception.group = Group.find(params[:group_id]) if params[:group_id]
+    @exception.group = Group.find(params[:group_id]) if params[:group_id].present?
     @exception.save
 
     render json: @exception.id
@@ -87,7 +87,7 @@ class ScheduleController < ApplicationController
         evnt = Event.new
 
         evnt.user = current_user
-        evnt.group = Group.find(params[:group_id]) if params[:group_id]
+        evnt.group = Group.find(params[:group_id]) if params[:group_id].present?
       end
 
       evnt.name = obj["name"]
