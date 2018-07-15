@@ -18,7 +18,7 @@ class Ability
     can :manage, RepeatException, group: { users_groups: { user: user, role: [:owner, :moderator, :editor]} }
 
     can :manage, Event, group: nil, user: user
-    can :manage, Event, group: { users_groups: { user: user, role: [:owner, :moderator, :editor] } }
+    can :manage, Event, group: { users_groups: { user: user, role: [:owner, :moderator, :editor, :member] } }
 
     can :manage, Category, group: nil, user: user
     can :manage, Category, group: { users_groups: { user: user, role: [:owner, :moderator, :editor] } }
