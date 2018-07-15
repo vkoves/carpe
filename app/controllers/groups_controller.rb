@@ -27,7 +27,7 @@ class GroupsController < ApplicationController
       @activities = (@group.members + @group.categories + @group.events)
                       .sort_by(&:created_at).reverse.first(2)
     when :schedule
-      @read_only = false if @group.role(current_user) == :owner
+      @read_only = cannot? :edit_schedule, @group
     end
   end
 
@@ -120,10 +120,6 @@ class GroupsController < ApplicationController
   end
 
   private
-
-  rescue_from CanCan::AccessDenied do |exception|
-    redirect_to request.referrer, alert: exception.message
-  end
 
   def group_create_params
     params.require(:group)

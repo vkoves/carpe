@@ -9,11 +9,14 @@
   </div>
 
   <div class="options" style="display: none">
-    <div>
-      <%=  %>
-      <%= link_to "Make Moderator", user_group_path(membership, update: :role, to: :admin), method: :put, class: "wide hollow orange button" %>
-      <%= link_to "Make Member", user_group_path(membership, update: :role, to: :member), method: :put, class: "wide hollow orange button" %>
-    </div>
+    <% if membership.group.owner == current_user %>
+      <div>
+        <% assignable_roles(membership).each do |role| %>
+          <%= link_to "Make #{role.humanize}", user_group_path(membership, role: role),
+                      method: :put, class: "wide hollow orange button" %>
+        <% end %>
+      </div>
+    <% end %>
 
     <div>
       <%= link_to "Remove", user_group_path(membership), method: :delete, class: "wide hollow red button" %>

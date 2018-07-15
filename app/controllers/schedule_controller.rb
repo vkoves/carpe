@@ -131,8 +131,4 @@ class ScheduleController < ApplicationController
   def allow_iframe
     response.headers.except! 'X-Frame-Options'
   end
-
-  rescue_from CanCan::AccessDenied do |exception|
-    render plain: exception.message, status: :forbidden
-  end
 end

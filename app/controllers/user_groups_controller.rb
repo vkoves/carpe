@@ -22,24 +22,20 @@ class UserGroupsController < ApplicationController
     membership.destroy
 
     msg = "You've been removed from the group '#{group.name}''"
-    Notification.create sender: current_user, receiver: member, message: msg
+    Notification.create receiver: member, message: msg
   end
 
   def update
-    membership = UsersGroup.find_by! params[:id]
-    authorize! :update, membership
-    membership.update(update_params)
+    membership = UsersGroup.find(params[:id])
 
-    redirect_to group_path membership.group, view: :manage_members
-  end
+    authorize! :update, membership, params[:role]
+    membership.update(params.permit(:role))
 
-  private
+    # promoting someone else to group owner relinquishes ownership of the group
+    if params[:role] == "owner"
+      membership.group.membership(current_user).update(role: :moderator)
+    end
 
-  def update_params
-    params.require(:user_group).permit(:role)
-  end
-
-  rescue_from CanCan::AccessDenied do |exception|
-    redirect_to request.referrer, alert: exception.message
+    redirect_to request.referrer
   end
 end

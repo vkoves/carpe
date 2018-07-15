@@ -24,6 +24,14 @@ class ApplicationController < ActionController::Base
   # rather than catching exceptions in the actions, do it here.
   rescue_from ActiveRecord::RecordNotFound, with: :render_404 unless Rails.env.development?
 
+  rescue_from CanCan::AccessDenied do |exception|
+    respond_to do |format|
+      format.json { head :forbidden, content_type: 'text/html' }
+      format.html { redirect_to request.referrer, alert: exception.message }
+      format.js   { head :forbidden, content_type: 'text/html' }
+    end
+  end
+
   def render_404
     render file: "#{Rails.root}/public/404.html", status: :not_found, layout: false
   end
