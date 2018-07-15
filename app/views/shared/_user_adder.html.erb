@@ -1,7 +1,11 @@
 <%
 	# This partial takes in a name for the field, and outputs an input field that is a user adder
 	# See partials/user-adder.js for the tokenInput code that handles this field
+
+  search_path ||= "/search_core" if local_assigns[:search_path].nil?
 %>
+
 <div class="user-entry">
-	<%= text_field_tag(name, nil, autocomplete: "off", class: "user-adder-input") %>
+	<%= text_field_tag name, nil, autocomplete: "off", class: "user-adder-input",
+                     data: { search_path: search_path } %>
 </div>
