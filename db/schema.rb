@@ -24,6 +24,9 @@ ActiveRecord::Schema.define(version: 20180621221619) do
     t.index ["user_id"], name: "index_categories_on_user_id"
   end
 
+  add_index "categories", ["group_id"], name: "index_categories_on_group_id"
+  add_index "categories", ["user_id"], name: "index_categories_on_user_id"
+
   create_table "categories_repeat_exceptions", id: false, force: :cascade do |t|
     t.integer "repeat_exception_id"
     t.integer "category_id"
@@ -85,12 +88,17 @@ ActiveRecord::Schema.define(version: 20180621221619) do
   end
 
   create_table "notifications", force: :cascade do |t|
-    t.integer "receiver_id"
+    t.integer "receiver_id", null: false
     t.integer "sender_id"
     t.string "message"
-    t.boolean "viewed", default: false
+    t.boolean "viewed", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "entity_id"
+    t.string "entity_type"
+    t.integer "event", default: 0, null: false
+    t.index ["entity_id", "entity_type"], name: "index_notifications_on_entity_id_and_entity_type"
+    t.index ["entity_id", "event"], name: "index_notifications_on_entity_id_and_event", unique: true
   end
 
   create_table "relationships", force: :cascade do |t|
@@ -122,20 +130,20 @@ ActiveRecord::Schema.define(version: 20180621221619) do
     t.integer "sign_in_count", default: 0, null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string "current_sign_in_ip"
-    t.string "last_sign_in_ip"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "provider"
-    t.string "uid"
-    t.string "name"
-    t.string "image_url"
-    t.boolean "admin"
-    t.boolean "public_profile", default: false
-    t.string "home_time_zone", default: "Central Time (US & Canada)"
-    t.string "avatar_file_name"
-    t.string "avatar_content_type"
-    t.integer "avatar_file_size"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.datetime "created_at",                                                    null: false
+    t.datetime "updated_at",                                                    null: false
+    t.string   "provider"
+    t.string   "uid"
+    t.string   "name"
+    t.string   "image_url"
+    t.boolean  "admin"
+    t.boolean  "public_profile",         default: false
+    t.string   "home_time_zone",         default: "Central Time (US & Canada)"
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
     t.string "banner_file_name"
     t.string "banner_content_type"
