@@ -68,7 +68,7 @@ gem "teaspoon-mocha"
 gem "minitest-reporters"
 
 # LSG
-#gem "livingstyleguide"
+gem "livingstyleguide"
 
 # A more informative exception template page
 gem 'better_errors', group: :development
