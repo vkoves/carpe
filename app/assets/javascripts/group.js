@@ -46,19 +46,16 @@ function showRelevantUsers(searchText) {
  * @param {HtmlElement} self - html object of the user card to get the user id from
  * @param {String} groupId - id of group to invite user to
  */
-function sendInvites(self, groupId){
-	var people = $(self).parent().find(".user-entry .token-input-list .token-input-token p");
-	$(people).each(function () {
-		$.ajax({
-			type: "POST",
-			url: "/invite_to_group",
-			data: {
-				group_id: groupId,
-				user_id: $(this).attr('id')
+function sendInvites(self, groupId) {
+	const userIds = $("#user_ids").val().split(",");
+	userIds.forEach(function (userId) {
+		$.post("/invite_to_group", { group_id: groupId, user_id: userId }, function(res) {
+				if (res["errors"]) {
+					alertUI("They've already been invited!");
+				} else {
+					alertUI("Group invites sent!");
+				}
 			},
-			success: function(res){
-				//for debug
-			}
-		});
+		);
 	})
 }
