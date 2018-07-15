@@ -77,4 +77,84 @@ class ScheduleControllerTest < ActionController::TestCase
     end
   end
 
+  test "group owner can add events" do
+    user = users(:ownerAlice)
+    sign_in user
+
+    assert_difference -> { Event.count }, +1 do
+      post :save_events, params: { map: {one: {eventId: "", group_id: groups(:publicGroup).id, startDateTime: Date.current, endDateTime: Date.current}} }
+    end
+    sign_out user
+  end
+
+  test "group moderator can add events" do
+    user = users(:moderatorMaven)
+    sign_in user
+
+    assert_difference -> { Event.count }, +1 do
+      post :save_events, params: { map: {one: {eventId: "", group_id: groups(:publicGroup).id, startDateTime: Date.current, endDateTime: Date.current}} }
+    end
+    sign_out user
+  end
+
+  test "group memeber can add events" do
+    user = users(:memberMike)
+    sign_in user
+
+    assert_difference -> { Event.count }, +1 do
+      post :save_events, params: { map: {one: {eventId: "", group_id: groups(:publicGroup).id, startDateTime: Date.current, endDateTime: Date.current}} }
+    end
+    sign_out user
+  end
+
+  test "group non-memeber cannot add events" do
+    user = users(:loserLarry)
+    sign_in user
+
+    assert_no_difference -> { Event.count } do
+      post :save_events, params: { map: {one: {eventId: "", group_id: groups(:publicGroup).id, startDateTime: Date.current, endDateTime: Date.current}} }
+    end
+    sign_out user
+  end
+
+  test "group owner can delete events" do
+    user = users(:ownerAlice)
+    sign_in user
+
+    assert_difference -> { Event.count }, -1 do
+      post :delete_event, params: { id: events(:public_group_event) }
+    end
+    sign_out user
+  end
+  
+  test "group moderator can delete events" do
+    user = users(:moderatorMaven)
+    sign_in user
+
+    assert_difference -> { Event.count }, -1 do
+      post :delete_event, params: { id: events(:public_group_event) }
+    end
+    sign_out user
+  end
+
+  test "group memeber can delete events" do
+    user = users(:memberMike)
+    sign_in user
+
+    assert_difference -> { Event.count }, -1 do
+      post :delete_event, params: { id: events(:public_group_event) }
+    end
+    sign_out user
+  end
+
+  test "group non-member can delete events" do
+    user = users(:loserLarry)
+    sign_in user
+
+    assert_no_difference -> { Event.count } do
+      post :delete_event, params: { id: events(:public_group_event) }
+    end
+    sign_out user
+  end
+
 end
