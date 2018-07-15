@@ -584,6 +584,36 @@ input[readonly="readonly"]
 	}
 }
 
+#invited-people {
+	min-height: 50px;
+	width: 95%;
+	margin-left: auto;
+	margin-right: auto;
+	display: inline-block;
+
+	background: ghostwhite;
+}
+
+#invited-people .person {
+	height: 40px;
+	margin: 5px 0;
+	padding: 5px;
+
+	display: flex;
+	justify-content: space-between;
+	background: greenyellow;
+
+	.identity {
+		display: flex;
+		align-items: center;
+	}
+
+	.actions {
+		display: flex;
+		align-items: center;
+	}
+}
+
 #sch-holder::-webkit-scrollbar, #sch-tiles::-webkit-scrollbar
 {
 	width: 9px;

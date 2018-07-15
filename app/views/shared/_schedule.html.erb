@@ -44,11 +44,6 @@
 			To: <input id="repeat-end" class="date-field" type="text"></input>
 		</div>
 		<span id="add-break-event" class="default green">Add Break</span>
-		<div id="invite-title" class="small-title">
-			Invite Members
-			<span id="edit-invite" class="edit">Edit</span>
-		</div>
-		<%= render "shared/user_adder", name: "user_ids" %>
 		<div id="desc-title" class="small-title">
 			Description:
 			<span id="edit-desc" class="edit">Edit</span>
@@ -59,7 +54,9 @@
 			<span id="edit-loc" class="edit">Edit</span>
 		</div>
 		<textarea id="overlay-loc" class="auto-resize-vertically">Location goes here</textarea>
-	</div>
+
+    <span id="invite-people-button" class="default">Invite People</span>
+  </div>
 
 	<div id="break-overlay-box" class="overlay-box">
 		<span class="default red close"></span>
@@ -80,13 +77,14 @@
 		</div>
 	</div>
 
-	<div id="invite-users-overlay-box" class="overlay-box">
+	<div id="event-invites-overlay-box" class="overlay-box">
 		<span class="default red close"></span>
-		<h3>Invite Users</h3>
-		Users will be notified when they receive an invite for the first time.
-		<div id="users-invited-cont">
-		</div>
-		<%= render "shared/user_adder", name: "user_ids" %>
+		<h3>Invited Users</h3>
+    <div id="invited-people"></div>
+
+    <h3>Invite Others</h3>
+    <%= render 'shared/user_adder', name: 'user_ids' %>
+    <span id="send-invites" class="default green">Send Invites</span>
 	</div>
 
 	<div id="evnt-delete" class="overlay-box">

@@ -795,11 +795,21 @@ function addStartingListeners()
 		highlightCurrent();
 	});
 
-	$("#edit-invite").click(function()
+	$("#invite-people-button").click(function()
 	{
-		setupInvitedUsers()
-		UIManager.slideInShowOverlay("#invite-users-overlay-box");
+		setupInvitedUsers($(this))
+		UIManager.slideInShowOverlay("#event-invites-overlay-box");
 	});
+
+
+	$("#send-invites").click(() => {
+		const eventId = scheduleItems[currEvent.tempId].eventId;
+		const data = { user_ids: $("#user_ids").val(), event_id: eventId }
+
+		$.post("/event_invites", data, response =>
+			$("#invited-people").append(response)
+		).fail(err => alert(err.responseText))
+	})
 
 	$("#embed-button").click(function()
 	{
@@ -863,9 +873,9 @@ function addStartingListeners()
 		UIManager.slideOutHideOverlay("#break-adder-overlay-box");
 	});
 
-	$("#invite-users-overlay-box .close").click(function()
+	$("#event-invites-overlay-box .close").click(function()
 	{
-		UIManager.slideOutHideOverlay("#invite-users-overlay-box");
+		UIManager.slideOutHideOverlay("#event-invites-overlay-box")
 	});
 
 	$("#view-monthly").click(initializeMonthlyView);
@@ -2018,8 +2028,11 @@ function showBreakCreateOverlay()
 	UIManager.slideInShowOverlay("#break-overlay-box"); //and fade in
 }
 
-function setupInvitedUsers() {
-	/* TODO retrieve users from associated event_invite obj */
+function setupInvitedUsers(elem) {
+	var eventId = scheduleItems[currEvent.tempId].eventId;
+	$.get(`/events/${eventId}/participants`, people => {
+		$("#invited-people").html(people)
+	})
 }
 
 /**

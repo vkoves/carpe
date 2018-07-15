@@ -2,12 +2,17 @@ require 'utilities'
 
 #An event describes a schedule item, that is a single item occuring on a person's schedule
 class Event < ApplicationRecord
+  enum privacy: {
+    public_event: "public",
+    private_event: "private"
+  }
+
   belongs_to :user
   belongs_to :group
   belongs_to :category
 
-  has_many :users_events, :class_name => 'UsersEvent'
-  has_many :invited_users, :through => :users_events, :source => 'receiver'
+  has_many :event_invites
+  has_many :invited_users, through: :event_invites, source: :receiver
 
   has_and_belongs_to_many :repeat_exceptions
 
@@ -66,6 +71,20 @@ class Event < ApplicationRecord
     private_event.description = ""
     private_event.location = ""
     return private_event
+  end
+
+  # Returns true if this is a parent event that other events pull
+  # data from (i.e. it uses the event invites feature).
+  # If there are no outstanding invites this event won't be considered
+  # a host event.
+  def host_event?
+    !invited_users.empty?
+  end
+
+  # Returns true if this event pulls data from a parent event.
+  # Specifically, when this event was generated from an event invite.
+  def hosted_event?
+    base_event_id != nil
   end
 
   ##########################

@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  resources :event_invites do
+    member do
+      get "invite_multiple_users"
+    end
+  end
+
   resources :categories
 
   devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks", :registrations => "users/registrations" }
@@ -46,6 +52,7 @@ Rails.application.routes.draw do
   post "/confirm_friend" => 'friendships#confirm'
 
   #Event backend commands
+  get "/events/:id/participants" => 'schedule#event_participants'
   post "/save_events" => 'schedule#save_events'
   post "/delete_event" => 'schedule#delete_event'
 

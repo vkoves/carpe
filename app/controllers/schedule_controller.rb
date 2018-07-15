@@ -158,6 +158,11 @@ class ScheduleController < ApplicationController
     end
   end
 
+  def event_participants
+    participants = EventInvite.where(event_id: params[:id])
+    render participants
+  end
+
   private
 
   def allow_iframe

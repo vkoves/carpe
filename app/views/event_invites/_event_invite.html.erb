@@ -1,0 +1,23 @@
+<% participant = event_invite.receiver %>
+
+<div class="person" data-invite-id="<%= event_invite.id %>">
+  <div class="identity">
+    <div class="avatar small">
+      <%= link_to(participant) do %>
+        <img src="<%= participant.user_avatar(100) %>">
+      <% end %>
+    </div>
+
+    <h4><%=participant.name%></h4>
+  </div>
+
+  <div class="actions">
+    <%= form_for event_invite, method: :put, remote: true do |f| %>
+      <%= f.select :role, EventInvite.roles.keys.map { |r| [r.humanize, r] },
+                 { selected: event_invite.role },
+                 { onchange: "$(this).parents('form').submit()"} %>
+    <% end %>
+
+    <%= link_to "Banish To The Shadow Realm", event_invite_path(event_invite), method: :delete, remote: true %>
+  </div>
+</div>
