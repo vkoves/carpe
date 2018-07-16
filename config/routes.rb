@@ -1,24 +1,24 @@
 Rails.application.routes.draw do
-  resources :event_invites do
-    member do
-      get "invite_multiple_users"
-    end
-  end
+  devise_for :users, :controllers => {
+    :omniauth_callbacks => "omniauth_callbacks",
+    :registrations => "users/registrations"
+  }
 
-  resources :categories
-
-  devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks", :registrations => "users/registrations" }
   resources :users, only: [:index, :destroy, :show] do
-    member do
-      get "promote"
-      get "demote"
-      get "inspect"
-    end
-
-    collection do
-      get "search"
-    end
+    get :promote, :demote, :inspect, on: :member
+    get :search, on: :collection
   end
+
+  resources :relationships
+
+  namespace :scheduler do
+    post :save_events
+  end
+
+  resources :categories, only: [:create, :update, :destroy]
+  resources :repeat_exceptions, only: [:create, :update, :destroy]
+  resources :events, only: [:create, :destroy]
+  resources :event_invites
 
   #General page routes
   get "/home" => 'home#index', :as => :home
@@ -27,9 +27,6 @@ Rails.application.routes.draw do
 
   get "/about" => 'pages#about'
   get "/status" => 'pages#status'
-
-  #Follow Routes
-  resources :relationships
 
   #Group Rotes
   get "/groups" => 'groups#index'
@@ -48,18 +45,6 @@ Rails.application.routes.draw do
 
   #User Routes
   get "/search_core" => 'application#search_core'
-  post "/deny_friend" => 'friendships#deny'
-  post "/confirm_friend" => 'friendships#confirm'
-
-  #Event backend commands
-  get "/events/:id/participants" => 'schedule#event_participants'
-  post "/save_events" => 'schedule#save_events'
-  post "/delete_event" => 'schedule#delete_event'
-
-  post "/create_category" => 'schedule#create_category'
-  post "/delete_category" => 'schedule#delete_category'
-
-  post "/create_break" => 'schedule#create_exception'
 
   #Other backend stuff
   post "/read_notifications" => 'notifications#read_all'

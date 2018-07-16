@@ -2030,7 +2030,7 @@ function showBreakCreateOverlay()
 
 function setupInvitedUsers(elem) {
 	var eventId = scheduleItems[currEvent.tempId].eventId;
-	$.get(`/events/${eventId}/participants`, people => {
+	$.get(`/event_invites`, { event_id: eventId }, people => {
 		$("#invited-people").html(people)
 	})
 }
@@ -2197,7 +2197,7 @@ function saveEvents()
 	var arr  = JSON.parse(JSON.stringify(scheduleItemsToSave));
 
 	$.ajax({
-		url: "/save_events",
+		url: "/scheduler/save_events",
 		type: "POST",
 		data: {map: arr, group_id: groupID},
 		success: function(resp)
@@ -2337,9 +2337,9 @@ function deleteEvent(event, elem)
 			return;
 
 		$.ajax({
-			url: "/delete_event",
-			type: "POST",
-			data: {id: eId, group_id: groupID},
+			url: `/events/${eid}`,
+			type: "DELETE",
+			data: {id: eId},
 			success: function(resp)
 			{
 				console.log("Delete complete.");
@@ -2356,7 +2356,7 @@ function deleteEvent(event, elem)
 function createCategory()
 {
 	$.ajax({
-		url: "/create_category",
+		url: "/categories",
 		type: "POST",
 		data: {name: "", user_id: userId, group_id: groupID, color: "silver"},
 		success: function(resp)
@@ -2400,9 +2400,9 @@ function deleteCategory(event, elem, id)
 	confirmUI("Are you sure you want to delete this category?", function(confirmed)
 	{
 		$.ajax({
-			url: "/delete_category",
-			type: "POST",
-			data: {id: id, group_id: groupID},
+			url: `/categories/${id}`,
+			type: "DELETE",
+			data: {group_id: groupID},
 			success: function(resp) //after the server says the delete worked
 			{
 				console.log("Delete category complete.");
@@ -2441,9 +2441,9 @@ function saveCategory(event,elem,id)
 	var categoryName = ( $(".cat-overlay-title").html() === PLACEHOLDER_NAME ? "" : $(".cat-overlay-title").text());
 
 	$.ajax({
-		url: "/create_category",
-		type: "POST",
-		data: {name: categoryName, id: id, color: $(".cat-top-overlay").css("background-color"),
+		url: `/categories/${id}`,
+		type: "PATCH",
+		data: {name: categoryName, color: $(".cat-top-overlay").css("background-color"),
 			privacy: currCategory.privacy, breaks: currCategory.breaks, group_id: groupID},
 		success: function(resp)
 		{
@@ -2481,13 +2481,13 @@ function createBreak(name, startDate, endDate, callback)
 	endD.setHours(0,0,0,0); //clear any time
 
 	$.ajax({
-		url: "/create_break",
+		url: "/repeat_exceptions",
 		type: "POST",
 		data: {name: name, start: startD, end: endD, group_id: groupID},
 		success: function(resp) //server responds with the id
 		{
 			var brk = new Break(); //create a new break instance
-			brk.id = resp;
+			brk.id = resp.id;
 			brk.name = name;
 			brk.startDate = startD;
 			brk.endDate = endD;

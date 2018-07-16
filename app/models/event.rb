@@ -8,6 +8,8 @@ class Event < ApplicationRecord
   }
 
   belongs_to :user
+  alias_attribute :creator, :user
+
   belongs_to :group
   belongs_to :category
 

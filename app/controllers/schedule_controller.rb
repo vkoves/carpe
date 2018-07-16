@@ -20,67 +20,6 @@ class ScheduleController < ApplicationController
     end
   end
 
-  def create_category
-    if params[:id]
-      @cat = Category.find(params[:id])
-    else
-      @cat = Category.new
-    end
-
-    @cat.color = params[:color]
-
-    unless params[:group_id].empty?
-      @cat.group = Group.find(params[:group_id])
-    end
-
-    if(params[:user_id])
-      @cat.user = User.find(params[:user_id])
-    end
-
-    if(params[:privacy])
-      @cat.privacy = params[:privacy]
-    end
-
-    @cat.name = params[:name]
-
-    @cat.repeat_exceptions.clear #empty out
-    if params[:breaks]
-      params[:breaks].each do |break_id| #then add the current things
-        @cat.repeat_exceptions << RepeatException.find(break_id)
-      end
-    end
-
-    @cat.save
-    render json: @cat
-  end
-
-  ###
-  # Authenticated
-  # Verifies the user deleting is the owner
-  ###
-  def delete_category
-    category = Category.find(params[:id])
-    if current_user and (category.user == current_user or category.group.in_group?(current_user)) #if user is owner or in owning group
-      Category.destroy(params[:id])
-      render plain: "Category destroyed"
-    end
-  end
-
-  def create_exception #ccreate a repeat exception
-    if params[:id]
-      @exception = RepeatException.find(params[:id])
-    else
-      @exception = RepeatException.new
-    end
-
-    @exception.name = params[:name] if params[:name]
-    @exception.start = Date.parse(params[:start]) if params[:start]
-    @exception.end =  Date.parse(params[:end]) if params[:end]
-    @exception.user = current_user
-    @exception.save
-    render json: @exception.id #return the id of the repeat exception
-  end
-
   ###
   # Authenticated
   # Verifies the user changing events is the owner
@@ -144,23 +83,6 @@ class ScheduleController < ApplicationController
 
     render :json => new_event_ids
     #render :json => params[:map] #useful for seeing what data was passed
-  end
-
-  ###
-  # Authenticated
-  # Verifies the user changing events is the owner
-  ###
-  def delete_event #delete events
-    event = Event.find(params[:id])
-    if current_user and (event.user == current_user or event.group.in_group?(current_user)) #if the current user is the owner or in the owner group
-      Event.destroy(params[:id])
-      render plain: "Event deleted."
-    end
-  end
-
-  def event_participants
-    participants = EventInvite.where(event_id: params[:id])
-    render participants
   end
 
   private
