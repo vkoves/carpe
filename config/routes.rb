@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
   resources :relationships
 
-  namespace :scheduler do
+  namespace :schedule do
     post :save_events
   end
 

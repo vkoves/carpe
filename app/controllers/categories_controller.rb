@@ -1,26 +1,35 @@
-class CategoryController < ApplicationController
+class CategoriesController < ApplicationController
   before_action :authorize_signed_in!
   respond_to :json
 
   def create
-    category = Category.create(category_params)
+    category = Category.new(create_category_params)
+    category.user = current_user
+    category.save
+
     render json: category
   end
 
   def update
     category = Category.find(params[:id])
-    category.update(category_params)
+    category.update(update_category_params)
+    head :ok
   end
 
   def destroy
     category = Category.find(params[:id])
     category.destroy
+    head :ok
   end
 
   private
 
-  def category_params
-    params.permit(:name, :color, :user_id, :privacy, :group_id)
+  def create_category_params
+    params.permit(:name, :color, :privacy, :group_id)
+  end
+
+  def update_category_params
+    params.require(:category).permit(:name, :color, :privacy, repeat_exception_ids: [])
   end
 end
 

@@ -2197,7 +2197,7 @@ function saveEvents()
 	var arr  = JSON.parse(JSON.stringify(scheduleItemsToSave));
 
 	$.ajax({
-		url: "/scheduler/save_events",
+		url: "/schedule/save_events",
 		type: "POST",
 		data: {map: arr, group_id: groupID},
 		success: function(resp)
@@ -2337,7 +2337,7 @@ function deleteEvent(event, elem)
 			return;
 
 		$.ajax({
-			url: `/events/${eid}`,
+			url: `/events/${eId}`,
 			type: "DELETE",
 			data: {id: eId},
 			success: function(resp)
@@ -2402,7 +2402,6 @@ function deleteCategory(event, elem, id)
 		$.ajax({
 			url: `/categories/${id}`,
 			type: "DELETE",
-			data: {group_id: groupID},
 			success: function(resp) //after the server says the delete worked
 			{
 				console.log("Delete category complete.");
@@ -2443,8 +2442,8 @@ function saveCategory(event,elem,id)
 	$.ajax({
 		url: `/categories/${id}`,
 		type: "PATCH",
-		data: {name: categoryName, color: $(".cat-top-overlay").css("background-color"),
-			privacy: currCategory.privacy, breaks: currCategory.breaks, group_id: groupID},
+		data: {category: {name: categoryName, color: $(".cat-top-overlay").css("background-color"),
+				privacy: currCategory.privacy, repeat_exception_ids: currCategory.breaks}},
 		success: function(resp)
 		{
 			console.log("Update category complete.");
