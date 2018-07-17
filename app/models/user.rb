@@ -15,7 +15,7 @@ class User < ApplicationRecord
   has_many :notifications, class_name: 'Notification',
            foreign_key: 'receiver_id', dependent: :destroy
 
-  has_many :event_invites, source: :receiver
+  has_many :event_invites, foreign_key: :recipient_id, dependent: :destroy
   has_many :event_invites_sent, through: :event_invites, source: :sender
   has_many :events_invited_to, through: :event_invites, source: :event
 
@@ -26,9 +26,9 @@ class User < ApplicationRecord
 	devise :omniauthable
 	validates_presence_of :name, :home_time_zone
 
-	has_many :categories
-	has_many :events
-  has_many :repeat_exceptions
+	has_many :categories, dependent: :destroy
+	has_many :events, dependent: :destroy
+  has_many :repeat_exceptions, dependent: :destroy
 
   # Attach the avatar image. -quality [0-100] sets quality, -strip removes meta data, -layers optimize optimizes gif layers
   has_attached_file :avatar, styles: {
@@ -261,15 +261,6 @@ class User < ApplicationRecord
   ##########################
   ## GENERAL USER METHODS ##
   ##########################
-
-  def destroy #destroys this user and all assocaited data
-    categories.destroy_all #destroy all our categories
-    events.destroy_all #destroy all our events as well, though cats should cover that
-    notifications.destroy_all #destroy all our notifications
-    active_relationships.destroy_all # destroy all following relationships
-    passive_relationships.destroy_all # destroy all followed relationships
-    self.delete #and then get rid of ourselves
-  end
 
 	def self.find_for_google_oauth2(access_token, signed_in_resource=nil)
     data = access_token.info

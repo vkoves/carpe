@@ -100,21 +100,6 @@ class UsersControllerTest < ActionController::TestCase
     assert_response :missing
   end
 
-  test "can perform an empty search query" do
-    get :search, params: { q: nil }
-    assert_response :success, "Accepts empty search queries"
-  end
-
-  test "can perform a search query" do
-    get :search, params: { q: "v" }
-    assert_response :success
-  end
-
-  test "can perform a `json` search query" do
-    get :search, params: { q: "v", format: "json" }
-    assert_response :success
-  end
-
   test "only admins (or the account owner) can delete users" do
     sign_in @norm
     assert_no_difference 'User.count' do

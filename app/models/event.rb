@@ -13,8 +13,8 @@ class Event < ApplicationRecord
   belongs_to :group
   belongs_to :category
 
-  has_many :event_invites
-  has_many :invited_users, through: :event_invites, source: :receiver
+  has_many :event_invites, dependent: :destroy
+  has_many :invited_users, through: :event_invites, source: :recipient
 
   has_and_belongs_to_many :repeat_exceptions
 

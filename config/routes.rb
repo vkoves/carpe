@@ -17,7 +17,7 @@ Rails.application.routes.draw do
   resources :categories, only: [:create, :update, :destroy]
   resources :repeat_exceptions, only: [:create, :update, :destroy]
   resources :events, only: [:create, :destroy]
-  resources :event_invites
+  resources :event_invites, except: [:new, :edit]
 
   namespace :search do
     get :all, :users, :event_invite_participants
