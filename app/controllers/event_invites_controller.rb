@@ -1,6 +1,7 @@
 class EventInvitesController < ApplicationController
   before_action :authorize_signed_in!
   before_action :set_event_invite, only: [:show, :edit, :update, :destroy]
+  respond_to :json
 
   def index
     render EventInvite.where(event_id: params[:event_id])
@@ -16,7 +17,9 @@ class EventInvitesController < ApplicationController
     event_invite.sender = current_user
     event_invite.save
 
-    head :ok
+    send_event_invite_notification(event_invite)
+
+    render event_invite
   end
 
   def update
@@ -26,7 +29,6 @@ class EventInvitesController < ApplicationController
 
   def destroy
     @event_invite.destroy
-    head :ok
   end
 
   private
@@ -51,11 +53,23 @@ class EventInvitesController < ApplicationController
       { sender_id: current_user.id, recipient_id: recipient.id, event_id: event.id }
     })
 
-    if invites.all?(&:persisted?)
+    good, bad = invites.partition(&:persisted?)
+    good.each{ |invite| send_event_invite_notification(invite) }
+
+    if bad.empty?
       render invites
     else
-      error_msg = invites.map{ |inv| inv.errors.messages.values }.join(", ")
-      render plain: error_msg, status: :unprocessable_entity
+      error_msg = bad.map{ |inv| inv.errors.messages.values }.join(", ")
+      render json: { partial: good, errors: error_msg }, status: :unprocessable_entity
     end
+  end
+
+  def send_event_invite_notification(event_invite)
+    Notification.create(
+      sender: current_user,
+      receiver: event_invite.recipient,
+      event: :event_invite,
+      entity: event_invite
+    )
   end
 end

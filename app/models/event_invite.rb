@@ -21,4 +21,5 @@ class EventInvite < ApplicationRecord
   belongs_to :event
 
   has_many :invited, class_name: 'User', source: :recipient
+  has_many :notifications, as: :entity
 end

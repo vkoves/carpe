@@ -297,6 +297,24 @@
 		padding: 15px;
 	}
 }
+
+.notif.event-invite
+{
+	display: inline-block;
+	width: 100%;
+	height: auto;
+
+	.context {
+
+	}
+
+	.choices {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-around;
+	}
+}
+
 #users-search
 {
 	display: inline-block;

@@ -2,7 +2,7 @@ class Relationship < ApplicationRecord
   # Made using https://www.railstutorial.org/book/following_users
   belongs_to :follower, class_name: "User"
   belongs_to :followed, class_name: "User"
-
+  has_many :notifications, as: :entity
 
   # Confirm this relationship
   def confirm

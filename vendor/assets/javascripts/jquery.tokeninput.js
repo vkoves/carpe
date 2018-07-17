@@ -123,7 +123,11 @@ var methods = {
 	updateUrl: function(newUrl) {
 		this.data("tokenInputObject").updateUrl(newUrl);
 		return this;
-    }
+    },
+	clearCache: function() {
+		this.data("tokenInputObject").clearCache();
+		return this;
+	}
 }
 
 // Expose the .tokenInput function to jQuery as a plugin
@@ -199,7 +203,7 @@ $.TokenList = function (input, url_or_data, settings) {
         .attr("id", settings.idPrefix + input.id)
         .focus(function () {
             if (settings.tokenLimit === null || settings.tokenLimit !== token_count) {
-                show_dropdown();
+                // show_dropdown();
             }
         })
         .blur(function () {
@@ -434,6 +438,10 @@ $.TokenList = function (input, url_or_data, settings) {
 
    	this.updateUrl = function(newUrl) {
     	settings.url = newUrl;
+	}
+
+	this.clearCache = function() {
+    	cache.flush();
 	}
 
     //
@@ -866,14 +874,14 @@ $.TokenList.Cache = function (options) {
     var data = {};
     var size = 0;
 
-    var flush = function () {
+    this.flush = function () {
         data = {};
         size = 0;
     };
 
     this.add = function (query, results) {
         if(size > settings.max_size) {
-            flush();
+            this.flush();
         }
 
         if(!data[query]) {

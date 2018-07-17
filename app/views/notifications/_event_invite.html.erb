@@ -1,0 +1,19 @@
+<% event_invite = notification.entity %>
+
+<div class="notif event-invite">
+  <div class="context">
+    <%= link_to(notification.sender) do %>
+      <div id="user-avatar" class="avatar">
+        <img src="<%= notification.sender.user_avatar(90) %>">
+      </div>
+    <% end %>
+
+    <p><%= link_to event_invite.sender.name, event_invite.sender %> invited you to the event <%= event_invite.event.name %></p>
+  </div>
+
+  <div class="choices">
+    <%= link_to "I'm attending", notification_updated_path(notification, :accepted), method: :post, remote: true, class: "default red" %>
+    <%= link_to "Maybe", notification_updated_path(notification, :maybe), method: :post,remote: true, class: "default" %>
+    <%= link_to "No, thanks", notification_updated_path(notification, :declined), method: :post,remote: true, class: "default green" %>
+  </div>
+</div>

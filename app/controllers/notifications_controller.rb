@@ -28,4 +28,10 @@ class NotificationsController < ApplicationController
 
     @notification.destroy
   end
+
+  def event_invite
+    event_invite = @notification.entity
+    event_invite.update(status: params[:response])
+    @notification.destroy
+  end
 end

@@ -801,14 +801,19 @@ function addStartingListeners()
 		UIManager.slideInShowOverlay("#event-invites-overlay-box");
 	});
 
-
 	$("#send-invites").click(() => {
 		const eventId = scheduleItems[currEvent.tempId].eventId;
 		const data = { user_ids: $("#user_ids").val(), event_id: eventId }
 
-		$.post("/event_invites", data, response =>
-			$("#invited-people").append(response)
-		).fail(err => alert(err.responseText))
+		$.post("/event_invites", data, peopleHtml =>
+			$("#invited-people").append(peopleHtml)
+		).fail(({responseJSON: {partial, errors}}) => {
+			$("#invited-people").append(partial)
+			alertUI("Not everybody was invited!\n" + errors)
+		})
+
+		$("#user_ids").tokenInput("clear")
+		$("#user_ids").tokenInput("clearCache")
 	})
 
 	$("#embed-button").click(function()

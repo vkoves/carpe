@@ -92,6 +92,11 @@
       <%= render current_user.notifications.follow_request %>
     <% end %>
 
+    <% unless current_user.notifications.event_invite.empty? %>
+      <div id="notif-title">Event Invites</div>
+      <%= render current_user.notifications.event_invite %>
+    <% end %>
+
 
     <%= render current_user.notifications.system_message %>
 	</div>
