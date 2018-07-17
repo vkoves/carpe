@@ -119,7 +119,11 @@ var methods = {
     },
     get: function() {
     	return this.data("tokenInputObject").getTokens();
-   	}
+   	},
+	updateUrl: function(newUrl) {
+		this.data("tokenInputObject").updateUrl(newUrl);
+		return this;
+    }
 }
 
 // Expose the .tokenInput function to jQuery as a plugin
@@ -427,6 +431,10 @@ $.TokenList = function (input, url_or_data, settings) {
     this.getTokens = function() {
    		return saved_tokens;
    	}
+
+   	this.updateUrl = function(newUrl) {
+    	settings.url = newUrl;
+	}
 
     //
     // Private functions

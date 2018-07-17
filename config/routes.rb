@@ -6,7 +6,6 @@ Rails.application.routes.draw do
 
   resources :users, only: [:index, :destroy, :show] do
     get :promote, :demote, :inspect, on: :member
-    get :search, on: :collection
   end
 
   resources :relationships
@@ -19,6 +18,10 @@ Rails.application.routes.draw do
   resources :repeat_exceptions, only: [:create, :update, :destroy]
   resources :events, only: [:create, :destroy]
   resources :event_invites
+
+  namespace :search do
+    get :all, :users, :event_invite_participants
+  end
 
   #General page routes
   get "/home" => 'home#index', :as => :home
@@ -42,9 +45,6 @@ Rails.application.routes.draw do
   get "/admin" => 'pages#admin', :as => :admin_panel
   post "/run_command" => 'pages#run_command'
   post "/check_if_command_is_finished" => 'pages#check_if_command_is_finished'
-
-  #User Routes
-  get "/search_core" => 'application#search_core'
 
   #Other backend stuff
   post "/read_notifications" => 'notifications#read_all'

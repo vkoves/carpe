@@ -2033,6 +2033,10 @@ function setupInvitedUsers(elem) {
 	$.get(`/event_invites`, { event_id: eventId }, people => {
 		$("#invited-people").html(people)
 	})
+
+	// update user adder to only look for users not already participating in this event
+	const searchPath = `/search/event_invite_participants?event_id=${eventId}`;
+	$("#user_ids").tokenInput("updateUrl", searchPath);
 }
 
 /**
