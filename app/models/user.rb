@@ -13,7 +13,7 @@ class User < ApplicationRecord
   has_many :all_following, through: :active_relationships,  source: :followed #all followers, including pending
   has_many :all_followers, through: :passive_relationships, source: :follower #all followers, including pending
 
-  has_many :users_groups
+  has_many :users_groups, dependent: :destroy
   has_many :groups, -> { where users_groups: { accepted: true } }, :through => :users_groups
   has_many :notifications, :class_name => 'Notification', :foreign_key => 'receiver_id'
 

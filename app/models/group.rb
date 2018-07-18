@@ -4,13 +4,14 @@ class Group < ApplicationRecord
 
   enum privacy: { public_group: 0, private_group: 1, secret_group: 2 }
 
-  has_many :users_groups
+  has_many :users_groups, dependent: :destroy
   has_many :users, -> { where users_groups: { accepted: true } }, through: :users_groups
   alias_attribute :members, :users
 
-  has_many :categories
-  has_many :events
-  has_many :repeat_exceptions
+  has_many :categories, dependent: :destroy
+  has_many :events, dependent: :destroy
+  has_many :repeat_exceptions, dependent: :destroy
+  has_many :notifications, as: :entity, dependent: :destroy
 
   validates_presence_of :name
 
