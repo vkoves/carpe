@@ -803,9 +803,9 @@ function addStartingListeners()
 
 	$("#send-invites").click(() => {
 		const eventId = scheduleItems[currEvent.tempId].eventId;
-		const data = { user_ids: $("#user_ids").val(), event_id: eventId }
+		const userIds = { user_ids: $("#user_ids").val() }
 
-		$.post("/event_invites", data, peopleHtml =>
+		$.post(`/events/${eventId}/event_invites`, userIds, peopleHtml =>
 			$("#invited-people").append(peopleHtml)
 		).fail(({responseJSON: {partial, errors}}) => {
 			$("#invited-people").append(partial)
@@ -2035,7 +2035,8 @@ function showBreakCreateOverlay()
 
 function setupInvitedUsers(elem) {
 	var eventId = scheduleItems[currEvent.tempId].eventId;
-	$.get(`/event_invites`, { event_id: eventId }, people => {
+
+	$.post(`/events/${eventId}/event_invites/setup`, people => {
 		$("#invited-people").html(people)
 	})
 

@@ -1,6 +1,5 @@
 class EventInvitesController < ApplicationController
   before_action :authorize_signed_in!
-  before_action :set_event_invite, only: [:show, :edit, :update, :destroy]
   respond_to :json
 
   def index
@@ -8,6 +7,7 @@ class EventInvitesController < ApplicationController
   end
 
   def show
+    @event_invite = EventInvite.find(params[:id])
   end
 
   def create
@@ -23,19 +23,29 @@ class EventInvitesController < ApplicationController
   end
 
   def update
+    @event_invite = EventInvite.find(params[:id])
     @event_invite.update(event_invite_params)
     head :ok
   end
 
   def destroy
+    @event_invite = EventInvite.find(params[:id])
     @event_invite.destroy
   end
 
-  private
+  def setup
+    event = Event.find(params[:event_id])
 
-  def set_event_invite
-    @event_invite = EventInvite.find(params[:id])
+    # first time setup. adds the current user as a host to their own event
+    unless event.host_event?
+      EventInvite.create(sender: current_user, recipient: current_user,
+                         event: event, role: :host)
+    end
+
+    render EventInvite.where(event: event)
   end
+
+  private
 
   def event_invite_params
     params.require(:event_invite).permit(:role, :status)
