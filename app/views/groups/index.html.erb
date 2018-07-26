@@ -27,6 +27,8 @@
         <main class="flex-list">
           <%= render partial: "big_group_card", collection: @joinable_groups, as: :group %>
         </main>
+
+        <%= paginate @joinable_groups %>
       <% else %>
         <h4> There are no public groups you don't belong to on Carpe, but that means you can make one! Create a public group and all Carpe users will see it here. </h4>
       <% end %>
