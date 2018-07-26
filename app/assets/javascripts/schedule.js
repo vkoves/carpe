@@ -2349,7 +2349,6 @@ function deleteEvent(event, elem)
 		$.ajax({
 			url: `/events/${eId}`,
 			type: "DELETE",
-			data: {id: eId},
 			success: function(resp)
 			{
 				console.log("Delete complete.");

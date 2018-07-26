@@ -6,10 +6,6 @@ class EventInvitesController < ApplicationController
     render EventInvite.where(event_id: params[:event_id])
   end
 
-  def show
-    @event_invite = EventInvite.find(params[:id])
-  end
-
   def create
     batch_create and return if params[:user_ids]
 
