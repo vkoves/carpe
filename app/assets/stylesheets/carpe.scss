@@ -427,7 +427,7 @@ input.danger:hover
 {
 	position: absolute;
 	top: 60px;
-	z-index: 100;
+	z-index: 5;
 	min-height: 20px;
 	text-align: center;
 	display: inline-block;
@@ -445,12 +445,12 @@ input.danger:hover
 
   img
   {
-  	cursor: pointer;
-  	float: right;
-  	margin-left: 20px;
-  	opacity: 0.75;
+	cursor: pointer;
+	float: right;
+	margin-left: 20px;
+	opacity: 0.75;
 
-  	&:hover { opacity: 1; }
+	&:hover { opacity: 1; }
   }
 }
 .notice
@@ -663,16 +663,15 @@ form.thin
 	font-weight: bold;
 	transition: left 0.5s;
 
+	&:hover { left: -5px; }
+
 	/* Style and position the bug icon */
 	img
 	{
 		position: absolute;
 		right: 2px;
 		top: 3px;
-	}
-	&:hover
-	{
-		left: -5px;
+		height: 25px;
 	}
 }
 .group-cont
@@ -692,6 +691,19 @@ form.thin
 	font-size: 22px;
 	color: grey;
 }
+
+@media(max-width: 800px) {
+	#bug-submission {
+		top: 80px;
+		padding: 10px 55px 10px 25px;
+
+		img {
+			height: 40px;
+			top: 0px;
+		}
+	}
+}
+
 /* Overlay Shenangians? */
 .ui-widget-overlay
 {
