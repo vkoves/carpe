@@ -4,13 +4,14 @@ class Group < ApplicationRecord
 
   enum privacy: { public_group: 0, private_group: 1, secret_group: 2 }
 
-  has_many :users_groups
+  has_many :users_groups, dependent: :destroy
   has_many :users, -> { where users_groups: { accepted: true } }, through: :users_groups
   alias_attribute :members, :users
 
-  has_many :categories
-  has_many :events
-  has_many :repeat_exceptions
+  has_many :categories, dependent: :destroy
+  has_many :events, dependent: :destroy
+  has_many :repeat_exceptions, dependent: :destroy
+  has_many :notifications, as: :entity, dependent: :destroy
 
   validates_presence_of :name
 
@@ -32,32 +33,11 @@ class Group < ApplicationRecord
   end
 
   def invited?(user)
-    UsersGroup.exists?(user_id: user.id, group_id: id, accepted: false)
-  end
-
-  # can the user access the page at all?
-  def viewable_by?(user)
-    # user must be signed in
-    return false unless user.present?
-    # user must be part of secret group to view it
-    return false if secret_group? and not member?(user)
-
-    true
-  end
-
-  # can the user view the schedule, group members, etc?
-  def can_view_details?(user)
-    # user must be able to view the group
-    return false unless viewable_by? user
-
-    # user must be part of the private group
-    return false if private_group? and not member?(user)
-
-    true
+    invitation_for(user).exists?
   end
 
   def members_with_role(role)
-      User.where(id: UsersGroup.where(group_id: id, accepted: true, role: role).select(:user_id))
+    User.where(id: UsersGroup.where(group_id: id, accepted: true, role: role).select(:user_id))
   end
 
   def member?(user)
@@ -72,11 +52,19 @@ class Group < ApplicationRecord
     UsersGroup.create group_id: id, user_id: user.id, accepted: true, role: as
   end
 
-  def invite(user, as: :member)
-    UsersGroup.create group_id: id, user_id: user.id, accepted: false, role: as
-  end
-
   def membership(user)
     UsersGroup.find_by group_id: id, user_id: user.id
+  end
+
+  def owner
+    User.find_by(id: UsersGroup.where(group_id: id, role: :owner).select(:user_id))
+  end
+
+  def pending_invite_request?(user)
+    Notification.exists?(event: :group_invite_request, sender: user, entity: self)
+  end
+
+  def invitation_for(user)
+    Notification.find_by(event: :group_invite, receiver: user, entity: self)
   end
 end

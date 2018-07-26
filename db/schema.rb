@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180301220141) do
+ActiveRecord::Schema.define(version: 20180703051610) do
 
   create_table "categories", force: :cascade do |t|
     t.string "name"
@@ -78,12 +78,17 @@ ActiveRecord::Schema.define(version: 20180301220141) do
   end
 
   create_table "notifications", force: :cascade do |t|
-    t.integer "receiver_id"
+    t.integer "receiver_id", null: false
     t.integer "sender_id"
     t.string "message"
-    t.boolean "viewed", default: false
+    t.boolean "viewed", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "entity_id"
+    t.string "entity_type"
+    t.integer "event", default: 0, null: false
+    t.index ["entity_id", "entity_type"], name: "index_notifications_on_entity_id_and_entity_type"
+    t.index ["entity_id", "event"], name: "index_notifications_on_entity_id_and_event", unique: true
   end
 
   create_table "relationships", force: :cascade do |t|
@@ -147,6 +152,7 @@ ActiveRecord::Schema.define(version: 20180301220141) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["group_id"], name: "index_users_groups_on_group_id"
+    t.index ["user_id", "group_id"], name: "index_users_groups_on_user_id_and_group_id", unique: true
     t.index ["user_id"], name: "index_users_groups_on_user_id"
   end
 

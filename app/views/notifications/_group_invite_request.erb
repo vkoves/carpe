@@ -1,0 +1,9 @@
+<% group = notification.entity %>
+
+<div class="notif group-invite" fid="<%= notification.id %>">
+  <%= link_avatar notification.sender, size: 90 %>
+  <span><%= notification.sender.name %> would like to join <%= group.name %></span>
+
+  <%= link_to "", notification_updated_path(notification, "accepted"), method: :post, remote: true, class: "confirm" %>
+  <%= link_to "", notification_updated_path(notification, "denied"), method: :post, remote: true, class: "deny" %>
+</div>

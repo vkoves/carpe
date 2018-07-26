@@ -53,6 +53,8 @@ Rails.application.routes.draw do
 
   #Other backend stuff
   post "/read_notifications" => 'notifications#read_all'
+  post "/notification_updated/:id(/:response)" => 'notifications#updated', as: :notification_updated
+  get "/search/group/:id/invite_users", to: 'groups#invite_users_search', as: :group_invite_users_search
 
   root 'home#index'
 

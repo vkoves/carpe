@@ -5,21 +5,40 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    can :promote, UsersGroup do |user_group|
-      target, group = user_group.user, user_group.group
+    alias_action :manage_members, :edit_schedule, :invite_members, to: :moderator_actions
 
-      role = group.role(user)
-      target_role = group.role(target)
-
-      false
+    can :view, Group do |grp|
+      grp.public_group? or grp.private_group? or (grp.secret_group? and user.in_group?(grp))
     end
 
-    can :update, Group, users_groups: { role: :owner }
-    can :manage_members, Group, users_groups: { role: [:owner, :moderator] }
-    can :invite_members, Group, users_groups: { role: [:owner, :moderator] }
+    # must be signed in past this point
+    return false unless user.present?
 
-    can :view, Group do |group|
-      group.viewable_by?(user)
-    end
+    can :manage, RepeatException, group: nil, user: user
+    can :manage, RepeatException, group: { users_groups: { user: user, role: [:owner, :moderator, :editor]} }
+
+    can :manage, Event, group: nil, user: user
+    can :manage, Event, group: { users_groups: { user: user, role: [:owner, :moderator, :editor, :member] } }
+
+    can :manage, Category, group: nil, user: user
+    can :manage, Category, group: { users_groups: { user: user, role: [:owner, :moderator, :editor] } }
+
+    can :manage, Group, users_groups: { user: user, role: :owner }
+    can :moderator_actions, Group, users_groups: { user: user, role: :moderator }
+
+    can :manage, UsersGroup, group: { users_groups: { user: user, role: :owner } }
+    can(:update, UsersGroup) { |*args| can_assign_role?(user, *args) }
+  end
+
+  private
+
+  def can_assign_role?(user, membership, to_role)
+    assigner_role = membership.group.role(user)
+
+    # besides owners, only moderators can promote/demote people
+    return false unless assigner_role == :moderator
+
+    # moderators can only assign roles that are below their own (i.e. member and editor)
+    return true if UsersGroup.role_priority(to_role) < UsersGroup.role_priority(assigner_role)
   end
 end

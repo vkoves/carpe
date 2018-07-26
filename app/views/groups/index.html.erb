@@ -3,10 +3,10 @@
 <div id="body">
   <aside class="shaded sidebar">
     <h2>Groups You Belong To</h2>
-    <% unless current_user.groups.empty? %>
-      <%= render partial: "small_group_card", collection: current_user&.groups&.all, as: :group %>
-    <% else %>
+    <% if current_user.groups.empty? %>
       <h4> You don't belong to any groups! Join a group and it will show up here. </h4>
+    <% else %>
+      <%= render partial: "small_group_card", collection: current_user.groups, as: :group %>
     <% end %>
   </aside>
 
@@ -24,14 +24,12 @@
 
     <div class="groups-list">
       <% if @joinable_groups %>
-        <% @joinable_groups.each do |group| %>
-          <%= render partial: "big_group_card", locals:{group:group} %>
-        <% end %>
+        <main class="flex-list">
+          <%= render partial: "big_group_card", collection: @joinable_groups, as: :group %>
+        </main>
       <% else %>
         <h4> There are no public groups you don't belong to on Carpe, but that means you can make one! Create a public group and all Carpe users will see it here. </h4>
       <% end %>
     </div>
-
-    <main class="flex-list js-lazy-loading-list" data-next-page-path="<%#= path_to_next_page @visible_groups %>"></main>
   </main>
 </div>

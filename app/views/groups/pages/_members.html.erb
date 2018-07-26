@@ -20,5 +20,9 @@
     <% end %>
   </header>
 
-  <main class="flex-list js-lazy-loading-list" data-next-page-path="<%= path_to_next_page @members %>?view=members"></main>
+  <main class="flex-list">
+    <%= render partial: "groups/basic_user_block", collection: @members, as: :member %>
+  </main>
+
+  <%= paginate @members %>
 </div>

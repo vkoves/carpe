@@ -60,4 +60,31 @@ module Profile
 
     return event_instances #and return
   end
+
+  def events_accessible_by(user)
+    # optimization: user or group member viewing their own events/categories
+    if user == self or try(:member?, user)
+      return events.includes(:repeat_exceptions)
+    end
+
+    events.includes(:repeat_exceptions).map do |event|
+      event.accessible_by?(user) ? event : event.private_version
+    end
+  end
+
+  def categories_accessible_by(user)
+    # optimization: user or group member viewing their own events/categories
+    if user == self or try(:member?, user)
+      return categories
+    end
+
+    categories.map do |cat|
+      cat.accessible_by?(user) ? cat : cat.private_version
+    end
+  end
+
+  def upcoming_events
+    recent_events = self.events_in_range(DateTime.now - 2.day, DateTime.now.end_of_day + 10.day)
+    recent_events.select{ |event| event.end_date >= DateTime.now }
+  end
 end

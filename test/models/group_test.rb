@@ -18,7 +18,7 @@ class GroupTest < ActiveSupport::TestCase
   end
 
   test "#role returns the correct group member roles" do
-    assert_equal :admin, @group1.role(@viktor)
+    assert_equal :moderator, @group1.role(@viktor)
     assert_equal :member, @group1.role(@norm)
     assert_equal :owner, groups(:four).role(users(:joe))
     assert_nil @group2.role(@viktor)

@@ -471,13 +471,11 @@ input.danger:hover
  */
 .user-entry
 {
-	width: 500px;
+	width: 95%;
 	border-radius: 5px;
 	border: solid 2px #CECECE;
 	text-align: left;
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: 15px;
+	margin: 15px auto;
 
 	ul
 	{
@@ -504,11 +502,11 @@ input.danger:hover
 			img { border-width: 2px; width: 30px; height: 30px; }
 		}
 		&.token-input-input-token input { width: auto !important; }
-		p
+		.name
 		{
 			margin: 0px 10px;
 		}
-		p, span
+		.name, span
 		{
 			display: block;
 			float: left;

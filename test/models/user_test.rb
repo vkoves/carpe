@@ -46,11 +46,11 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "'Private' and 'Follower' category items should not be given to unrelated users" do
-    result = @viktor.get_categories(@putin).find { |cat| cat == categories(:private) }
+    result = @viktor.categories_accessible_by(@putin).find { |cat| cat == categories(:private) }
     assert_includes result.name, "Private",
                     "Private categories should not be visible to other users"
 
-    result = @viktor.get_categories(@putin).find { |cat| cat == categories(:followers) }
+    result = @viktor.categories_accessible_by(@putin).find { |cat| cat == categories(:followers) }
     assert_includes result.name, "Private",
                     "Follower categories should not be visible to non-following users"
   end
@@ -243,5 +243,21 @@ class UserTest < ActiveSupport::TestCase
 
     assert_nil users(:viktor).convert_to_json["current_sign_in_ip"], "convert_to_json should not contain sign in IP"
     assert_nil users(:viktor).convert_to_json["encrypted_password"], "convert_to_json should not contain encrypted_password"
+  end
+
+  test "next_event shouldn't return past events" do
+    event = events(:current_event_1)
+    event.date = Time.parse('4th Jun 2018 10:00:00 PM')
+    event.end_date = event.date + 2.hour
+    event.repeat = "certain_days-0" # repeat every sunday
+
+    event.save!
+    event.reload
+
+    current_time = Time.parse('28th May 2018 5:00:00 PM') # a monday
+    travel_to current_time do
+      next_event = users(:norm).next_event
+      assert_nil next_event, "found 'current event' date #{next_event&.date} between #{Time.current} and #{1.day.from_now}"
+    end
   end
 end

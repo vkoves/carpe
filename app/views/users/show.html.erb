@@ -6,19 +6,18 @@
 
 <div class="profile-header">
 	<% if @user.banner.exists? # check if user specified a custom banner %>
-		<div id="header-image" style="background-image:url(<%= @user.banner.url(:desktop) %>);">
+		<div id="header-image" style="background-image:url(<%= @user.banner.url(:desktop) %>);"></div>
 	<% else %>
-		<div id="header-image">
+		<div id="header-image"></div>
 	<% end %>
-	</div>
 
 	<div class="page-container">
 		<div class="profile-avatar avatar">
 			<%= link_to edit_user_registration_path do %>
 				<% if @profile %>
 					<div class="profile-overlay avatar">
-							<%= image_tag "camera.svg", class: "camera-profile" %>
-							<span class="upload-profile">Upload Avatar</span>
+            <%= image_tag "camera.svg", class: "camera-profile" %>
+            <span class="upload-profile">Upload Avatar</span>
 					</div>
 				<% end %>
 			<%end%>
@@ -65,8 +64,9 @@
 				<div class="<%= "curr" if @tab == "activity" %>">Activity</div>
 			<% end %>
 		</div>
-	</div>
+  </div>
 </div>
+
 <div class="page-container">
   <br>
   <div style="text-align: left">

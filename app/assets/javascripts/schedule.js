@@ -797,8 +797,7 @@ function addStartingListeners()
 
 	$("#embed-button").click(function()
 	{
-		var iframeUrl = "http://www.carpe.us/schedule?iframe=true&uid=" + userId; //create the iframe URL
-		var iframeCode = "<iframe src='" + iframeUrl + "' width='900px' height='600'>";
+		var iframeCode = "<iframe src='" + IFRAME_URL + "' width='900px' height='600'>";
 
 		customAlertUI("Embed your schedule!", "<input id='iframe-embed' class='text-input' type='text' style='width: 90%;'></input><br><br>");
 		$("#iframe-embed").val(iframeCode);
@@ -872,17 +871,17 @@ function addStartingListeners()
  */
 function loadInitialCategories()
 {
-	if(typeof categoriesLoaded !== 'undefined') //if categoriesLoaded is defined
+	if(typeof loadedCategories !== 'undefined') //if loadedCategories is defined
 	{
-		for(var i = 0; i < categoriesLoaded.length; i++) //iterate through the loaded categories
+		for(var i = 0; i < loadedCategories.length; i++) //iterate through the loaded categories
 		{
-			var currCat = categoriesLoaded[i];
+			var currCat = loadedCategories[i];
 
 			var catInstance = new Category(currCat.id);
 			catInstance.privacy = currCat.privacy;
 			catInstance.color = currCat.color;
 			catInstance.name = currCat.name;
-			catInstance.breaks = currCat.break_ids;
+			catInstance.breaks = currCat.repeat_exceptions; // break ids
 
 			categories[catInstance.id] = catInstance;
 		}
@@ -895,11 +894,11 @@ function loadInitialCategories()
  */
 function loadInitialBreaks()
 {
-	if(typeof breaksLoaded !== 'undefined') //if categoriesLoaded is defined
+	if(typeof loadedBreaks !== 'undefined') //if loadedCategories is defined
 	{
-		for(var i = 0; i < breaksLoaded.length; i++) //iterate through the loaded categories
+		for(var i = 0; i < loadedBreaks.length; i++) //iterate through the loaded categories
 		{
-			var currBreak = breaksLoaded[i];
+			var currBreak = loadedBreaks[i];
 
 			var breakInstance = new Break();
 			breakInstance.id = currBreak.id;
@@ -921,11 +920,11 @@ function loadInitialBreaks()
 function loadInitialEvents()
 {
 	//Load in events
-	if (typeof eventsLoaded !== 'undefined') //if eventsLoaded is defined
+	if (typeof loadedEvents !== 'undefined') //if loadedEvents is defined
 	{
-		for(var i = 0; i < eventsLoaded.length; i++) //loop through it
+		for(var i = 0; i < loadedEvents.length; i++) //loop through it
 		{
-			var evnt = eventsLoaded[i]; //fetch the event at the current index
+			var evnt = loadedEvents[i]; //fetch the event at the current index
 
 			var schItem = new ScheduleItem();
 			schItem.startDateTime = new Date(evnt.date);
@@ -949,7 +948,7 @@ function loadInitialEvents()
 			schItem.setRepeatType(evnt.repeat);
 			schItem.description = evnt.description;
 			schItem.location = evnt.location;
-			schItem.breaks = evnt.break_ids;
+			schItem.breaks = evnt.repeat_exceptions; // break ids
 			schItem.tempId = i;
 			scheduleItems[i] = schItem;
 
@@ -1669,7 +1668,7 @@ function populateEvents()
 
 			for(var breakIndex = 0; breakIndex < combinedBreaks.length; breakIndex++) //iterate through all breaks
 			{
-				var currBreak = breaks[combinedBreaks[breakIndex]];
+				var currBreak = breaks[combinedBreaks[breakIndex].id];
 				var dateClone = cloneDate(date).setHours(0,0,0,0); //clear time on the date so time doesn't factor into breaks
 				//otherwise since breaks times are the start of their day, an event on Sept. 30th at 3:00pm won't be impacted by a date
 				//on Sept. 30th, since that's technically Sept. 30th 00:00
@@ -2330,7 +2329,7 @@ function createCategory()
 	$.ajax({
 		url: "/create_category",
 		type: "POST",
-		data: {name: "", user_id: userId, group_id: groupID, color: "silver"},
+		data: {name: "", group_id: groupID, color: "silver"},
 		success: function(resp)
 		{
 			console.log("Create category complete.");

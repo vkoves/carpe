@@ -13,7 +13,7 @@ class User < ApplicationRecord
   has_many :all_following, through: :active_relationships,  source: :followed #all followers, including pending
   has_many :all_followers, through: :passive_relationships, source: :follower #all followers, including pending
 
-  has_many :users_groups
+  has_many :users_groups, dependent: :destroy
   has_many :groups, -> { where users_groups: { accepted: true } }, :through => :users_groups
   has_many :notifications, :class_name => 'Notification', :foreign_key => 'receiver_id'
 
@@ -24,9 +24,11 @@ class User < ApplicationRecord
 	devise :omniauthable
 	validates_presence_of :name, :home_time_zone
 
-	has_many :categories
-	has_many :events
-  has_many :repeat_exceptions
+  # when group_id is used, user_id represents the creator of a
+  # category/event/exception (as opposed to its owner)
+	has_many :categories, -> { where group_id: nil }
+	has_many :events, -> { where group_id: nil }
+  has_many :repeat_exceptions, -> { where group_id: nil }
 
   def send_signup_email
     UserNotifier.send_signup_email(self).deliver_now
@@ -50,30 +52,6 @@ class User < ApplicationRecord
 
   def is_busy? #returns whether the user is currently busy (has an event going on)
      current_events.count > 0
-  end
-
-  def get_events(user) #get events that are acessible to the user passed in
-   return events.includes(:repeat_exceptions) if user == self #if a user is trying to view their own events, return all events
-
-   events_array = [];
-
-   events.includes(:repeat_exceptions).each do |event| #for each event
-     event.has_access?(user) ? events_array.push(event) : events_array.push(event.private_version) #push the normal or private version
-   end
-
-   return events_array
-  end
-
-  def get_categories(user) #get categories that are acessible to the user passed in
-    return categories if user == self #if a user is viewing their own categories, return all
-
-    categories_array = [];
-
-    categories.each do |category| #for each category
-      category.has_access?(user) ? categories_array.push(category) : categories_array.push(category.private_version) #push the normal or private version
-    end
-
-    return categories_array
   end
 
   ##########################

@@ -1,9 +1,0 @@
-$('.js-lazy-loading-list').append('<%= escape_javascript(
-  render partial: partial, collection: collection, as: item_name
-)%>');
-
-<% if collection.last_page? %>
-  $('.js-lazy-loading-list').removeAttr('data-next-page-path');
-<% else %>
-  $('.js-lazy-loading-list').attr('data-next-page-path', '<%= escape_javascript(path_to_next_page @visible_groups) %>');
-<% end %>

@@ -3,64 +3,39 @@ class UserGroupsController < ApplicationController
 
   # user joins a group
   def invite_to_group
-    @group = Group.find params[:group_id]
-    @user = User.find params[:user_id]
+    group = Group.find params[:group_id]
+    user = User.find params[:user_id]
 
-    # prevent possible duplicate entries
-    return redirect_to groups_path if @user.in_group?(@group)
+    notif = Notification.create(sender: current_user, receiver: user,
+                                entity: group, event: :group_invite)
 
-    @group.invite(@user)
-
-    # this redirects back to current page
-    redirect_to request.referrer
-  end
-  # group invites user(s)
-  def new
-    @group.invite(@user)
-    # invite is displayed in user notifications
+    render json: { errors: notif.errors.messages.values }
   end
 
-  # group removes user(s)
   def destroy
-    @membership = UsersGroup.find_by! params[:id]
-    @membership.destroy
+    membership = UsersGroup.find(params[:id])
 
-    msg = "You've been removed from the group '#{@membership.group.name}''"
-    Notification.create sender: @group, receiver: @user, message: msg
+    member = membership.user
+    group = membership.group
+
+    authorize! :destroy, membership
+    membership.destroy
+
+    msg = "You've been removed from the group '#{group.name}''"
+    Notification.create receiver: member, message: msg
   end
 
-  # group modifies user
   def update
-    @membership = UsersGroup.find_by! params[:id]
-    @membership.update(params[:update] => params[:to]) if valid_user_update_params?
+    membership = UsersGroup.find(params[:id])
 
-    redirect_to group_path @membership.group, view: :manage_members
-  end
+    authorize! :update, membership, params[:role]
+    membership.update(params.permit(:role))
 
-  # user confirms group invite?
-  # def update
-  #   @invite = UsersGroup.find_by group_id: @group.id, user_id: @user.id, accepted: false
-  #
-  #   if params[:confirm] == "true"
-  #     render json: { action: "confirm_friend", fid: @invite.id }
-  #     @invite.update_attribute confirmed: true
-  #   else
-  #     render json: { action: "deny_friend", fid: @invite.id }
-  #     @invite.destroy
-  #   end
-  # end
-
-  private
-
-  # since the client could manipulate the request, it's essential
-  # to verify the update parameters for security & validity.
-  def valid_user_update_params?
-    permitted_attributes = ["role"]
-    return false unless permitted_attributes.include? params[:update]
-
-    case params[:update]
-    when "role"
-      UsersGroup.roles.include? params[:to]
+    # promoting someone else to group owner relinquishes ownership of the group
+    if params[:role] == "owner"
+      membership.group.membership(current_user).update(role: :moderator)
     end
+
+    redirect_to request.referrer
   end
 end

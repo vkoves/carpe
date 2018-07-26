@@ -3,11 +3,14 @@ class RelationshipsController < ApplicationController
 
   def create
     @user = User.find(params[:followed_id])
-    current_user.follow(@user)
+    @relationship = current_user.follow(@user)
+
     respond_to do |format|
       format.html { redirect_to @user }
       format.js { render json: @user.id }
     end
+
+    send_notification
   end
 
   def destroy
@@ -20,14 +23,14 @@ class RelationshipsController < ApplicationController
     end
   end
 
-  def update
-    @relationship = Relationship.find(params[:id])
-    if @relationship.update_attribute(:confirmed, params[:relationship][:confirmed])
-      if params[:relationship][:confirmed] == "true"
-        render :json => {"action" => "confirm_friend", "fid" => params[:id]}
-      else
-        render :json => {"action" => "deny_friend", "fid" => params[:id]}
-      end
-    end
+  private
+
+  def send_notification
+    Notification.create(
+      sender: @relationship.follower,
+      receiver: @relationship.followed,
+      entity: @relationship,
+      event: :follow_request
+    )
   end
 end

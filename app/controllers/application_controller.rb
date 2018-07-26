@@ -22,7 +22,15 @@ class ApplicationController < ActionController::Base
   end
 
   # rather than catching exceptions in the actions, do it here.
-  rescue_from ActiveRecord::RecordNotFound, with: :render_404
+  rescue_from ActiveRecord::RecordNotFound, with: :render_404 unless Rails.env.development?
+
+  rescue_from CanCan::AccessDenied do |exception|
+    respond_to do |format|
+      format.json { head :forbidden, content_type: 'text/html' }
+      format.html { redirect_to request.referrer || home_path, alert: exception.message }
+      format.js   { head :forbidden, content_type: 'text/html' }
+    end
+  end
 
   def render_404
     render file: "#{Rails.root}/public/404.html", status: :not_found, layout: false
@@ -58,7 +66,7 @@ class ApplicationController < ActionController::Base
 
         # Required fields for search - name and image url
         group_obj[:name] = group.name
-        group_obj[:image_url] = group.image_url
+        group_obj[:image_url] = group.avatar_url
 
         # Custom fields - model name and link_url for linking
         group_obj[:model_name] = "Group"
