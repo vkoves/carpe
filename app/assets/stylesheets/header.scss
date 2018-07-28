@@ -224,7 +224,7 @@
 #notif-panel
 {
 	position: absolute;
-	width: 350px;
+	width: 450px;
 	top: 50px;
 	right: 15px;
 	background: rgb(230, 230, 230);
@@ -249,15 +249,8 @@
 	}
 	.notif
 	{
+		width: 100%;
 		padding: 3px 0px;
-		height: 34px;
-	}
-	span
-	{
-		float: left;
-		font-size: 18px;
-		position: relative;
-		top: 5px;
 	}
 	.notif.general
 	{
@@ -300,18 +293,38 @@
 
 .notif.event-invite
 {
-	display: inline-block;
-	width: 100%;
-	height: auto;
-
-	.context {
-
+	.context
+	{
+		display: flex;
+		align-items: center;
 	}
 
-	.choices {
+	.choices
+	{
 		display: flex;
 		flex-direction: row;
 		justify-content: space-around;
+	}
+}
+
+/* gray out non-hovered buttons */
+.notif
+{
+	.choices
+	{
+		/* prevent :hover trigger on whitespace */
+		visibility: hidden;
+	}
+
+	.choices span
+	{
+		transition: background 200ms linear;
+		visibility: visible;
+	}
+
+	.choices:hover span:not(:hover)
+	{
+		background: gray;
 	}
 }
 

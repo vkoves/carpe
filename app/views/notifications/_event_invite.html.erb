@@ -12,8 +12,8 @@
   </div>
 
   <div class="choices">
-    <%= link_to "I'm attending", notification_updated_path(notification, :accepted), method: :post, remote: true, class: "default red" %>
-    <%= link_to "Maybe", notification_updated_path(notification, :maybe), method: :post,remote: true, class: "default" %>
-    <%= link_to "No, thanks", notification_updated_path(notification, :declined), method: :post,remote: true, class: "default green" %>
+    <%= link_to_block "I'm attending", notification_updated_path(notification, :accepted), method: :post, remote: true, class: "default red" %>
+    <%= link_to_block "Maybe", notification_updated_path(notification, :maybe), method: :post,remote: true, class: "default" %>
+    <%= link_to_block "No, thanks", notification_updated_path(notification, :declined), method: :post,remote: true, class: "default green" %>
   </div>
 </div>
