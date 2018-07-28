@@ -42,7 +42,7 @@
       <ul class="pretty-list">
         <% UsersGroup.where(user_id: @user.id).each do |user_group| %>
             <li><b><%= user_group.role %></b>
-              of <%= link_to(user_group.group.name, group_path(user_group.group_id)) %></li>
+              of <%= link_to(user_group.group.name, group_path(user_group.group)) %></li>
         <% end %>
       </ul>
   <% end %>
