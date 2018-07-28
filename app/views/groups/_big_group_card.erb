@@ -7,7 +7,7 @@
     <%= link_to group.name, group, class: "group-title" %>
     <h3 class="members"><%= n_members %></h3>
 
-    <% if group.private_group? and group.pending_invite_request? current_user %>
+    <% if group.pending_invite_request? current_user %>
       <h3>Invite Request Sent!</h3>
     <% else %>
       <%= link_to "Join Group", join_group_path(group), class: "wide button" %>
