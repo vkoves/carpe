@@ -61,6 +61,9 @@ class Group < ApplicationRecord
   end
 
   def pending_invite_request?(user)
+    # optimization: invite requests are only necessary for private and secret groups
+    return false if public_group?
+
     Notification.exists?(event: :group_invite_request, sender: user, entity: self)
   end
 
