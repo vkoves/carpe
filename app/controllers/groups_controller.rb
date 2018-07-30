@@ -2,7 +2,7 @@ class GroupsController < ApplicationController
   before_action :authorize_signed_in!
 
   def index
-    @joinable_groups = Group.where(privacy: [:public_group, :private_group])
+    @joinable_groups = Group.where(privacy: :public_group)
                          .where.not(id: current_user.groups)
                          .page(params[:page]).per(25)
   end
