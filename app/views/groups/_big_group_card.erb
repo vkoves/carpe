@@ -1,18 +1,16 @@
 <% n_members = "#{group.members.count} #{'Member'.pluralize(group.members.count)}"%>
 
 <div class="large-card grey-box">
-  <div class="flex-cont">
-    <%= link_avatar group %>
+  <%= link_avatar group %>
 
-    <main>
-      <%= link_to group.name, group, class: "normal title" %>
-      <h3 class="members"><%= n_members %></h3>
+  <main>
+    <%= link_to group.name, group, class: "normal title" %>
+    <h3 class="members"><%= n_members %></h3>
 
-      <% if group.private_group? and group.pending_invite_request? current_user %>
-        <h3>Invite Request Sent!</h3>
-      <% else %>
-          <%= link_to "Join Group", join_group_path(group), class: "wide button" %>
-      <% end %>
-    </main>
-  </div>
+    <% if group.private_group? and group.pending_invite_request? current_user %>
+      <h3>Invite Request Sent!</h3>
+    <% else %>
+        <%= link_to "Join Group", join_group_path(group), class: "wide button" %>
+    <% end %>
+  </main>
 </div>
