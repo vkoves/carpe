@@ -43,7 +43,7 @@
 		<% if current_user %>
 			<br class="tablet-br">
 			<%= form_tag("/search_users", method: "get", id: "users-search") do %>
-			  <%= text_field_tag(:q, nil, placeholder: "Search people", autocomplete: "off") %>
+			  <%= text_field_tag(:q, nil, placeholder: "Search", autocomplete: "off") %>
 			<% end %>
 		<% end %>
 	</span>
