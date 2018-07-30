@@ -50,7 +50,7 @@ function sendInvites(self, groupId) {
 	const userIds = $("#user_ids").val().split(",");
 	userIds.forEach(function (userId) {
 		$.post("/invite_to_group", { group_id: groupId, user_id: userId }, function(res) {
-				if (res["errors"]) {
+				if (res["errors"] && res["errors"].length > 0) {
 					alertUI("They've already been invited!");
 				} else {
 					alertUI("Group invites sent!");

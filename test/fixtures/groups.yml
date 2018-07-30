@@ -32,3 +32,8 @@ secretGroup:
   name: secret
   description: shhhhhhhhhhhhhhhhhh
   privacy: 2
+
+customUrlGroup:
+  name: irrelevant
+  custom_url: HOOPLA
+  privacy: <%= Group.privacies[:public_group] %>>
