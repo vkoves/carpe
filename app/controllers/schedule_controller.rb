@@ -87,7 +87,7 @@ class ScheduleController < ApplicationController
         evnt = Event.new
 
         evnt.user = current_user
-        evnt.group = Group.find(obj["group_id"]) if obj["group_id"].present?
+        evnt.group = Group.find(params[:group_id]) if params[:group_id].present?
       end
 
       evnt.name = obj["name"]
