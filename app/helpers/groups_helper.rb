@@ -8,4 +8,14 @@ module GroupsHelper
 
     available_roles.sort_by { |role| UsersGroup.role_priority(role) }
   end
+
+  def leave_warning(user_group)
+    return nil unless user_group.owner?
+
+    if user_group.group.size == 1
+      "Are you sure? The group will be disbanded."
+    else
+      "Are you sure? Someone else in the group will become the new owner."
+    end
+  end
 end

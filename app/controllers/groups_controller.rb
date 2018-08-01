@@ -9,7 +9,6 @@ class GroupsController < ApplicationController
 
   def show
     @group = Group.from_param(params[:id])
-    authorize! :view, @group
 
     # forces custom urls to be displayed (when applicable)
     if params[:id].is_int? and @group.has_custom_url?
@@ -17,10 +16,13 @@ class GroupsController < ApplicationController
     end
 
     @view = params[:view]&.to_sym || :overview
+    @membership = @group.membership(current_user)
+    authorize! :view, @group
 
     case @view
     when :manage_members
       authorize! :manage_members, @group
+      @members = UsersGroup.where(group: @group).where.not(user: current_user)
     when :members
       @members = @group.members.page(params[:page]).per(25)
     when :overview
