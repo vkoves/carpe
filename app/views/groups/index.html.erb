@@ -1,4 +1,5 @@
 <%= stylesheet_link_tag "groups" %>
+<%= javascript_include_tag "groups/index" %>
 
 <div id="body">
   <aside class="shaded sidebar">
@@ -23,11 +24,9 @@
     </div>
 
     <% if @joinable_groups %>
-      <main class="flex-list">
+      <main id="joinable-groups-list">
         <%= render partial: "big_group_card", collection: @joinable_groups, as: :group %>
       </main>
-
-      <%= paginate @joinable_groups %>
     <% else %>
       <h4> There are no public groups you don't belong to on Carpe, but that means you can make one! Create a public group and all Carpe users will see it here. </h4>
     <% end %>

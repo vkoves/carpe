@@ -21,11 +21,7 @@
 //= require ui-manager
 //= require partials/user-adder
 //= require utilities
-
-// require jquery-ui.min
-// Removed to prevent schedule js being loaded everywhere
-// require_tree .
-
+//= require infinite-scroll.pkgd
 
 var unloadAssigned = false; //if unload is assigned
 var mobileSidebarOpen = false;

@@ -406,3 +406,7 @@ html, body
 
   }
 }
+
+#joinable-groups-list {
+	@extend .flex-list
+}

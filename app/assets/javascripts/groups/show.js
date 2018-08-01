@@ -1,5 +1,4 @@
 $(document).ready(setupEvents);
-$(document).on('page:load', setupEvents);
 
 /* setups events for the group calender on page load
  * such as setting up key bindings, and clickable items
