@@ -2471,7 +2471,7 @@ function createBreak(name, startDate, endDate, callback)
 			var addingBreakUiIsVisible = $("#break-adder-overlay-box").is(":visible");
 
 			if (addingBreakUiIsVisible) {
-				setupBreakAddOverlay();
+				setupBreakAddOverlay(true);
 			}
 
 			// Call the callback and pass in the new break
