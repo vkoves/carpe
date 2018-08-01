@@ -3,8 +3,9 @@ class GroupsController < ApplicationController
 
   def index
     @joinable_groups = Group.where(privacy: :public_group)
-                         .where.not(id: current_user.groups)
-                         .page(params[:page]).per(25)
+                            .where.not(id: current_user.groups)
+                            .page(params[:page]).per(25)
+                            .eager_load(:users).references(:users_groups)
   end
 
   def show

@@ -1,11 +1,9 @@
-<% n_members = "#{group.members.count} #{'Member'.pluralize(group.members.count)}"%>
-
 <div class="large-card">
   <%= link_avatar group %>
 
   <main>
     <%= link_to group.name, group, class: "group-title" %>
-    <h3 class="members"><%= n_members %></h3>
+    <h3 class="members"><%= group.size %> <%= 'Member'.pluralize(group.size) %></h3>
 
     <% if group.pending_invite_request? current_user %>
       <h3>Invite Request Sent!</h3>
