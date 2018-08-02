@@ -121,7 +121,7 @@ class GroupsController < ApplicationController
                       .where.not(id: group.members).limit(10)
 
     users_json = matched_users.map do |user|
-      { name: user.name, image_url: user.avatar_url(50) }
+      { id: user.id, name: user.name, image_url: user.avatar_url(50) }
     end
 
     render json: users_json

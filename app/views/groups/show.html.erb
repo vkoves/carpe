@@ -27,7 +27,11 @@
 
               <%= link_to("Leave Group", leave_group_path(@group), class: "red button") %>
             <% else %>
-              <%= link_to "Join Group", join_group_path(@group), class: "green button" %>
+              <% if @group.pending_invite_request? current_user %>
+                <p>Pending Invite Response</p>
+              <% else %>
+                <%= link_to "Join Group", join_group_path(@group), class: "green button" %>
+              <% end %>
             <% end %>
           </div>
       </div>

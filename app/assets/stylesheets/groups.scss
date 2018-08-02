@@ -84,17 +84,11 @@ html, body
 /* base class, see .small-card and .large-card */
 .card
 {
-	display: inline-block;
+	display: flex;
+	align-items: center;
 	box-sizing: border-box;
 	margin: 15px;
 	text-align: left;
-
-	.flex-cont {
-		display: flex;
-		align-items: center;
-		height: 100%;
-		width: 100%;
-	}
 
 	.round-avatar
 	{
