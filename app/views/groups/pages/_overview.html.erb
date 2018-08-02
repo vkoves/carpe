@@ -19,8 +19,7 @@
     <div>
       <div id="side-member-pane">
         <% if @group.empty? %>
-          <h2>Members</h2>
-          <span>There are no members in this group yet!</span>
+          <span> This group has no members </span>
         <% else %>
           <h2>Members <%= link_to "View More", group_path(@group, view: :members), id:"view-all-link" %></h2>
           <% @group.members.first(4).each do |member| %>
