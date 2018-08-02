@@ -881,7 +881,7 @@ function loadInitialCategories()
 			catInstance.privacy = currCat.privacy;
 			catInstance.color = currCat.color;
 			catInstance.name = currCat.name;
-			catInstance.breaks = currCat.repeat_exceptions; // break ids
+			catInstance.breaks = currCat.repeat_exceptions.map(brk => brk.id); // break ids
 
 			categories[catInstance.id] = catInstance;
 		}
@@ -948,7 +948,7 @@ function loadInitialEvents()
 			schItem.setRepeatType(evnt.repeat);
 			schItem.description = evnt.description;
 			schItem.location = evnt.location;
-			schItem.breaks = evnt.repeat_exceptions; // break ids
+			schItem.breaks = evnt.repeat_exceptions.map(brk => brk.id); // break ids
 			schItem.tempId = i;
 			scheduleItems[i] = schItem;
 
