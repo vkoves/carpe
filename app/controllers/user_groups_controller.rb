@@ -23,6 +23,8 @@ class UserGroupsController < ApplicationController
 
     msg = "You've been removed from the group '#{group.name}''"
     Notification.create receiver: member, message: msg
+
+    redirect_to request.referrer
   end
 
   def update

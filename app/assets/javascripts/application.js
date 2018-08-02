@@ -21,11 +21,7 @@
 //= require ui-manager
 //= require partials/user-adder
 //= require utilities
-
-// require jquery-ui.min
-// Removed to prevent schedule js being loaded everywhere
-// require_tree .
-
+//= require infinite-scroll.pkgd
 
 var unloadAssigned = false; //if unload is assigned
 var mobileSidebarOpen = false;
@@ -189,7 +185,7 @@ function initializeEventListeners()
 	// Uses jQuery tokeninput - http://loopj.com/jquery-tokeninput/
 	$("#users-search input[type=text]").tokenInput("/search_core.json", {
 		crossDomain: false,
-		placeholder: "Search people",
+		placeholder: "Search",
 		searchDelay: 0,
 		animateDropdown: false,
 		addOnlyOne: true,

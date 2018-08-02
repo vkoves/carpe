@@ -1,6 +1,6 @@
 <%= stylesheet_link_tag "profile" %>
 <%= stylesheet_link_tag "groups" %>
-<%= javascript_include_tag "group" %>
+<%= javascript_include_tag "groups/show" %>
 
 <div class="group profile-header">
 	<% if @group.banner.exists? %>
@@ -25,7 +25,7 @@
                 <%= link_to("Edit Group", edit_group_path(@group), class: "edit button") if can?(:update, @group) %>
               <% end %>
 
-              <%= link_to("Leave Group", leave_group_path(@group), class: "red button") %>
+              <%= link_to("Leave Group", leave_group_path(@group), class: "red button", data: { confirm: leave_warning(@membership) }) %>
             <% else %>
               <% if @group.pending_invite_request? current_user %>
                 <p>Pending Invite Response</p>

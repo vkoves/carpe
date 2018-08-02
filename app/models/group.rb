@@ -48,6 +48,10 @@ class Group < ApplicationRecord
     members.empty?
   end
 
+  def size
+    members.size
+  end
+
   def add(user, as: :member)
     UsersGroup.create group_id: id, user_id: user.id, accepted: true, role: as
   end

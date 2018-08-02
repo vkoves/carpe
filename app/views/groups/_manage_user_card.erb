@@ -9,17 +9,17 @@
   </div>
 
   <div class="options" style="display: none">
-    <% if membership.group.owner == current_user %>
-      <div>
-        <% assignable_roles(membership).each do |role| %>
-          <%= link_to "Make #{role.humanize}", user_group_path(membership, role: role),
-                      method: :put, class: "wide hollow orange button" %>
-        <% end %>
-      </div>
-    <% end %>
+    <div>
+      <% assignable_roles(membership).each do |role| %>
+        <%= link_to "Make #{role.humanize}", user_group_path(membership, role: role),
+                    method: :put, class: "wide hollow orange button" %>
+      <% end %>
+    </div>
 
     <div>
-      <%= link_to "Remove", user_group_path(membership), method: :delete, class: "wide hollow red button" %>
+      <% if can? :destroy, membership %>
+        <%= link_to "Remove", user_group_path(membership), method: :delete, class: "wide hollow red button" %>
+      <% end %>
     </div>
   </div>
 </div>

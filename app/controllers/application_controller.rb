@@ -40,6 +40,15 @@ class ApplicationController < ActionController::Base
     raise ActiveRecord::RecordNotFound, 'Not Found'
   end
 
+  # convenience method for controller actions using scrolling pagination
+  def paginate(collection, partial)
+    if params[:page].present?
+      render partial: partial, collection: collection
+    else
+      render action_name
+    end
+  end
+
   #Core Carpe search. Searches groups and users
   def search_core
     if params[:q]
