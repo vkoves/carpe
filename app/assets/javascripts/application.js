@@ -106,7 +106,7 @@ function initializeEventListeners()
 			//send a request indicating notifications were read
 			$.ajax(
 			{
-				url: "/read_notifications",
+				url: "/notifications/read",
 				type: "POST",
 				success: function(resp)
 				{
@@ -148,7 +148,7 @@ function initializeEventListeners()
 		}
 	});
 
-	$("#notif-panel").on("ajax:success", ".confirm, .deny", function()
+	$("#notif-panel").on("ajax:success", "a", function()
 	{
 		const $button = $(this);
 		$button.animate({'background-color': "white"}, 300);

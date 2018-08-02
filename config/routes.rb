@@ -52,9 +52,12 @@ Rails.application.routes.draw do
   post "/create_break" => 'schedule#create_exception'
 
   #Other backend stuff
-  post "/read_notifications" => 'notifications#read_all'
-  post "/notification_updated/:id(/:response)" => 'notifications#updated', as: :notification_updated
   get "/search/group/:id/invite_users", to: 'groups#invite_users_search', as: :group_invite_users_search
+
+  resources :notifications, only: [:destroy] do
+    post "update(/:response)", to: "notifications#updated", as: :update, on: :member
+    post :read, on: :collection
+  end
 
   root 'home#index'
 

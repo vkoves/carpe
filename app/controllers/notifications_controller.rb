@@ -1,5 +1,5 @@
 class NotificationsController < ApplicationController
-  def read_all
+  def read
     @notifications = current_user.notifications
     @notifications.update_all viewed: true
     render plain: ""
@@ -14,6 +14,12 @@ class NotificationsController < ApplicationController
 
     @notification.destroy
     render json: {}, status: :ok
+  end
+
+  def destroy
+    notif = Notification.find(params[:id])
+    notif.destroy
+    render plain: "hurrah"
   end
 
   private
