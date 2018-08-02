@@ -1668,7 +1668,7 @@ function populateEvents()
 
 			for(var breakIndex = 0; breakIndex < combinedBreaks.length; breakIndex++) //iterate through all breaks
 			{
-				var currBreak = breaks[combinedBreaks[breakIndex].id];
+				var currBreak = breaks[combinedBreaks[breakIndex]];
 				var dateClone = cloneDate(date).setHours(0,0,0,0); //clear time on the date so time doesn't factor into breaks
 				//otherwise since breaks times are the start of their day, an event on Sept. 30th at 3:00pm won't be impacted by a date
 				//on Sept. 30th, since that's technically Sept. 30th 00:00
