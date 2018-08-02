@@ -12,6 +12,7 @@
     <div>
       <% assignable_roles(membership).each do |role| %>
         <%= link_to "Make #{role.humanize}", user_group_path(membership, role: role),
+                    data: { confirm: role_assign_confirmation(role) },
                     method: :put, class: "wide hollow orange button" %>
       <% end %>
     </div>

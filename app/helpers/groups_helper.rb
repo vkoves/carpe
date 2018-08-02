@@ -18,4 +18,10 @@ module GroupsHelper
       "Are you sure? Someone else in the group will become the new owner."
     end
   end
+
+  def role_assign_confirmation(role)
+    return nil unless role.to_sym == :owner
+
+    "Are you sure? You will be demoted to a moderator."
+  end
 end
