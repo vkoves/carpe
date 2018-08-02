@@ -6,6 +6,9 @@ class GroupsController < ApplicationController
                             .where.not(id: current_user.groups)
                             .page(params[:page]).per(25)
                             .eager_load(:users).references(:users_groups)
+
+
+    paginate(@joinable_groups, "big_group_card")
   end
 
   def show
