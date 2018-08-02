@@ -75,11 +75,7 @@ class ScheduleController < ApplicationController
   def save_events
     new_event_ids = {}
 
-    unless params[:map]
-      render plain: "No events to save!" and return
-    end
-
-    params[:map].each do |key, obj|
+    params[:events].each do |obj|
       if obj["eventId"].present? # if this is an existing item
         evnt = Event.find(obj["eventId"].to_i)
         authorize! :edit, evnt
@@ -87,7 +83,7 @@ class ScheduleController < ApplicationController
         evnt = Event.new
 
         evnt.user = current_user
-        evnt.group = Group.find(params[:group_id]) if params[:group_id].present?
+        evnt.group = Group.find(obj["groupId"]) if obj["groupId"].present?
       end
 
       evnt.name = obj["name"]
@@ -110,7 +106,7 @@ class ScheduleController < ApplicationController
       authorize! :create, evnt
       evnt.save
 
-      if obj["eventId"].empty? # if this is not an existing event
+      if obj["eventId"].blank? # if this is not an existing event
         new_event_ids[obj["tempId"]] = evnt.id
       end
     end
