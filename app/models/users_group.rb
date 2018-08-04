@@ -8,6 +8,10 @@ class UsersGroup < ApplicationRecord
     update(accepted: true)
   end
 
+  def owner?
+    user == group.owner
+  end
+
   def self.role_priority(role)
     case role.to_sym
     when :owner then 4

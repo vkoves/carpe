@@ -48,6 +48,10 @@ class Group < ApplicationRecord
     members.empty?
   end
 
+  def size
+    members.size
+  end
+
   def add(user, as: :member)
     UsersGroup.create group_id: id, user_id: user.id, accepted: true, role: as
   end
@@ -61,6 +65,9 @@ class Group < ApplicationRecord
   end
 
   def pending_invite_request?(user)
+    # optimization: invite requests are only necessary for private and secret groups
+    return false if public_group?
+
     Notification.exists?(event: :group_invite_request, sender: user, entity: self)
   end
 

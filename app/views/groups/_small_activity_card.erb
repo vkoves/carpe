@@ -1,4 +1,4 @@
-<div class="small-activity-card grey-box">
+<div class="small-activity-card">
   <% if act.is_a?(User) %>
     <% currusergroup = UsersGroup.find_by(user_id:act.id,group_id: @group); curruser = act.id %>
     <%= link_avatar act %>

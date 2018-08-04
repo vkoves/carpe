@@ -2,14 +2,17 @@ class GroupsController < ApplicationController
   before_action :authorize_signed_in!
 
   def index
-    @joinable_groups = Group.where(privacy: [:public_group, :private_group])
-                         .where.not(id: current_user.groups)
-                         .page(params[:page]).per(25)
+    @joinable_groups = Group.where(privacy: :public_group)
+                            .where.not(id: current_user.groups)
+                            .page(params[:page]).per(25)
+                            .eager_load(:users).references(:users_groups)
+
+
+    paginate(@joinable_groups, "big_group_card")
   end
 
   def show
     @group = Group.from_param(params[:id])
-    authorize! :view, @group
 
     # forces custom urls to be displayed (when applicable)
     if params[:id].is_int? and @group.has_custom_url?
@@ -17,10 +20,13 @@ class GroupsController < ApplicationController
     end
 
     @view = params[:view]&.to_sym || :overview
+    @membership = @group.membership(current_user)
+    authorize! :view, @group
 
     case @view
     when :manage_members
       authorize! :manage_members, @group
+      @members = UsersGroup.where(group: @group).where.not(user: current_user)
     when :members
       @members = @group.members.page(params[:page]).per(25)
     when :overview
@@ -121,7 +127,7 @@ class GroupsController < ApplicationController
                       .where.not(id: group.members).limit(10)
 
     users_json = matched_users.map do |user|
-      { name: user.name, image_url: user.avatar_url(50) }
+      { id: user.id, name: user.name, image_url: user.avatar_url(50) }
     end
 
     render json: users_json

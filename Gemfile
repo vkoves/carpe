@@ -87,3 +87,6 @@ gem 'jquery-ui-rails', '~> 6.0'
 
 # Used for permission authorization
 gem 'cancancan', '~> 2.2.0'
+
+# Non-stupid non-digest assets for non digest LSG files
+gem "non-stupid-digest-assets"

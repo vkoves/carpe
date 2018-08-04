@@ -33,4 +33,16 @@ class GroupTest < ActiveSupport::TestCase
     ability = Ability.new(users(:joe))
     assert ability.can? :update, groups(:four)
   end
+
+  test "groups can be destroyed" do
+    group = groups(:publicGroup)
+    group.destroy
+
+    resources = [:events, :categories, :repeat_exceptions, :users_groups, :notifications]
+    resources.each do |resource|
+      assert_empty group.send(resource)
+    end
+
+    assert_not group.persisted?
+  end
 end

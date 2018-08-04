@@ -44,8 +44,6 @@ html, body
 	text-align: left;
 }
 
-.groups-list { text-align: left; }
-
 #header-info
 {
 	display: flex;
@@ -84,17 +82,11 @@ html, body
 /* base class, see .small-card and .large-card */
 .card
 {
-	display: inline-block;
+	display: flex;
+	align-items: center;
 	box-sizing: border-box;
 	margin: 15px;
 	text-align: left;
-
-	.flex-cont {
-		display: flex;
-		align-items: center;
-		height: 100%;
-		width: 100%;
-	}
 
 	.round-avatar
 	{
@@ -107,7 +99,7 @@ html, body
 		display: flex;
 		flex: 3;
 		align-items: flex-start;
-		justify-content: flex-end;
+		justify-content: center;
 		flex-direction: column;
 		height: 90%;
 		overflow: hidden;
@@ -121,7 +113,7 @@ html, body
 
 		.title
 		{
-			height: 3em;
+			max-height: 3em;
 			line-height: 1.5em;
 			font-size: 24px;
 			font-weight: bold;
@@ -137,7 +129,16 @@ html, body
 	height: 80px;
 	margin: 0 0 20px 0;
 
-	main .title { font-size: 18px; }
+	main
+	{
+		overflow-wrap: break-word;
+
+		.title
+		{
+			width: 100%;
+			font-size: 18px;
+		}
+	}
 }
 
 .large-card
@@ -151,6 +152,8 @@ html, body
 		height: 3em;
 		width: 100%;
 
+		overflow: hidden;
+		overflow-wrap: break-word;
 		line-height: 1.5em;
 		font-size: 24px;
 		font-weight: bold;
@@ -399,4 +402,8 @@ html, body
   	}
 
   }
+}
+
+#joinable-groups-list {
+	@extend .flex-list
 }

@@ -5,10 +5,12 @@ class ScheduleControllerTest < ActionController::TestCase
 
   def setup
     # this gets created when a user makes a new event on their scheduler
-    @unsaved_events = { map: {one: {eventId: "",
-                             group_id: groups(:publicGroup).id,
-                             startDateTime: Date.current,
-                             endDateTime: Date.current }}}
+    @unsaved_events = {
+      map: {
+        one: { eventId: "", startDateTime: Date.current, endDateTime: Date.current }
+      },
+      group_id: groups(:publicGroup).id
+    }
   end
 
   test "signed in users can delete their event" do
