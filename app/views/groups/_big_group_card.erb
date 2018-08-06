@@ -1,10 +1,10 @@
 <% group = big_group_card %>
 
-<div class="large-card">
+<div class="large-card grey-box">
   <%= link_avatar group %>
 
   <main>
-    <%= link_to group.name, group, class: "group-title" %>
+    <%= link_to group.name, group, class: "normal title" %>
     <h3 class="members"><%= group.size %> <%= 'Member'.pluralize(group.size) %></h3>
 
     <% if group.pending_invite_request? current_user %>
