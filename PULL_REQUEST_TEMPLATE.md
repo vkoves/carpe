@@ -16,14 +16,16 @@ Based on the [contributor's guide][contrib-guide], this PR is of type:
 
 **Reviewer**: If you see an item that is not checked that you believe should be, comment on that as part of your review.
 
-- [ ] Quality: I have written tests to ensure that my changes work and handle edge cases
+- [ ] Code Quality: I have written tests to ensure that my changes work and handle edge cases
 - [ ] Code Quality: I have documented my changes thoroughly (using [JSDoc][jsdoc] in Javascript)
-- [ ] Process: I have linked to any relevant GitHub issues to this PR including [marking issues][gh-marking-issues] that this PR resolves
-- [ ] Process: I have requested reviews from at least as many users as required for the type of PR (2 or 3)
-- [ ] Process: I have added this pull request to the relevant quarterly milestone
-- [ ] Process: I have tested my changes locally and verified that they resolve the issues they are supposed to
-- [ ] Process: **(Hotfixes & Deployments)** I have assigned a user to this PR to handle merging and deployment
-- [ ] Process: **(Hotfixes & Deployments)** I have pushed up my changes to [Carpe test][carpe-test] for review and tested my changes there
+- [ ] Process: I have linked relevant issues, [marking issues][gh-marking-issues] that this PR resolves
+- [ ] Process: I have requested at least as many reviews required for this PR type (2 or 3)
+- [ ] Process: I have added this PR to the relevant quarterly milestone
+- [ ] Process: I have tested this PR locally and verified it does what it should
+
+### Hotifxes & Deployments
+- [ ] Process: I have assigned a user to this PR to handle merging and deployment
+- [ ] Process: I have pushed up my changes to [Carpe test][carpe-test] for review and tested my changes there
 
 ## How This Has Been Tested
 _Give specific details of how you tested these changes to ensure that they work and don't break other functionality. Details may include device, browser, and what actions/cases you tested._
