@@ -35,7 +35,7 @@ _If this is not a hotfix or release, delete this section._
 
 The assignee should complete this checklist from [deploying Carpe][contrib-guide-deploying] section of the contributor's guide before and after deploying a deployment or hotfix.
 
-- [ ] Before Release/Hotfix: I have verified that this PR meets the [requirements for reviews]
+- [ ] Before Release/Hotfix: I have verified that this PR meets the [requirements for reviews][contrib-guide-prs]
 - [ ] Before Release: I have moved all issuses labelled `development` to `release-candidate`
 - [ ] Before Release: I have verified the release candidate has been frozen for at least 48 hours
 - [ ] Before Release: I have verified the release candidate has been in review for at least one week
