@@ -30,7 +30,7 @@ class NotificationsController < ApplicationController
     if params[:response] == "confirm"
       relationship.update(confirmed: true)
     elsif params[:response] == "deny"
-      relationship.update(confirmed: false)
+      relationship.destroy
     end
   end
 

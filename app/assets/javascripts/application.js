@@ -130,23 +130,50 @@ function initializeEventListeners()
 	//Toggle sidebar that lists friend availability on click
 	$("#sidebar-button").click(toggleSidebar);
 
-	//Add friend button success. The friend button calls a POST event, this is run when that completes (that's what ajax:success does)
-	$(".friend-button").bind('ajax:success', function(event, data, status, xhr){
-		if(data)
-		{
-			var newElem = $(".friend-button[uid=" + data + "]"); //find the button that was clicked??
-			followRequest(newElem); //and change it to say "Pending"
-		}
-	});
+	// Follow button
+    $(document).on('click', '.js-follow-user', function() {
+        $button = $(this)
 
-	//On delete friend button POST completion
-	$(".friend-remove").bind('ajax:success', function(event, data, status, xhr){
-		console.log("success" + data);
-		if(data)
-		{
-			$(".friend-remove[fid=" + data + "]").parents(".user-listing").fadeOut(); //and remove associated friend listing
-		}
-	});
+        $.post($(this).attr('href'), function() {
+            // convert from a button into a pending state span
+            $span = $(`<span class="friend-label">Follow</span>`).replaceAll($button);
+            fadeToText($span, "Pending") // "Follow" -> "Pending"
+        })
+
+        return false
+    });
+
+    // Unfollow button
+    $('.js-unfollow-user').click(function() {
+        $button = $(this)
+
+        $.ajax({
+            url: $(this).attr('href'),
+            type: 'DELETE'
+        }).done(function(data) {
+            // convert from an unfollow button into a follow button
+            $button.off() // reset events tied to this element (like hovering)
+            $button.attr('href', data['new_link'])
+            fadeToText($button, 'Follow')
+            $button.attr('class', 'green button js-follow-user')
+        })
+
+        return false
+    });
+
+    // Used on profile panel.
+    $("#friend-list .js-unfollow-user").click(function() {
+        $(this).closest('.user-listing').fadeOut()
+        return false
+    })
+
+    // Hovering over a profile 'Following' button transforms it into an 'Unfollow' button
+    // Sadly, this can't be accomplished with CSS.
+    $(".profile-header .button.js-unfollow-user").hover(function() {
+        $(this).text("Unfollow") // mouse in
+    }, function() {
+        $(this).text("Following") // mouse out
+    });
 
 	$("#notif-panel").on("ajax:success", "a", function()
 	{
@@ -204,24 +231,6 @@ function initializeEventListeners()
 	});
 
 	initializeUserAdder(".user-adder-input");
-
-	// Add event handling for the following-btn, which can unfollow a user
-	$(".js-following").hover(function()
-	{
-		$(this).find("span").text("Unfollow");
-		$(this).addClass("red");
-	},
-	function()
-	{
-		$(this).find("span").text("Following");
-		$(this).removeClass("red");
-	}).click(function()
-	{
-		// TODO - Make this triggered by a JSON success call probably instead of just by the click?
-		fadeToText($(this).find("span"), "Follow"); //and fade to Promote text
-		$(this).off(); // disable event handlers
-		$(this).removeClass("red").removeClass("js-following").addClass("green");
-	});
 }
 
 /**
@@ -426,19 +435,6 @@ function printNotification(text, hideTime)
 	var notification = new Notification("Carpe", options);
 	if(hideTime)
 		setTimeout(notification.close.bind(notification), hideTime); //close this notification in 2000ms or 2 seconds
-}
-
-//Called by a friend request button on click
-function followRequest(elem)
-{
-	var span = elem.find("span");
-	span.unwrap().addClass("default green"); //remove the <a> tag around the span, and make it a default green button instantly
-
-	fadeToText(span, "Pending"); //fade to the new text
-
-	//Sadly this is the easiest way to make this work. Classes just don't cut it here
-	span.animate({'background-color': "#5B5BFF"}, {duration: 500, queue: false});
-	span.removeClass("green default").addClass("friend-label");
 }
 
 // function closeNotifications()

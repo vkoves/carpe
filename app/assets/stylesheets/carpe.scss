@@ -168,16 +168,6 @@ a .avatar img:hover, .avatar a img:hover
 	margin-right: 5px;
 }
 
-.friend-label
-{
-	background-color: #5B5BFF;
-	padding: 3px 15px 3px 15px;
-	border-radius: 3px;
-	color: white;
-	font-weight: bold;
-	display: inline-block;
-}
-
 .cancel-box
 {
 	background-color: #FFB2B2;
@@ -272,11 +262,6 @@ a.default.loading *, span.default.loading, input.default.loading
 
 	&:after { opacity: 1; }
 	&:hover { cursor: wait; }
-}
-a.default.following-btn *
-{
-	background-color: #5B5BFF;
-	&:hover { background-color: $red; }
 }
 
 /* END LINK STYLING */
@@ -962,11 +947,11 @@ form.thin
 		&:hover { background-color: #a3b4c3; }
 	}
 
-	&.js-following
-	{
-		background-color: #5B5BFF;
-		&:hover { background-color: #FD1A1A; }
-	}
+    &.purple
+    {
+        background: #5B5BFF;
+        &:hover { background: #5B5BFF; }
+    }
 
 	/* button sizing */
 	&.wide
@@ -1015,6 +1000,12 @@ form.thin
 		color: #FD1A1A;
 		&:hover { color: #FF4A4A; }
 	}
+}
+
+// special case for 'Following' / 'Unfollow' state buttons
+#profile-header .button.js-unfollow-user:hover
+{
+    background: #FD1A1A;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -1170,4 +1161,14 @@ form.basic .form-group
   src: font-url('Pacifico_1.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
+}
+
+.friend-label
+{
+  background-color: #5B5BFF;
+  padding: 3px 15px 3px 15px;
+  border-radius: 3px;
+  color: white;
+  font-weight: bold;
+  display: inline-block;
 }
