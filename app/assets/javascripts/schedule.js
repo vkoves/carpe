@@ -2386,7 +2386,7 @@ function deleteCategory(event, elem, id)
 					$(".col-snap .sch-evnt[data-id=" + id + "]").slideUp();
 					for (var index in scheduleItems) //do a foreach since this is a hashmap
 					{
-						if(scheduleItems[index].categoryId = id)
+						if(scheduleItems[index].categoryId == id)
 						{
 							delete scheduleItems[index];
 						}
