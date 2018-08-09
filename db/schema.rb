@@ -31,20 +31,6 @@ ActiveRecord::Schema.define(version: 20180703195151) do
     t.index ["repeat_exception_id"], name: "index_categories_repeat_exceptions_on_repeat_exception_id"
   end
 
-  create_table "event_invites", force: :cascade do |t|
-    t.string "role", default: "guest", null: false
-    t.string "status"
-    t.integer "sender_id", null: false
-    t.integer "event_id", null: false
-    t.integer "recipient_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["event_id", "recipient_id"], name: "index_event_invites_on_event_id_and_recipient_id", unique: true
-    t.index ["event_id"], name: "index_event_invites_on_event_id"
-    t.index ["recipient_id"], name: "index_event_invites_on_recipient_id"
-    t.index ["sender_id"], name: "index_event_invites_on_sender_id"
-  end
-
   create_table "events", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -59,9 +45,6 @@ ActiveRecord::Schema.define(version: 20180703195151) do
     t.date "repeat_start"
     t.date "repeat_end"
     t.integer "group_id"
-    t.string "privacy", default: "private", null: false
-    t.integer "base_event_id"
-    t.index ["base_event_id"], name: "index_events_on_base_event_id"
     t.index ["category_id"], name: "index_events_on_category_id"
     t.index ["group_id"], name: "index_events_on_group_id"
     t.index ["user_id"], name: "index_events_on_user_id"
