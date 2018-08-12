@@ -21,7 +21,11 @@
   </header>
 
   <main class="flex-list">
-    <%= render partial: "groups/basic_user_block", collection: @members, as: :member %>
+    <% if can? :view_details, @group %>
+      <%= render partial: "groups/basic_user_block", collection: @members, as: :member %>
+    <% else %>
+    <span>You must be a member of this group to see its members!</span>
+    <% end %>
   </main>
 
   <%= paginate @members %>

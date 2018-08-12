@@ -3,7 +3,9 @@
 <div id="body">
   <main class="content">
     <span class="carpe-color current-header">Current Events</span>
-    <% if @group.upcoming_events.empty? %>
+    <% if cannot? :view_details, @group %>
+      <span> To see upcoming events, you have to join the group first! </span>
+    <% elsif @group.upcoming_events.empty? %>
       <span> This group has no events, make some! </span>
     <% else %>
       <%= render partial: "shared/event_tile", collection: @group.upcoming_events, as: :event %>
@@ -18,7 +20,9 @@
 
     <div>
       <div id="side-member-pane">
-        <% if @group.empty? %>
+        <% if cannot? :view_details, @group %>
+          <span>Hidden!</span>
+        <% elsif @group.empty? %>
           <span> This group has no members </span>
         <% else %>
           <h2>Members <%= link_to "View More", group_path(@group, view: :members), id:"view-all-link" %></h2>
@@ -31,7 +35,9 @@
 
     <div>
       <h2>Recent Actions</h2>
-      <% if @activities.empty? %>
+      <% if cannot? :view_details, @group %>
+        <span>Hidden!</span>
+      <% elsif @activities.empty? %>
         <span> This group has no recent actions </span>
       <% else %>
         <%= render partial: "groups/small_activity_card", collection: @activities, as: :act %>

@@ -21,7 +21,7 @@ class GroupsController < ApplicationController
 
     @view = params[:view]&.to_sym || :overview
     @membership = @group.membership(current_user)
-    authorize! :view, @group
+    authorize! :show, @group
 
     case @view
     when :manage_members
