@@ -280,7 +280,16 @@ function ScheduleItem()
 			this.location = newLocation;
 			updatedEvents(this.tempId, "location");
 		}
-	}
+  }
+  
+  /* set the category id for this event */
+  this.setCategory = function(newCategoryId)
+  {
+    if(this.categoryId != newCategoryId){
+      this.categoryId = newCategoryId
+      updatedEvents(this.tempId, "category");
+    }
+  }
 
 	/**
 	 * Runs once user has stoped dragging an event, either to resize or move
@@ -357,7 +366,7 @@ function ScheduleItem()
 			return $(".sch-evnt[evnt-temp-id="+ this.tempId + "]");
 		else if(viewMode == "month")
 			return $(".sch-month-evnt[evnt-temp-id="+ this.tempId + "]");
-	};
+  };
 
 	/****************************/
 	/***** HELPER FUNCTIONS *****/
@@ -744,7 +753,7 @@ function addStartingListeners()
 
 		currEvent.setEndDateTime(newDateTime, true, true);
 		currEvent.updateHeight();
-	});
+  });
 
 	$("#overlay-desc").focusin(function() {
 		setTimeout(highlightCurrent, 100); // highlight the whole name after focus
@@ -805,7 +814,7 @@ function addStartingListeners()
 
 		customAlertUI("Embed your schedule!", "<input id='iframe-embed' class='text-input' type='text' style='width: 90%;'></input><br><br>");
 		$("#iframe-embed").val(iframeCode);
-	});
+  });
 
 
 	/****************************/
@@ -1933,8 +1942,27 @@ function editEvent(elem)
 	{
 		currEvent = scheduleItems[elem.attr("evnt-temp-id")];
 
-		var categoryName = $("#sch-tiles .sch-evnt.category[data-id=" + currEvent.categoryId + "]").find(".evnt-title").text();
-		$("#cat-title").html("In category <b>" + categoryName + "</b>");
+    var categoryNames = $("#sch-tiles .sch-evnt.category").find(".evnt-title").map(function(){
+      return [[$(this).text(), $(this).parent().attr("data-id")]];
+    }).get();
+
+    for (var i = 0; i < categoryNames.length; i++) {
+      var category = categoryNames[i][0];
+      var categoryId = categoryNames[i][1];
+      if(category !== ""){
+        var outputStr = "<option value=\"" + categoryId + "\"";
+        outputStr += currEvent.categoryId === parseInt(categoryId) ? " selected=\"selected\">" : ">";
+
+        $("#cat-title-selector").append(outputStr + category + "</option>");
+      }
+    }
+
+
+    $("#cat-title-selector").off();
+    $("#cat-title-selector").change(function() {
+      var val = $(this).val();
+      currEvent.setCategory(val)
+    })
 
 		//Select the proper repeat button
 		$(".repeat-option").removeClass("red");
