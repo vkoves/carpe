@@ -29,13 +29,20 @@ class UserGroupsController < ApplicationController
 
   def update
     membership = UsersGroup.find(params[:id])
+    group = membership.group
 
     authorize! :update, membership, params[:role]
     membership.update(params.permit(:role))
 
-    # promoting someone else to group owner relinquishes ownership of the group
+    # owners who give away their role become moderators
     if params[:role] == "owner"
-      membership.group.membership(current_user).update(role: :moderator)
+      group.membership(current_user).update(role: :moderator)
+    end
+
+    # an owner demoting themself makes someone else the new owner
+    if group.owner.nil?
+      UsersGroup.where(group: group, accepted: true).where.not(user: current_user)
+          .first.update(role: :owner)
     end
 
     redirect_to request.referrer

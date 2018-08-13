@@ -26,7 +26,7 @@ class GroupsController < ApplicationController
     case @view
     when :manage_members
       authorize! :manage_members, @group
-      @members = UsersGroup.where(group: @group).where.not(user: current_user)
+      @members = @group.users_groups
     when :members
       @members = @group.members.page(params[:page]).per(25)
     when :overview
@@ -107,7 +107,8 @@ class GroupsController < ApplicationController
         group.destroy
       elsif old_role == :owner
         # looks like you're today's winner!
-        UsersGroup.find_by(group: group).update(role: :owner)
+        UsersGroup.where(group: group, accepted: true).where.not(user: current_user)
+            .first.update(role: :owner)
       end
 
     else

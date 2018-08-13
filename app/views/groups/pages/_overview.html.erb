@@ -20,15 +20,13 @@
 
     <div>
       <div id="side-member-pane">
+        <h2>Members <%= link_to "View More", group_path(@group, view: :members), id:"view-all-link" %></h2>
         <% if cannot? :view_details, @group %>
-          <span>Hidden!</span>
+          <i>You cannot see members unless you are a member of this group</i>
         <% elsif @group.empty? %>
           <span> This group has no members </span>
         <% else %>
-          <h2>Members <%= link_to "View More", group_path(@group, view: :members), id:"view-all-link" %></h2>
-          <% @group.members.first(4).each do |member| %>
-            <%= link_avatar member %>
-          <% end %>
+          <% @group.members.first(4).each { |member| link_avatar member } %>
         <% end %>
       </div>
     </div>
@@ -36,7 +34,7 @@
     <div>
       <h2>Recent Actions</h2>
       <% if cannot? :view_details, @group %>
-        <span>Hidden!</span>
+        <i>You cannot see recent activities unless you are a member of this group</i>
       <% elsif @activities.empty? %>
         <span> This group has no recent actions </span>
       <% else %>

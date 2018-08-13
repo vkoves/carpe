@@ -19,7 +19,9 @@
 
     <div>
       <% if can? :destroy, membership %>
-        <%= link_to "Remove", user_group_path(membership), method: :delete, class: "wide hollow red button" %>
+        <%= link_to "Remove", user_group_path(membership),
+                    data: { confirm: remove_confirmation(membership) },
+                    method: :delete, class: "wide hollow red button" %>
       <% end %>
     </div>
   </div>
