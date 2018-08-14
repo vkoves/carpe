@@ -29,7 +29,7 @@ class NotificationsTest < ActionDispatch::IntegrationTest
 
     # viktor accepts follow request
     assert_difference -> { @viktor.notifications.count }, -1 do
-      post notification_updated_path(@viktor.notifications.last, "confirm")
+      post update_notification_path(@viktor.notifications.last, "confirm")
     end
 
     assert @norm.following?(@viktor)
@@ -45,7 +45,7 @@ class NotificationsTest < ActionDispatch::IntegrationTest
 
     # viktor denies follow request
     assert_difference -> { @viktor.notifications.count }, -1 do
-      post notification_updated_path(@viktor.notifications.last, "deny")
+      post update_notification_path(@viktor.notifications.last, "deny")
     end
 
     assert_not @norm.following?(@viktor)
@@ -60,6 +60,24 @@ class NotificationsTest < ActionDispatch::IntegrationTest
 
     sign_in @norm
     get "/home"
-    assert_select ".notif", text: "Hey you! Yeah you!"
+    assert_select ".notif div", text: "Hey you! Yeah you!"
+  end
+
+  test "users can join groups that they were invited to" do
+    invited_user = users(:loserLarry)
+    groups = groups(:publicGroup, :privateGroup, :secretGroup)
+
+    groups.each do |group|
+      sign_in group.owner
+        post invite_to_group_path(group_id: group.id, user_id: invited_user.id)
+      sign_out group.owner
+
+      sign_in invited_user
+        group_invite = invited_user.notifications.group_invite.first
+        post update_notification_path(group_invite, "accepted")
+
+        assert invited_user.in_group?(group)
+      sign_out invited_user
+    end
   end
 end

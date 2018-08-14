@@ -1,26 +1,48 @@
 require 'test_helper'
 
 class GroupTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  def setup
+    @viktor, @norm = users(:viktor, :norm)
+    @group1, @group2 = groups(:one, :two)
+  end
+  
+  test "#avatar_url uses correct avatar" do
+    assert_match /gravatar/, @group1.avatar_url,
+                 "Expected group without avatar to use gravatar as a default avatar"
 
-  test "group image helper falls back to gravatar" do
-    assert_equal(groups(:two).avatar_url, groups(:two).image_url, "Group with image url uses that image")
-    assert_match(/gravatar/, groups(:one).avatar_url, "Lazy group with no avatar uses a gravatar backup")
+    @group2.avatar = sample_file("sample_avatar.jpg")
+    @group2.save!
+
+    assert_match /sample_avatar/, @group2.avatar_url,
+                 "Expected url to be the path to the group's uploaded avatar"
   end
 
-  # test "group should fetch user role" do
-  #   assert_equal(groups(:one).get_role(users(:viktor)), "admin", "Admin user should have role returned admin")
-  #   assert_equal(groups(:one).get_role(users(:norm)), "member",  "Other user should have role returned as stored")
-  # end
-
-  test "group role should recognize non members" do
-    assert_equal(groups(:two).get_role(users(:viktor)), "none", "Non members should have role returned as none")
+  test "#role returns the correct group member roles" do
+    assert_equal :moderator, @group1.role(@viktor)
+    assert_equal :member, @group1.role(@norm)
+    assert_equal :owner, groups(:four).role(users(:joe))
+    assert_nil @group2.role(@viktor)
   end
 
-  test "in group should return membership" do
-    assert_equal(groups(:one).in_group?(users(:viktor)), true, "Member in group should have in_group? return true")
-    assert_equal(groups(:one).in_group?(users(:viktors_friend)), false, "Member not in group should have in_group? return false")
+  test "#in_group? correctly returns whether user is a group member" do
+    assert @viktor.in_group?(@group1)
+    assert_not users(:viktors_friend).in_group?(@group1)
+  end
+
+  test "only owner can promote users in group" do
+    ability = Ability.new(users(:joe))
+    assert ability.can? :update, groups(:four)
+  end
+
+  test "groups can be destroyed" do
+    group = groups(:publicGroup)
+    group.destroy
+
+    resources = [:events, :categories, :repeat_exceptions, :users_groups, :notifications]
+    resources.each do |resource|
+      assert_empty group.send(resource)
+    end
+
+    assert_not group.persisted?
   end
 end

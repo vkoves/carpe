@@ -67,14 +67,26 @@ gem "teaspoon-mocha"
 # Minitest reporting
 gem "minitest-reporters"
 
+# Kaminari helps lazy load large database lists (https://github.com/kaminari/kaminari)
+gem 'kaminari', '~> 1.1.1'
+
 # LSG
 gem "livingstyleguide"
 
 # A more informative exception template page
 gem 'better_errors', group: :development
 
+# A repl that can be used on the exception template page
+gem 'binding_of_caller', group: :development
+
 # Use jQuery as the JavaScript library
 gem 'jquery-rails', '~> 4.3'
 
 # Add jQuery UI gem
 gem 'jquery-ui-rails', '~> 6.0'
+
+# Used for permission authorization
+gem 'cancancan', '~> 2.2.0'
+
+# Non-stupid non-digest assets for non digest LSG files
+gem "non-stupid-digest-assets"

@@ -217,23 +217,19 @@ body {
 	padding: 5px 5px 5px 10px;
 	color: rgb(106, 106, 106);
 
-	.notif #user-avatar img
-	{
-		height: 36px;
-		width: 36px;
-		min-width: 0px;
-		margin-top: 0px;
-		border-width: 2px;
-	}
-	.notif #user-avatar
+	.notif .round-avatar
 	{
 		float: left;
-		margin-left: 0px;
+		width: 36px;
+		height: 36px;
+		margin-left: 0;
 		margin-right: 5px;
+		border: 2px solid orange;
 	}
 	.notif
 	{
 		padding: 3px 0px;
+		margin: 5px 0;
 		height: 34px;
 	}
 	span

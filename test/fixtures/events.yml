@@ -60,3 +60,9 @@ nameless_event:
   name: ""
   category: main
   user: norm
+
+public_group_event:
+  name: ""
+  category: groupCategory
+  user: ownerAlice
+  group: publicGroup

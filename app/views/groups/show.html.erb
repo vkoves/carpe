@@ -1,32 +1,64 @@
 <%= stylesheet_link_tag "profile" %>
+<%= stylesheet_link_tag "groups" %>
+<%= javascript_include_tag "groups/show" %>
 
-<div id="profile-header">
-
-	<% if @group.banner_image_url and !@group.banner_image_url.empty? %>
-		<div id="header-image-blur" style="background-image:url(<%= @group.banner_image_url %>);"></div>
+<div class="group profile-header">
+	<% if @group.banner.exists? %>
+    <div id="header-image" style="background-image:url(<%= @group.banner.url(:desktop) %>);"></div>
 	<% else %>
 		<div id="header-image"></div>
 	<% end %>
 
-	<div class="page-container">
-		<div class="profile-avatar avatar">
-			<img src=<%= @group.avatar_url %>>
-		</div>
-		<div id="profile-text">
-			<h1 id="profile-name"><%= @group.name %>
-			<%= link_to_block "Edit", "/group/" + params[:id] + "/edit", class: "default" %>
-			<%= link_to_block "Manage Users", "/groups/add-users/" + params[:id], class: "default" %>
-			</h1>
-			<%= link_to_block "All Groups", "/groups", class: "default" %>
-		</div>
-	</div>
+    <div class="header-block">
+      <div class="round-avatar">
+        <img src=<%= @group.avatar_url %>>
+      </div>
+
+      <div class="profile-name-block">
+        <div class="profile-name"><%= @group.name %></div>
+
+          <div class="privacy-block">
+            <div class="profile-privacy"><%= @group.privacy.titleize %></div>
+            <% if current_user.in_group?(@group) %>
+
+              <% if can? :update, @group %>
+                <%= link_to("Edit Group", edit_group_path(@group), class: "edit button") if can?(:update, @group) %>
+              <% end %>
+
+              <%= link_to("Leave Group", leave_group_path(@group), class: "red button", data: { confirm: leave_warning(@membership) }) %>
+            <% else %>
+              <% if @group.pending_invite_request? current_user %>
+                <p>Pending Invite Response</p>
+              <% else %>
+                <%= link_to "Join Group", join_group_path(@group), class: "green button" %>
+              <% end %>
+            <% end %>
+          </div>
+      </div>
+    </div>
+
+    <div id="profile-buttons">
+      <%= link_to group_path(@group, view: :overview) do %>
+        <div class="<%= "curr" if @view == :overview %>">Overview</div>
+      <% end %>
+
+      <%= link_to group_path(@group, view: :schedule) do %>
+        <div class="<%= "curr" if @view == :schedule %>">Schedule</div>
+      <% end %>
+
+      <%= link_to group_path(@group, view: :members) do %>
+        <div class="<%= "curr" if @view == :members %>">
+          <%= pluralize(@group.members.count, "Member") %>
+        </div>
+      <% end %>
+    </div>
 </div>
 
-<!--
-<h3 class="zero-top">
-	Role: <%= @role %>
-</h3>
--->
+<div id="user-invites-overlay-box" class="overlay-box">
+  <!--<span class="red close button"></span>-->
+  <h3>Invite Members</h3>
+  <%= render "shared/user_adder", name: "user_ids", search_path: group_invite_users_search_path(@group) %>
+  <span class="green button" id="group-inviter-send-invite" onclick="sendInvites(this, <%= @group.id %>)">Send Invite</span>
+</div>
 
-<% #render the group's schedule with the schedule partial %>
-<%= render "shared/schedule"%>
+<%= render "groups/pages/#{@view.to_s}" %>

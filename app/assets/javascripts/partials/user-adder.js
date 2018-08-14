@@ -1,7 +1,8 @@
 // Tokenizer implementation for the user entry
 function initializeUserAdder(selector)
 {
-	$(selector).tokenInput("/search_users.json", {
+	const search_path = $(selector).data("search-path");
+	$(selector).tokenInput(search_path, {
 		crossDomain: false,
 		placeholder: "Add people",
 		searchDelay: 0,
@@ -23,15 +24,19 @@ function initializeUserAdder(selector)
 				this.tokenInput("add", item); //and add it back
 			}
 		},
-		resultsFormatter: function(element)
-		{
-			img_url = element.image_url || "https://www.gravatar.com/avatar/?d=mm";
-			return "<li>" + "<div class='avatar search-avatar'><img src='" + img_url + "'></div><div class='name'>" + element.name + "</div></li>";
-		},
-		tokenFormatter: function(element)
-		{
-			img_url = element.image_url || "https://www.gravatar.com/avatar/?d=mm";
-			return "<li>" + "<div class='avatar'><img src='" + img_url + "'></div><p>" + element.name + "</p></li>";
-		}
+		resultsFormatter: (element) => tokenHtml(element, "avatar search-avatar"),
+		tokenFormatter: (element) => tokenHtml(element, "avatar")
 	});
+}
+
+function tokenHtml(user, avatarClass) {
+	return `
+		<li>
+			<div class='${avatarClass}'>
+				<img src='${user.image_url}'>
+			</div>
+
+			<div class='name'>${user.name}</div>
+		</li>
+	`
 }

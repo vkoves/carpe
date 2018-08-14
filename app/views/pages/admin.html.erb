@@ -75,7 +75,7 @@ The average user has: <%= Event.count/User.count %> events and <%= Category.coun
 	<div class="grey-box admin-box">
 		<%= link_to(user) do %>
 			<div class="avatar" style="float: left">
-				<img src="<%= user.user_avatar(100) %>">
+				<img src="<%= user.avatar_url(100) %>">
 			</div>
 		<% end %>
 		<div class="name"><%= user.name %></div>

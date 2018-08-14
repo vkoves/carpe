@@ -22,35 +22,31 @@ module ApplicationHelper
       if(minutes_diff.abs < 60) #we need to use minutes or seconds
         seconds_diff = ((datetime - now)/1.second).round
 
-        if(seconds_diff.abs < 60) #we should use seconds
-          if(seconds_diff >= 0) #future
-            time_format = pluralize(seconds_diff, 'second') + " from now (" + time_format + ")"
-          else
-            time_format = pluralize(seconds_diff.abs, 'second') + " ago (" + time_format + ")"
-          end
-        end
-
-        if(minutes_diff > 0) #in the future
+        if (minutes_diff > 0)
           time_format = pluralize(minutes_diff, 'minute') + " from now (" + time_format + ")"
-        else #in the past
+        elsif (seconds_diff > 0)
+          time_format = pluralize(seconds_diff.abs, 'second') + " ago (" + time_format + ")"
+        elsif (seconds_diff > -60)
+          time_format = pluralize(seconds_diff.abs, 'second') + " ago (" + time_format + ")"
+        else
           time_format = pluralize(minutes_diff.abs, 'minute') + " ago (" + time_format + ")"
         end
       end
 
-
-      # if(hours_diff > 0) #in the future
-      #   if(hours_diff < 5) #less than five hours away
-      #     return  pluralize(hours_diff, 'hour') + " from now"
-      #   else
-      #     time_format = "today at %l:%M %p"
-      #   end
-      # else #in the past
-      #   if(hours_diff.abs < 5) #less than five hours away
-      #     return  pluralize(hours_diff.abs, 'hour') + " ago"
-      #   else
-      #     time_format = "today at %l:%M %p"
+      #   if(seconds_diff.abs < 60) #we should use seconds
+      #     if(seconds_diff > 0) #future
+      #       time_format = pluralize(seconds_diff, 'second') + " from now (" + time_format + ")"
+      #     else
+      #       time_format = pluralize(seconds_diff.abs, 'second') + " ago (" + time_format + ")"
+      #     end
+      #
+      #   elsif (minutes_diff >= 0) #in the future
+      #     time_format = pluralize(minutes_diff, 'minute') + " from now (" + time_format + ")"
+      #   else #in the past
+      #     time_format = pluralize(minutes_diff.abs, 'minute') + " ago (" + time_format + ")"
       #   end
       # end
+
     elsif(datetime.to_date == tomorrow.to_date) #It's tomorrow
       time_format = "tomorrow at " + time_format
     elsif(datetime.to_date == yesterday.to_date) #It's yesterday
@@ -125,51 +121,38 @@ module ApplicationHelper
     return dates_hash
   end
 
-  # Gets the events to be displayed on the schedule partial depending on if @user and/or @group are defined
-  def fetch_schedule_events(user_viewing, group_viewing)
-    if user_viewing
-      events = user_viewing.get_events(current_user)
-    elsif group_viewing
-      events = group_viewing.events
-    end
-  end
-
-  # Gets the categories to be displayed on the schedule partial depending on if @user and/or @group are defined
-  def fetch_schedule_categories(user_viewing, group_viewing)
-    if user_viewing
-      categories = user_viewing.get_categories(current_user)
-    elsif group_viewing
-      categories = group_viewing.categories
-    end
-  end
-
-  # Get attributes for events, particularly pulling in break_ids
-  def get_event_attributes(events)
-    eventAttributes = []
-    events.each do |event|
-      if @group or (@user and !event.group) # don't show group events on a user's schedule, even if they made it?
-        atr = event.attributes
-        atr[:break_ids] = event.repeat_exception_ids #.repeat_exceptions.pluck(:id)
-        eventAttributes.push(atr)
-      end
-    end
-    return eventAttributes
-  end
-
-  # Get attributes for categories, particularly pulling in break_ids
-  def get_category_attributes(categories)
-    categoryAttributes = []
-    categories.each do |category|
-      atr = category.attributes
-      atr[:break_ids] = category.repeat_exception_ids
-      categoryAttributes.push(atr)
-    end
-    return categoryAttributes
-  end
-
   def link_to_block(name = nil, options = nil, html_options = nil)
     link_to(options, html_options) do
-      raw "<span>" + name + "</span>"
+      content_tag :span, name
     end
+  end
+
+  # Adds :size parameter to html_options. This is the size of the image
+  # being requested.
+  def link_avatar(options, html_options = {})
+    html_options.merge!(class: " round-avatar") { |_, old, new| old + new }
+    url = options.avatar_url(html_options[:size] || 256)
+
+    link_to options, html_options do
+      image_tag url
+    end
+  end
+
+  def validation_error_messages!(resource)
+    return "" if resource.errors.empty?
+
+    messages = resource.errors.full_messages.map { |msg| content_tag(:li, msg) }.join
+    sentence = I18n.t("errors.messages.not_saved",
+                      count: resource.errors.count,
+                      resource: resource.class.model_name.human.downcase)
+
+    html = <<-HTML
+    <div id="error_explanation">
+      <h2>#{sentence}</h2>
+      <ul>#{messages}</ul>
+    </div>
+    HTML
+
+    html.html_safe
   end
 end

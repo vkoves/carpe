@@ -3,6 +3,8 @@ require 'utilities'
 #An event describes a schedule item, that is a single item occuring on a person's schedule
 class Event < ApplicationRecord
   belongs_to :user
+  alias_attribute :creator, :user
+
   belongs_to :group
   belongs_to :category
   has_and_belongs_to_many :repeat_exceptions
@@ -52,8 +54,8 @@ class Event < ApplicationRecord
     end
   end
 
-  def has_access?(user) #a wrapper for category has access
-    return category.has_access?(user)
+  def accessible_by?(user)
+    category.accessible_by?(user)
   end
 
   def private_version #returns the event with details hidden
@@ -62,6 +64,10 @@ class Event < ApplicationRecord
     private_event.description = ""
     private_event.location = ""
     return private_event
+  end
+
+  def owner
+    self.group ? self.group : self.creator
   end
 
   ##########################

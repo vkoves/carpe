@@ -7,4 +7,33 @@ one:
 two:
   name: A Group
   description: What a group
-  image_url: image.png
+
+three:
+  name: The second best group
+  description: It's pretty cool, if you ask me
+  privacy: 0
+
+four:
+  name: Super Secret Group
+  description: You're not invited
+  privacy: 2
+
+publicGroup:
+  name: public
+  description: Like communism but cool
+  privacy: 0
+
+privateGroup:
+  name: private
+  description: stop bitcoin mining on my mom's desktop
+  privacy: 1
+
+secretGroup:
+  name: secret
+  description: shhhhhhhhhhhhhhhhhh
+  privacy: 2
+
+customUrlGroup:
+  name: irrelevant
+  custom_url: HOOPLA
+  privacy: <%= Group.privacies[:public_group] %>>
