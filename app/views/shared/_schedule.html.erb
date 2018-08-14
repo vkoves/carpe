@@ -114,10 +114,12 @@
 
 	<div id="cont-hold" class="<%= @holderClass %>">
 		<div id="sch-sidebar" class="sch-no-drag">
-			<span id="sidebar-title" title="Drag a category onto the schedule to create a calendar item.">Categories</span>
-			<% unless @read_only #don't show this text if you can't actually edit things %>
-				<div id="side-desc">Drag a category onto the schedule to create a calendar item.</div>
-			<% end %>
+			<span id="sidebar-title">
+				Categories
+				<% unless @read_only #don't show this text if you can't actually edit things %>
+					<%= image_tag "question-circle.svg", width: 15, class: "question-tooltip", title: "Drag a category onto the schedule to create a calendar item." %>
+				<% end %>
+			</span>
 			<div id="sch-tiles">
 				<div id="sch-tiles-inside">
 					<div id="cat-template" class="sch-evnt category" data-id="-1" time="0:00" style="display: none">
