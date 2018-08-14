@@ -28,7 +28,7 @@ class GroupsController < ApplicationController
       authorize! :manage_members, @group
       @members = @group.users_groups
     when :members
-      @members = @group.members.page(params[:page]).per(25)
+      @members = UsersGroup.where(group: @group, accepted: true).page(params[:page]).per(25)
     when :overview
       @activities = (@group.members + @group.categories + @group.events)
                       .sort_by(&:created_at).reverse.first(2)

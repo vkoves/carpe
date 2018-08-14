@@ -1,4 +1,10 @@
+<% user_group = basic_user_block %>
+
 <div class="basic-member-block">
-  <%= link_avatar member %>
-  <main><%= member.name %></main>
+  <%= link_avatar user_group.user %>
+
+  <main>
+    <span class="name"><%= user_group.user.name %></span>
+    <span class="role"><%= user_group.role %></span>
+  </main>
 </div>

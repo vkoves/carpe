@@ -180,13 +180,21 @@ html, body
 	main
 	{
 		display: flex;
+		flex-direction: column;
 		flex: 3;
-		height: 3em;
-		line-height: 1.5em;
-		font-size: 24px;
-		font-weight: bold;
 		overflow: hidden;
 	}
+
+    .name
+    {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .role
+    {
+
+    }
 }
 
 .member-stats

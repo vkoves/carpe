@@ -4,7 +4,7 @@
   <div>
     <header class="member-stats">
       <h3>Members</h3>
-      <h4><%= @group.members.size %></h4>
+      <h4><%= @group.members_with_role(:member).size %></h4>
 
       <h3>Editors</h3>
       <h4><%= @group.members_with_role(:editor).size %></h4>
