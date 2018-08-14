@@ -45,19 +45,17 @@
 	.cat-add
 	{
 		background-color: #CFCFCF;
-		left:0%;
-		right:0%;
 		width:100%;
-		font-size:17px;
-		opacity:0.9;
-		height:24px;
-		bottom:0px;
-		position:absolute;
+		padding: 5px 0px;
+		font-size: 16px;
 		cursor: pointer;
-	}
-	.cat-add:hover
-	{
-		background-color:rgb(255,220,200);
+		border: none;
+		color: $text-color;
+
+		&:hover {
+			color: #fff;
+			background-color: $light-orange;
+		}
 	}
 	#sch-tiles
 	{
