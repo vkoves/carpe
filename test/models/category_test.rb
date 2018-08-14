@@ -6,12 +6,12 @@ class CategoryTest < ActiveSupport::TestCase
   end
 
   test "not signed in users don't have permission to see private categories" do
-    assert_not categories(:private).has_access?(nil),
+    assert_not categories(:private).accessible_by?(nil),
                "Not signed in user could access the private category!"
   end
 
   test "not signed in users should have permission to see public categories" do
-    assert categories(:public).has_access?(nil),
+    assert categories(:public).accessible_by?(nil),
            "Not signed in user couldn't access the public category!"
   end
 
@@ -24,8 +24,9 @@ class CategoryTest < ActiveSupport::TestCase
   test "users have access to categories in their group" do
     private_category = categories(:private)
     private_category.group = groups(:one)
+    private_category.save!
 
-    assert private_category.has_access?(@norm),
+    assert private_category.accessible_by?(@norm),
            "Member of group does not have access to their group category!"
   end
 
@@ -34,7 +35,7 @@ class CategoryTest < ActiveSupport::TestCase
     putins_category.user = @putin
     @norm.follow(@putin)
 
-    assert putins_category.has_access?(@norm),
+    assert putins_category.accessible_by?(@norm),
            "Follower does not have access to category with 'followers' privacy"
   end
 end

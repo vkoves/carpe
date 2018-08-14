@@ -17,3 +17,8 @@ public:
 followers:
   user: viktor
   privacy: "followers"
+
+groupCategory:
+  user: ownerAlice
+  privacy: "public"
+  group: publicGroup

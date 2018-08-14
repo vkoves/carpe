@@ -65,6 +65,16 @@ ActiveRecord::Schema.define(version: 20180703195151) do
     t.datetime "updated_at", null: false
     t.string "banner_image_url"
     t.boolean "posts_preapproved"
+    t.integer "privacy", default: 0
+    t.string "custom_url"
+    t.string "avatar_file_name"
+    t.string "avatar_content_type"
+    t.integer "avatar_file_size"
+    t.datetime "avatar_updated_at"
+    t.string "banner_file_name"
+    t.string "banner_content_type"
+    t.integer "banner_file_size"
+    t.datetime "banner_updated_at"
   end
 
   create_table "notifications", force: :cascade do |t|
@@ -137,8 +147,12 @@ ActiveRecord::Schema.define(version: 20180703195151) do
   create_table "users_groups", force: :cascade do |t|
     t.integer "user_id"
     t.integer "group_id"
-    t.string "role"
+    t.integer "role", default: 0
+    t.boolean "accepted", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["group_id"], name: "index_users_groups_on_group_id"
+    t.index ["user_id", "group_id"], name: "index_users_groups_on_user_id_and_group_id", unique: true
     t.index ["user_id"], name: "index_users_groups_on_user_id"
   end
 

@@ -130,6 +130,8 @@ function ScheduleItem()
 	this.description;
 	/** The event location */
 	this.location;
+	/** The group an event belongs to */
+	this.groupId = groupID;
 	/** Whether this object has bee updated since last save */
 	this.needsSaving = false;
 
@@ -447,6 +449,7 @@ function Category(id)
 	this.color; //the color of the category, as a CSS acceptable string
 	this.privacy = "private"; //the privacy of the category, right now either private || followers || public
 	this.breaks = []; //an array of the repeat exceptions of this category.
+    this.groupId = groupID; //the group that owns this category
 
 	this.getHtmlName = function()
 	{
@@ -464,6 +467,7 @@ function Break() //The prototype for breaks/repeat exceptions
 	this.name; //the name of the break
 	this.startDate; //the date the break starts. Any time on this variable should be ignored
 	this.endDate; //the date the break ends. Similarly, time should be ignored.
+    this.groupId = groupID; //the group that owns this break
 }
 
 /****************************/
@@ -797,8 +801,7 @@ function addStartingListeners()
 
 	$("#embed-button").click(function()
 	{
-		var iframeUrl = "http://www.carpe.us/schedule?iframe=true&uid=" + userId; //create the iframe URL
-		var iframeCode = "<iframe src='" + iframeUrl + "' width='900px' height='600'>";
+		var iframeCode = "<iframe src='" + IFRAME_URL + "' width='900px' height='600'>";
 
 		customAlertUI("Embed your schedule!", "<input id='iframe-embed' class='text-input' type='text' style='width: 90%;'></input><br><br>");
 		$("#iframe-embed").val(iframeCode);
@@ -872,17 +875,17 @@ function addStartingListeners()
  */
 function loadInitialCategories()
 {
-	if(typeof categoriesLoaded !== 'undefined') //if categoriesLoaded is defined
+	if(typeof loadedCategories !== 'undefined') //if loadedCategories is defined
 	{
-		for(var i = 0; i < categoriesLoaded.length; i++) //iterate through the loaded categories
+		for(var i = 0; i < loadedCategories.length; i++) //iterate through the loaded categories
 		{
-			var currCat = categoriesLoaded[i];
+			var currCat = loadedCategories[i];
 
 			var catInstance = new Category(currCat.id);
 			catInstance.privacy = currCat.privacy;
 			catInstance.color = currCat.color;
 			catInstance.name = currCat.name;
-			catInstance.breaks = currCat.break_ids;
+			catInstance.breaks = currCat.repeat_exceptions.map(brk => brk.id); // break ids
 
 			categories[catInstance.id] = catInstance;
 		}
@@ -895,11 +898,11 @@ function loadInitialCategories()
  */
 function loadInitialBreaks()
 {
-	if(typeof breaksLoaded !== 'undefined') //if categoriesLoaded is defined
+	if(typeof loadedBreaks !== 'undefined') //if loadedCategories is defined
 	{
-		for(var i = 0; i < breaksLoaded.length; i++) //iterate through the loaded categories
+		for(var i = 0; i < loadedBreaks.length; i++) //iterate through the loaded categories
 		{
-			var currBreak = breaksLoaded[i];
+			var currBreak = loadedBreaks[i];
 
 			var breakInstance = new Break();
 			breakInstance.id = currBreak.id;
@@ -921,11 +924,11 @@ function loadInitialBreaks()
 function loadInitialEvents()
 {
 	//Load in events
-	if (typeof eventsLoaded !== 'undefined') //if eventsLoaded is defined
+	if (typeof loadedEvents !== 'undefined') //if loadedEvents is defined
 	{
-		for(var i = 0; i < eventsLoaded.length; i++) //loop through it
+		for(var i = 0; i < loadedEvents.length; i++) //loop through it
 		{
-			var evnt = eventsLoaded[i]; //fetch the event at the current index
+			var evnt = loadedEvents[i]; //fetch the event at the current index
 
 			var schItem = new ScheduleItem();
 			schItem.startDateTime = new Date(evnt.date);
@@ -949,7 +952,7 @@ function loadInitialEvents()
 			schItem.setRepeatType(evnt.repeat);
 			schItem.description = evnt.description;
 			schItem.location = evnt.location;
-			schItem.breaks = evnt.break_ids;
+			schItem.breaks = evnt.repeat_exceptions.map(brk => brk.id); // break ids
 			schItem.tempId = i;
 			scheduleItems[i] = schItem;
 
@@ -2154,39 +2157,19 @@ function saveEvents()
 
 	$("#sch-save").addClass("loading"); //indicate that stuff is loading
 
-	var scheduleItemsToSave = {};
-
 	// TOOD: Swap needsSaving for an updatedAt timestamp and save when the last save request was sent
 	// so you can use a date comparison to determine if saving is needed. This prevents having to deflag events
 	// and makes sure you can mutate events during saving
-	for(var eventId in scheduleItems) // iterate through schedule items to compile ones that need saving
-	{
-		if(scheduleItems[eventId].needsSaving) // if this event needs to be saved
-			scheduleItemsToSave[eventId] = scheduleItems[eventId];
-	}
-
-	//JSON encode our hashmap
-	var arr  = JSON.parse(JSON.stringify(scheduleItemsToSave));
+	const scheduleItemsToSave = Object.values(scheduleItems).filter(event => event.needsSaving);
+    if (scheduleItemsToSave.length === 0) { return; }
 
 	$.ajax({
 		url: "/save_events",
 		type: "POST",
-		data: {map: arr, group_id: groupID},
+		data: JSON.stringify({ events: scheduleItemsToSave }),
+        contentType: "application/json",
 		success: function(resp)
 		{
-			console.log("Save complete.");
-
-			$("#sch-save").removeClass("loading");
-			$("#sch-save").addClass("active"); //show checkmark
-
-
-			//and hide it after 1.5 seconds
-			setTimeout(function()
-			{
-				$("#sch-save").removeClass("active");
-				$("#sch-save").addClass("disabled");
-			}, 3000);
-
 			for(var key in resp) // iterate through ids in the response, which specify the temp id of the event and the new DB id
 			{
 				$(".sch-evnt[evnt-temp-id="+ key + "]")	.attr("event-id", resp[key]);
@@ -2196,7 +2179,22 @@ function saveEvents()
 		error: function(resp)
 		{
 			alertUI("Saving events failed :(");
-		}
+		},
+        complete: function()
+        {
+            console.log("Save complete.");
+
+            $("#sch-save").removeClass("loading");
+            $("#sch-save").addClass("active"); //show checkmark
+
+
+            //and hide it after 1.5 seconds
+            setTimeout(function()
+            {
+                $("#sch-save").removeClass("active");
+                $("#sch-save").addClass("disabled");
+            }, 3000);
+        }
 	});
 }
 
@@ -2311,7 +2309,7 @@ function deleteEvent(event, elem)
 		$.ajax({
 			url: "/delete_event",
 			type: "POST",
-			data: {id: eId, group_id: groupID},
+			data: {id: eId},
 			success: function(resp)
 			{
 				console.log("Delete complete.");
@@ -2330,7 +2328,7 @@ function createCategory()
 	$.ajax({
 		url: "/create_category",
 		type: "POST",
-		data: {name: "", user_id: userId, group_id: groupID, color: "silver"},
+		data: {name: "", group_id: groupID, color: "silver"},
 		success: function(resp)
 		{
 			console.log("Create category complete.");
@@ -2374,7 +2372,7 @@ function deleteCategory(event, elem, id)
 		$.ajax({
 			url: "/delete_category",
 			type: "POST",
-			data: {id: id, group_id: groupID},
+			data: {id: id},
 			success: function(resp) //after the server says the delete worked
 			{
 				console.log("Delete category complete.");
@@ -2416,7 +2414,7 @@ function saveCategory(event,elem,id)
 		url: "/create_category",
 		type: "POST",
 		data: {name: categoryName, id: id, color: $(".cat-top-overlay").css("background-color"),
-			privacy: currCategory.privacy, breaks: currCategory.breaks, group_id: groupID},
+			privacy: currCategory.privacy, breaks: currCategory.breaks},
 		success: function(resp)
 		{
 			console.log("Update category complete.");

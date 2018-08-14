@@ -13,49 +13,15 @@
 			To keep up with Carpe updates, check out <a href="http://carpe-dev.tumblr.com" target="_blank" class="normal carpe-color">our development blog!</a>
 
 			<h3>Current &amp; Upcoming Events</h3>
-			<% if @upcoming_events and @upcoming_events.length > 0 %>
-				<% printed = 0 %>
-				<% @upcoming_events.each do |event| %>
-					<% next if event.end_date.past? #skip events that have ended %>
-					<% break if printed >= 10 #stop if we've already printed 10 upcoming events %>
-					<% printed += 1 %>
-					<div class="home-event-tile <%= "current" if event.current? %>">
-						<div class="inner"  style="border-color: <%= event.category.color %>">
-							<div class="tile-text">
-								<b><%= event.get_html_name.html_safe %></b>
-								<% if event.location.present? %>
-								in <%= event.location %>
-								<% end %>
-								<br>
-								<% if event.current? #print full info about current events %>
-								<%= relative_event_time(event) %>
-								<% else #and print start for future events %>
-								<%= time_string = relative_time_ago(event.date, true) %>
-								<% end %>
-								<span class="toggle-details">Toggle Details</span>
-							</div>
-							<div class="details">
-								<%= relative_time_ago(event.date, true) %> to <%= relative_time_ago(event.end_date, false) %>. <br>
-								<% unless event.description.empty? %>
-								Description: <%= simple_format(html_escape(event.description)) %>
-								<% end %>
-							</div>
-							<div class="square" style="color: <%= event.category.color %>"><%= event.category.get_html_name.html_safe %></div>
-						</div>
-
-						<% if event.current? %>
-							<div class="current-label">Going on Now</div>
-						<% end %>
-					</div>
-				<% end %>
-			<% else %>
+			<% if current_user.upcoming_events.empty? %>
 				You don't have any events going on or coming up soon! Go to <%= link_to "your schedule", "/schedule", class: "normal carpe-color" %> to add some.
+			<% else %>
+        <%= render partial: "shared/event_tile", collection: current_user.upcoming_events.first(10), as: :event %>
 			<% end %>
 		</div>
 	</span>
 	<br>
 </div>
-
 
 <div id="sidebar-cont">
 	<div id="sidebar-button"><<</div>
