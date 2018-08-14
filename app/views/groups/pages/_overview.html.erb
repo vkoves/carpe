@@ -26,7 +26,9 @@
         <% elsif @group.empty? %>
           <span> This group has no members </span>
         <% else %>
-          <% @group.members.first(4).each { |member| link_avatar member } %>
+          <% @group.members.first(4).each do |member| %>
+            <%= link_avatar member %>
+          <% end %>
         <% end %>
       </div>
     </div>
