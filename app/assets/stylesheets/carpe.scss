@@ -3,7 +3,6 @@
 /* Body styling to apply font, min-width and padding */
 body
 {
-	font-family: 'Open Sans', sans-serif;
 	margin: 0px;
 	width: 100%;
 	min-width: 400px;
@@ -11,6 +10,11 @@ body
 	color: $text-color;
 
 	&.in-iframe { padding-bottom: 0px; }
+
+	// Make sure all elements get the proper font
+	* {
+		font-family: 'Open Sans', sans-serif;
+	}
 }
 
 /* HEADER + POSSIBLE OTHER USE CSS */
