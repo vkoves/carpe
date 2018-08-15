@@ -53,8 +53,7 @@ gem 'rack-mini-profiler', group: [:development, :production]
 # Paperclip gem for managing user uploaded images and such (https://github.com/thoughtbot/paperclip)
 gem 'paperclip', '~> 6'
 
-# AWS SDK gem for connecting to Amazon S3 and other tools (https://github.com/aws/aws-sdk-ruby)
-# TODO: Update to AWS 3 when paperclip adds support
+# Amazon Web Storage Service. Used by paperclip to store images.
 gem 'aws-sdk-s3', '~> 1', group: :production
 
 # Add SimpleCov to check test coverage (https://github.com/colszowka/simplecov)
