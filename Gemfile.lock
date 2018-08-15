@@ -47,13 +47,20 @@ GEM
     ansi (1.5.0)
     arel (9.0.0)
     ast (2.4.0)
-    aws-sdk (2.10.134)
-      aws-sdk-resources (= 2.10.134)
-    aws-sdk-core (2.10.134)
+    aws-eventstream (1.0.1)
+    aws-partitions (1.98.0)
+    aws-sdk-core (3.24.1)
+      aws-eventstream (~> 1.0)
+      aws-partitions (~> 1.0)
       aws-sigv4 (~> 1.0)
       jmespath (~> 1.0)
-    aws-sdk-resources (2.10.134)
-      aws-sdk-core (= 2.10.134)
+    aws-sdk-kms (1.7.0)
+      aws-sdk-core (~> 3)
+      aws-sigv4 (~> 1.0)
+    aws-sdk-s3 (1.17.0)
+      aws-sdk-core (~> 3, >= 3.21.2)
+      aws-sdk-kms (~> 1)
+      aws-sigv4 (~> 1.0)
     aws-sigv4 (1.0.3)
     axiom-types (0.1.1)
       descendants_tracker (~> 0.0.4)
@@ -324,7 +331,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  aws-sdk (~> 2.10.2)
+  aws-sdk-s3 (~> 1)
   better_errors
   binding_of_caller
   cancancan (~> 2.2.0)
@@ -342,7 +349,7 @@ DEPENDENCIES
   non-stupid-digest-assets
   omniauth (~> 1.7)
   omniauth-google-oauth2
-  paperclip (> 5.2.0)
+  paperclip (~> 6)
   puma (~> 3.10)
   rack-mini-profiler
   rails (~> 5.1)
@@ -361,4 +368,4 @@ RUBY VERSION
    ruby 2.4.2p198
 
 BUNDLED WITH
-   1.16.2
+   1.16.3
