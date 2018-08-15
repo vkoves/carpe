@@ -23,7 +23,8 @@ Based on the [contributor's guide][contrib-guide], this PR is of type:
 - [ ] Process: I have added this PR to the relevant quarterly milestone
 - [ ] Process: I have tested this PR locally and verified it does what it should
 
-### Hotifxes & Deployments
+### Hotfixes & Deployments
+_If this is not a hotfix or release, delete this section._
 - [ ] Process: I have assigned a user to this PR to handle merging and deployment
 - [ ] Process: I have pushed up my changes to [Carpe test][carpe-test] for review and tested my changes there
 
