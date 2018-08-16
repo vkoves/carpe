@@ -2384,7 +2384,7 @@ function deleteCategory(event, elem, id)
 					$(".col-snap .sch-evnt[data-id=" + id + "]").slideUp();
 					for (var index in scheduleItems) //do a foreach since this is a hashmap
 					{
-						if(scheduleItems[index].categoryId = id)
+						if(scheduleItems[index].categoryId == id)
 						{
 							delete scheduleItems[index];
 						}
@@ -2469,7 +2469,7 @@ function createBreak(name, startDate, endDate, callback)
 			var addingBreakUiIsVisible = $("#break-adder-overlay-box").is(":visible");
 
 			if (addingBreakUiIsVisible) {
-				setupBreakAddOverlay();
+				setupBreakAddOverlay(true);
 			}
 
 			// Call the callback and pass in the new break
