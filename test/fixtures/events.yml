@@ -50,8 +50,7 @@ current_event_3:
   category: main
   user: norm
 
-event_to_delte:
-  id: 101
+event_to_delete:
   name: Test Event to Delete
   category: main
   user: norm

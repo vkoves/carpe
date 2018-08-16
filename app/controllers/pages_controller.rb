@@ -3,7 +3,7 @@ require 'tasky'
 class PagesController < ApplicationController
   before_action :authorize_admin!, only: [:admin, :sandbox]
 
-  def admin #admin page
+  def admin
     @now = Time.zone.now
     @past = @now - 1.months
     

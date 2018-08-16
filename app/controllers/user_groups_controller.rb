@@ -1,17 +1,6 @@
 class UserGroupsController < ApplicationController
   before_action :authorize_signed_in!
 
-  # user joins a group
-  def invite_to_group
-    group = Group.find params[:group_id]
-    user = User.find params[:user_id]
-
-    notif = Notification.create(sender: current_user, receiver: user,
-                                entity: group, event: :group_invite)
-
-    render json: { errors: notif.errors.messages.values }
-  end
-
   def destroy
     membership = UsersGroup.find(params[:id])
 

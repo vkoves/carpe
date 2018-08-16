@@ -49,7 +49,7 @@ class UsersControllerTest < ActionController::TestCase
   test "should not be able to go to users panel if user is not an admin" do
     sign_in @norm
     get :index
-    assert_redirected_to home_path
+    assert_redirected_to root_path
   end
 
   test "should be able to go to users panel if user is an admin" do
@@ -98,21 +98,6 @@ class UsersControllerTest < ActionController::TestCase
   test "trying to view users that do not exist should redirect to the 404 page" do
     get :show, params: { id: "01010101010101" }
     assert_response :missing
-  end
-
-  test "can perform an empty search query" do
-    get :search, params: { q: nil }
-    assert_response :success, "Accepts empty search queries"
-  end
-
-  test "can perform a search query" do
-    get :search, params: { q: "v" }
-    assert_response :success
-  end
-
-  test "can perform a `json` search query" do
-    get :search, params: { q: "v", format: "json" }
-    assert_response :success
   end
 
   test "only admins (or the account owner) can delete users" do

@@ -1,10 +1,6 @@
 require 'test_helper'
 
-class ApplicationControllerTest < ActionController::TestCase
-  include Devise::Test::ControllerHelpers
+class ApplicationControllerTest < ActionDispatch::IntegrationTest
+  include Devise::Test::IntegrationHelpers
 
-  test "search route works" do
-    get :search_core, params: { q: "v" }
-    assert_response :success
-  end
 end
