@@ -522,7 +522,7 @@ function scheduleReady()
 		$("#overlay-title").attr("contenteditable", "false"); //disable editing on location title and description
 		$("#overlay-loc, #overlay-desc").prop('disabled', true);
 		$("#time-start, #time-end").attr("readonly", true); //disable editing of time
-	}
+  }
 
 	$("#sch-save").addClass("disabled");
 }
@@ -890,13 +890,17 @@ function loadInitialCategories()
 		{
 			var currCat = loadedCategories[i];
 
-			var catInstance = new Category(currCat.id);
+      var catInstance = new Category(currCat.id);
 			catInstance.privacy = currCat.privacy;
 			catInstance.color = currCat.color;
 			catInstance.name = currCat.name;
 			catInstance.breaks = currCat.repeat_exceptions.map(brk => brk.id); // break ids
 
-			categories[catInstance.id] = catInstance;
+      categories[catInstance.id] = catInstance;
+
+      if(currCat.name !== ""){
+        $("#cat-title-selector").append("<option value=\"" + currCat.id + "\">" + currCat.name + "</option>");
+      }
 		}
 	}
 }
@@ -1927,7 +1931,7 @@ function editCategory(elem)
 		{
 			$(this).addClass("selected");
 		}
-	});
+  });
 }
 
 /**
@@ -1940,24 +1944,9 @@ function editEvent(elem)
 
 	if(inColumn(elem) && !editingEvent && elem.attr("data-id") != -1) //make sure this is a placed event that isn't private and we aren't already editing
 	{
-		currEvent = scheduleItems[elem.attr("evnt-temp-id")];
+    currEvent = scheduleItems[elem.attr("evnt-temp-id")];
 
-    var categoryNames = $("#sch-tiles .sch-evnt.category").find(".evnt-title").map(function(){
-      return [[$(this).text(), $(this).parent().attr("data-id")]];
-    }).get();
-
-    for (var i = 0; i < categoryNames.length; i++) {
-      var category = categoryNames[i][0];
-      var categoryId = categoryNames[i][1];
-      if(category !== ""){
-        var outputStr = "<option value=\"" + categoryId + "\"";
-        outputStr += currEvent.categoryId === parseInt(categoryId) ? " selected=\"selected\">" : ">";
-
-        $("#cat-title-selector").append(outputStr + category + "</option>");
-      }
-    }
-
-
+    $("#cat-title-selector option[value='"+ currEvent.categoryId +"']").attr("selected", "selected")
     $("#cat-title-selector").off();
     $("#cat-title-selector").change(function() {
       var val = $(this).val();
@@ -2375,7 +2364,7 @@ function createCategory()
 			var catInstance = new Category(resp.id);
 			catInstance.color = "silver";
 			catInstance.privacy = "private";
-			categories[catInstance.id] = catInstance;
+      categories[catInstance.id] = catInstance;
 
 			// By default, the 'edit category' overlay will appear when creating new categories.
 			editCategory(newCat);
@@ -2412,12 +2401,13 @@ function deleteCategory(event, elem, id)
 					$(".col-snap .sch-evnt[data-id=" + id + "]").slideUp();
 					for (var index in scheduleItems) //do a foreach since this is a hashmap
 					{
-						if(scheduleItems[index].categoryId = id)
+						if(scheduleItems[index].categoryId == id)
 						{
 							delete scheduleItems[index];
 						}
 					}
-				});
+        });
+        $("#cat-title-selector option[value='"+ id +"']").remove();
 			},
 			error: function(resp)
 			{
@@ -2454,7 +2444,9 @@ function saveCategory(event,elem,id)
 			sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
 
 			UIManager.slideOutHideOverlay("#cat-overlay-box"); // Hide category editing panel
-			currCategory = null; // and indicate there's no current category
+      currCategory = null; // and indicate there's no current category
+      $("#cat-title-selector option[value='"+ id +"']").remove();
+      $("#cat-title-selector").append("<option value=\"" + id + "\">" + categoryName + "</option>");
 		},
 		error: function(resp)
 		{
