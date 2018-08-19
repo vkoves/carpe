@@ -256,6 +256,8 @@ $cover-camera-height: 20px;
 	{
 		display: inline-block;
 		float: left;
+
+		img { display: block; }
 	}
 }
 .user-details

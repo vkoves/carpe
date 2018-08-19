@@ -154,9 +154,10 @@ label
 
 .avatar.float { float: left; }
 
-a .avatar img:hover, .avatar a img:hover
+// Style all avatar links with a hover effect
+a .avatar, .avatar a, a.avatar
 {
-	box-shadow: 0px 2px 2px #777;
+	img:hover { box-shadow: 0px 2px 2px #777; }
 }
 
 .avatar.small img

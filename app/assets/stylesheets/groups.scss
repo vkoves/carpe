@@ -88,13 +88,13 @@ html, body
 	margin: 15px;
 	text-align: left;
 
-	.round-avatar
+	.avatar
 	{
 		margin-left: 2.5%;
 		margin-right: 7.5%;
 	}
 
-	main
+	.main
 	{
 		display: flex;
 		flex: 3;
@@ -126,10 +126,10 @@ html, body
 {
 	@extend .card;
 	width: 100%;
-	height: 80px;
 	margin: 0 0 20px 0;
+	padding: 10px 0px;
 
-	main
+	.main
 	{
 		overflow-wrap: break-word;
 
@@ -147,6 +147,10 @@ html, body
 	width: 455px; /* width should be about 3x the length for a card-like shape */
 	height: 175px;
 
+	.avatar img {
+		width: 120px;
+		height: 120px;
+	}
 	.title
 	{
 		height: 3em;
@@ -168,16 +172,16 @@ html, body
 	display: flex;
 	align-items: center;
 	justify-content: flex-start;
-	width: 400px;
-	height: 200px;
+	width: 350px;
+	height: 90px;
 
-	.round-avatar
+	.avatar
 	{
 		margin-left: 5%;
 		margin-right: 5%;
 	}
 
-	main
+	.main
 	{
 		display: flex;
 		flex-direction: column;
@@ -185,16 +189,10 @@ html, body
 		flex: 3;
 		overflow: hidden;
 	}
-
     .name
     {
       font-size: 24px;
       font-weight: bold;
-    }
-
-    .role
-    {
-
     }
 }
 
@@ -393,23 +391,20 @@ html, body
   margin-top: 15px;
   display: flex;
 
-  .round-avatar{
+  .avatar img {
   	height: 55px;
   	width: 55px;
-  	margin: unset;
   }
   .user-information{
   	flex-grow:1;
   	margin-left: 10px;
-  	.user-name{
-  		font-size: 1.2rem;
-  	}
-  	.time-ago{
+
+  	.user-name { font-size: 1.2rem; }
+  	.time-ago {
   		margin-top: 30px;
   		font-size: .7rem;
   		color: grey;
   	}
-
   }
 }
 
