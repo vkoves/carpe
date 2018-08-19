@@ -1,3 +1,5 @@
+@import 'colors';
+
 html, body
 {
 	height: 100%;
@@ -13,7 +15,7 @@ html, body
 	{
 		flex: 1;
 		min-width: 300px;
-		padding: 50px 10px 10px;
+		padding: 10px 25px;
 		text-align: center;
 	}
 
@@ -28,11 +30,6 @@ html, body
 
 .shaded {
 	background: rgb(225, 225, 225);
-}
-
-.with-horizontal-borders {
-	border-left: solid 2px #ACACAC;
-	border-right: solid 2px #ACACAC;
 }
 
 #groups-list-header
@@ -380,10 +377,9 @@ html, body
 
 #group-overview-info
 {
-	*
-	{
-		text-align: left;
-	}
+	border-left: solid 2px $grey;
+
+	* { text-align: left; }
 }
 
 .small-activity-card {

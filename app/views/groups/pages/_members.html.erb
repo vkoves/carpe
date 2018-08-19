@@ -23,13 +23,14 @@
     <% end %>
   </header>
 
-  <main class="flex-list">
-    <% if can? :view_details, @group %>
+  <% if can? :view_details, @group %>
+    <main class="flex-list">
       <%= render partial: "groups/basic_user_block", collection: @members %>
-    <% else %>
-    <i>You must be a member of this group to see its members</i>
-    <% end %>
-  </main>
+    </main>
+  <% else %>
+    <%= image_tag "lock", alt: "Lock", class: "lock -large" %>
+    <span>You must be a member of this group to see its members</span>
+  <% end %>
 
   <%= paginate @members %>
 </div>

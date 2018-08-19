@@ -774,6 +774,31 @@ form.thin
 	vertical-align: middle;
 }
 
+// Used with the lock icon
+.lock {
+	display: block;
+	background-color: $grey;
+	border-radius: 100%;
+
+	&.-large {
+		width: 100px;
+		padding: 40px;
+		margin: 50px auto;
+	}
+	&.-small {
+		width: 50px;
+		padding: 20px;
+		margin: 25px auto;
+	}
+}
+
+.lock-msg {
+	display: flex;
+	align-items: center;
+
+	.lock { margin: 0 25px 0 0; }
+}
+
 /* END TO BE SORTED */
 
 /* Keyboard Shortcut Overlay Styling */
