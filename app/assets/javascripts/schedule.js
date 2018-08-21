@@ -629,7 +629,7 @@ function addStartingListeners()
 		var endDate = $("#break-end").val();
 
 		if(name == "" || startDate == "" || endDate == "")
-			alertUI("Fill out all fields!");
+			$("#break-error").show();
 		else
 			createBreak(name, startDate, endDate);
 	});
