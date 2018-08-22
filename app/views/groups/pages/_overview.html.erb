@@ -8,7 +8,9 @@
     <% elsif @group.upcoming_events.empty? %>
       <span> This group has no events, make some! </span>
     <% else %>
-      <%= render partial: "shared/event_tile", collection: @group.upcoming_events, as: :event %>
+      <%= render partial: "shared/event_tile",
+                 collection: @group.upcoming_events(current_user.home_time_zone),
+                 as: :event %>
     <% end %>
   </main>
 
