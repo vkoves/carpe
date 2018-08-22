@@ -6,7 +6,7 @@ class NotificationsController < ApplicationController
   end
 
   # Notification responses/updates are routed through here.
-  def updated
+  def update
     @notification = Notification.find(params[:id])
 
     # dispatches call to private method (if implemented)

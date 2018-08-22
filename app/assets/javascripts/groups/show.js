@@ -41,14 +41,13 @@ function showRelevantUsers(searchText) {
 }
 
 /* send invite to join a group to a given user
- * POSTs to invite_to_group route in groups controler 
  * @param {HtmlElement} self - html object of the user card to get the user id from
  * @param {String} groupId - id of group to invite user to
  */
 function sendInvites(self, groupId) {
 	const userIds = $("#user_ids").val().split(",");
 	userIds.forEach(function (userId) {
-		$.post("/invite_to_group", { group_id: groupId, user_id: userId }, function(res) {
+		$.post(`/group_invite`, { group_id: groupId, user_id: userId }, function(res) {
 				if (res["errors"] && res["errors"].length > 0) {
 					alertUI("They've already been invited!");
 				} else {

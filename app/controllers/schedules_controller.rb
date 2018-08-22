@@ -2,10 +2,10 @@
 #as well as creating and editing categories
 
 # TODO: Most requests should enforce user being signed in, as data can't be made anonymously
-class ScheduleController < ApplicationController
-  after_action :allow_iframe, only: :schedule
+class SchedulesController < ApplicationController
+  after_action :allow_iframe, only: :show
 
-  def schedule
+  def show
     if params[:uid] # user viewing another user's schedule
       @user = User.find(params[:uid])
     else # user viewing their own schedule
@@ -20,59 +20,8 @@ class ScheduleController < ApplicationController
     @embedded = true if params[:iframe]
   end
 
-  def create_category
-    if params[:id]
-      @cat = Category.find(params[:id])
-      authorize! :edit, @cat
-    else
-      @cat = Category.new
-    end
-
-    @cat.color = params[:color]
-
-    @cat.user = current_user
-    @cat.group = Group.find(params[:group_id]) if params[:group_id].present?
-
-    @cat.privacy = params[:privacy] if params[:privacy]
-    @cat.name = params[:name]
-
-    if params[:breaks]
-      @cat.repeat_exceptions = params[:breaks].map { |id| RepeatException.find(id) }
-    end
-
-    authorize! :create, @cat
-    @cat.save
-
-    render json: @cat
-  end
-
-  def delete_category
-    category = Category.find(params[:id])
-    authorize! :destroy, category
-    category.destroy
-
-    render plain: "Category destroyed"
-  end
-
-  def create_exception
-    if params[:id]
-      @exception = RepeatException.find(params[:id])
-      authorize! :edit, @exception
-    else
-      @exception = RepeatException.new
-    end
-
-    @exception.name = params[:name] if params[:name]
-    @exception.start = Date.parse(params[:start]) if params[:start]
-    @exception.end =  Date.parse(params[:end]) if params[:end]
-    @exception.user = current_user
-    @exception.group = Group.find(params[:group_id]) if params[:group_id].present?
-    @exception.save
-
-    render json: @exception.id
-  end
-
-  def save_events
+  # edits & creates events
+  def save
     new_event_ids = {}
 
     params[:events].each do |obj|
@@ -112,14 +61,6 @@ class ScheduleController < ApplicationController
     end
 
     render :json => new_event_ids
-  end
-
-  def delete_event
-    event = Event.find(params[:id])
-    authorize! :destroy, event
-    event.destroy
-
-    render plain: "Event deleted."
   end
 
   private

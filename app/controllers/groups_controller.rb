@@ -119,19 +119,15 @@ class GroupsController < ApplicationController
     redirect_to groups_path
   end
 
-  def invite_users_search
-    query = params[:q]
-    render json: {} and return if query.blank?
+  # group inviting user
+  def group_invite
+    group = Group.find params[:group_id]
+    user = User.find params[:user_id]
 
-    group = Group.find(params[:id])
-    matched_users = User.where('name LIKE ?', "%#{query}%")
-                      .where.not(id: group.members).limit(10)
+    notif = Notification.create(sender: current_user, receiver: user,
+                                entity: group, event: :group_invite)
 
-    users_json = matched_users.map do |user|
-      { id: user.id, name: user.name, image_url: user.avatar_url(50) }
-    end
-
-    render json: users_json
+    render json: { errors: notif.errors.messages.values }
   end
 
   protected
