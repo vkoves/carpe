@@ -9,7 +9,7 @@
       <span> This group has no events, make some! </span>
     <% else %>
       <%= render partial: "shared/event_tile",
-                 collection: @group.upcoming_events(current_user.home_time_zone),
+                 collection: visible_upcoming_events,
                  as: :event %>
     <% end %>
   </main>
