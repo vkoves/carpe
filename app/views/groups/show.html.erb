@@ -20,7 +20,7 @@
           <div class="privacy-block">
             <div class="profile-privacy"><%= @group.privacy.titleize %></div>
             <% if user_signed_in? %>
-              <% if current_user&.in_group?(@group) %>
+              <% if current_user.in_group?(@group) %>
                 <% if can? :update, @group %>
                   <%= link_to("Edit Group", edit_group_path(@group), class: "edit button") %>
                 <% end %>
