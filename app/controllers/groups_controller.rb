@@ -1,5 +1,5 @@
 class GroupsController < ApplicationController
-  before_action :authorize_signed_in!
+  before_action :authorize_signed_in!, except: [:show]
 
   def index
     @joinable_groups = Group.where(privacy: :public_group)
