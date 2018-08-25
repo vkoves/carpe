@@ -1597,7 +1597,7 @@ function getStartDate(dateObj, useMonth)
 	{
 		lastMonth = true;
 	}
-
+ 
 	copyDate.setDate(startDate);
 
 	return {startDate: copyDate, lastMonth: lastMonth}
@@ -1621,8 +1621,8 @@ function populateEvents()
 	function place(eventObject, visibleDate)
 	{
 		var color = categories[eventObject.categoryId].color;
-		var currentElem = eventObject.tempElement.clone();
-
+    var currentElem = eventObject.tempElement.clone();
+    
 		if(viewMode == "week")
 		{
 			// Setup the UI element's color, text, and height to represent the schedule item
@@ -1951,6 +1951,7 @@ function editEvent(elem)
     $("#cat-title-selector").change(function() {
       var val = $(this).val();
       currEvent.setCategory(val)
+      $(".sch-evnt[event-id='" + currEvent.eventId + "'], #overlay-color-bar").css("background-color", categories[currEvent.categoryId].color)
     })
 
 		//Select the proper repeat button
