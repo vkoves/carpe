@@ -37,31 +37,6 @@ class UsersController < ApplicationController
     end
   end
 
-  # User search. Used to add users to stuff, like the sandbox user adder
-  def search
-    q = params[:q]&.strip
-    return unless q.present?
-
-    if q != "" # only search if it's not silly
-      if request.path_parameters[:format] == 'json'
-        @users = User.where('name LIKE ?', "%#{q}%").limit(10)
-        @users = User.rank(@users, q)
-      else
-        @users = User.where('name LIKE ?', "%#{q}%")
-      end
-    end
-
-    respond_to do |format|
-      format.html
-      format.json do
-        # Return the users in their public JSON form
-        user_map = @users.map(&:convert_to_json)
-
-        render json: user_map
-      end
-    end
-  end
-
   def promote
     @user = User.find(params[:id])
     @user.update(admin: true)
