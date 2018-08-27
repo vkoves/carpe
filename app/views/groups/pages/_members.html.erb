@@ -3,12 +3,12 @@
 <div class="subtle-container">
   <header class="member-stats">
     <h3>Members</h3>
-    <h4><%= @group.members_with_role(:member).size %></h4>
+    <h4><%= @group.size %></h4>
 
     <h3>Editors</h3>
     <h4><%= @group.members_with_role(:editor).size %></h4>
 
-    <h3>Admins</h3>
+    <h3>Moderator</h3>
     <h4><%= @group.members_with_role(:moderator).size %></h4>
 
     <h3>Owners</h3>
