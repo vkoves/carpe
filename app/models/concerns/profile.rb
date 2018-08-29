@@ -83,8 +83,10 @@ module Profile
     end
   end
 
-  def upcoming_events
-    recent_events = self.events_in_range(DateTime.now - 2.day, DateTime.now.end_of_day + 10.day)
+  def upcoming_events(time_zone="UTC")
+    recent_events = self.events_in_range(DateTime.now - 2.day,
+                                         DateTime.now.end_of_day + 10.day,
+                                         time_zone)
     recent_events.select{ |event| event.end_date >= DateTime.now }
   end
 end

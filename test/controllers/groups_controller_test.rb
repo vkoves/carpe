@@ -34,9 +34,9 @@ class GroupsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "user cannot see public group when not signed in" do
+  test "user can see public group when not signed in" do
     get :show, params: {id:groups(:publicGroup).id}
-    assert_response :redirect
+    assert_response :success
   end
 
   test "signed in users can see a public group" do
@@ -45,9 +45,9 @@ class GroupsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "user cannot see private group when not signed in" do
+  test "user can see private group when not signed in" do
     get :show, params: {id:groups(:privateGroup).id}
-    assert_response :redirect
+    assert_response :success
   end
 
   test "signed in users can see a private group" do

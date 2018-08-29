@@ -1,5 +1,5 @@
 class GroupsController < ApplicationController
-  before_action :authorize_signed_in!
+  before_action :authorize_signed_in!, except: [:show]
 
   def index
     @joinable_groups = Group.where(privacy: :public_group)
@@ -30,7 +30,10 @@ class GroupsController < ApplicationController
     when :members
       @members = UsersGroup.where(group: @group, accepted: true).page(params[:page]).per(25)
     when :overview
-      @activities = (@group.members + @group.categories + @group.events)
+      categories = @group.categories.select { |cat| cat.accessible_by? current_user }
+      events = @group.events.select { |event| event.accessible_by? current_user }
+      
+      @activities = (@group.members + categories + events)
                       .sort_by(&:created_at).reverse.first(2)
     when :schedule
       @read_only = cannot? :edit_schedule, @group
