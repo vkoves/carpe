@@ -22,6 +22,8 @@ class SearchesController < ApplicationController
   def users
     matches = User.where('LOWER(name) LIKE ?', "%#{@query}%").limit(10)
     @users = matches.sort_by { |user| SearchScore.name(user.name, @query) }
+
+    render "user"
   end
 
   # searches for users not already members in the given group
@@ -30,6 +32,8 @@ class SearchesController < ApplicationController
     @users = User.where('LOWER(name) LIKE ?', "%#{@query}%")
                  .where.not(id: group.members).limit(10)
                  .sort_by { |user| SearchScore.name(user.name, @query) }
+
+    render "user"
   end
 
   private
