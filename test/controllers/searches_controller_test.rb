@@ -14,9 +14,11 @@ class SearchesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "#users search finds users" do
-    get users_search_path, params: { q: "viktor" }, as: :json
+    name = users(:viktor).name
 
-    assert_includes @response.body, "Viktor"
+    get users_search_path, params: { q: name }, as: :json
+
+    assert_includes @response.body, name
   end
 
   test "#users search doesn't find non-existent users" do
@@ -26,30 +28,41 @@ class SearchesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "#all search finds user" do
-    get all_search_path, params: { q: "viktor" }, as: :json
+    name = users(:viktor).name # => Viktor
+    query = name[0..2] # => Vik
 
-    assert_includes @response.body, "Viktor"
+    get all_search_path, params: { q: query }, as: :json
+
+    assert_includes @response.body, name
   end
 
   test "#all search finds group" do
-    get all_search_path, params: { q: "LazyGroup" }, as: :json
+    name = groups(:one).name
 
-    assert_includes @response.body, "LazyGroup"
+    get all_search_path, params: { q: name }, as: :json
+
+    assert_includes @response.body, name
   end
 
   test "#group_invitable_users_search shows invitable users" do
+    name = users(:joe).name # => Joe joe
+    query = name[0..2] # => Joe
+
     get group_invitable_users_search_path,
-        params: { group_id: groups(:one).id, q: "joe" },
+        params: { group_id: groups(:one).id, q: query },
         as: :json
 
-    assert_includes @response.body, "Joe"
+    assert_includes @response.body, name
   end
 
   test "#group_invitable_users_search does not show existing group members" do
+    name = users(:viktor).name # => Viktor
+    query = name[0..2] # => Vik
+
     get group_invitable_users_search_path,
-        params: { group_id: groups(:one).id, q: "viktor" },
+        params: { group_id: groups(:one).id, q: query },
         as: :json
 
-    assert_not_includes @response.body, "Viktor"
+    assert_not_includes @response.body, name
   end
 end

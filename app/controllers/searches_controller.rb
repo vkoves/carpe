@@ -27,7 +27,7 @@ class SearchesController < ApplicationController
   # searches for users not already members in the given group
   def group_invitable_users
     group = Group.find(params[:group_id])
-    @users = User.where('name LIKE ?', "%#{@query}%")
+    @users = User.where('LOWER(name) LIKE ?', "%#{@query}%")
                  .where.not(id: group.members).limit(10)
                  .sort_by { |user| SearchScore.name(user.name, @query) }
   end
