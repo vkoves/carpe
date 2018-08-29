@@ -30,9 +30,4 @@ module GroupsHelper
       "You want to kick yourself? #{leave_warning user_group}"
     end
   end
-
-  def visible_upcoming_events
-    @group.upcoming_events(current_user&.home_time_zone || "Central Time (US & Canada)")
-      .select { |event| event.accessible_by?(current_user) }
-  end
 end
