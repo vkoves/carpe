@@ -2,7 +2,7 @@
 <%= stylesheet_link_tag "groups" %>
 <%= javascript_include_tag "groups/show" %>
 
-<div class="group profile-header">
+<div class="profile-header group">
 	<% if @group.banner.exists? %>
     <div class="header-image" style="background-image:url(<%= @group.banner.url(:desktop) %>);"></div>
 	<% else %>
@@ -10,7 +10,8 @@
 	<% end %>
 
     <div class="header-block">
-      <div class="round-avatar">
+      <div class="dark-background"></div>
+      <div class="avatar">
         <img src=<%= @group.avatar_url %>>
       </div>
 
