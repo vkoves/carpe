@@ -32,7 +32,8 @@ class GroupsController < ApplicationController
     when :overview
       categories = @group.categories.select { |cat| cat.accessible_by? current_user }
       events = @group.events.select { |event| event.accessible_by? current_user }
-      
+
+      @upcoming_events = visible_upcoming_events
       @activities = (@group.members + categories + events)
                       .sort_by(&:created_at).reverse.first(2)
     when :schedule
