@@ -4,9 +4,9 @@
 
 <div class="group profile-header">
 	<% if @group.banner.exists? %>
-    <div id="header-image" style="background-image:url(<%= @group.banner.url(:desktop) %>);"></div>
+    <div class="header-image" style="background-image:url(<%= @group.banner.url(:desktop) %>);"></div>
 	<% else %>
-		<div id="header-image"></div>
+		<div class="header-image"></div>
 	<% end %>
 
     <div class="header-block">
