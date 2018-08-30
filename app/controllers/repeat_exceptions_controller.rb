@@ -1,11 +1,11 @@
 class RepeatExceptionsController < ApplicationController
   def create
-    @repeat_exception = current_user.repeat_exceptions.new(params[:id])
+    @repeat_exception = current_user.repeat_exceptions.new(create_params)
 
     authorize! :create, @repeat_exception
     @repeat_exception.save
 
-    render json: @repeat_exception.id
+    render json: @repeat_exception
   end
 
   def update
