@@ -2406,14 +2406,20 @@ function deleteCategory(event, elem, id)
 function saveCategory(event,elem,id)
 {
 	// uses dom to determine if the category has been given an actual name.
-	var categoryName = ( $(".cat-overlay-title").html() === PLACEHOLDER_NAME ? "" : $(".cat-overlay-title").text());
+	const catName = ( $(".cat-overlay-title").html() === PLACEHOLDER_NAME ? "" : $(".cat-overlay-title").text());
+	const catColor = $(".cat-top-overlay").css("background-color");
 
+    const categoryData = {
+	    name: catName,
+        color: catColor,
+        privacy: currCategory.privacy,
+        repeat_exception_ids: currCategory.breaks
+	};
 
 	$.ajax({
 		url: `/categories/${id}`,
 		type: "PATCH",
-		data: {category: {name: categoryName, color: $(".cat-top-overlay").css("background-color"),
-                privacy: currCategory.privacy, repeat_exception_ids: currCategory.breaks}},
+		data: {category: categoryData},
 		success: function(resp)
 		{
 			console.log("Update category complete.");
