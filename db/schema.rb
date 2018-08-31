@@ -35,13 +35,13 @@ ActiveRecord::Schema.define(version: 2018_08_31_013410) do
     t.integer "role", default: 0, null: false
     t.integer "status"
     t.integer "sender_id", null: false
-    t.integer "recipient_id", null: false
+    t.integer "receiver_id", null: false
     t.integer "event_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["event_id", "recipient_id"], name: "index_event_invites_on_event_id_and_recipient_id", unique: true
+    t.index ["event_id", "receiver_id"], name: "index_event_invites_on_event_id_and_receiver_id", unique: true
     t.index ["event_id"], name: "index_event_invites_on_event_id"
-    t.index ["recipient_id"], name: "index_event_invites_on_recipient_id"
+    t.index ["receiver_id"], name: "index_event_invites_on_receiver_id"
     t.index ["sender_id"], name: "index_event_invites_on_sender_id"
   end
 

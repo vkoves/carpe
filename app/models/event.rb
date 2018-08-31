@@ -15,7 +15,7 @@ class Event < ApplicationRecord
   has_and_belongs_to_many :repeat_exceptions
 
   has_many :event_invites, dependent: :destroy
-  has_many :invited_users, through: :event_invites, source: :recipient
+  has_many :invited_users, through: :event_invites, source: :receiver
 
   def get_html_name #returns the event name, or an italicized untitled
     name.present? ? ERB::Util.html_escape(name) : "<i>Untitled</i>"
