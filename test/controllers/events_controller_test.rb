@@ -5,7 +5,7 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
 
   test "signed in users can delete their events" do
     sign_in users(:norm)
-    delete event_path(events(:event_to_delete)), as: :json
+    delete event_path(events(:event_to_delete))
     assert_response :success
   end
 
@@ -13,7 +13,7 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
     sign_in users(:memberMike)
 
     assert_difference -> { Event.count }, -1 do
-      delete event_path(events(:public_group_event)), as: :json
+      delete event_path(events(:public_group_event))
     end
   end
 
@@ -21,7 +21,7 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
     sign_in users(:moderatorMaven)
 
     assert_difference -> { Event.count }, -1 do
-      delete event_path(events(:public_group_event)), as: :json
+      delete event_path(events(:public_group_event))
     end
   end
 
@@ -29,7 +29,7 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
     sign_in users(:ownerAlice)
 
     assert_difference -> { Event.count }, -1 do
-      delete event_path(events(:public_group_event)), as: :json
+      delete event_path(events(:public_group_event))
     end
   end
 
@@ -37,7 +37,7 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
     sign_in users(:loserLarry)
 
     assert_no_difference -> { Event.count } do
-      delete event_path(events(:public_group_event)), as: :json
+      delete event_path(events(:public_group_event))
     end
   end
 end
