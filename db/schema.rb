@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_31_013410) do
+ActiveRecord::Schema.define(version: 2018_08_31_211225) do
 
   create_table "categories", force: :cascade do |t|
     t.string "name"
@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(version: 2018_08_31_013410) do
 
   create_table "event_invites", force: :cascade do |t|
     t.integer "role", default: 0, null: false
-    t.integer "status"
+    t.integer "status", default: 3, null: false
     t.integer "sender_id", null: false
     t.integer "receiver_id", null: false
     t.integer "event_id", null: false

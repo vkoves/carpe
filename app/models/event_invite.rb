@@ -2,7 +2,8 @@ class EventInvite < ApplicationRecord
   enum status: {
     accepted: 0,
     declined: 1,
-    maybe: 2
+    maybe: 2,
+    pending_response: 3
   }
 
   enum role: {
