@@ -17,6 +17,13 @@ class User < ApplicationRecord
   has_many :groups, -> { where users_groups: { accepted: true } }, :through => :users_groups
   has_many :notifications, :class_name => 'Notification', :foreign_key => 'receiver_id'
 
+  has_many :event_invites, foreign_key: :recipient_id
+
+  has_many :event_invites_sent, through: :event_invites, source: :sender
+  has_many :events_invited_to, through: :event_invites, source: :recipient,
+                               dependent: :destroy
+
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
