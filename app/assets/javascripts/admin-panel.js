@@ -46,7 +46,7 @@ function repeatedlyCheckIfCommandIsFinished(data) {
 				console.error(cmd.log);
 			} else {
 				// failing unit tests, for example, will cause this to be executed.
-				console.log("Command returned with failing exit status but is probably fine.")
+				console.log("Command returned with failing exit status but is probably fine.");
 			}
 		}
 	});
