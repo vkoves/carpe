@@ -3,13 +3,13 @@ describe('UI Manager', function() {
 	{
 		UIManager.showOverlay();
 
-		assert.equal($(".ui-widget-overlay:visible").length, 1);
+		expect($(".ui-widget-overlay:visible").length).to.equal(1);
 	});
 
 	it('should hide overlay after showing', function(done){
 		UIManager.showOverlay();
 		UIManager.hideOverlay(function() {
-			assert.equal($(".ui-widget-overlay:visible").length, 0);
+			expect($(".ui-widget-overlay:visible").length).to.equal(0);
 			done();
 		});
 	});

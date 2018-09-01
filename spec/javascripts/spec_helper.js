@@ -42,4 +42,4 @@
 
 // For help, see Mocha's Getting Started: https://mochajs.org/#getting-started
 
-window.assert = chai.assert; // add assert from Chai
+window.expect = chai.expect; // add expect from Chai
