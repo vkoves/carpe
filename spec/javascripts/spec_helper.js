@@ -43,11 +43,3 @@
 // For help, see Mocha's Getting Started: https://mochajs.org/#getting-started
 
 window.assert = chai.assert; // add assert from Chai
-
-describe('UI Manager', function() {
-	it('should show overlay', function()
-	{
-		UIManager.showOverlay();
-		assert.equal($(".ui-widget-overlay:visible").length, 1);
-	});
-});
