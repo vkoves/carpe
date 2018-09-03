@@ -2006,6 +2006,7 @@ function editEvent(elem)
 /** Show the overlay for creating a new break */
 function showBreakCreateOverlay()
 {
+	$("#break-error").hide();
 	$("#break-overlay-box input").val(""); //clear all inputs
 	UIManager.slideInShowOverlay("#break-overlay-box"); //and fade in
 }
