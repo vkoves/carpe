@@ -14,12 +14,14 @@ Rails.application.config.assets.precompile += %w( jquery-ui.min.css )
 Rails.application.config.assets.precompile += %w( header.css )
 Rails.application.config.assets.precompile += %w( activity.css )
 Rails.application.config.assets.precompile += %w( schedule.js )
+Rails.application.config.assets.precompile += ["groups/index.js", "groups/show.js"]
 Rails.application.config.assets.precompile += %w( admin-panel.js )
 Rails.application.config.assets.precompile += %w( utilities.js )
 Rails.application.config.assets.precompile += %w( token-input-facebook.css )
 Rails.application.config.assets.precompile += %w( token-input.css )
 Rails.application.config.assets.precompile += %w( pages.css )
 Rails.application.config.assets.precompile += %w( home.css )
+Rails.application.config.assets.precompile += %w( groups.css )
 
 # Pages
 Rails.application.config.assets.precompile += %w( pages/admin.css )

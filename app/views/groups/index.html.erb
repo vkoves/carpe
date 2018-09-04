@@ -1,20 +1,34 @@
-<br>
-<h1>Your Groups</h1>
-<% @groups.each do |group| %>
-	<div class="group-cont">
-		<a href="/group/<%= group.id %>"><%= group.name %></a>
-		<a href="/group/<%= group.id %>/edit">Edit Group</a>
-		Role: <%= group.get_role(current_user) %>
-		<a href="/groups/destroy?id=<%= group.id %>" class="default red"><span>Delete Group</span></a>
-		<% group.users.each do |user| %>
-			<div class="avatar small">
-				<%= link_to(user) do %>
-					<img src="<%= user.user_avatar(100) %>">
-				<% end %>
-			</div>
-		<% end %>
-		<br>
-	</div>
-<% end %>
-<br>
-<a href="/groups/create?name=New+Group" class="default"><span>Create Group</span></a>
+<%= stylesheet_link_tag "groups" %>
+<%= javascript_include_tag "groups/index" %>
+
+<div id="body">
+  <aside class="shaded sidebar">
+    <h2>Groups You Belong To</h2>
+    <% if current_user.groups.empty? %>
+      <h4> You don't belong to any groups! Join a group and it will show up here. </h4>
+    <% else %>
+      <%= render partial: "small_group_card", collection: current_user.groups, as: :group %>
+    <% end %>
+  </aside>
+
+  <main class="content">
+    <div id="groups-list-header">
+      <div id="header-info">
+        <div id="groups-title">
+          <h2>Groups</h2>
+        </div>
+        <%= link_to "+ Create Group", new_group_path, class: "large green button" %>
+      </div>
+
+      <p>The groups listed below are all public. Check your notifications for private group invitations.</p>
+    </div>
+
+    <% if @joinable_groups %>
+      <main id="joinable-groups-list">
+        <%= render partial: "big_group_card", collection: @joinable_groups %>
+      </main>
+    <% else %>
+      <h4> There are no public groups you don't belong to on Carpe, but that means you can make one! Create a public group and all Carpe users will see it here. </h4>
+    <% end %>
+  </main>
+</div>

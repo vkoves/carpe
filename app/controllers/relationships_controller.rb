@@ -2,32 +2,29 @@ class RelationshipsController < ApplicationController
   before_action  :authorize_signed_in!
 
   def create
-    @user = User.find(params[:followed_id])
-    current_user.follow(@user)
-    respond_to do |format|
-      format.html { redirect_to @user }
-      format.js { render json: @user.id }
-    end
+    @followed_user = User.find(params[:followed_id])
+    @relationship = current_user.follow(@followed_user)
+
+    send_notification
+    render json: {}
   end
 
   def destroy
     @relationship = Relationship.find(params[:id])
     @followed_user = @relationship.followed
     @relationship.follower.unfollow(@followed_user)
-    respond_to do |format|
-      format.html { redirect_to @user }
-      format.js { render json: @relationship.id }
-    end
+
+    render json: { new_link: relationships_path(followed_id: @followed_user.id) }
   end
 
-  def update
-    @relationship = Relationship.find(params[:id])
-    if @relationship.update_attribute(:confirmed, params[:relationship][:confirmed])
-      if params[:relationship][:confirmed] == "true"
-        render :json => {"action" => "confirm_friend", "fid" => params[:id]}
-      else
-        render :json => {"action" => "deny_friend", "fid" => params[:id]}
-      end
-    end
+  private
+
+  def send_notification
+    Notification.create(
+      sender: @relationship.follower,
+      receiver: @relationship.followed,
+      entity: @relationship,
+      event: :follow_request
+    )
   end
 end

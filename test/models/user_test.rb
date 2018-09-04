@@ -46,11 +46,11 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "'Private' and 'Follower' category items should not be given to unrelated users" do
-    result = @viktor.get_categories(@putin).find { |cat| cat == categories(:private) }
+    result = @viktor.categories_accessible_by(@putin).find { |cat| cat == categories(:private) }
     assert_includes result.name, "Private",
                     "Private categories should not be visible to other users"
 
-    result = @viktor.get_categories(@putin).find { |cat| cat == categories(:followers) }
+    result = @viktor.categories_accessible_by(@putin).find { |cat| cat == categories(:followers) }
     assert_includes result.name, "Private",
                     "Follower categories should not be visible to non-following users"
   end
@@ -194,16 +194,16 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "has_avatar returns true when a profile has an avatar" do
-    assert @putin.has_avatar, "Returned false despite user having an avatar"
-    assert_not @norm.has_avatar, "Returned true despite user not having an avatar"
+    assert @putin.has_avatar?, "Returned false despite user having an avatar"
+    assert_not @norm.has_avatar?, "Returned true despite user not having an avatar"
   end
 
   test "user_avatar returns custom avatar url" do
-    @viktor.avatar = File.new("test/fixtures/sample_avatar.jpg")
+    @viktor.avatar = sample_file("sample_avatar.jpg")
     @viktor.save!
 
-    assert_includes @viktor.user_avatar(30), "sample_avatar", "avatar thumbnails don't work"
-    assert_includes @viktor.user_avatar(200), "sample_avatar", "avatar photos don't work"
+    assert_includes @viktor.avatar_url(30), "sample_avatar", "avatar thumbnails don't work"
+    assert_includes @viktor.avatar_url(200), "sample_avatar", "avatar photos don't work"
   end
 
   test "provider_name formats provider names as expected" do
@@ -243,5 +243,21 @@ class UserTest < ActiveSupport::TestCase
 
     assert_nil users(:viktor).convert_to_json["current_sign_in_ip"], "convert_to_json should not contain sign in IP"
     assert_nil users(:viktor).convert_to_json["encrypted_password"], "convert_to_json should not contain encrypted_password"
+  end
+
+  test "next_event shouldn't return past events" do
+    event = events(:current_event_1)
+    event.date = Time.parse('4th Jun 2018 10:00:00 PM')
+    event.end_date = event.date + 2.hour
+    event.repeat = "certain_days-0" # repeat every sunday
+
+    event.save!
+    event.reload
+
+    current_time = Time.parse('28th May 2018 5:00:00 PM') # a monday
+    travel_to current_time do
+      next_event = users(:norm).next_event
+      assert_nil next_event, "found 'current event' date #{next_event&.date} between #{Time.current} and #{1.day.from_now}"
+    end
   end
 end

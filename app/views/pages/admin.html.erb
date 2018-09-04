@@ -47,6 +47,11 @@
 		The Carpe living style guide loads in our stylesheets and serves as a repository for the shared styling
 		across Carpe. If you are working on a new page or feature, the living style guide is critical to reusing
 		our common CSS and adding to that set.
+
+		<h3 class="no-bold">Preview Emails</h3>
+		<%= link_to_block "Preview Emails", "/rails/mailers/", class: "default", target: "_blank" %><br>
+		If you are working on emails, Rails will let you preview what those emails will look like if all of the styling
+		is respected. Keep in mind emails may look different in different email providers.
 	</div>
 <% end %>
 
@@ -70,7 +75,7 @@ The average user has: <%= Event.count/User.count %> events and <%= Category.coun
 	<div class="grey-box admin-box">
 		<%= link_to(user) do %>
 			<div class="avatar" style="float: left">
-				<img src="<%= user.user_avatar(100) %>">
+				<img src="<%= user.avatar_url(100) %>">
 			</div>
 		<% end %>
 		<div class="name"><%= user.name %></div>

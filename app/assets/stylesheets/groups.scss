@@ -1,0 +1,421 @@
+html, body
+{
+	height: 100%;
+}
+
+#body
+{
+	display: flex;
+	flex: 1;
+	min-height: calc(100vh - 50px); /* TODO: Move this to a class for */
+
+	& > .sidebar
+	{
+		flex: 1;
+		min-width: 300px;
+		padding: 50px 10px 10px;
+		text-align: center;
+	}
+
+	& > .content
+	{
+		display: flex;
+		flex: 4;
+		flex-direction: column;
+		padding: 0 16px;
+	}
+}
+
+.shaded {
+	background: rgb(225, 225, 225);
+}
+
+.with-horizontal-borders {
+	border-left: solid 2px #ACACAC;
+	border-right: solid 2px #ACACAC;
+}
+
+#groups-list-header
+{
+	display: flex;
+	flex: 0 1 128px;
+	flex-direction: column;
+	margin-top: 20px;
+	text-align: left;
+}
+
+#header-info
+{
+	display: flex;
+	flex: 1;
+	align-items: center;
+	justify-content: space-between;
+	height: 75%;
+	padding: 0;
+	text-align: left;
+}
+
+#groups-title
+{
+	display: flex;
+	align-items: center;
+}
+
+.flex-list
+{
+	display: flex;
+	flex: 1;
+	flex-flow: row wrap;
+	align-content: flex-start;
+
+	&.vertical
+	{
+		flex-flow: column;
+	}
+
+	&.with-space-between
+	{
+		align-content: space-between;
+	}
+}
+
+/* base class, see .small-card and .large-card */
+.card
+{
+	display: flex;
+	align-items: center;
+	box-sizing: border-box;
+	margin: 15px;
+	text-align: left;
+
+	.avatar
+	{
+		margin-left: 2.5%;
+		margin-right: 7.5%;
+	}
+
+	.main
+	{
+		display: flex;
+		flex: 3;
+		align-items: flex-start;
+		justify-content: center;
+		flex-direction: column;
+		height: 90%;
+		overflow: hidden;
+
+		/* space out all of the items to the right of the avatar evenly*/
+		& > *
+		{
+			margin-top: 5px;
+			margin-bottom: 5px;
+		}
+
+		.title
+		{
+			max-height: 3em;
+			line-height: 1.5em;
+			font-size: 24px;
+			font-weight: bold;
+			overflow: hidden;
+		}
+	}
+}
+
+.small-card
+{
+	@extend .card;
+	width: 100%;
+	margin: 0 0 20px 0;
+	padding: 10px 0px;
+
+	.main
+	{
+		overflow-wrap: break-word;
+
+		.title
+		{
+			width: 100%;
+			font-size: 18px;
+		}
+	}
+}
+
+.large-card
+{
+	@extend .card;
+	width: 455px; /* width should be about 3x the length for a card-like shape */
+	height: 175px;
+
+	.avatar img {
+		width: 120px;
+		height: 120px;
+	}
+	.title
+	{
+		height: 3em;
+		width: 100%;
+
+		overflow: hidden;
+		overflow-wrap: break-word;
+		line-height: 1.5em;
+		font-size: 24px;
+		font-weight: bold;
+
+		color: #313131;
+		text-decoration: none;
+	}
+}
+
+.basic-member-block
+{
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	width: 350px;
+	height: 90px;
+
+	.avatar
+	{
+		margin-left: 5%;
+		margin-right: 5%;
+	}
+
+	.main
+	{
+		display: flex;
+		flex-direction: column;
+        align-items: flex-start;
+		flex: 3;
+		overflow: hidden;
+	}
+    .name
+    {
+      font-size: 24px;
+      font-weight: bold;
+    }
+}
+
+.member-stats
+{
+	display: flex;
+	align-items: center;
+	width: 100%;
+
+	h3
+	{
+		color: black;
+		margin-right: 5px;
+		font-weight: 500;
+		font-size: 20px;
+	}
+
+	h4
+	{
+		color: dimgray;
+		margin-right: 10px;
+		font-weight: 500;
+		font-size: 24px;
+	}
+
+	.buttons
+	{
+		display: flex;
+		margin-left: auto;
+
+		& > *
+		{
+			margin: 0 8px;
+		}
+
+		#member-search
+		{
+			min-width: 150px;
+			min-height: 30px;
+			padding-left: 10px;
+			padding-right: 40px;
+
+			background-image: url("search.svg");
+			background-size: auto 65%;
+			background-repeat: no-repeat;
+			background-position: 95%;
+			border: 1px solid dimgray;
+		}
+	}
+}
+
+#manage-members-container
+{
+	min-width: 720px;
+	max-width: 1080px;
+	margin: 0 auto;
+	align-self: flex-end;
+}
+
+.subtle-container
+{
+	margin: 0 2.5%;
+}
+
+.group.profile-header
+{
+	.header-block
+	{
+		z-index: 1;
+		display: flex;
+		align-items: center;
+		text-align: left;
+		width: 100%;
+		height: 100%;
+
+		.round-avatar
+		{
+			margin-left: 4%;
+			margin-right: 2%;
+		}
+	}
+
+	.profile-name-block
+	{
+		display: flex;
+		flex-direction: column;
+		color: white;
+	}
+
+	.privacy-block
+	{
+		display: flex;
+	}
+
+	.profile-name
+	{
+		font-size: 48px;
+		font-weight: 500;
+		text-shadow: 2px 2px black;
+	}
+
+	.profile-privacy
+	{
+		margin: 0 20px 0 0;
+		font-size: 28px;
+		font-weight: 400;
+		text-shadow: 2px 2px black;
+	}
+}
+
+#side-member-pane{
+	.round-avatar{
+		width: 55px;
+		height: 55px;
+		display: inline-block;
+	}
+}
+
+.current-header {
+	text-align: left;
+	padding: 1rem 0;
+	font-size: 1.5rem;
+}
+
+.user-with-options
+{
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	box-shadow: 0 1px 1px grey;
+
+	.overview
+	{
+		height: 64px;
+		padding: 8px;
+		background: #efefef;
+
+		display: flex;
+		justify-content: space-between;
+
+		.name-and-avatar
+		{
+			display: flex;
+			height: 100%;
+			align-items: center;
+
+			.avatar
+			{
+				margin-right: 16px;
+
+				img {
+					display: block;
+					height: 60px;
+					width: 60px;
+				}
+			}
+		}
+
+		.role
+		{
+			padding-right: 32px;
+			background-image: url("dropdown-arrow.svg");
+			background-size: auto 75%;
+			background-repeat: no-repeat;
+			background-position: 95% center;
+		}
+
+		&:hover
+		{
+			cursor: pointer;
+		}
+	}
+
+	.options
+	{
+		display: flex; // starts hidden
+		justify-content: space-between;
+		padding: 8px;
+		background: #efefef;
+	}
+}
+
+// TODO: Selecting arbitrary z-index values seems like a bad idea.
+.token-input-dropdown
+{
+	z-index: 1001;
+}
+
+#invite-members
+{
+	margin: 0 10px 0 5px;
+}
+
+#group-overview-info
+{
+	*
+	{
+		text-align: left;
+	}
+}
+
+.small-activity-card {
+  padding: 5px 15px;
+  margin-top: 15px;
+  display: flex;
+
+  .avatar img {
+  	height: 55px;
+  	width: 55px;
+  }
+  .user-information{
+  	flex-grow:1;
+  	margin-left: 10px;
+
+  	.user-name { font-size: 1.2rem; }
+  	.time-ago {
+  		margin-top: 30px;
+  		font-size: .7rem;
+  		color: grey;
+  	}
+  }
+}
+
+#joinable-groups-list {
+	@extend .flex-list
+}

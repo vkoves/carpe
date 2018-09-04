@@ -84,8 +84,10 @@ $cover-camera-height: 20px;
 	}
 }
 
-#profile-header
+.profile-header
 {
+	display: flex;
+	align-items: center;
 	position: relative;
 	width: 100%;
 	height: 200px;
@@ -110,7 +112,7 @@ $cover-camera-height: 20px;
 
 }
 
-#profile-header:hover
+.profile-header:hover
 {
 	.profile-overlay.cover { opacity: 1; }
 }
@@ -173,6 +175,7 @@ $cover-camera-height: 20px;
 }
 #profile-buttons
 {
+	z-index: 2;
 	position: absolute;
 	float: right;
 	bottom: 0px;
@@ -253,6 +256,8 @@ $cover-camera-height: 20px;
 	{
 		display: inline-block;
 		float: left;
+
+		img { display: block; }
 	}
 }
 .user-details

@@ -15,6 +15,11 @@ norm:
   email: "normannorm@normannormsnormalemporium.com" #just needed an invalid email
   public_profile: false
   image_url: "putin.png"
+  home_time_zone: 'Central Time (US & Canada)'
+
+joe:
+  name: "Joe joe"
+  email: "joe@joe.joe"
 
 viktors_friend:
   name: "Vim"
@@ -40,3 +45,24 @@ donald2:
 donald3:
   name: "Lily McDonald"
   email: "donald3@emai.com"
+
+
+ownerAlice:
+  name: "alice"
+  email: "alice@alice.alicea"
+
+memberMike:
+  name: "mike"
+  email: "mike@mike.mike"
+
+moderatorMaven:
+  name: "maven"
+  email: "maven@maven.maven"
+
+loserLarry:
+  name: "larry"
+  email: "larry@larry.larry"
+
+inviteIvan:
+  name: "Ivan"
+  email: "Ivan@Ivan.Ivan"

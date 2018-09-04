@@ -13,15 +13,15 @@ class RelationshipTest < ActiveSupport::TestCase
 
   test "denying a follow request should work" do
     rel1 = relationships(:one)
-    assert_nil rel1.confirmed, "Relationship 1 starts unconfirmed"
+    assert_not rel1.confirmed?, "Relationship 1 starts unconfirmed"
     rel1.deny
-    assert_not rel1.confirmed, "Relationship 1 ends denied"
+    assert_not rel1.confirmed?, "Relationship 1 ends denied"
   end
 
   test "confirming a follow request should work" do
     rel1 = relationships(:one)
-    assert_nil rel1.confirmed, "Relationship 1 starts unconfirmed"
+    assert_not rel1.confirmed?, "Relationship 1 starts unconfirmed"
     rel1.confirm
-    assert rel1.confirmed, "Relationship 1 ends confirmed"
+    assert rel1.confirmed?, "Relationship 1 ends confirmed"
   end
 end

@@ -3,9 +3,13 @@
 
 <div id="status-titler">
 	<div class="container">
-		<%= image_tag("pages/SegoeUI-Graph.png") %>
-		<div id="title">Carpe Status</div>
-		<div id="sub-title">Since we're in active development, our features aren't all done. Here's a quick guide to our progress.</div>
+		<div class="two-col">
+			<%= image_tag("pages/SegoeUI-Graph.png", alt: "") %>
+			<div>
+				<div id="title">Carpe Status</div>
+				<div id="sub-title">Since we're in active development, our features aren't all done. Here's a quick guide to our progress.</div>
+			</div>
+		</div>
 		<div id="small-text">
 			Interested in following along as we build Carpe?
 			<a href="http://carpe-dev.tumblr.com/">Visit our development blog!</a>
@@ -16,35 +20,34 @@
 <div id="tiles-container" class="container">
 	<div class="status-tile">
 		<div class="image-container">
-			<%= image_tag("pages/CarpeLetter.png") %>
+			<%= image_tag("pages/CarpeLetter.png", alt: "") %>
 		</div>
 		<div class="tile-title">Carpe</div>
 		<div class="tile-status alpha">Alpha</div>
-		<div class="tile-text">
-		The core components of the Carpe platform have been created, and we're showing you them now! However, there is plenty more work to do on the functionality that will make Carpe
-		truly stand stand out.
-		</div>
+		<p class="tile-text">
+			The core components of the Carpe platform have been made publicly available. However, some advanced features are still in the works.
+		</p>
 	</div>
 
 	<div class="status-tile">
 		<div class="image-container">
-			<%= image_tag("pages/SegoeUI-Cal.png") %>
+			<%= image_tag("pages/SegoeUI-Cal.png", alt: "") %>
 		</div>
 		<div class="tile-title">Monthly View</div>
-		<div class="tile-status alpha">Alpha</div>
-		<div class="tile-text">
-		Monthly view has been visually formatted, but is read-only at the moment and is thus in the Alpha state. Many more functions are still to come!
-		</div>
+		<div class="tile-status beta">Beta</div>
+		<p class="tile-text">
+			Our monthly calendar view is fully interactive, but we're still working on visual formatting.
+		</p>
 	</div>
 
 	<div class="status-tile">
 		<div class="image-container">
-			<%= image_tag("pages/SegoeUI-People-Fuchsia.png") %>
+			<%= image_tag("pages/SegoeUI-People-Fuchsia.png", alt: "") %>
 		</div>
 		<div class="tile-title">Group Scheduling</div>
-		<div class="tile-status dev">Pre-Alpha</div>
-		<div class="tile-text">
-		User Groups are being worked on in the background, and have not yet been released. Keep an eye out for news coming soon!
-		</div>
+		<div class="tile-status alpha">Alpha</div>
+		<p class="tile-text">
+			You can now create and manage group schedules with other users! Be sure to let us know how we can improve this feature.
+		</p>
 	</div>
 </div>

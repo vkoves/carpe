@@ -2,53 +2,45 @@ class UsersController < ApplicationController
   before_action :authorize_admin!, only: [:index, :promote, :demote, :inspect]
   before_action :authorize_signed_in!, only: [:destroy]
 
-
   def index
-    @users = User.all.sort_by(&:name) # fetch all users (including current, to see admin info)
+    @users = User.all.sort_by(&:name)
     @admin_tiles = true
   end
 
   def show
     @user = User.from_param(params[:id])
 
+    # is this a user looking at their own profile?
+    @profile = current_user == @user
+
     # forces custom urls to be displayed (when applicable)
     if params[:id].is_int? and @user.has_custom_url?
       redirect_to user_path(@user), status: :moved_permanently
     end
 
-    @profile = current_user == @user # this is the user looking at their profile
-
-    case params[:page]
-    when "followers"
-      @tab = "followers"
-    when "activity"
-      @tab = "activity"
+    @view = params[:page]&.to_sym || :schedule
+    case @view
+    when :activity
+      @page_view = "activity"
       @activity = @user.following_relationships + @user.followers_relationships
-    when "mutual_friends"
-      @tab = "mutual"
-    when "schedule"
-      @tab = "schedule"
-    when "following"
-      @tab = "following"
+    when :followers
+      @page_view = "follower_listing"
+      @all_friends = @user.followers_relationships
+    when :following
+      @page_view = "following_listing"
       @following = @user.following_relationships
-    else # default, aka no params
-      @tab = "schedule"
-    end
-
-    if @tab == "mutual"
+    when :mutual
+      @page_view = "mutual_friends_listing"
       @mutual_friends = current_user.mutual_friends(@user)
-    else
-      @all_friends = @user.followers_relationships # and fetch all of the user's followers
+    when :schedule
+      @page_view = "schedule"
     end
   end
 
   # User search. Used to add users to stuff, like the sandbox user adder
   def search
-    if params[:q]
-      q = params[:q].strip
-    else
-      q = ""
-    end
+    q = params[:q]&.strip
+    return unless q.present?
 
     if q != "" # only search if it's not silly
       if request.path_parameters[:format] == 'json'

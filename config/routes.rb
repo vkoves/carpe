@@ -18,21 +18,18 @@ Rails.application.routes.draw do
   get "/home" => 'home#index', :as => :home
   get "/schedule" => 'schedule#schedule'
   get "/userviewer" => 'pages#userviewer'
-
   get "/about" => 'pages#about'
   get "/status" => 'pages#status'
 
   #Follow Routes
   resources :relationships
 
-  #Group Rotes
-  get "/groups" => 'groups#index'
-  get "/groups/create" => 'groups#create'
-  get "/groups/destroy" => 'groups#destroy'
-  get "/groups/add-users/:id" => 'groups#add_users'
-  get "/group/:id" => 'groups#show', :as => :group
-  get "/group/:id/edit" => 'groups#edit'
-  post "/group/:id" => 'groups#update'
+  #Group Routes
+  resources :groups
+  resources :user_groups, only: [:create, :update, :destroy]
+  post "/invite_to_group", to: 'user_groups#invite_to_group', as: :invite_to_group
+  get "join_group/:id", to: 'groups#join', as: :join_group
+  get "leave_group/:id", to: 'groups#leave', as: :leave_group
 
   #Admin Routes
   get "/sandbox" => 'pages#sandbox'
@@ -55,7 +52,12 @@ Rails.application.routes.draw do
   post "/create_break" => 'schedule#create_exception'
 
   #Other backend stuff
-  post "/read_notifications" => 'notifications#read_all'
+  get "/search/group/:id/invite_users", to: 'groups#invite_users_search', as: :group_invite_users_search
+
+  resources :notifications, only: [:destroy] do
+    post "update(/:response)", to: "notifications#updated", as: :update, on: :member
+    post :read, on: :collection
+  end
 
   root 'home#index'
 

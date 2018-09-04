@@ -1,5 +1,8 @@
+
 #The User model, which defines a unique user and all of the properties they have
 class User < ApplicationRecord
+  include Profile
+
   has_many :active_relationships,  class_name:  "Relationship",
                                    foreign_key: "follower_id",
                                    dependent:   :destroy
@@ -10,8 +13,8 @@ class User < ApplicationRecord
   has_many :all_following, through: :active_relationships,  source: :followed #all followers, including pending
   has_many :all_followers, through: :passive_relationships, source: :follower #all followers, including pending
 
-  has_many :users_groups
-  has_many :groups, :through => :users_groups
+  has_many :users_groups, dependent: :destroy
+  has_many :groups, -> { where users_groups: { accepted: true } }, :through => :users_groups
   has_many :notifications, :class_name => 'Notification', :foreign_key => 'receiver_id'
 
   # Include default devise modules. Others available are:
@@ -21,117 +24,34 @@ class User < ApplicationRecord
 	devise :omniauthable
 	validates_presence_of :name, :home_time_zone
 
-	has_many :categories
-	has_many :events
-  has_many :repeat_exceptions
-
-  # Attach the avatar image. -quality [0-100] sets quality, -strip removes meta data, -layers optimize optimizes gif layers
-  has_attached_file :avatar, styles: {
-    thumb: '60x60#',
-    profile: '150x150#'
-  }, :convert_options => {
-    :thumb => "-quality 75 -strip -layers optimize", :profile => "-quality 75 -strip -layers optimize"}
-
-  # Validate the attached avatar is an image and is under 3 Megabytes
-  validates_attachment :avatar, content_type: {content_type: /\Aimage\/.*\Z/}, size: { in: 0..3.megabytes }
-
-  has_attached_file :banner, styles: {
-    desktop: {geometry: '1500x200#', animated: false},
-    mobile: {geometry: '500x200#', animated: false}
-  }, :convert_options => {
-    :desktop => "-quality 75 -strip", :mobile => "-quality 50 -strip" }
-
-  # Validate the attached banner photo is an image and is under 5 Megabytes
-  validates_attachment :banner, content_type: {content_type: /\Aimage\/.*\Z/}, size: { in: 0..5.megabytes }
-
-  after_create :send_signup_email
-  after_validation :clean_paperclip_errors
-
-  def clean_paperclip_errors
-    # Remove avatar/banner file size error if the avatar/banner error's exist
-    errors.delete(:avatar_file_size) unless errors[:avatar].empty?
-    errors.delete(:banner_file_size) unless errors[:banner].empty?
-  end
+  # when group_id is used, user_id represents the creator of a
+  # category/event/exception (as opposed to its owner)
+	has_many :categories, -> { where group_id: nil }
+	has_many :events, -> { where group_id: nil }
+  has_many :repeat_exceptions, -> { where group_id: nil }
 
   def send_signup_email
     UserNotifier.send_signup_email(self).deliver_now
   end
 
-  # Validate the custom_url ...
-  REGEX_VALID_URL_CHARACTERS = /\A[a-zA-Z0-9_\-]*\Z/
-  REGEX_USER_ID = /\A\d+\Z/
-
-  validates :custom_url,
-            format: { with: REGEX_VALID_URL_CHARACTERS,
-                      message: 'must be alphanumeric' },
-            allow_blank: true,
-            uniqueness: true,
-            length: { maximum: 64 }
-
-  validates :custom_url,
-            format: { without: REGEX_USER_ID,
-                      message: 'cannot be an integer'}
-
-  def has_custom_url?
-    !custom_url.empty?
-  end
-
-  def self.from_param(param)
-    User.find_by!(param.to_s =~ REGEX_USER_ID ? { id: param } : { custom_url: param })
-  end
+  after_create :send_signup_email
 
   ##########################
   ##### EVENT METHODS ######
   ##########################
 
   def current_events # return events that are currently going on
-    events_in_range(1.day.ago, DateTime.current).select(&:current?).sort_by(&:end_date)
+    events_in_range(1.day.ago, DateTime.current, home_time_zone)
+      .select(&:current?).sort_by(&:end_date)
   end
 
   def next_event #returns the next upcoming event within the next day
-    events_in_range(DateTime.current, 1.day.from_now).min_by(&:date)
+    events_in_range(DateTime.current, 1.day.from_now, home_time_zone)
+      .min_by(&:date)
   end
 
   def is_busy? #returns whether the user is currently busy (has an event going on)
-    return current_events.count > 0
-  end
-
-  def events_in_range(start_date_time, end_date_time) #returns all instances of events, including cloned version of repeating events
-    #fetch not repeating events first
-    event_instances = events.where(:date => start_date_time...end_date_time, :repeat => nil).to_a
-
-    #then repeating events
-    events.includes(:repeat_exceptions, category: :repeat_exceptions).where.not(repeat: nil).each do |rep_event| #get all repeating events
-      event_instances.concat(rep_event.events_in_range(start_date_time, end_date_time, home_time_zone)) #and add them to the event array
-    end
-
-    event_instances = event_instances.sort_by(&:date) #and of course sort by date
-
-    return event_instances #and return
-  end
-
-  def get_events(user) #get events that are acessible to the user passed in
-   return events.includes(:repeat_exceptions) if user == self #if a user is trying to view their own events, return all events
-
-   events_array = [];
-
-   events.includes(:repeat_exceptions).each do |event| #for each event
-     event.has_access?(user) ? events_array.push(event) : events_array.push(event.private_version) #push the normal or private version
-   end
-
-   return events_array
-  end
-
-  def get_categories(user) #get categories that are acessible to the user passed in
-    return categories if user == self #if a user is viewing their own categories, return all
-
-    categories_array = [];
-
-    categories.each do |category| #for each category
-      category.has_access?(user) ? categories_array.push(category) : categories_array.push(category.private_version) #push the normal or private version
-    end
-
-    return categories_array
+     current_events.count > 0
   end
 
   ##########################
@@ -143,28 +63,22 @@ class User < ApplicationRecord
   ##### AVATAR METHODS #####
   ##########################
 
-	def user_avatar(size) #returns a url to the avatar with the width in pixels
-    unless self.has_avatar #if this user has no avatar, or the Google default, return the gravatar avatar
-      return "https://www.gravatar.com/avatar/?d=mm"
-    end
-
-    if provider
-      return image_url.split("?")[0] + "?sz=" + size.to_s
-    else
-      if size <= 60 # if image request is 60px wide or less, use thumb, which is 60px wide
-        return avatar.url(:thumb)
-      else # otherwise use profile, which is 150px wide
-        return avatar.url(:profile)
-      end
-    end
+  # Returns a url to the avatar with the width in pixels.
+	def avatar_url(size)
+    return "#{image_url.split("?")[0]}?sz=#{size}" if has_google_avatar? # google avatar
+    return avatar.url(size <= 60 ? :thumb : :profile) if avatar.exists? # uploaded avatar
+    gravatar_url(size) # default avatar
 	end
 
-  def has_avatar #returns whether the user has a non-default avatar
-    if (image_url.present? and provider and !image_url.include? "/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M") or avatar.exists?
-        return true #if the image is present and is not the Google default, return true
-    else
-      return false #if the image is not present, or is a Google default return false
-    end
+  DEFAULT_GOOGLE_AVATAR_URL = "/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M"
+
+  def has_google_avatar?
+    provider.present? and image_url.present? and image_url.exclude?(DEFAULT_GOOGLE_AVATAR_URL)
+  end
+
+  # Returns whether the user has a non-default avatar.
+  def has_avatar?
+    avatar.exists? or has_google_avatar?
   end
 
   ##########################
@@ -299,6 +213,10 @@ class User < ApplicationRecord
     end
   end
 
+  def in_group?(group)
+    groups.include?(group)
+  end
+
   ##########################
   ## END GEN USER METHODS ##
   ##########################
@@ -315,8 +233,7 @@ class User < ApplicationRecord
 
     # Required fields for search/tokenInput - name and image url
     user_obj[:name] = self.name
-    user_obj[:image_url] = self.user_avatar(50)
-    user_obj[:id] = self.id
+    user_obj[:image_url] = self.avatar_url(50)
     user_obj[:model_name] = "User" # specify what type of object this is (used for site search, which handles many object types)
 
     user_obj #and return the user
