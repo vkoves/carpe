@@ -4,6 +4,7 @@ class ChangeUsersGroupsToInt < ActiveRecord::Migration[4.2]
   def self.up
     change_column :users_groups, :role, :integer, default: 0
     UsersGroup.where(role: 'member').update_all(role: 0)
+    UsersGroup.where(role: nil).update_all(role: 0)
     UsersGroup.where(role: 'admin').update_all(role: 1)
     UsersGroup.where(role: 'owner').update_all(role: 2)
   end
