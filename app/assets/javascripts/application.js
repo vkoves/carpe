@@ -180,8 +180,8 @@ function initializeEventListeners()
 		const $button = $(this);
 		$button.animate({'background-color': "white"}, 300);
 
-		const $notifCard = $(this).parents(".notif");
-		$notifCard.delay(150).fadeOut(handleNotificationClosed);
+		const $notifCard = $(this).closest(".notif");
+		removeNotificationCard($notifCard);
 	})
 
 	//Promote buttons POST completion
@@ -448,13 +448,32 @@ function printNotification(text, hideTime)
 // Called after a notification is closed. Check if there are notifications left, if not, show message
 function handleNotificationClosed()
 {
-	if($(".notif:visible").length == 0) // if no notifications left
+	if ($(".notif:visible").length == 0)
 	{
-		$("#notif-title").fadeOut(function() {
-			$("#no-notifs").fadeIn()
-		});
+		$("#no-notifs").fadeIn();
 	}
 }
+
+/**
+ * Removes a notification from the notifications panel.
+ * @param {jQuery} $notifCard - card to be deleted (should have .notif class)
+ */
+function removeNotificationCard($notifCard)
+{
+	$notifCard.fadeOut(handleNotificationClosed);
+
+	const titleAboveCard = $notifCard.prev().attr('class') === 'notif-title';
+	const moreNotificationsBelow = $notifCard.next().attr('class') === $notifCard.attr('class');
+	const shouldRemoveGroupTitle = (titleAboveCard && !moreNotificationsBelow);
+
+	// remove group titles (when appropriate)
+	if (shouldRemoveGroupTitle)
+	{
+		const $groupTitle = $notifCard.prev();
+		$groupTitle.fadeOut();
+	}
+}
+
 
 //Generalized function for fading between text on an element
 function fadeToText(elem, newText, duration) //the element to fade on, the new text, and an optional duration

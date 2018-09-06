@@ -106,12 +106,21 @@
 
 		</div>
 		<div class="cat-remainder-overlay">
-			<div id="cat-privacy">
-				Privacy:
-				<span id="public" class="default">Public</span>
-				<span id="followers" class="default">Followers</span>
-				<span id="private" class="default">Private</span>
-			</div>
+      <div id="cat-privacy">
+        <% unless group&.private_group? or group&.secret_group?  %>
+          Privacy:
+
+          <% if group&.public_group? %>
+            <span id="public" class="default">Public</span>
+            <span id="private" class="default">Private</span>
+          <% else %>
+            <span id="public" class="default">Public</span>
+            <span id="followers" class="default">Followers</span>
+            <span id="private" class="default">Private</span>
+          <% end %>
+        <% end %>
+      </div>
+
 			<span id="add-break-category" class="default green">Add Break</span>
 			<div class="future-colors">
 				<div class="color-swatch red" style="background-color: #FF2626;"></div> <!-- red -->
