@@ -57,6 +57,7 @@ class Group < ApplicationRecord
   end
 
   def membership(user)
+    return nil if user.nil?
     UsersGroup.find_by group_id: id, user_id: user.id
   end
 
