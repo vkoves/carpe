@@ -133,7 +133,9 @@ function ScheduleItem()
 	/** The group an event belongs to */
 	this.groupId = groupID;
 	/** Whether this object has bee updated since last save */
-	this.needsSaving = false;
+  this.needsSaving = false;
+  
+  this.editable = false;
 
 	/** Returns an float of the length of the event in hours */
 	this.lengthInHours = function()
@@ -509,7 +511,7 @@ function scheduleReady()
 
 	if(readOnly) //allow viewing of all events with single click
 	{
-		$(".edit, #repeat, #add-break-event").remove(); //remove repeat functionality, and adding breaks
+		$(".edit, #repeat, #add-break-event").hide(); //remove repeat functionality, and adding breaks
 		$("#overlay-title").attr("contenteditable", "false"); //disable editing on location title and description
 		$("#overlay-loc, #overlay-desc").prop('disabled', true);
 		$("#time-start, #time-end").attr("readonly", true); //disable editing of time
@@ -1931,7 +1933,18 @@ function editEvent(elem)
 
 	if(inColumn(elem) && !editingEvent && elem.attr("data-id") != -1) //make sure this is a placed event that isn't private and we aren't already editing
 	{
-		currEvent = scheduleItems[elem.attr("evnt-temp-id")];
+    currEvent = scheduleItems[elem.attr("evnt-temp-id")];
+    editable = !readOnly && currEvent.editable
+    if(editable) //allow viewing of all events with single click
+    {
+      $(".edit, #repeat, #add-break-event").show();
+    }
+    else {
+      $(".edit, #repeat, #add-break-event").hide(); //remove repeat functionality, and adding breaks
+    }
+      $("#overlay-title").attr("contenteditable", editable); //disable editing on location title and description
+      $("#overlay-loc, #overlay-desc").prop('disabled', !editable);
+      $("#time-start, #time-end").attr("readonly", !editable); //disable editing of time
 
 		var categoryName = $("#sch-tiles .sch-evnt.category[data-id=" + currEvent.categoryId + "]").find(".evnt-title").text();
 		$("#cat-title").html("In category <b>" + categoryName + "</b>");
