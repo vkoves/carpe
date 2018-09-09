@@ -63,10 +63,6 @@ gem 'simplecov', :require => false, :group => :test
 gem "teaspoon", '~> 1.1'
 gem "teaspoon-mocha"
 
-# Get Selenium for Teaspoon testing
-gem 'selenium-webdriver', '~> 3'
-gem 'chromedriver-helper', '~> 1'
-
 # Minitest reporting
 gem "minitest-reporters"
 

@@ -885,7 +885,7 @@ function loadInitialCategories()
 			catInstance.privacy = currCat.privacy;
 			catInstance.color = currCat.color;
 			catInstance.name = currCat.name;
-			catInstance.breaks = currCat.repeat_exceptions.map(brk => brk.id); // break ids
+			catInstance.breaks = currCat.repeat_exceptions.map(function(brk) { return brk.id; }); // break ids
 
 			categories[catInstance.id] = catInstance;
 		}
@@ -952,7 +952,7 @@ function loadInitialEvents()
 			schItem.setRepeatType(evnt.repeat);
 			schItem.description = evnt.description;
 			schItem.location = evnt.location;
-			schItem.breaks = evnt.repeat_exceptions.map(brk => brk.id); // break ids
+			schItem.breaks = evnt.repeat_exceptions.map(function(brk) { return brk.id }); // break ids
 			schItem.tempId = i;
 			scheduleItems[i] = schItem;
 
@@ -2160,7 +2160,7 @@ function saveEvents()
 	// TOOD: Swap needsSaving for an updatedAt timestamp and save when the last save request was sent
 	// so you can use a date comparison to determine if saving is needed. This prevents having to deflag events
 	// and makes sure you can mutate events during saving
-	const scheduleItemsToSave = Object.values(scheduleItems).filter(event => event.needsSaving);
+	const scheduleItemsToSave = Object.values(scheduleItems).filter(function(event) { return event.needsSaving; });
     if (scheduleItemsToSave.length === 0) { return; }
 
 	$.ajax({

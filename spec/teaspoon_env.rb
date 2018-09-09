@@ -100,9 +100,6 @@ Teaspoon.configure do |config|
   # Capybara Webkit: https://github.com/modeset/teaspoon/wiki/Using-Capybara-Webkit
   #config.driver = :phantomjs
 
-  config.driver = :selenium
-  config.driver_options = { client_driver: :chrome }
-
   # Specify additional options for the driver.
   #
   # PhantomJS: https://github.com/modeset/teaspoon/wiki/Using-PhantomJS
