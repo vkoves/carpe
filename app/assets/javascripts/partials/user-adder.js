@@ -38,5 +38,5 @@ function tokenHtml(user, avatarClass) {
 
 			<div class='name'>${user.name}</div>
 		</li>
-	`
+	`;
 }
