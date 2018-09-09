@@ -2165,7 +2165,7 @@ function saveEvents()
     if (scheduleItemsToSave.length === 0) { return; }
 
 	$.ajax({
-		url: "/save_events",
+		url: "/schedule/save",
 		type: "POST",
 		data: JSON.stringify({ events: scheduleItemsToSave }),
         contentType: "application/json",
@@ -2308,9 +2308,8 @@ function deleteEvent(event, elem)
 			return;
 
 		$.ajax({
-			url: "/delete_event",
-			type: "POST",
-			data: {id: eId},
+			url: `/events/${eId}`,
+			type: "DELETE",
 			success: function(resp)
 			{
 				console.log("Delete complete.");
@@ -2327,7 +2326,7 @@ function deleteEvent(event, elem)
 function createCategory()
 {
 	$.ajax({
-		url: "/create_category",
+		url: "/categories",
 		type: "POST",
 		data: {name: "", group_id: groupID, color: "silver"},
 		success: function(resp)
@@ -2371,9 +2370,8 @@ function deleteCategory(event, elem, id)
 	confirmUI("Are you sure you want to delete this category?", function(confirmed)
 	{
 		$.ajax({
-			url: "/delete_category",
-			type: "POST",
-			data: {id: id},
+			url: `/categories/${id}`,
+			type: "DELETE",
 			success: function(resp) //after the server says the delete worked
 			{
 				console.log("Delete category complete.");
@@ -2409,13 +2407,20 @@ function deleteCategory(event, elem, id)
 function saveCategory(event,elem,id)
 {
 	// uses dom to determine if the category has been given an actual name.
-	var categoryName = ( $(".cat-overlay-title").html() === PLACEHOLDER_NAME ? "" : $(".cat-overlay-title").text());
+	const catName = ( $(".cat-overlay-title").html() === PLACEHOLDER_NAME ? "" : $(".cat-overlay-title").text());
+	const catColor = $(".cat-top-overlay").css("background-color");
+
+    const categoryData = {
+	    name: catName,
+        color: catColor,
+        privacy: currCategory.privacy,
+        repeat_exception_ids: currCategory.breaks
+	};
 
 	$.ajax({
-		url: "/create_category",
-		type: "POST",
-		data: {name: categoryName, id: id, color: $(".cat-top-overlay").css("background-color"),
-			privacy: currCategory.privacy, breaks: currCategory.breaks},
+		url: `/categories/${id}`,
+		type: "PATCH",
+		data: {category: categoryData},
 		success: function(resp)
 		{
 			console.log("Update category complete.");
@@ -2452,13 +2457,13 @@ function createBreak(name, startDate, endDate, callback)
 	endD.setHours(0,0,0,0); //clear any time
 
 	$.ajax({
-		url: "/create_break",
+		url: "/repeat_exceptions",
 		type: "POST",
 		data: {name: name, start: startD, end: endD, group_id: groupID},
 		success: function(resp) //server responds with the id
 		{
 			var brk = new Break(); //create a new break instance
-			brk.id = resp;
+			brk.id = resp.id;
 			brk.name = name;
 			brk.startDate = startD;
 			brk.endDate = endD;

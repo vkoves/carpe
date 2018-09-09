@@ -16,7 +16,6 @@ Rails.application.routes.draw do
 
   #General page routes
   get "/home" => 'home#index', :as => :home
-  get "/schedule" => 'schedule#schedule'
   get "/userviewer" => 'pages#userviewer'
   get "/about" => 'pages#about'
   get "/status" => 'pages#status'
@@ -43,13 +42,13 @@ Rails.application.routes.draw do
   post "/confirm_friend" => 'friendships#confirm'
 
   #Event backend commands
-  post "/save_events" => 'schedule#save_events'
-  post "/delete_event" => 'schedule#delete_event'
+  resources :events, only: [:destroy]
+  resources :categories, only: [:create, :update, :destroy]
+  resources :repeat_exceptions, only: [:create, :update, :destroy]
 
-  post "/create_category" => 'schedule#create_category'
-  post "/delete_category" => 'schedule#delete_category'
-
-  post "/create_break" => 'schedule#create_exception'
+  resource :schedule, only: [:show] do
+    post :save
+  end
 
   #Other backend stuff
   get "/search/group/:id/invite_users", to: 'groups#invite_users_search', as: :group_invite_users_search
