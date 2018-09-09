@@ -2,15 +2,16 @@
 <%= stylesheet_link_tag "groups" %>
 <%= javascript_include_tag "groups/show" %>
 
-<div class="group profile-header">
+<div class="profile-header group">
 	<% if @group.banner.exists? %>
-    <div id="header-image" style="background-image:url(<%= @group.banner.url(:desktop) %>);"></div>
+    <div class="header-image" style="background-image:url(<%= @group.banner.url(:desktop) %>);"></div>
 	<% else %>
-		<div id="header-image"></div>
+		<div class="header-image"></div>
 	<% end %>
 
     <div class="header-block">
-      <div class="round-avatar">
+      <div class="dark-background"></div>
+      <div class="avatar">
         <img src=<%= @group.avatar_url %>>
       </div>
 
@@ -19,18 +20,20 @@
 
           <div class="privacy-block">
             <div class="profile-privacy"><%= @group.privacy.titleize %></div>
-            <% if current_user.in_group?(@group) %>
+            <% if user_signed_in? %>
+              <% if current_user.in_group?(@group) %>
+                <% if can? :update, @group %>
+                  <%= link_to("Edit Group", edit_group_path(@group), class: "edit button") %>
+                <% end %>
 
-              <% if can? :update, @group %>
-                <%= link_to("Edit Group", edit_group_path(@group), class: "edit button") if can?(:update, @group) %>
-              <% end %>
-
-              <%= link_to("Leave Group", leave_group_path(@group), class: "red button", data: { confirm: leave_warning(@membership) }) %>
-            <% else %>
-              <% if @group.pending_invite_request? current_user %>
-                <p>Pending Invite Response</p>
+                <%= link_to("Leave Group", leave_group_path(@group), class: "red button",
+                            data: { confirm: leave_warning(@membership) }) %>
               <% else %>
-                <%= link_to "Join Group", join_group_path(@group), class: "green button" %>
+                <% if @group.pending_invite_request? current_user %>
+                  <p>Pending Invite Response</p>
+                <% else %>
+                  <%= link_to "Join Group", join_group_path(@group), class: "green button" %>
+                <% end %>
               <% end %>
             <% end %>
           </div>

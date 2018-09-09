@@ -154,9 +154,10 @@ label
 
 .avatar.float { float: left; }
 
-a .avatar img:hover, .avatar a img:hover
+// Style all avatar links with a hover effect
+a .avatar, .avatar a, a.avatar
 {
-	box-shadow: 0px 2px 2px #777;
+	img:hover { box-shadow: 0px 2px 2px #777; }
 }
 
 .avatar.small img
@@ -166,16 +167,6 @@ a .avatar img:hover, .avatar a img:hover
 	border: none;
 	float: left;
 	margin-right: 5px;
-}
-
-.friend-label
-{
-	background-color: #5B5BFF;
-	padding: 3px 15px 3px 15px;
-	border-radius: 3px;
-	color: white;
-	font-weight: bold;
-	display: inline-block;
 }
 
 .cancel-box
@@ -272,11 +263,6 @@ a.default.loading *, span.default.loading, input.default.loading
 
 	&:after { opacity: 1; }
 	&:hover { cursor: wait; }
-}
-a.default.following-btn *
-{
-	background-color: #5B5BFF;
-	&:hover { background-color: $red; }
 }
 
 /* END LINK STYLING */
@@ -788,6 +774,31 @@ form.thin
 	vertical-align: middle;
 }
 
+// Used with the lock icon
+.lock {
+	display: block;
+	background-color: $grey;
+	border-radius: 100%;
+
+	&.-large {
+		width: 100px;
+		padding: 40px;
+		margin: 50px auto;
+	}
+	&.-small {
+		width: 50px;
+		padding: 20px;
+		margin: 25px auto;
+	}
+}
+
+.lock-msg {
+	display: flex;
+	align-items: center;
+
+	.lock { margin: 0 25px 0 0; }
+}
+
 /* END TO BE SORTED */
 
 /* Keyboard Shortcut Overlay Styling */
@@ -962,11 +973,11 @@ form.thin
 		&:hover { background-color: #a3b4c3; }
 	}
 
-	&.js-following
-	{
-		background-color: #5B5BFF;
-		&:hover { background-color: #FD1A1A; }
-	}
+    &.purple
+    {
+        background: #5B5BFF;
+        &:hover { background: #5B5BFF; }
+    }
 
 	/* button sizing */
 	&.wide
@@ -1015,6 +1026,12 @@ form.thin
 		color: #FD1A1A;
 		&:hover { color: #FF4A4A; }
 	}
+}
+
+// special case for 'Following' / 'Unfollow' state buttons
+.profile-header .button.js-unfollow-user:hover
+{
+    background: #FD1A1A;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -1170,4 +1187,14 @@ form.basic .form-group
   src: font-url('Pacifico_1.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
+}
+
+.friend-label
+{
+  background-color: #5B5BFF;
+  padding: 3px 15px 3px 15px;
+  border-radius: 3px;
+  color: white;
+  font-weight: bold;
+  display: inline-block;
 }

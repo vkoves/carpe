@@ -130,6 +130,8 @@ function ScheduleItem()
 	this.description;
 	/** The event location */
 	this.location;
+	/** The group an event belongs to */
+	this.groupId = groupID;
 	/** Whether this object has bee updated since last save */
 	this.needsSaving = false;
 
@@ -447,6 +449,7 @@ function Category(id)
 	this.color; //the color of the category, as a CSS acceptable string
 	this.privacy = "private"; //the privacy of the category, right now either private || followers || public
 	this.breaks = []; //an array of the repeat exceptions of this category.
+    this.groupId = groupID; //the group that owns this category
 
 	this.getHtmlName = function()
 	{
@@ -464,6 +467,7 @@ function Break() //The prototype for breaks/repeat exceptions
 	this.name; //the name of the break
 	this.startDate; //the date the break starts. Any time on this variable should be ignored
 	this.endDate; //the date the break ends. Similarly, time should be ignored.
+    this.groupId = groupID; //the group that owns this break
 }
 
 /****************************/
@@ -881,7 +885,7 @@ function loadInitialCategories()
 			catInstance.privacy = currCat.privacy;
 			catInstance.color = currCat.color;
 			catInstance.name = currCat.name;
-			catInstance.breaks = currCat.repeat_exceptions; // break ids
+			catInstance.breaks = currCat.repeat_exceptions.map(brk => brk.id); // break ids
 
 			categories[catInstance.id] = catInstance;
 		}
@@ -948,7 +952,7 @@ function loadInitialEvents()
 			schItem.setRepeatType(evnt.repeat);
 			schItem.description = evnt.description;
 			schItem.location = evnt.location;
-			schItem.breaks = evnt.repeat_exceptions; // break ids
+			schItem.breaks = evnt.repeat_exceptions.map(brk => brk.id); // break ids
 			schItem.tempId = i;
 			scheduleItems[i] = schItem;
 
@@ -1668,7 +1672,7 @@ function populateEvents()
 
 			for(var breakIndex = 0; breakIndex < combinedBreaks.length; breakIndex++) //iterate through all breaks
 			{
-				var currBreak = breaks[combinedBreaks[breakIndex].id];
+				var currBreak = breaks[combinedBreaks[breakIndex]];
 				var dateClone = cloneDate(date).setHours(0,0,0,0); //clear time on the date so time doesn't factor into breaks
 				//otherwise since breaks times are the start of their day, an event on Sept. 30th at 3:00pm won't be impacted by a date
 				//on Sept. 30th, since that's technically Sept. 30th 00:00
@@ -2153,39 +2157,19 @@ function saveEvents()
 
 	$("#sch-save").addClass("loading"); //indicate that stuff is loading
 
-	var scheduleItemsToSave = {};
-
 	// TOOD: Swap needsSaving for an updatedAt timestamp and save when the last save request was sent
 	// so you can use a date comparison to determine if saving is needed. This prevents having to deflag events
 	// and makes sure you can mutate events during saving
-	for(var eventId in scheduleItems) // iterate through schedule items to compile ones that need saving
-	{
-		if(scheduleItems[eventId].needsSaving) // if this event needs to be saved
-			scheduleItemsToSave[eventId] = scheduleItems[eventId];
-	}
-
-	//JSON encode our hashmap
-	var arr  = JSON.parse(JSON.stringify(scheduleItemsToSave));
+	const scheduleItemsToSave = Object.values(scheduleItems).filter(event => event.needsSaving);
+    if (scheduleItemsToSave.length === 0) { return; }
 
 	$.ajax({
 		url: "/save_events",
 		type: "POST",
-		data: {map: arr, group_id: groupID},
+		data: JSON.stringify({ events: scheduleItemsToSave }),
+        contentType: "application/json",
 		success: function(resp)
 		{
-			console.log("Save complete.");
-
-			$("#sch-save").removeClass("loading");
-			$("#sch-save").addClass("active"); //show checkmark
-
-
-			//and hide it after 1.5 seconds
-			setTimeout(function()
-			{
-				$("#sch-save").removeClass("active");
-				$("#sch-save").addClass("disabled");
-			}, 3000);
-
 			for(var key in resp) // iterate through ids in the response, which specify the temp id of the event and the new DB id
 			{
 				$(".sch-evnt[evnt-temp-id="+ key + "]")	.attr("event-id", resp[key]);
@@ -2195,7 +2179,22 @@ function saveEvents()
 		error: function(resp)
 		{
 			alertUI("Saving events failed :(");
-		}
+		},
+        complete: function()
+        {
+            console.log("Save complete.");
+
+            $("#sch-save").removeClass("loading");
+            $("#sch-save").addClass("active"); //show checkmark
+
+
+            //and hide it after 1.5 seconds
+            setTimeout(function()
+            {
+                $("#sch-save").removeClass("active");
+                $("#sch-save").addClass("disabled");
+            }, 3000);
+        }
 	});
 }
 
@@ -2310,7 +2309,7 @@ function deleteEvent(event, elem)
 		$.ajax({
 			url: "/delete_event",
 			type: "POST",
-			data: {id: eId, group_id: groupID},
+			data: {id: eId},
 			success: function(resp)
 			{
 				console.log("Delete complete.");
@@ -2373,7 +2372,7 @@ function deleteCategory(event, elem, id)
 		$.ajax({
 			url: "/delete_category",
 			type: "POST",
-			data: {id: id, group_id: groupID},
+			data: {id: id},
 			success: function(resp) //after the server says the delete worked
 			{
 				console.log("Delete category complete.");
@@ -2385,7 +2384,7 @@ function deleteCategory(event, elem, id)
 					$(".col-snap .sch-evnt[data-id=" + id + "]").slideUp();
 					for (var index in scheduleItems) //do a foreach since this is a hashmap
 					{
-						if(scheduleItems[index].categoryId = id)
+						if(scheduleItems[index].categoryId == id)
 						{
 							delete scheduleItems[index];
 						}
@@ -2415,7 +2414,7 @@ function saveCategory(event,elem,id)
 		url: "/create_category",
 		type: "POST",
 		data: {name: categoryName, id: id, color: $(".cat-top-overlay").css("background-color"),
-			privacy: currCategory.privacy, breaks: currCategory.breaks, group_id: groupID},
+			privacy: currCategory.privacy, breaks: currCategory.breaks},
 		success: function(resp)
 		{
 			console.log("Update category complete.");
@@ -2470,7 +2469,7 @@ function createBreak(name, startDate, endDate, callback)
 			var addingBreakUiIsVisible = $("#break-adder-overlay-box").is(":visible");
 
 			if (addingBreakUiIsVisible) {
-				setupBreakAddOverlay();
+				setupBreakAddOverlay(true);
 			}
 
 			// Call the callback and pass in the new break

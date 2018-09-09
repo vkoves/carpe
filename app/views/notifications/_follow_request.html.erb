@@ -1,9 +1,7 @@
-<% relationship = notification.entity %>
-
-<div class="notif follow-request" fid="<%= relationship.id %>">
+<div class="notif follow-request">
   <%= link_avatar notification.sender, size: 90 %>
   <span><%= notification.sender.name %></span>
 
-  <%= link_to "", notification_updated_path(notification, "confirm"), method: :post, remote: true, class: "confirm" %>
-  <%= link_to "", notification_updated_path(notification, "deny"), method: :post, remote: true, class: "deny" %>
+  <%= link_to "", update_notification_path(notification, "confirm"), method: :post, remote: true, class: "confirm" %>
+  <%= link_to "", update_notification_path(notification, "deny"), method: :post, remote: true, class: "deny" %>
 </div>

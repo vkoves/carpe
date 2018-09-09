@@ -10,7 +10,7 @@ body {
 .header-main
 {
 	position: fixed;
-	width: 100vw;
+	width: 100%;
 	height: $header-height-desktop;
 	top: 0px;
 	background: rgb(242, 242, 242);
@@ -217,14 +217,18 @@ body {
 	padding: 5px 5px 5px 10px;
 	color: rgb(106, 106, 106);
 
-	.notif .round-avatar
+	.notif .avatar
 	{
 		float: left;
-		width: 36px;
-		height: 36px;
 		margin-left: 0;
 		margin-right: 5px;
-		border: 2px solid orange;
+
+		img {
+			display: block;
+			width: 34px;
+			height: 34px;
+			border-width: 2px;
+		}
 	}
 	.notif
 	{

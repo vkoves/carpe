@@ -69,7 +69,7 @@ class ApplicationController < ActionController::Base
         user_obj # and return the modified JSON object
       }
 
-      groups = Group.where('name LIKE ?', "%#{q}%").limit(5)
+      groups = Group.where.not(privacy: :secret_group).where('name LIKE ?', "%#{q}%").limit(5)
       group_map = groups.map{|group|
         group_obj = {} #create a hash representing the group
 

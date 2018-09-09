@@ -18,4 +18,21 @@ module GroupsHelper
       "Are you sure? Someone else in the group will become the new owner."
     end
   end
+
+  def role_assign_confirmation(role)
+    return nil unless role.to_sym == :owner
+
+    "Are you sure? You will be demoted to a moderator."
+  end
+
+  def remove_confirmation(user_group)
+    if user_group.user == current_user
+      "You want to kick yourself? #{leave_warning user_group}"
+    end
+  end
+
+  def visible_upcoming_events
+    @group.upcoming_events(current_user&.home_time_zone || "Central Time (US & Canada)")
+      .select { |event| event.accessible_by?(current_user) }
+  end
 end

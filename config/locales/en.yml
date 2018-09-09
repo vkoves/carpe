@@ -22,7 +22,7 @@
 en:
   unauthorized:
     manage:
-      all: "You don't have permission to %{action} %{subject}."
+      all: "You don't have permission to %{action} that %{subject}."
   groups:
     approved_posting_explanation: "If checked, the group owner must approve group schedule changes made by fellow group members"
     group_privacy_explanation:

@@ -1,3 +1,5 @@
+@import 'colors';
+
 html, body
 {
 	height: 100%;
@@ -13,7 +15,7 @@ html, body
 	{
 		flex: 1;
 		min-width: 300px;
-		padding: 50px 10px 10px;
+		padding: 10px 25px;
 		text-align: center;
 	}
 
@@ -28,11 +30,6 @@ html, body
 
 .shaded {
 	background: rgb(225, 225, 225);
-}
-
-.with-horizontal-borders {
-	border-left: solid 2px #ACACAC;
-	border-right: solid 2px #ACACAC;
 }
 
 #groups-list-header
@@ -88,13 +85,13 @@ html, body
 	margin: 15px;
 	text-align: left;
 
-	.round-avatar
+	.avatar
 	{
 		margin-left: 2.5%;
 		margin-right: 7.5%;
 	}
 
-	main
+	.main
 	{
 		display: flex;
 		flex: 3;
@@ -126,10 +123,10 @@ html, body
 {
 	@extend .card;
 	width: 100%;
-	height: 80px;
 	margin: 0 0 20px 0;
+	padding: 10px 0px;
 
-	main
+	.main
 	{
 		overflow-wrap: break-word;
 
@@ -147,6 +144,10 @@ html, body
 	width: 455px; /* width should be about 3x the length for a card-like shape */
 	height: 175px;
 
+	.avatar img {
+		width: 120px;
+		height: 120px;
+	}
 	.title
 	{
 		height: 3em;
@@ -168,25 +169,28 @@ html, body
 	display: flex;
 	align-items: center;
 	justify-content: flex-start;
-	width: 400px;
-	height: 200px;
+	width: 350px;
+	height: 90px;
 
-	.round-avatar
+	.avatar
 	{
 		margin-left: 5%;
 		margin-right: 5%;
 	}
 
-	main
+	.main
 	{
 		display: flex;
+		flex-direction: column;
+        align-items: flex-start;
 		flex: 3;
-		height: 3em;
-		line-height: 1.5em;
-		font-size: 24px;
-		font-weight: bold;
 		overflow: hidden;
 	}
+    .name
+    {
+      font-size: 24px;
+      font-weight: bold;
+    }
 }
 
 .member-stats
@@ -252,19 +256,37 @@ html, body
 
 .group.profile-header
 {
+	padding-top: 100px;
+	border-bottom: solid 2px $grey;
+
 	.header-block
 	{
+		position: relative;
 		z-index: 1;
 		display: flex;
-		align-items: center;
+		align-items: stretch;
 		text-align: left;
 		width: 100%;
-		height: 100%;
+		padding: 20px 0px;
+		height: auto;
 
-		.round-avatar
+		.dark-background {
+			position: absolute;
+			width: 100%;
+			height: 50%;
+			top: 0;
+			background: rgba(0, 0, 0, 0.3);
+			z-index: -1;
+		}
+		.avatar
 		{
 			margin-left: 4%;
 			margin-right: 2%;
+
+			img {
+				width: 150px;
+				height: 150px;
+			}
 		}
 	}
 
@@ -272,7 +294,6 @@ html, body
 	{
 		display: flex;
 		flex-direction: column;
-		color: white;
 	}
 
 	.privacy-block
@@ -282,9 +303,10 @@ html, body
 
 	.profile-name
 	{
+		color: white;
 		font-size: 48px;
 		font-weight: 500;
-		text-shadow: 2px 2px black;
+		margin-bottom: 30px;
 	}
 
 	.profile-privacy
@@ -292,7 +314,6 @@ html, body
 		margin: 0 20px 0 0;
 		font-size: 28px;
 		font-weight: 400;
-		text-shadow: 2px 2px black;
 	}
 }
 
@@ -328,12 +349,20 @@ html, body
 
 		.name-and-avatar
 		{
-			.round-avatar
-			{
-				margin-right: 16px;
-			}
 			display: flex;
 			height: 100%;
+			align-items: center;
+
+			.avatar
+			{
+				margin-right: 16px;
+
+				img {
+					display: block;
+					height: 60px;
+					width: 60px;
+				}
+			}
 		}
 
 		.role
@@ -373,10 +402,9 @@ html, body
 
 #group-overview-info
 {
-	*
-	{
-		text-align: left;
-	}
+	border-left: solid 2px $grey;
+
+	* { text-align: left; }
 }
 
 .small-activity-card {
@@ -384,23 +412,20 @@ html, body
   margin-top: 15px;
   display: flex;
 
-  .round-avatar{
+  .avatar img {
   	height: 55px;
   	width: 55px;
-  	margin: unset;
   }
   .user-information{
   	flex-grow:1;
   	margin-left: 10px;
-  	.user-name{
-  		font-size: 1.2rem;
-  	}
-  	.time-ago{
+
+  	.user-name { font-size: 1.2rem; }
+  	.time-ago {
   		margin-top: 30px;
   		font-size: .7rem;
   		color: grey;
   	}
-
   }
 }
 

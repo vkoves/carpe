@@ -1,5 +1,5 @@
 class NotificationsController < ApplicationController
-  def read_all
+  def read
     @notifications = current_user.notifications
     @notifications.update_all viewed: true
     render plain: ""
@@ -16,6 +16,12 @@ class NotificationsController < ApplicationController
     render json: {}, status: :ok
   end
 
+  def destroy
+    notif = Notification.find(params[:id])
+    notif.destroy
+    render plain: "hurrah"
+  end
+
   private
 
   def follow_request
@@ -24,7 +30,7 @@ class NotificationsController < ApplicationController
     if params[:response] == "confirm"
       relationship.update(confirmed: true)
     elsif params[:response] == "deny"
-      relationship.update(confirmed: false)
+      relationship.destroy
     end
   end
 
@@ -35,6 +41,14 @@ class NotificationsController < ApplicationController
 
   def group_invite_request
     group = @notification.entity
-    group.add(@notification.sender) if params[:response] == "accepted"
+
+    if params[:response] == "accepted"
+      group.add(@notification.sender)
+      
+      Notification.create!(
+        receiver: @notification.sender,
+        message: "You're now a member of #{group.name}!"
+      )
+    end
   end
 end

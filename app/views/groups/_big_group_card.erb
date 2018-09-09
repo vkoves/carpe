@@ -3,7 +3,7 @@
 <div class="large-card grey-box">
   <%= link_avatar group %>
 
-  <main>
+  <div class="main">
     <%= link_to group.name, group, class: "normal title" %>
     <h3 class="members"><%= group.size %> <%= 'Member'.pluralize(group.size) %></h3>
 
@@ -12,5 +12,5 @@
     <% else %>
       <%= link_to "Join Group", join_group_path(group), class: "wide button" %>
     <% end %>
-  </main>
+  </div>
 </div>

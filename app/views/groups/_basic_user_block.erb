@@ -1,4 +1,10 @@
-<div class="basic-member-block">
-  <%= link_avatar member %>
-  <main><%= member.name %></main>
+<% user_group = basic_user_block %>
+
+<div class="basic-member-block user-listing grey-box">
+  <%= link_avatar user_group.user %>
+
+  <div class="user-details">
+    <span class="name"><%= user_group.user.name %></span><br>
+    <span class="role"><%= user_group.role.titleize %></span>
+  </div class="user-details">
 </div>

@@ -1,5 +1,5 @@
 class GroupsController < ApplicationController
-  before_action :authorize_signed_in!
+  before_action :authorize_signed_in!, except: [:show]
 
   def index
     @joinable_groups = Group.where(privacy: :public_group)
@@ -21,16 +21,19 @@ class GroupsController < ApplicationController
 
     @view = params[:view]&.to_sym || :overview
     @membership = @group.membership(current_user)
-    authorize! :view, @group
+    authorize! :show, @group
 
     case @view
     when :manage_members
       authorize! :manage_members, @group
-      @members = UsersGroup.where(group: @group).where.not(user: current_user)
+      @members = @group.users_groups
     when :members
-      @members = @group.members.page(params[:page]).per(25)
+      @members = UsersGroup.where(group: @group, accepted: true).page(params[:page]).per(25)
     when :overview
-      @activities = (@group.members + @group.categories + @group.events)
+      categories = @group.categories.select { |cat| cat.accessible_by? current_user }
+      events = @group.events.select { |event| event.accessible_by? current_user }
+      
+      @activities = (@group.members + categories + events)
                       .sort_by(&:created_at).reverse.first(2)
     when :schedule
       @read_only = cannot? :edit_schedule, @group
@@ -107,7 +110,8 @@ class GroupsController < ApplicationController
         group.destroy
       elsif old_role == :owner
         # looks like you're today's winner!
-        UsersGroup.find_by(group: group).update(role: :owner)
+        UsersGroup.where(group: group, accepted: true).where.not(user: current_user)
+            .first.update(role: :owner)
       end
 
     else

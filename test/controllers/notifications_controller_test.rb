@@ -12,7 +12,7 @@ class NotificationsControllerTest < ActionController::TestCase
     sign_in @norm
 
     assert_equal 1, @norm.notifications.unread.count
-    post :read_all
+    post :read
     assert_equal 0, @norm.notifications.unread.count
   end
 end

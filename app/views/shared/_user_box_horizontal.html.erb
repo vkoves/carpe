@@ -23,9 +23,9 @@
 				Following since: <%= relationship.created_at.strftime("%b. %d, %Y")%> <br>
 
 				<% if current_user == relationship.follower # if the current user is following this person, let them unfollow %>
-					<%= link_to_block "Unfollow", relationship_path(relationship), :method => :delete, :remote => true, :class => "default red friend-remove", "fid" => relationship.id %>
+					<%= link_to "Unfollow", relationship_path(relationship), class: "red button js-unfollow-user" %>
 				<% else %>
-					<%= link_to_block "Remove", relationship_path(relationship), :method => :delete, :remote => true, :class => "default red friend-remove", "fid" => relationship.id %>
+					<%= link_to "Remove", relationship_path(relationship), class: "red button js-unfollow-user" %>
 				<% end %>
 			<% elsif current_user %>
 				<% if !@home %>

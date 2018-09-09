@@ -3,13 +3,16 @@
 <div class="subtle-container">
   <header class="member-stats">
     <h3>Members</h3>
-    <h4><%= @group.members.count %></h4>
+    <h4><%= @group.size %></h4>
 
     <h3>Editors</h3>
-    <h4><%= @group.members_with_role(:editor).count %></h4>
+    <h4><%= @group.members_with_role(:editor).size %></h4>
 
-    <h3>Admins</h3>
-    <h4><%= @group.members_with_role(:admin).count %></h4>
+    <h3>Moderators</h3>
+    <h4><%= @group.members_with_role(:moderator).size %></h4>
+
+    <h3>Owners</h3>
+    <h4><%= @group.members_with_role(:owner).size %></h4>
 
     <% if can? :invite_members, @group %>
       <%= content_tag(:span, "Invite Members", id: "invite-members", class: "wide button") %>
@@ -20,9 +23,14 @@
     <% end %>
   </header>
 
-  <main class="flex-list">
-    <%= render partial: "groups/basic_user_block", collection: @members, as: :member %>
-  </main>
+  <% if can? :view_details, @group %>
+    <main class="flex-list">
+      <%= render partial: "groups/basic_user_block", collection: @members %>
+    </main>
+  <% else %>
+    <%= image_tag "lock", alt: "Lock", class: "lock -large" %>
+    <span>You must be a member of this group to see its members</span>
+  <% end %>
 
   <%= paginate @members %>
 </div>

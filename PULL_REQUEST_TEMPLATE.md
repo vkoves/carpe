@@ -16,14 +16,17 @@ Based on the [contributor's guide][contrib-guide], this PR is of type:
 
 **Reviewer**: If you see an item that is not checked that you believe should be, comment on that as part of your review.
 
-- [ ] _Code Quality:_ I have written tests to ensure that my changes work and handle edge cases
-- [ ] _Code Quality:_ I have documented my changes thoroughly (using [JSDoc][jsdoc] in Javascript)
-- [ ] _Process:_ I have linked to any relevant GitHub issues to this PR including [marking issues][gh-marking-issues] that this PR resolves
-- [ ] _Process:_ I have requested reviews from at least as many users as required for the type of PR (2 or 3)
-- [ ] _Process:_ I have added this pull request to the relevant quarterly milestone
-- [ ] _Process:_ I have tested my changes locally and verified that they resolve the issues they are supposed to
-- [ ] _Process:_ **(Hotfixes & Deployments)** I have assigned a user to this PR to handle merging and deployment
-- [ ] _Process:_ **(Hotfixes & Deployments)** I have pushed up my changes to [Carpe test][carpe-test] for review and tested my changes there
+- [ ] Code Quality: I have written tests to ensure that my changes work and handle edge cases
+- [ ] Code Quality: I have documented my changes thoroughly (using [JSDoc][jsdoc] in Javascript)
+- [ ] Process: I have linked relevant issues, [marking issues][gh-marking-issues] that this PR resolves
+- [ ] Process: I have requested at least as many reviews required for this PR type (2 or 3)
+- [ ] Process: I have added this PR to the relevant quarterly milestone
+- [ ] Process: I have tested this PR locally and verified it does what it should
+
+### Hotfixes & Deployments
+_If this is not a hotfix or release, delete this section._
+- [ ] Process: I have assigned a user to this PR to handle merging and deployment
+- [ ] Process: I have pushed up my changes to [Carpe test][carpe-test] for review and tested my changes there
 
 ## How This Has Been Tested
 _Give specific details of how you tested these changes to ensure that they work and don't break other functionality. Details may include device, browser, and what actions/cases you tested._
@@ -33,12 +36,12 @@ _If this is not a hotfix or release, delete this section._
 
 The assignee should complete this checklist from [deploying Carpe][contrib-guide-deploying] section of the contributor's guide before and after deploying a deployment or hotfix.
 
-- [ ] _Before Release/Hotfix_: I have verified that this PR meets the [requirements for reviews]
-- [ ] _Before Release_: I have moved all issuses labelled `development` to `release-candidate`
-- [ ] _Before Release_: I have verified the release candidate has been frozen for at least 48 hours
-- [ ] _Before Release_: I have verified the release candidate has been in review for at least one week
-- [ ] _After Release_: I have removed the `release-candidate` label from all issues marked with it
-- [ ] _After Release/Hotfix_: I have created a PR from `master` into `dev` to update dev with changes made on a release/hotfix branch
+- [ ] Before Release/Hotfix: I have verified that this PR meets the [requirements for reviews][contrib-guide-prs]
+- [ ] Before Release: I have moved all issuses labelled `development` to `release-candidate`
+- [ ] Before Release: I have verified the release candidate has been frozen for at least 48 hours
+- [ ] Before Release: I have verified the release candidate has been in review for at least one week
+- [ ] After Release: I have removed the `release-candidate` label from all issues marked with it
+- [ ] After Release/Hotfix: I have created a PR from `master` into `dev` to update dev with changes made on a release/hotfix branch
 
 
 

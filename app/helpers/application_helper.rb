@@ -22,35 +22,31 @@ module ApplicationHelper
       if(minutes_diff.abs < 60) #we need to use minutes or seconds
         seconds_diff = ((datetime - now)/1.second).round
 
-        if(seconds_diff.abs < 60) #we should use seconds
-          if(seconds_diff >= 0) #future
-            time_format = pluralize(seconds_diff, 'second') + " from now (" + time_format + ")"
-          else
-            time_format = pluralize(seconds_diff.abs, 'second') + " ago (" + time_format + ")"
-          end
-        end
-
-        if(minutes_diff > 0) #in the future
+        if (minutes_diff > 0)
           time_format = pluralize(minutes_diff, 'minute') + " from now (" + time_format + ")"
-        else #in the past
+        elsif (seconds_diff > 0)
+          time_format = pluralize(seconds_diff.abs, 'second') + " ago (" + time_format + ")"
+        elsif (seconds_diff > -60)
+          time_format = pluralize(seconds_diff.abs, 'second') + " ago (" + time_format + ")"
+        else
           time_format = pluralize(minutes_diff.abs, 'minute') + " ago (" + time_format + ")"
         end
       end
 
-
-      # if(hours_diff > 0) #in the future
-      #   if(hours_diff < 5) #less than five hours away
-      #     return  pluralize(hours_diff, 'hour') + " from now"
-      #   else
-      #     time_format = "today at %l:%M %p"
-      #   end
-      # else #in the past
-      #   if(hours_diff.abs < 5) #less than five hours away
-      #     return  pluralize(hours_diff.abs, 'hour') + " ago"
-      #   else
-      #     time_format = "today at %l:%M %p"
+      #   if(seconds_diff.abs < 60) #we should use seconds
+      #     if(seconds_diff > 0) #future
+      #       time_format = pluralize(seconds_diff, 'second') + " from now (" + time_format + ")"
+      #     else
+      #       time_format = pluralize(seconds_diff.abs, 'second') + " ago (" + time_format + ")"
+      #     end
+      #
+      #   elsif (minutes_diff >= 0) #in the future
+      #     time_format = pluralize(minutes_diff, 'minute') + " from now (" + time_format + ")"
+      #   else #in the past
+      #     time_format = pluralize(minutes_diff.abs, 'minute') + " ago (" + time_format + ")"
       #   end
       # end
+
     elsif(datetime.to_date == tomorrow.to_date) #It's tomorrow
       time_format = "tomorrow at " + time_format
     elsif(datetime.to_date == yesterday.to_date) #It's yesterday
@@ -134,7 +130,7 @@ module ApplicationHelper
   # Adds :size parameter to html_options. This is the size of the image
   # being requested.
   def link_avatar(options, html_options = {})
-    html_options.merge!(class: " round-avatar") { |_, old, new| old + new }
+    html_options.merge!(class: " avatar") { |_, old, new| old + new }
     url = options.avatar_url(html_options[:size] || 256)
 
     link_to options, html_options do

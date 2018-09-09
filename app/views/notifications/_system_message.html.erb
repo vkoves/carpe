@@ -1,3 +1,4 @@
 <div class="notif general">
   <div><%= notification.message %></div>
+  <%= link_to "OK", update_notification_path(notification), method: :post, remote: true %>
 </div>
