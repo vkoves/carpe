@@ -1776,7 +1776,7 @@ function populateEvents()
 			editEvent($(this));
 		});
 
-		if(!readOnly)
+		if(!readOnly && event.editable)
 		{
 			$(".sch-month-evnt .close").click(function(event)
 			{
@@ -1870,7 +1870,12 @@ function editEventTitle(event, elem)
 {
 	//return if this is in the sidebar
 	if(!inColumn($(elem).parent()) || $(elem).is(":focus"))
-		return;
+    return;
+  
+  // return if you cannot edit this event
+  if(!event.editable){
+    return;
+  }
 
 	$(elem).parent().draggable("disable"); //disable dragging while editing the event text
 
@@ -1934,6 +1939,7 @@ function editEvent(elem)
 	if(inColumn(elem) && !editingEvent && elem.attr("data-id") != -1) //make sure this is a placed event that isn't private and we aren't already editing
 	{
     currEvent = scheduleItems[elem.attr("evnt-temp-id")];
+
     editable = !readOnly && currEvent.editable
     if(editable) //allow viewing of all events with single click
     {
@@ -1942,9 +1948,9 @@ function editEvent(elem)
     else {
       $(".edit, #repeat, #add-break-event").hide(); //remove repeat functionality, and adding breaks
     }
-      $("#overlay-title").attr("contenteditable", editable); //disable editing on location title and description
-      $("#overlay-loc, #overlay-desc").prop('disabled', !editable);
-      $("#time-start, #time-end").attr("readonly", !editable); //disable editing of time
+    $("#overlay-title").attr("contenteditable", editable); //disable editing on location title and description
+    $("#overlay-loc, #overlay-desc").prop('disabled', !editable);
+    $("#time-start, #time-end").attr("readonly", !editable); //disable editing of time
 
 		var categoryName = $("#sch-tiles .sch-evnt.category[data-id=" + currEvent.categoryId + "]").find(".evnt-title").text();
 		$("#cat-title").html("In category <b>" + categoryName + "</b>");
@@ -1990,12 +1996,12 @@ function editEvent(elem)
 		$("#overlay-desc").val(desc);
 		$("#overlay-loc").val(loc);
 
-		if(desc.length == 0 && readOnly) //if this is readOnly and there is no description
+		if(desc.length == 0 && (readOnly || !currEvent.editable)) //if this is readOnly and there is no description
 			$("#overlay-desc, #desc-title").hide(); //hide the field and the title
 		else
 			$("#overlay-desc, #desc-title").show();
 
-		if(loc.length == 0 && readOnly) //do the same for the location
+		if(loc.length == 0 && (readOnly || !currEvent.editable)) //do the same for the location
 			$("#overlay-loc, #loc-title").hide();
 		else
 			$("#overlay-loc, #loc-title").show();
