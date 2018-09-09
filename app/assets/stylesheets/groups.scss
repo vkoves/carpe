@@ -315,6 +315,11 @@ html, body
 		.profile-name-text {
 			text-shadow: 0px 3px 6px rgba(0,0,0,0.46);
 			letter-spacing: 0.5px;
+			width: 50%;
+			text-overflow: ellipsis;
+			display: inline-block;
+			height: 40px;
+			overflow-y: hidden;
 		}
 
 	}

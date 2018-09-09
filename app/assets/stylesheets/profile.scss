@@ -177,14 +177,13 @@ $cover-camera-height: 20px;
 #group-profile-buttons
 {
 	z-index: 2;
-	float: right;
-	bottom: 0px;
-	right: 0px;
-	font-size: 0px;
-	margin-top: 16px;
-	position: relative;
-	left: 69%;
-	letter-spacing: 0.5px;
+  float: right;
+  bottom: 30px;
+  font-size: 0px;
+  margin-top: 16px;
+  position: absolute;
+  right: 25px;
+  letter-spacing: 0.5px;
 
 	a { color: white; }
 	div
