@@ -286,6 +286,7 @@ html, body
 			img {
 				width: 150px;
 				height: 150px;
+				box-shadow: 0px 3px 4px rgba(0,0,0,0.42);
 			}
 		}
 	}
@@ -294,6 +295,7 @@ html, body
 	{
 		display: flex;
 		flex-direction: column;
+		width: 84%; // This seems arbitrary, but is caused by the size of a typical avatar on screen.
 	}
 
 	.privacy-block
@@ -304,15 +306,23 @@ html, body
 	.profile-name
 	{
 		color: white;
-		font-size: 48px;
-		font-weight: 500;
+		font-size: 36px;
+		margin-top: 10px;
+		font-weight: 600;
 		margin-bottom: 30px;
+
+		// TODO: Should likely rename profile-name to profile-section if we have a section like this.
+		.profile-name-text {
+			text-shadow: 0px 3px 6px rgba(0,0,0,0.46);
+			letter-spacing: 0.5px;
+		}
+
 	}
 
 	.profile-privacy
 	{
 		margin: 0 20px 0 0;
-		font-size: 28px;
+		font-size: 22px;
 		font-weight: 400;
 	}
 }
