@@ -45,8 +45,6 @@ GEM
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
     ansi (1.5.0)
-    archive-zip (0.11.0)
-      io-like (~> 0.3.0)
     arel (9.0.0)
     ast (2.4.0)
     aws-eventstream (1.0.1)
@@ -78,11 +76,6 @@ GEM
     builder (3.2.3)
     cancancan (2.2.0)
     chartkick (2.3.5)
-    childprocess (0.9.0)
-      ffi (~> 1.0, >= 1.0.11)
-    chromedriver-helper (1.2.0)
-      archive-zip (~> 0.10)
-      nokogiri (~> 1.8)
     climate_control (0.2.0)
     codeclimate-engine-rb (0.4.1)
       virtus (~> 1.0)
@@ -132,7 +125,6 @@ GEM
     i18n (1.1.0)
       concurrent-ruby (~> 1.0)
     ice_nine (0.11.2)
-    io-like (0.3.0)
     jbuilder (2.7.0)
       activesupport (>= 4.2.0)
       multi_json (>= 1.2)
@@ -283,7 +275,6 @@ GEM
       ruby_parser (~> 3.8)
       tty-which (~> 0.3.0)
       virtus (~> 1.0)
-    rubyzip (1.2.2)
     sass (3.5.7)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
@@ -297,9 +288,6 @@ GEM
       tilt (>= 1.1, < 3)
     sdoc (1.0.0)
       rdoc (>= 5.0)
-    selenium-webdriver (3.14.0)
-      childprocess (~> 0.5)
-      rubyzip (~> 1.2)
     sexp_processor (4.11.0)
     simplecov (0.16.1)
       docile (~> 1.1)
@@ -348,7 +336,6 @@ DEPENDENCIES
   binding_of_caller
   cancancan (~> 2.2.0)
   chartkick (~> 2.2)
-  chromedriver-helper (~> 1)
   coffee-rails (~> 4.2)
   devise (~> 4.3)
   jbuilder (~> 2.7)
@@ -370,7 +357,6 @@ DEPENDENCIES
   rubycritic
   sass-rails (>= 5.0.5)
   sdoc
-  selenium-webdriver (~> 3)
   simplecov
   sqlite3
   teaspoon (~> 1.1)
