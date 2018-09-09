@@ -135,7 +135,7 @@ function ScheduleItem()
 	/** Whether this object has bee updated since last save */
   this.needsSaving = false;
   
-  this.editable = false;
+  this.editable = true;
 
 	/** Returns an float of the length of the event in hours */
 	this.lengthInHours = function()
@@ -1025,9 +1025,15 @@ function addDrag(selector)
 		return;
 
 	if (selector == null)
-		selector = "#sch-sidebar .sch-evnt";
+    selector = "#sch-sidebar .sch-evnt";
+    
+  // weed out all the events you cant edit
+  var $editableEvents = $(selector).filter(function(index) {
+    var id = $(this).attr("evnt-temp-id");
+    return id ? scheduleItems[id].editable : true;
+  });
 
-	$(selector).find(".evnt-title").on("keydown",function(e){
+	$editableEvents.find(".evnt-title").on("keydown",function(e){
 		var key = e.keyCode || e.charCode;  // ie||others
 		if(key == 13)  // if enter key is pressed
 		{
@@ -1050,7 +1056,7 @@ function addDrag(selector)
 	});
 
 	//when the mouse is pressed on the events, check for control
-	$(selector).mousedown(function(event)
+	$editableEvents.mousedown(function(event)
 	{
 		if(event.ctrlKey)
 			ctrlPressed = true;
@@ -1058,22 +1064,22 @@ function addDrag(selector)
 			ctrlPressed = false;
 	});
 
-	$(selector).dblclick(function()
+	$editableEvents.dblclick(function()
 	{
 		editEvent($(this));
 	})
 
-	$(selector).find(".sch-evnt-close").click(function(event)
+	$editableEvents.find(".sch-evnt-close").click(function(event)
 	{
 		deleteEvent(event, $(this));
 	});
 
-	$(selector).find(".sch-evnt-del-cat").click(function(event)
+	$editableEvents.find(".sch-evnt-del-cat").click(function(event)
 	{
 		deleteCategory(event, $(this), $(this).parent().attr("data-id"));
 	});
 
-	$(selector).find(".evnt-title").click(function(event)
+	$editableEvents.find(".evnt-title").click(function(event)
 	{
 		editEventTitle(event, $(this));
 	})
@@ -1085,12 +1091,12 @@ function addDrag(selector)
 		setTimeout(highlightCurrent, 100); // highlight the whole name after focus
 	});
 
-	$(selector).find(".sch-evnt-edit").click(function()
+	$editableEvents.find(".sch-evnt-edit").click(function()
 	{
 		editEvent($(this).parent());
 	});
 
-	$(selector).find(".sch-evnt-edit-cat").click(function(event)
+	$editableEvents.find(".sch-evnt-edit-cat").click(function(event)
 	{
 		event.stopImmediatePropagation();
 
@@ -1098,7 +1104,7 @@ function addDrag(selector)
 		editCategory(categoryElement);
 	});
 
-	$(selector).draggable(
+	$editableEvents.draggable(
 	{
 		containment: "window",
 		snap: ".evt-snap",
@@ -1197,7 +1203,13 @@ function addResizing(selector)
 {
 	if(selector != "#sch-sidebar .sch-evnt") //as long as the selector is not for the sidebar
 	{
-		$(selector).resizable( //make the items resizable
+    // weed out all the events you cant edit
+    var $editableEvents = $(selector).filter(function(index) {
+      var id = $(this).attr("evnt-temp-id");
+      return id ? scheduleItems[id].editable : true;
+    });
+
+		$editableEvents.resizable( //make the items resizable
 		{
 			handles: 'n, s',
 			grid: [ 0, gridHeight ],
