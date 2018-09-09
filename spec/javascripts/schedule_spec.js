@@ -24,7 +24,17 @@ describe('Schedule', function() {
 		describe('.destroy()', function() {
 			it('Removes it from scheduleItems', function() {
 				this.schItem.destroy();
+
 				expect(scheduleItems[this.testTempId]).to.be.undefined;
+			});
+
+			it('Calls updatedEvents()', function() {
+				updatedEvents = sinon.spy();
+
+				this.schItem.destroy();
+
+				expect(updatedEvents)
+					.to.have.been.calledWith(this.testTempId, 'Destroy');
 			});
 		});
 	});
