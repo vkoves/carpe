@@ -134,7 +134,7 @@
 					<%= image_tag "question-circle.svg", width: 15, class: "question-tooltip", title: "Drag a category onto the schedule to create a calendar item." %>
 				<% end %>
 			</span>
-			<button class="cat-add default">+ New Category</button>
+			<button class="cat-add main default">+ New Category</button>
 			<div id="sch-tiles">
 				<div id="sch-tiles-inside">
 					<div class="no-categories">
@@ -144,6 +144,7 @@
 							Create categories like Work, Appointments, or
 							Concerts to add and organize your events.
 						</div>
+						<span class="default cat-add" id="cancel">Create a Category</span>
 					</div>
 
 					<div id="cat-template" class="sch-evnt category" data-id="-1" time="0:00" style="display: none">

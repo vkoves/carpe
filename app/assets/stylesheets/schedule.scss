@@ -42,7 +42,7 @@
 		text-align:right;
 		color:rgb(100,100,100);
 	}
-	.cat-add
+	.cat-add.main
 	{
 		background-color: #CFCFCF;
 		width:100%;
@@ -74,7 +74,10 @@
 			color: $carpe-orange;
 			margin-bottom: 10px;
 		}
-		.sub-heading { font-size: 16px; }
+		.sub-heading {
+			font-size: 16px;
+			margin-bottom: 10px;
+		}
 	}
 	#sch-tiles
 	{
@@ -783,8 +786,8 @@ input[readonly="readonly"]
 	{
 		cursor: default !important;
 	}
-	/* Hide "Add Category" button */
-	.cat-add
+	/* Hide "Add Category" button & no categories placeholder */
+	.cat-add.main, .no-categories
 	{
 		display: none;
 	}
