@@ -12,6 +12,10 @@ gem 'coffee-rails', '~> 4.2'
 # gem "turbolinks", "~> 5"
 gem 'tzinfo-data', platforms: [:mswin, :mingw, :x64_mingw]
 
+# Rails comes with 3, but 4 has integrates babel for ES6 Javascript.
+gem 'sprockets', '4.0.0.beta8'
+gem 'babel-transpiler', '~> 0.7'
+
 # Note:
 # The mingw version of bcrypt does not work correctly on Windows.
 # A temporary workaround is to run the following command:
@@ -59,9 +63,11 @@ gem 'aws-sdk-s3', '~> 1', group: :production
 # Add SimpleCov to check test coverage (https://github.com/colszowka/simplecov)
 gem 'simplecov', :require => false, :group => :test
 
-# Add teaspoon gem for JS testing (https://github.com/jejacks0n/teaspoon) with Mocha
-gem "teaspoon", '~> 1.1'
-gem "teaspoon-mocha"
+# Add teaspoon gem for JS testing with Mocha
+git "https://github.com/jejacks0n/teaspoon.git" do
+  gem "teaspoon"
+  gem "teaspoon-mocha"
+end
 
 # Minitest reporting
 gem "minitest-reporters"
