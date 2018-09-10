@@ -51,6 +51,7 @@
 		cursor: pointer;
 		border: none;
 		color: $text-color;
+		transition: all 0.2s;
 
 		&:hover {
 			color: #fff;
