@@ -5,4 +5,5 @@ rvm:
   - 2.4.2
 script:
   - bundle exec rails test
-  - RAILS_ENV=test bundle exec teaspoon
+  - npm install
+  - npm run teaspoon
