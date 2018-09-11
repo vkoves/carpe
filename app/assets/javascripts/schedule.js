@@ -876,9 +876,19 @@ function addStartingListeners()
  */
 function loadInitialCategories()
 {
-	if(typeof loadedCategories !== 'undefined') //if loadedCategories is defined
+	if(typeof loadedCategories !== 'undefined') // if loadedCategories is defined
 	{
-		for(var i = 0; i < loadedCategories.length; i++) //iterate through the loaded categories
+		// Hide no categories placeholder (w/o animation) if there are categories
+		if(loadedCategories.length > 0) {
+			$('.no-categories').addClass('hidden no-anim');
+
+			// Re-enable animations after a short delay (so later actions animate)
+			setTimeout(function() {
+				$('.no-categories').removeClass('no-anim');
+			}, 100);
+		}
+
+		for(var i = 0; i < loadedCategories.length; i++) // iterate through the loaded categories
 		{
 			var currCat = loadedCategories[i];
 
@@ -2333,6 +2343,10 @@ function createCategory()
 		{
 			console.log("Create category complete.");
 
+			// Hide the no categories message
+			$('.no-categories').addClass('hidden');
+
+			// Create the category and add it
 			var newCat = $("#cat-template").clone();
 			$("#sch-tiles-inside").append(newCat);
 			newCat.show();
@@ -2378,9 +2392,18 @@ function deleteCategory(event, elem, id)
 				$(elem).parent().slideUp("normal", function() //slide up the div, hiding it
 				{
 					$(this).remove(); //and when that's done, remove the div
+					delete categories[id]; // clear from global list
+
+					// If no categories are left, show the no categories div
+					if(Object.keys(categories).length === 0) {
+						$('.no-categories').removeClass('hidden');
+					}
+
 					sideHTML = $("#sch-tiles").html(); //and save the sidebar html for restoration upon drops
+
 					//Remove all events of this category from scheduleItems
 					$(".col-snap .sch-evnt[data-id=" + id + "]").slideUp();
+
 					for (var index in scheduleItems) //do a foreach since this is a hashmap
 					{
 						if(scheduleItems[index].categoryId == id)
