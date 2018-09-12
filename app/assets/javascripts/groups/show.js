@@ -5,7 +5,7 @@ $(document).ready(setupEvents);
  */
 function setupEvents() {
 	// show/hide member options on the 'Manage Members' page
-	$('.user-with-options .overview').click(function(event) {
+	$('.user-with-options .overview').click(function() {
 		$(this).siblings('.options').slideToggle(200);
 	});
 
@@ -45,6 +45,7 @@ function showRelevantUsers(searchText) {
  * @param {HtmlElement} self - html object of the user card to get the user id from
  * @param {String} groupId - id of group to invite user to
  */
+ /* eslint-disable-next-line no-unused-vars */
 function sendInvites(self, groupId) {
 	const userIds = $("#user_ids").val().split(",");
 	userIds.forEach(function (userId) {

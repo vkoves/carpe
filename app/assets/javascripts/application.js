@@ -24,8 +24,21 @@
 //= require infinite-scroll.pkgd
 
 
+/***************************/
+/********* Globals *********/
+/***************************/
+
 /* Setup globals from application.html.erb <script> block */
 /* global todaysEvents */
+
+/* Setup globals from schedule.js for shortcuts */
+/* global saveEvents, createCategory, moveWeek, viewMode,
+	initializeMonthlyView, initializeWeeklyView */
+
+/* Setup globals from user-adder.js */
+/* global initializeUserAdder */
+
+
 
 var mobileSidebarOpen = false;
 

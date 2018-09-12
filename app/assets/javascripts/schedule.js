@@ -13,6 +13,8 @@ var schHTML; // Instantiates schedule HTML variable, which will contain the "Mon
 
 var gridHeight = 25; //the height of the grid of resizing and dragging
 var border = 2; //the border at the bottom for height stuff
+
+/* eslint-disable-next-line no-unused-vars */
 var ctrlPressed = false; //is the control key presed? Updated upon clicking an event
 var refDate = new Date(); // Reference date for where the calendar is now, so that it can switch between weeks.
 var visibleDates = []; //an array of dates that are currently visible on the schedule
@@ -1281,6 +1283,7 @@ function handlePosition(elem, ui)
  * @param  {jQuery} elem - The element being copied
  * @param  {Object}   ui - UI object from jQuery drag handler
  */
+/* eslint-disable-next-line no-unused-vars */
 function handleClone(elem, ui)
 {
 	var clone = $(ui.helper).clone(); //create a clone
@@ -2133,6 +2136,7 @@ function placeInSchedule(elem, hours, lengthHours)
  * @param {number} eventId - id of the event being modified
  * @param {msg} string - message to show when events were updated... not currently used
  */
+/* eslint-disable-next-line no-unused-vars */
 function updatedEvents(eventId, msg)
 {
 	// console.log("Events were updated!" + msg);
@@ -2237,8 +2241,8 @@ function deleteEvent(event, elem)
 	/** Deletes a single event among a repeating set by making a new repeat break and applying it */
 	function deleteSingleEvent()
 	{
-		var tempId = $(elem).parent().attr("evnt-temp-id");
-		var event = scheduleItems[tempId];
+		var tempId = $(elem).parent().attr("evnt-temp-id"); // eslint-disable-line no-unused-vars
+		var event = scheduleItems[tempId]; // eslint-disable-line no-unused-vars
 
 		var breakDateString;
 
@@ -2596,9 +2600,10 @@ function paddedMinutes(date)
  * @param {number} num - number to be zero padded
  * @return {String} zero padded number (e.g. 3 to 03 or 13 to 13)
  */
+/* eslint-disable-next-line no-unused-vars */
 function paddedNumber(num)
 {
-	var paddedNum = (num < 10? '0' : '') + num; //add zero the the beginning of minutes if less than 10
+	var paddedNum = (num < 10 ? '0' : '') + num; //add zero the the beginning of minutes if less than 10
 	return paddedNum;
 }
 

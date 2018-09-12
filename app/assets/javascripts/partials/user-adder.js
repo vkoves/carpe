@@ -1,3 +1,6 @@
+/* Indicate to ESLint that functions are a global "export" */
+/* exported initializeUserAdder, tokenHtml */
+
 // Tokenizer implementation for the user entry
 function initializeUserAdder(selector)
 {
