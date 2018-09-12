@@ -6,10 +6,10 @@ rvm:
 
 # Handles installing anything needed for scripts
 before_script:
-  - npm install -g jshint # Install JSHint
+  - npm install -g eslint # Install ESLint
 
 # All tests and linting
 script:
   - bundle exec rails test
   - bundle exec rake teaspoon
-  - jshint app/assets/javascripts spec/javascripts # Run JSHint on JS code & Teaspoon tests (copied from package.json)
+  - eslint app/assets/javascripts spec/javascripts # Run ESLint on JS code & Teaspoon tests (copied from package.json)
