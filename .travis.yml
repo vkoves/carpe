@@ -3,7 +3,8 @@ language: ruby
 cache: bundler # Cache the bundler. Makes builds run faster, automatically reruns build when bundler changes
 rvm:
   - 2.4.2
+addons:
+  chrome: stable
 script:
   - bundle exec rails test
-  - npm install
-  - npm run teaspoon
+  - bundle exec teaspoon
