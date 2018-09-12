@@ -12,7 +12,8 @@
     "jsdoc": "jsdoc app/assets/javascripts -d public/jsdoc-out -r README.md",
     "acceptance-tests": "node run-codeceptjs-with-server.js",
     "teaspoon": "bundle exec teaspoon --coverage=default",
-    "minitest": "bundle exec rails test"
+    "minitest": "bundle exec rails test",
+    "jshint": "npm run --silent jshint app/assets/javascripts spec/javascripts"
   },
   "repository": {
     "type": "git",

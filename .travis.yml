@@ -12,4 +12,4 @@ before_script:
 script:
   - bundle exec rails test
   - bundle exec rake teaspoon
-  - jshint app/assets/javascripts spec/javascripts # Run JSHint on JS code & Teaspoon tests
+  - jshint app/assets/javascripts spec/javascripts # Run JSHint on JS code & Teaspoon tests (copied from package.json)
