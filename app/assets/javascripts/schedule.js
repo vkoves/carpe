@@ -83,7 +83,7 @@ $(window).on('beforeunload', function()
  */
 function isSafeToLeave()
 {
-	if($("#sch-save").length ==== 0) //we're not on the schedule page anymore
+	if($("#sch-save").length == 0) //we're not on the schedule page anymore
 		return true;
 	else if($("#sch-save").hasClass("disabled") || //if the save button is disabled, the user saved some time ago
 		$("#sch-save").hasClass("active") || //if the save button is active, save suceeded just now
