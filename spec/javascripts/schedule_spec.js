@@ -1,16 +1,16 @@
 //= require schedule
 
-describe('Schedule', function() {
-	it('Should have defined months', function() {
+describe('Schedule', () => {
+	it('Should have defined months', () => {
 		expect(monthNames.length).to.equal(12);
 	});
 
-	it('Should be safe to leave', function() {
+	it('Should be safe to leave', () => {
 		expect(isSafeToLeave()).to.be.true;
 	});
 
-	describe('ScheduleItem', function() {
-		beforeEach(function() {
+	describe('ScheduleItem', () => {
+		beforeEach(() => {
 			// Create a ScheduleItem
 			this.testTempId = 123;
 			groupID = null; // expected from template
@@ -21,14 +21,14 @@ describe('Schedule', function() {
 			scheduleItems[this.testTempId] = this.schItem;
 		});
 
-		describe('.destroy()', function() {
-			it('Removes it from scheduleItems', function() {
+		describe('.destroy()', () => {
+			it('Removes it from scheduleItems', () => {
 				this.schItem.destroy();
 
 				expect(scheduleItems[this.testTempId]).to.be.undefined;
 			});
 
-			it('Calls updatedEvents()', function() {
+			it('Calls updatedEvents()', () => {
 				updatedEvents = sinon.spy();
 
 				this.schItem.destroy();
@@ -38,8 +38,8 @@ describe('Schedule', function() {
 			});
 		});
 
-		describe('.getHtmlName()', function() {
-			it('Returns PLACEHOLDER_NAME on a new event', function() {
+		describe('.getHtmlName()', () => {
+			it('Returns PLACEHOLDER_NAME on a new event', () => {
 				expect(this.schItem.getHtmlName()).to.equal(PLACEHOLDER_NAME);
 			});
 		});
