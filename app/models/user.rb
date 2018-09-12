@@ -18,7 +18,7 @@ class User < ApplicationRecord
   has_many :notifications, :class_name => 'Notification', :foreign_key => 'receiver_id'
 
   has_many :event_invites_received, class_name: 'EventInvite',
-                                    foreign_key: 'receiver_id',
+                                    foreign_key: :user_id,
                                     dependent: :destroy
 
   has_many :event_invites_sent, class_name: 'EventInvite',
