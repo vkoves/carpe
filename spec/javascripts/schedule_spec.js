@@ -40,7 +40,7 @@ describe('Schedule', function() {
 
 		describe('.getHtmlName()', function() {
 			it('Returns PLACEHOLDER_NAME on a new event', function() {
-				expect(this.schItem.getHtmlName()).to.equal('');
+				expect(this.schItem.getHtmlName()).to.equal(PLACEHOLDER_NAME);
 			});
 		});
 	});
