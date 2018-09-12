@@ -37,5 +37,11 @@ describe('Schedule', function() {
 					.to.have.been.calledWith(this.testTempId, 'Destroy');
 			});
 		});
+
+		describe('.getHtmlName()', function() {
+			it('Returns PLACEHOLDER_NAME on a new event', function() {
+				expect(this.schItem.getHtmlName()).to.equal('');
+			});
+		});
 	});
 });
