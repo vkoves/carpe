@@ -182,15 +182,15 @@ html, body
 	{
 		display: flex;
 		flex-direction: column;
-        align-items: flex-start;
+		align-items: flex-start;
 		flex: 3;
 		overflow: hidden;
 	}
-    .name
-    {
-      font-size: 24px;
-      font-weight: bold;
-    }
+	.name
+	{
+		font-size: 24px;
+		font-weight: bold;
+	}
 }
 
 .member-stats
@@ -423,25 +423,25 @@ html, body
 }
 
 .small-activity-card {
-  padding: 5px 15px;
-  margin-top: 15px;
-  display: flex;
+	margin-top: 15px;
+	padding: 5px 15px;
+	display: flex;
 
-  .avatar img {
-  	height: 55px;
-  	width: 55px;
-  }
-  .user-information{
-  	flex-grow:1;
-  	margin-left: 10px;
+	.avatar img {
+		height: 55px;
+		width: 55px;
+	}
+	.user-information {
+		flex-grow: 1;
+		margin-left: 10px;
 
-  	.user-name { font-size: 1.2rem; }
-  	.time-ago {
-  		margin-top: 30px;
-  		font-size: .7rem;
-  		color: grey;
-  	}
-  }
+		.user-name { font-size: 1.2rem; }
+		.time-ago {
+			margin-top: 30px;
+			font-size: .7rem;
+			color: grey;
+		}
+	}
 }
 
 #joinable-groups-list {

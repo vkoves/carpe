@@ -973,11 +973,11 @@ form.thin
 		&:hover { background-color: #a3b4c3; }
 	}
 
-    &.purple
-    {
-        background: #5B5BFF;
-        &:hover { background: #5B5BFF; }
-    }
+	&.purple
+	{
+		background: #5B5BFF;
+		&:hover { background: #5B5BFF; }
+	}
 
 	/* button sizing */
 	&.wide
@@ -1005,24 +1005,24 @@ form.thin
 	&.manage
 	{
 		background: #e2e2e2;
-    color: #161616;
-    font-size: 15px;
-    width: 135px;
-    padding-top: 8px;
-    padding-bottom: 8px;
-    font-weight: 600;
-    float: right;
-    position: relative;
+		color: #161616;
+		font-size: 15px;
+		width: 135px;
+		padding-top: 8px;
+		padding-bottom: 8px;
+		font-weight: 600;
+		float: right;
+		position: relative;
 	}
 
 	&.leave {
 		background: #e2e2e2;
-    font-size: 15px;
-    width: 135px;
-    padding-top: 8px;
-    padding-bottom: 8px;
-    font-weight: 600;
-    color: #e02837;
+		font-size: 15px;
+		width: 135px;
+		padding-top: 8px;
+		padding-bottom: 8px;
+		font-weight: 600;
+		color: #e02837;
 		margin-left: 15px;
 		float: right;
 		right: 5px;
@@ -1058,7 +1058,7 @@ form.thin
 // special case for 'Following' / 'Unfollow' state buttons
 .profile-header .button.js-unfollow-user:hover
 {
-    background: #FD1A1A;
+	background: #FD1A1A;
 }
 
 /*---------------------------------------------------------------------------*/
