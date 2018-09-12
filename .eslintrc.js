@@ -2,9 +2,24 @@ module.exports = {
     "env": {
         "browser": true,
         "es6": true,
-        "jquery": true
+        "jquery": true,
+        "mocha": true
     },
     "extends": "eslint:recommended",
+    "globals": {
+        // Handle globals from Chai
+        "chai": true,
+        "assert": true,
+
+        // Handle utilities globals
+        "escapeHtml": true,
+
+        // Handle UI Manager globals
+        "UIManager": true,
+        "confirmUI": true,
+        "alertUI": true,
+        "customAlertUI": true
+    },
     "parserOptions": {
         "ecmaVersion": 2016
     },

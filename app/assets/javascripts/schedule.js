@@ -1,3 +1,6 @@
+/* Setup globals from _schedule.html.erb <script> block */
+/* global readOnly, IFRAME_URL, loadedEvents, loadedCategories, loadedBreaks, groupID */
+
 /*
  * Instantiates and handles the Carpe scheduling interface, populating
  * the users schedule, handling switching between weeks, and communicating
@@ -527,7 +530,7 @@ function addStartingListeners()
 {
 	// resizes textboxes to give them height based on the content inside
 	$('.auto-resize-vertically').on('input', function () {
-	  textareaSetHeight(this);
+		textareaSetHeight(this);
 	});
 
 	$(".date-field").datepicker( //show the datepicker when clicking on the field
@@ -689,7 +692,7 @@ function addStartingListeners()
 	{
 		$(".color-swatch").removeClass("selected");
 
-		currObj = currCategory;
+		var currObj = currCategory;
 		currObj.color = $(this).css("background-color");
 		$(this).addClass("selected");
 	});
@@ -712,7 +715,8 @@ function addStartingListeners()
 
 		var val = $(this).val();
 
-		dateTime = new Date(dateE+" "+val);
+		var dateTime = new Date(dateE+" "+val);
+
 		if (isNaN(dateTime.getTime()))
 		{
 			alertUI("Start date doesn't make sense! Tried \"" + dateE + " " + val + "\"");
@@ -735,7 +739,8 @@ function addStartingListeners()
 
 		var val = $(this).val();
 
-		dateTime = new Date(dateE+" "+val);
+		var dateTime = new Date(dateE+" "+val);
+
 		if (isNaN(dateTime.getTime()))
 			alertUI("End date doesn't make sense! Tried \"" + dateE+" "+val + "\"");
 
@@ -975,7 +980,6 @@ function loadInitialEvents()
 			var clone = catParent.clone();
 			clone.css("display", "block"); //make sure this is visible, just in case it's a child of the cat-template
 			var dateE = new Date(evnt.date);
-			var dateEnd = new Date(evnt.end_date);
 			var time = dateE.getHours() + ":" + paddedMinutes(dateE);
 
 			clone.children(".evnt-title").text(evnt.name);
@@ -1015,7 +1019,7 @@ function colDroppable()
 			$(this).parent().addClass("over"); //highlight
 			$(ui.draggable).draggable("option","gridOn", true); //and enable vertical grid
 		},
-		out: function( event, ui )
+		out: function()
 		{
 			$(this).parent().removeClass("over"); //unhighlight
 			//$(ui.draggable).draggable("option","gridOn", false); //and disable grid
@@ -1122,7 +1126,7 @@ function addDrag(selector)
 		revert: "invalid",
 		helper: function()
 		{
-			$copy = $(this).clone();
+			var $copy = $(this).clone();
 
 			if(inColumn($(this))) //if this is a current element
 				$(this).css("opacity", 0); //hide the original while we are moving the helper
@@ -1215,7 +1219,7 @@ function addResizing(selector)
 			{
 				updateTime($(this), ui, true);
 			},
-			stop: function(event, ui)
+			stop: function()
 			{
 				var tempItem = scheduleItems[$(this).attr("evnt-temp-id")];
 				tempItem.resizeComplete($(this));
@@ -1382,19 +1386,12 @@ function updateTime(elem, ui, resize) //if we're resizing, don't snap, just upda
 	}
 
 
-	//var end_arr = arr.slice(0); //set end array
-	var hoursLength = $(elem).outerHeight()/gridHeight; //find the length in hours
 	var hoursSpanned = 3;
+
 	if(item)
 	{
-		hoursLength = item.lengthInHours();
 		hoursSpanned = item.hoursSpanned();
 	}
-	else
-		hoursLength = 3;
-
-	//if(hoursLength % 1 != 0) //if it's a decimal, we know this is a new event
-	//	hoursLength = 3; //so set the default size
 
 	if(!resize)
 		end_arr[0] = arr[0] + hoursSpanned; //and add the height to the hours of the end time
@@ -1434,7 +1431,7 @@ function addDates(newDateObj, refresh, startToday)
 	visibleDates = []; //reset the array of visible dates
 
 	var currDate; //the date (day of month) we'll be using to iterate
-	var date = newDateObj.getDate();
+	var startDateData;
 	var month = newDateObj.getMonth();
 	var year = newDateObj.getFullYear();
 	var monthLength = daysInMonth(month + 1, year); //add 1 to month since it starts at zero
@@ -1581,9 +1578,6 @@ function getStartDate(dateObj, useMonth)
 	var startDate;
 	var day = copyDate.getDay();
 	var date = copyDate.getDate();
-	var month = copyDate.getMonth();
-	var year = copyDate.getFullYear();
-	var lastDatePrev = new Date(year, month, 0).getDate();
 	var lastMonth = false;
 
 	if(day == 0)
@@ -1614,9 +1608,8 @@ function populateEvents()
 	/**
 	 * Place an event on the calender
 	 * @param {ScheduleItem} eventObject - The Schedule event object to be placed on the schedule
-	 * @param {number} visibleDate - the index of the date the event falls on in the currently visible dates
 	 */
-	function place(eventObject, visibleDate)
+	function place(eventObject)
 	{
 		var color = categories[eventObject.categoryId].color;
 		var currentElem = eventObject.tempElement.clone();
@@ -1665,7 +1658,7 @@ function populateEvents()
 	{
 		for (var eventIndex in scheduleItems) //do a foreach since this is a hashmap
 		{
-			eventObj = scheduleItems[eventIndex];
+			var eventObj = scheduleItems[eventIndex];
 
 			var date = visibleDates[i];
 			var itemDate = cloneDate(eventObj.startDateTime);
@@ -1751,8 +1744,6 @@ function populateEvents()
 					if(day_diff % num == 0)
 						place(eventObj, i);
 				}
-
-				var week = day*7;
 			}
 		}
 	}
@@ -1820,7 +1811,7 @@ function monthlyEventDraggable()
 		stack: ".sch-month-evnt",
 		helper: function()
 		{
-			$copy = $(this).clone(); // copy the monthly event
+			var $copy = $(this).clone(); // copy the monthly event
 
 			$(this).css('opacity', '0'); // hide the original
 
@@ -1859,11 +1850,11 @@ function monthlyTileDroppable() {
 			element.attr('data-date', $(this).attr('data-date'));
 			$(this).removeClass("over"); //dehighlight on drop
 		},
-		over: function( event, ui )
+		over: function()
 		{
 			$(this).addClass("over"); //highlight
 		},
-		out: function( event, ui )
+		out: function()
 		{
 			$(this).removeClass("over"); //unhighlight
 		}
@@ -2008,7 +1999,7 @@ function editEvent(elem)
 		// resize the textareas to the appropriate size
 		$('.auto-resize-vertically').each(function () {
 			//check if the textbox contains a new line or else it takes up 2 unnessisary lines
-		  textareaSetHeight(this);
+			textareaSetHeight(this);
 			$(this).css('overflow-y', 'hidden');
 		});
 	}
@@ -2187,7 +2178,7 @@ function saveEvents()
 				scheduleItems[key].eventId = resp[key];
 			}
 		},
-		error: function(resp)
+		error: function()
 		{
 			alertUI("Saving events failed :(");
 		},
@@ -2250,6 +2241,7 @@ function deleteEvent(event, elem)
 		var event = scheduleItems[tempId];
 
 		var breakDateString;
+
 		if(viewMode == "week")
 			breakDateString = $(elem).parents(".sch-day-col").attr("data-date");
 		else if(viewMode == "month")
@@ -2320,11 +2312,11 @@ function deleteEvent(event, elem)
 		$.ajax({
 			url: `/events/${eId}`,
 			type: "DELETE",
-			success: function(resp)
+			success: function()
 			{
 				console.log("Delete complete.");
 			},
-			error: function(resp)
+			error: function()
 			{
 				alertUI("Deleting event failed :/");
 			}
@@ -2366,7 +2358,7 @@ function createCategory()
 			// By default, the 'edit category' overlay will appear when creating new categories.
 			editCategory(newCat);
 		},
-		error: function(resp)
+		error: function()
 		{
 			alertUI("Creating category failed :(");
 		}
@@ -2381,12 +2373,12 @@ function createCategory()
  */
 function deleteCategory(event, elem, id)
 {
-	confirmUI("Are you sure you want to delete this category?", function(confirmed)
+	confirmUI("Are you sure you want to delete this category?", function()
 	{
 		$.ajax({
 			url: `/categories/${id}`,
 			type: "DELETE",
-			success: function(resp) //after the server says the delete worked
+			success: function() //after the server says the delete worked
 			{
 				console.log("Delete category complete.");
 				$(elem).parent().slideUp("normal", function() //slide up the div, hiding it
@@ -2413,7 +2405,7 @@ function deleteCategory(event, elem, id)
 					}
 				});
 			},
-			error: function(resp)
+			error: function()
 			{
 				alertUI("Deleting category failed :(");
 			}
@@ -2433,18 +2425,18 @@ function saveCategory(event,elem,id)
 	const catName = ( $(".cat-overlay-title").html() === PLACEHOLDER_NAME ? "" : $(".cat-overlay-title").text());
 	const catColor = $(".cat-top-overlay").css("background-color");
 
-    const categoryData = {
-	    name: catName,
-        color: catColor,
-        privacy: currCategory.privacy,
-        repeat_exception_ids: currCategory.breaks
+	const categoryData = {
+		name: catName,
+		color: catColor,
+		privacy: currCategory.privacy,
+		repeat_exception_ids: currCategory.breaks
 	};
 
 	$.ajax({
 		url: `/categories/${id}`,
 		type: "PATCH",
 		data: {category: categoryData},
-		success: function(resp)
+		success: function()
 		{
 			console.log("Update category complete.");
 
@@ -2457,7 +2449,7 @@ function saveCategory(event,elem,id)
 			UIManager.slideOutHideOverlay("#cat-overlay-box"); // Hide category editing panel
 			currCategory = null; // and indicate there's no current category
 		},
-		error: function(resp)
+		error: function()
 		{
 			alertUI("Updating category failed :(");
 		}
@@ -2505,7 +2497,7 @@ function createBreak(name, startDate, endDate, callback)
 			if(callback)
 				callback(brk);
 		},
-		error: function(resp)
+		error: function()
 		{
 			alertUI("Creating break failed! :(");
 		}
@@ -2751,7 +2743,7 @@ function moveWeek(forward)
 		newDate = new Date(refDate.getYear()+1900, refDate.getMonth() + monthDelta, refDate.getDate() + dateDelta);
 	else //otherwise
 	{
-		 //if we are looking at today but the first day is not monday
+		// if we are looking at today but the first day is not monday
 		if(new Date($("#week-date").val()).toDateString() == new Date().toDateString() && !$(".evnt-day").text().startsWith("Monday") && viewMode == "week")
 			newDate = new Date(); //see this full week
 		else //otherwise
