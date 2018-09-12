@@ -3,6 +3,13 @@ language: ruby
 cache: bundler # Cache the bundler. Makes builds run faster, automatically reruns build when bundler changes
 rvm:
   - 2.4.2
+
+# Handles installing anything needed for scripts
+before_script:
+  - npm install -g jshint # Install JSHint
+
+# All tests and linting
 script:
   - bundle exec rails test
   - bundle exec rake teaspoon
+  - jshint app/assets/javascripts spec/javascripts # Run JSHint on JS code & Teaspoon tests
