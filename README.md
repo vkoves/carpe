@@ -39,12 +39,12 @@ CodeceptJS lets us run lovely acceptance tests. Run with `npm run acceptance-tes
 
 ## Checking Code Quality
 
-### Javascript (JSHint)
+### Javascript (ESLint)
 
-Carpe uses [JSHint](http://jshint.com), which automatically runs as part of our CI. If you want to run it manually, run:
+Carpe uses [ESLint](https://eslint.org/), which automatically runs as part of our CI. If you want to run it manually, run:
 
 ```
-npm run jshint
+npm run eslint
 ```
 
 ### Ruby on Rails (RubyCritic)
