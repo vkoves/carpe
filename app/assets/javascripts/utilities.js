@@ -21,6 +21,6 @@
 		return String(htmlString).replace(/[&<>"'`=\/]/g, function (s) {
 			return HTML_ESCAPE_MAP[s];
 		});
-	}
+	};
 
 })(window);

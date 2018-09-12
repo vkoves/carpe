@@ -24,29 +24,29 @@ function setupEvents() {
 }
 
 function repeatedlyCheckIfCommandIsFinished(data) {
-	if (data["cmd_error"]) {
-		$("#" + data["button_id"]).removeClass("loading");
+	if (data.cmd_error) {
+		$("#" + data.button_id).removeClass("loading");
 		alert("Command failed. See console output for log.");
-		console.error(data["cmd_error"]);
+		console.error(data.cmd_error);
 		console.error("Make sure you install npm and run `npm install`.");
 		return;
 	}
 
-	$.post("/check_if_command_is_finished", {task_id: data["task_id"]}, function(cmd) {
-		if (cmd["check_again"]) {
+	$.post("/check_if_command_is_finished", { task_id: data.task_id }, function(cmd) {
+		if (cmd.check_again) {
 			window.setTimeout(repeatedlyCheckIfCommandIsFinished, 1000, data);
 			return;
 		}
 
-		$("#" + data["button_id"]).removeClass("loading");
+		$("#" + data.button_id).removeClass("loading");
 
-		if(cmd["log"] !== "SUCCESS") {
-			if (cmd["log"]) {
+		if(cmd.log !== "SUCCESS") {
+			if (cmd.log) {
 				alert("Command failed. See console output for log.");
-				console.error(cmd["log"]);
+				console.error(cmd.log);
 			} else {
 				// failing unit tests, for example, will cause this to be executed.
-				console.log("Command returned with failing exit status but is probably fine.")
+				console.log("Command returned with failing exit status but is probably fine.");
 			}
 		}
 	});

@@ -3,7 +3,6 @@
 /* Body styling to apply font, min-width and padding */
 body
 {
-	font-family: 'Open Sans', sans-serif;
 	margin: 0px;
 	width: 100%;
 	min-width: 400px;
@@ -11,6 +10,11 @@ body
 	color: $text-color;
 
 	&.in-iframe { padding-bottom: 0px; }
+
+	// Make sure all elements get the proper font
+	* {
+		font-family: 'Open Sans', sans-serif;
+	}
 }
 
 /* HEADER + POSSIBLE OTHER USE CSS */
@@ -154,9 +158,10 @@ label
 
 .avatar.float { float: left; }
 
-a .avatar img:hover, .avatar a img:hover
+// Style all avatar links with a hover effect
+a .avatar, .avatar a, a.avatar
 {
-	box-shadow: 0px 2px 2px #777;
+	img:hover { box-shadow: 0px 2px 2px #777; }
 }
 
 .avatar.small img
@@ -1003,7 +1008,7 @@ form.thin
 }
 
 // special case for 'Following' / 'Unfollow' state buttons
-#profile-header .button.js-unfollow-user:hover
+.profile-header .button.js-unfollow-user:hover
 {
     background: #FD1A1A;
 }

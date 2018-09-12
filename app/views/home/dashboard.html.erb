@@ -16,7 +16,9 @@
 			<% if current_user.upcoming_events.empty? %>
 				You don't have any events going on or coming up soon! Go to <%= link_to "your schedule", "/schedule", class: "normal carpe-color" %> to add some.
 			<% else %>
-        <%= render partial: "shared/event_tile", collection: current_user.upcoming_events.first(10), as: :event %>
+        <%= render partial: "shared/event_tile",
+                   collection: current_user.upcoming_events(current_user.home_time_zone).first(10),
+                   as: :event %>
 			<% end %>
 		</div>
 	</span>
