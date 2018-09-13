@@ -69,7 +69,6 @@ GEM
       ice_nine (~> 0.11.0)
       thread_safe (~> 0.3, >= 0.3.1)
     bcrypt (3.1.12)
-    bcrypt (3.1.12-x64-mingw32)
     better_errors (2.4.0)
       coderay (>= 1.0.0)
       erubi (>= 1.0.0)
@@ -118,7 +117,6 @@ GEM
     faraday (0.12.2)
       multipart-post (>= 1.2, < 3)
     ffi (1.9.25)
-    ffi (1.9.25-x64-mingw32)
     flay (2.12.0)
       erubis (~> 2.7.0)
       path_expander (~> 1.0)
@@ -193,11 +191,8 @@ GEM
     multi_xml (0.6.0)
     multipart-post (2.0.0)
     mysql2 (0.5.2)
-    mysql2 (0.5.2-x64-mingw32)
     nio4r (2.3.1)
     nokogiri (1.8.4)
-      mini_portile2 (~> 2.3.0)
-    nokogiri (1.8.4-x64-mingw32)
       mini_portile2 (~> 2.3.0)
     non-stupid-digest-assets (1.0.9)
       sprockets (>= 2.0)
@@ -319,7 +314,6 @@ GEM
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
     sqlite3 (1.3.13)
-    sqlite3 (1.3.13-x64-mingw32)
     teaspoon (1.1.5)
       railties (>= 3.2.5, < 6)
     teaspoon-mocha (2.3.3)
@@ -332,8 +326,6 @@ GEM
     tty-which (0.3.0)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
-    tzinfo-data (1.2018.5)
-      tzinfo (>= 1.0.0)
     uglifier (4.1.17)
       execjs (>= 0.3.0, < 3)
     virtus (1.0.5)
@@ -349,7 +341,6 @@ GEM
 
 PLATFORMS
   ruby
-  x64-mingw32
 
 DEPENDENCIES
   aws-sdk-s3 (~> 1)
