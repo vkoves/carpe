@@ -4,5 +4,6 @@ cache: bundler # Cache the bundler. Makes builds run faster, automatically rerun
 rvm:
   - 2.4.2
 script:
+  - RAILS_ENV=test bundle exec rake db:migrate
   - bundle exec rails test
   - bundle exec rake teaspoon
