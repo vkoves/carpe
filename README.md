@@ -8,6 +8,7 @@ A socially networked, intuitive calendar created in Ruby on Rails with a jQuery 
 
 1) Install the latest versions of [Ruby](https://rvm.io/) and [npm](https://nodejs.org/en/download/)
 2) Run `gem install bundler`, `bundle install`, and `npm install`
+3) Install [ImageMagick](http://www.imagemagick.org/script/download.php) (It's used for processing uploaded images)
 
 ## Running Locally
 
