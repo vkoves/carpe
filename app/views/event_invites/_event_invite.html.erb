@@ -1,0 +1,11 @@
+<div class="event-invite" data-id="<%= event_invite.id %>">
+  <div class="user">
+    <%= link_avatar event_invite.user %>
+    <h4><%= event_invite.user.name %></h4>
+  </div>
+
+  <div class="actions">
+    <%= select '_', '_', event_invite_roles, { selected: event_invite.role } %>
+    <span class="red button js-delete-event-invite">Banish</span>
+  </div>
+</div>

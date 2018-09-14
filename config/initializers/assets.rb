@@ -22,6 +22,7 @@ Rails.application.config.assets.precompile += %w( token-input.css )
 Rails.application.config.assets.precompile += %w( pages.css )
 Rails.application.config.assets.precompile += %w( home.css )
 Rails.application.config.assets.precompile += %w( groups.css )
+Rails.application.config.assets.precompile += ["schedule/event-invites.js"]
 
 # Pages
 Rails.application.config.assets.precompile += %w( pages/admin.css )

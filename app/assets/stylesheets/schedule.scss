@@ -778,6 +778,38 @@ input[readonly="readonly"]
 	}
 }
 
+#event-invites-list
+{
+	min-height: 50px;
+	width: 95%;
+	margin-left: auto;
+	margin-right: auto;
+	display: inline-block;
+	background: ghostwhite;
+}
+
+#event-invites-list .event-invite
+{
+	height: 40px;
+	margin: 5px 0;
+	padding: 5px;
+	display: flex;
+	justify-content: space-between;
+	background: greenyellow;
+
+	.user
+	{
+		display: flex;
+		align-items: center;
+	}
+
+	.actions
+	{
+		display: flex;
+		align-items: center;
+	}
+}
+
 /***************************/
 /** MONTHLY VIEW STYLING ***/
 /***************************/

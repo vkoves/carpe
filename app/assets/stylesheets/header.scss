@@ -208,7 +208,7 @@ body {
 #notif-panel
 {
 	position: fixed;
-	width: 350px;
+	width: 450px;
 	top: $header-height-desktop;
 	right: 15px;
 	background: rgb(230, 230, 230);
@@ -228,16 +228,9 @@ body {
 	}
 	.notif
 	{
+		width: 100%;
 		padding: 3px 0px;
 		margin: 5px 0;
-		height: 34px;
-	}
-	span
-	{
-		float: left;
-		font-size: 18px;
-		position: relative;
-		top: 5px;
 	}
 	.notif.general
 	{
@@ -277,6 +270,39 @@ body {
 		padding: 15px;
 	}
 }
+
+.event-invite.notif
+{
+	.context
+	{
+		display: flex;
+		align-items: center;
+	}
+
+	.choices
+	{
+		display: flex;
+		flex-direction: row;
+		justify-content: space-around;
+	}
+}
+
+// fancy button colors
+.event-invite.notif
+{
+	// prevent :hover trigger on whitespace
+	.choices { visibility: hidden; }
+
+	// gray out non-hovered buttons
+	.choices:hover span:not(:hover) { background: gray; }
+
+	.choices span
+	{
+		transition: background 200ms linear;
+		visibility: visible; // buttons trigger .choices(:hover)
+	}
+}
+
 #users-search
 {
 	display: inline-block;
