@@ -21,7 +21,7 @@
 					</div>
 				<% end %>
 			<%end%>
-			<img src=<%= @user.avatar_url(200)%>>
+      <%= image_tag @user.avatar_url %>
 		</div>
 		<div id="profile-text">
 			<h1 id="profile-name" class="zero-top zero-bot"><a href="?"><%= @user.name %></a></h1>
