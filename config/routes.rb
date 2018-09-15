@@ -61,6 +61,4 @@ Rails.application.routes.draw do
 
   root 'home#index'
 
-  # temporary route
-  post "/events/:id/setup_hosting", to: "schedule#setup_hosting"
 end
