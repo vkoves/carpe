@@ -970,7 +970,7 @@ function loadInitialEvents()
 			schItem.setRepeatType(evnt.repeat);
 			schItem.description = evnt.description;
 			schItem.location = evnt.location;
-			schItem.breaks = evnt.repeat_exceptions.map(function(brk) { return brk.id }); // break ids
+			schItem.breaks = evnt.repeat_exceptions.map(function(brk) { return brk.id; }); // break ids
 			schItem.tempId = i;
 			scheduleItems[i] = schItem;
 

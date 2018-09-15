@@ -10,6 +10,8 @@ module.exports = {
         // Handle globals from Chai
         "chai": true,
         "assert": true,
+        "expect": true,
+        "sinon": true,
 
         // Handle utilities globals
         "escapeHtml": true,
