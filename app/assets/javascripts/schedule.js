@@ -630,7 +630,7 @@ function addStartingListeners()
 		var endDate = $("#break-end").val();
 
 		if(name == "" || startDate == "" || endDate == "")
-			alertUI("Fill out all fields!");
+			$("#break-error").show();
 		else
 			createBreak(name, startDate, endDate);
 	});
@@ -2017,6 +2017,7 @@ function editEvent(elem)
 /** Show the overlay for creating a new break */
 function showBreakCreateOverlay()
 {
+	$("#break-error").hide();
 	$("#break-overlay-box input").val(""); //clear all inputs
 	UIManager.slideInShowOverlay("#break-overlay-box"); //and fade in
 }

@@ -737,6 +737,22 @@ form.thin
 #break-overlay-box
 {
 	z-index: 1003;
+
+	#break-start, #break-end
+	{
+		margin-bottom: 8px;
+	}
+
+	#submit-break
+	{
+		margin-top: 8px;
+	}
+
+	#break-error
+	{
+		color: red;
+		display: none;
+	}
 }
 
 #overlay-alert
