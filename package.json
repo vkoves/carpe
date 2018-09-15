@@ -11,7 +11,7 @@
     "selenium-setup": "selenium-standalone install",
     "jsdoc": "jsdoc app/assets/javascripts -d public/jsdoc-out -r README.md",
     "acceptance-tests": "node run-codeceptjs-with-server.js",
-    "teaspoon": "bundle exec teaspoon --coverage=default",
+    "teaspoon": "RAILS_ENV=test bundle exec teaspoon --coverage=default",
     "minitest": "bundle exec rails test"
   },
   "repository": {

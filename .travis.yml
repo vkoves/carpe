@@ -1,8 +1,11 @@
 # First Travis CLI file for building Carpe
+dist: trusty
 language: ruby
 cache: bundler # Cache the bundler. Makes builds run faster, automatically reruns build when bundler changes
 rvm:
   - 2.4.2
+addons:
+  chrome: stable
 script:
   - bundle exec rails test
-  - bundle exec rake teaspoon
+  - bundle exec teaspoon
