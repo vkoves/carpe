@@ -1,0 +1,26 @@
+<% group = large_group_card %>
+
+<div class="large-group-card grey-box">
+  <div class="card-header">
+    <% if group.banner.exists? %>
+      <div class="banner-img" style="background-image:url(<%= group.banner.url(:mobile) %>);"></div>
+    <% else %>
+      <div class="banner-img"></div>
+    <% end %>
+
+    <%= link_avatar group %>
+
+    <%= link_to group.name, group, class: "normal title" %>
+
+    <% if group.pending_invite_request? current_user %>
+      <h3>Invite Request Sent!</h3>
+    <% else %>
+      <%= link_to "Join Group", join_group_path(group), class: "wide button" %>
+    <% end %>
+  </div>
+
+  <div class="main">
+    <%= group.description %> <br>
+    <%= group.size %> <%= 'Member'.pluralize(group.size) %>
+  </div>
+</div>

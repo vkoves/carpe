@@ -169,6 +169,13 @@ a .avatar, .avatar a, a.avatar
 	margin-right: 5px;
 }
 
+// Style banner images with the raindrops fallback
+.banner-img {
+	background-image: image-url("water_Krakkened.png");
+	background-color: #848484; /* As a backup if the image is stupid */
+	background-size: cover;
+}
+
 .cancel-box
 {
 	background-color: #FFB2B2;

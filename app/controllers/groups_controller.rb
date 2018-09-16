@@ -8,7 +8,7 @@ class GroupsController < ApplicationController
                             .eager_load(:users).references(:users_groups)
 
 
-    paginate(@joinable_groups, "big_group_card")
+    paginate(@joinable_groups, "large_group_card")
   end
 
   def show
@@ -32,7 +32,7 @@ class GroupsController < ApplicationController
     when :overview
       categories = @group.categories.select { |cat| cat.accessible_by? current_user }
       events = @group.events.select { |event| event.accessible_by? current_user }
-      
+
       @activities = (@group.members + categories + events)
                       .sort_by(&:created_at).reverse.first(2)
     when :schedule

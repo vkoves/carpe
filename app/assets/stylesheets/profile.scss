@@ -95,16 +95,13 @@ $cover-camera-height: 20px;
 	overflow:hidden;
 }
 
-.header-image
+.banner-img
 {
 	width: 100%;
 	height: 200px;
 	position: absolute;
 	top: 0;
 	z-index: 0;
-	background-image: image-url("water_Krakkened.png");
-	background-color: #848484; /* As a backup if the image is stupid */
-	background-size: cover;
 }
 
 .profile-header:hover
