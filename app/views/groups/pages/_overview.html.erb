@@ -18,7 +18,13 @@
   <aside id="group-overview-info" class="vertical flex-list sidebar with-horizontal-borders">
     <div>
       <h2>About</h2>
-      <p><%= @group.description %></p>
+      <p>
+        <% if @group.description.present? # If the description is provided %>
+          <%= @group.description %>
+        <% else %>
+          <em>This group has no description.</em>
+        <% end %>
+      </p>
     </div>
 
     <div>
