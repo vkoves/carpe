@@ -1284,7 +1284,7 @@ function handlePosition(elem, ui)
  * @param  {Object}   ui - UI object from jQuery drag handler
  */
 // This function isn't used right now, but will be brought back, so disabled
-// unused var comment
+// unused var ESLint rule
 /* eslint-disable-next-line no-unused-vars */
 function handleClone(elem, ui)
 {
@@ -2246,6 +2246,8 @@ function deleteEvent(event, elem)
 	/** Deletes a single event among a repeating set by making a new repeat break and applying it */
 	function deleteSingleEvent()
 	{
+		// These vars aren't used right now, but if we remove them ,it might be
+		// hard to figure out how to pull the event in question
 		var tempId = $(elem).parent().attr("evnt-temp-id"); // eslint-disable-line no-unused-vars
 		var event = scheduleItems[tempId]; // eslint-disable-line no-unused-vars
 
