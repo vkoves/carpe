@@ -1,5 +1,5 @@
 class GroupsController < ApplicationController
-  before_action :authorize_signed_in!
+  before_action :authorize_signed_in!, except: [:show]
 
   def index
     @joinable_groups = Group.where(privacy: :public_group)
@@ -30,7 +30,11 @@ class GroupsController < ApplicationController
     when :members
       @members = UsersGroup.where(group: @group, accepted: true).page(params[:page]).per(25)
     when :overview
-      @activities = (@group.members + @group.categories + @group.events)
+      categories = @group.categories.select { |cat| cat.accessible_by? current_user }
+      events = @group.events.select { |event| event.accessible_by? current_user }
+
+      @upcoming_events = visible_upcoming_events
+      @activities = (@group.members + categories + events)
                       .sort_by(&:created_at).reverse.first(2)
     when :schedule
       @read_only = cannot? :edit_schedule, @group
@@ -147,5 +151,10 @@ class GroupsController < ApplicationController
     params.require(:group)
           .permit(:name, :description, :avatar, :banner,
                   :posts_preapproved, :custom_url, :privacy)
+  end
+
+  def visible_upcoming_events
+    @group.upcoming_events(current_user&.home_time_zone || "Central Time (US & Canada)")
+      .select { |event| event.accessible_by?(current_user) }
   end
 end

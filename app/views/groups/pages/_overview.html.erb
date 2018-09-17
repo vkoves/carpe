@@ -5,10 +5,16 @@
     <span class="carpe-color current-header">Current Events</span>
     <% if cannot? :view_details, @group %>
       <span> To see upcoming events, you have to join the group first! </span>
-    <% elsif @group.upcoming_events.empty? %>
-      <span> This group has no events, make some! </span>
+    <% elsif @upcoming_events.empty? %>
+      <% if current_user&.in_group? @group %>
+        <span> This group has no events, make some! </span>
+      <% else %>
+        <span> This group doesn't have any publicly visible events going on! </span>
+      <% end %>
     <% else %>
-      <%= render partial: "shared/event_tile", collection: @group.upcoming_events, as: :event %>
+      <%= render partial: "shared/event_tile",
+                 collection: @upcoming_events,
+                 as: :event %>
     <% end %>
   </main>
 

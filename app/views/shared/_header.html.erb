@@ -96,7 +96,7 @@
     </div>
 
     <% current_user.notifications.group_by(&:event).each do |event, notifs| %>
-      <div id="notif-title"><%= event.titleize.pluralize %></div>
+      <div class="notif-title"><%= event.titleize.pluralize %></div>
       <%= render partial: "notifications/notification", collection: notifs %>
     <% end %>
   </div>

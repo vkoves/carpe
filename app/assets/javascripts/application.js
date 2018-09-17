@@ -23,7 +23,23 @@
 //= require utilities
 //= require infinite-scroll.pkgd
 
-var unloadAssigned = false; //if unload is assigned
+
+/***************************/
+/********* Globals *********/
+/***************************/
+
+/* Setup globals from application.html.erb <script> block */
+/* global todaysEvents */
+
+/* Setup globals from schedule.js for shortcuts */
+/* global saveEvents, createCategory, moveWeek, viewMode,
+	initializeMonthlyView, initializeWeeklyView */
+
+/* Setup globals from user-adder.js */
+/* global initializeUserAdder */
+
+
+
 var mobileSidebarOpen = false;
 
 //Handle window resizing
@@ -63,7 +79,7 @@ function ready()
 
 	initializeEventListeners();
 	keyboardShortcutHandlers();
-};
+}
 
 /**
  * Adds event listeners (e.g., onclick) to elements throughout the site
@@ -108,12 +124,12 @@ function initializeEventListeners()
 			{
 				url: "/notifications/read",
 				type: "POST",
-				success: function(resp)
+				success: function()
 				{
 					console.log("All notifications marked as read.");
 					$(".bell-hold #num").fadeOut();
 				},
-				error: function(resp)
+				error: function()
 				{
 					console.log("Marking notifications as read failed :(");
 				}
@@ -132,47 +148,47 @@ function initializeEventListeners()
 
 	// Follow button
     $(document).on('click', '.js-follow-user', function() {
-        $button = $(this)
+        var $button = $(this);
 
         $.post($(this).attr('href'), function() {
             // convert from a button into a pending state span
-            $span = $(`<span class="friend-label">Follow</span>`).replaceAll($button);
-            fadeToText($span, "Pending") // "Follow" -> "Pending"
-        })
+            var $span = $('<span class="friend-label">Follow</span>').replaceAll($button);
+            fadeToText($span, "Pending"); // "Follow" -> "Pending"
+        });
 
-        return false
+        return false;
     });
 
     // Unfollow button
     $('.js-unfollow-user').click(function() {
-        $button = $(this)
+        var $button = $(this);
 
         $.ajax({
             url: $(this).attr('href'),
             type: 'DELETE'
         }).done(function(data) {
             // convert from an unfollow button into a follow button
-            $button.off() // reset events tied to this element (like hovering)
-            $button.attr('href', data['new_link'])
-            fadeToText($button, 'Follow')
-            $button.attr('class', 'green button js-follow-user')
-        })
+            $button.off(); // reset events tied to this element (like hovering)
+            $button.attr('href', data.new_link);
+            fadeToText($button, 'Follow');
+            $button.attr('class', 'green button js-follow-user');
+        });
 
-        return false
+        return false;
     });
 
     // Used on profile panel.
     $("#friend-list .js-unfollow-user").click(function() {
-        $(this).closest('.user-listing').fadeOut()
-        return false
-    })
+        $(this).closest('.user-listing').fadeOut();
+        return false;
+    });
 
     // Hovering over a profile 'Following' button transforms it into an 'Unfollow' button
     // Sadly, this can't be accomplished with CSS.
     $(".profile-header .button.js-unfollow-user").hover(function() {
-        $(this).text("Unfollow") // mouse in
+        $(this).text("Unfollow"); // mouse in
     }, function() {
-        $(this).text("Following") // mouse out
+        $(this).text("Following"); // mouse out
     });
 
 	$("#notif-panel").on("ajax:success", "a", function()
@@ -180,27 +196,28 @@ function initializeEventListeners()
 		const $button = $(this);
 		$button.animate({'background-color': "white"}, 300);
 
-		const $notifCard = $(this).parents(".notif");
-		$notifCard.delay(150).fadeOut(handleNotificationClosed);
-	})
+
+		const $notifCard = $(this).closest(".notif");
+		removeNotificationCard($notifCard);
+	});
 
 	//Promote buttons POST completion
-	$(".promotion span").parent().bind('ajax:success', function(event, data, status, xhr){
-		if(data && data["action"] && data["action"] === "promote" || data["action"] === "demote")
+	$(".promotion span").parent().bind('ajax:success', function(event, data) {
+		if(data && data.action && data.action === "promote" || data.action === "demote")
 		{
 			//since the ajax:success is called on every promotion button, only run code if this is the one that was clicked
-			if($(this).attr("uid") == parseInt(data["uid"]))
+			if($(this).attr("uid") == parseInt(data.uid))
 			{
 				var span = $(this).find("span"); //get the span tag in this button
 
 				if($(this).hasClass("red")) //if the user was demoted (the button was red)
 				{
-					$(this).attr("href", data["new_href"]); //remove demote parameter
+					$(this).attr("href", data.new_href); //remove demote parameter
 					fadeToText(span, "Promote"); //and fade to Promote text
 				}
 				else //if the user was promoted (the button was not red)
 				{
-					$(this).attr("href", data["new_href"]); //add the demote parameter
+					$(this).attr("href", data.new_href); //add the demote parameter
 					fadeToText(span, "Demote"); //and fade to Demote text
 				}
 				$(this).toggleClass("red"); //and toggle class red
@@ -222,7 +239,7 @@ function initializeEventListeners()
 		},
 		resultsFormatter: function(element) //format the results
 		{
-			img_url = element.image_url || "https://www.gravatar.com/avatar/?d=mm";
+			var img_url = element.image_url || "https://www.gravatar.com/avatar/?d=mm";
 			return 	"<li>" +
 						"<div class='avatar search-avatar'><img src='" + img_url + "'></div><div class='name with-type'>" + escapeHtml(element.name) + "</div>" +
 						"<div class='type'>" + element.model_name + "</div>" +
@@ -248,8 +265,8 @@ function keyboardShortcutHandlers()
 		var ctrl = e.ctrlKey;
 		var alt = e.altKey;
 
-		if((shift && pressed("/"))
-			|| (ctrl && pressed("/")))
+		if((shift && pressed("/")) ||
+			(ctrl && pressed("/")))
 		{
 			e.preventDefault();
 
@@ -286,7 +303,7 @@ function keyboardShortcutHandlers()
 		{
 			e.preventDefault();
 			if(viewMode == "week")
-				initializeMonthlyView()
+				initializeMonthlyView();
 			else
 				initializeWeeklyView();
 		}
@@ -431,7 +448,7 @@ function printNotification(text, hideTime)
 	var options = {
 		body: text,
 		icon: 'assets/images/CarpeIcon.png',
-	}
+	};
 	var notification = new Notification("Carpe", options);
 	if(hideTime)
 		setTimeout(notification.close.bind(notification), hideTime); //close this notification in 2000ms or 2 seconds
@@ -448,13 +465,32 @@ function printNotification(text, hideTime)
 // Called after a notification is closed. Check if there are notifications left, if not, show message
 function handleNotificationClosed()
 {
-	if($(".notif:visible").length == 0) // if no notifications left
+	if ($(".notif:visible").length == 0)
 	{
-		$("#notif-title").fadeOut(function() {
-			$("#no-notifs").fadeIn()
-		});
+		$("#no-notifs").fadeIn();
 	}
 }
+
+/**
+ * Removes a notification from the notifications panel.
+ * @param {jQuery} $notifCard - card to be deleted (should have .notif class)
+ */
+function removeNotificationCard($notifCard)
+{
+	$notifCard.fadeOut(handleNotificationClosed);
+
+	const titleAboveCard = $notifCard.prev().attr('class') === 'notif-title';
+	const moreNotificationsBelow = $notifCard.next().attr('class') === $notifCard.attr('class');
+	const shouldRemoveGroupTitle = (titleAboveCard && !moreNotificationsBelow);
+
+	// remove group titles (when appropriate)
+	if (shouldRemoveGroupTitle)
+	{
+		const $groupTitle = $notifCard.prev();
+		$groupTitle.fadeOut();
+	}
+}
+
 
 //Generalized function for fading between text on an element
 function fadeToText(elem, newText, duration) //the element to fade on, the new text, and an optional duration
