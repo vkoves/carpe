@@ -40,7 +40,7 @@ function repeatedlyCheckIfCommandIsFinished(data) {
 
     $('#' + data.button_id).removeClass('loading');
 
-    if(cmd.log !== 'SUCCESS') {
+    if (cmd.log !== 'SUCCESS') {
       if (cmd.log) {
         alert('Command failed. See console output for log.');
         console.error(cmd.log);

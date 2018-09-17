@@ -39,7 +39,7 @@ function confirmUI(message, callback)
       $('#overlay-confirm').remove();
 
       // if a callback was specified and the user confirmed, call the callback
-      if(callback && returnValue == true)
+      if (callback && returnValue == true)
         callback();
     });
   }
@@ -75,7 +75,7 @@ function customAlertUI(message, content, callback)
     UIManager.slideOutHideOverlay('#overlay-alert', function()
     {
       $('#overlay-alert').remove();
-      if(callback)
+      if (callback)
         callback();
     });
   });
@@ -98,7 +98,7 @@ var UIManager = {
   /** Fades in the transparent overlay if needed */
   showOverlay: function()
   {
-    if($('.ui-widget-overlay').length == 0) //if there isn't an overlay already
+    if ($('.ui-widget-overlay').length == 0) //if there isn't an overlay already
     {
       $('body').append('<div class=\'ui-widget-overlay\'></div>'); //append one to the body
       $('.ui-widget-overlay').hide(); //hide it instantly
@@ -112,7 +112,7 @@ var UIManager = {
     // Fade out with default settings
     $('.ui-widget-overlay').fadeOut(300, 'swing', function()
     {
-      if(callback) //and if a callback was passed
+      if (callback) //and if a callback was passed
         callback(); //trigger it
     });
   },
@@ -132,7 +132,7 @@ var UIManager = {
     {
       $(this).hide().removeClass('visible');
 
-      if(callback)
+      if (callback)
         callback();
     });
 
@@ -140,7 +140,7 @@ var UIManager = {
   },
   slideOutHideOverlay: function(selector, callback)
   {
-    if(this.overlayBoxes.length <= 1) //if there's only one visible overlay box
+    if (this.overlayBoxes.length <= 1) //if there's only one visible overlay box
     {
       var self = this;
       this.slideOut(selector);
@@ -173,7 +173,7 @@ var UIManager = {
       }, timeInMs);
     };
 
-    for(var i = 0; i < UIManager.overlayBoxes.length; i++)
+    for (var i = 0; i < UIManager.overlayBoxes.length; i++)
     {
       hideAfterTime(i * 200);
     }

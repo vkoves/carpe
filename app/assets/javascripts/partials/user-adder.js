@@ -15,13 +15,13 @@ function initializeUserAdder(selector)
       var usersSelected = this.tokenInput('get');
 
       var itemCount = 0; //how many times this item occurs
-      for(var i = 0; i < usersSelected.length; i++)
+      for (var i = 0; i < usersSelected.length; i++)
       {
-        if(usersSelected[i].id == item.id) //if this is the item
+        if (usersSelected[i].id == item.id) //if this is the item
           itemCount++; //increment
       }
 
-      if(itemCount > 1) //if this is a duplicate
+      if (itemCount > 1) //if this is a duplicate
       {
         this.tokenInput('remove', {id: item.id}); //remove all copies
         this.tokenInput('add', item); //and add it back

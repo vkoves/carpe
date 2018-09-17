@@ -45,10 +45,12 @@ module.exports = {
         /**
          * Stylistic Issues
          */
+        "eol-last": "error", // require EOF newline
         "indent": ["error", 2], // enforce 2 space indents
+        "keyword-spacing": ["error", { "before": true }], // require space after keywords, like if
         "linebreak-style": ["error", "unix"], // enforce unix line endings
         "quotes": ["error", "single"], // require single quotes
         "semi": ["error", "always"], // require semi-colons
-        "space-before-blocks": "error", // require ' ' before starting block
+        "space-before-blocks": "error", // require space before starting block
     }
 };

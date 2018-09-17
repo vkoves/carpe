@@ -45,7 +45,7 @@ var mobileSidebarOpen = false;
 //Handle window resizing
 $(window).resize(function()
 {
-  if($( window ).width() > 800)
+  if ($( window ).width() > 800)
   {
     $('#mobile-menu').slideUp(300);
   }
@@ -63,7 +63,7 @@ $(document).tooltip({
  */
 function ready()
 {
-  if(Notification.permission == 'default')
+  if (Notification.permission == 'default')
   {
     // Commented out as this triggers constantly on every page even when a user is not signed in
     /*
@@ -72,7 +72,7 @@ function ready()
 		});
 		*/
   }
-  else if(Notification.permission == 'granted')
+  else if (Notification.permission == 'granted')
   {
     handleNotifications();
   }
@@ -117,7 +117,7 @@ function initializeEventListeners()
     $('#notif-panel').slideToggle(300);
     $('#user-panel').slideUp(300);
 
-    if($('.bell-hold #num').is(':visible')) //if the notification count is visible
+    if ($('.bell-hold #num').is(':visible')) //if the notification count is visible
     {
       //send a request indicating notifications were read
       $.ajax(
@@ -203,14 +203,14 @@ function initializeEventListeners()
 
   //Promote buttons POST completion
   $('.promotion span').parent().bind('ajax:success', function(event, data) {
-    if(data && data.action && data.action === 'promote' || data.action === 'demote')
+    if (data && data.action && data.action === 'promote' || data.action === 'demote')
     {
       //since the ajax:success is called on every promotion button, only run code if this is the one that was clicked
-      if($(this).attr('uid') == parseInt(data.uid))
+      if ($(this).attr('uid') == parseInt(data.uid))
       {
         var span = $(this).find('span'); //get the span tag in this button
 
-        if($(this).hasClass('red')) //if the user was demoted (the button was red)
+        if ($(this).hasClass('red')) //if the user was demoted (the button was red)
         {
           $(this).attr('href', data.new_href); //remove demote parameter
           fadeToText(span, 'Promote'); //and fade to Promote text
@@ -258,56 +258,56 @@ function keyboardShortcutHandlers()
 {
   $(document).keydown(function(e)
   {
-    if($(':focus').length > 0) //if the user is focused on an element (they are in an input field)
+    if ($(':focus').length > 0) //if the user is focused on an element (they are in an input field)
       return;
 
     var shift = e.shiftKey;
     var ctrl = e.ctrlKey;
     var alt = e.altKey;
 
-    if((shift && pressed('/')) ||
+    if ((shift && pressed('/')) ||
 			(ctrl && pressed('/')))
     {
       e.preventDefault();
 
-      if(!$('#shortcut-overlay-box').is(':visible'))
+      if (!$('#shortcut-overlay-box').is(':visible'))
       {
         UIManager.showOverlay();
         UIManager.slideIn('#shortcut-overlay-box');
       }
     }
-    else if(ctrl && pressed('S')) {
+    else if (ctrl && pressed('S')) {
       e.preventDefault();
       saveEvents();
     }
-    else if(alt && pressed('E'))
+    else if (alt && pressed('E'))
     {
       e.preventDefault();
     }
-    else if(alt && pressed('C'))
+    else if (alt && pressed('C'))
     {
       e.preventDefault();
       createCategory();
     }
-    else if(ctrl && shift && pressed('left-arrow'))
+    else if (ctrl && shift && pressed('left-arrow'))
     {
       e.preventDefault();
       moveWeek(false);
     }
-    else if(ctrl && shift && pressed('right-arrow'))
+    else if (ctrl && shift && pressed('right-arrow'))
     {
       e.preventDefault();
       moveWeek(true);
     }
-    else if(ctrl && pressed('M')) //switch between monthly and weekly view
+    else if (ctrl && pressed('M')) //switch between monthly and weekly view
     {
       e.preventDefault();
-      if(viewMode == 'week')
+      if (viewMode == 'week')
         initializeMonthlyView();
       else
         initializeWeeklyView();
     }
-    else if(pressed('/'))
+    else if (pressed('/'))
     {
       e.preventDefault();
       $('.header-main .token-input-input-token input').focus();
@@ -316,11 +316,11 @@ function keyboardShortcutHandlers()
     // Helper function that checks if the char was pressed
     function pressed(charString)
     {
-      if(charString == '/')
+      if (charString == '/')
         return Boolean(e.keyCode == 191);
-      if(charString == 'left-arrow')
+      if (charString == 'left-arrow')
         return Boolean(e.keyCode == 37);
-      if(charString == 'right-arrow')
+      if (charString == 'right-arrow')
         return Boolean(e.keyCode == 39);
 
       //handle alphanumerics
@@ -335,7 +335,7 @@ function keyboardShortcutHandlers()
 function toggleSidebar() {
   mobileSidebarOpen = !mobileSidebarOpen;
 
-  if(mobileSidebarOpen)
+  if (mobileSidebarOpen)
     $('#sidebar-cont').addClass('open');
   else
     $('#sidebar-cont').removeClass('open');
@@ -354,12 +354,12 @@ function handleNotifications(justGranted)
   // If the user accepts, let's create a notification
   if (Notification.permission === 'granted')
   {
-    if(justGranted) //if notification permission was just granted
+    if (justGranted) //if notification permission was just granted
     {
       printNotification('Thanks for enabling notifications!', 2000); //give a thank you
     }
 
-    if(typeof todaysEvents === 'undefined') //if the user isn't signed in
+    if (typeof todaysEvents === 'undefined') //if the user isn't signed in
       return; //return
 
     var today = new Date().setHours(0,0,0,0); //get the beginning of the day today
@@ -367,7 +367,7 @@ function handleNotifications(justGranted)
     for (var i = 0; i < todaysEvents.length; i++) //iterate through the events today
     {
       var date = new Date(todaysEvents[i].date); //get the startDate of the event
-      if(new Date(date.getTime()).setHours(0,0,0,0) == today) //if it is indeed today
+      if (new Date(date.getTime()).setHours(0,0,0,0) == today) //if it is indeed today
       {
         var timeTillInMS = date.getTime() - Date.now(); //get the time till the event in milliseconds
         timedEventNotification(todaysEvents[i],timeTillInMS); //and time a notification
@@ -389,10 +389,10 @@ function timedEventNotification(event, time)
 {
   var text = event.name || 'Untitled';
 
-  if(time < 0) //if this event already started
+  if (time < 0) //if this event already started
   {
     var endDate = new Date(event.end_date); //get the end date
-    if(endDate.getTime() > new Date().getTime()) //and check that this event hasn't ended
+    if (endDate.getTime() > new Date().getTime()) //and check that this event hasn't ended
       text = text + ' has started!'; //if it has, print that it started
     else //otherwise, the event has ended
       return; //so return
@@ -431,7 +431,7 @@ function printEventNotification(eventID, text)
 {
   var currDate = (new Date()).toISOString().split('T')[0]; //get the current date, convert to ISO, and strip the time away
   var currCookie = getCookie('carpeEventsNotified');
-  if(currCookie.indexOf(eventID + '@' + currDate) > -1) //if the cookie says we've printed for this event today
+  if (currCookie.indexOf(eventID + '@' + currDate) > -1) //if the cookie says we've printed for this event today
   {
     return; //then just return
   }
@@ -450,7 +450,7 @@ function printNotification(text, hideTime)
     icon: 'assets/images/CarpeIcon.png',
   };
   var notification = new Notification('Carpe', options);
-  if(hideTime)
+  if (hideTime)
     setTimeout(notification.close.bind(notification), hideTime); //close this notification in 2000ms or 2 seconds
 }
 
@@ -518,7 +518,7 @@ function getCookie(cname)
 {
   var name = cname + '=';
   var cookieArray = document.cookie.split(';');
-  for(var i = 0; i < cookieArray.length; i++)
+  for (var i = 0; i < cookieArray.length; i++)
   {
     var currCookie = cookieArray[i];
     while (currCookie.charAt(0) == ' ')
