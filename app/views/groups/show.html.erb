@@ -60,6 +60,8 @@
   <!--<span class="red close button"></span>-->
   <h3>Invite Members</h3>
   <%= render "shared/user_adder", name: "user_ids", search_path: group_invite_users_search_path(@group) %>
+
+  <!-- TODO: Move this onclick to groups/show.js -->
   <span class="green button" id="group-inviter-send-invite" onclick="sendInvites(this, <%= @group.id %>)">Send Invite</span>
 </div>
 

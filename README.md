@@ -39,6 +39,16 @@ CodeceptJS lets us run lovely acceptance tests. Run with `npm run acceptance-tes
 
 ## Checking Code Quality
 
+### Javascript (ESLint)
+
+Carpe uses [ESLint](https://eslint.org/), which automatically runs as part of our CI. If you want to run it manually, run:
+
+```
+npm run eslint
+```
+
+### Ruby on Rails (RubyCritic)
+
 At the moment, Carpe uses [Ruby Critic](https://github.com/whitesmith/rubycritic) for code quality checking.
 
 To run Ruby Critic, run `rubycritic` in the Carpe directory.
