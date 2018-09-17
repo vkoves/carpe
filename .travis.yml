@@ -9,3 +9,4 @@ addons:
 script:
   - bundle exec rails test
   - bundle exec teaspoon
+  - bundle exec rails test:system
