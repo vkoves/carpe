@@ -1948,14 +1948,15 @@ function editEvent(elem)
 
 	if(inColumn(elem) && !editingEvent && elem.attr("data-id") != -1) //make sure this is a placed event that isn't private and we aren't already editing
 	{
-    currEvent = scheduleItems[elem.attr("evnt-temp-id")];
+    var evntId = elem.attr("evnt-temp-id");
+    currEvent = scheduleItems[evntId];
 
     $("#cat-title-selector option[value='"+ currEvent.categoryId +"']").attr("selected", "selected")
     $("#cat-title-selector").off();
     $("#cat-title-selector").change(function() {
       var val = $(this).val();
       currEvent.setCategory(val)
-      $(".sch-evnt[event-id='" + currEvent.eventId + "'], #overlay-color-bar").css("background-color", categories[currEvent.categoryId].color)
+      $(".sch-evnt[evnt-temp-id='" + evntId+ "'], #overlay-color-bar").css("background-color", categories[currEvent.categoryId].color)
     })
 
 		//Select the proper repeat button
