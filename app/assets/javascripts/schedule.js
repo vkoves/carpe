@@ -1283,6 +1283,8 @@ function handlePosition(elem, ui)
  * @param  {jQuery} elem - The element being copied
  * @param  {Object}   ui - UI object from jQuery drag handler
  */
+// This function isn't used right now, but will be brought back, so disabled
+// unused var comment
 /* eslint-disable-next-line no-unused-vars */
 function handleClone(elem, ui)
 {
@@ -2137,6 +2139,8 @@ function placeInSchedule(elem, hours, lengthHours)
  * @param {number} eventId - id of the event being modified
  * @param {msg} string - message to show when events were updated... not currently used
  */
+// The msg param is not used right now, but it's useful to track that and it
+// might be used later, so we disable ESLint error for it.
 /* eslint-disable-next-line no-unused-vars */
 function updatedEvents(eventId, msg)
 {
@@ -2601,6 +2605,7 @@ function paddedMinutes(date)
  * @param {number} num - number to be zero padded
  * @return {String} zero padded number (e.g. 3 to 03 or 13 to 13)
  */
+// This function is not used right now, but is generally helpful
 /* eslint-disable-next-line no-unused-vars */
 function paddedNumber(num)
 {
