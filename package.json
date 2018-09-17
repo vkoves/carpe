@@ -13,7 +13,8 @@
     "acceptance-tests": "node run-codeceptjs-with-server.js",
     "teaspoon": "RAILS_ENV=test bundle exec teaspoon --coverage=default",
     "minitest": "bundle exec rails test",
-    "eslint": "eslint app/assets/javascripts spec/javascripts || true"
+    "eslint": "eslint app/assets/javascripts spec/javascripts || true",
+    "eslint-fix": "eslint app/assets/javascripts spec/javascripts --fix || true"
   },
   "repository": {
     "type": "git",
