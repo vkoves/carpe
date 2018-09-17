@@ -12,7 +12,11 @@
 <% else %>
 	<% @activity.each do |relationship| %>
 		<div class="activity-listing grey-box">
-      <%= link_avatar relationship.other_user(@user) %>
+			<%= link_to(relationship.other_user(@user)) do %>
+				<div class="avatar float">
+					<img src="<%= relationship.other_user(@user).avatar_url(50) %>" class="width-50">
+				</div>
+			<% end %>
 			<div class="text">
 				<% if @user == relationship.followed # if someone followed this user %>
 					<%= @user.name %> was followed by <%= relationship.other_user(@user).name %> on <%= relationship.created_at.strftime("%b. %d, %Y") %>

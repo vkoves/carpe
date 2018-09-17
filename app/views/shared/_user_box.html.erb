@@ -1,5 +1,9 @@
 <div class="user-box">
-  <%= link_avatar user %>
+	<div class="avatar">
+		<%= link_to(user) do %>
+			<img src="<%= user.avatar_url(100) %>">
+		<% end %>
+	</div>
 
 	<div class="name">
 		<%= user.name %>
