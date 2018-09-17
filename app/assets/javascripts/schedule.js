@@ -282,7 +282,10 @@ function ScheduleItem()
 		}
   }
   
-  /* set the category id for this event */
+  /** 
+   * set the category id for this event 
+   * @param {Date} newCategoryId - new category ID
+   */
   this.setCategory = function(newCategoryId)
   {
     if(this.categoryId != newCategoryId){
@@ -898,6 +901,7 @@ function loadInitialCategories()
 
       categories[catInstance.id] = catInstance;
 
+      // add the category to to options list only if it's name is not blank
       if(currCat.name !== ""){
         $("#cat-title-selector").append("<option value=\"" + currCat.id + "\">" + currCat.name + "</option>");
       }
