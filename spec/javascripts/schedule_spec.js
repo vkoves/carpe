@@ -15,9 +15,7 @@ describe('Schedule', () => {
 
 	describe('ScheduleItem', () => {
 		beforeEach(() => {
-			// groupId is already defiend, so we ignore ESLint on it
-			/* eslint-disable-next-line no-undef */
-			groupID = null; // instantiated in template, but used outside of here
+			window.groupID = null; // used in scheduler, normally from template
 
 			// Create a ScheduleItem
 			this.testTempId = 123;
