@@ -142,19 +142,28 @@ function ScheduleItem()
   /** Whether this object has bee updated since last save */
   this.needsSaving = false;
 
-  /** Returns an float of the length of the event in hours */
+  /**
+   * Returns an float of the length of the event in hours
+   * @return {number} The float length of the event in hours
+   */
   this.lengthInHours = function()
   {
     return differenceInHours(this.startDateTime, this.endDateTime, false);
   };
 
-  /** Returns an integer of the difference in the hours */
+  /**
+   * Returns an integer of the difference in the hours
+   * @return {number} The difference in hours of the event's start and end times
+   */
   this.hoursSpanned = function()
   {
     return this.endDateTime.getHours() - this.startDateTime.getHours();
   };
 
-  /** Deletes the schedule item from the frontend */
+  /**
+   * Deletes the schedule item from the frontend
+   * @return {undefined}
+   */
   this.destroy = function()
   {
     this.element().slideUp('normal', function() { $(this).remove(); }); //slide up the element and remove after that is done
@@ -167,6 +176,7 @@ function ScheduleItem()
     * @param {Date} newStartDateTime - the new start date time that should be set
     * @param {boolean} resize - true if the object is being resized, false if the object is being moved
     * @param {boolean} userSet - checks if the user is the one who updated the time directly
+    * @return {undefined}
     */
   this.setStartDateTime = function(newStartDateTime, resize, userSet) //if resize is true, we do not move the end time
   {
@@ -187,6 +197,7 @@ function ScheduleItem()
     * @param {Date} newEndDateTime - the new end date time that should be set
     * @param {boolean} resize - true if the object is being resized, false if the object is being moved
     * @param {boolean} userSet - checks if the user is the one who updated the time directly
+    * @return {undefined}
     */
   this.setEndDateTime = function(newEndDateTime, resize, userSet) //if resize, we don't move the start time
   {
@@ -204,6 +215,7 @@ function ScheduleItem()
   /**
     * Changes the name of the current event
     * @param {String} newName - the new name that should be set
+    * @return {undefined}
     */
   this.setName = function(newName)
   {
@@ -227,6 +239,7 @@ function ScheduleItem()
     * 3. events that are entirely custom are built like so
     *   `custom-<amount>-<unit>`
     *   e.g. custom-3-weeks (will happen every 3 weeks)
+    * @return {undefined}
     */
   this.setRepeatType = function(newRepeatType)
   {
@@ -240,6 +253,7 @@ function ScheduleItem()
   /**
     * Set the date time where the repeating should start for the current event
     * @param {Date} newRepeatStart - where the repeating should start
+    * @return {undefined}
     */
   this.setRepeatStart = function(newRepeatStart)
   {
@@ -253,6 +267,7 @@ function ScheduleItem()
   /**
     * Set the date time where the repeating should end for the current event
     * @param {Date} newRepeatEnd - where the repeating should end
+    * @return {undefined}
     */
   this.setRepeatEnd = function(newRepeatEnd)
   {
@@ -266,6 +281,7 @@ function ScheduleItem()
   /**
     * Set the description of the current event
     * @param {Date} newDescription - new description
+    * @return {undefined}
     */
   this.setDescription = function(newDescription)
   {
@@ -279,6 +295,7 @@ function ScheduleItem()
   /**
     * Set the location of the current event
     * @param {Date} newLocation - new location
+    * @return {undefined}
     */
   this.setLocation = function(newLocation)
   {
@@ -291,8 +308,9 @@ function ScheduleItem()
 
   /**
     * Runs once user has stoped dragging an event, either to resize or move
-    * @param {JQuery} elem - element that was dragged
+    * @param {jQuery} elem - element that was dragged
     * @param {boolean} resize - true if the object is being resized, false if the object is being moved
+    * @return {undefined}
     */
   this.dragComplete = function(elem, resize)
   {
@@ -312,7 +330,8 @@ function ScheduleItem()
 
   /**
     * Runs once user has stoped resizing an event
-    * @param {JQuery} elem - element that has been resized
+    * @param {jQuery} elem - element that has been resized
+    * @return {undefined}
     */
   this.resizeComplete = function(elem)
   {
@@ -324,7 +343,10 @@ function ScheduleItem()
     updatedEvents(this.tempId, 'resizeComplete');
   };
 
-  /** Returns the top value based on the hours and minutes of the start */
+  /**
+   * Returns the top value based on the hours and minutes of the start
+   * @return {number} The top value, in pixels, of the event
+   */
   this.getTop = function()
   {
     var hourStart = this.startDateTime.getHours() + (this.startDateTime.getMinutes()/60);
@@ -332,7 +354,10 @@ function ScheduleItem()
     return height;
   };
 
-  /** Returns the pixel offsets caused by the minutes as an array */
+  /**
+   * Returns the pixel offsets caused by the minutes as an array
+   * @return {number} The number of pixels off the event is from it's starting hour
+   */
   this.getMinutesOffsets = function()
   {
     var offsets = [];
@@ -340,7 +365,10 @@ function ScheduleItem()
     offsets.push(gridHeight*(this.endDateTime.getMinutes()/60));
     return offsets;
   };
-  /** Changes height of current event based on the time it takes up */
+  /**
+   * Changes height of current event based on the time it takes up
+   *  @return {undefined}
+   */
   this.updateHeight = function()
   {
     // only update height in view mode's where size indicates duration
@@ -351,13 +379,19 @@ function ScheduleItem()
     }
   };
 
-  /** a way of getting the name that handles untitled */
+  /**
+   * A way of getting the name that handles untitled
+   * @return {String} The event name (or the placeholder name if no title)
+   */
   this.getHtmlName = function()
   {
     return this.name ? escapeHtml(this.name) : PLACEHOLDER_NAME;
   };
 
-  /** Returns the HTML element for this schedule item, or elements if it is repeating */
+  /**
+   * Returns the HTML element for this schedule item, or elements if it is repeating
+   * @return {jQuery} The jQuery element for the object
+   */
   this.element = function()
   {
     if (viewMode == 'week')
@@ -376,6 +410,7 @@ function ScheduleItem()
     * @param {Date}    dateTime - The date/time this event is being changed to; can be start or end date
     * @param {string}   schItem - The jQuery selector for the schedule item being modified
     * @param {boolean}   resize - Whether or not we are resizing the schedule item we're setting the time for
+    * @return {undefined}
     */
   function setDateTime(isStart, dateTime, schItem, resize)
   {
@@ -448,6 +483,7 @@ function ScheduleItem()
 
 /**
  * Defines the class for category items.
+ * @param {number} id The category ID from the database (optional)
  * @class
  */
 function Category(id)
@@ -489,7 +525,7 @@ function Break() //The prototype for breaks/repeat exceptions
 /**
  * Initializer for the Carpe scheduling page.
  * Called by the $(document).ready() function.
- * @function
+ * @return {undefined}
  */
 function scheduleReady()
 {
@@ -528,7 +564,7 @@ function scheduleReady()
 
 /**
  * Adds event listeners to existing elements on page load.
- * @function
+ * @return {undefined}
  */
 function addStartingListeners()
 {
@@ -881,7 +917,7 @@ function addStartingListeners()
 
 /**
  * Load user's categories from Rails-generated JSON
- * @function
+ * @return {undefined}
  */
 function loadInitialCategories()
 {
@@ -914,7 +950,7 @@ function loadInitialCategories()
 
 /**
  * Load user's schedule breaks from Rails-generated JSON
- * @function
+ * @return {undefined}
  */
 function loadInitialBreaks()
 {
@@ -939,7 +975,7 @@ function loadInitialBreaks()
 
 /**
  * Load user's events from Rails-generated JSON into the scheduleItems hashmap, also placing them in DOM
- * @function
+ * @return {undefined}
  */
 function loadInitialEvents()
 {
@@ -1004,7 +1040,7 @@ function loadInitialEvents()
 /**
  * Adds jQuery UI Droppable plugin onto schedule columns,
  * so that events (the draggables) can be dropped onto columns (the droppables)
- * @function
+ * @return {undefined}
  */
 function colDroppable()
 {
@@ -1034,7 +1070,7 @@ function colDroppable()
 /**
  * Adds jQuery UI Draggable plugin to element selector specified by function parameter.
  * @param {string} selector - The jQuery selector for a particular event or category on user's schedule.
- * @function
+ * @return {undefined}
  */
 function addDrag(selector)
 {
@@ -1209,6 +1245,7 @@ function addDrag(selector)
 /**
  * Adds resize event handlers for new events on user's schedule.
  * @param {string} selector - The jQuery selector for an event on user's schedule
+ * @return {undefined}
  */
 function addResizing(selector)
 {
@@ -1255,6 +1292,7 @@ function addResizing(selector)
  * @param  {string} elem - The jQuery selector for an event on user's schedule
  * @param  {Object}   ui - A jQuery object representing the draggable element
  * @see {@link http://api.jqueryui.com/draggable/#event-stop|Documentation on the jQuery Draggable stop() event}
+ * @return {undefined}
  */
 function handlePosition(elem, ui)
 {
@@ -1287,6 +1325,7 @@ function handlePosition(elem, ui)
  *
  * @param  {jQuery} elem - The element being copied
  * @param  {Object}   ui - UI object from jQuery drag handler
+ * @return {undefined}
  */
 function handleClone(elem, ui) // eslint-disable-line no-unused-vars
 {
@@ -1322,6 +1361,7 @@ function handleClone(elem, ui) // eslint-disable-line no-unused-vars
 /**
  * Called when new events are dragged from the sidebar
  * @param {jQuery} elem - The element that was dragged
+ * @return {undefined}
  */
 function handleNewEvent(elem)
 {
@@ -1357,6 +1397,7 @@ function handleNewEvent(elem)
  * @param {jQuery} elem - element the time is being updated on
  * @param {Object} ui - UI object from jQuery drag handler
  * @param {boolean} resize - true if resizing event, false if moving event
+ * @return {undefined}
  */
 function updateTime(elem, ui, resize) //if we're resizing, don't snap, just update time
 {
@@ -1431,6 +1472,7 @@ function updateTime(elem, ui, resize) //if we're resizing, don't snap, just upda
  * @param {Date} newDateObj - new date to start from
  * @param {boolean} refresh - if true, cleans off all events from scheduler
  * @param {boolean} startToday - if true starts the weekly view on the current day
+ * @return {undefined}
  */
 function addDates(newDateObj, refresh, startToday)
 {
@@ -1533,7 +1575,10 @@ function addDates(newDateObj, refresh, startToday)
   populateEvents(); // After refreshing the dates, populate the...er...schedule items for this week. As you can see, the terminology still confuses some.
 }
 
-/** Initializes the monthly view calender */
+/**
+ * Initializes the monthly view calender
+ * @return {undefined}
+ */
 function initializeMonthlyView()
 {
   viewMode = 'month';
@@ -1546,7 +1591,10 @@ function initializeMonthlyView()
   addDates(refDate, true);
 }
 
-/** Initializes the weekly view calender */
+/**
+ * Initializes the weekly view calender
+ * @return {undefined}
+ */
 function initializeWeeklyView()
 {
   viewMode = 'week';
@@ -1602,19 +1650,26 @@ function getStartDate(dateObj, useMonth)
   return { startDate: copyDate, lastMonth: lastMonth };
 }
 
-/** Clears events from the schedule before running populateEvents(). Used when the schedule gets updated */
+/**
+ * Clears events from the schedule before running populateEvents(). Used when the schedule gets updated
+ * @return {undefined}
+ */
 function repopulateEvents()
 {
   $('#sch-holder .sch-evnt, #sch-holder .sch-month-evnt').remove(); // remove week and month events
   populateEvents(); // and then populate events
 }
 
-/** Fills in events in the current week or month, loads from the scheduleItems hash */
+/**
+ * Fills in events in the current week or month, loads from the scheduleItems hash
+ * @return {undefined}
+ */
 function populateEvents()
 {
   /**
     * Place an event on the calender
     * @param {ScheduleItem} eventObject - The Schedule event object to be placed on the schedule
+    * @return {undefined}
     */
   function place(eventObject)
   {
@@ -1803,7 +1858,10 @@ function populateEvents()
   }
 }
 
-/** Make each monthly event dragable (e.g. sidebar)  */
+/**
+ * Make each monthly event dragable (e.g. sidebar)
+ * @return {undefined}
+ */
 function monthlyEventDraggable()
 {
   $('.sch-month-evnt').draggable(
@@ -1847,7 +1905,10 @@ function monthlyEventDraggable()
     });
 }
 
-/** Make each monthly event dropable into the schedule (e.g. moving sidebar event into schedule)  */
+/**
+ * Make each monthly event dropable into the schedule (e.g. moving sidebar event into schedule)
+ * @return {undefined}
+ */
 function monthlyTileDroppable() {
   $('.sch-day-tile').droppable(
     {
@@ -1871,7 +1932,8 @@ function monthlyTileDroppable() {
 /**
  * Edit an event's title inline (without the overlay)
  * @param {ScheduleItem} event - item to edit title of
- * @param {JQuery} elem - element to edit title of
+ * @param {jQuery} elem - element to edit title of
+ * @return {undefined}
  */
 function editEventTitle(event, elem)
 {
@@ -1891,7 +1953,8 @@ function editEventTitle(event, elem)
 
 /**
  * Edit a category using the category overlay
- * @param {JQuery} elem - category element to update
+ * @param {jQuery} elem - category element to update
+ * @return {undefined}
  */
 function editCategory(elem)
 {
@@ -1932,7 +1995,8 @@ function editCategory(elem)
 
 /**
  * Edit an event using the event overlay
- * @param {JQuery} elem - event element to update
+ * @param {jQuery} elem - event element to update
+ * @return {undefined}
  */
 function editEvent(elem)
 {
@@ -2012,7 +2076,10 @@ function editEvent(elem)
   }
 }
 
-/** Show the overlay for creating a new break */
+/**
+ * Show the overlay for creating a new break
+ * @return {undefined}
+ */
 function showBreakCreateOverlay()
 {
   $('#break-error').hide();
@@ -2025,6 +2092,7 @@ function showBreakCreateOverlay()
  * it is actually for editing and deleting breaks rather
  * than enabling or disabling breaks on the currente event
  * @param {boolean} managing - if true, show 'managing breaks', if false show 'adding breaks'
+ * @return {undefined}
  */
 function setupBreakAddOverlay(managing)
 {
@@ -2076,7 +2144,10 @@ function setupBreakAddOverlay(managing)
   if (!managing)
     setupBreakClickHandlers();
 
-  /** Sets up toggles for if the event or category has breaks enabled */
+  /**
+   * Sets up toggles for if the event or category has breaks enabled
+   * @return {undefined}
+   */
   function setupBreakClickHandlers()
   {
     $('.break-elem').click(function()
@@ -2116,7 +2187,8 @@ function setupBreakAddOverlay(managing)
 
 /**
  * Update the color of the category overlay from a color being picked
- * @param {JQuery} elem - element to take background color from
+ * @param {jQuery} elem - element to take background color from
+ * @return {undefined}
  */
 function changeCategoryColor(elem)
 {
@@ -2125,9 +2197,10 @@ function changeCategoryColor(elem)
 
 /**
  * Setup properties of a place schedule item from the db, setting position and height
- * @param {JQuery} elem -
+ * @param {jQuery} elem -
  * @param {number} hours - the height of the object is proportional to the hours
  * @param {number} lengthHours - the amount of hours an element takes up
+ * @return {undefined}
  */
 function placeInSchedule(elem, hours, lengthHours)
 {
@@ -2142,7 +2215,8 @@ function placeInSchedule(elem, hours, lengthHours)
  * that and it might be used later, so we disable ESLint error for it.
  *
  * @param {number} eventId - id of the event being modified
- * @param {msg} string - message to show when events were updated... not currently used
+ * @param {String} msg - message to show when events were updated... not currently used
+ * @return {undefined}
  */
 function updatedEvents(eventId, msg) // eslint-disable-line no-unused-vars
 {
@@ -2162,7 +2236,10 @@ function updatedEvents(eventId, msg) // eslint-disable-line no-unused-vars
 /*** JSON SERVER METHODS ****/
 /****************************/
 
-/** Saves all events */
+/**
+ * Saves all events
+ * @return {undefined}
+ */
 function saveEvents()
 {
   if ($('#sch-save').hasClass('disabled') || $('#sch-save').hasClass('loading')) //if the save button is disabled or already saving
@@ -2214,7 +2291,8 @@ function saveEvents()
 /**
  * Deletes an event
  * @param {Event} event - event from preforming an action... stops propagation of this event
- * @param {JQuery} elem -element to delete
+ * @param {jQuery} elem -element to delete
+ * @return {undefined}
  */
 function deleteEvent(event, elem)
 {
@@ -2245,7 +2323,10 @@ function deleteEvent(event, elem)
     confirmUI('Are you sure you want to delete this event?', deleteEventProper);
   }
 
-  /** Deletes a single event among a repeating set by making a new repeat break and applying it */
+  /**
+   * Deletes a single event among a repeating set by making a new repeat break and applying it
+   * @return {undefined}
+   */
   function deleteSingleEvent()
   {
     // These vars aren't used right now, but if we remove them ,it might be
@@ -2292,6 +2373,7 @@ function deleteEvent(event, elem)
 
     /**
      * Add the new break to the schedule item and repopulate the schedule to apply it
+     * @return {undefined}
      */
     function applyNewBreak()
     {
@@ -2306,7 +2388,10 @@ function deleteEvent(event, elem)
     }
   }
 
-  /** Deletes the associated event object, like the old delete. This gets rid of all items repeating */
+  /**
+   * Deletes the associated event object, like the old delete. This gets rid of all items repeating
+   * @return {undefined}
+   */
   function deleteEventProper()
   {
     var eId = $(elem).parent().attr('event-id');
@@ -2339,7 +2424,10 @@ function deleteEvent(event, elem)
   }
 }
 
-/** Creates category */
+/**
+ * Creates category
+ * @return {undefined}
+ */
 function createCategory()
 {
   $.ajax({
@@ -2383,8 +2471,9 @@ function createCategory()
 /**
  * Deletes category
  * @param {Event} event - event from action
- * @param {Jquery} elem - element of category to be deleted
+ * @param {jQuery} elem - element of category to be deleted
  * @param {number} id - id of data in element to remove from database
+ * @return {undefined}
  */
 function deleteCategory(event, elem, id)
 {
@@ -2431,8 +2520,9 @@ function deleteCategory(event, elem, id)
 /**
  * Saves Category
  * @param {Event} event - event from action
- * @param {Jquery} elem - element of category to be saved
+ * @param {jQuery} elem - element of category to be saved
  * @param {number} id - id of data in element to add to database
+ * @return {undefined}
  */
 function saveCategory(event,elem,id)
 {
@@ -2477,6 +2567,7 @@ function saveCategory(event,elem,id)
  * @param {Date} startDate - start date for the break
  * @param {Date} endDate - end date for the break
  * @param {function} callback - once the date has been created run this function
+ * @return {undefined}
  */
 function createBreak(name, startDate, endDate, callback)
 {
@@ -2569,7 +2660,7 @@ function convertTo12HourFromArray(timeArr)
 
 /**
  * Checks whether the element is in a schedule column (basically has it been placed in the schedule)
- * @param {JQuery} elem - element to check
+ * @param {jQuery} elem - element to check
  * @return {boolean} true if element is in schedule, false if not
  */
 function inColumn(elem)
@@ -2584,9 +2675,10 @@ function inColumn(elem)
 /**
  * Set the height of an element if the height of another element
  * is not a proper height (divisible by gridheight)
- * @param {JQuery} getElem - element to check the height of
- * @param {JQuery} setElem - element to set height of
+ * @param {jQuery} getElem - element to check the height of
+ * @param {jQuery} setElem - element to set height of
  * @param {number} hoursLength - hours to set the height too
+ * @return {undefined}
  */
 function setHeight(getElem, setElem, hoursLength)
 {
@@ -2619,14 +2711,19 @@ function paddedNumber(num) // eslint-disable-line no-unused-vars
   return paddedNum;
 }
 
-/** Removes cursor highlight on page */
+/**
+ * Removes cursor highlight on page
+ * @return {undefined}
+ */
 function removeHighlight()
 {
   window.getSelection().removeAllRanges();
 }
 
-/** Highlight the entirety of the field currently selected (that the user has cursor in).
+/**
+ * Highlight the entirety of the field currently selected (that the user has cursor in).
  * Runs HTMLInputElement.select if an input is in focus, otherwise runs 'selectAll' on document.
+ * @return {undefined}
  */
 function highlightCurrent()
 {
@@ -2650,7 +2747,8 @@ function cloneDate(date)
  * Updates a textarea element's height based on the content passed to display in it.
  * Used specifically for event editing on My Schedule, this will update the size of the
  * description or location text area height dependent on content.
- * @param {Jquery} elem - The textarea element in question.
+ * @param {jQuery} elem - The textarea element in question.
+ * @return {undefined}
  */
 function textareaSetHeight(elem)
 {
@@ -2744,6 +2842,7 @@ function datesToTimeRange(startDate, endDate)
  * Worth noting that when the schedule loads, the first day is the current day, not the Monday of that week
  * so that case is accounted for to move the schedule forward to the next Monday
  * @param {boolean} forward - true if the forward button was pressed
+ * @return {undefined}
  */
 function moveWeek(forward)
 {

@@ -60,6 +60,7 @@ $(document).tooltip({
 /**
  * This function is called on page load, both on fresh load and
  * when the page is being loaded from a turbo-link.
+ * @return {undefined}
  */
 function ready()
 {
@@ -83,6 +84,7 @@ function ready()
 
 /**
  * Adds event listeners (e.g., onclick) to elements throughout the site
+ * @return {undefined}
  */
 function initializeEventListeners()
 {
@@ -252,7 +254,7 @@ function initializeEventListeners()
 
 /**
  * Initializes all of the keyboard shortcuts for the scheduler
- * @function
+ * @return {undefined}
  */
 function keyboardShortcutHandlers()
 {
@@ -316,6 +318,7 @@ function keyboardShortcutHandlers()
     /**
      * Helper function that checks if the char was pressed
      * @param  {String} charString A character to check against
+     * @return {Boolean} Whether the key was pressed
      */
     function pressed(charString)
     {
@@ -334,6 +337,7 @@ function keyboardShortcutHandlers()
 
 /**
  * Toggles the sidebar being open, applying .open class if it is open
+ * @return {undefined}
  */
 function toggleSidebar() {
   mobileSidebarOpen = !mobileSidebarOpen;
@@ -351,6 +355,7 @@ function toggleSidebar() {
  * @param  {boolean} justGranted - Set to true if user just granted permission
  *                                 for Carpe to give them desktop notifications,
  *                                 displays thank-you message
+ * @return {undefined}
  */
 function handleNotifications(justGranted)
 {
@@ -387,6 +392,7 @@ function handleNotifications(justGranted)
  * @param  {ScheduleItem} event - the event we are displaying a notification for
  * @param          {Date}  time - the time of the event, which is also when the
  *                                notification will be displayed
+ * @return {undefined}
  */
 function timedEventNotification(event, time)
 {
@@ -416,6 +422,7 @@ function timedEventNotification(event, time)
  * Sets a browser cookie after user receives a desktop notification for an event,
  * so that they aren't notified for the same event again on the same day.
  * @param {number} id -
+ * @return {undefined}
  */
 function setEventCookie(id)
 {
@@ -429,6 +436,7 @@ function setEventCookie(id)
  * [printEventNotification description]
  * @param  {number} eventID - [description]
  * @param  {string}    text - [description]
+ * @return {undefined}
  */
 function printEventNotification(eventID, text)
 {
@@ -449,7 +457,8 @@ function printEventNotification(eventID, text)
  * Print a notification with certain text, which will hide in a given time (in ms)
  *
  * @param  {String} text     The text to show
- * @param  {Number} hideTime The time in ms till the text is hidden
+ * @param  {number} hideTime The time in ms till the text is hidden
+ * @return {undefined}
  */
 function printNotification(text, hideTime)
 {
@@ -472,6 +481,7 @@ function printNotification(text, hideTime)
 
 /**
  * Called after a notification is closed. Check if there are notifications left, if not, show message
+ * @return {undefined}
  */
 function handleNotificationClosed()
 {
@@ -484,6 +494,7 @@ function handleNotificationClosed()
 /**
  * Removes a notification from the notifications panel.
  * @param {jQuery} $notifCard - card to be deleted (should have .notif class)
+ * @return {undefined}
  */
 function removeNotificationCard($notifCard)
 {
@@ -504,9 +515,10 @@ function removeNotificationCard($notifCard)
 
 /**
  * Generalized function for fading between text on an element
- * @param  {$jQuery} elem    The element to fade the text on
+ * @param  {jQuery} elem    The element to fade the text on
  * @param  {String} newText  The new text to fade in
- * @param  {Number} duration The animation duration of the fade
+ * @param  {number} duration The animation duration of the fade
+ * @return {undefined}
  */
 function fadeToText(elem, newText, duration) //the element to fade on, the new text, and an optional duration
 {

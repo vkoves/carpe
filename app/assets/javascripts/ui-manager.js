@@ -4,6 +4,9 @@
 /**
  * Show a custom confirm with the given message, calling the callback with the value of whether the user confirmed
  * Replaces javascripts default confirm function
+ * @param {String} message The message to show for the modal
+ * @param {Function} callback The callback to trigger IF the user confirms
+ * @return {undefined}
  */
 function confirmUI(message, callback)
 {
@@ -36,6 +39,7 @@ function confirmUI(message, callback)
    * confirmed on the modal.
    *
    * @param  {Boolean} returnValue Whether the user confirmed the modal
+   * @return {undefined}
    */
   function closeConfirm(returnValue)
   {
@@ -53,14 +57,23 @@ function confirmUI(message, callback)
 /**
  * Shows an alert with the given message, calling the callback on close
  * Replaces javascript's default alert function
+ * @param {String} message The message to show for the modal
+ * @param {Function} callback The callback to trigger IF the user confirms
+ * @return {undefined}
  */
 function alertUI(message, callback)
 {
   customAlertUI(message, '', callback);
 }
 
-/** Show a custom alert with full HTML content */
-function customAlertUI(message, content, callback)
+/**
+ * Show a custom alert with full HTML content
+ * @param  {String}   title    The title to show for the modal, in an `<h3>`
+ * @param  {String}   content  The main content for the modal
+ * @param  {Function} callback A callback triggered when the modal is closed
+ * @return {undefined}
+ */
+function customAlertUI(title, content, callback)
 {
   UIManager.showOverlay(); //show the overlay
 
@@ -68,7 +81,7 @@ function customAlertUI(message, content, callback)
 
   //Then append the box to the body
   $('body').append('<div id=\'overlay-alert\' class=\'overlay-box center-text\'>' +
-		'<h3>' + message + '</h3>' +
+		'<h3>' + title + '</h3>' +
 		content +
 		'<span id=\'alert-close\' class=\'default red\'>OK</span>' +
 		'</div>');
@@ -100,7 +113,10 @@ var UIManager = {
     return - $(selector).outerHeight() - 10;
   },
 
-  /** Fades in the transparent overlay if needed */
+  /**
+   * Fades in the transparent overlay if needed
+   * @return {undefined}
+   */
   showOverlay: function()
   {
     if ($('.ui-widget-overlay').length == 0) //if there isn't an overlay already
@@ -111,7 +127,11 @@ var UIManager = {
     }
     $('.ui-widget-overlay').fadeIn(250); //and fade in
   },
-  /** Fades out the transparent overlay and calls the callback */
+  /**
+   * Fades out the transparent overlay and calls the callback
+   * @param  {Function} callback The callback to trigger after the fade
+   * @return {undefined}
+   */
   hideOverlay: function(callback)
   {
     // Fade out with default settings
@@ -121,7 +141,12 @@ var UIManager = {
         callback(); //trigger it
     });
   },
-  /** Takes a string selector and slides in */
+  /**
+   * Takes a string selector and slides in
+   * @param  {String}  selector A jQuery selector for the element to slide in
+   * @param  {Function} callback A callback called after animation completes
+   * @return {undefined}
+   */
   slideIn: function(selector, callback)
   {
     $(selector).css('top', this.hiddenTop(selector) )
@@ -130,7 +155,12 @@ var UIManager = {
       .addClass('visible');
     this.overlayBoxes.push(selector);
   },
-  /** Takes a string selector and slides out. Also hides after */
+  /**
+   * Takes a string selector and slides out. Also hides after
+   * @param  {String}  selector A jQuery selector for the element to slide in
+   * @param  {Function} callback A callback called after animation completes
+   * @return {undefined}
+   */
   slideOut: function(selector, callback)
   {
     $(selector).animate({ top: this.hiddenTop(selector) }, 400, 'swing', function()

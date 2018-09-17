@@ -3,6 +3,7 @@ $(document).ready(setupEvents);
 /**
  * Sets up events for the group calender on page load
  * such as setting up key bindings, and clickable items
+ * @return {undefined}
  */
 function setupEvents() {
   // show/hide member options on the 'Manage Members' page
@@ -24,6 +25,7 @@ function setupEvents() {
  * For each user on in the group show the user cards of the users
  * whose name matches a given string. similar to 'LIKE % %' in sql.
  * @param {String} searchText - text to find user names that are similar to
+ * @return {undefined}
  */
 function showRelevantUsers(searchText) {
   // similar to SQL 'name LIKE %...%'
@@ -51,6 +53,7 @@ function showRelevantUsers(searchText) {
  *
  * @param {HtmlElement} self - html object of the user card to get the user id from
  * @param {String} groupId - id of group to invite user to
+ * @return {undefined}
  */
 function sendInvites(self, groupId) { // eslint-disable-line no-unused-vars
   const userIds = $('#user_ids').val().split(',');

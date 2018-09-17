@@ -13,6 +13,7 @@ var command_buttons = [
 
 /**
  * Sets up event handlers on the admin panel
+ * @return {undefined}
  */
 function setupEvents() {
   $(command_buttons).click(function (e) {
@@ -31,6 +32,7 @@ function setupEvents() {
  *
  * @param  {Object} data The returned data from the last HTTP request checking
  * if the command had finished
+ * @return {undefined}
  */
 function repeatedlyCheckIfCommandIsFinished(data) {
   if (data.cmd_error) {

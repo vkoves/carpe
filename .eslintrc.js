@@ -33,7 +33,7 @@ module.exports = {
          * Possible Errors
          */
         "no-console": "off", // allow console.log and such
-        // "valid-jsdoc": "error", // allow console.log and such
+        "valid-jsdoc": "error", // allow console.log and such
 
         /**
          * Best Practices
