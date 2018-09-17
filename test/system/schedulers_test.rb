@@ -34,7 +34,7 @@ class SchedulersTest < ApplicationSystemTestCase
     assert_includes categories.last["style"], "rgb(66, 133, 245)"
   end
 
-  # TODO: add child events
+  # TODO: edit a category with events (and make sure the events are affected)
   test "edit category" do
     click categories.first.find(".sch-evnt-edit-cat")
     type "Family Dinner", into: ".cat-overlay-title"
@@ -44,7 +44,7 @@ class SchedulersTest < ApplicationSystemTestCase
     within(categories.first) { assert_text "Family Dinner" }
   end
 
-  # TODO: add child events
+  # TODO: delete a category with events (and make sure its events get deleted)
   test "delete category" do
     id = categories.first["data-id"]
 

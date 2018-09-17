@@ -50,7 +50,7 @@ class ActionDispatch::SystemTestCase
 
   # Similar to fill_in, but works with contenteditable and triggers javascript
   def type(text, into:)
-    find(into).send_keys(text)
+    find(into).click.send_keys(text)
   end
 
   # Overrides the default capybara `click` that only works for buttons and anchors.
