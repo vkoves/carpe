@@ -26,28 +26,29 @@ module.exports = {
         "ecmaVersion": 2016
     },
     "rules": {
+        // Learn more at: https://eslint.org/docs/rules/
+        // Rules categorized under ESLint categories, then in alphabetical order
+
+        /**
+         * Possible Errors
+         */
         "no-console": "off", // allow console.log and such
-        "indent": [
-            "off"
 
-            // Pick spacing and uncomment this later
-            // "error",
-            // "tab"
-        ],
-        "linebreak-style": [
-            "error",
-            "unix"
-        ],
-        "quotes": [
-            "off"
+        /**
+         * Best Practices
+         */
+        // TODO: Unccomment and manually fix these, as they require finesse or
+        // can break things
+        // "curly": ["error", "all"], // require '{' and '}' on blocks, even if one line
+        // "eqeqeq": "error", // only allow ===, not == -
 
-            // Uncomment this later
-            // "error",
-            // "single"
-        ],
-        "semi": [
-            "error",
-            "always"
-        ]
+        /**
+         * Stylistic Issues
+         */
+        "indent": ["error", 2], // enforce 2 space indents
+        "linebreak-style": ["error", "unix"], // enforce unix line endings
+        "quotes": ["error", "single"], // require single quotes
+        "semi": ["error", "always"], // require semi-colons
+        "space-before-blocks": "error", // require ' ' before starting block
     }
 };
