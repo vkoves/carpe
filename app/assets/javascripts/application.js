@@ -23,7 +23,23 @@
 //= require utilities
 //= require infinite-scroll.pkgd
 
-var unloadAssigned = false; //if unload is assigned
+
+/***************************/
+/********* Globals *********/
+/***************************/
+
+/* Setup globals from application.html.erb <script> block */
+/* global todaysEvents */
+
+/* Setup globals from schedule.js for shortcuts */
+/* global saveEvents, createCategory, moveWeek, viewMode,
+	initializeMonthlyView, initializeWeeklyView */
+
+/* Setup globals from user-adder.js */
+/* global initializeUserAdder */
+
+
+
 var mobileSidebarOpen = false;
 
 //Handle window resizing
@@ -108,12 +124,12 @@ function initializeEventListeners()
 			{
 				url: "/notifications/read",
 				type: "POST",
-				success: function(resp)
+				success: function()
 				{
 					console.log("All notifications marked as read.");
 					$(".bell-hold #num").fadeOut();
 				},
-				error: function(resp)
+				error: function()
 				{
 					console.log("Marking notifications as read failed :(");
 				}
@@ -132,11 +148,11 @@ function initializeEventListeners()
 
 	// Follow button
     $(document).on('click', '.js-follow-user', function() {
-        $button = $(this);
+        var $button = $(this);
 
         $.post($(this).attr('href'), function() {
             // convert from a button into a pending state span
-            $span = $('<span class="friend-label">Follow</span>').replaceAll($button);
+            var $span = $('<span class="friend-label">Follow</span>').replaceAll($button);
             fadeToText($span, "Pending"); // "Follow" -> "Pending"
         });
 
@@ -145,7 +161,7 @@ function initializeEventListeners()
 
     // Unfollow button
     $('.js-unfollow-user').click(function() {
-        $button = $(this);
+        var $button = $(this);
 
         $.ajax({
             url: $(this).attr('href'),
@@ -186,7 +202,7 @@ function initializeEventListeners()
 	});
 
 	//Promote buttons POST completion
-	$(".promotion span").parent().bind('ajax:success', function(event, data, status, xhr){
+	$(".promotion span").parent().bind('ajax:success', function(event, data) {
 		if(data && data.action && data.action === "promote" || data.action === "demote")
 		{
 			//since the ajax:success is called on every promotion button, only run code if this is the one that was clicked
@@ -223,7 +239,7 @@ function initializeEventListeners()
 		},
 		resultsFormatter: function(element) //format the results
 		{
-			img_url = element.image_url || "https://www.gravatar.com/avatar/?d=mm";
+			var img_url = element.image_url || "https://www.gravatar.com/avatar/?d=mm";
 			return 	"<li>" +
 						"<div class='avatar search-avatar'><img src='" + img_url + "'></div><div class='name with-type'>" + escapeHtml(element.name) + "</div>" +
 						"<div class='type'>" + element.model_name + "</div>" +

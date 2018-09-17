@@ -1,5 +1,9 @@
 //= require schedule
 
+// Setup schedule.js globals we are testing
+/* globals monthNames, isSafeToLeave, ScheduleItem, scheduleItems,
+	updatedEvents: true, PLACEHOLDER_NAME */
+
 describe('Schedule', () => {
 	it('Should have defined months', () => {
 		expect(monthNames.length).to.equal(12);
@@ -11,9 +15,10 @@ describe('Schedule', () => {
 
 	describe('ScheduleItem', () => {
 		beforeEach(() => {
+			window.groupID = null; // used in scheduler, normally from template
+
 			// Create a ScheduleItem
 			this.testTempId = 123;
-			groupID = null; // expected from template
 			this.schItem = new ScheduleItem();
 			this.schItem.tempId = this.testTempId;
 

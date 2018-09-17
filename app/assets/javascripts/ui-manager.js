@@ -1,3 +1,6 @@
+/* Indicate to ESLint that functions and UIManager are a global "export" */
+/* exported confirmUI, alertUI, customAlertUI, UIManager */
+
 /**
  * Show a custom confirm with the given message, calling the callback with the value of whether the user confirmed
  * Replaces javascripts default confirm function
