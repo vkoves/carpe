@@ -14,8 +14,10 @@ var schHTML; // Instantiates schedule HTML variable, which will contain the "Mon
 var gridHeight = 25; //the height of the grid of resizing and dragging
 var border = 2; //the border at the bottom for height stuff
 
+// ctrlPressed is used for event cloning, which is temporarily disabled.
+// Thus we ignore the ESLint unused vars here
 /* eslint-disable-next-line no-unused-vars */
-var ctrlPressed = false; //is the control key presed? Updated upon clicking an event
+var ctrlPressed = false; // is the control key presed? Updated upon clicking an event
 var refDate = new Date(); // Reference date for where the calendar is now, so that it can switch between weeks.
 var visibleDates = []; //an array of dates that are currently visible on the schedule
 var dropScroll = 0; //the scroll position when the last element was dropped
