@@ -313,7 +313,10 @@ function keyboardShortcutHandlers()
       $('.header-main .token-input-input-token input').focus();
     }
 
-    // Helper function that checks if the char was pressed
+    /**
+     * Helper function that checks if the char was pressed
+     * @param  {String} charString A character to check against
+     */
     function pressed(charString)
     {
       if (charString == '/')
@@ -442,7 +445,12 @@ function printEventNotification(eventID, text)
   }
 }
 
-//Print a notification with certain text, which will hide in a given time (in ms)
+/**
+ * Print a notification with certain text, which will hide in a given time (in ms)
+ *
+ * @param  {String} text     The text to show
+ * @param  {Number} hideTime The time in ms till the text is hidden
+ */
 function printNotification(text, hideTime)
 {
   var options = {
@@ -462,7 +470,9 @@ function printNotification(text, hideTime)
 // 	}, 150);
 // }
 
-// Called after a notification is closed. Check if there are notifications left, if not, show message
+/**
+ * Called after a notification is closed. Check if there are notifications left, if not, show message
+ */
 function handleNotificationClosed()
 {
   if ($('.notif:visible').length == 0)
@@ -492,7 +502,12 @@ function removeNotificationCard($notifCard)
 }
 
 
-//Generalized function for fading between text on an element
+/**
+ * Generalized function for fading between text on an element
+ * @param  {$jQuery} elem    The element to fade the text on
+ * @param  {String} newText  The new text to fade in
+ * @param  {Number} duration The animation duration of the fade
+ */
 function fadeToText(elem, newText, duration) //the element to fade on, the new text, and an optional duration
 {
   var dur = duration || 500; //default duration of 500ms
@@ -514,6 +529,12 @@ function fadeToText(elem, newText, duration) //the element to fade on, the new t
 
 /* Cookie Helpers */
 /* From http://www.w3schools.com/js/js_cookies.asp */
+
+/**
+ * Gets a cookie given it's name
+ * @param  {String} cname The name of the cookie
+ * @return {String}       The cookie value
+ */
 function getCookie(cname)
 {
   var name = cname + '=';

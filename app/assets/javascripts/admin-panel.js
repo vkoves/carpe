@@ -11,6 +11,9 @@ var command_buttons = [
   '#run-js-acceptance-tests'
 ].join();
 
+/**
+ * Sets up event handlers on the admin panel
+ */
 function setupEvents() {
   $(command_buttons).click(function (e) {
     e.preventDefault();
@@ -23,6 +26,12 @@ function setupEvents() {
   });
 }
 
+/**
+ * A function that self-calls and repeatedly checks if a command is finished.
+ *
+ * @param  {Object} data The returned data from the last HTTP request checking
+ * if the command had finished
+ */
 function repeatedlyCheckIfCommandIsFinished(data) {
   if (data.cmd_error) {
     $('#' + data.button_id).removeClass('loading');

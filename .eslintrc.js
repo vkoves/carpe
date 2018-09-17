@@ -33,6 +33,7 @@ module.exports = {
          * Possible Errors
          */
         "no-console": "off", // allow console.log and such
+        // "valid-jsdoc": "error", // allow console.log and such
 
         /**
          * Best Practices
@@ -50,6 +51,7 @@ module.exports = {
         "keyword-spacing": ["error", { "before": true }], // require space after keywords, like if
         "linebreak-style": ["error", "unix"], // enforce unix line endings
         "quotes": ["error", "single"], // require single quotes
+        "require-jsdoc": "error", // require JSDoc
         "semi": ["error", "always"], // require semi-colons
         "space-before-blocks": "error", // require space before starting block
     }

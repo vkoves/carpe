@@ -31,7 +31,12 @@ function confirmUI(message, callback)
     closeConfirm(true);
   });
 
-  //fade out the overlay and remove
+  /**
+   * Closes the confirm dialog, trigerring the confirm callback if the user
+   * confirmed on the modal.
+   *
+   * @param  {Boolean} returnValue Whether the user confirmed the modal
+   */
   function closeConfirm(returnValue)
   {
     UIManager.slideOutHideOverlay('#overlay-confirm', function()

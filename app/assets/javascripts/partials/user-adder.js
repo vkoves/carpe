@@ -1,7 +1,12 @@
 /* Indicate to ESLint that functions are a global "export" */
 /* exported initializeUserAdder, tokenHtml */
 
-// Tokenizer implementation for the user entry
+/**
+ * Tokenizer implementation for the user entry
+ *
+ * @param  {String} selector A jQuery selector for the relevant element
+ * @return {undefined}
+ */
 function initializeUserAdder(selector)
 {
   const search_path = $(selector).data('search-path');
@@ -32,6 +37,13 @@ function initializeUserAdder(selector)
   });
 }
 
+/**
+ * Returns the HTML for a given token for token input.
+ *
+ * @param  {Object} user        The user object to make the token for
+ * @param  {String} avatarClass The value for the CSS class property of the token
+ * @return {String}             The token HTML
+ */
 function tokenHtml(user, avatarClass) {
   return `
 		<li>

@@ -1281,14 +1281,14 @@ function handlePosition(elem, ui)
 }
 
 /**
- * Called when creating a clone, copying a specified element.
+ * Called when creating a clone, copying a specified element. This function
+ * isn't used right now, but will be brought back, so disabled unused var ESLint
+ * rule.
+ *
  * @param  {jQuery} elem - The element being copied
  * @param  {Object}   ui - UI object from jQuery drag handler
  */
-// This function isn't used right now, but will be brought back, so disabled
-// unused var ESLint rule
-/* eslint-disable-next-line no-unused-vars */
-function handleClone(elem, ui)
+function handleClone(elem, ui) // eslint-disable-line no-unused-vars
 {
   var clone = $(ui.helper).clone(); //create a clone
   $(elem).parent().append(clone);
@@ -2137,14 +2137,14 @@ function placeInSchedule(elem, hours, lengthHours)
 }
 
 /**
- * Events were updated. Called by any modification of an event, which triggers auto saving
+ * Events were updated. Called by any modification of an event, which triggers
+ * auto saving. The `msg` param is not used right now, but it's useful to track
+ * that and it might be used later, so we disable ESLint error for it.
+ *
  * @param {number} eventId - id of the event being modified
  * @param {msg} string - message to show when events were updated... not currently used
  */
-// The msg param is not used right now, but it's useful to track that and it
-// might be used later, so we disable ESLint error for it.
-/* eslint-disable-next-line no-unused-vars */
-function updatedEvents(eventId, msg)
+function updatedEvents(eventId, msg) // eslint-disable-line no-unused-vars
 {
   // console.log("Events were updated!" + msg);
   $('#sch-save').removeClass('disabled');
@@ -2290,7 +2290,9 @@ function deleteEvent(event, elem)
       applyNewBreak();
     }
 
-    // Add the new break to the schedule item and repopulate the schedule to apply it
+    /**
+     * Add the new break to the schedule item and repopulate the schedule to apply it
+     */
     function applyNewBreak()
     {
       // Now that we have a break that will make this event be skipped, add it and update UI accordingly
@@ -2605,13 +2607,13 @@ function paddedMinutes(date)
 }
 
 /**
- * Zero pads a number to two digits
+ * Zero pads a number to two digits. This function is not used right now, but is
+ * generally helpful, so ESLint no-unused-vars is disabled for it.
+ *
  * @param {number} num - number to be zero padded
  * @return {String} zero padded number (e.g. 3 to 03 or 13 to 13)
  */
-// This function is not used right now, but is generally helpful
-/* eslint-disable-next-line no-unused-vars */
-function paddedNumber(num)
+function paddedNumber(num) // eslint-disable-line no-unused-vars
 {
   var paddedNum = (num < 10 ? '0' : '') + num; //add zero the the beginning of minutes if less than 10
   return paddedNum;
