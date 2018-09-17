@@ -46,6 +46,7 @@ module.exports = {
         /**
          * Stylistic Issues
          */
+        "comma-spacing": "error", // require spaces between commas (e.g. [a, b])
         "eol-last": "error", // require EOF newline
         "indent": ["error", 2], // enforce 2 space indents
         "keyword-spacing": ["error", { "before": true }], // require space after keywords, like if

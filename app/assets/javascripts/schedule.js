@@ -36,7 +36,7 @@ var readied = false; //whether the ready function has been called
 
 var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']; //Three letter month abbreviations
 var fullMonthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-var dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']; //the names of the days
+var dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']; //the names of the days
 
 var viewMode = 'week'; //either "week" or "month"
 
@@ -679,7 +679,7 @@ function addStartingListeners()
   });
 
   //When editing category title, defocus on enter
-  $('.cat-overlay-title').on('keydown',function(e) {
+  $('.cat-overlay-title').on('keydown', function(e) {
     var key = e.keyCode || e.charCode;  // ie||others
     if (key == 13)  // if enter key is pressed
     {
@@ -810,7 +810,7 @@ function addStartingListeners()
       removeHighlight();
     });
 
-  $('#overlay-title').on('keydown',function(e) {
+  $('#overlay-title').on('keydown', function(e) {
     var key = e.keyCode || e.charCode;  // ie||others
     if (key == 13)  // if enter key is pressed
     {
@@ -964,9 +964,9 @@ function loadInitialBreaks()
       breakInstance.id = currBreak.id;
       breakInstance.name = currBreak.name;
       breakInstance.startDate = new Date(dateFromDashesToSlashes(currBreak.start));
-      breakInstance.startDate.setHours(0,0,0,0); //clear any time
+      breakInstance.startDate.setHours(0, 0, 0, 0); //clear any time
       breakInstance.endDate = new Date(dateFromDashesToSlashes(currBreak.end));
-      breakInstance.endDate.setHours(0,0,0,0); //clear any time
+      breakInstance.endDate.setHours(0, 0, 0, 0); //clear any time
 
       breaks[breakInstance.id] = breakInstance;
     }
@@ -1057,7 +1057,7 @@ function colDroppable()
       over: function( event, ui )
       {
         $(this).parent().addClass('over'); //highlight
-        $(ui.draggable).draggable('option','gridOn', true); //and enable vertical grid
+        $(ui.draggable).draggable('option', 'gridOn', true); //and enable vertical grid
       },
       out: function()
       {
@@ -1080,7 +1080,7 @@ function addDrag(selector)
   if (selector == null)
     selector = '#sch-sidebar .sch-evnt';
 
-  $(selector).find('.evnt-title').on('keydown',function(e) {
+  $(selector).find('.evnt-title').on('keydown', function(e) {
     var key = e.keyCode || e.charCode;  // ie||others
     if (key == 13)  // if enter key is pressed
     {
@@ -1315,7 +1315,7 @@ function handlePosition(elem, ui)
     topVal = topVal - (topVal%gridHeight);
   }
 
-  $(elem).css('top',topVal);
+  $(elem).css('top', topVal);
 }
 
 /**
@@ -1331,7 +1331,7 @@ function handleClone(elem, ui) // eslint-disable-line no-unused-vars
 {
   var clone = $(ui.helper).clone(); //create a clone
   $(elem).parent().append(clone);
-  clone.css('opacity','1'); //set the clone to be fully opaque, as it'll be 0.7 opacity by default from dragging
+  clone.css('opacity', '1'); //set the clone to be fully opaque, as it'll be 0.7 opacity by default from dragging
 
   $(elem).removeAttr('event-id'); //clear event id
 
@@ -1384,7 +1384,7 @@ function handleNewEvent(elem)
     $(elem).children('.evnt-title').attr('contenteditable', 'true');
     $(elem).children('.evnt-title').trigger('focus');
     highlightCurrent(); // Suggests to the user to change the schedule item title by making it editable upon drop here.
-    document.execCommand('delete',false,null); // Suggests to the user to change the schedule item title by making it editable upon drop here.
+    document.execCommand('delete', false, null); // Suggests to the user to change the schedule item title by making it editable upon drop here.
     $(elem).attr('evnt-temp-id', eventTempId);
     addResizing($(elem)); //since the sidebar events don't have resizing, we have to add it on stop
   }
@@ -1514,10 +1514,10 @@ function addDates(newDateObj, refresh, startToday)
       $(col).children('.col-titler').append('<div class=\'evnt-fulldate\'>' + fullDate + '</div>'); //append the long form date to columns
 
       if (currDate.toDateString() == new Date().toDateString()) //if this is today
-        $(col).attr('id','sch-today');
+        $(col).attr('id', 'sch-today');
 
       var visibleDateCurr = cloneDate(currDate);
-      visibleDateCurr.setHours(0,0,0,0);
+      visibleDateCurr.setHours(0, 0, 0, 0);
       visibleDates.push(visibleDateCurr);
       currDate.setDate(currDate.getDate() + 1);
     });
@@ -1552,7 +1552,7 @@ function addDates(newDateObj, refresh, startToday)
         tileClass = tileClass + ' next-month';
 
       var todaySimple = new Date();
-      todaySimple.setHours(0,0,0,0);
+      todaySimple.setHours(0, 0, 0, 0);
       if (currDate < todaySimple)
         tileClass = tileClass + ' in-past';
 
@@ -1563,9 +1563,9 @@ function addDates(newDateObj, refresh, startToday)
 				'</div>');
 
       if (currDate.toDateString() == new Date().toDateString()) //if this is today
-        $('.sch-day-tile:last-of-type').attr('id','sch-today');
+        $('.sch-day-tile:last-of-type').attr('id', 'sch-today');
 
-      currDate.setHours(0,0,0,0);
+      currDate.setHours(0, 0, 0, 0);
       visibleDates.push(cloneDate(currDate));
       currDate.setDate(currDate.getDate() + 1);
       counter++;
@@ -1613,7 +1613,7 @@ function initializeWeeklyView()
  * @param {number} year - e.g. 2017
  * @return {Date} date object made from year and month
  */
-function daysInMonth(month,year)
+function daysInMonth(month, year)
 {
   return new Date(year, month, 0).getDate();
 }
@@ -1739,7 +1739,7 @@ function populateEvents()
       for (var breakIndex = 0; breakIndex < combinedBreaks.length; breakIndex++) //iterate through all breaks
       {
         var currBreak = breaks[combinedBreaks[breakIndex]];
-        var dateClone = cloneDate(date).setHours(0,0,0,0); //clear time on the date so time doesn't factor into breaks
+        var dateClone = cloneDate(date).setHours(0, 0, 0, 0); //clear time on the date so time doesn't factor into breaks
         //otherwise since breaks times are the start of their day, an event on Sept. 30th at 3:00pm won't be impacted by a date
         //on Sept. 30th, since that's technically Sept. 30th 00:00
 
@@ -1947,7 +1947,7 @@ function editEventTitle(event, elem)
   event.stopImmediatePropagation();
   $(elem).trigger('focus');
   highlightCurrent();
-  $(elem).siblings('.sch-evnt-save').css('display','inline');
+  $(elem).siblings('.sch-evnt-save').css('display', 'inline');
 }
 
 
@@ -1974,7 +1974,7 @@ function editCategory(elem)
 
   var colForTop = currCategory.color;
 
-  $('.cat-top-overlay').css('background-color',colForTop);
+  $('.cat-top-overlay').css('background-color', colForTop);
 
   /* if(col && col != "null") //check for null string from ruby
 		$(".cat-top-overlay").css("background-color",col);
@@ -2192,7 +2192,7 @@ function setupBreakAddOverlay(managing)
  */
 function changeCategoryColor(elem)
 {
-  $('.cat-top-overlay').css('background-color',$(elem).css('background-color'));
+  $('.cat-top-overlay').css('background-color', $(elem).css('background-color'));
 }
 
 /**
@@ -2524,7 +2524,7 @@ function deleteCategory(event, elem, id)
  * @param {number} id - id of data in element to add to database
  * @return {undefined}
  */
-function saveCategory(event,elem,id)
+function saveCategory(event, elem, id)
 {
   // uses dom to determine if the category has been given an actual name.
   const catName = ( $('.cat-overlay-title').html() === PLACEHOLDER_NAME ? '' : $('.cat-overlay-title').text());
@@ -2573,9 +2573,9 @@ function createBreak(name, startDate, endDate, callback)
 {
   // console.log("Make the break: " + name + ", " + startDate + ", " + endDate);
   var startD = new Date(startDate);
-  startD.setHours(0,0,0,0); //clear any time
+  startD.setHours(0, 0, 0, 0); //clear any time
   var endD = new Date(endDate);
-  endD.setHours(0,0,0,0); //clear any time
+  endD.setHours(0, 0, 0, 0); //clear any time
 
   $.ajax({
     url: '/repeat_exceptions',
@@ -2730,7 +2730,7 @@ function highlightCurrent()
   if ($('textarea:focus').length > 0 || $('input:focus').length > 0)
     $(':focus').select();
   else
-    document.execCommand('selectAll',false,null);
+    document.execCommand('selectAll', false, null);
 }
 
 /**

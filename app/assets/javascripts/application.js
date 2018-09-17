@@ -370,15 +370,15 @@ function handleNotifications(justGranted)
     if (typeof todaysEvents === 'undefined') //if the user isn't signed in
       return; //return
 
-    var today = new Date().setHours(0,0,0,0); //get the beginning of the day today
+    var today = new Date().setHours(0, 0, 0, 0); //get the beginning of the day today
 
     for (var i = 0; i < todaysEvents.length; i++) //iterate through the events today
     {
       var date = new Date(todaysEvents[i].date); //get the startDate of the event
-      if (new Date(date.getTime()).setHours(0,0,0,0) == today) //if it is indeed today
+      if (new Date(date.getTime()).setHours(0, 0, 0, 0) == today) //if it is indeed today
       {
         var timeTillInMS = date.getTime() - Date.now(); //get the time till the event in milliseconds
-        timedEventNotification(todaysEvents[i],timeTillInMS); //and time a notification
+        timedEventNotification(todaysEvents[i], timeTillInMS); //and time a notification
       }
     }
   }
@@ -535,7 +535,7 @@ function fadeToText(elem, newText, duration) //the element to fade on, the new t
   elem.animate({'color': 'rgba(0,0,0,0)'}, {duration: dur/2, queue: false, complete: function () //then animate to transparent
   {
     $(this).text(newText); //instantly change the text
-    elem.animate({'color': color_orig, 'max-width': 500, 'min-width': 0},{duration: dur/2, queue: false}); //and animate back
+    elem.animate({'color': color_orig, 'max-width': 500, 'min-width': 0}, {duration: dur/2, queue: false}); //and animate back
   }});
 }
 
