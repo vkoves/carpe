@@ -19,18 +19,20 @@
 
           <div class="privacy-block">
             <div class="profile-privacy"><%= @group.privacy.titleize %></div>
-            <% if current_user.in_group?(@group) %>
+            <% if user_signed_in? %>
+              <% if current_user.in_group?(@group) %>
+                <% if can? :update, @group %>
+                  <%= link_to("Edit Group", edit_group_path(@group), class: "edit button") %>
+                <% end %>
 
-              <% if can? :update, @group %>
-                <%= link_to("Edit Group", edit_group_path(@group), class: "edit button") if can?(:update, @group) %>
-              <% end %>
-
-              <%= link_to("Leave Group", leave_group_path(@group), class: "red button", data: { confirm: leave_warning(@membership) }) %>
-            <% else %>
-              <% if @group.pending_invite_request? current_user %>
-                <p>Pending Invite Response</p>
+                <%= link_to("Leave Group", leave_group_path(@group), class: "red button",
+                            data: { confirm: leave_warning(@membership) }) %>
               <% else %>
-                <%= link_to "Join Group", join_group_path(@group), class: "green button" %>
+                <% if @group.pending_invite_request? current_user %>
+                  <p>Pending Invite Response</p>
+                <% else %>
+                  <%= link_to "Join Group", join_group_path(@group), class: "green button" %>
+                <% end %>
               <% end %>
             <% end %>
           </div>
@@ -58,6 +60,8 @@
   <!--<span class="red close button"></span>-->
   <h3>Invite Members</h3>
   <%= render "shared/user_adder", name: "user_ids", search_path: group_invite_users_search_path(@group) %>
+
+  <!-- TODO: Move this onclick to groups/show.js -->
   <span class="green button" id="group-inviter-send-invite" onclick="sendInvites(this, <%= @group.id %>)">Send Invite</span>
 </div>
 

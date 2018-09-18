@@ -60,7 +60,7 @@ class ApplicationController < ActionController::Base
     if q != "" #only search if it's not silly
       users = User.where('name LIKE ?', "%#{q}%").limit(10)
       users = User.rank(users, q)
-      
+
       # Convert the users into a hash with the least data needed to show search. Recall that users can see the JSON
       # the search returns in the network tab, so it's crucial we don't pass unused attributes
       user_map = users.map{|user|

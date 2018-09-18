@@ -1,3 +1,6 @@
+/* Indicate to ESLint that functions and UIManager are a global "export" */
+/* exported confirmUI, alertUI, customAlertUI, UIManager */
+
 /**
  * Show a custom confirm with the given message, calling the callback with the value of whether the user confirmed
  * Replaces javascripts default confirm function
@@ -9,11 +12,11 @@ function confirmUI(message, callback)
 	$("#overlay-confirm").remove(); //Delete existing div
 
 	//Then append the box to the body
-	$("body").append("<div id='overlay-confirm' class='overlay-box center-text'>"
-		+ "<h3>" + message + "</h3>"
-		+ "<span id='cancel' class='default green'>Cancel</span>"
-		+ "<span id='confirm' class='default red'>OK</span>"
-		+ "</div>");
+	$("body").append("<div id='overlay-confirm' class='overlay-box center-text'>" +
+		"<h3>" + message + "</h3>" +
+		"<span id='cancel' class='default green'>Cancel</span>" +
+		"<span id='confirm' class='default red'>OK</span>" +
+		"</div>");
 
 	UIManager.slideIn("#overlay-confirm");
 
@@ -59,11 +62,11 @@ function customAlertUI(message, content, callback)
 	$("#overlay-alert").remove(); //Delete existing div
 
 	//Then append the box to the body
-	$("body").append("<div id='overlay-alert' class='overlay-box center-text'>"
-		+ "<h3>" + message + "</h3>"
-		+ content
-		+ "<span id='alert-close' class='default red'>OK</span>"
-		+ "</div>");
+	$("body").append("<div id='overlay-alert' class='overlay-box center-text'>" +
+		"<h3>" + message + "</h3>" +
+		content +
+		"<span id='alert-close' class='default red'>OK</span>" +
+		"</div>");
 
 	UIManager.slideIn("#overlay-alert");
 
@@ -163,12 +166,16 @@ var UIManager = {
 	// hides all overlays
 	hideAllOverlays: function()
 	{
+		// Sets a timeout to
+		var hideAfterTime = function(timeInMs) {
+			setTimeout(function() {
+				UIManager.hideLastOverlay();
+			}, timeInMs);
+		};
+
 		for(var i = 0; i < UIManager.overlayBoxes.length; i++)
 		{
-			setTimeout(function()
-			{
-				UIManager.hideLastOverlay();
-			}, i*200);
+			hideAfterTime(i * 200);
 		}
 	},
 };

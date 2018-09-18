@@ -5,7 +5,7 @@ $(document).ready(setupEvents);
  */
 function setupEvents() {
 	// show/hide member options on the 'Manage Members' page
-	$('.user-with-options .overview').click(function(event) {
+	$('.user-with-options .overview').click(function() {
 		$(this).siblings('.options').slideToggle(200);
 	});
 
@@ -19,7 +19,7 @@ function setupEvents() {
 	});
 }
 
-/* for each user on in the group show the user cards of the users 
+/* for each user on in the group show the user cards of the users
  * whose name matches a given string. similar to 'LIKE % %' in sql.
  * @param {String} searchText - text to find user names that are similar to
  */
@@ -41,20 +41,22 @@ function showRelevantUsers(searchText) {
 }
 
 /* send invite to join a group to a given user
- * POSTs to invite_to_group route in groups controler 
+ * POSTs to invite_to_group route in groups controler
  * @param {HtmlElement} self - html object of the user card to get the user id from
  * @param {String} groupId - id of group to invite user to
  */
+// TODO: This function is used in groups/show.html.erb, but should be instead
+// setup in this file, which fixes the linting error disabled below
+ /* eslint-disable-next-line no-unused-vars */
 function sendInvites(self, groupId) {
 	const userIds = $("#user_ids").val().split(",");
 	userIds.forEach(function (userId) {
 		$.post("/invite_to_group", { group_id: groupId, user_id: userId }, function(res) {
-				if (res["errors"] && res["errors"].length > 0) {
-					alertUI("They've already been invited!");
-				} else {
-					alertUI("Group invites sent!");
-				}
-			},
-		);
-	})
+			if (res.errors && res.errors.length > 0) {
+				alertUI("They've already been invited!");
+			} else {
+				alertUI("Group invites sent!");
+			}
+		});
+	});
 }
