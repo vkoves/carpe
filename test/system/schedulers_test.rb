@@ -26,11 +26,11 @@ class SchedulersTest < ApplicationSystemTestCase
     click ".color-swatch.blue"
     assert_selector ".color-swatch.blue.selected"
 
-    type "Random Things", into: ".cat-overlay-title"
+    type "Random Stuff", into: ".cat-overlay-title"
     click ".sch-evnt-save-cat"
 
     assert_no_selector ".ui-widget-overlay"
-    assert_text "Random Things"
+    assert_text "Random Stuff"
     assert_includes categories.last["style"], "rgb(66, 133, 245)"
   end
 
