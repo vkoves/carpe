@@ -43,10 +43,8 @@
 var mobileSidebarOpen = false;
 
 //Handle window resizing
-$(window).resize(function()
-{
-  if ($( window ).width() > 800)
-  {
+$(window).resize(function() {
+  if ($( window ).width() > 800) {
     $('#mobile-menu').slideUp(300);
   }
 });
@@ -62,19 +60,15 @@ $(document).tooltip({
  * when the page is being loaded from a turbo-link.
  * @return {undefined}
  */
-function ready()
-{
-  if (Notification.permission == 'default')
-  {
+function ready() {
+  if (Notification.permission == 'default') {
     // Commented out as this triggers constantly on every page even when a user is not signed in
     /*
 		Notification.requestPermission(function (permission) {
 		  handleNotifications(true);
 		});
 		*/
-  }
-  else if (Notification.permission == 'granted')
-  {
+  } else if (Notification.permission == 'granted') {
     handleNotifications();
   }
 
@@ -86,62 +80,52 @@ function ready()
  * Adds event listeners (e.g., onclick) to elements throughout the site
  * @return {undefined}
  */
-function initializeEventListeners()
-{
+function initializeEventListeners() {
   // Add click handling for closing alerts
-  $('.alert-holder span img').click(function()
-  {
+  $('.alert-holder span img').click(function() {
     $(this).parent().fadeOut();
   });
 
-  $('#shortcut-overlay-box .close').click(function()
-  {
+  $('#shortcut-overlay-box .close').click(function() {
     $('#shortcut-overlay-box, .ui-widget-overlay').fadeOut();
   });
 
-  $('.toggle-details').click(function()
-  {
+  $('.toggle-details').click(function() {
     $(this).parent().parent().find('.details').toggle();
   });
 
   //Start initializing event listeners for everything
-  $('#user-menu-toggler').click(function()
-  {
+  $('#user-menu-toggler').click(function() {
     $('#user-panel').slideToggle(300);
     $('#notif-panel').slideUp(300);
   });
 
   //Handle notification bell click
-  $('.bell-hold').click(function(event)
-  {
+  $('.bell-hold').click(function(event) {
     event.stopPropagation();
 
     $('#notif-panel').slideToggle(300);
     $('#user-panel').slideUp(300);
 
-    if ($('.bell-hold #num').is(':visible')) //if the notification count is visible
-    {
+    //if the notification count is visible
+    if ($('.bell-hold #num').is(':visible')) {
       //send a request indicating notifications were read
-      $.ajax(
-        {
-          url: '/notifications/read',
-          type: 'POST',
-          success: function()
-          {
-            console.log('All notifications marked as read.');
-            $('.bell-hold #num').fadeOut();
-          },
-          error: function()
-          {
-            console.log('Marking notifications as read failed :(');
-          }
-        });
+      $.ajax({
+        url: '/notifications/read',
+        type: 'POST',
+        success: function() {
+          console.log('All notifications marked as read.');
+          $('.bell-hold #num').fadeOut();
+        },
+        error: function() {
+          console.log('Marking notifications as read failed :(');
+        }
+      });
     }
   });
 
   //Toggle mobile menu on click
-  $('#header-mob-menu').click(function()
-  {
+  $('#header-mob-menu').click(function() {
     $('#mobile-menu').slideToggle(300);
   });
 
@@ -193,8 +177,7 @@ function initializeEventListeners()
     $(this).text('Following'); // mouse out
   });
 
-  $('#notif-panel').on('ajax:success', 'a', function()
-  {
+  $('#notif-panel').on('ajax:success', 'a', function() {
     const $button = $(this);
     $button.animate({'background-color': 'white'}, 300);
 
@@ -205,20 +188,17 @@ function initializeEventListeners()
 
   //Promote buttons POST completion
   $('.promotion span').parent().bind('ajax:success', function(event, data) {
-    if (data && data.action && data.action === 'promote' || data.action === 'demote')
-    {
+    if (data && data.action && data.action === 'promote' || data.action === 'demote') {
       //since the ajax:success is called on every promotion button, only run code if this is the one that was clicked
-      if ($(this).attr('uid') == parseInt(data.uid))
-      {
+      if ($(this).attr('uid') == parseInt(data.uid)) {
         var span = $(this).find('span'); //get the span tag in this button
 
-        if ($(this).hasClass('red')) //if the user was demoted (the button was red)
-        {
+        //if the user was demoted (the button was red)
+        if ($(this).hasClass('red')) {
           $(this).attr('href', data.new_href); //remove demote parameter
           fadeToText(span, 'Promote'); //and fade to Promote text
-        }
-        else //if the user was promoted (the button was not red)
-        {
+        } else {
+          //if the user was promoted (the button was not red)
           $(this).attr('href', data.new_href); //add the demote parameter
           fadeToText(span, 'Demote'); //and fade to Demote text
         }
@@ -235,12 +215,11 @@ function initializeEventListeners()
     searchDelay: 0,
     animateDropdown: false,
     addOnlyOne: true,
-    onAdd: function(value) //link to the thing that was selected
-    {
+    onAdd: function(value) {
+      //link to the thing that was selected
       location.href = value.link_url;
     },
-    resultsFormatter: function(element) //format the results
-    {
+    resultsFormatter: function(element) {
       var img_url = element.image_url || 'https://www.gravatar.com/avatar/?d=mm';
       return 	'<li>' +
 						'<div class=\'avatar search-avatar\'><img src=\'' + img_url + '\'></div><div class=\'name with-type\'>' + escapeHtml(element.name) + '</div>' +
@@ -256,61 +235,47 @@ function initializeEventListeners()
  * Initializes all of the keyboard shortcuts for the scheduler
  * @return {undefined}
  */
-function keyboardShortcutHandlers()
-{
-  $(document).keydown(function(e)
-  {
-    if ($(':focus').length > 0) //if the user is focused on an element (they are in an input field)
+function keyboardShortcutHandlers() {
+  $(document).keydown(function(e) {
+    //if the user is focused on an element (they are in an input field)
+    if ($(':focus').length > 0) {
       return;
+    }
 
     var shift = e.shiftKey;
     var ctrl = e.ctrlKey;
     var alt = e.altKey;
 
-    if ((shift && pressed('/')) ||
-			(ctrl && pressed('/')))
-    {
+    if ((shift && pressed('/')) || (ctrl && pressed('/'))) {
       e.preventDefault();
 
-      if (!$('#shortcut-overlay-box').is(':visible'))
-      {
+      if (!$('#shortcut-overlay-box').is(':visible')) {
         UIManager.showOverlay();
         UIManager.slideIn('#shortcut-overlay-box');
       }
-    }
-    else if (ctrl && pressed('S')) {
+    } else if (ctrl && pressed('S')) {
       e.preventDefault();
       saveEvents();
-    }
-    else if (alt && pressed('E'))
-    {
+    } else if (alt && pressed('E')) {
       e.preventDefault();
-    }
-    else if (alt && pressed('C'))
-    {
+    } else if (alt && pressed('C')) {
       e.preventDefault();
       createCategory();
-    }
-    else if (ctrl && shift && pressed('left-arrow'))
-    {
+    } else if (ctrl && shift && pressed('left-arrow')) {
       e.preventDefault();
       moveWeek(false);
-    }
-    else if (ctrl && shift && pressed('right-arrow'))
-    {
+    } else if (ctrl && shift && pressed('right-arrow')) {
       e.preventDefault();
       moveWeek(true);
-    }
-    else if (ctrl && pressed('M')) //switch between monthly and weekly view
-    {
+    } else if (ctrl && pressed('M')) {
+      //switch between monthly and weekly view
       e.preventDefault();
-      if (viewMode == 'week')
+      if (viewMode == 'week') {
         initializeMonthlyView();
-      else
+      } else {
         initializeWeeklyView();
-    }
-    else if (pressed('/'))
-    {
+      }
+    } else if (pressed('/')) {
       e.preventDefault();
       $('.header-main .token-input-input-token input').focus();
     }
@@ -320,14 +285,18 @@ function keyboardShortcutHandlers()
      * @param  {String} charString A character to check against
      * @return {Boolean} Whether the key was pressed
      */
-    function pressed(charString)
-    {
-      if (charString == '/')
+    function pressed(charString) {
+      if (charString == '/') {
         return Boolean(e.keyCode == 191);
-      if (charString == 'left-arrow')
+      }
+
+      if (charString == 'left-arrow') {
         return Boolean(e.keyCode == 37);
-      if (charString == 'right-arrow')
+      }
+
+      if (charString == 'right-arrow') {
         return Boolean(e.keyCode == 39);
+      }
 
       //handle alphanumerics
       return Boolean(e.keyCode == charString.charCodeAt(0));
@@ -342,10 +311,11 @@ function keyboardShortcutHandlers()
 function toggleSidebar() {
   mobileSidebarOpen = !mobileSidebarOpen;
 
-  if (mobileSidebarOpen)
+  if (mobileSidebarOpen) {
     $('#sidebar-cont').addClass('open');
-  else
+  } else {
     $('#sidebar-cont').removeClass('open');
+  }
 }
 
 /**
@@ -357,26 +327,26 @@ function toggleSidebar() {
  *                                 displays thank-you message
  * @return {undefined}
  */
-function handleNotifications(justGranted)
-{
+function handleNotifications(justGranted) {
   // If the user accepts, let's create a notification
-  if (Notification.permission === 'granted')
-  {
-    if (justGranted) //if notification permission was just granted
-    {
+  if (Notification.permission === 'granted') {
+    if (justGranted) {
       printNotification('Thanks for enabling notifications!', 2000); //give a thank you
     }
 
-    if (typeof todaysEvents === 'undefined') //if the user isn't signed in
-      return; //return
+    //if the user isn't signed in
+    if (typeof todaysEvents === 'undefined') {
+      return;
+    }
 
     var today = new Date().setHours(0, 0, 0, 0); //get the beginning of the day today
 
-    for (var i = 0; i < todaysEvents.length; i++) //iterate through the events today
-    {
+    //iterate through the events today
+    for (var i = 0; i < todaysEvents.length; i++) {
       var date = new Date(todaysEvents[i].date); //get the startDate of the event
-      if (new Date(date.getTime()).setHours(0, 0, 0, 0) == today) //if it is indeed today
-      {
+
+      //if it is indeed today
+      if (new Date(date.getTime()).setHours(0, 0, 0, 0) == today) {
         var timeTillInMS = date.getTime() - Date.now(); //get the time till the event in milliseconds
         timedEventNotification(todaysEvents[i], timeTillInMS); //and time a notification
       }
@@ -394,60 +364,56 @@ function handleNotifications(justGranted)
  *                                notification will be displayed
  * @return {undefined}
  */
-function timedEventNotification(event, time)
-{
+function timedEventNotification(event, time) {
   var text = event.name || 'Untitled';
 
-  if (time < 0) //if this event already started
-  {
+  //if this event already started
+  if (time < 0) {
     var endDate = new Date(event.end_date); //get the end date
-    if (endDate.getTime() > new Date().getTime()) //and check that this event hasn't ended
+    if (endDate.getTime() > new Date().getTime()) {
+      //and check that this event hasn't ended
       text = text + ' has started!'; //if it has, print that it started
-    else //otherwise, the event has ended
-      return; //so return
-  }
-  else //if the event will start
-  {
+    } else {
+      //otherwise, the event has ended
+      return;
+    }
+  } else {
+    //if the event will start
     text = text + ' is starting!'; //indicate such
   }
 
-  setTimeout(function() //and set appropriate timeout
-  {
+  //and set appropriate timeout
+  setTimeout(function() {
     printEventNotification(event.id, text);
   }, time);
 }
 
-//Set a cookie indicating a notification was printed for an event, so you aren't notified again
 /**
  * Sets a browser cookie after user receives a desktop notification for an event,
  * so that they aren't notified for the same event again on the same day.
  * @param {number} id -
  * @return {undefined}
  */
-function setEventCookie(id)
-{
+function setEventCookie(id) {
   var currDate = (new Date()).toISOString().split('T')[0]; //get the current date, convert to ISO, and strip the time away
   var currCookie = getCookie('carpeEventsNotified');
   document.cookie = 'carpeEventsNotified=' + currCookie + '&' + id + '@' + currDate;
 }
 
-//Try to print an event notification for an event with a given id, and with certain text
 /**
- * [printEventNotification description]
+ * Try to print an event notification for an event with a given id, and with certain text.
  * @param  {number} eventID - [description]
  * @param  {string}    text - [description]
  * @return {undefined}
  */
-function printEventNotification(eventID, text)
-{
+function printEventNotification(eventID, text) {
   var currDate = (new Date()).toISOString().split('T')[0]; //get the current date, convert to ISO, and strip the time away
   var currCookie = getCookie('carpeEventsNotified');
-  if (currCookie.indexOf(eventID + '@' + currDate) > -1) //if the cookie says we've printed for this event today
-  {
-    return; //then just return
-  }
-  else //otherwise
-  {
+
+  //if the cookie says we've printed for this event today
+  if (currCookie.indexOf(eventID + '@' + currDate) > -1) {
+    return;
+  } else {
     printNotification(text); //print the event notification as asked for
     setEventCookie(eventID); //and update the cookie indicating this
   }
@@ -460,33 +426,24 @@ function printEventNotification(eventID, text)
  * @param  {number} hideTime The time in ms till the text is hidden
  * @return {undefined}
  */
-function printNotification(text, hideTime)
-{
+function printNotification(text, hideTime) {
   var options = {
     body: text,
     icon: 'assets/images/CarpeIcon.png',
   };
-  var notification = new Notification('Carpe', options);
-  if (hideTime)
-    setTimeout(notification.close.bind(notification), hideTime); //close this notification in 2000ms or 2 seconds
-}
 
-// function closeNotifications()
-// {
-// 	icon.animate({'background-color': "white"}, 300); //animate the icon to white
-// 	setTimeout(function(){ //and fade out the notification
-// 		notif.fadeOut(handleNotificationClosed);
-// 	}, 150);
-// }
+  var notification = new Notification('Carpe', options);
+  if (hideTime) {
+    setTimeout(notification.close.bind(notification), hideTime); //close this notification in 2000ms or 2 seconds
+  }
+}
 
 /**
  * Called after a notification is closed. Check if there are notifications left, if not, show message
  * @return {undefined}
  */
-function handleNotificationClosed()
-{
-  if ($('.notif:visible').length == 0)
-  {
+function handleNotificationClosed() {
+  if ($('.notif:visible').length == 0) {
     $('#no-notifs').fadeIn();
   }
 }
@@ -496,8 +453,7 @@ function handleNotificationClosed()
  * @param {jQuery} $notifCard - card to be deleted (should have .notif class)
  * @return {undefined}
  */
-function removeNotificationCard($notifCard)
-{
+function removeNotificationCard($notifCard) {
   $notifCard.fadeOut(handleNotificationClosed);
 
   const titleAboveCard = $notifCard.prev().attr('class') === 'notif-title';
@@ -505,13 +461,11 @@ function removeNotificationCard($notifCard)
   const shouldRemoveGroupTitle = (titleAboveCard && !moreNotificationsBelow);
 
   // remove group titles (when appropriate)
-  if (shouldRemoveGroupTitle)
-  {
+  if (shouldRemoveGroupTitle) {
     const $groupTitle = $notifCard.prev();
     $groupTitle.fadeOut();
   }
 }
-
 
 /**
  * Generalized function for fading between text on an element
@@ -520,8 +474,7 @@ function removeNotificationCard($notifCard)
  * @param  {number} duration The animation duration of the fade
  * @return {undefined}
  */
-function fadeToText(elem, newText, duration) //the element to fade on, the new text, and an optional duration
-{
+function fadeToText(elem, newText, duration) {
   var dur = duration || 500; //default duration of 500ms
 
   var width_orig = Math.ceil(parseInt(elem.css('width'))); //round up the current width
@@ -532,10 +485,10 @@ function fadeToText(elem, newText, duration) //the element to fade on, the new t
   elem.css('min-width', width_orig); //and set the min width to the original width
   elem.css('white-space', 'nowrap');
 
-  elem.animate({'color': 'rgba(0,0,0,0)'}, {duration: dur/2, queue: false, complete: function () //then animate to transparent
-  {
+  //then animate to transparent
+  elem.animate({'color': 'rgba(0,0,0,0)'}, {duration: dur / 2, queue: false, complete: function () {
     $(this).text(newText); //instantly change the text
-    elem.animate({'color': color_orig, 'max-width': 500, 'min-width': 0}, {duration: dur/2, queue: false}); //and animate back
+    elem.animate({'color': color_orig, 'max-width': 500, 'min-width': 0}, {duration: dur / 2, queue: false}); //and animate back
   }});
 }
 
@@ -547,19 +500,15 @@ function fadeToText(elem, newText, duration) //the element to fade on, the new t
  * @param  {String} cname The name of the cookie
  * @return {String}       The cookie value
  */
-function getCookie(cname)
-{
+function getCookie(cname) {
   var name = cname + '=';
   var cookieArray = document.cookie.split(';');
-  for (var i = 0; i < cookieArray.length; i++)
-  {
+  for (var i = 0; i < cookieArray.length; i++) {
     var currCookie = cookieArray[i];
-    while (currCookie.charAt(0) == ' ')
-    {
+    while (currCookie.charAt(0) == ' ') {
       currCookie = currCookie.substring(1);
     }
-    if (currCookie.indexOf(name) == 0)
-    {
+    if (currCookie.indexOf(name) == 0) {
       return currCookie.substring(name.length, currCookie.length);
     }
   }

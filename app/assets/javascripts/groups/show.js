@@ -1,3 +1,5 @@
+/* exported sendInvites */
+
 $(document).ready(setupEvents);
 
 /**
@@ -51,11 +53,11 @@ function showRelevantUsers(searchText) {
  * TODO: This function is used in groups/show.html.erb, but should be instead
  * setup in this file, which fixes the linting error disabled below
  *
- * @param {HtmlElement} self - html object of the user card to get the user id from
+ * @param {HtmlElement} _self - html object of the user card to get the user id from
  * @param {String} groupId - id of group to invite user to
  * @return {undefined}
  */
-function sendInvites(self, groupId) { // eslint-disable-line no-unused-vars
+function sendInvites(_self, groupId) {
   const userIds = $('#user_ids').val().split(',');
   userIds.forEach(function (userId) {
     $.post('/invite_to_group', { group_id: groupId, user_id: userId }, function(res) {

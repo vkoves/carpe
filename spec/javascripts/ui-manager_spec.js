@@ -1,6 +1,5 @@
 describe('UI Manager', () => {
-  it('should show overlay', () =>
-  {
+  it('should show overlay', () => {
     UIManager.showOverlay();
 
     expect($('.ui-widget-overlay:visible').length).to.equal(1);

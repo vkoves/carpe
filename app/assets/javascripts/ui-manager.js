@@ -8,29 +8,26 @@
  * @param {Function} callback The callback to trigger IF the user confirms
  * @return {undefined}
  */
-function confirmUI(message, callback)
-{
+function confirmUI(message, callback) {
   UIManager.showOverlay(); //show the overlay
 
   $('#overlay-confirm').remove(); //Delete existing div
 
   //Then append the box to the body
   $('body').append('<div id=\'overlay-confirm\' class=\'overlay-box center-text\'>' +
-		'<h3>' + message + '</h3>' +
-		'<span id=\'cancel\' class=\'default green\'>Cancel</span>' +
-		'<span id=\'confirm\' class=\'default red\'>OK</span>' +
-		'</div>');
+    '<h3>' + message + '</h3>' +
+    '<span id=\'cancel\' class=\'default green\'>Cancel</span>' +
+    '<span id=\'confirm\' class=\'default red\'>OK</span>' +
+    '</div>');
 
   UIManager.slideIn('#overlay-confirm');
 
   //Then bind click actions
-  $('#overlay-confirm #cancel').click(function()
-  {
+  $('#overlay-confirm #cancel').click(function() {
     closeConfirm(false);
   });
 
-  $('#overlay-confirm #confirm').click(function()
-  {
+  $('#overlay-confirm #confirm').click(function() {
     closeConfirm(true);
   });
 
@@ -41,15 +38,14 @@ function confirmUI(message, callback)
    * @param  {Boolean} returnValue Whether the user confirmed the modal
    * @return {undefined}
    */
-  function closeConfirm(returnValue)
-  {
-    UIManager.slideOutHideOverlay('#overlay-confirm', function()
-    {
+  function closeConfirm(returnValue) {
+    UIManager.slideOutHideOverlay('#overlay-confirm', function() {
       $('#overlay-confirm').remove();
 
       // if a callback was specified and the user confirmed, call the callback
-      if (callback && returnValue == true)
+      if (callback && returnValue == true) {
         callback();
+      }
     });
   }
 }
@@ -61,8 +57,7 @@ function confirmUI(message, callback)
  * @param {Function} callback The callback to trigger IF the user confirms
  * @return {undefined}
  */
-function alertUI(message, callback)
-{
+function alertUI(message, callback) {
   customAlertUI(message, '', callback);
 }
 
@@ -73,28 +68,27 @@ function alertUI(message, callback)
  * @param  {Function} callback A callback triggered when the modal is closed
  * @return {undefined}
  */
-function customAlertUI(title, content, callback)
-{
+function customAlertUI(title, content, callback) {
   UIManager.showOverlay(); //show the overlay
 
   $('#overlay-alert').remove(); //Delete existing div
 
   //Then append the box to the body
   $('body').append('<div id=\'overlay-alert\' class=\'overlay-box center-text\'>' +
-		'<h3>' + title + '</h3>' +
-		content +
-		'<span id=\'alert-close\' class=\'default red\'>OK</span>' +
-		'</div>');
+    '<h3>' + title + '</h3>' +
+    content +
+    '<span id=\'alert-close\' class=\'default red\'>OK</span>' +
+    '</div>');
 
   UIManager.slideIn('#overlay-alert');
 
-  $('#alert-close').click(function()
-  {
-    UIManager.slideOutHideOverlay('#overlay-alert', function()
-    {
+  $('#alert-close').click(function() {
+    UIManager.slideOutHideOverlay('#overlay-alert', function() {
       $('#overlay-alert').remove();
-      if (callback)
+
+      if (callback) {
         callback();
+      }
     });
   });
 }
@@ -108,19 +102,17 @@ var UIManager = {
   overlayBoxes: [], // array of overlay selectors, with first element being oldest (acts as a stack)
 
   /* Returns top position so div is 10px off screen top */
-  hiddenTop: function(selector)
-  {
-    return - $(selector).outerHeight() - 10;
+  hiddenTop: function(selector) {
+    return -$(selector).outerHeight() - 10;
   },
 
   /**
    * Fades in the transparent overlay if needed
    * @return {undefined}
    */
-  showOverlay: function()
-  {
-    if ($('.ui-widget-overlay').length == 0) //if there isn't an overlay already
-    {
+  showOverlay: function() {
+    //if there isn't an overlay already
+    if ($('.ui-widget-overlay').length == 0) {
       $('body').append('<div class=\'ui-widget-overlay\'></div>'); //append one to the body
       $('.ui-widget-overlay').hide(); //hide it instantly
       $('.ui-widget-overlay').click(UIManager.hideAllOverlays); // and give it a click handler
@@ -132,13 +124,12 @@ var UIManager = {
    * @param  {Function} callback The callback to trigger after the fade
    * @return {undefined}
    */
-  hideOverlay: function(callback)
-  {
+  hideOverlay: function(callback) {
     // Fade out with default settings
-    $('.ui-widget-overlay').fadeOut(300, 'swing', function()
-    {
-      if (callback) //and if a callback was passed
-        callback(); //trigger it
+    $('.ui-widget-overlay').fadeOut(300, 'swing', function() {
+      if (callback) {
+        callback();
+      }
     });
   },
   /**
@@ -147,9 +138,8 @@ var UIManager = {
    * @param  {Function} callback A callback called after animation completes
    * @return {undefined}
    */
-  slideIn: function(selector, callback)
-  {
-    $(selector).css('top', this.hiddenTop(selector) )
+  slideIn: function(selector, callback) {
+    $(selector).css('top', this.hiddenTop(selector))
       .show()
       .animate({ top: this.visibleTop }, 700, 'easeOutExpo', callback)
       .addClass('visible');
@@ -161,46 +151,40 @@ var UIManager = {
    * @param  {Function} callback A callback called after animation completes
    * @return {undefined}
    */
-  slideOut: function(selector, callback)
-  {
-    $(selector).animate({ top: this.hiddenTop(selector) }, 400, 'swing', function()
-    {
+  slideOut: function(selector, callback) {
+    $(selector).animate({ top: this.hiddenTop(selector) }, 400, 'swing', function() {
       $(this).hide().removeClass('visible');
 
-      if (callback)
+      if (callback) {
         callback();
+      }
     });
 
     this.overlayBoxes.pop(); // remove from stack
   },
-  slideOutHideOverlay: function(selector, callback)
-  {
-    if (this.overlayBoxes.length <= 1) //if there's only one visible overlay box
-    {
+  slideOutHideOverlay: function(selector, callback) {
+    //if there's only one visible overlay box
+    if (this.overlayBoxes.length <= 1) {
       var self = this;
       this.slideOut(selector);
-      setTimeout(function()
-      {
+      setTimeout(function() {
         self.hideOverlay(callback); //hide the overlay and runn callback
       }, 200);
-    }
-    else
+    } else {
       this.slideOut(selector, callback);
+    }
   },
-  slideInShowOverlay: function(selector, callback)
-  {
+  slideInShowOverlay: function(selector, callback) {
     this.showOverlay();
     this.slideIn(selector, callback);
   },
   // runs slideOutHideOverlay on the most recently opened overlay
-  hideLastOverlay: function()
-  {
+  hideLastOverlay: function() {
     var lastOverlay = this.overlayBoxes[this.overlayBoxes.length - 1];
     this.slideOutHideOverlay(lastOverlay);
   },
   // hides all overlays
-  hideAllOverlays: function()
-  {
+  hideAllOverlays: function() {
     // Sets a timeout to
     var hideAfterTime = function(timeInMs) {
       setTimeout(function() {
@@ -208,18 +192,16 @@ var UIManager = {
       }, timeInMs);
     };
 
-    for (var i = 0; i < UIManager.overlayBoxes.length; i++)
-    {
+    for (var i = 0; i < UIManager.overlayBoxes.length; i++) {
       hideAfterTime(i * 200);
     }
-  },
+  }
 };
 
 /** Add event listener to close overlays on pressing escape */
-$(document).keyup(function(e)
-{
-  if (e.keyCode == 27) // escape key maps to keycode `27`
-  {
+$(document).keyup(function(e) {
+  // escape key maps to keycode `27`
+  if (e.keyCode == 27) {
     UIManager.hideLastOverlay();
   }
 });
