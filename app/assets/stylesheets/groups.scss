@@ -32,6 +32,7 @@ html, body
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	grid-column-gap: 1rem;
+	grid-row-gap: 1rem;
 }
 
 .shaded {
@@ -80,6 +81,13 @@ html, body
 	{
 		align-content: space-between;
 	}
+}
+
+.flex-text-img {
+	display: flex;
+	align-items: center;
+
+	img { margin-right: 10px; }
 }
 
 /* base class, see .small-group-card and .large-group-card */
@@ -147,8 +155,8 @@ html, body
 {
 	@extend %group-card;
 	display: block;
-	height: 210px;
 	overflow: hidden;
+	padding-bottom: 20px;
 
 	.card-header {
 		position: relative;

@@ -20,7 +20,17 @@
   </div>
 
   <div class="main">
-    <%= group.description %> <br>
-    <%= group.size %> <%= 'Member'.pluralize(group.size) %>
+    <div class="flex-text-img">
+      <%= image_tag "description", alt: "" %>
+      <% if group.description.present? # If the description is provided %>
+        <%= group.description %>
+      <% else %>
+        <em>This group has no description.</em>
+      <% end %>
+    </div>
+    <div class="flex-text-img">
+      <%= image_tag "person-multiple", alt: "" %>
+      <%= group.size %> <%= 'Member'.pluralize(group.size) %>
+    </div>
   </div>
 </div>

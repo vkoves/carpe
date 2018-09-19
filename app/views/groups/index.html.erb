@@ -1,7 +1,10 @@
 <%= stylesheet_link_tag "groups" %>
 <%= javascript_include_tag "groups/index" %>
 <div class="page-container">
-  <h2 class="left-align">Your Groups</h2>
+  <h2 class="flex-text-img left-align">
+    <%= image_tag "person-one", alt: "" %>
+    Your Groups
+  </h2>
   <% if current_user.groups.empty? %>
     <h4> You don't belong to any groups! Join a group and it will show up here. </h4>
   <% else %>
@@ -12,7 +15,10 @@
 
   <div id="groups-list-header">
     <div id="header-info">
-      <h2 class="left-align">Public Groups</h2>
+      <h2 class="flex-text-img left-align">
+        <%= image_tag "globe", alt: "" %>
+        Public Groups
+      </h2>
       <%= link_to "+ Create Group", new_group_path, class: "large green button" %>
     </div>
 
