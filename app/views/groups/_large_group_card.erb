@@ -15,12 +15,12 @@
     <% if group.pending_invite_request? current_user %>
       <h3>Invite Request Sent!</h3>
     <% else %>
-      <%= link_to "Join Group", join_group_path(group), class: "wide button" %>
+      <%= link_to "+ Join", join_group_path(group), class: "button -join" %>
     <% end %>
   </div>
 
   <div class="main">
-    <div class="flex-text-img">
+    <div class="flex-text-img -align-top">
       <%= image_tag "description", alt: "" %>
       <% if group.description.present? # If the description is provided %>
         <%= group.description %>
