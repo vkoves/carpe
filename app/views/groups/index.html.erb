@@ -6,7 +6,9 @@
     Your Groups
   </h2>
   <% if current_user.groups.empty? %>
-    <h4> You don't belong to any groups! Join a group and it will show up here. </h4>
+    <p class="left-align">
+      You don't belong to any groups! Join a group and it will show up here.
+    </p>
   <% else %>
     <div class="two-col-card-cont">
       <%= render partial: "small_group_card", collection: current_user.groups, as: :group %>
