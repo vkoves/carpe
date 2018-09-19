@@ -38,15 +38,16 @@ module.exports = {
     /**
      * Best Practices
      */
+    'curly': ['error', 'all'], // require '{' and '}' on blocks, even if one line
     'no-unused-vars': ['error', { 'argsIgnorePattern': '^_' }],
     // TODO: Unccomment and manually fix these, as they require finesse or
     // can break things
-    // "curly": ["error", "all"], // require '{' and '}' on blocks, even if one line
     // "eqeqeq": "error", // only allow ===, not == -
 
     /**
      * Stylistic Issues
      */
+    'brace-style': ['error', '1tbs', { 'allowSingleLine': true }], // braces go on the same line
     'comma-spacing': 'error', // require spaces between commas (e.g. [a, b])
     'eol-last': 'error', // require EOF newline
     'indent': ['error', 2], // enforce 2 space indents
@@ -56,8 +57,6 @@ module.exports = {
     'require-jsdoc': 'error', // require JSDoc
     'semi': ['error', 'always'], // require semi-colons
     'space-before-blocks': 'error', // require space before starting block
-    'curly': 2, // require braces (you know, 2 of them)
-    'brace-style': ['error', '1tbs', { 'allowSingleLine': true }], // braces go on the same line
     'space-infix-ops': ['error'] // require spaces around operators for legibility
   }
 };
