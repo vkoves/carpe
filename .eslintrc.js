@@ -57,6 +57,7 @@ module.exports = {
     'require-jsdoc': 'error', // require JSDoc
     'semi': ['error', 'always'], // require semi-colons
     'space-before-blocks': 'error', // require space before starting block
+    'spaced-comment': ['error', 'always', { 'markers': ['='] }], // require 1 space after comment line
     'space-infix-ops': ['error'] // require spaces around operators for legibility
   }
 };

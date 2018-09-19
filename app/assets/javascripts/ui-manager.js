@@ -9,11 +9,11 @@
  * @return {undefined}
  */
 function confirmUI(message, callback) {
-  UIManager.showOverlay(); //show the overlay
+  UIManager.showOverlay(); // show the overlay
 
-  $('#overlay-confirm').remove(); //Delete existing div
+  $('#overlay-confirm').remove(); // Delete existing div
 
-  //Then append the box to the body
+  // Then append the box to the body
   $('body').append('<div id=\'overlay-confirm\' class=\'overlay-box center-text\'>' +
     '<h3>' + message + '</h3>' +
     '<span id=\'cancel\' class=\'default green\'>Cancel</span>' +
@@ -22,7 +22,7 @@ function confirmUI(message, callback) {
 
   UIManager.slideIn('#overlay-confirm');
 
-  //Then bind click actions
+  // Then bind click actions
   $('#overlay-confirm #cancel').click(function() {
     closeConfirm(false);
   });
@@ -69,11 +69,11 @@ function alertUI(message, callback) {
  * @return {undefined}
  */
 function customAlertUI(title, content, callback) {
-  UIManager.showOverlay(); //show the overlay
+  UIManager.showOverlay(); // show the overlay
 
-  $('#overlay-alert').remove(); //Delete existing div
+  $('#overlay-alert').remove(); // Delete existing div
 
-  //Then append the box to the body
+  // Then append the box to the body
   $('body').append('<div id=\'overlay-alert\' class=\'overlay-box center-text\'>' +
     '<h3>' + title + '</h3>' +
     content +
@@ -111,13 +111,13 @@ var UIManager = {
    * @return {undefined}
    */
   showOverlay: function() {
-    //if there isn't an overlay already
+    // if there isn't an overlay already
     if ($('.ui-widget-overlay').length == 0) {
-      $('body').append('<div class=\'ui-widget-overlay\'></div>'); //append one to the body
-      $('.ui-widget-overlay').hide(); //hide it instantly
+      $('body').append('<div class=\'ui-widget-overlay\'></div>'); // append one to the body
+      $('.ui-widget-overlay').hide(); // hide it instantly
       $('.ui-widget-overlay').click(UIManager.hideAllOverlays); // and give it a click handler
     }
-    $('.ui-widget-overlay').fadeIn(250); //and fade in
+    $('.ui-widget-overlay').fadeIn(250); // and fade in
   },
   /**
    * Fades out the transparent overlay and calls the callback
@@ -163,12 +163,12 @@ var UIManager = {
     this.overlayBoxes.pop(); // remove from stack
   },
   slideOutHideOverlay: function(selector, callback) {
-    //if there's only one visible overlay box
+    // if there's only one visible overlay box
     if (this.overlayBoxes.length <= 1) {
       var self = this;
       this.slideOut(selector);
       setTimeout(function() {
-        self.hideOverlay(callback); //hide the overlay and runn callback
+        self.hideOverlay(callback); // hide the overlay and runn callback
       }, 200);
     } else {
       this.slideOut(selector, callback);

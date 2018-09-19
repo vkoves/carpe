@@ -24,9 +24,9 @@
 //= require infinite-scroll.pkgd
 
 
-/***************************/
-/********* Globals *********/
-/***************************/
+// ----------------------------------- //
+// Globals
+// ----------------------------------- //
 
 /* Setup globals from application.html.erb <script> block */
 /* global todaysEvents */
@@ -42,15 +42,15 @@
 
 var mobileSidebarOpen = false;
 
-//Handle window resizing
+// Handle window resizing
 $(window).resize(function() {
   if ($( window ).width() > 800) {
     $('#mobile-menu').slideUp(300);
   }
 });
 
-$(document).ready(ready); //Assign ready function to document ready
-$(document).on('page:load', ready); //and to page:load event from Turbolinks
+$(document).ready(ready); // Assign ready function to document ready
+$(document).on('page:load', ready); // and to page:load event from Turbolinks
 $(document).tooltip({
   position: {my: 'center top', at: 'center bottom+10'}, // position centered and 10px below bottom of whatever we are showing a tooltip for
 });
@@ -94,22 +94,22 @@ function initializeEventListeners() {
     $(this).parent().parent().find('.details').toggle();
   });
 
-  //Start initializing event listeners for everything
+  // Start initializing event listeners for everything
   $('#user-menu-toggler').click(function() {
     $('#user-panel').slideToggle(300);
     $('#notif-panel').slideUp(300);
   });
 
-  //Handle notification bell click
+  // Handle notification bell click
   $('.bell-hold').click(function(event) {
     event.stopPropagation();
 
     $('#notif-panel').slideToggle(300);
     $('#user-panel').slideUp(300);
 
-    //if the notification count is visible
+    // if the notification count is visible
     if ($('.bell-hold #num').is(':visible')) {
-      //send a request indicating notifications were read
+      // send a request indicating notifications were read
       $.ajax({
         url: '/notifications/read',
         type: 'POST',
@@ -124,12 +124,12 @@ function initializeEventListeners() {
     }
   });
 
-  //Toggle mobile menu on click
+  // Toggle mobile menu on click
   $('#header-mob-menu').click(function() {
     $('#mobile-menu').slideToggle(300);
   });
 
-  //Toggle sidebar that lists friend availability on click
+  // Toggle sidebar that lists friend availability on click
   $('#sidebar-button').click(toggleSidebar);
 
   // Follow button
@@ -186,28 +186,28 @@ function initializeEventListeners() {
     removeNotificationCard($notifCard);
   });
 
-  //Promote buttons POST completion
+  // Promote buttons POST completion
   $('.promotion span').parent().bind('ajax:success', function(event, data) {
     if (data && data.action && data.action === 'promote' || data.action === 'demote') {
-      //since the ajax:success is called on every promotion button, only run code if this is the one that was clicked
+      // since the ajax:success is called on every promotion button, only run code if this is the one that was clicked
       if ($(this).attr('uid') == parseInt(data.uid)) {
-        var span = $(this).find('span'); //get the span tag in this button
+        var span = $(this).find('span'); // get the span tag in this button
 
-        //if the user was demoted (the button was red)
+        // if the user was demoted (the button was red)
         if ($(this).hasClass('red')) {
-          $(this).attr('href', data.new_href); //remove demote parameter
-          fadeToText(span, 'Promote'); //and fade to Promote text
+          $(this).attr('href', data.new_href); // remove demote parameter
+          fadeToText(span, 'Promote'); // and fade to Promote text
         } else {
-          //if the user was promoted (the button was not red)
-          $(this).attr('href', data.new_href); //add the demote parameter
-          fadeToText(span, 'Demote'); //and fade to Demote text
+          // if the user was promoted (the button was not red)
+          $(this).attr('href', data.new_href); // add the demote parameter
+          fadeToText(span, 'Demote'); // and fade to Demote text
         }
-        $(this).toggleClass('red'); //and toggle class red
+        $(this).toggleClass('red'); // and toggle class red
       }
     }
   });
 
-  //Tokenizer shenanigans for the search
+  // Tokenizer shenanigans for the search
   // Uses jQuery tokeninput - http://loopj.com/jquery-tokeninput/
   $('#users-search input[type=text]').tokenInput('/search_core.json', {
     crossDomain: false,
@@ -216,7 +216,7 @@ function initializeEventListeners() {
     animateDropdown: false,
     addOnlyOne: true,
     onAdd: function(value) {
-      //link to the thing that was selected
+      // link to the thing that was selected
       location.href = value.link_url;
     },
     resultsFormatter: function(element) {
@@ -237,7 +237,7 @@ function initializeEventListeners() {
  */
 function keyboardShortcutHandlers() {
   $(document).keydown(function(e) {
-    //if the user is focused on an element (they are in an input field)
+    // if the user is focused on an element (they are in an input field)
     if ($(':focus').length > 0) {
       return;
     }
@@ -268,7 +268,7 @@ function keyboardShortcutHandlers() {
       e.preventDefault();
       moveWeek(true);
     } else if (ctrl && pressed('M')) {
-      //switch between monthly and weekly view
+      // switch between monthly and weekly view
       e.preventDefault();
       if (viewMode == 'week') {
         initializeMonthlyView();
@@ -298,7 +298,7 @@ function keyboardShortcutHandlers() {
         return Boolean(e.keyCode == 39);
       }
 
-      //handle alphanumerics
+      // handle alphanumerics
       return Boolean(e.keyCode == charString.charCodeAt(0));
     }
   });
@@ -331,24 +331,24 @@ function handleNotifications(justGranted) {
   // If the user accepts, let's create a notification
   if (Notification.permission === 'granted') {
     if (justGranted) {
-      printNotification('Thanks for enabling notifications!', 2000); //give a thank you
+      printNotification('Thanks for enabling notifications!', 2000); // give a thank you
     }
 
-    //if the user isn't signed in
+    // if the user isn't signed in
     if (typeof todaysEvents === 'undefined') {
       return;
     }
 
-    var today = new Date().setHours(0, 0, 0, 0); //get the beginning of the day today
+    var today = new Date().setHours(0, 0, 0, 0); // get the beginning of the day today
 
-    //iterate through the events today
+    // iterate through the events today
     for (var i = 0; i < todaysEvents.length; i++) {
-      var date = new Date(todaysEvents[i].date); //get the startDate of the event
+      var date = new Date(todaysEvents[i].date); // get the startDate of the event
 
-      //if it is indeed today
+      // if it is indeed today
       if (new Date(date.getTime()).setHours(0, 0, 0, 0) == today) {
-        var timeTillInMS = date.getTime() - Date.now(); //get the time till the event in milliseconds
-        timedEventNotification(todaysEvents[i], timeTillInMS); //and time a notification
+        var timeTillInMS = date.getTime() - Date.now(); // get the time till the event in milliseconds
+        timedEventNotification(todaysEvents[i], timeTillInMS); // and time a notification
       }
     }
   }
@@ -367,22 +367,22 @@ function handleNotifications(justGranted) {
 function timedEventNotification(event, time) {
   var text = event.name || 'Untitled';
 
-  //if this event already started
+  // if this event already started
   if (time < 0) {
-    var endDate = new Date(event.end_date); //get the end date
+    var endDate = new Date(event.end_date); // get the end date
     if (endDate.getTime() > new Date().getTime()) {
-      //and check that this event hasn't ended
-      text = text + ' has started!'; //if it has, print that it started
+      // and check that this event hasn't ended
+      text = text + ' has started!'; // if it has, print that it started
     } else {
-      //otherwise, the event has ended
+      // otherwise, the event has ended
       return;
     }
   } else {
-    //if the event will start
-    text = text + ' is starting!'; //indicate such
+    // if the event will start
+    text = text + ' is starting!'; // indicate such
   }
 
-  //and set appropriate timeout
+  // and set appropriate timeout
   setTimeout(function() {
     printEventNotification(event.id, text);
   }, time);
@@ -395,7 +395,7 @@ function timedEventNotification(event, time) {
  * @return {undefined}
  */
 function setEventCookie(id) {
-  var currDate = (new Date()).toISOString().split('T')[0]; //get the current date, convert to ISO, and strip the time away
+  var currDate = (new Date()).toISOString().split('T')[0]; // get the current date, convert to ISO, and strip the time away
   var currCookie = getCookie('carpeEventsNotified');
   document.cookie = 'carpeEventsNotified=' + currCookie + '&' + id + '@' + currDate;
 }
@@ -407,15 +407,15 @@ function setEventCookie(id) {
  * @return {undefined}
  */
 function printEventNotification(eventID, text) {
-  var currDate = (new Date()).toISOString().split('T')[0]; //get the current date, convert to ISO, and strip the time away
+  var currDate = (new Date()).toISOString().split('T')[0]; // get the current date, convert to ISO, and strip the time away
   var currCookie = getCookie('carpeEventsNotified');
 
-  //if the cookie says we've printed for this event today
+  // if the cookie says we've printed for this event today
   if (currCookie.indexOf(eventID + '@' + currDate) > -1) {
     return;
   } else {
-    printNotification(text); //print the event notification as asked for
-    setEventCookie(eventID); //and update the cookie indicating this
+    printNotification(text); // print the event notification as asked for
+    setEventCookie(eventID); // and update the cookie indicating this
   }
 }
 
@@ -434,7 +434,7 @@ function printNotification(text, hideTime) {
 
   var notification = new Notification('Carpe', options);
   if (hideTime) {
-    setTimeout(notification.close.bind(notification), hideTime); //close this notification in 2000ms or 2 seconds
+    setTimeout(notification.close.bind(notification), hideTime); // close this notification in 2000ms or 2 seconds
   }
 }
 
@@ -475,20 +475,20 @@ function removeNotificationCard($notifCard) {
  * @return {undefined}
  */
 function fadeToText(elem, newText, duration) {
-  var dur = duration || 500; //default duration of 500ms
+  var dur = duration || 500; // default duration of 500ms
 
-  var width_orig = Math.ceil(parseInt(elem.css('width'))); //round up the current width
-  var color_orig = elem.css('color'); //get the starting color
+  var width_orig = Math.ceil(parseInt(elem.css('width'))); // round up the current width
+  var color_orig = elem.css('color'); // get the starting color
 
-  elem.css('height', elem.height()); //and enforce height to prevent wrapping
-  elem.css('max-width', width_orig); //set the max width to the original width
-  elem.css('min-width', width_orig); //and set the min width to the original width
+  elem.css('height', elem.height()); // and enforce height to prevent wrapping
+  elem.css('max-width', width_orig); // set the max width to the original width
+  elem.css('min-width', width_orig); // and set the min width to the original width
   elem.css('white-space', 'nowrap');
 
-  //then animate to transparent
+  // then animate to transparent
   elem.animate({'color': 'rgba(0,0,0,0)'}, {duration: dur / 2, queue: false, complete: function () {
-    $(this).text(newText); //instantly change the text
-    elem.animate({'color': color_orig, 'max-width': 500, 'min-width': 0}, {duration: dur / 2, queue: false}); //and animate back
+    $(this).text(newText); // instantly change the text
+    elem.animate({'color': color_orig, 'max-width': 500, 'min-width': 0}, {duration: dur / 2, queue: false}); // and animate back
   }});
 }
 

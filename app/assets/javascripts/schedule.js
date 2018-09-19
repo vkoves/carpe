@@ -11,50 +11,50 @@
 var sideHTML; // Instantiates sideHTML variable
 var schHTML; // Instantiates schedule HTML variable, which will contain the "Mon-Sun" html on the main scheduler div.
 
-var gridHeight = 25; //the height of the grid of resizing and dragging
-var border = 2; //the border at the bottom for height stuff
+var gridHeight = 25; // the height of the grid of resizing and dragging
+var border = 2; // the border at the bottom for height stuff
 
 // ctrlPressed is used for event cloning, which is temporarily disabled.
 // Thus we ignore the ESLint unused vars here
 /* eslint-disable-next-line no-unused-vars */
 var ctrlPressed = false; // is the control key presed? Updated upon clicking an event
 var refDate = new Date(); // Reference date for where the calendar is now, so that it can switch between weeks.
-var visibleDates = []; //an array of dates that are currently visible on the schedule
-var dropScroll = 0; //the scroll position when the last element was dropped
+var visibleDates = []; // an array of dates that are currently visible on the schedule
+var dropScroll = 0; // the scroll position when the last element was dropped
 
-var scheduleItems = {}; //the map of all schedule item objects
+var scheduleItems = {}; // the map of all schedule item objects
 var categories = {};
 var breaks = {};
 
-var eventTempId = 0; //the temp id that the next event will have, incremented on each event creation or load
+var eventTempId = 0; // the temp id that the next event will have, incremented on each event creation or load
 
-var currEvent; //scheduleItem Object - the event being currently edited
-var currCategory; //Category Object - the category being currently edited
-var currMins; //the current top value offset caused by the minutes of the current item
+var currEvent; // scheduleItem Object - the event being currently edited
+var currCategory; // Category Object - the category being currently edited
+var currMins; // the current top value offset caused by the minutes of the current item
 
-var readied = false; //whether the ready function has been called
+var readied = false; // whether the ready function has been called
 
-var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']; //Three letter month abbreviations
+var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']; // Three letter month abbreviations
 var fullMonthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-var dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']; //the names of the days
+var dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']; // the names of the days
 
-var viewMode = 'week'; //either "week" or "month"
+var viewMode = 'week'; // either "week" or "month"
 
 var saveEventsTimeout; // timeout for save events so it doesn't happen too often
 
 var PLACEHOLDER_NAME = '<i>Untitled</i>'; // used by newly created categories and events
 
-/****************************/
-/**** DOCUMENT FUNCTIONS ****/
-/****************************/
+// -----------------------------------
+// DOCUMENT FUNCTIONS
+// -----------------------------------
 
-//Run scheduleReady when the page is loaded. Either fresh or from turbo links
+// Run scheduleReady when the page is loaded. Either fresh or from turbo links
 $(document).ready(scheduleReady);
 $(document).on('page:load', scheduleReady);
 
-//Run when the user tries to leave the page through a Turbolink
-$(document).unbind('page:before-change'); //unbind page before change from last time viewing
-$(document).on('page:before-change', pageChange); //and load again
+// Run when the user tries to leave the page through a Turbolink
+$(document).unbind('page:before-change'); // unbind page before change from last time viewing
+$(document).on('page:before-change', pageChange); // and load again
 
 
 /**
@@ -64,15 +64,15 @@ $(document).on('page:before-change', pageChange); //and load again
  * @return {boolean} true if the person wants to leave, false if the user wants to stay, undefined if user can leave
  */
 function pageChange() {
-  //if the save button is active (they have changes) and this is the user's schedule
+  // if the save button is active (they have changes) and this is the user's schedule
   if (!isSafeToLeave()) {
     return confirm('You still have changes to your schedule pending! Are you sure you want to leave this page?');
   }
 }
 
-//Run on closing the window or relaoding
+// Run on closing the window or relaoding
 $(window).on('beforeunload', function() {
-  //if the save button is active (they have changes) and this is the user's schedule
+  // if the save button is active (they have changes) and this is the user's schedule
   if (!isSafeToLeave()) {
     return 'You still have changes to your schedule pending!';
   }
@@ -87,7 +87,7 @@ $(window).on('beforeunload', function() {
  * @return {boolean} returns true if changes are saved, nothing otherwise
  */
 function isSafeToLeave() {
-  //we're not on the schedule page anymore
+  // we're not on the schedule page anymore
   if ($('#sch-save').length == 0) {
     return true;
   }
@@ -101,13 +101,13 @@ function isSafeToLeave() {
 }
 
 
-//***************************/
-//* END DOCUMENT FUNCTIONS **/
-//***************************/
+// -----------------------------------
+// END DOCUMENT FUNCTIONS
+// -----------------------------------
 
-//***************************/
-//****** PROTOTYPES *********/
-//***************************/
+// -----------------------------------
+// PROTOTYPES
+// -----------------------------------
 
 /**
  * Defines the class for schedule items.
@@ -166,7 +166,7 @@ function ScheduleItem() {
   this.destroy = function() {
     // slide up the element and remove after that is done
     this.element().slideUp('normal', function() { $(this).remove(); });
-    delete scheduleItems[this.tempId]; //then delete from the scheduleItems map
+    delete scheduleItems[this.tempId]; // then delete from the scheduleItems map
     updatedEvents(this.tempId, 'Destroy');
   };
 
@@ -178,10 +178,10 @@ function ScheduleItem() {
    * @return {undefined}
    */
   this.setStartDateTime = function(newStartDateTime, resize, userSet) {
-    //if resize is true, we do not move the end time
-    //if trying to set start before end
+    // if resize is true, we do not move the end time
+    // if trying to set start before end
     if (newStartDateTime.getTime() > this.endDateTime.getTime() && userSet) {
-      alertUI('The event can\'t start after it ends!'); //throw an error unless this is a new event (blank name)
+      alertUI('The event can\'t start after it ends!'); // throw an error unless this is a new event (blank name)
       $('#time-start').val(convertTo12Hour(currEvent.startDateTime));
     } else {
       setDateTime(true, newStartDateTime, this, resize);
@@ -200,11 +200,11 @@ function ScheduleItem() {
    * @param {boolean} userSet - checks if the user is the one who updated the time directly
    * @return {undefined}
    */
-  //if resize, we don't move the start time
+  // if resize, we don't move the start time
   this.setEndDateTime = function(newEndDateTime, resize, userSet) {
-    //if trying to set end before start
+    // if trying to set end before start
     if (newEndDateTime.getTime() < this.startDateTime.getTime() && userSet) {
-      alertUI('The event can\'t end before it begins!'); //throw an error unless this is a new event
+      alertUI('The event can\'t end before it begins!'); // throw an error unless this is a new event
       $('#time-end').val(convertTo12Hour(currEvent.endDateTime));
     } else {
       setDateTime(false, newEndDateTime, this, resize);
@@ -221,8 +221,8 @@ function ScheduleItem() {
   this.setName = function(newName) {
     // check for changes
     if (this.name != newName) {
-      this.name = newName; //set the object daat
-      this.element().find('.evnt-title').text(newName); //and update the HTML element
+      this.name = newName; // set the object daat
+      this.element().find('.evnt-title').text(newName); // and update the HTML element
       updatedEvents(this.tempId, 'setName');
     }
   };
@@ -314,7 +314,7 @@ function ScheduleItem() {
     this.setStartDateTime(newDate, resize);
     this.tempElement = elem;
 
-    //prevent resize double firing updatedEvents
+    // prevent resize double firing updatedEvents
     if (!resize) {
       updatedEvents(this.tempId, 'dragComplete');
     }
@@ -329,7 +329,7 @@ function ScheduleItem() {
     this.dragComplete(elem, true);
     var endDT = new Date(this.startDateTime.getTime());
     endDT.setHours(this.startDateTime.getHours() + Math.round(($(elem).outerHeight() + this.getMinutesOffsets()[0] - this.getMinutesOffsets()[1]) / gridHeight)); // TODO: Move this crazy way of getting height in hours somewhere else (used twice)
-    endDT.setMinutes(this.endDateTime.getMinutes()); //minutes can't change from resize, so keep them consistent
+    endDT.setMinutes(this.endDateTime.getMinutes()); // minutes can't change from resize, so keep them consistent
     this.endDateTime = endDT;
     updatedEvents(this.tempId, 'resizeComplete');
   };
@@ -386,9 +386,9 @@ function ScheduleItem() {
     }
   };
 
-  //***************************/
-  //**** HELPER FUNCTIONS *****/
-  //***************************/
+  // -----------------------------------
+  // HELPER FUNCTIONS
+  // -----------------------------------
 
   /**
    * Sets the start or end date/time for an event on a user's schedule.
@@ -404,32 +404,32 @@ function ScheduleItem() {
 
     if (isStart) {
       topDT = dateTime;
-      change = differenceInHours(schItem.startDateTime, topDT); //see how much the time was changed
+      change = differenceInHours(schItem.startDateTime, topDT); // see how much the time was changed
       botDT = cloneDate(schItem.endDateTime);
       botDT.setHours(schItem.endDateTime.getHours() + change);
     } else {
       botDT = dateTime;
-      change = differenceInHours(schItem.endDateTime, botDT); //see how much the time was changed
+      change = differenceInHours(schItem.endDateTime, botDT); // see how much the time was changed
       topDT = cloneDate(schItem.startDateTime);
       topDT.setHours(schItem.startDateTime.getHours() + change);
     }
 
-    //console.log("Change: " + change);
+    // console.log("Change: " + change);
 
-    //only set the startDateTime if we are not resizing or starting
+    // only set the startDateTime if we are not resizing or starting
     if (isStart || !resize) {
       schItem.startDateTime = topDT;
-      elem.css('top', schItem.getTop()); //set the top position by gridHeight times the hour
+      elem.css('top', schItem.getTop()); // set the top position by gridHeight times the hour
       elem.children('.evnt-time.top').text(convertTo12Hour(topDT)).show();
     }
 
-    //only set the bottom stuff if this is setting the end time or we are not resizing
+    // only set the bottom stuff if this is setting the end time or we are not resizing
     if (!isStart || !resize) {
       schItem.endDateTime = botDT;
       elem.children('.evnt-time.bot').text(convertTo12Hour(botDT)).show();
     }
 
-    elem.attr('time', topDT.getHours() + ':' + paddedMinutes(topDT)); //set the time attribute
+    elem.attr('time', topDT.getHours() + ':' + paddedMinutes(topDT)); // set the time attribute
 
     if (viewMode == 'month') {
       repopulateEvents();
@@ -448,7 +448,7 @@ function ScheduleItem() {
    * @return {Date}        - the difference between the two given dates, in hours
    */
   function differenceInHours(start, end, round) {
-    var one_hour = 1000 * 60 * 60; //1000 ms/sec * 60 sec/min * 60 min/hr
+    var one_hour = 1000 * 60 * 60; // 1000 ms/sec * 60 sec/min * 60 min/hr
     var diff = end.getTime() - start.getTime();
     if (round) {
       var roundDiff = Math.round(diff / one_hour);
@@ -456,7 +456,7 @@ function ScheduleItem() {
         roundDiff = 1;
       }
       return roundDiff;
-      //Math.round(diff/one_hour);
+      // Math.round(diff/one_hour);
     } else {
       return diff / one_hour;
     }
@@ -469,12 +469,12 @@ function ScheduleItem() {
  * @class
  */
 function Category(id) {
-  this.id = id; //the id of the category in the db
-  this.name = undefined; //the name of the category, as a string.
-  this.color = undefined; //the color of the category, as a CSS acceptable string
-  this.privacy = 'private'; //the privacy of the category, right now either private || followers || public
-  this.breaks = []; //an array of the repeat exceptions of this category.
-  this.groupId = groupID; //the group that owns this category
+  this.id = id; // the id of the category in the db
+  this.name = undefined; // the name of the category, as a string.
+  this.color = undefined; // the color of the category, as a CSS acceptable string
+  this.privacy = 'private'; // the privacy of the category, right now either private || followers || public
+  this.breaks = []; // an array of the repeat exceptions of this category.
+  this.groupId = groupID; // the group that owns this category
 
   this.getHtmlName = function() {
     return this.name ? escapeHtml(this.name) : PLACEHOLDER_NAME;
@@ -486,20 +486,20 @@ function Category(id) {
  * @class
  */
 function Break() {
-  this.id = undefined; //the id of the associated repeat_exception in the db
-  this.name = undefined; //the name of the break
-  this.startDate = undefined; //the date the break starts. Any time on this variable should be ignored
-  this.endDate = undefined; //the date the break ends. Similarly, time should be ignored.
-  this.groupId = groupID; //the group that owns this break
+  this.id = undefined; // the id of the associated repeat_exception in the db
+  this.name = undefined; // the name of the break
+  this.startDate = undefined; // the date the break starts. Any time on this variable should be ignored
+  this.endDate = undefined; // the date the break ends. Similarly, time should be ignored.
+  this.groupId = groupID; // the group that owns this break
 }
 
-//***************************/
-//****  END PROTOTYPES ******/
-//***************************/
+// -----------------------------------
+// END PROTOTYPES
+// -----------------------------------
 
-//***************************/
-//***** SCHEDULER INIT ******/
-//***************************/
+// -----------------------------------
+// SCHEDULER INIT
+// -----------------------------------
 
 /**
  * Initializer for the Carpe scheduling page.
@@ -511,32 +511,32 @@ function scheduleReady() {
     return;
   }
 
-  //load all initial data stuff
+  // load all initial data stuff
   loadInitialBreaks();
   loadInitialCategories();
   loadInitialEvents();
 
-  sideHTML = $('#sch-tiles').html(); //the sidebar html for restoration upon drops
-  schHTML = $('#sch-weekly-view').html(); //The HTML for the scheduler days layout, useful for when days are refreshed
+  sideHTML = $('#sch-tiles').html(); // the sidebar html for restoration upon drops
+  schHTML = $('#sch-weekly-view').html(); // The HTML for the scheduler days layout, useful for when days are refreshed
 
-  addStartingListeners(); //add the event listeners
+  addStartingListeners(); // add the event listeners
 
-  addDrag(); //add dragging, recursively
+  addDrag(); // add dragging, recursively
 
   colDroppable();
 
   addDates(new Date(), false, true);
   readied = true;
 
-  $('.col-snap').css('height', gridHeight * 24); //set drop columns
-  $('.sch-day-col').css('height', gridHeight * 24 + 50); //set day columns, which have the divider line
+  $('.col-snap').css('height', gridHeight * 24); // set drop columns
+  $('.sch-day-col').css('height', gridHeight * 24 + 50); // set day columns, which have the divider line
 
-  //allow viewing of all events with single click
+  // allow viewing of all events with single click
   if (readOnly) {
-    $('.edit, #repeat, #add-break-event').remove(); //remove repeat functionality, and adding breaks
-    $('#overlay-title').attr('contenteditable', 'false'); //disable editing on location title and description
+    $('.edit, #repeat, #add-break-event').remove(); // remove repeat functionality, and adding breaks
+    $('#overlay-title').attr('contenteditable', 'false'); // disable editing on location title and description
     $('#overlay-loc, #overlay-desc').prop('disabled', true);
-    $('#time-start, #time-end').attr('readonly', true); //disable editing of time
+    $('#time-start, #time-end').attr('readonly', true); // disable editing of time
   }
 
   $('#sch-save').addClass('disabled');
@@ -552,18 +552,18 @@ function addStartingListeners() {
     textareaSetHeight(this);
   });
 
-  //show the datepicker when clicking on the field
+  // show the datepicker when clicking on the field
   $('.date-field').datepicker({
-    firstDay: 1 //set Monday as the first day
+    firstDay: 1 // set Monday as the first day
   });
-  $('#week-date').datepicker('setDate', 'today'); //set the date to today
+  $('#week-date').datepicker('setDate', 'today'); // set the date to today
 
-  //when the date for the shown week is changed
+  // when the date for the shown week is changed
   $('#week-date').change(function() {
-    addDates(new Date($(this).val()), true); //update what is visible
+    addDates(new Date($(this).val()), true); // update what is visible
   });
 
-  //update repeatStart and repeatEnd on change
+  // update repeatStart and repeatEnd on change
   $('#repeat-start, #repeat-end').change(function() {
     var id = $(this).attr('id');
     if (id == 'repeat-start') {
@@ -575,27 +575,27 @@ function addStartingListeners() {
   });
 
   $('#repeat-custom').click(function() {
-    //highlight the newly selected option
+    // highlight the newly selected option
     $('#repeat-custom-options').show();
     var num = $('#repeat-custom-number').val();
     var unit = $('#repeat-custom-unit').val();
     currEvent.setRepeatType('custom-' + num + '-' + unit);
   });
 
-  //Show the options to select certain days
+  // Show the options to select certain days
   $('#repeat-certain-days').click(function() {
     $('#repeat-certain-days-options').show();
     currEvent.setRepeatType('certain_days');
   });
 
-  //Update the repeat type when changing custom repeat type details
+  // Update the repeat type when changing custom repeat type details
   $('#repeat-custom-number, #repeat-custom-unit').change(function() {
     var num = $('#repeat-custom-number').val();
     var unit = $('#repeat-custom-unit').val();
 
     currEvent.setRepeatType('custom-' + num + '-' + unit);
 
-    //repopulate this event
+    // repopulate this event
     repopulateEvents();
   });
 
@@ -603,18 +603,18 @@ function addStartingListeners() {
     $(this).toggleClass('red');
     var daysArray = [];
 
-    //Iterate through all active day buttons
+    // Iterate through all active day buttons
     $('#repeat-certain-days-options span.red').each(function() {
-      daysArray.push($(this).attr('data-day')); //and add their day number to the array
+      daysArray.push($(this).attr('data-day')); // and add their day number to the array
     });
 
     currEvent.setRepeatType('certain_days-' + daysArray.join(','));
 
-    //repopulate this event
+    // repopulate this event
     repopulateEvents();
   });
 
-  //Add break button click handler, which shows the overlay
+  // Add break button click handler, which shows the overlay
   $('#create-break-inside-add-break').click(function() {
     showBreakCreateOverlay();
   });
@@ -633,7 +633,7 @@ function addStartingListeners() {
     UIManager.slideInShowOverlay('#break-adder-overlay-box');
   });
 
-  //Submit break button in the overaly
+  // Submit break button in the overaly
   $('#submit-break').click(function() {
     var name = $('#break-name').val();
     var startDate = $('#break-start').val();
@@ -646,7 +646,7 @@ function addStartingListeners() {
     }
   });
 
-  //When editing category title, defocus on enter
+  // When editing category title, defocus on enter
   $('.cat-overlay-title').on('keydown', function(e) {
     var key = e.keyCode || e.charCode;  // ie||others
     // if enter key is pressed
@@ -670,29 +670,29 @@ function addStartingListeners() {
   });
 
   $('.repeat-option').click(function() {
-    //highlight the newly selected option
+    // highlight the newly selected option
     $('.repeat-option').removeClass('red');
     $(this).addClass('red');
 
-    //if this isn't custom, repeat stuff
+    // if this isn't custom, repeat stuff
     if ($(this).attr('id') != 'repeat-custom') {
-      //get the text of the button
+      // get the text of the button
       var repType = $(this).text().toLowerCase();
       currEvent.setRepeatType(repType);
-      $('#repeat-custom-options').hide(); //hide custom options
+      $('#repeat-custom-options').hide(); // hide custom options
     }
 
-    //if this isn't custom, repeat stuff
+    // if this isn't custom, repeat stuff
     if ($(this).attr('id') != 'repeat-certain-days') {
-      $('#repeat-certain-days-options').hide(); //hide custom options
+      $('#repeat-certain-days-options').hide(); // hide custom options
     }
 
 
-    //repopulate this event
+    // repopulate this event
     repopulateEvents();
   });
 
-  //Active action for color swatches
+  // Active action for color swatches
   $('.color-swatch').click(function() {
     $('.color-swatch').removeClass('selected');
 
@@ -701,9 +701,9 @@ function addStartingListeners() {
     $(this).addClass('selected');
   });
 
-  //On click of a category privacy button
+  // On click of a category privacy button
   $('#cat-privacy span').click(function() {
-    //highlight the newly recent option
+    // highlight the newly recent option
     $('#cat-privacy span').removeClass('red');
     $(this).addClass('red');
 
@@ -711,7 +711,7 @@ function addStartingListeners() {
   });
 
   $('#time-start').change(function() {
-    //TODO: Fix this not working across different days (try noon in your local time)
+    // TODO: Fix this not working across different days (try noon in your local time)
 
     var dateE = currEvent.startDateTime.toDateString();
 
@@ -724,16 +724,16 @@ function addStartingListeners() {
       return; // don't apply this new invalid time
     }
 
-    var newDateTime = cloneDate(currEvent.startDateTime); //We don't want to modify the date, only the time, so clone the date
-    newDateTime.setHours(dateTime.getHours()); //change the hours
-    newDateTime.setMinutes(dateTime.getMinutes()); //change the minutes
+    var newDateTime = cloneDate(currEvent.startDateTime); // We don't want to modify the date, only the time, so clone the date
+    newDateTime.setHours(dateTime.getHours()); // change the hours
+    newDateTime.setMinutes(dateTime.getMinutes()); // change the minutes
 
-    currEvent.setStartDateTime(newDateTime, true, true); //and set!
+    currEvent.setStartDateTime(newDateTime, true, true); // and set!
     currEvent.updateHeight();
   });
 
   $('#time-end').change(function() {
-    //TODO: Fix this not working across different days (try noon in your local time)
+    // TODO: Fix this not working across different days (try noon in your local time)
 
     var dateE = currEvent.startDateTime.toDateString();
 
@@ -783,7 +783,7 @@ function addStartingListeners() {
 
     setTimeout(highlightCurrent, 100); // highlight the whole name after focus
   }).focusout(function() {
-    //so that clicking outside an event title also saves
+    // so that clicking outside an event title also saves
     currEvent.setName($(this).text());
     removeHighlight();
   });
@@ -806,12 +806,12 @@ function addStartingListeners() {
   });
 
 
-  //***************************/
-  //*** RAILS HTML CLICKS *****/
-  //***************************/
+  // -----------------------------------
+  // RAILS HTML CLICKS
+  // -----------------------------------
 
-  //TODO - All of these that call functions with no parameters shouldn't be broken down into function lines
-  //Everything that's calling functions with paremeters should be made into functions for this specifc task
+  // TODO - All of these that call functions with no parameters shouldn't be broken down into function lines
+  // Everything that's calling functions with paremeters should be made into functions for this specifc task
   $('.sch-week-next').click(function() {
     moveWeek(true);
   });
@@ -825,7 +825,7 @@ function addStartingListeners() {
   });
 
   $('.sch-evnt-save-cat').click(function(event) {
-    saveCategory(event, $(this), $('#cat-overlay-box').attr('data-id')); //TODO - Remove $(this), as it's unused
+    saveCategory(event, $(this), $('#cat-overlay-box').attr('data-id')); // TODO - Remove $(this), as it's unused
   });
 
   $('#sch-save').click(function() {
@@ -853,9 +853,9 @@ function addStartingListeners() {
 
   $('#view-weekly').click(initializeWeeklyView);
 
-  //***************************/
-  //* END RAILS HTML CLICKS ***/
-  //***************************/
+  // -----------------------------------
+  // END RAILS HTML CLICKS
+  // -----------------------------------
 }
 
 /**
@@ -895,9 +895,9 @@ function loadInitialCategories() {
  * @return {undefined}
  */
 function loadInitialBreaks() {
-  //if loadedCategories is defined
+  // if loadedCategories is defined
   if (typeof loadedBreaks !== 'undefined') {
-    //iterate through the loaded categories
+    // iterate through the loaded categories
     for (var i = 0; i < loadedBreaks.length; i++) {
       var currBreak = loadedBreaks[i];
 
@@ -905,9 +905,9 @@ function loadInitialBreaks() {
       breakInstance.id = currBreak.id;
       breakInstance.name = currBreak.name;
       breakInstance.startDate = new Date(dateFromDashesToSlashes(currBreak.start));
-      breakInstance.startDate.setHours(0, 0, 0, 0); //clear any time
+      breakInstance.startDate.setHours(0, 0, 0, 0); // clear any time
       breakInstance.endDate = new Date(dateFromDashesToSlashes(currBreak.end));
-      breakInstance.endDate.setHours(0, 0, 0, 0); //clear any time
+      breakInstance.endDate.setHours(0, 0, 0, 0); // clear any time
 
       breaks[breakInstance.id] = breakInstance;
     }
@@ -919,22 +919,22 @@ function loadInitialBreaks() {
  * @return {undefined}
  */
 function loadInitialEvents() {
-  //Load in events
+  // Load in events
   if (typeof loadedEvents !== 'undefined') {
     for (var i = 0; i < loadedEvents.length; i++) {
-      var evnt = loadedEvents[i]; //fetch the event at the current index
+      var evnt = loadedEvents[i]; // fetch the event at the current index
 
       var schItem = new ScheduleItem();
       schItem.startDateTime = new Date(evnt.date);
       schItem.endDateTime = new Date(evnt.end_date);
 
       if (evnt.repeat_start) {
-        evnt.repeat_start = dateFromDashesToSlashes(evnt.repeat_start); //replace dashes with slashes, as Firefox doesn't seem to like dashes and timezones
+        evnt.repeat_start = dateFromDashesToSlashes(evnt.repeat_start); // replace dashes with slashes, as Firefox doesn't seem to like dashes and timezones
         schItem.repeatStart = new Date(evnt.repeat_start);
       }
 
       if (evnt.repeat_end) {
-        evnt.repeat_end = dateFromDashesToSlashes(evnt.repeat_end); //replace dashes with slashes, as Firefox doesn't seem to like dashes and timezones
+        evnt.repeat_end = dateFromDashesToSlashes(evnt.repeat_end); // replace dashes with slashes, as Firefox doesn't seem to like dashes and timezones
         schItem.repeatEnd = new Date(evnt.repeat_end);
       }
 
@@ -948,29 +948,29 @@ function loadInitialEvents() {
       schItem.tempId = i;
       scheduleItems[i] = schItem;
 
-      var catParent = $('#sch-tiles .sch-evnt[data-id=\'' + evnt.category_id + '\']'); //fetch the category
+      var catParent = $('#sch-tiles .sch-evnt[data-id=\'' + evnt.category_id + '\']'); // fetch the category
 
-      //if this user doesn't have access to the category, use the cat-template
+      // if this user doesn't have access to the category, use the cat-template
       if (catParent.length == 0) {
         catParent = $('#cat-template');
       }
 
       var clone = catParent.clone();
-      clone.css('display', 'block'); //make sure this is visible, just in case it's a child of the cat-template
+      clone.css('display', 'block'); // make sure this is visible, just in case it's a child of the cat-template
       var dateE = new Date(evnt.date);
       var time = dateE.getHours() + ':' + paddedMinutes(dateE);
 
       clone.children('.evnt-title').text(evnt.name);
       clone.attr('time', time);
       clone.attr('event-id', evnt.id);
-      clone.attr('evnt-temp-id', i); //Set the temp id
+      clone.attr('evnt-temp-id', i); // Set the temp id
       clone.children('.evnt-desc').text(evnt.description);
 
-      scheduleItems[i].tempElement = clone; //Store the element
+      scheduleItems[i].tempElement = clone; // Store the element
 
       placeInSchedule(clone, scheduleItems[i].getTop(), scheduleItems[i].lengthInHours());
 
-      eventTempId++; //increment the temp id
+      eventTempId++; // increment the temp id
     }
   }
 }
@@ -981,22 +981,22 @@ function loadInitialEvents() {
  * @return {undefined}
  */
 function colDroppable() {
-  //make the columns droppable
+  // make the columns droppable
   $('.col-snap').droppable({
     drop: function(event, ui) {
-      //called when event is dropped on a new column (not called on moving it in the column)
+      // called when event is dropped on a new column (not called on moving it in the column)
       var element = ui.draggable.detach();
-      dropScroll = $('#sch-holder').scrollTop(); //appending this element will scroll us up to the top, so we have to adjust for that
-      $(this).append(element); //append to the column
-      $(this).parent().removeClass('over'); //dehighlight on drop
+      dropScroll = $('#sch-holder').scrollTop(); // appending this element will scroll us up to the top, so we have to adjust for that
+      $(this).append(element); // append to the column
+      $(this).parent().removeClass('over'); // dehighlight on drop
     },
     over: function(event, ui) {
-      $(this).parent().addClass('over'); //highlight
-      $(ui.draggable).draggable('option', 'gridOn', true); //and enable vertical grid
+      $(this).parent().addClass('over'); // highlight
+      $(ui.draggable).draggable('option', 'gridOn', true); // and enable vertical grid
     },
     out: function() {
-      $(this).parent().removeClass('over'); //unhighlight
-      //$(ui.draggable).draggable("option","gridOn", false); //and disable grid
+      $(this).parent().removeClass('over'); // unhighlight
+      // $(ui.draggable).draggable("option","gridOn", false); // and disable grid
     }
   });
 }
@@ -1007,7 +1007,7 @@ function colDroppable() {
  * @return {undefined}
  */
 function addDrag(selector) {
-  //don't add drag if this is read only
+  // don't add drag if this is read only
   if (typeof readOnly !== 'undefined' && readOnly) {
     return;
   }
@@ -1025,7 +1025,7 @@ function addDrag(selector) {
       $(this).blur();  // lose focus, which prompts saving and all that via focusout below
     }
   }).focusout(function() {
-    //so that clicking outside an event title also saves
+    // so that clicking outside an event title also saves
     $(this).parent().draggable('enable');
 
     scheduleItems[$(this).parent().attr('evnt-temp-id')].setName($(this).text());
@@ -1037,7 +1037,7 @@ function addDrag(selector) {
     removeHighlight();
   });
 
-  //when the mouse is pressed on the events, check for control
+  // when the mouse is pressed on the events, check for control
   $(selector).mousedown(function(event) {
     if (event.ctrlKey) {
       ctrlPressed = true;
@@ -1095,9 +1095,9 @@ function addDrag(selector) {
     helper: function() {
       var $copy = $(this).clone();
 
-      //if this is a current element
+      // if this is a current element
       if (inColumn($(this))) {
-        $(this).css('opacity', 0); //hide the original while we are moving the helper
+        $(this).css('opacity', 0); // hide the original while we are moving the helper
       }
 
       return $copy;
@@ -1107,21 +1107,21 @@ function addDrag(selector) {
         setHeight(this, ui.helper, 3);
       }
 
-      // if(ctrlPressed && $(this).parent().attr("id") != "sch-tiles-inside") //if this is an existing event and control is pressed
+      // if(ctrlPressed && $(this).parent().attr("id") != "sch-tiles-inside") // if this is an existing event and control is pressed
       // {
       // handleClone(this, ui);
       // }
     },
     stop: function(event, ui) {
-      //on drag end
+      // on drag end
       var newItem = false;
 
-      //if this event was not placed
+      // if this event was not placed
       if (viewMode == 'week' && !inColumn($(this))) {
         return;
       }
 
-      //if opacity is 1, this is a new event
+      // if opacity is 1, this is a new event
       if (viewMode == 'week' && $(this).css('opacity') == 1) {
         $(this).css('height', gridHeight * 3 - border);
         handleNewEvent(this);
@@ -1139,8 +1139,8 @@ function addDrag(selector) {
         repopulateEvents();
       }
 
-      $('#sch-tiles').html(sideHTML); //reset the sidebar
-      $(this).css('opacity', 1); //undo the setting opacity to zero
+      $('#sch-tiles').html(sideHTML); // reset the sidebar
+      $(this).css('opacity', 1); // undo the setting opacity to zero
 
       var tempItem = scheduleItems[$(this).attr('evnt-temp-id')];
 
@@ -1148,19 +1148,19 @@ function addDrag(selector) {
         handlePosition(this, ui);
 
         if (!newItem) {
-          tempItem.dragComplete($(this)); //say it's been moved
+          tempItem.dragComplete($(this)); // say it's been moved
         } else {
-          tempItem.resizeComplete($(this)); //say it's been resized, to read all properties
+          tempItem.resizeComplete($(this)); // say it's been resized, to read all properties
           tempItem.endDateTime.setMinutes(0);
         }
 
-        //if this is a repeating event
+        // if this is a repeating event
         if (tempItem.repeatType && tempItem.repeatType != 'none' && tempItem.repeatType != '') {
-          repopulateEvents(); //and populate
+          repopulateEvents(); // and populate
         }
       }
 
-      addDrag(); //add drag to the sidebar again
+      addDrag(); // add drag to the sidebar again
     },
     drag: function(event, ui) {
       updateTime($(this), ui);
@@ -1176,7 +1176,7 @@ function addDrag(selector) {
  * @return {undefined}
  */
 function addResizing(selector) {
-  //as long as the selector is not for the sidebar
+  // as long as the selector is not for the sidebar
   if (selector != '#sch-sidebar .sch-evnt') {
     $(selector).resizable({
       handles: 'n, s',
@@ -1189,24 +1189,24 @@ function addResizing(selector) {
         var tempItem = scheduleItems[$(this).attr('evnt-temp-id')];
         tempItem.resizeComplete($(this));
 
-        //if this is a repeating event
+        // if this is a repeating event
         if (tempItem.repeatType && tempItem.repeatType != 'none' && tempItem.repeatType != '') {
-          repopulateEvents(); //and populateEvents to refresh things
+          repopulateEvents(); // and populateEvents to refresh things
         }
       }
     });
   }
 }
 
-//***************************/
-//*** END SCHEDULER INIT ****/
-//***************************/
+// -----------------------------------
+// END SCHEDULER INIT
+// -----------------------------------
 
-//***************************/
-//***** EVENT HANDLERS ******/
-//***************************/
+// -----------------------------------
+// EVENT HANDLERS
+// -----------------------------------
 
-//Called on event stop, aka let go
+// Called on event stop, aka let go
 /**
  * Adjusts position of a schedule item when user is done dragging it, so that the
  * event card is in a valid place on the column (i.e., not past the top or bottom
@@ -1226,14 +1226,14 @@ function handlePosition(elem, ui) {
     topVal += dropScroll;
   }
 
-  //console.log("Handle top: " + ui.position.top + " offset: " + $(elem).parent().offset().top + " scroll: " + dropScroll + " body: " + $("body").scrollTop());
+  // console.log("Handle top: " + ui.position.top + " offset: " + $(elem).parent().offset().top + " scroll: " + dropScroll + " body: " + $("body").scrollTop());
   $('#sch-holder').scrollTop(dropScroll);
 
-  //make sure the event is not halfway off the top
+  // make sure the event is not halfway off the top
   if (topVal < 0) {
     topVal = 0;
   } else if (topVal > $(elem).parent().height() - $(elem).outerHeight()) {
-    //or bottom
+    // or bottom
     topVal = $(elem).parent().height() - $(elem).outerHeight();
     topVal = topVal - (topVal % gridHeight);
   }
@@ -1251,20 +1251,20 @@ function handlePosition(elem, ui) {
 //  * @return {undefined}
 //  */
 // function handleClone(elem, ui) {
-//   var clone = $(ui.helper).clone(); //create a clone
+//   var clone = $(ui.helper).clone(); // create a clone
 //   $(elem).parent().append(clone);
-//   clone.css('opacity', '1'); //set the clone to be fully opaque, as it'll be 0.7 opacity by default from dragging
+//   clone.css('opacity', '1'); // set the clone to be fully opaque, as it'll be 0.7 opacity by default from dragging
 //
-//   $(elem).removeAttr('event-id'); //clear event id
+//   $(elem).removeAttr('event-id'); // clear event id
 //
-//   $(elem).attr('evnt-temp-id', eventTempId); //the clone needs a new temp id, but in reality, this is the clone
+//   $(elem).attr('evnt-temp-id', eventTempId); // the clone needs a new temp id, but in reality, this is the clone
 //
 //   var schItem = new ScheduleItem();
 //   var oldItem = scheduleItems[$(clone).attr('evnt-temp-id')];
 //   schItem.startDateTime = oldItem.startDateTime;
 //   schItem.endDateTime = oldItem.endDateTime;
 //   schItem.name = oldItem.name;
-//   schItem.eventId = null; //this is a new element so don't copy that
+//   schItem.eventId = null; // this is a new element so don't copy that
 //   schItem.categoryId = oldItem.categoryId;
 //   schItem.setRepeatType(oldItem.repeatType);
 //   schItem.location = oldItem.location;
@@ -1276,8 +1276,8 @@ function handlePosition(elem, ui) {
 //   eventTempId++;
 //
 //
-//   clone.removeClass('ui-draggable ui-draggable-handle ui-resizable ui-draggable-dragging'); //remove dragging stuff
-//   addDrag(clone); //and redo dragging
+//   clone.removeClass('ui-draggable ui-draggable-handle ui-resizable ui-draggable-dragging'); // remove dragging stuff
+//   addDrag(clone); // and redo dragging
 // }
 
 /**
@@ -1306,7 +1306,7 @@ function handleNewEvent(elem) {
     highlightCurrent(); // Suggests to the user to change the schedule item title by making it editable upon drop here.
     document.execCommand('delete', false, null); // Suggests to the user to change the schedule item title by making it editable upon drop here.
     $(elem).attr('evnt-temp-id', eventTempId);
-    addResizing($(elem)); //since the sidebar events don't have resizing, we have to add it on stop
+    addResizing($(elem)); // since the sidebar events don't have resizing, we have to add it on stop
   }
 
   eventTempId++;
@@ -1320,15 +1320,15 @@ function handleNewEvent(elem) {
  * @return {undefined}
  */
 function updateTime(elem, ui, resize) {
-  //TODO: Make this really important function not suck
+  // TODO: Make this really important function not suck
 
-  //if we're resizing, don't snap, just update time
-  var arr = ui.helper.attr('time').split(':'); //fetch the time from the helper
+  // if we're resizing, don't snap, just update time
+  var arr = ui.helper.attr('time').split(':'); // fetch the time from the helper
   var end_arr = ui.helper.children('.evnt-time.bot').text().split(' ')[0].split(':');
   var item = scheduleItems[elem.attr('evnt-temp-id')];
 
-  //Take care of grid snapping
-  //only update time if we are snapping in a column or are resizing
+  // Take care of grid snapping
+  // only update time if we are snapping in a column or are resizing
   if ($(elem).draggable('option', 'gridOn') || resize) {
     var offsetDiff = -Math.ceil($('.col-snap:first').offset().top);
     if (resize) {
@@ -1361,27 +1361,27 @@ function updateTime(elem, ui, resize) {
   }
 
   if (!resize) {
-    end_arr[0] = arr[0] + hoursSpanned; //and add the height to the hours of the end time
+    end_arr[0] = arr[0] + hoursSpanned; // and add the height to the hours of the end time
   } else {
     end_arr[0] = arr[0] + Math.round(($(elem).outerHeight() + item.getMinutesOffsets()[0] - item.getMinutesOffsets()[1]) / gridHeight);
   }
 
 
-  $(elem).attr('time', arr.join(':')); //set the time attr using military
-  arr = convertTo12HourFromArray(arr); //then convert to 12 hour
+  $(elem).attr('time', arr.join(':')); // set the time attr using military
+  arr = convertTo12HourFromArray(arr); // then convert to 12 hour
 
-  //set Start time
-  ui.helper.children('.evnt-time.top').html(arr); //and set the helper time
-  $(elem).children('.evnt-time.top').html(arr); //as well as the element
+  // set Start time
+  ui.helper.children('.evnt-time.top').html(arr); // and set the helper time
+  $(elem).children('.evnt-time.top').html(arr); // as well as the element
 
   end_arr = convertTo12HourFromArray(end_arr);
-  ui.helper.children('.evnt-time.bot').html(end_arr); //and set the helper time
-  $(elem).children('.evnt-time.bot').html(end_arr); //as well as the element
+  ui.helper.children('.evnt-time.bot').html(end_arr); // and set the helper time
+  $(elem).children('.evnt-time.bot').html(end_arr); // as well as the element
 }
 
-//***************************/
-//*** END EVENT HANDLERS ****/
-//***************************/
+// -----------------------------------
+// END EVENT HANDLERS
+// -----------------------------------
 
 
 /**
@@ -1393,15 +1393,15 @@ function updateTime(elem, ui, resize) {
  * @return {undefined}
  */
 function addDates(newDateObj, refresh, startToday) {
-  refDate = newDateObj; //set the global date to this new
-  visibleDates = []; //reset the array of visible dates
+  refDate = newDateObj; // set the global date to this new
+  visibleDates = []; // reset the array of visible dates
 
-  var currDate; //the date (day of month) we'll be using to iterate
+  var currDate; // the date (day of month) we'll be using to iterate
   var startDateData;
   var month = newDateObj.getMonth();
   var year = newDateObj.getFullYear();
-  var monthLength = daysInMonth(month + 1, year); //add 1 to month since it starts at zero
-  var lastMonthLength = daysInMonth(month, year); //the last month's length
+  var monthLength = daysInMonth(month + 1, year); // add 1 to month since it starts at zero
+  var lastMonthLength = daysInMonth(month, year); // the last month's length
 
 
   if (viewMode == 'week') {
@@ -1413,7 +1413,7 @@ function addDates(newDateObj, refresh, startToday) {
     if (startToday) {
       currDate = cloneDate(newDateObj);
     } else {
-      //if we want to start on a Monday
+      // if we want to start on a Monday
       startDateData = getStartDate(newDateObj);
       currDate = startDateData.startDate;
     }
@@ -1423,11 +1423,11 @@ function addDates(newDateObj, refresh, startToday) {
 
       var fullDate = monthNames[currDate.getMonth()] + ' ' + currDate.getDate() + ', ' + currDate.getFullYear();
 
-      $(col).children('.col-titler').prepend('<div class=\'evnt-date\'>' + currDate.getDate() + '</div> '); //prepend the numeric date (e.g. 25)
+      $(col).children('.col-titler').prepend('<div class=\'evnt-date\'>' + currDate.getDate() + '</div> '); // prepend the numeric date (e.g. 25)
       $(col).children('.col-titler').find('.evnt-day').text(dayNames[currDate.getDay()]);
-      $(col).children('.col-titler').append('<div class=\'evnt-fulldate\'>' + fullDate + '</div>'); //append the long form date to columns
+      $(col).children('.col-titler').append('<div class=\'evnt-fulldate\'>' + fullDate + '</div>'); // append the long form date to columns
 
-      //if this is today
+      // if this is today
       if (currDate.toDateString() == new Date().toDateString()) {
         $(col).attr('id', 'sch-today');
       }
@@ -1438,10 +1438,10 @@ function addDates(newDateObj, refresh, startToday) {
       currDate.setDate(currDate.getDate() + 1);
     });
   } else if (viewMode == 'month') {
-    startDateData = getStartDate(newDateObj, true); //get start date for month
+    startDateData = getStartDate(newDateObj, true); // get start date for month
     currDate = startDateData.startDate;
 
-    $('.sch-day-tile').remove(); //remove old tiles
+    $('.sch-day-tile').remove(); // remove old tiles
     $('#sch-monthly-view #month-name').text(fullMonthNames[newDateObj.getMonth()] + ' ' + currDate.getFullYear());
 
     var oldDatesCount = 0;
@@ -1450,20 +1450,20 @@ function addDates(newDateObj, refresh, startToday) {
     }
 
     var endOfMonth = cloneDate(newDateObj);
-    endOfMonth.setDate(monthLength); //get the last day of the month
-    var nextMonthDatesCount = 7 - endOfMonth.getDay(); //go to end of week
-    nextMonthDatesCount = nextMonthDatesCount % 7; //and remove if it's 7 (a full week)
+    endOfMonth.setDate(monthLength); // get the last day of the month
+    var nextMonthDatesCount = 7 - endOfMonth.getDay(); // go to end of week
+    nextMonthDatesCount = nextMonthDatesCount % 7; // and remove if it's 7 (a full week)
 
     var counter = 0;
     while (counter < oldDatesCount + monthLength + nextMonthDatesCount) {
       var tileClass = 'sch-day-tile';
 
-      //if going through dates from the last month
+      // if going through dates from the last month
       if (counter < oldDatesCount && startDateData.lastMonth) {
         tileClass = tileClass + ' last-month';
       }
 
-      //if we are going through dates from the next month
+      // if we are going through dates from the next month
       if (counter >= oldDatesCount + monthLength) {
         tileClass = tileClass + ' next-month';
       }
@@ -1480,7 +1480,7 @@ function addDates(newDateObj, refresh, startToday) {
         '</div>' +
         '</div>');
 
-      //if this is today
+      // if this is today
       if (currDate.toDateString() == new Date().toDateString()) {
         $('.sch-day-tile:last-of-type').attr('id', 'sch-today');
       }
@@ -1558,7 +1558,7 @@ function getStartDate(dateObj, useMonth) {
     startDate = date - day + 1;
   }
 
-  //if the start is in the last month
+  // if the start is in the last month
   if (startDate <= 0) {
     lastMonth = true;
   }
@@ -1639,34 +1639,34 @@ function populateEvents() {
       var date = visibleDates[i];
       var itemDate = cloneDate(eventObj.startDateTime);
 
-      //Handle repeatStart and endDates
+      // Handle repeatStart and endDates
       if (eventObj.repeatStart && eventObj.repeatStart > date) {
         continue; // if the repeatStart is later than this date, don't show
       } else if (eventObj.repeatEnd && eventObj.repeatEnd < date) {
         continue; // if the repeatEnd is before this date, don't show
       }
 
-      var inBreak = false; //is this during a break
-      //Then handle event repeat breaks
+      var inBreak = false; // is this during a break
+      // Then handle event repeat breaks
 
       var combinedBreaks = eventObj.breaks.concat(categories[eventObj.categoryId].breaks);
 
       // iterate through all breaks
       for (var breakIndex = 0; breakIndex < combinedBreaks.length; breakIndex++) {
         var currBreak = breaks[combinedBreaks[breakIndex]];
-        var dateClone = cloneDate(date).setHours(0, 0, 0, 0); //clear time on the date so time doesn't factor into breaks
-        //otherwise since breaks times are the start of their day, an event on Sept. 30th at 3:00pm won't be impacted by a date
-        //on Sept. 30th, since that's technically Sept. 30th 00:00
+        var dateClone = cloneDate(date).setHours(0, 0, 0, 0); // clear time on the date so time doesn't factor into breaks
+        // otherwise since breaks times are the start of their day, an event on Sept. 30th at 3:00pm won't be impacted by a date
+        // on Sept. 30th, since that's technically Sept. 30th 00:00
 
-        //if the date falls in the break range
+        // if the date falls in the break range
         if (currBreak.startDate <= dateClone && currBreak.endDate >= dateClone) {
           inBreak = true;
-          break; //continue eventLoop;
+          break; // continue eventLoop;
         }
       }
 
       if (inBreak) {
-        continue; //skip to the next event
+        continue; // skip to the next event
       }
 
       // TODO: make `if (event.repeatsOn(date)) a thing`
@@ -1690,7 +1690,7 @@ function populateEvents() {
         var num = arr[1];
         var unit = arr[2];
 
-        //simplify by removing hours and minutes from itemDate
+        // simplify by removing hours and minutes from itemDate
         itemDate.setHours(0);
         itemDate.setMinutes(0);
 
@@ -1808,16 +1808,16 @@ function monthlyEventDraggable() {
 function monthlyTileDroppable() {
   $('.sch-day-tile').droppable({
     drop: function(event, ui) {
-      //called when event is dropped on a new column (not called on moving it in the column)
+      // called when event is dropped on a new column (not called on moving it in the column)
       var element = ui.draggable;
       element.attr('data-date', $(this).attr('data-date'));
-      $(this).removeClass('over'); //dehighlight on drop
+      $(this).removeClass('over'); // dehighlight on drop
     },
     over: function() {
-      $(this).addClass('over'); //highlight
+      $(this).addClass('over'); // highlight
     },
     out: function() {
-      $(this).removeClass('over'); //unhighlight
+      $(this).removeClass('over'); // unhighlight
     }
   });
 }
@@ -1829,12 +1829,12 @@ function monthlyTileDroppable() {
  * @return {undefined}
  */
 function editEventTitle(event, elem) {
-  //return if this is in the sidebar
+  // return if this is in the sidebar
   if (!inColumn($(elem).parent()) || $(elem).is(':focus')) {
     return;
   }
 
-  $(elem).parent().draggable('disable'); //disable dragging while editing the event text
+  $(elem).parent().draggable('disable'); // disable dragging while editing the event text
 
   $(elem).attr('contenteditable', 'true');
   event.stopImmediatePropagation();
@@ -1851,9 +1851,9 @@ function editEventTitle(event, elem) {
  */
 function editCategory(elem) {
   var categoryId = $(elem).attr('data-id');
-  currCategory = categories[categoryId]; //set the current category
+  currCategory = categories[categoryId]; // set the current category
 
-  //Select the proper privacy button
+  // Select the proper privacy button
   $('#cat-privacy span').removeClass('red');
   if (currCategory.privacy) {
     $('#cat-privacy #' + currCategory.privacy).addClass('red');
@@ -1867,9 +1867,9 @@ function editCategory(elem) {
 
   $('.cat-top-overlay').css('background-color', colForTop);
 
-  /* if(col && col != "null") //check for null string from ruby
+  /* if(col && col != "null") // check for null string from ruby
 		$(".cat-top-overlay").css("background-color",col);
-	else //if the color was null or empty remove the background-color
+	else // if the color was null or empty remove the background-color
 		$(".cat-top-overlay").css("background-color",""); */
 
   $('.cat-overlay-title').html(currCategory.getHtmlName());
@@ -1891,19 +1891,19 @@ function editCategory(elem) {
 function editEvent(elem) {
   var editingEvent = $(document.activeElement).hasClass('evnt-title');
 
-  //make sure this is a placed event that isn't private and we aren't already editing
+  // make sure this is a placed event that isn't private and we aren't already editing
   if (inColumn(elem) && !editingEvent && elem.attr('data-id') != -1) {
     currEvent = scheduleItems[elem.attr('evnt-temp-id')];
 
     var categoryName = $('#sch-tiles .sch-evnt.category[data-id=' + currEvent.categoryId + ']').find('.evnt-title').text();
     $('#cat-title').html('In category <b>' + categoryName + '</b>');
 
-    //Select the proper repeat button
+    // Select the proper repeat button
     $('.repeat-option').removeClass('red');
     var rep = currEvent.repeatType || 'none';
     $('#repeat-' + rep).addClass('red');
 
-    //Reset all custom stuff, hiding custom options and deselecting all certain day options
+    // Reset all custom stuff, hiding custom options and deselecting all certain day options
     $('#repeat-custom-options').hide();
     $('#repeat-certain-days-options').hide();
     $('#repeat-certain-days-options span').removeClass('red');
@@ -1911,8 +1911,8 @@ function editEvent(elem) {
     if (rep.indexOf('custom') > -1) {
       $('#repeat-custom').addClass('red');
       $('#repeat-custom-options').show();
-      $('#repeat-custom-number').val(rep.split('-')[1]); //set the number
-      $('#repeat-custom-unit').val(rep.split('-')[2]); //and the unit
+      $('#repeat-custom-number').val(rep.split('-')[1]); // set the number
+      $('#repeat-custom-unit').val(rep.split('-')[2]); // and the unit
     } else if (rep.indexOf('certain_days') > -1) {
       $('#repeat-certain-days').addClass('red');
       $('#repeat-certain-days-options').show();
@@ -1931,19 +1931,19 @@ function editEvent(elem) {
     $('#overlay-title').html(currEvent.getHtmlName());
     $('#overlay-color-bar').css('background-color', categories[currEvent.categoryId].color);
 
-    var desc = currEvent.description || ''; //in case the description is null
-    var loc = currEvent.location || ''; //in case the location is null
+    var desc = currEvent.description || ''; // in case the description is null
+    var loc = currEvent.location || ''; // in case the location is null
     $('#overlay-desc').val(desc);
     $('#overlay-loc').val(loc);
 
-    //if this is readOnly and there is no description
+    // if this is readOnly and there is no description
     if (desc.length == 0 && readOnly) {
-      $('#overlay-desc, #desc-title').hide(); //hide the field and the title
+      $('#overlay-desc, #desc-title').hide(); // hide the field and the title
     } else {
       $('#overlay-desc, #desc-title').show();
     }
 
-    //do the same for the location
+    // do the same for the location
     if (loc.length == 0 && readOnly) {
       $('#overlay-loc, #loc-title').hide();
     } else {
@@ -1953,13 +1953,13 @@ function editEvent(elem) {
     var startArr = [currEvent.startDateTime.getHours(), paddedMinutes(currEvent.startDateTime)];
     var endArr = [currEvent.endDateTime.getHours(), paddedMinutes(currEvent.endDateTime)];
 
-    //$(".overlay-time").html(convertTo12Hour(time.split(":")) + " - " + convertTo12Hour(endTime.split(":")));
+    // $(".overlay-time").html(convertTo12Hour(time.split(":")) + " - " + convertTo12Hour(endTime.split(":")));
     $('#time-start').val(convertTo12HourFromArray(startArr));
     $('#time-end').val(convertTo12HourFromArray(endArr));
 
     // resize the textareas to the appropriate size
     $('.auto-resize-vertically').each(function() {
-      //check if the textbox contains a new line or else it takes up 2 unnessisary lines
+      // check if the textbox contains a new line or else it takes up 2 unnessisary lines
       textareaSetHeight(this);
       $(this).css('overflow-y', 'hidden');
     });
@@ -1972,8 +1972,8 @@ function editEvent(elem) {
  */
 function showBreakCreateOverlay() {
   $('#break-error').hide();
-  $('#break-overlay-box input').val(''); //clear all inputs
-  UIManager.slideInShowOverlay('#break-overlay-box'); //and fade in
+  $('#break-overlay-box input').val(''); // clear all inputs
+  UIManager.slideInShowOverlay('#break-overlay-box'); // and fade in
 }
 
 /**
@@ -1991,7 +1991,7 @@ function setupBreakAddOverlay(managing) {
     currObj = currCategory;
   }
 
-  $('#break-cont').html(''); //clear the break container
+  $('#break-cont').html(''); // clear the break container
 
   var checkbox = '<div class=\'check-box\'></div>';
 
@@ -2003,7 +2003,7 @@ function setupBreakAddOverlay(managing) {
   }
 
   for (var id in breaks) {
-    var breakInstance = breaks[id]; //and add each break
+    var breakInstance = breaks[id]; // and add each break
 
     var classAdd = '';
 
@@ -2019,7 +2019,7 @@ function setupBreakAddOverlay(managing) {
       '</div>');
   }
 
-  //if no breaks were added, there were no breaks, so show a message
+  // if no breaks were added, there were no breaks, so show a message
   if ($('.break-elem').length == 0) {
     $('#break-cont').append('It looks like you haven\'t created any repeat breaks!' +
       '<br>Make some by pressing "Create Break" on your schedule!');
@@ -2035,7 +2035,7 @@ function setupBreakAddOverlay(managing) {
    */
   function setupBreakClickHandlers() {
     $('.break-elem').click(function() {
-      var currId = parseInt($(this).attr('data-id')); //get the id of the current break
+      var currId = parseInt($(this).attr('data-id')); // get the id of the current break
 
       var currObj;
       if (currEvent) {
@@ -2047,10 +2047,10 @@ function setupBreakAddOverlay(managing) {
       if ($(this).hasClass('active')) {
         var index = currObj.breaks.indexOf(currId);
 
-        //if this is indeed a current break
+        // if this is indeed a current break
         if (index > -1) {
           $(this).removeClass('active');
-          currObj.breaks.splice(index, 1); //and remove
+          currObj.breaks.splice(index, 1); // and remove
         }
       } else {
         $(this).addClass('active');
@@ -2059,7 +2059,7 @@ function setupBreakAddOverlay(managing) {
       }
 
       if (currEvent) {
-        updatedEvents(currEvent.tempId, 'breaks'); //mark that the events changed to enable saving
+        updatedEvents(currEvent.tempId, 'breaks'); // mark that the events changed to enable saving
       }
 
       repopulateEvents();
@@ -2084,9 +2084,9 @@ function changeCategoryColor(elem) {
  * @return {undefined}
  */
 function placeInSchedule(elem, hours, lengthHours) {
-  //console.log("Length: " + lengthHours);
-  $(elem).css('height', (gridHeight * lengthHours) - border); //set the height using the length in hours
-  $(elem).css('top', hours); //set the top position by gridHeight times the hour
+  // console.log("Length: " + lengthHours);
+  $(elem).css('height', (gridHeight * lengthHours) - border); // set the height using the length in hours
+  $(elem).css('top', hours); // set the top position by gridHeight times the hour
 }
 
 /**
@@ -2113,21 +2113,21 @@ function updatedEvents(eventId, _msg) {
   }
 }
 
-//***************************/
-//** JSON SERVER METHODS ****/
-//***************************/
+// -----------------------------------
+// JSON SERVER METHODS
+// -----------------------------------
 
 /**
  * Saves all events
  * @return {undefined}
  */
 function saveEvents() {
-  //if the save button is disabled or already saving
+  // if the save button is disabled or already saving
   if ($('#sch-save').hasClass('disabled') || $('#sch-save').hasClass('loading')) {
-    return; //return
+    return;
   }
 
-  $('#sch-save').addClass('loading'); //indicate that stuff is loading
+  $('#sch-save').addClass('loading'); // indicate that stuff is loading
 
   // TODO: Swap needsSaving for an updatedAt timestamp and save when the last save request was sent
   // so you can use a date comparison to determine if saving is needed. This prevents having to deflag events
@@ -2156,10 +2156,10 @@ function saveEvents() {
       console.log('Save complete.');
 
       $('#sch-save').removeClass('loading');
-      $('#sch-save').addClass('active'); //show checkmark
+      $('#sch-save').addClass('active'); // show checkmark
 
 
-      //and hide it after 1.5 seconds
+      // and hide it after 1.5 seconds
       setTimeout(function() {
         $('#sch-save').removeClass('active');
         $('#sch-save').addClass('disabled');
@@ -2252,7 +2252,7 @@ function deleteEvent(event, elem) {
       // Now that we have a break that will make this event be skipped, add it and update UI accordingly
       schItem.breaks.push(newBreakId);
 
-      updatedEvents(schItem.tempId, 'breaks'); //mark that the events changed to enable saving
+      updatedEvents(schItem.tempId, 'breaks'); // mark that the events changed to enable saving
 
       repopulateEvents();
 
@@ -2274,7 +2274,7 @@ function deleteEvent(event, elem) {
       $('.sch-month-evnt[evnt-temp-id=\'' + tempId + '\']').slideUp('normal', function() { $(this).remove(); });
     }
 
-    delete scheduleItems[tempId]; //remove event map
+    delete scheduleItems[tempId]; // remove event map
 
     UIManager.slideOutHideOverlay('#evnt-delete.overlay-box');
 
@@ -2321,7 +2321,7 @@ function createCategory() {
       newCat.attr('id', '');
       addDrag();
       // TODO - Make saving the sideHTML a function, as this line is called so many times
-      sideHTML = $('#sch-tiles').html(); //the sidebar html for restoration upon drops
+      sideHTML = $('#sch-tiles').html(); // the sidebar html for restoration upon drops
 
       var catInstance = new Category(resp.id);
       catInstance.color = 'silver';
@@ -2349,12 +2349,12 @@ function deleteCategory(event, elem, id) {
     $.ajax({
       url: `/categories/${id}`,
       type: 'DELETE',
-      //after the server says the delete worked
+      // after the server says the delete worked
       success: function() {
         console.log('Delete category complete.');
-        //slide up the div, hiding it
+        // slide up the div, hiding it
         $(elem).parent().slideUp('normal', function() {
-          $(this).remove(); //and when that's done, remove the div
+          $(this).remove(); // and when that's done, remove the div
           delete categories[id]; // clear from global list
 
           // If no categories are left, show the no categories div
@@ -2362,12 +2362,12 @@ function deleteCategory(event, elem, id) {
             $('.no-categories').removeClass('hidden');
           }
 
-          sideHTML = $('#sch-tiles').html(); //and save the sidebar html for restoration upon drops
+          sideHTML = $('#sch-tiles').html(); // and save the sidebar html for restoration upon drops
 
-          //Remove all events of this category from scheduleItems
+          // Remove all events of this category from scheduleItems
           $('.col-snap .sch-evnt[data-id=' + id + ']').slideUp();
 
-          //do a foreach since this is a hashmap
+          // do a foreach since this is a hashmap
           for (var index in scheduleItems) {
             if (scheduleItems[index].categoryId == id) {
               delete scheduleItems[index];
@@ -2410,9 +2410,9 @@ function saveCategory(event, elem, id) {
 
       // TODO - Literally what is this doing? These should be functions
       currCategory.name = $('.cat-overlay-title').text();
-      $('#sch-sidebar .sch-evnt[data-id=' + id + ']').find('.evnt-title').html($('.cat-overlay-title').html()); //Update name in sidebar
-      $('.sch-evnt[data-id=' + id + ']').css('background-color', $('.cat-top-overlay').css('background-color')); //Update color of events
-      sideHTML = $('#sch-tiles').html(); //the sidebar html for restoration upon drops
+      $('#sch-sidebar .sch-evnt[data-id=' + id + ']').find('.evnt-title').html($('.cat-overlay-title').html()); // Update name in sidebar
+      $('.sch-evnt[data-id=' + id + ']').css('background-color', $('.cat-top-overlay').css('background-color')); // Update color of events
+      sideHTML = $('#sch-tiles').html(); // the sidebar html for restoration upon drops
 
       UIManager.slideOutHideOverlay('#cat-overlay-box'); // Hide category editing panel
       currCategory = null; // and indicate there's no current category
@@ -2434,22 +2434,22 @@ function saveCategory(event, elem, id) {
 function createBreak(name, startDate, endDate, callback) {
   // console.log("Make the break: " + name + ", " + startDate + ", " + endDate);
   var startD = new Date(startDate);
-  startD.setHours(0, 0, 0, 0); //clear any time
+  startD.setHours(0, 0, 0, 0); // clear any time
   var endD = new Date(endDate);
-  endD.setHours(0, 0, 0, 0); //clear any time
+  endD.setHours(0, 0, 0, 0); // clear any time
 
   $.ajax({
     url: '/repeat_exceptions',
     type: 'POST',
     data: { name: name, start: startD, end: endD, group_id: groupID },
-    //server responds with the id
+    // server responds with the id
     success: function(resp) {
-      var brk = new Break(); //create a new break instance
+      var brk = new Break(); // create a new break instance
       brk.id = resp.id;
       brk.name = name;
       brk.startDate = startD;
       brk.endDate = endD;
-      breaks[brk.id] = brk; //and add to the hashmap
+      breaks[brk.id] = brk; // and add to the hashmap
 
       UIManager.slideOutHideOverlay('#break-overlay-box'); // hide break create panel
 
@@ -2471,13 +2471,13 @@ function createBreak(name, startDate, endDate, callback) {
   });
 }
 
-//***************************/
-// END JSON SERVER METHODS **/
-//***************************/
+// -----------------------------------
+// END JSON SERVER METHODS
+// -----------------------------------
 
-//***************************/
-//**** HELPER METHODS *******/
-//***************************/
+// -----------------------------------
+// HELPER METHODS
+// -----------------------------------
 
 /**
  * Converts a date from 24 hour to 12 hour time string format
@@ -2485,7 +2485,7 @@ function createBreak(name, startDate, endDate, callback) {
  * @return {String} date in 12 hour time format
  */
 function convertTo12Hour(date) {
-  var timeArr = [date.getHours(), paddedMinutes(date)]; //and reset the field
+  var timeArr = [date.getHours(), paddedMinutes(date)]; // and reset the field
   return convertTo12HourFromArray(timeArr);
 }
 
@@ -2546,7 +2546,7 @@ function setHeight(getElem, setElem, hoursLength) {
  * @return {String} minutes in padded form (e.g. 03 instead of just 3)
  */
 function paddedMinutes(date) {
-  var minutes = (date.getMinutes() < 10 ? '0' : '') + date.getMinutes(); //add zero the the beginning of minutes if less than 10
+  var minutes = (date.getMinutes() < 10 ? '0' : '') + date.getMinutes(); // add zero the the beginning of minutes if less than 10
   return minutes;
 }
 
@@ -2557,7 +2557,7 @@ function paddedMinutes(date) {
 //  * @return {String} zero padded number (e.g. 3 to 03 or 13 to 13)
 //  */
 // function paddedNumber(num) {
-//   var paddedNum = (num < 10 ? '0' : '') + num; //add zero the the beginning of minutes if less than 10
+//   var paddedNum = (num < 10 ? '0' : '') + num; // add zero the the beginning of minutes if less than 10
 //   return paddedNum;
 // }
 
@@ -2624,15 +2624,15 @@ function dateToString(date) {
     return null;
   }
 
-  //if invalid date
+  // if invalid date
   if (isNaN(date.getTime())) {
     return 'INVALID!';
   }
 
-  var dateString = (date.getMonth() + 1); //start with the month. JS gives the month from 0 to 11, so we add one
-  dateString = dateString + '/' + date.getDate(); //then add a / plus the date
-  dateString = dateString + '/' + ('' + date.getFullYear()).slice(-2); //then get the last two digits of the year by converting to string and slicing
-  return dateString; //and return
+  var dateString = (date.getMonth() + 1); // start with the month. JS gives the month from 0 to 11, so we add one
+  dateString = dateString + '/' + date.getDate(); // then add a / plus the date
+  dateString = dateString + '/' + ('' + date.getFullYear()).slice(-2); // then get the last two digits of the year by converting to string and slicing
+  return dateString;
 }
 
 /**
@@ -2645,7 +2645,7 @@ function verboseDateToString(date) {
     return null;
   }
 
-  //if invalid date
+  // if invalid date
   if (isNaN(date.getTime())) {
     return 'INVALID!';
   }
@@ -2676,13 +2676,13 @@ function datesToTimeRange(startDate, endDate) {
   return dateToTimeString(startDate) + ' to ' + dateToTimeString(endDate);
 }
 
-//***************************/
-//** END HELPER METHODS *****/
-//***************************/
+// -----------------------------------
+//  END HELPER METHODS
+// -----------------------------------
 
-//***************************/
-//*** HTML TIED METHODS *****/
-//***************************/
+// -----------------------------------
+// HTML TIED METHODS
+// -----------------------------------
 
 /**
  * Used by the next and previous buttons to change the part of the schedule being shown
@@ -2694,8 +2694,8 @@ function datesToTimeRange(startDate, endDate) {
  */
 function moveWeek(forward) {
   var newDate;
-  var dateDelta = 0; //the number of days to change by
-  var monthDelta = 0; //the number of months to change by
+  var dateDelta = 0; // the number of days to change by
+  var monthDelta = 0; // the number of months to change by
 
   if (viewMode == 'month') {
     monthDelta = 1;
@@ -2703,23 +2703,23 @@ function moveWeek(forward) {
     dateDelta = 7;
   }
 
-  //if next button
+  // if next button
   if (forward) {
     newDate = new Date(refDate.getYear() + 1900, refDate.getMonth() + monthDelta, refDate.getDate() + dateDelta);
   } else {
     // if we are looking at today but the first day is not monday
     if (new Date($('#week-date').val()).toDateString() == new Date().toDateString() && !$('.evnt-day').text().startsWith('Monday') && viewMode == 'week') {
-      newDate = new Date(); //see this full week
+      newDate = new Date(); // see this full week
     } else {
-      newDate = new Date(refDate.getYear() + 1900, refDate.getMonth() - monthDelta, refDate.getDate() - dateDelta); //go to one week previous
+      newDate = new Date(refDate.getYear() + 1900, refDate.getMonth() - monthDelta, refDate.getDate() - dateDelta); // go to one week previous
     }
   }
-  addDates(newDate, true); //move back, but do not force today
+  addDates(newDate, true); // move back, but do not force today
 
-  //And update the date thing. Recall that javascript get month starts at 0 with January, so we append 1 for humans
+  // And update the date thing. Recall that javascript get month starts at 0 with January, so we append 1 for humans
   $('#week-date').val(verboseDateToString(newDate));
 }
 
-//***************************/
-//**** END HTML METHODS *****/
-//***************************/
+// -----------------------------------
+// END HTML METHODS
+// -----------------------------------
