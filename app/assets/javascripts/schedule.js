@@ -2481,12 +2481,13 @@ function saveCategory(event,elem,id)
 			currCategory.name = $(".cat-overlay-title").text();
 			$("#sch-sidebar .sch-evnt[data-id=" + id + "]").find(".evnt-title").html($(".cat-overlay-title").html()); //Update name in sidebar
 			$(".sch-evnt[data-id=" + id + "]").css("background-color", $(".cat-top-overlay").css("background-color")); //Update color of events
-			sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
+      sideHTML = $("#sch-tiles").html(); //the sidebar html for restoration upon drops
+      
+      $("#cat-title-selector option[value='"+ id +"']").remove();
+      $("#cat-title-selector").append("<option value=\"" + id + "\">" + currCategory.name + "</option>");
 
 			UIManager.slideOutHideOverlay("#cat-overlay-box"); // Hide category editing panel
       currCategory = null; // and indicate there's no current category
-      $("#cat-title-selector option[value='"+ id +"']").remove();
-      $("#cat-title-selector").append("<option value=\"" + id + "\">" + categoryName + "</option>");
 		},
 		error: function()
 		{
