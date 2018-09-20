@@ -42,6 +42,6 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   # Disables html/css animations for system tests (Capybara).
-  # Tess don't care about nice animations, so this speeds things up.
+  # Tests don't care about nice animations, so this speeds things up.
   config.middleware.use Rack::NoAnimations
 end
