@@ -16,4 +16,5 @@ before_script:
 script:
   - bundle exec rails test
   - bundle exec teaspoon
+  - bundle exec rails test:system
   - eslint app/assets/javascripts spec/javascripts # Run ESLint on JS code & Teaspoon tests (copied from package.json)
