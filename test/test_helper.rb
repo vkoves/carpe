@@ -49,8 +49,16 @@ class ActionDispatch::SystemTestCase
   end
 
   # Similar to fill_in, but works with contenteditable and triggers javascript
+  #
+  # Note: It takes a moment for the cursor to register when clicking input.
+  # Unfortunately, there isn't any event to hook into, so waiting a little bit
+  # is an easy solution.
   def type(text, into:)
-    find(into).click.send_keys(text)
+    node = find(into)
+
+    node.click
+    sleep 0.1 # wait 100 milliseconds
+    node.send_keys(text)
   end
 
   # Overrides the default capybara `click` that only works for buttons and anchors.
