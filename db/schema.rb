@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180703195151) do
+ActiveRecord::Schema.define(version: 2018_09_12_050802) do
 
   create_table "categories", force: :cascade do |t|
     t.string "name"
@@ -31,6 +31,20 @@ ActiveRecord::Schema.define(version: 20180703195151) do
     t.index ["repeat_exception_id"], name: "index_categories_repeat_exceptions_on_repeat_exception_id"
   end
 
+  create_table "event_invites", force: :cascade do |t|
+    t.integer "role", default: 0, null: false
+    t.integer "status", default: 3, null: false
+    t.integer "sender_id", null: false
+    t.integer "user_id", null: false
+    t.integer "event_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id", "user_id"], name: "index_event_invites_on_event_id_and_user_id", unique: true
+    t.index ["event_id"], name: "index_event_invites_on_event_id"
+    t.index ["sender_id"], name: "index_event_invites_on_sender_id"
+    t.index ["user_id"], name: "index_event_invites_on_user_id"
+  end
+
   create_table "events", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -45,6 +59,11 @@ ActiveRecord::Schema.define(version: 20180703195151) do
     t.date "repeat_start"
     t.date "repeat_end"
     t.integer "group_id"
+    t.integer "privacy", default: 1, null: false
+    t.integer "base_event_id"
+    t.boolean "guests_can_invite", default: false, null: false
+    t.boolean "guest_list_hidden", default: false, null: false
+    t.index ["base_event_id"], name: "index_events_on_base_event_id"
     t.index ["category_id"], name: "index_events_on_category_id"
     t.index ["group_id"], name: "index_events_on_group_id"
     t.index ["user_id"], name: "index_events_on_user_id"
@@ -140,6 +159,8 @@ ActiveRecord::Schema.define(version: 20180703195151) do
     t.integer "banner_file_size"
     t.datetime "banner_updated_at"
     t.string "custom_url", default: ""
+    t.integer "default_event_invite_category_id"
+    t.index ["default_event_invite_category_id"], name: "index_users_on_default_event_invite_category_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
