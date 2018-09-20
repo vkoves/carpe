@@ -89,3 +89,6 @@ gem 'cancancan', '~> 2.2.0'
 
 # Non-stupid non-digest assets for non digest LSG files
 gem "non-stupid-digest-assets"
+
+gem 'selenium-webdriver', '~> 3'
+gem 'chromedriver-helper', '~> 1'

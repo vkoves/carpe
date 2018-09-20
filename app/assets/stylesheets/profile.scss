@@ -112,7 +112,7 @@ $cover-camera-height: 20px;
 
 }
 
-#profile-header:hover
+.profile-header:hover
 {
 	.profile-overlay.cover { opacity: 1; }
 }
@@ -256,6 +256,8 @@ $cover-camera-height: 20px;
 	{
 		display: inline-block;
 		float: left;
+
+		img { display: block; }
 	}
 }
 .user-details
