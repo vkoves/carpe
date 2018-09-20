@@ -47,6 +47,12 @@ Carpe uses [ESLint](https://eslint.org/), which automatically runs as part of ou
 npm run eslint
 ```
 
+To auto-fix issues that ESLint can fix, run:
+
+```
+npm run eslint-fix
+```
+
 ### Ruby on Rails (RubyCritic)
 
 At the moment, Carpe uses [Ruby Critic](https://github.com/whitesmith/rubycritic) for code quality checking.
