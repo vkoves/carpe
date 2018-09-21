@@ -17,8 +17,8 @@ class PagesController < ApplicationController
     cmd = case params[:button_id]
           when "run-jsdoc"               then "npm run jsdoc --silent"
           when "run-js-unit-tests"       then "npm run teaspoon --silent"
-          when "run-js-acceptance-tests" then "npm run acceptance-tests --silent"
-          when "run-rails-unit-tests"    then "npm run minitest --silent"
+          when "run-js-acceptance-tests" then "rails test:system RAILS_ENV=test"
+          when "run-rails-unit-tests"    then "rails test RAILS_ENV=test"
           end
 
     task_id = Tasky::run cmd
