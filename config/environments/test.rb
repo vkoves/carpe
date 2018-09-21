@@ -1,3 +1,5 @@
+require 'no_animations'
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -45,4 +47,8 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+  # Disables html/css animations for system tests (Capybara).
+  # Tests don't care about nice animations, so this speeds things up.
+  config.middleware.use Rack::NoAnimations
 end
