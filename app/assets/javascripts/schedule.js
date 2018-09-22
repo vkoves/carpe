@@ -635,12 +635,14 @@ function addStartingListeners() {
 
   // Submit break button in the overaly
   $('#submit-break').click(function() {
-    var name = $('#break-name').val();
-    var startDate = $('#break-start').val();
-    var endDate = $('#break-end').val();
+    const name = $('#break-name').val();
+    const startDate = $('#break-start').val();
+    const endDate = $('#break-end').val();
 
-    if (name == '' || startDate == '' || endDate == '') {
-      $('#break-error').show();
+    if (name === '' || startDate === '' || endDate === '') {
+      alertUI('Please fill out all fields');
+    } else if (startDate > endDate) {
+      alertUI('The start date must come before the end date');
     } else {
       createBreak(name, startDate, endDate);
     }
@@ -1971,7 +1973,6 @@ function editEvent(elem) {
  * @return {undefined}
  */
 function showBreakCreateOverlay() {
-  $('#break-error').hide();
   $('#break-overlay-box input').val(''); // clear all inputs
   UIManager.slideInShowOverlay('#break-overlay-box'); // and fade in
 }
