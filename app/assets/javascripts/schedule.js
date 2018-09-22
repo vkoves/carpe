@@ -1867,10 +1867,10 @@ function populateEvents()
 		}
 	}
 
- 
-} $(".col-snap .sch-evnt").click(function(){
-    editEvent($(this));
-  });
+		$(".col-snap .sch-evnt").click(function(){
+			editEvent($(this));
+		});
+}
 
 /**
  * Edit an event's title inline (without the overlay)
