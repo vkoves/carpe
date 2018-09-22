@@ -134,8 +134,8 @@ function ScheduleItem()
 	this.groupId = groupID;
 	/** Whether this object has bee updated since last save */
   this.needsSaving = false;
-  
-  this.editable = true;
+  /** Whether this event is editable by the current user */
+  this.editable = false;
 
 	/** Returns an float of the length of the event in hours */
 	this.lengthInHours = function()
@@ -208,7 +208,7 @@ function ScheduleItem()
 			this.element().find(".evnt-title").text(newName); //and update the HTML element
 			updatedEvents(this.tempId, "setName");
 		}
-	};
+  };
 
 	/**
 	 * Changes the repeat type of the current event
@@ -512,7 +512,7 @@ function scheduleReady()
 	if(readOnly) //allow viewing of all events with single click
 	{
 		$(".edit, #repeat, #add-break-event").hide(); //remove repeat functionality, and adding breaks
-		$("#overlay-title").attr("contenteditable", "false"); //disable editing on location title and description
+		$("#overlay-title").attr("contenteditable", false); //disable editing on location title and description
 		$("#overlay-loc, #overlay-desc").prop('disabled', true);
 		$("#time-start, #time-end").attr("readonly", true); //disable editing of time
 	}
@@ -1300,7 +1300,7 @@ function handleClone(elem, ui)
 	schItem.setRepeatType(oldItem.repeatType);
 	schItem.location = oldItem.location;
 	schItem.description = oldItem.description;
-	schItem.tempId = eventTempId;
+  schItem.tempId = eventTempId;
 	scheduleItems[eventTempId] = schItem;
 
 
@@ -1328,12 +1328,13 @@ function handleNewEvent(elem)
 	schItem.setRepeatType("");
 	schItem.tempId = eventTempId;
 	schItem.tempElement = $(elem);
-	schItem.needsSaving = true;
+  schItem.needsSaving = true;
+  schItem.editable = true;
 	scheduleItems[eventTempId] = schItem;
 
 	if(viewMode == "week")
 	{
-		$(elem).children(".evnt-title").attr("contenteditable", "true");
+		$(elem).children(".evnt-title").attr("contenteditable", true).addClass("evnt-title-editable");
 		$(elem).children(".evnt-title").trigger('focus');
 		highlightCurrent(); // Suggests to the user to change the schedule item title by making it editable upon drop here.
 		document.execCommand('delete',false,null); // Suggests to the user to change the schedule item title by making it editable upon drop here.
@@ -1628,12 +1629,12 @@ function populateEvents()
 		{
 			// Setup the UI element's color, text, and height to represent the schedule item
 			currentElem.css("background-color", color);
-			currentElem.find(".evnt-title").html(eventObject.getHtmlName());
+			currentElem.find(".evnt-title").html(eventObject.getHtmlName()).addClass( eventObject.editable && !readOnly ? "evnt-title-editable" : "");
 			currentElem.find(".evnt-time.top").text(convertTo12Hour(eventObject.startDateTime));
 			currentElem.find(".evnt-time.bot").text(convertTo12Hour(eventObject.endDateTime));
 			currentElem.css("height", gridHeight*eventObject.lengthInHours() - border);
 			currentElem.css("top", eventObject.getTop());
-			currentElem.attr("evnt-temp-id", eventObject.tempId);
+      currentElem.attr("evnt-temp-id", eventObject.tempId);
 
 			// Add the event
 			$(".sch-day-col:eq(" + i + ") .col-snap").append(currentElem);
@@ -1891,7 +1892,7 @@ function editEventTitle(event, elem)
 
 	$(elem).parent().draggable("disable"); //disable dragging while editing the event text
 
-	$(elem).attr("contenteditable", "true");
+	$(elem).attr("contenteditable", true);
 	event.stopImmediatePropagation();
 	$(elem).trigger('focus');
 	highlightCurrent();
