@@ -135,7 +135,7 @@ function ScheduleItem()
 	/** Whether this object has bee updated since last save */
   this.needsSaving = false;
   /** Whether this event is editable by the current user */
-  this.editable = false;
+  this.editable = true;
 
 	/** Returns an float of the length of the event in hours */
 	this.lengthInHours = function()
@@ -1627,10 +1627,11 @@ function populateEvents()
 
 		if(viewMode == "week")
 		{
-			// Setup the UI element's color, text, and height to represent the schedule item
+      // Setup the UI element's color, text, and height to represent the schedule item4
 			currentElem.css("background-color", color);
 			currentElem.find(".evnt-title").html(eventObject.getHtmlName()).addClass( eventObject.editable && !readOnly ? "evnt-title-editable" : "");
-      currentElem.find(".sch-evnt-icon").addClass(!eventObject.editable || readOnly ? "sch-evnt-icon-hide" : "")
+      currentElem.find(".sch-evnt-icon").addClass(!eventObject.editable || readOnly ? "sch-evnt-icon-hide" : "");
+      currentElem.addClass(!eventObject.editable || readOnly ? "uneditable" : "");
       currentElem.find(".evnt-time.top").text(convertTo12Hour(eventObject.startDateTime));
       currentElem.find(".evnt-time.bot").text(convertTo12Hour(eventObject.endDateTime));
 			currentElem.css("height", gridHeight*eventObject.lengthInHours() - border);
@@ -1867,7 +1868,7 @@ function populateEvents()
 		}
 	}
 
-  $(".col-snap .sch-evnt").click(function(){
+  $(".sch-evnt.uneditable").click(function(){
     editEvent($(this));
   });
 }
