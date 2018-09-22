@@ -1867,9 +1867,9 @@ function populateEvents()
 		}
 	}
 
-		$(".col-snap .sch-evnt").click(function(){
-			editEvent($(this));
-		});
+  $(".col-snap .sch-evnt").click(function(){
+    editEvent($(this));
+  });
 }
 
 /**
