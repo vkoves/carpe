@@ -188,7 +188,7 @@
   .evnt-title-editable{
     cursor: pointer;
   }
-  
+
 	/* Give editable text fields proper cursor */
 	.evnt-title:focus, .cat-overlay-title:focus
 	{
@@ -774,6 +774,10 @@ input[readonly="readonly"]
 	{
 		display: none;
 	}
+}
+
+.sch-evnt-icon-hide {
+  display: none !important;
 }
 
 /***************************/

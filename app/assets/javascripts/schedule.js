@@ -1630,8 +1630,9 @@ function populateEvents()
 			// Setup the UI element's color, text, and height to represent the schedule item
 			currentElem.css("background-color", color);
 			currentElem.find(".evnt-title").html(eventObject.getHtmlName()).addClass( eventObject.editable && !readOnly ? "evnt-title-editable" : "");
-			currentElem.find(".evnt-time.top").text(convertTo12Hour(eventObject.startDateTime));
-			currentElem.find(".evnt-time.bot").text(convertTo12Hour(eventObject.endDateTime));
+      currentElem.find(".sch-evnt-icon").addClass(!eventObject.editable || readOnly ? "sch-evnt-icon-hide" : "")
+      currentElem.find(".evnt-time.top").text(convertTo12Hour(eventObject.startDateTime));
+      currentElem.find(".evnt-time.bot").text(convertTo12Hour(eventObject.endDateTime));
 			currentElem.css("height", gridHeight*eventObject.lengthInHours() - border);
 			currentElem.css("top", eventObject.getTop());
       currentElem.attr("evnt-temp-id", eventObject.tempId);
