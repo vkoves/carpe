@@ -59,10 +59,9 @@ html, body
 	text-align: left;
 }
 
-#groups-title
-{
-	display: flex;
-	align-items: center;
+.group-heading {
+	border-bottom: solid 2px #9c9c9c;
+	padding-bottom: 15px;
 }
 
 .flex-list
@@ -102,7 +101,7 @@ html, body
 	.avatar
 	{
 		margin-left: 2.5%;
-		margin-right: 7.5%;
+		margin-right: 2.5%;
 	}
 
 	.main
@@ -137,7 +136,6 @@ html, body
 {
 	@extend %group-card;
 	width: 100%;
-	margin: 0 0 20px 0;
 	padding: 10px 0px;
 
 	.main
@@ -149,6 +147,17 @@ html, body
 			width: 100%;
 			font-size: 18px;
 		}
+	}
+	.edit-icon {
+		border: solid 1px #bfbfbf;
+		border-radius: 100%;
+		padding: 5px;
+		margin-right: 20px;
+	}
+	.avatar img {
+		display: block;
+		width: 60px;
+		height: 60px;
 	}
 }
 

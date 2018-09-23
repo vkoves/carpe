@@ -1,7 +1,7 @@
 <%= stylesheet_link_tag "groups" %>
 <%= javascript_include_tag "groups/index" %>
 <div class="page-container">
-  <h2 class="flex-text-img left-align">
+  <h2 class="group-heading flex-text-img left-align">
     <%= image_tag "person-one", alt: "" %>
     Your Groups
   </h2>
@@ -16,7 +16,7 @@
   <% end %>
 
   <div id="groups-list-header">
-    <div id="header-info">
+    <div id="header-info" class="group-heading">
       <h2 class="flex-text-img left-align">
         <%= image_tag "globe", alt: "" %>
         Public Groups
