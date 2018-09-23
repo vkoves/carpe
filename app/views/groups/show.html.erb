@@ -20,10 +20,16 @@
         <span class="profile-name-text"><%= @group.name %></span>
         <% if user_signed_in? %>
           <% if current_user.in_group?(@group) %>
-            <%= link_to("⇰  Leave Group", leave_group_path(@group), class: "leave button",
-                data: { confirm: leave_warning(@membership) }) %>
+            <%= link_to(leave_group_path(@group), class: "leave button",
+                data: { confirm: leave_warning(@membership) }) do %>
+                Leave Group
+            <% end %>
+
+            <%# Show Manage Group link if this user can edit the group %>
             <% if can? :update, @group %>
-              <%= link_to("✎  Manage Group", edit_group_path(@group), class: "manage button") %>
+              <%= link_to edit_group_path(@group), class: "manage button" do %>
+                Manage Group
+              <% end %>
             <% end %>
           <% else %>
             <% if @group.pending_invite_request? current_user %>
