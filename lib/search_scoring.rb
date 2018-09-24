@@ -4,7 +4,10 @@ module SearchScore
     name = name.downcase
     query = query.downcase
 
-    # prioritize matches on the first name
+    # prioritize exact matches
+    return 0 if name == query
+
+    # then matches on the first name
     return 1 if name.starts_with?(query)
 
     # then matches on the middle/last name
