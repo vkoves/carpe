@@ -2,7 +2,7 @@
 
 <div class="notif group-invite">
   <%= link_avatar notification.sender, size: 90 %>
-  <span><%= notification.sender.name %> would like to join <%= group.name %></span>
+  <span class="message"><%= notification.sender.name %> would like to join <%= group.name %></span>
 
   <%= link_to "", update_notification_path(notification, "accepted"), method: :post, remote: true, class: "confirm" %>
   <%= link_to "", update_notification_path(notification, "denied"), method: :post, remote: true, class: "deny" %>

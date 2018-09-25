@@ -2,12 +2,20 @@ require 'utilities'
 
 #An event describes a schedule item, that is a single item occuring on a person's schedule
 class Event < ApplicationRecord
+  enum privacy: {
+    public_event: 0,
+    private_event: 1
+  }
+
   belongs_to :user
   alias_attribute :creator, :user
 
   belongs_to :group
   belongs_to :category
   has_and_belongs_to_many :repeat_exceptions
+
+  has_many :event_invites, dependent: :destroy
+  has_many :invited_users, through: :event_invites, source: :user
 
   def get_html_name #returns the event name, or an italicized untitled
     name.present? ? ERB::Util.html_escape(name) : "<i>Untitled</i>"
@@ -68,6 +76,19 @@ class Event < ApplicationRecord
 
   def owner
     self.group ? self.group : self.creator
+  end
+
+  def host_event?
+    base_event_id == id
+  end
+
+  def make_host_event!
+    update(base_event_id: id)
+
+    # owners of a hosted event are explicitly invited to their
+    # own event.
+    EventInvite.create(sender: creator, user: creator,
+                       event: self, role: :host)
   end
 
   ##########################
