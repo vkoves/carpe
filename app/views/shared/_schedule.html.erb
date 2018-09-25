@@ -1,6 +1,7 @@
 <%= stylesheet_link_tag "jquery-ui.min" %>
 <%= stylesheet_link_tag "schedule" %>
 <%= javascript_include_tag "schedule" %>
+<%= javascript_include_tag "schedule/event-invites" %>
 
 <%
   # this is a list of the necessary local parameters and their defaults
@@ -69,6 +70,8 @@
 			<span id="edit-loc" class="edit">Edit</span>
 		</div>
 		<textarea id="overlay-loc" class="auto-resize-vertically">Location goes here</textarea>
+
+		<span id="event-invites-setup" class="button">Invite People</span>
 	</div>
 
 	<div id="break-overlay-box" class="overlay-box">
@@ -89,6 +92,18 @@
 		<span class="default green" id="create-break-inside-add-break">Create Break</span>
 		<div id="break-cont">
 		</div>
+	</div>
+
+	<div id="event-invites-panel" class="overlay-box">
+    <span class="default red close"></span>
+
+		<h3>Invited Users</h3>
+		<div id="event-invites-list"></div>
+
+		<h3>Invite Others</h3>
+		<%= render 'shared/user_adder', name: 'user_ids' %>
+
+		<span id="send-event-invites" class="green button">Send Invites</span>
 	</div>
 
 	<div id="evnt-delete" class="overlay-box">

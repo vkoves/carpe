@@ -794,6 +794,54 @@ input[readonly="readonly"]
 	}
 }
 
+#event-invites-list
+{
+	min-height: 50px;
+	width: 95%;
+	margin-left: auto;
+	margin-right: auto;
+	display: inline-block;
+	background: ghostwhite;
+}
+
+#event-invites-list .event-invite
+{
+	height: 48px;
+	margin: 5px 0;
+	padding: 0 8px;
+	display: flex;
+	justify-content: space-between;
+
+	.user
+	{
+		display: flex;
+		align-items: center;
+	}
+
+	.actions
+	{
+		display: flex;
+		align-items: center;
+
+		*
+		{
+			margin-left: 8px
+		}
+	}
+}
+
+#event-invites-panel .event-invite .avatar
+{
+	margin-right: 8px;
+	display: inline-flex;
+
+	img
+	{
+		width: 40px;
+		height: 40px;
+	}
+}
+
 // -----------------------------------
 // MONTHLY VIEW STYLING
 // -----------------------------------
