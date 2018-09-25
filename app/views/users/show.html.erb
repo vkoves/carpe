@@ -16,12 +16,12 @@
 			<%= link_to edit_user_registration_path do %>
 				<% if @profile %>
 					<div class="profile-overlay avatar">
-            <%= image_tag "camera.svg", class: "camera-profile" %>
+						<%= image_tag "camera.svg", class: "camera-profile" %>
             <span class="upload-profile">Upload Avatar</span>
 					</div>
 				<% end %>
 			<%end%>
-      <%= image_tag @user.avatar_url %>
+			<%= image_tag @user.avatar_url %>
 		</div>
 		<div id="profile-text">
 			<h1 id="profile-name" class="zero-top zero-bot"><a href="?"><%= @user.name %></a></h1>
