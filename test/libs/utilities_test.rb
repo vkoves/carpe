@@ -2,6 +2,8 @@ require 'test_helper'
 require 'utilities'
 
 class UtilitiesTest < ActiveSupport::TestCase
+  include Utilities
+
   def setup
     # NOTE: Time.now and friends are all based on this date.
     # This will help keep tests predictable.

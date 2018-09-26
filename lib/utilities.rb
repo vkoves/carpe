@@ -3,10 +3,11 @@
 # wrapped in a module, the compiler shouldn't have any trouble tracing
 # namespace collisions back to this file.
 
-module Utilities
-  # contains pluralize method
-  include ActionView::Helpers::TextHelper
+module TextHelper
+  extend ActionView::Helpers::TextHelper
+end
 
+module Utilities
   # just a nicer alias
   INFINITY = Float::INFINITY
 
@@ -53,27 +54,31 @@ module Utilities
     time = "%-l:%M %p" # time format
 
     case duration
-    when -INFINITY..-1.month   then "#{pluralize months, 'month'} ago"
-    when -1.month..-1.week     then "#{pluralize days, 'day'} ago"
+    when -INFINITY..-1.month   then "#{plural months, 'month'} ago"
+    when -1.month..-1.week     then "#{plural days, 'day'} ago"
     when -1.week..-2.days      then "last %A at #{time}"
     when -2.days..-1.day       then "yesterday at #{time}"
     when -1.day..-1.hour       then time
-    when -1.hour..-1.minute    then "#{pluralize mins, 'minute'} ago (#{time})"
-    when -1.minute...0.seconds then "#{pluralize secs, 'second'} ago (#{time})"
+    when -1.hour..-1.minute    then "#{plural mins, 'minute'} ago (#{time})"
+    when -1.minute...0.seconds then "#{plural secs, 'second'} ago (#{time})"
     when 0.seconds             then "right now"
-    when 0.seconds...1.minute  then "#{pluralize secs, 'second'} from now (#{time})"
-    when 1.minute...1.hour     then "#{pluralize mins, 'minute'} from now (#{time})"
+    when 0.seconds...1.minute  then "#{plural secs, 'second'} from now (#{time})"
+    when 1.minute...1.hour     then "#{plural mins, 'minute'} from now (#{time})"
     when 1.hour...1.day        then time
     when 1.day...2.days        then "tomorrow at #{time}"
     when 2.days...1.week       then "%A at #{time}"
-    when 1.week...1.month      then "#{pluralize days, 'day'} from now"
-    when 1.month...INFINITY    then "#{pluralize months, 'month'} from now"
+    when 1.week...1.month      then "#{plural days, 'day'} from now"
+    when 1.month...INFINITY    then "#{plural months, 'month'} from now"
     else raise "Congratulations, you won a bug!"
     end
   end
 
   # rubocop: enable MethodLength, AbcSize, CyclomaticComplexity
-end
 
-# Automatically include this modules methods in the global namespace.
-include Utilities
+  private
+
+  # Alias for pluralize. This allows it to be used outside of views.
+  def plural(*args)
+    TextHelper.pluralize(*args)
+  end
+end
