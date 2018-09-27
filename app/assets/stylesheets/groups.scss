@@ -1,5 +1,7 @@
 @import 'colors';
 
+$black-transparent: rgba(0, 0, 0, 0.3); // for backgrounds
+
 html, body
 {
 	height: 100%;
@@ -141,7 +143,6 @@ html, body
 	.main
 	{
 		overflow-wrap: break-word;
-
 		.title
 		{
 			width: 100%;
@@ -185,7 +186,7 @@ html, body
 			top: 0;
 			z-index: 0;
 		}
-		*:not(.banner-img) {
+		.avatar {
 			position: relative;
 			z-index: 1;
 		}
@@ -201,16 +202,20 @@ html, body
 	}
 	.title
 	{
-		height: 3em;
+		position: absolute;
+		height: 40px;
 		width: 100%;
+		top: 60px;
+		left: 0px;
+		padding-left: 125px;
+		background-color: rgba(0, 0, 0, 0.6);
+		color: white;
+		z-index: 0;
 
-		overflow: hidden;
-		overflow-wrap: break-word;
 		line-height: 1.5em;
 		font-size: 24px;
 		font-weight: bold;
 
-		color: #313131;
 		text-decoration: none;
 	}
 }
@@ -326,7 +331,7 @@ html, body
 			width: 100%;
 			height: 50%;
 			top: 0;
-			background: rgba(0, 0, 0, 0.3);
+			background: $black-transparent;
 			z-index: -1;
 		}
 		.avatar
