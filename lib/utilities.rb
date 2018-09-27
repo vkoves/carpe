@@ -44,11 +44,12 @@ module Utilities
     [secs, mins, days, months]
   end
 
-  # rubocop: disable MethodLength, AbcSize, CyclomaticComplexity
-
   # Returns a formattable string representing the distance between the current
   # time and the given time. For example, "3 minutes ago (5:50 PM)".
-  def relative_time(to_time)
+  #
+  # This method has many different, customizable outputs that can't be avoided
+  # So, it's coded as a flat, dumb lookup table.
+  def relative_time(to_time) # rubocop:disable MethodLength, AbcSize, CyclomaticComplexity
     duration = to_time - Time.current # it's in seconds
     secs, mins, days, months = duration_parts(duration)
     time = "%-l:%M %p" # time format
@@ -72,9 +73,7 @@ module Utilities
     else raise "Congratulations, you won a bug!"
     end
   end
-
-  # rubocop: enable MethodLength, AbcSize, CyclomaticComplexity
-
+  
   private
 
   # Alias for pluralize. This allows it to be used outside of views.
