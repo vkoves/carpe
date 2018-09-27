@@ -2,7 +2,7 @@ require 'test_helper'
 require 'search_scoring'
 
 class SearchScoringTest < ActiveSupport::TestCase
-  test "#name prioritizes first names" do
+  test "#name prioritizes exact matches" do
     query = "donald"
     good_match = "Donald"
     bad_match = "Donald Vladimir"
@@ -12,7 +12,7 @@ class SearchScoringTest < ActiveSupport::TestCase
                     SearchScore.name(bad_match, query)
   end
 
-  test "#name prioritizes first name" do
+  test "#name prioritizes first names" do
     query = "sassy"
     good_match = "Sassy Beaver"
     bad_match = "Beaver Be Sassy"
