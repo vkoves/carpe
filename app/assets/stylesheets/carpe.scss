@@ -1007,33 +1007,6 @@ form.thin
 		color: #757575;
 		font-size: 14px;
 	}
-
-	// The type of edit that is used on groups.
-	&.manage
-	{
-		background: #e2e2e2;
-		color: #161616;
-		font-size: 15px;
-		width: 135px;
-		padding-top: 8px;
-		padding-bottom: 8px;
-		font-weight: 600;
-		float: right;
-		position: relative;
-	}
-
-	&.leave {
-		background: #e2e2e2;
-		font-size: 15px;
-		width: 135px;
-		padding-top: 8px;
-		padding-bottom: 8px;
-		font-weight: 600;
-		color: #e02837;
-		margin-left: 15px;
-		float: right;
-		right: 5px;
-	}
 }
 
 /* custom button styling options*/

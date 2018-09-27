@@ -347,6 +347,33 @@ html, body
 		display: flex;
 		flex-direction: column;
 		width: 84%; // This seems arbitrary, but is caused by the size of a typical avatar on screen.
+
+		// The type of edit that is used on groups.
+		.button {
+			float: right;
+			background: #e2e2e2;
+			color: #161616;
+			font-size: 15px;
+			padding: 8px 15px;
+			width: 135px;
+			font-weight: 600;
+
+			&.green {
+				background-color: $green;
+				color: #fff;
+			}
+		}
+		.button.manage
+		{
+			padding-bottom: 8px;
+			font-weight: 600;
+		}
+
+		.button.leave {
+			background: #e2e2e2;
+			color: #e02837;
+			margin-left: 15px;
+		}
 	}
 
 	.privacy-block
@@ -370,7 +397,6 @@ html, body
 			text-overflow: ellipsis;
 			display: inline-block;
 			height: 40px;
-			overflow-y: hidden;
 		}
 
 	}
