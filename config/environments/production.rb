@@ -41,6 +41,7 @@ Rails.application.configure do
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for NGINX
 
   # Store uploaded files on the local file system (see config/storage.yml for options)
+  # NOTE: Commented out, as we're still using Paperclip, not Active Storage.
   # config.active_storage.service = :local
 
   # Configuration for paperclip
