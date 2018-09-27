@@ -1,0 +1,145 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 148.52 139.483">
+  <defs>
+    <style>
+      .cls-1, .cls-4 {
+        fill: #efefef;
+      }
+
+      .cls-1 {
+        stroke: #4aba59;
+      }
+
+      .cls-10, .cls-11, .cls-15, .cls-2, .cls-3, .cls-5, .cls-6 {
+        fill: none;
+      }
+
+      .cls-2 {
+        stroke: #d6d6d6;
+      }
+
+      .cls-11, .cls-2, .cls-5 {
+        stroke-width: 3px;
+      }
+
+      .cls-3 {
+        stroke: #41cb7d;
+      }
+
+      .cls-4 {
+        stroke: #6a97f2;
+      }
+
+      .cls-5 {
+        stroke: #cbcbcb;
+      }
+
+      .cls-6 {
+        stroke: #638cfe;
+      }
+
+      .cls-7 {
+        fill: #638cfe;
+      }
+
+      .cls-8 {
+        fill: #fcfcfc;
+        stroke: #ff9797;
+      }
+
+      .cls-13, .cls-9 {
+        fill: url(#pattern);
+      }
+
+      .cls-10 {
+        stroke: #ff5b5b;
+      }
+
+      .cls-11 {
+        stroke: #e2e2e2;
+      }
+
+      .cls-12 {
+        fill: #fe6363;
+      }
+
+      .cls-13 {
+        opacity: 0.44;
+      }
+
+      .cls-14 {
+        stroke: none;
+      }
+
+      .cls-16 {
+        filter: url(#Rectangle_3);
+      }
+
+      .cls-17 {
+        filter: url(#Rectangle_1);
+      }
+
+      .cls-18 {
+        filter: url(#Rectangle_2);
+      }
+    </style>
+    <filter id="Rectangle_2" x="0" y="23.496" width="148.52" height="115.988" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="Rectangle_1" x="6.162" y="12.244" width="142.196" height="100.492" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur-2"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur-2"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="Rectangle_3" x="5.586" y="0" width="137.348" height="90.979" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur-3"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur-3"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <pattern id="pattern" preserveAspectRatio="none" width="100%" height="100%" viewBox="0 0 90 86">
+      <image width="90" height="86" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAABWCAMAAAEPs0HdAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAGbUExURQAAAP7+/v///3l5ecbGxv7+/qCgoO3t7f39/f7+/lVVVaKionx8fMnJyf7+/v////Dw8P7+/v7+/v///1hYWKWlpX9/f8zMzPPz8/7+/v////////7+/ltbW6ioqP7+/v7+/v///4KCgs/Pz/7+/vb29v7+/v7+/v7+/l5eXqurq/7+/tLS0v7+/v////7+/vn5+f7+/v39/f7+/v////7+/mFhYa6uroiIiNXV1f7+/vz8/P7+/v7+/v39/WRkZLGxsf7+/v///4uLi9jY2P////39/f7+/v///0BAQGdnZ/7+/v39/fPz846Ojtvb2/7+/v7+/kNDQ/7+/mpqare3t/b29pGRkd7e3v7+/v7+/v///0ZGRv7+/m1tbbq6uvn5+f7+/pSUlOHh4f////7+/v7+/klJSf7+/v///3BwcL29vf7+/peXl+Tk5P7+/v7+/v////7+/kxMTP7+/nNzc8DAwP7+/v///5qamufn5/39/f7+/v7+/v///09PT/7+/nZ2dsPDw/7+/p2dnerq6v7+/v39/VJSUrUeaUwAAACIdFJOUwCvQP//SP//+Lf/////v1D/WMcE///////PYAxo///XgxT//3D/HN+L//8k/+d4k/8s3O+Am/////80//ej7P//qzz////0s0T//0z8/v//u1T/w////v//XMsI/2T///7T//8QbNv/hxj//3T//+OPIHz/6///lyj//+DznzD/OP//+///p/BlIDigAAAACXBIWXMAABcRAAAXEQHKJvM/AAAF0klEQVRYR+2Y61sTRxTGN1CBQIzIRSEIguEaDJeChpjYgvg2PdpyRxAsihdAJBIlgGIplDTWP7tnds9mE7KJgfqhT5/8PmzOnHlndzIzO3POal8F8qtpRD4Skwvlni4xtSBRgswqUkijQ7A54H2vFzxc0I3zk+rLRRqkdbFnSfNvic2PvkGjpknmE5Xtog7dZp/ZvW/LhxG+b4hoT8omUX7gqxiRX8opLmyU4Eh17Zo4FNXKwURUj8XHvFT/hbk5WU+oNAZUgVLD7yTgnviECJA4Fvs/TT8+iWUCet65zP+qVcoG99jztp0vYXEYdLMnoD3KGvcXRIeaG+6XUhbetba/4lkiColDYQyiN6yuMfHxjOpeovITohlrzRhihg0MiJNn7qY4HUTxKnFq2oghB80STQfFyUvSabivAOmrEfL+4LE4TI5Z5xC7SIE4ZMyWvDymC/nfeqyrga+E9ltAGbQzJBV2jF3RNRTtXjam92a71NghGn3bec/zWGO4c3ILDR0Yrl3DSWkl1W0GBnBBarLoB6qvtpQFgoATLcZjjAdlE1+Qap2JuLWORZDO9pxUCj2/63I02Kq5rkqX6ZSxbla1B8hbIhKLVwFVkYLterd6d6o/f3Q5RWOxdPu0um6by+uoHbwkkjRAT9U5YwLPSY7BSJE4cOnSGddBQlxFinxDmviVz/0GC9N+bKtXpRZ1vBgfTRveHMR/PaKjZxx/JX7U127eJb71Vtc0eMyDK6/afHlwRrX/T/WbdkraYKk1bBI9wQepsCW+q4vHV9n+m0cwr5jH7TaLV/jWbbEuDK2N/SwV9vCcHKCCY9KBaDMd9YzfR1Z4ls6x53DY8xp4o3eJieb6o01hYHK+rOxNNcKrmBG5z/7o3kCzCNTJM2aOj/2Yt6WqdTA7KVZDpyjSMSLLFEeyh16hqsygyiDz1nxzxwhf5zHzoFEUaXhSoyD4Dg/4Op8Yt+u4c5N29aNVZ33F2L4p4PbaqbmKjxiTpCoq9VwN7NWbjVbXUbMiRwVfbdWjMdVRg4PYqKmuqLJVN/TN60pFoLWD0NVD9PF7zYq+LfiBDuMcUcy5ubWb1+ysVGfyLkkI74iW4W4sDkqdDRXo3v4iUn7Fwlv4SWpy8Ad8ahMhavbhjvjy0bemdihcN7OoIkWKFCmYO1tjazWxx01S/Bd0lrwWS9H7CR31ruYHC16gX3znoW2Mt7ekN8nXfqOTw1h8om+RzAjibbrz7NTW4GKl3KbnPiLsuoOgOBS7mDKUZ6UpHErPwEbA6egwOLOyqEb6WBXOlpUo6uzhsnYJ96WkcMHm2C+EMUhiLETRrZ73aEXKM3vwn3OVeDJ6SDPl0DPLGHBxZNNVVQ5//gAxH++RtA7Yno7Ux5ema/tuR2shR2huOlcx4FN375kPwbms1V6OJPTj1sJ9eVnEZ2Zwf5tv0LXBK6EVCFVlRn20PjEJ2AV8eWl6fKsxo49xZ2SqAkkjIE/jBhJnGfSSLoSuLqxY0SBTN3ISwvZUAqPiMNlp+ErEn8ZDhKJmqH2KaOiXMXRYYbbOClLfrr9CBN9JGztO0NgFPfGxOEH+3M2kO+sfZ1IPRzhk7i0uoF4Nd0FfAHtRLs1ysYjPMGPbpzy/Dzg/yJv/mMSQ8Q3JBhciQ5DYdh6N8BG9xTtpng+/ylh2gT2jbQYnCJXyzwDuYsLwTCCi8oT5rO+kNpTAqxKgISPaPwWQUN3dg9NM7nYwNIVSWsC+tM/DMKLqw+Jd21snuY88XOOYhZl2LGKfH7MLt7TPg1OlyEEMZxwnJkF0q+1wDkthc7AP0Mt7IRrtksFTbOMLfUF8Ax+NphlM4NCPHs7k4cbz3YVAMAQ+HwqkE0l907/Od8imEv5uVBG9QPv1WUf/1vSZjt1V+OqfVbTZDrWax+UfnkX/wpqoz8brvj5eo1Noyd5FZlrUbPVuxM532JqULOk76YFXJ6hCEZ6sh1L7LegtMShgARQp8v9H0/4BY5pcD1q/9NwAAAAASUVORK5CYII="/>
+    </pattern>
+  </defs>
+  <g id="Group_3" data-name="Group 3" transform="translate(-97.74 -413.01)">
+    <g class="cls-18" transform="matrix(1, 0, 0, 1, 97.74, 413.01)">
+      <g id="Rectangle_2-2" data-name="Rectangle 2" class="cls-1" transform="translate(28.59 29.5) rotate(17)">
+        <rect class="cls-14" width="116" height="67"/>
+        <rect class="cls-15" x="0.5" y="0.5" width="115" height="66"/>
+      </g>
+    </g>
+    <line id="Line_7" data-name="Line 7" class="cls-2" x2="33" transform="translate(161.221 486.676) rotate(17)"/>
+    <line id="Line_4" data-name="Line 4" class="cls-3" x1="16" y2="47" transform="translate(141.5 460.5)"/>
+    <g id="Group_1" data-name="Group 1" transform="matrix(0.866, 0.5, -0.5, 0.866, 285.14, -0.269)">
+      <g class="cls-17" transform="matrix(0.87, -0.5, 0.5, 0.87, 44.35, 451.61)">
+        <g id="Rectangle_1-2" data-name="Rectangle 1" class="cls-4" transform="translate(24.49 18.24) rotate(8)">
+          <rect class="cls-14" width="116" height="67"/>
+          <rect class="cls-15" x="0.5" y="0.5" width="115" height="66"/>
+        </g>
+      </g>
+      <line id="Line_6" data-name="Line 6" class="cls-5" x2="55" transform="matrix(0.934, -0.358, 0.358, 0.934, 133.327, 460.355)"/>
+      <line id="Line_5" data-name="Line 5" class="cls-6" x1="16" y2="47" transform="matrix(0.777, -0.629, 0.629, 0.777, 106.494, 459.772)"/>
+      <path id="calendar" class="cls-7" d="M5.156,6.188H7.219V8.25H5.156Zm3.094,0h2.063V8.25H8.25Zm3.094,0h2.062V8.25H11.344ZM2.063,12.375H4.125v2.062H2.063Zm3.094,0H7.219v2.062H5.156Zm3.094,0h2.063v2.062H8.25ZM5.156,9.281H7.219v2.063H5.156Zm3.094,0h2.063v2.063H8.25Zm3.094,0h2.062v2.063H11.344Zm-9.281,0H4.125v2.063H2.063ZM13.406,0V1.031H11.344V0H4.125V1.031H2.063V0H0V16.5H15.469V0Zm1.031,15.469H1.031V4.125H14.437Z" transform="matrix(0.921, -0.391, 0.391, 0.921, 95.391, 472.678)"/>
+    </g>
+    <g id="Group_2" data-name="Group 2" transform="translate(-7.521 10.786) rotate(-3)">
+      <g class="cls-16" transform="matrix(1, 0.05, -0.05, 1, 84.07, 407.18)">
+        <g id="Rectangle_3-2" data-name="Rectangle 3" class="cls-8" transform="translate(14.59 12.07) rotate(-3)">
+          <rect class="cls-14" width="116" height="67"/>
+          <rect class="cls-15" x="0.5" y="0.5" width="115" height="66"/>
+        </g>
+      </g>
+      <rect id="SegoeUIEmoji-People" class="cls-9" width="21" height="20" transform="translate(190 463)"/>
+      <line id="Line_1" data-name="Line 1" class="cls-10" y2="53" transform="translate(134.5 427.5)"/>
+      <line id="Line_2" data-name="Line 2" class="cls-5" x2="55" transform="translate(145.5 444.5)"/>
+      <line id="Line_3" data-name="Line 3" class="cls-11" x2="33" transform="translate(145.5 453.5)"/>
+      <path id="calendar-2" data-name="calendar" class="cls-12" d="M5.156,6.188H7.219V8.25H5.156Zm3.094,0h2.063V8.25H8.25Zm3.094,0h2.062V8.25H11.344ZM2.063,12.375H4.125v2.062H2.063Zm3.094,0H7.219v2.062H5.156Zm3.094,0h2.063v2.062H8.25ZM5.156,9.281H7.219v2.063H5.156Zm3.094,0h2.063v2.063H8.25Zm3.094,0h2.062v2.063H11.344Zm-9.281,0H4.125v2.063H2.063ZM13.406,0V1.031H11.344V0H4.125V1.031H2.063V0H0V16.5H15.469V0Zm1.031,15.469H1.031V4.125H14.437Z" transform="translate(108 445)"/>
+    </g>
+    <rect id="SegoeUIEmoji-People-2" data-name="SegoeUIEmoji-People" class="cls-13" width="21" height="20" rx="10" transform="translate(199.163 507.493) rotate(16)"/>
+  </g>
+</svg>

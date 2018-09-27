@@ -4,11 +4,10 @@
 
 <h2 class="no-bold">Admin Panel</h2>
 
-<% if Rails.env.development? %>
-	<div class="dev-tools">
-		<h2 class="zero-top zero-bot">Developer Tools</h2>
-		You're running Carpe in development, so we'll be providing some tools for you.
+<div class="dev-tools">
+	<h2 class="zero-top zero-bot">Developer Tools</h2>
 
+	<% if Rails.env.development? %>
 		<div class="tip">
 			Make sure you run <code>npm install</code> in the carpe folder to download dependencies.
 			npm can be downloaded from <a href="https://nodejs.org/en/">here</a>.
@@ -36,24 +35,24 @@
 		<%= link_to_block "Code Coverage", "/coveragejs/default/index.html", target: "_blank", class: "default" %><br>
 		Clientside tests to make sure the scheduler is working.
 
-		<h3 class="no-bold">Javascript Acceptance Tests (via CodeceptJS)</h3>
+		<h3 class="no-bold">Javascript Acceptance Tests (via Capybara)</h3>
 		<%= link_to_block "Run", "", id: "run-js-acceptance-tests", class: "default can-load" %>
-		<%= link_to_block "Results", "/codeceptjs_out/mochawesome.html", target: "_blank", class: "default" %><br>
+		<%= link_to_block "Results", "/html_reports", target: "_blank", class: "default" %>
 		A comprehensive set of tests that simulates an actual user navigating Carpe. Note, you must have
 		a local instance of Carpe running before starting this test.
-
-		<h3 class="no-bold">Carpe Living Style Guide</h3>
-		<%= link_to_block "Living Style Guide", "/assets/styleguide/home.html.lsg", class: "default", target: "_blank" %><br>
-		The Carpe living style guide loads in our stylesheets and serves as a repository for the shared styling
-		across Carpe. If you are working on a new page or feature, the living style guide is critical to reusing
-		our common CSS and adding to that set.
 
 		<h3 class="no-bold">Preview Emails</h3>
 		<%= link_to_block "Preview Emails", "/rails/mailers/", class: "default", target: "_blank" %><br>
 		If you are working on emails, Rails will let you preview what those emails will look like if all of the styling
 		is respected. Keep in mind emails may look different in different email providers.
-	</div>
-<% end %>
+	<% end %>
+
+	<h3 class="no-bold">Carpe Living Style Guide</h3>
+	<%= link_to_block "Living Style Guide", "/assets/styleguide/home.html", class: "default", target: "_blank" %><br>
+	The Carpe living style guide loads in our stylesheets and serves as a repository for the shared styling
+	across Carpe. If you are working on a new page or feature, the living style guide is critical to reusing
+	our common CSS and adding to that set.
+</div>
 
 <h4>Info</h4>
 <a href="/users" class="default"><span>View Users</span></a>
