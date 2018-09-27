@@ -23,9 +23,9 @@ class SearchScoringTest < ActiveSupport::TestCase
   end
 
   test "#name prioritizes middle/last names" do
-    query = "flintstone"
-    good_match = "Fred Flintstone"
-    bad_match = "Natalie Dormer"
+    query = "smith"
+    good_match = "John Smith"
+    bad_match = "Smithsonian"
 
     assert_operator SearchScore.name(good_match, query),
                     :<,

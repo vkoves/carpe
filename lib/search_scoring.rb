@@ -8,7 +8,7 @@ module SearchScore
     return 0 if name == query
 
     # then matches on the first name
-    return 1 if name.starts_with?(query)
+    return 1 if name.include?(query + " ")
 
     # then matches on the middle/last name
     return 2 if name.include?(" " + query)
