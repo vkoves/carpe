@@ -355,12 +355,16 @@ html, body
 			color: #161616;
 			font-size: 15px;
 			padding: 8px 15px;
-			width: 135px;
+			width: 150px;
 			font-weight: 600;
 
 			&.green {
 				background-color: $green;
 				color: #fff;
+			}
+			img {
+				height: 20px;
+				margin-right: 10px;
 			}
 		}
 		.button.manage

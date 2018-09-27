@@ -22,12 +22,14 @@
           <% if current_user.in_group?(@group) %>
             <%= link_to(leave_group_path(@group), class: "leave button",
                 data: { confirm: leave_warning(@membership) }) do %>
+                <%= image_tag "leave", alt: "" %>
                 Leave Group
             <% end %>
 
             <%# Show Manage Group link if this user can edit the group %>
             <% if can? :update, @group %>
               <%= link_to edit_group_path(@group), class: "manage button" do %>
+                <%= image_tag "gear_darkgray", alt: "" %>
                 Manage Group
               <% end %>
             <% end %>
