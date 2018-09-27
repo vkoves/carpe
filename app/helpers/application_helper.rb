@@ -7,7 +7,8 @@ module ApplicationHelper
 
   # Note: the given time is automatically cast to the user's preferred time zone.
   def relative_time_tag(to_time, start_caps = false)
-    local_time = to_time.in_time_zone(current_user&.home_time_zone || "UTC")
+    time_zone = defined?(current_user) ? current_user&.home_time_zone : "UTC"
+    local_time = to_time.in_time_zone(time_zone)
 
     format = relative_time(to_time)
     format = format[0].upcase + format[1...format.size] if start_caps
@@ -16,12 +17,12 @@ module ApplicationHelper
   end
 
   def relative_event_time_tag(event)
-    start_tense = event.date.past? ? "Started" : "Starting"
-    end_tense = event.end_date.past? ? "ended" : "ends"
+    start_str = event.date.past? ? "Started" : "Starting"
+    end_str = event.end_date.past? ? "ended" : "ends"
     start_time = relative_time_tag event.date
     end_time = relative_time_tag event.end_date
 
-    "#{start_tense} #{start_time}, #{end_tense} #{end_time}".html_safe
+    "#{start_str} #{start_time}, #{end_str} #{end_time}".html_safe
   end
 
   def link_to_block(name = nil, options = nil, html_options = nil)
