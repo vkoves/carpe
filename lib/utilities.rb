@@ -54,11 +54,15 @@ module Utilities
     secs, mins, days, months = duration_parts(duration)
     time = "%-l:%M %p" # time format
 
+    # special cases based on dates
+    return "yesterday at #{time}" if to_time.to_date == Date.yesterday
+    return "tomorrow at #{time}" if to_time.to_date == Date.tomorrow
+
+    # all other wordings are based on duration
     case duration
     when -INFINITY..-1.month   then "#{plural months, 'month'} ago"
     when -1.month..-1.week     then "#{plural days, 'day'} ago"
-    when -1.week..-2.days      then "last %A at #{time}"
-    when -2.days..-1.day       then "yesterday at #{time}"
+    when -1.week..-1.day       then "last %A at #{time}"
     when -1.day..-1.hour       then time
     when -1.hour..-1.minute    then "#{plural mins, 'minute'} ago (#{time})"
     when -1.minute...0.seconds then "#{plural secs, 'second'} ago (#{time})"
@@ -66,8 +70,7 @@ module Utilities
     when 0.seconds...1.minute  then "#{plural secs, 'second'} from now (#{time})"
     when 1.minute...1.hour     then "#{plural mins, 'minute'} from now (#{time})"
     when 1.hour...1.day        then time
-    when 1.day...2.days        then "tomorrow at #{time}"
-    when 2.days...1.week       then "%A at #{time}"
+    when 1.day...1.week        then "%A at #{time}"
     when 1.week...1.month      then "#{plural days, 'day'} from now"
     when 1.month...INFINITY    then "#{plural months, 'month'} from now"
     else raise "Congratulations, you won a bug!"

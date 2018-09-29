@@ -90,10 +90,10 @@ class UtilitiesTest < ActiveSupport::TestCase
   end
 
   test "#relative_time works (tomorrow)" do
-    test_time = Time.parse('16th May 2018 6:00:00 PM')
+    test_time = Time.parse('16th May 2018 1:00:00 PM')
     str = test_time.strftime(relative_time(test_time))
 
-    assert_equal "tomorrow at 6:00 PM", str
+    assert_equal "tomorrow at 1:00 PM", str
   end
 
   test "#relative_time works (> 1 day from now)" do
