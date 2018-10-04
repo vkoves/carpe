@@ -123,21 +123,6 @@ class GroupsController < ApplicationController
     redirect_to groups_path
   end
 
-  def invite_users_search
-    query = params[:q]
-    render json: {} and return if query.blank?
-
-    group = Group.find(params[:id])
-    matched_users = User.where('name LIKE ?', "%#{query}%")
-                      .where.not(id: group.members).limit(10)
-
-    users_json = matched_users.map do |user|
-      { id: user.id, name: user.name, image_url: user.avatar_url(50) }
-    end
-
-    render json: users_json
-  end
-
   protected
 
   # 'edit' and 'new' will redirect back to the group modified

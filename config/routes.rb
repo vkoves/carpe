@@ -8,10 +8,6 @@ Rails.application.routes.draw do
       get "demote"
       get "inspect"
     end
-
-    collection do
-      get "search"
-    end
   end
 
   #General page routes
@@ -37,7 +33,6 @@ Rails.application.routes.draw do
   post "/check_if_command_is_finished" => 'pages#check_if_command_is_finished'
 
   #User Routes
-  get "/search_core" => 'application#search_core'
   post "/deny_friend" => 'friendships#deny'
   post "/confirm_friend" => 'friendships#confirm'
 
@@ -50,12 +45,14 @@ Rails.application.routes.draw do
     post :save
   end
 
-  #Other backend stuff
-  get "/search/group/:id/invite_users", to: 'groups#invite_users_search', as: :group_invite_users_search
 
   resources :notifications, only: [:destroy] do
     post "update(/:response)", to: "notifications#updated", as: :update, on: :member
     post :read, on: :collection
+  end
+
+  resource :search, only: [] do
+    get :all, :users, :group_invitable_users
   end
 
   root 'home#index'
