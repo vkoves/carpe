@@ -64,7 +64,7 @@ class User < ApplicationRecord
   ##########################
 
   # Returns a url to the avatar with the width in pixels.
-	def avatar_url(size)
+	def avatar_url(size = 256)
     return "#{image_url.split("?")[0]}?sz=#{size}" if has_google_avatar? # google avatar
     return avatar.url(size <= 60 ? :thumb : :profile) if avatar.exists? # uploaded avatar
     gravatar_url(size) # default avatar
