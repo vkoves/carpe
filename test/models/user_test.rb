@@ -202,8 +202,7 @@ class UserTest < ActiveSupport::TestCase
     @viktor.avatar = sample_file("sample_avatar.jpg")
     @viktor.save!
 
-    assert_includes @viktor.avatar_url(30), "sample_avatar", "avatar thumbnails don't work"
-    assert_includes @viktor.avatar_url(200), "sample_avatar", "avatar photos don't work"
+    assert_includes @viktor.avatar_url, "sample_avatar"
   end
 
   test "provider_name formats provider names as expected" do

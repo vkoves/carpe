@@ -15,7 +15,7 @@ norm:
   admin: null
   email: "normannorm@normannormsnormalemporium.com" #just needed an invalid email
   public_profile: false
-  image_url: "putin.png"
+  image_url: <%= "#{Rails.root}/test/fixtures/files/sample_avatar.jpg" %>
   home_time_zone: 'Central Time (US & Canada)'
 
 joe:
@@ -31,7 +31,8 @@ putin:
   email: "vlad@russia.org"
   custom_url: "motherland"
   public_profile: true
-  image_url: "putin.png"
+  image_url: <%= "#{Rails.root}/test/fixtures/files/sample_avatar.jpg" %>
+
   provider: "google_oauth2"
 
 # Users for testing search

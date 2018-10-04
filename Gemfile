@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 ruby '2.4.2'
-gem 'rails', '~> 5.1'
+gem 'rails', '~> 5.2'
 
 # Required gems for rails
 gem 'jbuilder', '~> 2.7'
@@ -11,6 +11,7 @@ gem 'puma', '~> 3.10'
 gem 'coffee-rails', '~> 4.2'
 # gem "turbolinks", "~> 5"
 gem 'tzinfo-data', platforms: [:mswin, :mingw, :x64_mingw]
+gem 'bootsnap', '~> 1.3'
 
 # Note:
 # The mingw version of bcrypt does not work correctly on Windows.
@@ -54,7 +55,7 @@ gem 'rack-mini-profiler', group: [:development, :production]
 gem 'paperclip', '~> 6'
 
 # Amazon Web Storage Service. Used by paperclip to store images.
-gem 'aws-sdk-s3', '~> 1', group: :production
+gem 'aws-sdk-s3', '~> 1', require: false, group: :production
 
 # Add SimpleCov to check test coverage (https://github.com/colszowka/simplecov)
 gem 'simplecov', :require => false, :group => :test
