@@ -8,7 +8,7 @@ class GroupsController < ApplicationController
                             .eager_load(:users).references(:users_groups)
 
 
-    paginate(@joinable_groups, "big_group_card")
+    paginate(@joinable_groups, "large_group_card")
   end
 
   def show
