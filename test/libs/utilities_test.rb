@@ -7,7 +7,7 @@ class UtilitiesTest < ActiveSupport::TestCase
   def setup
     # NOTE: Time.now and friends are all based on this date.
     # This will help keep tests predictable.
-    new_current_time = Time.parse('15th May 2018 5:00:00 PM') # a monday
+    new_current_time = Time.parse('15th May 2018 5:00:00 PM') # a tuesday
     travel_to new_current_time
   end
 
@@ -115,6 +115,16 @@ class UtilitiesTest < ActiveSupport::TestCase
     str = test_time.strftime(relative_time(test_time))
 
     assert_equal "1 month from now", str
+  end
+
+  test "#relative_time works with time zones" do
+    travel_to Time.parse('3rd October 2018 9:50:00 PM') # a wednesday
+
+    Time.use_zone("America/Chicago") do
+      test_time = Time.parse('5th October 2018 8:00:00 AM') # a friday
+      str = test_time.strftime(relative_time(test_time))
+      assert_equal "Friday at 8:00 AM", str
+    end
   end
 
   # ----------------------------------
