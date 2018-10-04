@@ -21,7 +21,7 @@
 
   <div class="main">
     <div class="flex-text-img -align-top">
-      <%= image_tag "description", alt: "" %>
+      <%= image_tag "description.svg", alt: "" %>
       <% if group.description.present? # If the description is provided %>
         <%= group.description %>
       <% else %>
@@ -29,7 +29,7 @@
       <% end %>
     </div>
     <div class="flex-text-img">
-      <%= image_tag "person-multiple", alt: "" %>
+      <%= image_tag "person-multiple.png", alt: "" %>
       <%= group.size %> <%= 'Member'.pluralize(group.size) %>
     </div>
   </div>
