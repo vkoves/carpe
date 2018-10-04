@@ -1,7 +1,19 @@
-<div class="small-card grey-box">
+<div class="small-group-card grey-box">
 <%= link_avatar group, size: 64 %>
 
   <div class="main">
     <%= link_to group.name, group, class: [:normal, :title] %>
+
+    <div class="flex-text-img">
+        <%= image_tag "person-multiple", alt: "" %>
+        <%= group.size %> <%= 'Member'.pluralize(group.size) %>
+    </div>
   </div>
+
+  <%# Show edit link if the current_user can edit this group %>
+  <% if can? :update, group %>
+    <%= link_to edit_group_path(group) do %>
+      <%= image_tag "gear", class: "edit-icon", alt: "Gear" %>
+    <% end %>
+  <% end %>
 </div>

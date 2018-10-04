@@ -4,7 +4,8 @@
   <main class="content">
     <span class="carpe-color current-header">Current Events</span>
     <% if cannot? :view_details, @group %>
-      <span> To see upcoming events, you have to join the group first! </span>
+      <%= image_tag "lock", alt: "Lock", class: "lock -large" %>
+      <span>To see upcoming events, you have to join the group first.</span>
     <% elsif @upcoming_events.empty? %>
       <% if current_user&.in_group? @group %>
         <span> This group has no events, make some! </span>
@@ -21,14 +22,28 @@
   <aside id="group-overview-info" class="vertical flex-list sidebar with-horizontal-borders">
     <div>
       <h2>About</h2>
-      <p><%= @group.description %></p>
+      <p>
+        <% if @group.description.present? # If the description is provided %>
+          <%= @group.description %>
+        <% else %>
+          <em>This group has no description.</em>
+        <% end %>
+      </p>
     </div>
 
     <div>
       <div id="side-member-pane">
-        <h2>Members <%= link_to "View More", group_path(@group, view: :members), id:"view-all-link" %></h2>
+        <h2>
+            Members
+            <% if can? :view_details, @group %>
+              <%= link_to "View More", group_path(@group, view: :members), class: "normal carpe-color" %>
+            <% end %>
+        </h2>
         <% if cannot? :view_details, @group %>
-          <i>You cannot see members unless you are a member of this group</i>
+          <div class="lock-msg">
+            <%= image_tag "lock", alt: "Lock", class: "lock -small" %>
+            <span>You cannot see members unless you are a member of this group</span>
+          </div>
         <% elsif @group.empty? %>
           <span> This group has no members </span>
         <% else %>
@@ -42,7 +57,10 @@
     <div>
       <h2>Recent Actions</h2>
       <% if cannot? :view_details, @group %>
-        <i>You cannot see recent activities unless you are a member of this group</i>
+        <div class="lock-msg">
+          <%= image_tag "lock", alt: "Lock", class: "lock -small" %>
+          <span>You cannot see recent activities unless you are a member of this group</span>
+        </div>
       <% elsif @activities.empty? %>
         <span> This group has no recent actions </span>
       <% else %>
