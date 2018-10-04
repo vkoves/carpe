@@ -4,7 +4,7 @@
   <main class="content">
     <span class="carpe-color current-header">Current Events</span>
     <% if cannot? :view_details, @group %>
-      <%= image_tag "lock", alt: "Lock", class: "lock -large" %>
+      <%= image_tag "lock.svg", alt: "Lock", class: "lock -large" %>
       <span>To see upcoming events, you have to join the group first.</span>
     <% elsif @upcoming_events.empty? %>
       <% if current_user&.in_group? @group %>
@@ -41,7 +41,7 @@
         </h2>
         <% if cannot? :view_details, @group %>
           <div class="lock-msg">
-            <%= image_tag "lock", alt: "Lock", class: "lock -small" %>
+            <%= image_tag "lock.svg", alt: "Lock", class: "lock -small" %>
             <span>You cannot see members unless you are a member of this group</span>
           </div>
         <% elsif @group.empty? %>
@@ -58,7 +58,7 @@
       <h2>Recent Actions</h2>
       <% if cannot? :view_details, @group %>
         <div class="lock-msg">
-          <%= image_tag "lock", alt: "Lock", class: "lock -small" %>
+          <%= image_tag "lock.svg", alt: "Lock", class: "lock -small" %>
           <span>You cannot see recent activities unless you are a member of this group</span>
         </div>
       <% elsif @activities.empty? %>

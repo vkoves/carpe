@@ -2,7 +2,7 @@
 <%= javascript_include_tag "groups/index" %>
 <div class="page-container">
   <h2 class="group-heading flex-text-img left-align">
-    <%= image_tag "person-one", alt: "" %>
+    <%= image_tag "person-one.svg", alt: "" %>
     Your Groups
   </h2>
   <% if current_user.groups.empty? %>
@@ -18,7 +18,7 @@
   <div id="groups-list-header">
     <div id="header-info" class="group-heading">
       <h2 class="flex-text-img left-align">
-        <%= image_tag "globe", alt: "" %>
+        <%= image_tag "globe.svg", alt: "" %>
         Public Groups
       </h2>
       <%= link_to "+ Create Group", new_group_path, class: "large green button" %>
