@@ -7,9 +7,9 @@
 		<% end %>
 			<div class="avatar">
 				<% if @home %>
-					<img src="<%= user.avatar_url(60) %>" class="width-60">
+					<%= image_tag user.avatar_url(60), class: "width-60" %>
 				<% else %>
-					<img src="<%= user.avatar_url(100) %>">
+					<%= image_tag user.avatar_url(100) %>
 				<% end %>
 			</div>
 		<% unless @home %>

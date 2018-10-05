@@ -1,5 +1,6 @@
 # Load the Rails application.
-require File.expand_path('../application', __FILE__)
+require_relative 'application'
+
 ActionMailer::Base.smtp_settings = {
   :user_name => 'indigobox',
   :password => 'swimmingMail13',

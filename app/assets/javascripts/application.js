@@ -208,7 +208,7 @@ function initializeEventListeners() {
 
   // Tokenizer shenanigans for the search
   // Uses jQuery tokeninput - http://loopj.com/jquery-tokeninput/
-  $('#users-search input[type=text]').tokenInput('/search_core.json', {
+  $('#users-search input[type=text]').tokenInput('/search/all.json', {
     crossDomain: false,
     placeholder: 'Search',
     searchDelay: 0,
