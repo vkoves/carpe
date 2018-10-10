@@ -1919,6 +1919,7 @@ function editEvent(elem) {
       var val = $(this).val();
       currEvent.setCategory(val)
       $(".sch-evnt[evnt-temp-id='" + evntId+ "'], #overlay-color-bar").css("background-color", categories[currEvent.categoryId].color)
+      $(".sch-evnt[evnt-temp-id='" + evntId+ "']").attr("data-id", val)
     })
 
     // Select the proper repeat button
