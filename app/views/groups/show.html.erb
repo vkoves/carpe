@@ -35,7 +35,7 @@
             <% end %>
           <% else %>
             <% if @group.pending_invite_request? current_user %>
-              <p>Pending Invite Response</p>
+              <button class="button disabled">Invite Pending</button>
             <% else %>
               <%= link_to "Join Group", join_group_path(@group), class: "green button" %>
             <% end %>

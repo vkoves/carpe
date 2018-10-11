@@ -352,13 +352,14 @@ html, body
 		display: flex;
 		flex-direction: column;
 		width: 84%; // This seems arbitrary, but is caused by the size of a typical avatar on screen.
+		padding-right: 20px;
 
 		// The type of edit that is used on groups.
 		.button {
 			float: right;
+			font-size: 15px;
 			background: #e2e2e2;
 			color: #161616;
-			font-size: 15px;
 			padding: 8px 15px;
 			width: 150px;
 			font-weight: 600;
