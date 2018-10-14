@@ -5,6 +5,7 @@ viktor:
   name: "Viktor"
   admin: true
   email: "viktorkoves@gmail.com"
+  encrypted_password: <%= User.new.send(:password_digest, 'trombone321') %>
   custom_url: "viktor"
   # friends: [viktors_friend]
 
@@ -14,7 +15,7 @@ norm:
   admin: null
   email: "normannorm@normannormsnormalemporium.com" #just needed an invalid email
   public_profile: false
-  image_url: "putin.png"
+  image_url: <%= "#{Rails.root}/test/fixtures/files/sample_avatar.jpg" %>
   home_time_zone: 'Central Time (US & Canada)'
 
 joe:
@@ -30,7 +31,8 @@ putin:
   email: "vlad@russia.org"
   custom_url: "motherland"
   public_profile: true
-  image_url: "putin.png"
+  image_url: <%= "#{Rails.root}/test/fixtures/files/sample_avatar.jpg" %>
+
   provider: "google_oauth2"
 
 # Users for testing search

@@ -3,7 +3,6 @@
 /* Body styling to apply font, min-width and padding */
 body
 {
-	font-family: 'Open Sans', sans-serif;
 	margin: 0px;
 	width: 100%;
 	min-width: 400px;
@@ -11,6 +10,11 @@ body
 	color: $text-color;
 
 	&.in-iframe { padding-bottom: 0px; }
+
+	// Make sure all elements get the proper font
+	* {
+		font-family: 'Open Sans', sans-serif;
+	}
 }
 
 /* HEADER + POSSIBLE OTHER USE CSS */
@@ -167,6 +171,13 @@ a .avatar, .avatar a, a.avatar
 	border: none;
 	float: left;
 	margin-right: 5px;
+}
+
+// Style banner images with the raindrops fallback
+.banner-img {
+	background-image: image-url("water_Krakkened.png");
+	background-color: #848484; /* As a backup if the image is stupid */
+	background-size: cover;
 }
 
 .cancel-box
@@ -733,6 +744,22 @@ form.thin
 #break-overlay-box
 {
 	z-index: 1003;
+
+	#break-start, #break-end
+	{
+		margin-bottom: 8px;
+	}
+
+	#submit-break
+	{
+		margin-top: 8px;
+	}
+
+	#break-error
+	{
+		color: red;
+		display: none;
+	}
 }
 
 #overlay-alert
@@ -772,6 +799,31 @@ form.thin
 {
 	display: inline-block;
 	vertical-align: middle;
+}
+
+// Used with the lock icon
+.lock {
+	display: block;
+	background-color: $grey;
+	border-radius: 100%;
+
+	&.-large {
+		width: 100px;
+		padding: 40px;
+		margin: 50px auto;
+	}
+	&.-small {
+		width: 50px;
+		padding: 20px;
+		margin: 25px auto;
+	}
+}
+
+.lock-msg {
+	display: flex;
+	align-items: center;
+
+	.lock { margin: 0 25px 0 0; }
 }
 
 /* END TO BE SORTED */
@@ -948,11 +1000,11 @@ form.thin
 		&:hover { background-color: #a3b4c3; }
 	}
 
-    &.purple
-    {
-        background: #5B5BFF;
-        &:hover { background: #5B5BFF; }
-    }
+	&.purple
+	{
+		background: #5B5BFF;
+		&:hover { background: #5B5BFF; }
+	}
 
 	/* button sizing */
 	&.wide
@@ -1006,7 +1058,7 @@ form.thin
 // special case for 'Following' / 'Unfollow' state buttons
 .profile-header .button.js-unfollow-user:hover
 {
-    background: #FD1A1A;
+	background: #FD1A1A;
 }
 
 /*---------------------------------------------------------------------------*/

@@ -8,15 +8,10 @@ Rails.application.routes.draw do
       get "demote"
       get "inspect"
     end
-
-    collection do
-      get "search"
-    end
   end
 
   #General page routes
   get "/home" => 'home#index', :as => :home
-  get "/schedule" => 'schedule#schedule'
   get "/userviewer" => 'pages#userviewer'
   get "/about" => 'pages#about'
   get "/status" => 'pages#status'
@@ -38,25 +33,26 @@ Rails.application.routes.draw do
   post "/check_if_command_is_finished" => 'pages#check_if_command_is_finished'
 
   #User Routes
-  get "/search_core" => 'application#search_core'
   post "/deny_friend" => 'friendships#deny'
   post "/confirm_friend" => 'friendships#confirm'
 
   #Event backend commands
-  post "/save_events" => 'schedule#save_events'
-  post "/delete_event" => 'schedule#delete_event'
+  resources :events, only: [:destroy]
+  resources :categories, only: [:create, :update, :destroy]
+  resources :repeat_exceptions, only: [:create, :update, :destroy]
 
-  post "/create_category" => 'schedule#create_category'
-  post "/delete_category" => 'schedule#delete_category'
+  resource :schedule, only: [:show] do
+    post :save
+  end
 
-  post "/create_break" => 'schedule#create_exception'
-
-  #Other backend stuff
-  get "/search/group/:id/invite_users", to: 'groups#invite_users_search', as: :group_invite_users_search
 
   resources :notifications, only: [:destroy] do
     post "update(/:response)", to: "notifications#updated", as: :update, on: :member
     post :read, on: :collection
+  end
+
+  resource :search, only: [] do
+    get :all, :users, :group_invitable_users
   end
 
   root 'home#index'

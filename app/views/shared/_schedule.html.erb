@@ -78,7 +78,8 @@
 		<br><br>
 		Start: <input id="break-start" class="date-field" type="text">
 		End: <input id="break-end" class="date-field" type="text">
-		<br><br>
+		<br>
+		<div id="break-error">Please fill out all fields<br></div>
 		<span id="submit-break" class="default green">Submit</span>
 	</div>
 
@@ -103,7 +104,6 @@
 		<div class="cat-top-overlay">
 			<div class="cat-overlay-title" contenteditable=true ></div>
 			<%= image_tag "checkmark-wht.png", :class => "sch-evnt-save-cat sch-cat-icon no-drag" %>
-
 		</div>
 		<div class="cat-remainder-overlay">
       <div id="cat-privacy">
@@ -138,12 +138,25 @@
 
 	<div id="cont-hold" class="<%= 'iframe' if embedded %>">
 		<div id="sch-sidebar" class="sch-no-drag">
-			<span id="sidebar-title" title="Drag a category onto the schedule to create a calendar item.">Categories</span>
-			<% unless read_only #don't show this text if you can't actually edit things %>
-				<div id="side-desc">Drag a category onto the schedule to create a calendar item.</div>
-			<% end %>
+			<span id="sidebar-title">
+				Categories
+				<% unless @read_only #don't show this text if you can't actually edit things %>
+					<%= image_tag "question-circle.svg", width: 15, class: "question-tooltip", title: "Drag a category onto the schedule to create a calendar item." %>
+				<% end %>
+			</span>
+			<button class="cat-add main default">+ New Category</button>
 			<div id="sch-tiles">
 				<div id="sch-tiles-inside">
+					<div class="no-categories">
+						<%= image_tag "category-cards.svg", :class => "cat-card" %>
+						<div class="heading">Your calendar needs some categories!</div>
+						<div class="sub-heading">
+							Create categories like Work, Appointments, or
+							Concerts to add and organize your events.
+						</div>
+						<span class="default cat-add" id="cancel">Create a Category</span>
+					</div>
+
 					<div id="cat-template" class="sch-evnt category" data-id="-1" time="0:00" style="display: none">
 						<div class="evnt-time top">7:00</div>
 						<div class="evnt-time bot">7:00</div>
@@ -157,7 +170,7 @@
 					</div>
 
 					<% #Load group's categories if we're showing a group schedule; otherwise, load user's categories %>
-          <% categories.each_with_index do |cat, index| %>
+					<% categories.each_with_index do |cat, index| %>
 						<div class="sch-evnt category" time="0:00" data-id="<%= cat.id %>" privacy="<%= cat.privacy %>"
 							style="background-color:<%= cat.color %>; /*top: <%= 105*index %>*/">
 							<div class="evnt-time top">7:00</div>
@@ -173,8 +186,6 @@
 					<% end %>
 				</div>
 			</div>
-
-			<div class="cat-add">+ New Category</div>
 		</div>
 
 
@@ -182,9 +193,9 @@
 		<div id="sch-main">
 			<div class="sch-but-holder">
 				<span class="default sch-week-prev">Previous</span>
-        &nbsp;
+				&nbsp;
 				<span class="default sch-week-next">Next</span>
-        <input id="week-date" class="date-field" type="text"/>
+				<input id="week-date" class="date-field" type="text"/>
 
 				<% unless read_only %>
 					<span class="default green disabled" id="sch-save">Save Events
@@ -251,12 +262,12 @@
 	var readOnly = <%= read_only %>;
 
 	<% # this is only available for users at the moment %>
-  var IFRAME_URL = <%= raw user.present? ? "'http://www.carpe.us/schedule?iframe=true&uid=#{user.id}'" : "'NOPE'" %>;
+	var IFRAME_URL = <%= raw user.present? ? "'http://www.carpe.us/schedule?iframe=true&uid=#{user.id}'" : "'NOPE'" %>;
 
 	var loadedEvents = <%= raw events.to_json(include: { repeat_exceptions: { only: :id } }) %>;
 	var loadedCategories = <%= raw categories.to_json(include: { repeat_exceptions: { only: :id } }) %>;
-  var loadedBreaks = <%= raw user_or_group.repeat_exceptions.to_json %>;
+	var loadedBreaks = <%= raw user_or_group.repeat_exceptions.to_json %>;
 
-  <% # if this is a group schedule, all events, categories, etc created will make use of groupID %>
+	<% # if this is a group schedule, all events, categories, etc created will make use of groupID %>
 	var groupID = <%= group&.id || "null" %>;
 </script>

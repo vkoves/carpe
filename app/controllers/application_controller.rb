@@ -3,9 +3,6 @@ require 'overridden_helpers'
 class ApplicationController < ActionController::Base
   include OverriddenHelpers
 
-  # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
-  protect_from_forgery with: :exception
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   # Enable rack-mini-profiler for signed in admin
@@ -46,47 +43,6 @@ class ApplicationController < ActionController::Base
       render partial: partial, collection: collection
     else
       render action_name
-    end
-  end
-
-  #Core Carpe search. Searches groups and users
-  def search_core
-    if params[:q]
-      q = params[:q].strip
-    else
-      q = ""
-    end
-
-    if q != "" #only search if it's not silly
-      users = User.where('name LIKE ?', "%#{q}%").limit(10)
-      users = User.rank(users, q)
-      
-      # Convert the users into a hash with the least data needed to show search. Recall that users can see the JSON
-      # the search returns in the network tab, so it's crucial we don't pass unused attributes
-      user_map = users.map{|user|
-        user_obj = user.convert_to_json # get JSON data for the user
-        user_obj[:link_url] = user_url(User.find_by_id(user["id"])) # add the link to the user
-        user_obj # and return the modified JSON object
-      }
-
-      groups = Group.where.not(privacy: :secret_group).where('name LIKE ?', "%#{q}%").limit(5)
-      group_map = groups.map{|group|
-        group_obj = {} #create a hash representing the group
-
-        # Required fields for search - name and image url
-        group_obj[:name] = group.name
-        group_obj[:image_url] = group.avatar_url
-
-        # Custom fields - model name and link_url for linking
-        group_obj[:model_name] = "Group"
-        group_obj[:link_url] = group_url(group)
-
-        group_obj #return the group hash
-      }
-
-      render :json => user_map + group_map
-    else
-      render :json => {} # render nothing to prevent a no template error
     end
   end
 

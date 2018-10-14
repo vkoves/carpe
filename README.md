@@ -8,6 +8,7 @@ A socially networked, intuitive calendar created in Ruby on Rails with a jQuery 
 
 1) Install the latest versions of [Ruby](https://rvm.io/) and [npm](https://nodejs.org/en/download/)
 2) Run `gem install bundler`, `bundle install`, and `npm install`
+3) Install [ImageMagick](http://www.imagemagick.org/script/download.php) (It's used for processing uploaded images)
 
 ## Running Locally
 
@@ -17,7 +18,7 @@ To run the server locally, run `rails server`. The site will be visible at `loca
 
 Carpe is setup with the default testing suite for Ruby, [Minitest](https://github.com/seattlerb/minitest). All files related to tests are located in the `test` directory, where you can find fixtures (the data used when running tests), and tests for controllers, models, and helpers, as well as integration tests. To get a good overview of how testing in Rails works, see this [RailsGuides guide](http://guides.rubyonrails.org/testing.html) on the subject.
 
-Carpe is also setup with Javascript testing via [Teaspoon](https://github.com/jejacks0n/teaspoon) and acceptance tests via [CodeceptJS](http://codecept.io/). We also use [Istanbul](https://github.com/gotwarlost/istanbul) for checking Teaspoon Javascript test code coverage.
+Carpe is also setup with Javascript testing via [Teaspoon](https://github.com/jejacks0n/teaspoon) and acceptance tests via [Capybara](https://github.com/teamcapybara/capybara). We also use [Istanbul](https://github.com/gotwarlost/istanbul) for checking Teaspoon Javascript test code coverage.
 
 The Carpe repository also is setup with Travis CI, which automatically runs builds on push or on a pull request being made. You can see the build status at the top of the README, and can click on it to see build progress and logs.
 
@@ -29,15 +30,29 @@ To run a specific test, run `bundle exec rails test test_file_path`
 
 Ex: `bundle exec rails test test/controllers/event_test.rb`
 
+Run Capybara acceptance/system tests with `rails test:system`
+
 ### Running Javascript Tests
 
 To run Teaspoon tests run `npm run teaspoon` from the Carpe directory. This will simultaneously run Teaspoon tests and Istanbul code coverage. You can access teaspoon tests results at `<localhost>/teaspoon/default/`, and Istanbulc code coverage at `<localhost>/coveragejs/default/`.
 
-### Running CodeceptJS Acceptance Tests
-
-CodeceptJS lets us run lovely acceptance tests. Run with `npm run acceptance-tests`. HTML reports of the results will be available at `<localhost>/codeceptjs_out/mochawesome.html`.
-
 ## Checking Code Quality
+
+### Javascript (ESLint)
+
+Carpe uses [ESLint](https://eslint.org/), which automatically runs as part of our CI. If you want to run it manually, run:
+
+```
+npm run eslint
+```
+
+To auto-fix issues that ESLint can fix, run:
+
+```
+npm run eslint-fix
+```
+
+### Ruby on Rails (RubyCritic)
 
 At the moment, Carpe uses [Ruby Critic](https://github.com/whitesmith/rubycritic) for code quality checking.
 

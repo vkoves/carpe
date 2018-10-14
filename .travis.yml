@@ -1,8 +1,21 @@
 # First Travis CLI file for building Carpe
+dist: trusty
 language: ruby
 cache: bundler # Cache the bundler. Makes builds run faster, automatically reruns build when bundler changes
 rvm:
   - 2.4.2
+
+addons:
+  chrome: stable
+
+# Handles installing anything needed for scripts
+before_script:
+  - npm install -g eslint # Install ESLint
+
+# All tests and linting
 script:
+  - RAILS_ENV=test bundle exec rake db:migrate
   - bundle exec rails test
-  - bundle exec rake teaspoon
+  - bundle exec teaspoon
+  - bundle exec rails test:system
+  - eslint app/assets/javascripts spec/javascripts # Run ESLint on JS code & Teaspoon tests (copied from package.json)
