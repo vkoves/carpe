@@ -367,7 +367,7 @@ input.danger:hover {
 
 // Devise's error stuff when forms have errors
 // Which is used on sign up and forgot password
-#error_explanation h2 {
+#error-explanation h2 {
   color: #ffffff;
   font-weight: normal;
   font-size: 20px;
@@ -380,7 +380,7 @@ input.danger:hover {
   padding: 5px;
 }
 
-#error_explanation ul {
+#error-explanation ul {
   margin: 0;
   padding-left: 0;
   list-style: none;
