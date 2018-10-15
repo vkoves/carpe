@@ -55,7 +55,7 @@ $cover-camera-height: 20px;
     z-index: 100;
     top: 10px;
     right: 0;
-    border: 1px solid white;
+    border: 1px solid #ffffff;
     padding: 5px 15px;
 
     img {
@@ -119,12 +119,12 @@ $cover-camera-height: 20px;
 
 #profile-name {
   float: left;
-  color: white;
+  color: #ffffff;
   width: 100%;
 }
 
 #profile-name a {
-  color: white;
+  color: #ffffff;
   text-decoration: none;
 }
 
@@ -137,7 +137,7 @@ $cover-camera-height: 20px;
 
 #profile-info {
   display: inline-block;
-  color: white;
+  color: #ffffff;
   font-weight: bold;
   margin-left: 10px;
 }
@@ -151,7 +151,7 @@ $cover-camera-height: 20px;
   font-size: 0;
 
   a {
-    color: white;
+    color: #ffffff;
   }
 
   div {
@@ -162,11 +162,11 @@ $cover-camera-height: 20px;
     font-size: 16px;
 
     &.curr {
-      background: #ED7D31;
+      background: #ed7d31;
     }
 
     &:not(.curr):hover {
-      color: #ED7D31;
+      color: #ed7d31;
     }
   }
 }
@@ -182,7 +182,7 @@ $cover-camera-height: 20px;
   letter-spacing: 0.5px;
 
   a {
-    color: white;
+    color: #ffffff;
   }
 
   div {
@@ -199,7 +199,7 @@ $cover-camera-height: 20px;
     }
 
     &:not(.curr):hover {
-      color: #ED7D31;
+      color: #ed7d31;
     }
   }
 }

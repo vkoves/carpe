@@ -28,7 +28,7 @@
 
   // height: 100%;
   height: 706px;
-  background: rgb(239, 239, 239);
+  background: #efefef;
   font-size: 24px;
   border-radius: 5px;
   float: left;
@@ -38,11 +38,11 @@
     font-size: 18px;
     font-weight: 900;
     text-align: right;
-    color: rgb(100, 100, 100);
+    color: #646464;
   }
 
   .cat-add.main {
-    background-color: #CFCFCF;
+    background-color: #cfcfcf;
     width: 100%;
     padding: 5px 0;
     font-size: 16px;
@@ -52,7 +52,7 @@
     transition: all 0.2s;
 
     &:hover {
-      color: #fff;
+      color: #ffffff;
       background-color: $light-orange;
     }
   }
@@ -118,7 +118,7 @@
     }
 
     .category {
-      box-shadow: 0.5px 0.5px 10px rgb(185, 185, 185);
+      box-shadow: 0.5px 0.5px 10px #b9b9b9;
     }
 
     .evnt-title {
@@ -148,7 +148,7 @@
   width: 190px;
   height: 88px; // This should be 90px - borders top and bottom
   min-height: 25px;
-  background: #BDBDBD;
+  background: #bdbdbd;
   left: 0;
   right: 0;
   font-size: 16px;
@@ -173,7 +173,7 @@
     height: 90%;
     top: 5%;
     position: absolute;
-    background-color: white;
+    background-color: #ffffff;
   }
 
   .evnt-time {
@@ -183,7 +183,7 @@
     width: 50px;
     text-align: left;
     font-size: 10px;
-    color: rgb(240, 240, 240);
+    color: #f0f0f0;
     line-height: 1;
   }
 
@@ -240,14 +240,14 @@
   }
 
   .sch-evnt:hover {
-    box-shadow: 0 0 5px rgb(0, 0, 0);
+    box-shadow: 0 0 5px #000000;
     border-color: rgba(0, 0, 0, 0);
   }
 
   .evnt-title:hover,
   .evnt-title:focus {
     background: rgba(0, 0, 0, 0.25);
-    box-shadow: 0 0 3px black;
+    box-shadow: 0 0 3px #000000;
   }
 }
 
@@ -300,10 +300,10 @@
   width: 200px;
   float: left;
   min-width: 160px;
-  border-right: solid 1px rgb(150, 150, 150);
+  border-right: solid 1px #969696;
 
   &#sch-today {
-    background-color: rgb(255, 255, 115);
+    background-color: #ffff73;
 
     .col-titler {
       font-weight: bold;
@@ -311,7 +311,7 @@
   }
 
   &.over {
-    background: rgb(255, 255, 151);
+    background: #ffff97;
   }
 }
 
@@ -341,7 +341,7 @@
   #overlay-color-bar {
     width: 100%;
     padding: 10px 0;
-    color: white;
+    color: #ffffff;
     margin-bottom: 5px;
     text-align: right;
   }
@@ -356,7 +356,7 @@
   }
 
   .small-title {
-    color: #6B6B6B;
+    color: #6b6b6b;
     text-align: left;
     margin-left: 20px;
     margin-top: 5px;
@@ -371,7 +371,7 @@
   }
 
   .small-title .edit:hover {
-    color: #EB8F00;
+    color: #eb8f00;
   }
 
   #overlay-desc,
@@ -446,14 +446,14 @@ input[readonly='readonly'] {
 
     &.active {
       background: $light-orange;
-      box-shadow: 1px 1px 3px grey inset;
+      box-shadow: 1px 1px 3px #808080 inset;
     }
   }
 }
 
 .category {
-  border: solid 1px #EEE;
-  color: #FFF;
+  border: solid 1px #eeeeee;
+  color: #ffffff;
 }
 
 .color-swatch {
@@ -471,7 +471,7 @@ input[readonly='readonly'] {
   }
 
   &:hover {
-    border: solid 2px grey;
+    border: solid 2px #808080;
     width: 21px;
     height: 21px;
   }
@@ -500,7 +500,7 @@ input[readonly='readonly'] {
     float: left;
     width: 50%;
     margin-left: 20px;
-    color: grey;
+    color: #808080;
   }
 }
 
@@ -524,7 +524,7 @@ input[readonly='readonly'] {
   }
 
   .break-elem {
-    color: black;
+    color: #000000;
     display: inline-block;
     padding: 5px 15px;
     border-radius: 5px;
@@ -533,8 +533,8 @@ input[readonly='readonly'] {
   }
 
   .break-elem.active {
-    background: #3EC73E;
-    color: white;
+    background: #3ec73e;
+    color: #ffffff;
   }
 }
 
@@ -564,7 +564,7 @@ input[readonly='readonly'] {
 
   .cat-top-overlay {
     width: 100%;
-    background-color: grey;
+    background-color: #808080;
     display: inline-block;
   }
 
@@ -574,7 +574,7 @@ input[readonly='readonly'] {
     font-weight: 600;
     margin-top: 24px;
     margin-left: 20px;
-    color: White;
+    color: #ffffff;
     width: calc(100% - 90px);
     text-align: left;
     padding: 0 10px;
@@ -634,12 +634,12 @@ input[readonly='readonly'] {
 
   &:focus {
     cursor: text;
-    background: #D3CECE;
+    background: #d3cece;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.5) inset;
   }
 
   &:hover {
-    background: #D3CECE;
+    background: #d3cece;
   }
 }
 
@@ -702,12 +702,12 @@ input[readonly='readonly'] {
   background-size: auto 80%;
   background-position: 97% 50%;
   border-radius: 3px;
-  box-shadow: 0 0 1px #CECECE;
-  border: solid 1px #CECECE;
+  box-shadow: 0 0 1px #cecece;
+  border: solid 1px #cecece;
 }
 
 .date-field:focus {
-  color: #4E4E4E;
+  color: #4e4e4e;
 }
 
 #ui-datepicker-div {
@@ -721,18 +721,18 @@ input[readonly='readonly'] {
 }
 
 #ui-datepicker-div .ui-state-default {
-  color: #BBBBBB;
-  background: #F9F9F9;
+  color: #bbbbbb;
+  background: #f9f9f9;
 }
 
 #ui-datepicker-div .ui-state-active,
 #ui-datepicker-div .ui-state-hover {
-  color: #ED7D31;
-  background: #FFFFFF;
+  color: #ed7d31;
+  background: #ffffff;
 }
 
 #ui-datepicker-div .ui-state-highlight {
-  background: #FFF4E1;
+  background: #fff4e1;
 }
 
 .ui-datepicker .ui-datepicker-header {
@@ -849,7 +849,7 @@ input[readonly='readonly'] {
 
   &.over {
     .inner {
-      background: rgb(255, 255, 151);
+      background: #ffff97;
     }
 
     &.last-month,
@@ -874,13 +874,13 @@ input[readonly='readonly'] {
     }
 
     .day-of-month {
-      color: gray;
+      color: #808080;
     }
   }
 
   &#sch-today {
-    background-color: #E0E0E0;
-    border: solid 1px #9E9E9E;
+    background-color: #e0e0e0;
+    border: solid 1px #9e9e9e;
 
     .day-of-month {
       font-weight: bold;
@@ -891,10 +891,10 @@ input[readonly='readonly'] {
 .sch-month-evnt {
   margin: 0 2px 4px 2px;
   position: relative;
-  color: grey;
+  color: #808080;
   border-left: solid 3px;
   padding-left: 5px;
-  background: white;
+  background: #ffffff;
   text-align: left;
   line-height: 1.1;
   font-size: 14px;
@@ -903,7 +903,7 @@ input[readonly='readonly'] {
 
   .time {
     font-size: 10px;
-    color: grey;
+    color: #808080;
   }
 
   .close {
@@ -929,7 +929,7 @@ input[readonly='readonly'] {
 
   // Show close button when hovering over an event, but not when dragging it
   &:not(.ui-draggable-dragging):hover {
-    box-shadow: 0 0 5px black;
+    box-shadow: 0 0 5px #000000;
 
     .close {
       opacity: 1;
@@ -937,7 +937,7 @@ input[readonly='readonly'] {
   }
 
   &.ui-draggable-dragging {
-    box-shadow: 0 0 5px black;
+    box-shadow: 0 0 5px #000000;
   }
 }
 
@@ -962,7 +962,7 @@ input[readonly='readonly'] {
   text-align: left;
   padding-left: 5px;
   box-sizing: border-box;
-  color: grey;
+  color: #808080;
 }
 
 // No drag properties, applied to schedule and sidebar

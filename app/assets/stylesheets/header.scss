@@ -13,23 +13,23 @@ body {
   width: 100%;
   height: $header-height-desktop;
   top: 0;
-  background: rgb(242, 242, 242);
+  background: #f2f2f2;
   color: rgb(200, 200, 200);
   font-size: 20px;
   text-align: left;
-  box-shadow: 0 0 8px grey;
+  box-shadow: 0 0 8px #808080;
   z-index: 15;
 }
 
 .menu {
   border: solid 1px #bbbbbb;
   border-top: none;
-  box-shadow: 0 0 3px grey;
+  box-shadow: 0 0 3px #808080;
 }
 
 .header-main a,
 .menu a {
-  color: rgb(106, 106, 106);
+  color: #6a6a6a;
   text-decoration: none;
   font-size: 18px;
 }
@@ -93,7 +93,7 @@ body {
       margin-top: 7%;
 
       &:hover {
-        box-shadow: 0 0 3px grey;
+        box-shadow: 0 0 3px #808080;
       }
     }
   }
@@ -120,7 +120,7 @@ body {
     transition: background 0.2s;
 
     &:hover {
-      background: white;
+      background: #ffffff;
     }
 
     &:hover > a {
@@ -138,7 +138,7 @@ body {
   #header-logo {
     float: left;
     height: 100%;
-    border-left: solid 6px #ED7D31;
+    border-left: solid 6px #ed7d31;
 
     .carpeheader {
       height: 100%;
@@ -148,7 +148,7 @@ body {
   #header-mob-menu {
     float: left;
     position: relative;
-    background-color: #ED7D31;
+    background-color: #ed7d31;
     height: 100%;
     cursor: pointer;
     overflow: hidden;
@@ -168,13 +168,13 @@ body {
     position: absolute;
     z-index: 1;
     top: 60px;
-    background-color: #FF8C3D;
+    background-color: #ff8c3d;
     text-align: center;
     transition: width 0.5s;
     width: 100vw;
 
     a {
-      color: white;
+      color: #ffffff;
 
       div {
         padding: 10px 20px;
@@ -198,7 +198,7 @@ body {
   cursor: pointer;
 
   &:hover {
-    background-color: #D0D0D0;
+    background-color: #d0d0d0;
   }
 
   img {
@@ -213,7 +213,7 @@ body {
     height: 15px;
     font-size: 11px;
     font-weight: bold;
-    color: white;
+    color: #ffffff;
     text-align: center;
     top: 20px;
     left: 22px;
@@ -228,11 +228,11 @@ body {
   width: 350px;
   top: $header-height-desktop;
   right: 15px;
-  background: rgb(230, 230, 230);
+  background: #e6e6e6;
   display: none;
   z-index: 10;
   padding: 5px 5px 5px 10px;
-  color: rgb(106, 106, 106);
+  color: #6a6a6a;
 
   .notif .avatar {
     float: left;
@@ -271,7 +271,7 @@ body {
   .confirm,
   .deny {
     width: 30px;
-    border: solid 2px white;
+    border: solid 2px #ffffff;
     height: 30px;
     border-radius: 100%;
     display: inline-block;
@@ -281,13 +281,13 @@ body {
   }
 
   .confirm {
-    background-color: #00AF00;
+    background-color: #00af00;
     margin-left: 5px;
     background-image: image-url('checkmark-wht.png');
   }
 
   .deny {
-    background-color: #FF4242;
+    background-color: #ff4242;
     background-image: image-url('closeThick-wht.svg');
     background-size: 60%;
     background-position: 50%;
@@ -314,9 +314,9 @@ body {
   padding-right: 30px;
   width: 150px !important;
   border-radius: 4px;
-  box-shadow: 0 0 1px #CECECE;
-  border: solid 1px #CECECE;
-  background: white;
+  box-shadow: 0 0 1px #cecece;
+  border: solid 1px #cecece;
+  background: #ffffff;
   background-image: image-url('search.svg');
   background-size: auto 65%;
   background-repeat: no-repeat;
@@ -332,7 +332,7 @@ body {
 #users-search input:focus {
   outline: none;
   width: 200px !important;
-  border-color: #C0BABA;
+  border-color: #c0baba;
 }
 
 // TODO: Token input styling is general and shouldn't be here with the header
@@ -382,8 +382,8 @@ body {
 }
 
 .token-input-selected-dropdown-item {
-  background: #ED7D31;
-  color: white;
+  background: #ed7d31;
+  color: #ffffff;
 }
 
 .token-input-dropdown {
@@ -391,7 +391,7 @@ body {
   width: 212px;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
-  box-shadow: 0 0 5px grey;
+  box-shadow: 0 0 5px #808080;
   z-index: 20;
   overflow: hidden;
 }

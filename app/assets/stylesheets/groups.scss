@@ -34,7 +34,7 @@ html, body {
 }
 
 .shaded {
-  background: rgb(225, 225, 225);
+  background: #e1e1e1;
 }
 
 #groups-list-header {
@@ -205,7 +205,7 @@ html, body {
     left: 0;
     padding-left: 125px;
     background-color: rgba(0, 0, 0, 0.6);
-    color: white;
+    color: #ffffff;
     z-index: 0;
     line-height: 1.5em;
     font-size: 24px;
@@ -246,14 +246,14 @@ html, body {
   width: 100%;
 
   h3 {
-    color: black;
+    color: #000000;
     margin-right: 5px;
     font-weight: 500;
     font-size: 20px;
   }
 
   h4 {
-    color: dimgray;
+    color: #696969;
     margin-right: 10px;
     font-weight: 500;
     font-size: 24px;
@@ -276,7 +276,7 @@ html, body {
       background-size: auto 65%;
       background-repeat: no-repeat;
       background-position: 95%;
-      border: 1px solid dimgray;
+      border: 1px solid #696969;
     }
   }
 }
@@ -344,7 +344,7 @@ html, body {
 
       &.green {
         background-color: $green;
-        color: #fff;
+        color: #ffffff;
       }
 
       img {
@@ -370,7 +370,7 @@ html, body {
   }
 
   .profile-name {
-    color: white;
+    color: #ffffff;
     font-size: 36px;
     margin-top: 10px;
     font-weight: 600;
@@ -412,7 +412,7 @@ html, body {
   display: flex;
   flex-direction: column;
   width: 100%;
-  box-shadow: 0 1px 1px grey;
+  box-shadow: 0 1px 1px #808080;
 
   .overview {
     height: 64px;
@@ -496,7 +496,7 @@ html, body {
     .time-ago {
       margin-top: 30px;
       font-size: .7rem;
-      color: grey;
+      color: #808080;
     }
   }
 }

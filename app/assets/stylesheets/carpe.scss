@@ -50,8 +50,8 @@ label {
   padding-left: 5px;
   width: 195px;
   height: 20px;
-  border: solid 1px #D8D8D8;
-  background-color: #F9F9F9;
+  border: solid 1px #d8d8d8;
+  background-color: #f9f9f9;
 }
 
 .dropdown {
@@ -124,7 +124,7 @@ label {
   height: 80px;
   border: solid $light-orange 3px;
   transition: box-shadow 0.25s;
-  background: white;
+  background: #ffffff;
 
   &.width-60 {
     height: 60px;
@@ -152,7 +152,7 @@ a .avatar,
 .avatar a,
 a.avatar {
   img:hover {
-    box-shadow: 0 2px 2px #777;
+    box-shadow: 0 2px 2px #777777;
   }
 }
 
@@ -172,7 +172,7 @@ a.avatar {
 }
 
 .cancel-box {
-  background-color: #FFB2B2;
+  background-color: #ffb2b2;
   width: 300px;
   margin-left: auto;
   margin-right: auto;
@@ -180,18 +180,18 @@ a.avatar {
   padding: 5px 0;
   margin-bottom: 20px;
   margin-top: 20px;
-  color: #1D1D1D;
-  border: dashed red 2px;
+  color: #1d1d1d;
+  border: dashed #ff0000 2px;
 }
 
 .pass-holder {
-  background: #E6E6E6;
+  background: #e6e6e6;
   padding: 5px;
   width: 300px;
   margin-left: auto;
   margin-right: auto;
   border-radius: 5px;
-  border: solid #C1C1C1;
+  border: solid #c1c1c1;
   margin-top: 10px;
 }
 
@@ -203,7 +203,7 @@ a.avatar {
 }
 
 .page-desc {
-  color: grey;
+  color: #808080;
   font-weight: normal;
   font-size: 1.3em;
   margin-top: 0;
@@ -285,23 +285,23 @@ input[type='submit'] {
 
 label.required::after {
   content: '*';
-  color: red;
+  color: #ff0000;
   margin-left: 2px;
   font-weight: bold;
   font-size: 18px;
 }
 
 input.danger {
-  color: white;
-  background: red;
+  color: #ffffff;
+  background: #ff0000;
   border-radius: 5px;
-  border-bottom: 1px white !important;
+  border-bottom: 1px #ffffff !important;
   padding: 3px 15px 3px 15px;
 }
 
 input.danger:hover {
-  color: white;
-  background: #FF1515;
+  color: #ffffff;
+  background: #ff1515;
 }
 
 .circle {
@@ -318,14 +318,14 @@ input.danger:hover {
 }
 
 .circle.green {
-  background: #1CCF1C;
+  background: #1ccf1c;
 }
 
 // Google sign in button styling
 .google-sign-in div {
   position: relative;
-  background: whitesmoke;
-  border: solid 2px #CACACA;
+  background: #f5f5f5;
+  border: solid 2px #cacaca;
   border-radius: 5px;
   width: 190px;
   height: 30px;
@@ -343,12 +343,12 @@ input.danger:hover {
 }
 
 .google-sign-in div:hover {
-  background: #DCDCDC;
+  background: #dcdcdc;
 }
 
 .google-sign-in {
   text-decoration: none;
-  color: #4285F5;
+  color: #4285f5;
 }
 
 .google-sign-in img {
@@ -368,11 +368,11 @@ input.danger:hover {
 // Devise's error stuff when forms have errors
 // Which is used on sign up and forgot password
 #error_explanation h2 {
-  color: white;
+  color: #ffffff;
   font-weight: normal;
   font-size: 20px;
   margin-bottom: 5px;
-  background-color: #FF7272;
+  background-color: #ff7272;
   margin-left: auto;
   margin-right: auto;
   border-radius: 5px;
@@ -420,12 +420,12 @@ input.danger:hover {
 
 .notice {
   background-color: $green;
-  color: white;
+  color: #ffffff;
 }
 
 .alert {
   background-color: $red;
-  color: white;
+  color: #ffffff;
 }
 
 @media (max-width: 900px) {
@@ -438,7 +438,7 @@ input.danger:hover {
 .user-entry {
   width: 95%;
   border-radius: 5px;
-  border: solid 2px #CECECE;
+  border: solid 2px #cecece;
   text-align: left;
   margin: 15px auto;
 
@@ -493,10 +493,10 @@ input.danger:hover {
   float: left;
   padding: 10px 5px 5px 5px;
   min-height: 210px;
-  background: #F5F5F5;
+  background: #f5f5f5;
   margin: 5px;
   border-radius: 5px;
-  box-shadow: 1px 1px 1px silver;
+  box-shadow: 1px 1px 1px #c0c0c0;
 }
 
 .user-box .default,
@@ -516,7 +516,7 @@ input.danger:hover {
 }
 
 .grey-box {
-  background: #F5F5F5;
+  background: #f5f5f5;
   border-radius: 5px;
   box-shadow: 1px 1px 1px silver;
 }
@@ -623,8 +623,8 @@ form.thin {
   top: 60px;
   left: -130px;
   z-index: 1;
-  background: #ED7D31;
-  color: white;
+  background: #ed7d31;
+  color: #ffffff;
   padding: 5px 35px 5px 25px;
   border-radius: 5px;
   font-weight: bold;
@@ -645,7 +645,7 @@ form.thin {
 
 .current-time {
   font-size: 22px;
-  color: grey;
+  color: #808080;
 }
 
 @media (max-width: 800px) {
@@ -670,7 +670,7 @@ form.thin {
   display: none;
   opacity: 0.5;
   background: none !important;
-  background-color: #000 !important;
+  background-color: #000000 !important;
   z-index: 1000;
 }
 
@@ -681,7 +681,7 @@ form.thin {
   left: 0;
   right: 0;
   box-shadow: 0 0 10px rgba(70, 70, 70, 0.5);
-  background: rgb(240, 240, 240);
+  background: #f0f0f0;
   width: 500px;
   margin-left: auto;
   margin-right: auto;
@@ -702,7 +702,7 @@ form.thin {
   background-repeat: no-repeat;
   background-size: 60%;
   background-position: 50%;
-  border: solid 2px white;
+  border: solid 2px #ffffff;
 }
 
 #break-overlay-box {
@@ -718,7 +718,7 @@ form.thin {
   }
 
   #break-error {
-    color: red;
+    color: #ff0000;
     display: none;
   }
 }
@@ -734,7 +734,7 @@ form.thin {
 }
 
 .check-box {
-  background-color: white;
+  background-color: #ffffff;
   border: solid 2px #949090;
   width: 18px;
   height: 18px;
@@ -811,9 +811,9 @@ form.thin {
   display: inline-block;
   padding: 0 5px;
   box-sizing: border-box;
-  background: white;
+  background: #ffffff;
   border-radius: 3px;
-  border-bottom: solid 2px grey;
+  border-bottom: solid 2px #808080;
   color: #676767;
   min-width: 24px;
   text-align: center;
@@ -870,8 +870,8 @@ form.thin {
 .ui-tooltip.ui-widget {
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
-  background: #666;
-  color: white;
+  background: #666666;
+  color: #ffffff;
   border: none !important;
   opacity: 1;
 
@@ -885,7 +885,7 @@ form.thin {
     right: 0;
     left: 0;
     top: -10px;
-    border-color: #666 transparent;
+    border-color: #666666 transparent;
     border-width: 0 10px 10px;
   }
 }
@@ -913,22 +913,22 @@ form.thin {
   padding: 3px 15px 3px 15px;
   font-size: 16px;
   font-weight: bold;
-  color: white;
+  color: #ffffff;
   text-decoration: none;
   border: none;
   border-radius: 3px;
-  box-shadow: 0 1px 3px #B4AFAF;
+  box-shadow: 0 1px 3px #b4afaf;
   transition: background 0.3s;
   cursor: pointer;
-  background: orange;
+  background: #ffa500;
 
   &:hover {
-    background: #FFC14E;
+    background: #ffc14e;
   }
 
   &.disabled,
   &.disabled:hover {
-    background: #B4AFAF !important;
+    background: #b4afaf !important;
     box-shadow: none !important;
   }
 }
@@ -937,18 +937,18 @@ form.thin {
 .button {
   // button coloring options
   &.red {
-    background: #FD1A1A;
+    background: #fd1a1a;
 
     &:hover {
-      background: #FF4A4A;
+      background: #ff4a4a;
     }
   }
 
   &.green {
-    background: #18B918;
+    background: #18b918;
 
     &:hover {
-      background: #39DA39;
+      background: #39da39;
     }
   }
 
@@ -961,10 +961,10 @@ form.thin {
   }
 
   &.purple {
-    background: #5B5BFF;
+    background: #5b5bff;
 
     &:hover {
-      background: #5B5BFF;
+      background: #5b5bff;
     }
   }
 
@@ -996,32 +996,32 @@ form.thin {
     background: transparent;
   }
 
-  border: solid 1px dimgray;
+  border: solid 1px #696969;
   border-radius: 3px;
   box-shadow: none;
   font-weight: 600;
   font-size: 18px;
 
   &.orange {
-    color: orange;
+    color: #ffa500;
 
     &:hover {
-      color: #FFC14E;
+      color: #ffc14e;
     }
   }
 
   &.red {
-    color: #FD1A1A;
+    color: #fd1a1a;
 
     &:hover {
-      color: #FF4A4A;
+      color: #ff4a4a;
     }
   }
 }
 
 // special case for 'Following' / 'Unfollow' state buttons
 .profile-header .button.js-unfollow-user:hover {
-  background: #FD1A1A;
+  background: #fd1a1a;
 }
 
 //---------------------------------------------------------------------------
@@ -1058,7 +1058,7 @@ form.basic {
     box-sizing: border-box;
     font-size: 14px;
     font-family: 'Open Sans', sans-serif;
-    background-color: rgb(243, 243, 243);
+    background-color: #f3f3f3;
     border: solid 1px #dcdcdc;
     border-radius: 3px;
     box-shadow: 1px 1px 3px 0 rgba(42, 42, 42, 0.2);
@@ -1100,7 +1100,7 @@ form.basic .form-group {
   .heading {
     display: block;
     margin-right: 10px;
-    color: gray;
+    color: #808080;
     font-family: sans-serif;
     font-size: 18px;
     font-weight: 500;
@@ -1164,7 +1164,7 @@ form.basic .form-group {
 
   height: 85%;
   display: block;
-  border: solid gray 1px;
+  border: solid #808080 1px;
   margin: auto; // force img to center
 }
 
@@ -1177,10 +1177,10 @@ form.basic .form-group {
 }
 
 .friend-label {
-  background-color: #5B5BFF;
+  background-color: #5b5bff;
   padding: 3px 15px 3px 15px;
   border-radius: 3px;
-  color: white;
+  color: #ffffff;
   font-weight: bold;
   display: inline-block;
 }
