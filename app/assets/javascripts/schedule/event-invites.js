@@ -7,8 +7,8 @@ $(document).ready(setupEventInvitesHandlers);
  * @return {undefined}
  */
 function setupEventInvitesHandlers() {
-  $('#event-invites-setup').click(() => openEventInvitesPanel());
-  $('#event-invites-panel .close').click(() => closeEventInvitesPanel());
+  $('#event-invites-setup').click(openEventInvitesPanel);
+  $('#event-invites-panel .close').click(closeEventInvitesPanel);
 }
 
 /**
