@@ -172,16 +172,14 @@ a.avatar {
 }
 
 .cancel-box {
-  background-color: #ffb2b2;
   width: 300px;
-  margin-left: auto;
-  margin-right: auto;
-  border-radius: 10px;
   padding: 5px 0;
-  margin-bottom: 20px;
-  margin-top: 20px;
+  margin: 20px auto;
+
   color: #1d1d1d;
+  background-color: #ffb2b2;
   border: dashed #ff0000 2px;
+  border-radius: 10px;
 }
 
 .pass-holder {
@@ -655,7 +653,6 @@ form.thin {
   display: none;
   opacity: 0.5;
   background: none !important;
-  background-color: #000000 !important;
   z-index: 1000;
 }
 
