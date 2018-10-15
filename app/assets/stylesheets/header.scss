@@ -1,4 +1,4 @@
-/* Header CSS */
+// Header CSS
 @import 'colors';
 
 $header-height-desktop: 50px;
@@ -37,7 +37,7 @@ body {
   color: $light-orange;
 }
 
-/* The actual main navigation at the top of the header */
+// The actual main navigation at the top of the header
 .header-text {
   box-sizing: border-box;
   padding: 10px 0px;
@@ -183,7 +183,7 @@ body {
   }
 }
 
-/* notification stuffz */
+// notification stuffz
 .bell-hold {
   float: left;
   position: relative;
@@ -331,7 +331,7 @@ body {
   border-color: #C0BABA;
 }
 
-/* TODO: Token input styling is general and shouldn't be here with the header */
+// TODO: Token input styling is general and shouldn't be here with the header
 .token-input-dropdown {
   text-align: center;
 }
@@ -444,7 +444,7 @@ a:hover > .new-tab-icon {
 }
 
 @media (max-width: 800px) {
-  /* Move all absolute elements to respond to header size */
+  // Move all absolute elements to respond to header size
   body {
     padding-top: $header-height-mobile;
   }
@@ -453,19 +453,19 @@ a:hover > .new-tab-icon {
     top: $header-height-mobile !important;
   }
 
-  /* Hide all elements tagged desktop */
+  // Hide all elements tagged desktop
   .header-main {
     .desktop {
       display: none;
     }
   }
 
-  /* Slide the mobile menu icon in from the left */
+  // Slide the mobile menu icon in from the left
   #menu-holder {
     left: 0px !important;
   }
 
-  /* Increase header size */
+  // Increase header size
   .header-main {
     height: $header-height-mobile;
     font-size: 24px;
@@ -500,7 +500,7 @@ a:hover > .new-tab-icon {
     }
   }
 
-  /* Increase other menu size */
+  // Increase other menu size
   .menu {
     a {
       font-size: 22px;
@@ -511,10 +511,10 @@ a:hover > .new-tab-icon {
     }
   }
 
-  /* Move down alert-holder to stay 10px below header */
+  // Move down alert-holder to stay 10px below header
   .alert-holder {
     top: 70px;
   }
 }
 
-/* END HEADER CSS */
+// END HEADER CSS

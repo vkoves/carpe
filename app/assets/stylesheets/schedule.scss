@@ -1,4 +1,4 @@
-/* SCHEDULE CSS */
+// SCHEDULE CSS
 @import 'colors';
 
 #cont-hold {
@@ -97,7 +97,7 @@
     overflow-y: auto;
     overflow-x: hidden;
 
-    /*background: gainsboro;*/
+    // background: gainsboro;
 
     #sch-tiles-inside {
       position: relative;
@@ -145,7 +145,7 @@
   transition: box-shadow 0.3s, border-color 0.3s;
   position: relative;
   width: 190px;
-  height: 88px; /* This should be 90px - borders top and bottom */
+  height: 88px; // This should be 90px - borders top and bottom
   min-height: 25px;
   background: #BDBDBD;
   left: 0;
@@ -202,14 +202,14 @@
     margin-right: auto;
     text-align: left;
     overflow: hidden;
-    overflow-wrap: break-word; /* chrome does this by default - firefox doesn't */
+    overflow-wrap: break-word; // chrome does this by default - firefox doesn't
     transition: all 0.3s;
     cursor: pointer;
     max-height: 95%;
     min-height: 19px;
   }
 
-  /* Give editable text fields proper cursor */
+  // Give editable text fields proper cursor
   .evnt-title:focus, .cat-overlay-title:focus {
     cursor: text !important;
   }
@@ -227,7 +227,7 @@
   top: 50px;
   padding-bottom: 1px;
 
-  /* Style events that have been placed */
+  // Style events that have been placed
   .sch-evnt {
     position: absolute;
   }
@@ -316,7 +316,7 @@
   box-shadow: none !important;
 }
 
-/* Overlay CSS */
+// Overlay CSS
 #event-overlay-box {
   #overlay-title {
     font-size: 24px;
@@ -380,7 +380,7 @@
     text-align: left;
     padding: 3px 0px;
 
-    /* Disable hover background effect */
+    // Disable hover background effect
     &:hover:not(:focus) {
       background: none;
     }
@@ -400,13 +400,11 @@
     width: 65px;
     padding-left: 2px;
     font-size: 14px;
-
-    /* font-family:Open Sans, sans-serif; */
   }
 }
 
 #evnt-delete.overlay-box {
-  /* Add spacing to the options */
+  // Add spacing to the options
   span.default:not(.close) {
     display: block;
     margin: 5px auto;
@@ -597,9 +595,8 @@ input[readonly='readonly'] {
   height: 9px;
 }
 
-/* Scroll Bar Styling */
+// Scroll Bar Styling
 #sch-holder::-webkit-scrollbar-track, #sch-tiles::-webkit-scrollbar-track {
-  /* -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); */
   background: rgba(100, 100, 100, 0.2);
   -webkit-border-radius: 12px;
   border-radius: 10px;
@@ -612,10 +609,10 @@ input[readonly='readonly'] {
 }
 
 #sch-holder::-webkit-scrollbar-thumb:window-inactive {
-  /* background: rgba(255,0,0,0.4); */
+  // background: rgba(255,0,0,0.4);
 }
 
-/* End Scroll Bar Styling */
+// End Scroll Bar Styling
 .overlay-box textarea {
   border-radius: 5px;
   cursor: pointer;
@@ -677,7 +674,7 @@ input[readonly='readonly'] {
   display: none;
 }
 
-/* Date Picker Styling */
+// Date Picker Styling
 .date-field {
   position: relative;
   top: -1px;
@@ -728,7 +725,7 @@ input[readonly='readonly'] {
   background: $light-orange;
 }
 
-/* End Date Picker Styling */
+// End Date Picker Styling
 
 #save-checkmark {
   opacity: 0;
@@ -772,19 +769,19 @@ input[readonly='readonly'] {
   top: -5px;
 }
 
-/* Read only styling */
+// Read only styling
 .read-only {
-  /* Hide edit and close icons */
+  // Hide edit and close icons
   .sch-cat-icon, .sch-evnt-icon {
     display: none !important;
   }
 
-  /* Make it clear you can't drag schedule events and can't edit titles */
+  // Make it clear you can't drag schedule events and can't edit titles
   .sch-evnt, .evnt-title {
     cursor: default !important;
   }
 
-  /* Hide "Add Category" button & no categories placeholder */
+  // Hide "Add Category" button & no categories placeholder
   .cat-add.main, .no-categories {
     display: none;
   }
@@ -851,7 +848,7 @@ input[readonly='readonly'] {
     margin-left: 5px;
   }
 
-  /* Give special styling to days outside this month */
+  // Give special styling to days outside this month
   &.last-month, &.next-month {
     .inner {
       background-color: #d9d9d9;
@@ -911,7 +908,7 @@ input[readonly='readonly'] {
     }
   }
 
-  /* Show close button when hovering over an event, but not when dragging it */
+  // Show close button when hovering over an event, but not when dragging it
   &:not(.ui-draggable-dragging):hover {
     box-shadow: 0px 0px 5px black;
 
@@ -925,7 +922,7 @@ input[readonly='readonly'] {
   }
 }
 
-/* On hover show all events */
+// On hover show all events
 .sch-day-tile:hover {
   overflow: visible;
 
@@ -949,7 +946,7 @@ input[readonly='readonly'] {
   color: grey;
 }
 
-/* No drag properties, applied to schedule and sidebar */
+// No drag properties, applied to schedule and sidebar
 .sch-no-drag {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -964,4 +961,4 @@ input[readonly='readonly'] {
 // END MONTHLY VIEW
 // -----------------------------------
 
-/* END SCHEDULE STYLING */
+// END SCHEDULE STYLING

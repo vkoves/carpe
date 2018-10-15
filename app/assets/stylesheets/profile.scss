@@ -1,11 +1,11 @@
-/* Shown on all the user profile pages */
+// Shown on all the user profile pages
 @import 'colors';
 
 $profile-photo-height: 150px;
 $avatar-camera-height: 27px;
 $cover-camera-height: 20px;
 
-/* Profile page stuff */
+// Profile page stuff
 .profile-avatar {
   position: relative;
   float: left;
@@ -287,7 +287,7 @@ $cover-camera-height: 20px;
   margin-top: 0px !important;
 }
 
-/* Make schedule in line with other content */
+// Make schedule in line with other content
 .page-container #cont-hold {
   width: 100%;
 }

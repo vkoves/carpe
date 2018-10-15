@@ -1,6 +1,6 @@
 @import 'colors';
 
-/* Body styling to apply font, min-width and padding */
+// Body styling to apply font, min-width and padding
 body {
   margin: 0px;
   width: 100%;
@@ -18,7 +18,7 @@ body {
   }
 }
 
-/* HEADER + POSSIBLE OTHER USE CSS */
+// HEADER + POSSIBLE OTHER USE CSS
 .carpe-font {
   font-family: 'Pacifico', cursive;
   font-weight: normal;
@@ -28,7 +28,7 @@ body {
   color: $carpe-orange !important;
 }
 
-/* Make sure inputs also have Open Sans */
+// Make sure inputs also have Open Sans
 input {
   font-family: Open Sans, sans-serif;
 
@@ -39,7 +39,7 @@ input {
   }
 }
 
-/* Sign up and sign in styling */
+// Sign up and sign in styling
 label {
   float: left;
 }
@@ -72,9 +72,9 @@ label {
   margin-left: 5px;
 }
 
-/* End Sign Up and Sign In Styling */
+// End Sign Up and Sign In Styling
 
-/* Edit Profile Styling */
+// Edit Profile Styling
 .edit-profile {
   &.left {
     float: left;
@@ -163,7 +163,7 @@ a .avatar, .avatar a, a.avatar {
 // Style banner images with the raindrops fallback
 .banner-img {
   background-image: image-url('water_Krakkened.png');
-  background-color: #848484; /* As a backup if the image is stupid */
+  background-color: #848484; // As a backup if the image is stupid
   background-size: cover;
 }
 
@@ -191,7 +191,7 @@ a .avatar, .avatar a, a.avatar {
   margin-top: 10px;
 }
 
-/* General page things */
+// General page things
 .page-titler {
   color: $light-orange;
   font-weight: normal;
@@ -206,7 +206,7 @@ a .avatar, .avatar a, a.avatar {
   margin-bottom: 30px;
 }
 
-/* LINK STYLING */
+// LINK STYLING
 a.normal {
   color: #313131;
   text-decoration: none;
@@ -225,10 +225,8 @@ a.default *, span.default, input.default {
   @extend .button;
 }
 
-/*
-	Styling for loading inputs. .can-load makes them animate the icon in
-	while .loading indicates the icon should be shown
- */
+//	Styling for loading inputs. .can-load makes them animate the icon in
+//	while .loading indicates the icon should be shown.
 a.default.can-load *, span.default.can-load, input.default.can-load {
   transition: padding-right 0.5s;
 
@@ -259,7 +257,7 @@ a.default.loading *, span.default.loading, input.default.loading {
   }
 }
 
-/* END LINK STYLING */
+// END LINK STYLING
 
 .page-container {
   position: relative;
@@ -313,7 +311,7 @@ input.danger:hover {
   background: #1CCF1C;
 }
 
-/* Google sign in button styling */
+// Google sign in button styling
 .google-sign-in div {
   position: relative;
   background: whitesmoke;
@@ -357,8 +355,8 @@ input.danger:hover {
   margin-bottom: 10px;
 }
 
-/* Devise's error stuff when forms have errors  */
-/* Which is used on sign up and forgot password */
+// Devise's error stuff when forms have errors
+// Which is used on sign up and forgot password
 #error_explanation h2 {
   color: white;
   font-weight: normal;
@@ -425,9 +423,7 @@ input.danger:hover {
   }
 }
 
-/*
- * TO BE SORTED
- */
+// TO BE SORTED
 .user-entry {
   width: 95%;
   border-radius: 5px;
@@ -599,7 +595,7 @@ input.danger:hover {
   }
 }
 
-/* Thin forms like editing groups */
+// Thin forms like editing groups
 form.thin {
   width: 500px;
   margin-left: auto;
@@ -623,7 +619,7 @@ form.thin {
     left: -5px;
   }
 
-  /* Style and position the bug icon */
+  // Style and position the bug icon
   img {
     position: absolute;
     right: 2px;
@@ -649,7 +645,7 @@ form.thin {
   }
 }
 
-/* Overlay Shenangians? */
+// Overlay Shenangians?
 .ui-widget-overlay {
   position: fixed;
   top: 0;
@@ -739,7 +735,7 @@ form.thin {
   border: none;
 }
 
-/* Loading spinner used on save events */
+// Loading spinner used on save events
 .loading-spinner {
   display: inline-block;
   vertical-align: middle;
@@ -773,9 +769,9 @@ form.thin {
   }
 }
 
-/* END TO BE SORTED */
+// END TO BE SORTED
 
-/* Keyboard Shortcut Overlay Styling */
+// Keyboard Shortcut Overlay Styling
 #shortcut-overlay-box {
   z-index: 100000;
 
@@ -807,9 +803,9 @@ form.thin {
   font-weight: 600;
 }
 
-/* END KEYBOARD SHORTCUT OVERLAY STYLING */
+// END KEYBOARD SHORTCUT OVERLAY STYLING
 
-/* UTILITY STYLING - Some handy tools, should be kept at EOF */
+// UTILITY STYLING - Some handy tools, should be kept at EOF
 .center-text {
   text-align: center;
 }
@@ -886,13 +882,13 @@ form.thin {
   }
 }
 
-/*---------------------------------------------------------------------------*/
-/* Buttons */
-/*---------------------------------------------------------------------------*/
+//---------------------------------------------------------------------------
+// Buttons
+//---------------------------------------------------------------------------
 
-/* default button styling */
+// default button styling
 .button {
-  /* center elements */
+  // center elements
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -919,9 +915,9 @@ form.thin {
   }
 }
 
-/* custom button styling options*/
+// custom button styling options
 .button {
-  /* button coloring options */
+  // button coloring options
   &.red {
     background: #FD1A1A;
 
@@ -954,7 +950,7 @@ form.thin {
     }
   }
 
-  /* button sizing */
+  // button sizing
   &.wide {
     min-width: 150px;
     height: 30px;
@@ -966,7 +962,7 @@ form.thin {
     font-size: 20px;
   }
 
-  /* specific button types */
+  // specific button types
   &.edit {
     background: #e2e2e2;
     color: #757575;
@@ -974,7 +970,7 @@ form.thin {
   }
 }
 
-/* custom button styling options*/
+// custom button styling options
 .button.hollow {
   background: transparent;
 
@@ -1010,9 +1006,9 @@ form.thin {
   background: #FD1A1A;
 }
 
-/*---------------------------------------------------------------------------*/
-/* Basic Form */
-/*---------------------------------------------------------------------------*/
+//---------------------------------------------------------------------------
+// Basic Form
+//---------------------------------------------------------------------------
 
 input[type=checkbox] {
   width: 20px;
@@ -1025,7 +1021,7 @@ form.basic {
   min-width: 500px;
   max-width: 500px;
 
-  /* no thank you */
+  // no thank you
   & * {
     float: none;
   }
@@ -1062,7 +1058,7 @@ form.basic .form-group {
   text-align: left;
   margin: 10px 0;
 
-  /* every form-group title gets a bit of vertical spacing */
+  // every form-group title gets a bit of vertical spacing
   & > *:first-child {
     margin-bottom: 4px;
   }
@@ -1078,7 +1074,7 @@ form.basic .form-group {
   }
 
   .question-tooltip {
-    top: auto; /* reset */
+    top: auto; // reset
   }
 
   .heading {
@@ -1117,7 +1113,7 @@ form.basic .form-group {
 
 .avatar-preview {
   display: block;
-  width: 150px; /* somewhat arbitrary */
+  width: 150px; // somewhat arbitrary
   margin-bottom: 6px;
   border-radius: 5%;
 }
@@ -1131,28 +1127,28 @@ form.basic .form-group {
   opacity: 0.5;
 }
 
-/* width attribute will be proportional to height, so only set the height */
+// width attribute will be proportional to height, so only set the height
 .round-button {
   display: inline-block;
   border-radius: 100%;
   overflow: hidden;
 
   img {
-    height: 100%; /* centers image */
+    height: 100%; // centers image
   }
 }
 
-/* default avatar styling */
+// default avatar styling
 .round-avatar {
   @extend .round-button;
 
   height: 85%;
   display: block;
   border: solid gray 1px;
-  margin: auto; /* force img to center */
+  margin: auto; // force img to center
 }
 
-/* Custom Font Additions (Carpe Font / Pacifico) */
+// Custom Font Additions (Carpe Font / Pacifico)
 @font-face {
   font-family: 'Pacifico';
   src: font-url('Pacifico_1.ttf') format('truetype');

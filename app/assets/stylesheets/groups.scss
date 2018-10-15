@@ -9,7 +9,7 @@ html, body {
 #body {
   display: flex;
   flex: 1;
-  min-height: calc(100vh - 50px); /* TODO: Move this to a class for */
+  min-height: calc(100vh - 50px); // TODO: Move this to a class for
 
   & > .sidebar {
     flex: 1;
@@ -88,7 +88,7 @@ html, body {
   }
 }
 
-/* base class, see .small-group-card and .large-group-card */
+// base class, see .small-group-card and .large-group-card
 %group-card {
   display: flex;
   align-items: center;
@@ -109,7 +109,7 @@ html, body {
     height: 90%;
     overflow: hidden;
 
-    /* space out all of the items to the right of the avatar evenly*/
+    // space out all of the items to the right of the avatar evenly
     & > * {
       margin-top: 5px;
       margin-bottom: 5px;

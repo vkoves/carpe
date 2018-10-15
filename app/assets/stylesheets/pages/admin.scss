@@ -45,16 +45,16 @@
   }
 }
 
-/* The users panel acessible only to admins */
+// The users panel acessible only to admins
 .admin-users {
-  /* Style top button */
+  // Style top button
   .page-titler a.default {
     position: relative;
     top: -5px;
     left: 5px;
   }
 
-  /* Force names to two lines to keep grid */
+  // Force names to two lines to keep grid
   .user-box .name {
     height: 44px;
     overflow-y: auto;
