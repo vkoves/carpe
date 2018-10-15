@@ -264,7 +264,7 @@ body {
     display: flex;
     margin-left: auto;
 
-    & > * {
+    > * {
       margin: 0 8px;
     }
 
@@ -297,101 +297,101 @@ body {
   padding-top: 100px;
   border-bottom: solid 2px $grey;
 
-  .header-block {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    align-items: stretch;
-    text-align: left;
-    width: 100%;
-    padding: 20px 0;
-    height: auto;
-
-    .dark-background {
-      position: absolute;
-      width: 100%;
-      height: 50%;
-      top: 0;
-      background: $black-transparent;
-      z-index: -1;
-    }
-
-    .avatar {
-      margin-left: 4%;
-      margin-right: 2%;
-
-      img {
-        width: 150px;
-        height: 150px;
-        box-shadow: 0 3px 4px rgba(0, 0, 0, 0.42);
-      }
-    }
-  }
-
-  .profile-name-block {
-    display: flex;
-    flex-direction: column;
-    width: 84%; // This seems arbitrary, but is caused by the size of a typical avatar on screen.
-
-    // The type of edit that is used on groups.
-    .button {
-      float: right;
-      background: #e2e2e2;
-      color: #161616;
-      font-size: 15px;
-      padding: 8px 15px;
-      width: 150px;
-      font-weight: 600;
-
-      &.green {
-        background-color: $green;
-        color: #ffffff;
-      }
-
-      img {
-        height: 20px;
-        margin-right: 10px;
-      }
-    }
-
-    .button.manage {
-      padding-bottom: 8px;
-      font-weight: 600;
-    }
-
-    .button.leave {
-      background: #e2e2e2;
-      color: #e02837;
-      margin-left: 15px;
-    }
-  }
-
-  .privacy-block {
-    display: flex;
-  }
-
-  .profile-name {
-    color: #ffffff;
-    font-size: 36px;
-    margin-top: 10px;
-    font-weight: 600;
-    margin-bottom: 30px;
-
-    // TODO: Should likely rename profile-name to profile-section if we have a section like this.
-    .profile-name-text {
-      text-shadow: 0 3px 6px rgba(0, 0, 0, 0.46);
-      letter-spacing: 0.5px;
-      width: 50%;
-      text-overflow: ellipsis;
-      display: inline-block;
-      height: 40px;
-    }
-  }
-
   .profile-privacy {
     margin: 0 20px 0 0;
     font-size: 22px;
     font-weight: 400;
+  }
+}
+
+.header-block {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: stretch;
+  text-align: left;
+  width: 100%;
+  padding: 20px 0;
+  height: auto;
+
+  .dark-background {
+    position: absolute;
+    width: 100%;
+    height: 50%;
+    top: 0;
+    background: $black-transparent;
+    z-index: -1;
+  }
+
+  .avatar {
+    margin-left: 4%;
+    margin-right: 2%;
+
+    img {
+      width: 150px;
+      height: 150px;
+      box-shadow: 0 3px 4px rgba(0, 0, 0, 0.42);
+    }
+  }
+}
+
+.profile-name-block {
+  display: flex;
+  flex-direction: column;
+  width: 84%; // This seems arbitrary, but is caused by the size of a typical avatar on screen.
+
+  // The type of edit that is used on groups.
+  .button {
+    float: right;
+    background: #e2e2e2;
+    color: #161616;
+    font-size: 15px;
+    padding: 8px 15px;
+    width: 150px;
+    font-weight: 600;
+
+    &.green {
+      background-color: $green;
+      color: #ffffff;
+    }
+
+    img {
+      height: 20px;
+      margin-right: 10px;
+    }
+  }
+
+  .button.manage {
+    padding-bottom: 8px;
+    font-weight: 600;
+  }
+
+  .button.leave {
+    background: #e2e2e2;
+    color: #e02837;
+    margin-left: 15px;
+  }
+}
+
+.privacy-block {
+  display: flex;
+}
+
+.profile-name {
+  color: #ffffff;
+  font-size: 36px;
+  margin-top: 10px;
+  font-weight: 600;
+  margin-bottom: 30px;
+
+  // TODO: Should likely rename profile-name to profile-section if we have a section like this.
+  .profile-name-text {
+    text-shadow: 0 3px 6px rgba(0, 0, 0, 0.46);
+    letter-spacing: 0.5px;
+    width: 50%;
+    text-overflow: ellipsis;
+    display: inline-block;
+    height: 40px;
   }
 }
 
@@ -422,22 +422,6 @@ body {
     display: flex;
     justify-content: space-between;
 
-    .name-and-avatar {
-      display: flex;
-      height: 100%;
-      align-items: center;
-
-      .avatar {
-        margin-right: 16px;
-
-        img {
-          display: block;
-          height: 60px;
-          width: 60px;
-        }
-      }
-    }
-
     .role {
       padding-right: 32px;
       background-image: url('dropdown-arrow.svg');
@@ -458,6 +442,23 @@ body {
     background: #efefef;
   }
 }
+
+.name-and-avatar {
+  display: flex;
+  height: 100%;
+  align-items: center;
+
+  .avatar {
+    margin-right: 16px;
+
+    img {
+      display: block;
+      height: 60px;
+      width: 60px;
+    }
+  }
+}
+
 
 // TODO: Selecting arbitrary z-index values seems like a bad idea.
 .token-input-dropdown {

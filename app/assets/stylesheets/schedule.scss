@@ -829,10 +829,8 @@ input[readonly='readonly'] {
     }
 
     &.last-month,
-    &.next-month {
-      .inner {
-        background: rgba(255, 255, 151, 0.5);
-      }
+    &.next-month .inner {
+      background: rgba(255, 255, 151, 0.5);
     }
   }
 
@@ -884,11 +882,8 @@ input[readonly='readonly'] {
 
   .close {
     opacity: 0;
-    background-image: image-url('close-wht.png');
-    background-repeat: no-repeat;
+    background: rgba(54, 54, 54, 0.5) image-url('close-wht.png') no-repeat center;
     background-size: 90%;
-    background-position: center;
-    background-color: rgba(54, 54, 54, 0.5);
     position: absolute;
     border-radius: 100px;
     cursor: pointer;

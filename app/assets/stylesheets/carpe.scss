@@ -94,27 +94,27 @@ label {
     float: left;
     width: 320px;
     margin-left: 30px;
+  }
+}
 
-    .cancel-box {
-      input[type='submit'] {
-        margin: 20px;
-      }
+.cancel-box {
+  input[type='submit'] {
+    margin: 20px;
+  }
+}
+
+.pass-holder {
+  #pass-hider {
+    display: none;
+
+    .field:last-of-type {
+      margin-bottom: 5px;
     }
+  }
 
-    .pass-holder {
-      #pass-hider {
-        display: none;
-
-        .field:last-of-type {
-          margin-bottom: 5px;
-        }
-      }
-
-      span.default {
-        font-size: 14px;
-        margin-left: 10px;
-      }
-    }
+  span.default {
+    font-size: 14px;
+    margin-left: 10px;
   }
 }
 
@@ -456,18 +456,6 @@ input.danger:hover {
       border-radius: 5px;
     }
 
-    .avatar {
-      float: left;
-      height: 36px;
-      margin: 2px 0;
-
-      img {
-        border-width: 2px;
-        width: 30px;
-        height: 30px;
-      }
-    }
-
     &.token-input-input-token input {
       width: auto !important;
     }
@@ -482,6 +470,18 @@ input.danger:hover {
       float: left;
       margin-top: 8px;
     }
+  }
+}
+
+.user-entry .avatar {
+  float: left;
+  height: 36px;
+  margin: 2px 0;
+
+  img {
+    border-width: 2px;
+    width: 30px;
+    height: 30px;
   }
 }
 
@@ -781,13 +781,14 @@ form.thin {
       text-align: left;
       margin: 10px 0;
       font-weight: 600;
-
-      .keyboard-btn:first-of-type {
-        margin-left: 10px;
-      }
     }
   }
 }
+
+.keyboard-btn:first-of-type {
+  margin-left: 10px;
+}
+
 
 .keyboard-btn {
   display: inline-block;
