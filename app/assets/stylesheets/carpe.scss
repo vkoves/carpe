@@ -2,14 +2,14 @@
 
 // Body styling to apply font, min-width and padding
 body {
-  margin: 0px;
+  margin: 0;
   width: 100%;
   min-width: 400px;
   box-sizing: border-box;
   color: $text-color;
 
   &.in-iframe {
-    padding-bottom: 0px;
+    padding-bottom: 0;
   }
 
   // Make sure all elements get the proper font
@@ -148,7 +148,7 @@ label {
 // Style all avatar links with a hover effect
 a .avatar, .avatar a, a.avatar {
   img:hover {
-    box-shadow: 0px 2px 2px #777;
+    box-shadow: 0 2px 2px #777;
   }
 }
 
@@ -173,7 +173,7 @@ a .avatar, .avatar a, a.avatar {
   margin-left: auto;
   margin-right: auto;
   border-radius: 10px;
-  padding: 5px 0px;
+  padding: 5px 0;
   margin-bottom: 20px;
   margin-top: 20px;
   color: #1D1D1D;
@@ -202,7 +202,7 @@ a .avatar, .avatar a, a.avatar {
   color: grey;
   font-weight: normal;
   font-size: 1.3em;
-  margin-top: 0px;
+  margin-top: 0;
   margin-bottom: 30px;
 }
 
@@ -321,7 +321,7 @@ input.danger:hover {
   height: 30px;
   margin-left: auto;
   margin-right: auto;
-  padding: 4px 5px 0px 5px;
+  padding: 4px 5px 0 5px;
   margin-top: -3px;
   transition: background 0.3s;
 }
@@ -371,8 +371,8 @@ input.danger:hover {
 }
 
 #error_explanation ul {
-  margin: 0px;
-  padding-left: 0px;
+  margin: 0;
+  padding-left: 0;
   list-style: none;
 }
 
@@ -432,7 +432,7 @@ input.danger:hover {
   margin: 15px auto;
 
   ul {
-    padding: 0px;
+    padding: 0;
     margin: 5px 15px 10px 15px;
   }
 
@@ -443,14 +443,14 @@ input.danger:hover {
       display: inline-block;
       background: $grey;
       margin-right: 10px;
-      padding: 0px 10px;
+      padding: 0 10px;
       border-radius: 5px;
     }
 
     .avatar {
       float: left;
       height: 36px;
-      margin: 2px 0px;
+      margin: 2px 0;
 
       img {
         border-width: 2px;
@@ -464,7 +464,7 @@ input.danger:hover {
     }
 
     .name {
-      margin: 0px 10px;
+      margin: 0 10px;
     }
 
     .name, span {
@@ -640,7 +640,7 @@ form.thin {
 
     img {
       height: 40px;
-      top: 0px;
+      top: 0;
     }
   }
 }
@@ -665,7 +665,7 @@ form.thin {
   top: 10%;
   left: 0;
   right: 0;
-  box-shadow: 0px 0px 10px rgba(70, 70, 70, 0.5);
+  box-shadow: 0 0 10px rgba(70, 70, 70, 0.5);
   background: rgb(240, 240, 240);
   width: 500px;
   margin-left: auto;
@@ -780,7 +780,7 @@ form.thin {
 
     li {
       text-align: left;
-      margin: 10px 0px;
+      margin: 10px 0;
       font-weight: 600;
 
       .keyboard-btn:first-of-type {
@@ -792,7 +792,7 @@ form.thin {
 
 .keyboard-btn {
   display: inline-block;
-  padding: 0px 5px;
+  padding: 0 5px;
   box-sizing: border-box;
   background: white;
   border-radius: 3px;
@@ -823,13 +823,13 @@ form.thin {
 }
 
 .zero-top {
-  margin-top: 0px;
-  padding-top: 0px;
+  margin-top: 0;
+  padding-top: 0;
 }
 
 .zero-bot {
-  margin-bottom: 0px;
-  padding-bottom: 0px;
+  margin-bottom: 0;
+  padding-bottom: 0;
 }
 
 .no-drag {
@@ -900,7 +900,7 @@ form.thin {
   text-decoration: none;
   border: none;
   border-radius: 3px;
-  box-shadow: 0px 1px 3px #B4AFAF;
+  box-shadow: 0 1px 3px #B4AFAF;
   transition: background 0.3s;
   cursor: pointer;
   background: orange;

@@ -11,7 +11,7 @@
   &.iframe {
     width: 100%;
     height: calc(100vh - 11px);
-    margin-top: 0px;
+    margin-top: 0;
     padding-top: 10px;
   }
 }
@@ -44,7 +44,7 @@
   .cat-add.main {
     background-color: #CFCFCF;
     width: 100%;
-    padding: 5px 0px;
+    padding: 5px 0;
     font-size: 16px;
     cursor: pointer;
     border: none;
@@ -223,7 +223,7 @@
   margin-left: auto;
   margin-right: auto;
   left: -1px;
-  right: 0px;
+  right: 0;
   top: 50px;
   padding-bottom: 1px;
 
@@ -238,13 +238,13 @@
   }
 
   .sch-evnt:hover {
-    box-shadow: 0px 0px 5px rgb(0, 0, 0);
+    box-shadow: 0 0 5px rgb(0, 0, 0);
     border-color: rgba(0, 0, 0, 0);
   }
 
   .evnt-title:hover, .evnt-title:focus {
     background: rgba(0, 0, 0, 0.25);
-    box-shadow: 0px 0px 3px black;
+    box-shadow: 0 0 3px black;
   }
 }
 
@@ -335,7 +335,7 @@
 
   #overlay-color-bar {
     width: 100%;
-    padding: 10px 0px;
+    padding: 10px 0;
     color: white;
     margin-bottom: 5px;
     text-align: right;
@@ -371,14 +371,14 @@
 
   #overlay-desc, #overlay-loc {
     min-height: 22px;
-    margin: 0px 20px;
+    margin: 0 20px;
     width: calc(100% - 40px);
     resize: none;
     border: none;
     color: inherit;
     font-size: inherit;
     text-align: left;
-    padding: 3px 0px;
+    padding: 3px 0;
 
     // Disable hover background effect
     &:hover:not(:focus) {
@@ -424,7 +424,7 @@ input[readonly='readonly'] {
 
 .sch-but-holder {
   margin-bottom: 15px;
-  padding: 0px 5px;
+  padding: 0 5px;
 
   .sch-week-prev {
     float: left;
@@ -505,7 +505,7 @@ input[readonly='readonly'] {
   width: 420px;
   min-height: 300px;
   margin-top: 50px;
-  padding-bottom: 0px;
+  padding-bottom: 0;
   z-index: 1002;
 
   #break-cont {
@@ -521,7 +521,7 @@ input[readonly='readonly'] {
     display: inline-block;
     padding: 5px 15px;
     border-radius: 5px;
-    margin: 2px 0px;
+    margin: 2px 0;
     cursor: pointer;
   }
 
@@ -536,11 +536,11 @@ input[readonly='readonly'] {
   width: 500px;
 
   #cat-privacy {
-    margin: 10px 0px;
+    margin: 10px 0;
   }
 
   #cat-privacy .default {
-    margin: 0px 5px;
+    margin: 0 5px;
   }
 
   .future-colors {
@@ -570,7 +570,7 @@ input[readonly='readonly'] {
     color: White;
     width: calc(100% - 90px);
     text-align: left;
-    padding: 0px 10px;
+    padding: 0 10px;
     border-radius: 5px;
     margin-bottom: 25px;
     min-height: 41px;
@@ -581,7 +581,7 @@ input[readonly='readonly'] {
   }
 
   .cat-remainder-overlay {
-    left: 0px;
+    left: 0;
     width: 100%;
   }
 
@@ -624,7 +624,7 @@ input[readonly='readonly'] {
   &:focus {
     cursor: text;
     background: #D3CECE;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5) inset;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5) inset;
   }
 
   &:hover {
@@ -670,7 +670,7 @@ input[readonly='readonly'] {
 }
 
 #repeat-certain-days-options {
-  margin: 10px 0px;
+  margin: 10px 0;
   display: none;
 }
 
@@ -689,7 +689,7 @@ input[readonly='readonly'] {
   background-size: auto 80%;
   background-position: 97% 50%;
   border-radius: 3px;
-  box-shadow: 0px 0px 1px #CECECE;
+  box-shadow: 0 0 1px #CECECE;
   border: solid 1px #CECECE;
 }
 
@@ -797,7 +797,7 @@ input[readonly='readonly'] {
 
   #month-name {
     height: 30px;
-    margin: 0px;
+    margin: 0;
   }
 
   #tiles-cont {
@@ -870,7 +870,7 @@ input[readonly='readonly'] {
 }
 
 .sch-month-evnt {
-  margin: 0px 2px 4px 2px;
+  margin: 0 2px 4px 2px;
   position: relative;
   color: grey;
   border-left: solid 3px;
@@ -910,7 +910,7 @@ input[readonly='readonly'] {
 
   // Show close button when hovering over an event, but not when dragging it
   &:not(.ui-draggable-dragging):hover {
-    box-shadow: 0px 0px 5px black;
+    box-shadow: 0 0 5px black;
 
     .close {
       opacity: 1;
@@ -918,7 +918,7 @@ input[readonly='readonly'] {
   }
 
   &.ui-draggable-dragging {
-    box-shadow: 0px 0px 5px black;
+    box-shadow: 0 0 5px black;
   }
 }
 
@@ -933,7 +933,7 @@ input[readonly='readonly'] {
 }
 
 #day-labels {
-  font-size: 0px;
+  font-size: 0;
 }
 
 .day-label {

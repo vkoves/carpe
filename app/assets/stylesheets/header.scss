@@ -12,19 +12,19 @@ body {
   position: fixed;
   width: 100%;
   height: $header-height-desktop;
-  top: 0px;
+  top: 0;
   background: rgb(242, 242, 242);
   color: rgb(200, 200, 200);
   font-size: 20px;
   text-align: left;
-  box-shadow: 0px 0px 8px grey;
+  box-shadow: 0 0 8px grey;
   z-index: 15;
 }
 
 .menu {
   border: solid 1px #bbbbbb;
   border-top: none;
-  box-shadow: 0px 0px 3px grey;
+  box-shadow: 0 0 3px grey;
 }
 
 .header-main a, .menu a {
@@ -40,7 +40,7 @@ body {
 // The actual main navigation at the top of the header
 .header-text {
   box-sizing: border-box;
-  padding: 10px 0px;
+  padding: 10px 0;
   left: 150px;
   position: absolute;
   white-space: nowrap;
@@ -91,7 +91,7 @@ body {
       margin-top: 7%;
 
       &:hover {
-        box-shadow: 0px 0px 3px grey;
+        box-shadow: 0 0 3px grey;
       }
     }
   }
@@ -107,7 +107,7 @@ body {
   z-index: 10;
   background-color: rgb(230, 230, 230);
   text-align: center;
-  padding: 10px 0px;
+  padding: 10px 0;
   margin-bottom: 10px;
 
   .link {
@@ -176,7 +176,7 @@ body {
 
       div {
         padding: 10px 20px;
-        margin: 10px 0px;
+        margin: 10px 0;
         text-align: left;
       }
     }
@@ -246,7 +246,7 @@ body {
   }
 
   .notif {
-    padding: 3px 0px;
+    padding: 3px 0;
     margin: 5px 0;
     height: 34px;
   }
@@ -310,7 +310,7 @@ body {
   padding-right: 30px;
   width: 150px !important;
   border-radius: 4px;
-  box-shadow: 0px 0px 1px #CECECE;
+  box-shadow: 0 0 1px #CECECE;
   border: solid 1px #CECECE;
   background: white;
   background-image: image-url('search.svg');
@@ -385,7 +385,7 @@ body {
   width: 212px;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
-  box-shadow: 0px 0px 5px grey;
+  box-shadow: 0 0 5px grey;
   z-index: 20;
   overflow: hidden;
 }
@@ -462,7 +462,7 @@ a:hover > .new-tab-icon {
 
   // Slide the mobile menu icon in from the left
   #menu-holder {
-    left: 0px !important;
+    left: 0 !important;
   }
 
   // Increase header size

@@ -129,7 +129,7 @@ html, body {
   @extend %group-card;
 
   width: 100%;
-  padding: 10px 0px;
+  padding: 10px 0;
 
   .main {
     overflow-wrap: break-word;
@@ -194,7 +194,7 @@ html, body {
   .main {
     display: block;
     height: auto;
-    padding: 0px 15px;
+    padding: 0 15px;
   }
 
   .title {
@@ -202,7 +202,7 @@ html, body {
     height: 40px;
     width: 100%;
     top: 60px;
-    left: 0px;
+    left: 0;
     padding-left: 125px;
     background-color: rgba(0, 0, 0, 0.6);
     color: white;
@@ -303,7 +303,7 @@ html, body {
     align-items: stretch;
     text-align: left;
     width: 100%;
-    padding: 20px 0px;
+    padding: 20px 0;
     height: auto;
 
     .dark-background {
@@ -322,7 +322,7 @@ html, body {
       img {
         width: 150px;
         height: 150px;
-        box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.42);
+        box-shadow: 0 3px 4px rgba(0, 0, 0, 0.42);
       }
     }
   }
@@ -378,7 +378,7 @@ html, body {
 
     // TODO: Should likely rename profile-name to profile-section if we have a section like this.
     .profile-name-text {
-      text-shadow: 0px 3px 6px rgba(0, 0, 0, 0.46);
+      text-shadow: 0 3px 6px rgba(0, 0, 0, 0.46);
       letter-spacing: 0.5px;
       width: 50%;
       text-overflow: ellipsis;

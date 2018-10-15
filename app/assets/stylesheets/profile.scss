@@ -112,7 +112,7 @@ $cover-camera-height: 20px;
   text-align: left;
   margin-top: 22px;
   background: rgba(0, 0, 0, 0.5);
-  padding: 5px 0px 10px 80px;
+  padding: 5px 0 10px 80px;
   border-top-right-radius: 25px;
   border-bottom-right-radius: 25px;
 }
@@ -146,9 +146,9 @@ $cover-camera-height: 20px;
   z-index: 2;
   position: absolute;
   float: right;
-  bottom: 0px;
-  right: 0px;
-  font-size: 0px;
+  bottom: 0;
+  right: 0;
+  font-size: 0;
 
   a {
     color: white;
@@ -175,7 +175,7 @@ $cover-camera-height: 20px;
   z-index: 2;
   float: right;
   bottom: 30px;
-  font-size: 0px;
+  font-size: 0;
   margin-top: 16px;
   position: absolute;
   right: 25px;
@@ -207,7 +207,7 @@ $cover-camera-height: 20px;
 .activity-listing {
   height: 55px;
   text-align: left;
-  margin: 10px 0px;
+  margin: 10px 0;
   padding: 5px 5px 5px 10px;
   width: 100%;
 }
@@ -247,7 +247,7 @@ $cover-camera-height: 20px;
     .friend-details {
       position: relative;
       top: -5px;
-      margin-top: 0px;
+      margin-top: 0;
     }
   }
 
@@ -284,7 +284,7 @@ $cover-camera-height: 20px;
 }
 
 .friend-button {
-  margin-top: 0px !important;
+  margin-top: 0 !important;
 }
 
 // Make schedule in line with other content

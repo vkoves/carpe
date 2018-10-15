@@ -52,7 +52,7 @@
   background-color: $grey;
   color: #636363;
   text-align: left;
-  padding: 30px 0px;
+  padding: 30px 0;
   min-height: 140px;
 
   .two-col {
@@ -102,7 +102,7 @@
 
 .status-tile {
   width: 25%;
-  padding: 0% 4%;
+  padding: 0 4%;
   display: inline-block;
   vertical-align: top;
 
@@ -113,7 +113,7 @@
     margin-right: auto;
     border-radius: 100px;
     padding: 20px;
-    box-shadow: 0px 0px 8px #696262;
+    box-shadow: 0 0 8px #696262;
 
     img {
       padding: 20px;
