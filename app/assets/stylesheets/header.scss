@@ -510,22 +510,21 @@ a:hover > .new-tab-icon {
   .alert-holder {
     top: 70px;
   }
+
+  #user-name-panel {
+    &.signup-links {
+      padding: 15px;
+    }
+
+    .name {
+      line-height: 60px;
+    }
+
+    #user-avatar img {
+      height: 50px;
+      width: 50px;
+    }
+  }
 }
-
-#user-name-panel {
-  &.signup-links {
-    padding: 15px;
-  }
-
-  .name {
-    line-height: 60px;
-  }
-
-  #user-avatar img {
-    height: 50px;
-    width: 50px;
-  }
-}
-
 
 // END HEADER CSS
