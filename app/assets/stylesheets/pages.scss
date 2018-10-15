@@ -2,153 +2,176 @@
 @import 'colors';
 
 /* Start Home Page */
-#home-computer
-{
-	width: 50%;
-	position: absolute;
-	bottom: 120px;
-	left: 30px;
+#home-computer {
+  width: 50%;
+  position: absolute;
+  bottom: 120px;
+  left: 30px;
 }
-#home-right
-{
-	position: absolute;
-	left: 50%;
-	width: 50%;
-	top: 15%;
-	max-width: 600px;
-}
-#home-title
-{
-	font-size: 60px;
-	color: #ED7D31;
-}
-#home-sub-title
-{
-	font-size: 30px;
-	color: #7F7F7F;
-}
-#home-sign-up
-{
-	margin-top: 20px;
 
-	div{ font-size: 24px; }
+#home-right {
+  position: absolute;
+  left: 50%;
+  width: 50%;
+  top: 15%;
+  max-width: 600px;
 }
-#home-dev-warning
-{
-	color: $red;
-	font-size: 18px;
-	margin-top: 10px;
+
+#home-title {
+  font-size: 60px;
+  color: #ED7D31;
+}
+
+#home-sub-title {
+  font-size: 30px;
+  color: #7F7F7F;
+}
+
+#home-sign-up {
+  margin-top: 20px;
+
+  div {
+    font-size: 24px;
+  }
+}
+
+#home-dev-warning {
+  color: $red;
+  font-size: 18px;
+  margin-top: 10px;
 }
 
 /* Start Status/About Page */
-.full-width { padding-bottom: 50px; }
-#status-titler
-{
-	width: 100%;
-	margin-top: 50px;
-	background-color: $grey;
-	color: #636363;
-	text-align: left;
-	padding: 30px 0px;
-	min-height: 140px;
-
-	.two-col {
-		display: flex;
-		align-items: center;
-		margin-bottom: 20px;
-	}
-	img
-	{
-		display: inline-block;
-		float: left;
-		margin-right: 20px;
-		height: 120px;
-	}
-	#title
-	{
-		color: #313ded;
-		font-size: 36px;
-		margin-bottom: 5px;
-	}
-	#sub-title
-	{
-		font-size: 22px;
-		margin-bottom: 2px;
-	}
-	#small-text { font-size: 14px; }
-	a
-	{
-		color: #313ded;
-		text-decoration: none;
-	}
+.full-width {
+  padding-bottom: 50px;
 }
-#tiles-container
-{
-	margin-top: 50px;
+
+#status-titler {
+  width: 100%;
+  margin-top: 50px;
+  background-color: $grey;
+  color: #636363;
+  text-align: left;
+  padding: 30px 0px;
+  min-height: 140px;
+
+  .two-col {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  img {
+    display: inline-block;
+    float: left;
+    margin-right: 20px;
+    height: 120px;
+  }
+
+  #title {
+    color: #313ded;
+    font-size: 36px;
+    margin-bottom: 5px;
+  }
+
+  #sub-title {
+    font-size: 22px;
+    margin-bottom: 2px;
+  }
+
+  #small-text {
+    font-size: 14px;
+  }
+
+  a {
+    color: #313ded;
+    text-decoration: none;
+  }
 }
-.container
-{
-	width: 95%;
-	max-width: 1200px;
-	margin-left: auto;
-	margin-right: auto;
+
+#tiles-container {
+  margin-top: 50px;
 }
-.status-tile
-{
-	width: 25%;
-	padding: 0% 4%;
-	display: inline-block;
-	vertical-align: top;
 
-	.image-container
-	{
-		width: 130px;
-		height: 130px;
-		margin-left: auto;
-		margin-right: auto;
-		border-radius: 100px;
-		padding: 20px;
-		box-shadow: 0px 0px 8px #696262;
+.container {
+  width: 95%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
 
-		img
-		{
-			padding: 20px;
-			width: 90px;
-		}
-	}
-	.tile-title, .tile-status { font-size: 20px; }
+.status-tile {
+  width: 25%;
+  padding: 0% 4%;
+  display: inline-block;
+  vertical-align: top;
 
-	.tile-title
-	{
-		margin-top: 10px;
-		color: #404040;
-		margin-bottom: 5px;
-	}
-	.tile-status
-	{
-		font-size: 18px;
-		&.alpha { color: #ffc000; }
-		&.beta { color: $green; }
-		&.dev { color: #ff0000; }
-		font-weight: bold;
-	}
-	.tile-text
-	{
-		margin-top: 10px;
-		color: #636363;
-		font-size: 16px;
-	}
+  .image-container {
+    width: 130px;
+    height: 130px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 100px;
+    padding: 20px;
+    box-shadow: 0px 0px 8px #696262;
+
+    img {
+      padding: 20px;
+      width: 90px;
+    }
+  }
+
+  .tile-title, .tile-status {
+    font-size: 20px;
+  }
+
+  .tile-title {
+    margin-top: 10px;
+    color: #404040;
+    margin-bottom: 5px;
+  }
+
+  .tile-status {
+    font-size: 18px;
+
+    &.alpha {
+      color: #ffc000;
+    }
+
+    &.beta {
+      color: $green;
+    }
+
+    &.dev {
+      color: #ff0000;
+    }
+
+    font-weight: bold;
+  }
+
+  .tile-text {
+    margin-top: 10px;
+    color: #636363;
+    font-size: 16px;
+  }
 }
 
 @media (max-width: 800px) {
-	.status-tile {
-		box-sizing: border-box;
-		width: 100%;
-		margin-bottom: 25px;
-	}
-	.tile-text { text-align: left; }
-	#status-titler {
-		#small-text { font-size: 18px; }
-	}
+  .status-tile {
+    box-sizing: border-box;
+    width: 100%;
+    margin-bottom: 25px;
+  }
+
+  .tile-text {
+    text-align: left;
+  }
+
+  #status-titler {
+    #small-text {
+      font-size: 18px;
+    }
+  }
 }
+
 /* End Status/About Page */
