@@ -1125,27 +1125,6 @@ form.basic .form-group {
   opacity: 0.5;
 }
 
-// width attribute will be proportional to height, so only set the height
-.round-button {
-  display: inline-block;
-  border-radius: 100%;
-  overflow: hidden;
-
-  img {
-    height: 100%; // centers image
-  }
-}
-
-// default avatar styling
-.round-avatar {
-  @extend .round-button;
-
-  height: 85%;
-  display: block;
-  border: solid #808080 1px;
-  margin: auto; // force img to center
-}
-
 // Custom Font Additions (Carpe Font / Pacifico)
 @font-face {
   font-family: 'Pacifico';
