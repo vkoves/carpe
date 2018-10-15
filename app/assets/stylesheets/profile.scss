@@ -284,7 +284,7 @@ $cover-camera-height: 20px;
 }
 
 .friend-button {
-  margin-top: 0 !important;
+  margin-top: 0 !important; // scss-lint:disable ImportantRule
 }
 
 // Make schedule in line with other content

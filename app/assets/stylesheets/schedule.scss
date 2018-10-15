@@ -204,7 +204,7 @@
   // Give editable text fields proper cursor
   .evnt-title:focus,
   .cat-overlay-title:focus {
-    cursor: text !important;
+    cursor: text !important; // scss-lint:disable ImportantRule
   }
 }
 
@@ -307,8 +307,8 @@
 }
 
 .page-container .evnt-title {
-  background: none !important;
-  box-shadow: none !important;
+  background: none !important; // scss-lint:disable ImportantRule
+  box-shadow: none !important; // scss-lint:disable ImportantRule
 }
 
 // Overlay CSS
@@ -495,7 +495,7 @@ input[readonly='readonly'] {
 }
 
 .ui-resizable-handle {
-  height: 10px !important;
+  height: 10px !important; // scss-lint:disable ImportantRule
 }
 
 #break-adder-overlay-box {
@@ -772,13 +772,13 @@ input[readonly='readonly'] {
   // Hide edit and close icons
   .sch-cat-icon,
   .sch-evnt-icon {
-    display: none !important;
+    display: none !important; // scss-lint:disable ImportantRule
   }
 
   // Make it clear you can't drag schedule events and can't edit titles
   .sch-evnt,
   .evnt-title {
-    cursor: default !important;
+    cursor: default !important; // scss-lint:disable ImportantRule
   }
 
   // Hide "Add Category" button & no categories placeholder

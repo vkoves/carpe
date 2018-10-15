@@ -253,7 +253,7 @@ body {
   }
 
   .notif.general div {
-    font-size: 14px !important;
+    font-size: 14px !important; // scss-lint:disable ImportantRule
   }
 
   .confirm,
@@ -313,7 +313,7 @@ body {
   font-family: 'Open Sans', sans-serif;
   padding-left: 10px;
   padding-right: 30px;
-  width: 150px !important;
+  width: 150px !important; // scss-lint:disable ImportantRule
   border-radius: 4px;
   box-shadow: 0 0 1px #cecece;
   border: solid 1px #cecece;
@@ -332,7 +332,7 @@ body {
 
 #users-search input:focus {
   outline: none;
-  width: 200px !important;
+  width: 200px !important; // scss-lint:disable ImportantRule
   border-color: #c0baba;
 }
 
@@ -447,7 +447,7 @@ a:hover > .new-tab-icon {
 
   #users-search input,
   #users-search input:focus {
-    width: 100% !important;
+    width: 100% !important; // scss-lint:disable ImportantRule
   }
 }
 
@@ -460,7 +460,7 @@ a:hover > .new-tab-icon {
   #user-panel,
   #notif-panel,
   #sidebar-cont {
-    top: $header-height-mobile !important;
+    top: $header-height-mobile !important; // scss-lint:disable ImportantRule
   }
 
   // Hide all elements tagged desktop
@@ -472,7 +472,7 @@ a:hover > .new-tab-icon {
 
   // Slide the mobile menu icon in from the left
   #menu-holder {
-    left: 0 !important;
+    left: 0 !important; // scss-lint:disable ImportantRule
   }
 
   // Increase header size

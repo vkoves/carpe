@@ -27,7 +27,7 @@ body {
 .carpe-color,
 .carpe-font,
 .carpe-font a {
-  color: $carpe-orange !important;
+  color: $carpe-orange !important; // scss-lint:disable ImportantRule
 }
 
 // Make sure inputs also have Open Sans
@@ -293,7 +293,7 @@ input.danger {
   color: #ffffff;
   background: #ff0000;
   border-radius: 5px;
-  border-bottom: 1px #ffffff !important;
+  border-bottom: 1px #ffffff !important; // scss-lint:disable ImportantRule
   padding: 3px 15px 3px 15px;
 }
 
@@ -457,7 +457,7 @@ input.danger:hover {
     }
 
     &.token-input-input-token input {
-      width: auto !important;
+      width: auto !important; // scss-lint:disable ImportantRule
     }
 
     .name {
@@ -652,7 +652,7 @@ form.thin {
   height: 100%;
   display: none;
   opacity: 0.5;
-  background: none !important;
+  background: none !important; // scss-lint:disable ImportantRule
   z-index: 1000;
 }
 
@@ -851,7 +851,7 @@ form.thin {
   font-size: 14px;
   background: #666666;
   color: #ffffff;
-  border: 0 !important;
+  border: 0 !important; // scss-lint:disable ImportantRule
   opacity: 1;
 
   .ui-tooltip-content::after {
@@ -907,8 +907,8 @@ form.thin {
 
   &.disabled,
   &.disabled:hover {
-    background: #b4afaf !important;
-    box-shadow: none !important;
+    background: #b4afaf !important; // scss-lint:disable ImportantRule
+    box-shadow: none !important; // scss-lint:disable ImportantRule
   }
 }
 
