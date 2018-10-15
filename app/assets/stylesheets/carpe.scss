@@ -226,7 +226,7 @@ a.default {
 a.default *,
 span.default,
 input.default {
-  @extend .button;
+  @extend .button; // scss-lint:disable PlaceholderInExtend
 }
 
 //	Styling for loading inputs. .can-load makes them animate the icon in
