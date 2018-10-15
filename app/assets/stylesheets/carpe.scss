@@ -24,7 +24,9 @@ body {
   font-weight: normal;
 }
 
-.carpe-color, .carpe-font, .carpe-font a {
+.carpe-color,
+.carpe-font,
+.carpe-font a {
   color: $carpe-orange !important;
 }
 
@@ -146,7 +148,9 @@ label {
 }
 
 // Style all avatar links with a hover effect
-a .avatar, .avatar a, a.avatar {
+a .avatar,
+.avatar a,
+a.avatar {
   img:hover {
     box-shadow: 0 2px 2px #777;
   }
@@ -221,13 +225,17 @@ a.default {
   display: inline-block;
 }
 
-a.default *, span.default, input.default {
+a.default *,
+span.default,
+input.default {
   @extend .button;
 }
 
 //	Styling for loading inputs. .can-load makes them animate the icon in
 //	while .loading indicates the icon should be shown.
-a.default.can-load *, span.default.can-load, input.default.can-load {
+a.default.can-load *,
+span.default.can-load,
+input.default.can-load {
   transition: padding-right 0.5s;
 
   &:after {
@@ -245,7 +253,9 @@ a.default.can-load *, span.default.can-load, input.default.can-load {
   }
 }
 
-a.default.loading *, span.default.loading, input.default.loading {
+a.default.loading *,
+span.default.loading,
+input.default.loading {
   padding-right: 32px;
 
   &:after {
@@ -387,7 +397,8 @@ input.danger:hover {
   transform: translateX(-50%);
 }
 
-.notice, .alert {
+.notice,
+.alert {
   display: inline-block;
   width: auto;
   padding: 5px 5px 5px 40px;
@@ -467,7 +478,8 @@ input.danger:hover {
       margin: 0 10px;
     }
 
-    .name, span {
+    .name,
+    span {
       display: block;
       float: left;
       margin-top: 8px;
@@ -487,11 +499,14 @@ input.danger:hover {
   box-shadow: 1px 1px 1px silver;
 }
 
-.user-box .default, .user-box .friend-label {
+.user-box .default,
+.user-box .friend-label {
   margin-bottom: 5px;
 }
 
-.user-box .default span, .user-box .friend-label, .user-box span.default {
+.user-box .default span,
+.user-box .friend-label,
+.user-box span.default {
   width: 100px;
 }
 
@@ -693,7 +708,8 @@ form.thin {
 #break-overlay-box {
   z-index: 1003;
 
-  #break-start, #break-end {
+  #break-start,
+  #break-end {
     margin-bottom: 8px;
   }
 
@@ -711,7 +727,8 @@ form.thin {
   z-index: 1004;
 }
 
-#overlay-confirm .default, #overlay-alert .default {
+#overlay-confirm .default,
+#overlay-alert .default {
   width: 100px;
   margin-right: 10px;
 }
@@ -909,7 +926,8 @@ form.thin {
     background: #FFC14E;
   }
 
-  &.disabled, &.disabled:hover {
+  &.disabled,
+  &.disabled:hover {
     background: #B4AFAF !important;
     box-shadow: none !important;
   }
@@ -1032,7 +1050,9 @@ form.basic {
 }
 
 form.basic {
-  input[type='text'], textarea, select {
+  input[type='text'],
+  textarea,
+  select {
     width: 100%;
     padding: 10px;
     box-sizing: border-box;

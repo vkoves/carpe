@@ -5,7 +5,8 @@ form {
   margin-left: 1px;
 }
 
-#left, #right {
+#left,
+#right {
   margin-top: 100px;
 }
 
@@ -46,7 +47,8 @@ form {
 }
 
 @media (max-width: 600px) {
-  #left, #right {
+  #left,
+  #right {
     width: 100%;
     text-align: center;
     margin-top: 0;

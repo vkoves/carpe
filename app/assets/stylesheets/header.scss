@@ -27,13 +27,15 @@ body {
   box-shadow: 0 0 3px grey;
 }
 
-.header-main a, .menu a {
+.header-main a,
+.menu a {
   color: rgb(106, 106, 106);
   text-decoration: none;
   font-size: 18px;
 }
 
-.header-main a:hover, .menu a:hover {
+.header-main a:hover,
+.menu a:hover {
   color: $light-orange;
 }
 
@@ -266,7 +268,8 @@ body {
     font-size: 14px !important;
   }
 
-  .confirm, .deny {
+  .confirm,
+  .deny {
     width: 30px;
     border: solid 2px white;
     height: 30px;
@@ -301,7 +304,8 @@ body {
   z-index: 10;
 }
 
-#users-search input, #users-search-input {
+#users-search input,
+#users-search-input {
   box-sizing: border-box;
   height: 30px;
   font-size: 15px;
@@ -336,12 +340,14 @@ body {
   text-align: center;
 }
 
-#users-search ul, .token-input-dropdown ul {
+#users-search ul,
+.token-input-dropdown ul {
   padding: 0;
   margin: 0;
 }
 
-#users-search li, .token-input-dropdown li {
+#users-search li,
+.token-input-dropdown li {
   position: relative;
   list-style: none;
 }
@@ -438,7 +444,8 @@ a:hover > .new-tab-icon {
     margin-top: 8px;
   }
 
-  #users-search input, #users-search input:focus {
+  #users-search input,
+  #users-search input:focus {
     width: 100% !important;
   }
 }
@@ -449,7 +456,9 @@ a:hover > .new-tab-icon {
     padding-top: $header-height-mobile;
   }
 
-  #user-panel, #notif-panel, #sidebar-cont {
+  #user-panel,
+  #notif-panel,
+  #sidebar-cont {
     top: $header-height-mobile !important;
   }
 
