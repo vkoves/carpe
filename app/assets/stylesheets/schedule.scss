@@ -415,6 +415,10 @@ input[readonly="readonly"]
 	width: 60px;
 }
 
+.token-input-dropdown
+{
+  z-index: 1001;
+}
 
 .sch-but-holder /* The container for the buttons at the top of the scheduler */
 {
