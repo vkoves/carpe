@@ -2,7 +2,8 @@
 
 $black-transparent: rgba(0, 0, 0, 0.3); // for backgrounds
 
-html, body {
+html,
+body {
   height: 100%;
 }
 
@@ -11,14 +12,14 @@ html, body {
   flex: 1;
   min-height: calc(100vh - 50px); // TODO: Move this to a class for
 
-  & > .sidebar {
+  > .sidebar {
     flex: 1;
     min-width: 300px;
     padding: 10px 25px;
     text-align: center;
   }
 
-  & > .content {
+  > .content {
     display: flex;
     flex: 4;
     flex-direction: column;
@@ -110,7 +111,7 @@ html, body {
     overflow: hidden;
 
     // space out all of the items to the right of the avatar evenly
-    & > * {
+    > * {
       margin-top: 5px;
       margin-bottom: 5px;
     }
@@ -495,7 +496,7 @@ html, body {
 
     .time-ago {
       margin-top: 30px;
-      font-size: .7rem;
+      font-size: 0.7rem;
       color: #808080;
     }
   }

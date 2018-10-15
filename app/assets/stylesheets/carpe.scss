@@ -159,7 +159,7 @@ a.avatar {
 .avatar.small img {
   width: 40px;
   height: 40px;
-  border: none;
+  border: 0;
   float: left;
   margin-right: 5px;
 }
@@ -238,7 +238,7 @@ span.default.can-load,
 input.default.can-load {
   transition: padding-right 0.5s;
 
-  &:after {
+  &::after {
     content: '';
     display: block;
     position: absolute;
@@ -258,7 +258,7 @@ span.default.loading,
 input.default.loading {
   padding-right: 32px;
 
-  &:after {
+  &::after {
     opacity: 1;
   }
 
@@ -489,12 +489,12 @@ input.danger:hover {
 
 .user-box {
   width: 132px;
-  margin-bottom: 10px;
-  float: left;
-  padding: 10px 5px 5px 5px;
   min-height: 210px;
-  background: #f5f5f5;
   margin: 5px;
+  padding: 10px 5px 5px 5px;
+  float: left;
+
+  background: #f5f5f5;
   border-radius: 5px;
   box-shadow: 1px 1px 1px #c0c0c0;
 }
@@ -518,18 +518,17 @@ input.danger:hover {
 .grey-box {
   background: #f5f5f5;
   border-radius: 5px;
-  box-shadow: 1px 1px 1px silver;
+  box-shadow: 1px 1px 1px #c0c0c0;
 }
 
 .grey-box.admin-box {
   width: 200px;
-  margin-left: auto;
-  margin-right: auto;
-  width: 200px;
   height: 56px;
   padding: 5px 10px;
-  border-radius: 5px;
+  margin-left: auto;
+  margin-right: auto;
   margin-bottom: 10px;
+  border-radius: 5px;
 
   .avatar {
     float: left;
@@ -549,11 +548,6 @@ input.danger:hover {
 }
 
 .square {
-  // float: left;
-  // margin-top: 5px;
-  // margin-right: 10px;
-  // padding: 5px 10px;
-  // color: white;
   font-size: 14px;
   margin-top: 2px;
 }
@@ -563,14 +557,6 @@ input.danger:hover {
   width: auto;
   margin-bottom: 10px;
   word-wrap: break-word;
-
-  &.current {
-    // background: #ffc14e;
-    // box-shadow: 2px 2px rgb(238, 170, 43);
-    // border-radius: 5px;
-    // color: white;
- 
-  }
 
   .inner {
     padding-left: 8px;
@@ -594,9 +580,8 @@ input.danger:hover {
   .details {
     display: none;
     margin-top: 5px;
-    padding-left: 10px;
-    background-color: #dad1d1;
     padding-left: 5px;
+    background-color: #dad1d1;
 
     p {
       display: inline;
@@ -749,7 +734,7 @@ form.thin {
   background-image: image-url('checkmark.png');
   background-size: 110%;
   background-position: center center;
-  border: none;
+  border: 0;
 }
 
 // Loading spinner used on save events
@@ -850,16 +835,12 @@ form.thin {
 }
 
 .no-drag {
-  user-drag: none;
-  -moz-user-select: none;
   -webkit-user-drag: none;
 }
 
 .vertical-center {
   position: relative;
   top: 50%;
-  -webkit-transform: translateY(-50%);
-  -ms-transform: translateY(-50%);
   transform: translateY(-50%);
 }
 
@@ -872,7 +853,7 @@ form.thin {
   font-size: 14px;
   background: #666666;
   color: #ffffff;
-  border: none !important;
+  border: 0 !important;
   opacity: 1;
 
   .ui-tooltip-content::after {
@@ -915,7 +896,7 @@ form.thin {
   font-weight: bold;
   color: #ffffff;
   text-decoration: none;
-  border: none;
+  border: 0;
   border-radius: 3px;
   box-shadow: 0 1px 3px #b4afaf;
   transition: background 0.3s;
@@ -990,17 +971,16 @@ form.thin {
 
 // custom button styling options
 .button.hollow {
+  font-weight: 600;
+  font-size: 18px;
   background: transparent;
+  border: solid 1px #696969;
+  border-radius: 3px;
+  box-shadow: none;
 
   &:hover {
     background: transparent;
   }
-
-  border: solid 1px #696969;
-  border-radius: 3px;
-  box-shadow: none;
-  font-weight: 600;
-  font-size: 18px;
 
   &.orange {
     color: #ffa500;
@@ -1040,7 +1020,7 @@ form.basic {
   max-width: 500px;
 
   // no thank you
-  & * {
+  * {
     float: none;
   }
 
@@ -1079,7 +1059,7 @@ form.basic .form-group {
   margin: 10px 0;
 
   // every form-group title gets a bit of vertical spacing
-  & > *:first-child {
+  > *:first-child {
     margin-bottom: 4px;
   }
 

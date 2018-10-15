@@ -134,6 +134,7 @@
 
   .tile-status {
     font-size: 18px;
+    font-weight: bold;
 
     &.alpha {
       color: #ffc000;
@@ -146,8 +147,6 @@
     &.dev {
       color: #ff0000;
     }
-
-    font-weight: bold;
   }
 
   .tile-text {

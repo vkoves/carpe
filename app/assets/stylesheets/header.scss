@@ -23,7 +23,7 @@ body {
 
 .menu {
   border: solid 1px #bbbbbb;
-  border-top: none;
+  border-top: 0;
   box-shadow: 0 0 3px #808080;
 }
 
@@ -325,7 +325,7 @@ body {
 }
 
 .token-input-input-token input {
-  border: none;
+  border: 0;
   background: transparent;
 }
 

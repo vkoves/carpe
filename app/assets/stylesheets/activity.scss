@@ -1,13 +1,12 @@
 @import 'colors';
 
 #greeting {
-  height: 200px;
-  padding: 0;
-  right: 400px;
-  left: 0;
   width: calc(100% - 400px);
+  height: 200px;
+  right: 400px;
+  padding: 0 0 0 30px;
   position: absolute;
-  padding-left: 30px;
+  left: 0;
 
   .greet-text {
     font-weight: 300;
