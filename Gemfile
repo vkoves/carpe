@@ -97,3 +97,5 @@ gem 'capybara', '~> 3'
 # Used for acceptance tests & teaspoon tests
 gem 'selenium-webdriver', '~> 3'
 gem 'chromedriver-helper', '~> 1'
+
+gem 'scss_lint', require: false

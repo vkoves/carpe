@@ -1,0 +1,32 @@
+linters:
+  # Carpe's design is still too fuzzy to only use color variables.
+  ColorVariable:
+    enabled: false
+
+  # Force all colors to use the same hex code to make them easier to search.
+  HexLength:
+    style: long
+
+  # This is unideal, but Carpe already uses a bunch of styling IDs.
+  IdSelector:
+    enabled: false
+
+  # 0.5 is more visible/explicit than .5.
+  LeadingZero:
+    style: include_zero
+
+  # Forcing everything into a single selector isn't conducive to re-use.
+  MergeableSelector:
+    enabled: false
+
+  # Layout | Typography | Styling is nicer than alphabetic order.
+  PropertySortOrder:
+    enabled: false
+
+  # Too obscure for many use-cases. prefer input[type='submit'] over [type='submit'].
+  QualifyingElement:
+    enabled: false
+
+  # `margin: 1px 2px 3px` is a bit confusing.
+  Shorthand:
+    enabled: false
