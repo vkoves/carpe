@@ -1,3 +1,5 @@
+# Documentation on each linter rule is available here:
+# https://github.com/brigade/scss-lint/blob/master/lib/scss_lint/linter/README.md
 scss_files: 'app/assets/stylesheets/**/*.scss'
 
 linters:
