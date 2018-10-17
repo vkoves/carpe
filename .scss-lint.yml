@@ -1,7 +1,7 @@
 scss_files: 'app/assets/stylesheets/**/*.scss'
 
 linters:
-  # Carpe's design is still too fuzzy to only use color variables.
+  # TODO: Refactor and remove this. Right now, Carpe's design is still too fuzzy to only use color variables.
   ColorVariable:
     enabled: false
 
