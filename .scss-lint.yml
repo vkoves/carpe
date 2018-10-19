@@ -3,7 +3,8 @@
 scss_files: 'app/assets/stylesheets/**/*.scss'
 
 linters:
-  # TODO: Refactor and remove this. Right now, Carpe's design is still too fuzzy to only use color variables.
+  # TODO: Refactor and remove this.
+  # Right now, Carpe's design is still too fuzzy to only use color variables.
   ColorVariable:
     enabled: false
 
@@ -31,6 +32,6 @@ linters:
   QualifyingElement:
     enabled: false
 
-  # `margin: 1px 2px 3px` is a bit confusing.
+  # Forcing `margin: 1px 2px 3px 0` to be `margin: 1px 2px 3px` is overkill.
   Shorthand:
     enabled: false
