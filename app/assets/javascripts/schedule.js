@@ -1912,12 +1912,14 @@ function editEvent(elem) {
   if (inColumn(elem) && !editingEvent && elem.attr('data-id') != -1) {
     var evntId = elem.attr('evnt-temp-id');
     currEvent = scheduleItems[evntId];
-
+    
+    // selects the current category of the event as the default option
     $('#cat-title-selector option[value=\'' + currEvent.categoryId + '\']').attr('selected', 'selected');
     $('#cat-title-selector').off();
     $('#cat-title-selector').change(function() {
       var val = $(this).val();
       currEvent.setCategory(val);
+      // changes the background color of event and changes all references to past events
       $('.sch-evnt[evnt-temp-id=\'' + evntId + '\'], #overlay-color-bar').css('background-color', categories[currEvent.categoryId].color);
       $('.sch-evnt[evnt-temp-id=\'' + evntId + '\']').attr('data-id', val);
     });
