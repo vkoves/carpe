@@ -28,7 +28,7 @@
       <%= render partial: "groups/basic_user_block", collection: @members %>
     </main>
   <% else %>
-    <%= image_tag "lock", alt: "Lock", class: "lock -large" %>
+    <%= image_tag "lock.svg", alt: "Lock", class: "lock -large" %>
     <span>You must be a member of this group to see its members</span>
   <% end %>
 

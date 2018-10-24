@@ -5,7 +5,7 @@
     <%= link_to group.name, group, class: [:normal, :title] %>
 
     <div class="flex-text-img">
-        <%= image_tag "person-multiple", alt: "" %>
+        <%= image_tag "person-multiple.png", alt: "" %>
         <%= group.size %> <%= 'Member'.pluralize(group.size) %>
     </div>
   </div>
@@ -13,7 +13,7 @@
   <%# Show edit link if the current_user can edit this group %>
   <% if can? :update, group %>
     <%= link_to edit_group_path(group) do %>
-      <%= image_tag "gear", class: "edit-icon", alt: "Gear" %>
+      <%= image_tag "gear.svg", class: "edit-icon", alt: "Gear" %>
     <% end %>
   <% end %>
 </div>
