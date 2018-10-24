@@ -938,8 +938,14 @@ input[readonly='readonly'] {
 
 // No drag properties, applied to schedule and sidebar
 .sch-no-drag {
+  // block touch and hold link info in ios and safari
   -webkit-touch-callout: none;
+
   user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+
   cursor: default;
 }
 

@@ -35,3 +35,7 @@ linters:
   # Forcing `margin: 1px 2px 3px 0` to be `margin: 1px 2px 3px` is overkill.
   Shorthand:
     enabled: false
+
+  # Carpe targets the latest browsers (excluding IE), so use prefixes as needed.
+  VendorPrefix:
+    enabled: false

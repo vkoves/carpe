@@ -833,6 +833,14 @@ form.thin {
 }
 
 .no-drag {
+  // prevent text from being selected
+  user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+
+  // prevent dragging stuff (images, links, etc)
+  user-drag: none;
   -webkit-user-drag: none;
 }
 
