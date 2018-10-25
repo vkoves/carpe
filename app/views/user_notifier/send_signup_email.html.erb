@@ -1,31 +1,26 @@
-<table id="main" class="inner">
-	<tbody>
-		<tr>
-			<td id="welcome">
-				<h1>Welcome to Carpe, <%= @user.name %>!</h1>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<p>
-					Thanks for joining. Your account is all set up under this email: <%= @user.email %>.
-					<span class="break"><br><br></span>
-					Now that you're here, you can get started at the <a href="http://www.carpe.us" class="complement-blue">Dashboard</a>, where you'll find
-					what's coming up in your schedule and what your friends are up to.
-					<span class="break"><br><br></span>
-					Thanks again for signing up in the early stages, and we hope you enjoy Carpe!
-					<span class="break"><br><br></span>
-					<center><a href="http://www.carpe.us" class="dash-button">Go to Dashboard</a></center>
-				</p>
-			</td>
-		</tr>
-		<tr>
-			<td id="footer">
-				<img id="footer-ibs" alt="Carpe Logo" src="https://s3-us-west-2.amazonaws.com/carpe-indigobox/email/email-foot-top.png"><br><br>
-				Made by IndigoBox in Chicago.
-				<span class="break"><br><br></span>
-				<span class="visit-ibs"> IndigoBox Studios - <%= Time.current.year %>  ·  <a href="http://indigobox.us" class="complement-blue">Visit Our Site</a></span>
-			</td>
-		</tr>
-	</tbody>
-</table>
+<style>
+  #welcome {
+    margin-top:7px;
+    margin-bottom:-14px;
+  }
+</style>
+
+<tr>
+  <td id="welcome">
+    <h1>Welcome to Carpe, <%= @user.name %>!</h1>
+  </td>
+</tr>
+<tr>
+  <td>
+    <p>
+      Thanks for joining. Your account is all set up under this email: <%= @user.email %>.
+      <span class="break"><br><br></span>
+      Now that you're here, you can get started at the <a href="http://www.carpe.us" class="complement-blue">Dashboard</a>, where you'll find
+      what's coming up in your schedule and what your friends are up to.
+      <span class="break"><br><br></span>
+      Thanks again for signing up in the early stages, and we hope you enjoy Carpe!
+      <span class="break"><br><br></span>
+      <center><a href="http://www.carpe.us" class="dash-button">Go to Dashboard</a></center>
+    </p>
+  </td>
+</tr>
