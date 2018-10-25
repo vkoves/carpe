@@ -322,7 +322,7 @@ body {
 
   // gray out non-hovered buttons
   .choices:hover span:not(:hover) {
-    background: gray;
+    background: #808080;
   }
 
   .choices span {
