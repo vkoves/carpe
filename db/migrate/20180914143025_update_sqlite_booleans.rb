@@ -9,6 +9,8 @@ class UpdateSqliteBooleans < ActiveRecord::Migration[5.2]
   ]
 
   def up
+    return if Rails.env.production?
+
     UPDATES.each do |model, column|
       model.where("#{column} = 't'").update_all(column => 1)
       model.where("#{column} = 'f'").update_all(column => 0)
@@ -20,6 +22,8 @@ class UpdateSqliteBooleans < ActiveRecord::Migration[5.2]
   end
 
   def down
+    return if Rails.env.production?
+
     UPDATES.each do |model, column|
       model.where("#{column} = '1'").update_all(column => true)
       model.where("#{column} = '0'").update_all(column => false)
