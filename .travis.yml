@@ -14,6 +14,7 @@ before_script:
 
 # All tests and linting
 script:
+  - bundle exec scss-lint
   - RAILS_ENV=test bundle exec rake db:migrate
   - bundle exec rails test
   - bundle exec teaspoon

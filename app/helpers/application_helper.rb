@@ -47,7 +47,7 @@ module ApplicationHelper
                       resource: resource.class.model_name.name)
 
     <<-HTML.html_safe
-    <div id="error_explanation">
+    <div id="error-explanation">
       <h2>#{sentence}</h2>
       <ul>#{messages}</ul>
     </div>
