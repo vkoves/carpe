@@ -6,4 +6,9 @@ class UserNotifier < ApplicationMailer
     @user = user
     mail(:to => @user.email, :subject => 'Welcome to Carpe')
   end
+
+  def event_invite_email(user)
+    @user = user
+    mail(:to => @user.email, :subject => 'Welcome to Carpe')
+  end
 end
