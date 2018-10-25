@@ -2,6 +2,8 @@ require 'utilities'
 
 #An event describes a schedule item, that is a single item occuring on a person's schedule
 class Event < ApplicationRecord
+  include Utilities
+
   belongs_to :user
   alias_attribute :creator, :user
 

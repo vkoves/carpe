@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   include OverriddenHelpers
 
   before_action :configure_permitted_parameters, if: :devise_controller?
+  around_action :set_time_zone, if: :current_user
 
   # Enable rack-mini-profiler for signed in admin
   before_action do
@@ -66,5 +67,11 @@ class ApplicationController < ActionController::Base
     unless current_user
       redirect_to user_session_path, alert: "You have to be signed in to do that!"
     end
+  end
+
+  private
+
+  def set_time_zone
+    Time.use_zone(current_user.home_time_zone) { yield }
   end
 end

@@ -4,12 +4,16 @@ class PagesController < ApplicationController
   before_action :authorize_admin!, only: [:admin, :sandbox]
 
   def admin #admin page
-    @now = Time.zone.now
-    @past = @now - 1.months
-    
-    @past_month_users = User.where('created_at >= ?', Time.zone.now - 1.months).group(:created_at).count
-    @past_month_events = Event.where('created_at >= ?', Time.zone.now - 1.months).group(:created_at).count
-    @past_month_events_modified = Event.where('created_at >= ?', Time.zone.now - 1.months).group(:updated_at).count
+    @data_time_range = 1.month.ago.to_date..Date.current
+
+    @past_month_users = User.where(created_at: @data_time_range)
+                            .group("date(created_at)").count
+
+    @past_month_events = Event.where(created_at: @data_time_range)
+                              .group("date(created_at)").count
+
+    @past_month_events_modified = Event.where(created_at: @data_time_range)
+                                       .group("date(updated_at)").count
   end
 
   # Runs predefined server commands requested from the admin panel.

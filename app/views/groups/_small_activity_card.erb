@@ -5,7 +5,7 @@
     <div class="user-information">
       <div class="user-name"><%= act.name %></div>
       <div class="act-name">Joined</div>
-      <div class="time-ago"> <%= relative_time_ago(currusergroup.created_at, false) %> </div>
+      <div class="time-ago"> <%= relative_time_tag(currusergroup.created_at) %> </div>
     </div>
   <% elsif act.is_a?(Category) %>
     <% curruser = User.find(act.user_id) %>
@@ -13,7 +13,7 @@
     <div class="user-information">
       <div class="user-name"><%= curruser.name %></div>
       <div class="act-name"> Created category <%= act.name %> </div>
-      <div class="time-ago"> <%= relative_time_ago(act.created_at, false) %> </div>
+      <div class="time-ago"> <%= relative_time_tag(act.created_at) %> </div>
     </div>
   <% elsif act.is_a?(Event) %>
     <% curruser = User.find(act.user_id) %>
@@ -21,7 +21,7 @@
     <div class="user-information">
       <div class="user-name"><%= curruser.name %></div>
       <div class="act-name"> Created event <%= act.name %></div>
-      <div class="time-ago"> <%= relative_time_ago(act.created_at, false) %> </div>
+      <div class="time-ago"> <%= relative_time_tag(act.created_at) %> </div>
     </div>
   <% end %>
 </div>
