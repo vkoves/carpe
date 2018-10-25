@@ -19,110 +19,110 @@
 %>
 
 <div class="sch-all-cont <%= 'read-only' if read_only %>">
-	<div id="event-overlay-box" class="overlay-box">
-		<div id="overlay-color-bar">
-			<div id="overlay-title" contenteditable="true">Event Title</div>
-			<div id="cat-title"></div>
-		</div>
-		<div class="overlay-time">
-			<input id="time-start" type="text" value="10:00am"></input> -
-			<input id="time-end" type="text" value="12:00pm"></input>
-		</div>
-		<span class="default red close"></span>
-		<span id="repeat" class="default green">Edit Repeat Type</span>
-		<div id="repeat-menu">
-			<span id="repeat-none" class="default repeat-option">None</span>
-			<span id="repeat-daily" class="default repeat-option">Daily</span>
-			<span id="repeat-weekly" class="default repeat-option">Weekly</span>
-			<span id="repeat-monthly" class="default repeat-option">Monthly</span>
-			<span id="repeat-yearly" class="default repeat-option">Yearly</span>
-			<span id="repeat-certain-days" class="default repeat-option">Certain Days</span>
-			<span id="repeat-custom" class="default repeat-option">Custom</span><br>
-			<div id="repeat-custom-options">
-				Repeat every: <input class="text-input" id="repeat-custom-number" type="number" min="1" value="1">
-				<select id="repeat-custom-unit">
-					<option value="days">Days</option>
-					<option value="weeks">Weeks</option>
-					<option value="months">Months</option>
-					<option value="years">Years</option>
-				</select>
-			</div>
-			<div id="repeat-certain-days-options">
-				<span class="default" data-day="1">M</span>
-				<span class="default" data-day="2">T</span>
-				<span class="default" data-day="3">W</span>
-				<span class="default" data-day="4">Th</span>
-				<span class="default" data-day="5">F</span>
-				<span class="default" data-day="6">S</span>
-				<span class="default" data-day="0">Su</span>
-			</div>
-			Repeat From: <input id="repeat-start" class="date-field" type="text">
-			To: <input id="repeat-end" class="date-field" type="text"/>
-		</div>
-		<span id="add-break-event" class="default green">Add Break</span>
-		<div id="desc-title" class="small-title">
-			Description:
-			<span id="edit-desc" class="edit">Edit</span>
-		</div>
-		<textarea id="overlay-desc" class="auto-resize-vertically">Description goes here</textarea>
-		<div id="loc-title" class="small-title">
-			Location:
-			<span id="edit-loc" class="edit">Edit</span>
-		</div>
-		<textarea id="overlay-loc" class="auto-resize-vertically">Location goes here</textarea>
+  <div id="event-overlay-box" class="overlay-box">
+    <div id="overlay-color-bar">
+      <div id="overlay-title" contenteditable="true">Event Title</div>
+      <div id="cat-title"></div>
+    </div>
+    <div class="overlay-time">
+      <input id="time-start" type="text" value="10:00am"></input> -
+      <input id="time-end" type="text" value="12:00pm"></input>
+    </div>
+    <span class="default red close"></span>
+    <span id="repeat" class="default green">Edit Repeat Type</span>
+    <div id="repeat-menu">
+      <span id="repeat-none" class="default repeat-option">None</span>
+      <span id="repeat-daily" class="default repeat-option">Daily</span>
+      <span id="repeat-weekly" class="default repeat-option">Weekly</span>
+      <span id="repeat-monthly" class="default repeat-option">Monthly</span>
+      <span id="repeat-yearly" class="default repeat-option">Yearly</span>
+      <span id="repeat-certain-days" class="default repeat-option">Certain Days</span>
+      <span id="repeat-custom" class="default repeat-option">Custom</span><br>
+      <div id="repeat-custom-options">
+        Repeat every: <input class="text-input" id="repeat-custom-number" type="number" min="1" value="1">
+        <select id="repeat-custom-unit">
+          <option value="days">Days</option>
+          <option value="weeks">Weeks</option>
+          <option value="months">Months</option>
+          <option value="years">Years</option>
+        </select>
+      </div>
+      <div id="repeat-certain-days-options">
+        <span class="default" data-day="1">M</span>
+        <span class="default" data-day="2">T</span>
+        <span class="default" data-day="3">W</span>
+        <span class="default" data-day="4">Th</span>
+        <span class="default" data-day="5">F</span>
+        <span class="default" data-day="6">S</span>
+        <span class="default" data-day="0">Su</span>
+      </div>
+      Repeat From: <input id="repeat-start" class="date-field" type="text">
+      To: <input id="repeat-end" class="date-field" type="text"/>
+    </div>
+    <span id="add-break-event" class="default green">Add Break</span>
+    <div id="desc-title" class="small-title">
+      Description:
+      <span id="edit-desc" class="edit">Edit</span>
+    </div>
+    <textarea id="overlay-desc" class="auto-resize-vertically">Description goes here</textarea>
+    <div id="loc-title" class="small-title">
+      Location:
+      <span id="edit-loc" class="edit">Edit</span>
+    </div>
+    <textarea id="overlay-loc" class="auto-resize-vertically">Location goes here</textarea>
 
-		<span id="event-invites-setup" class="button">Invite People</span>
-	</div>
+    <span id="event-invites-setup" class="button">Invite People</span>
+  </div>
 
-	<div id="break-overlay-box" class="overlay-box">
-		<span class="default red close"></span>
-		<h3>Create Break</h3>
-		Name: <input id="break-name" type="text">
-		<br><br>
-		Start: <input id="break-start" class="date-field" type="text">
-		End: <input id="break-end" class="date-field" type="text">
-		<br>
-		<div id="break-error">Please fill out all fields<br></div>
-		<span id="submit-break" class="default green">Submit</span>
-	</div>
+  <div id="break-overlay-box" class="overlay-box">
+    <span class="default red close"></span>
+    <h3>Create Break</h3>
+    Name: <input id="break-name" type="text">
+    <br><br>
+    Start: <input id="break-start" class="date-field" type="text">
+    End: <input id="break-end" class="date-field" type="text">
+    <br>
+    <div id="break-error">Please fill out all fields<br></div>
+    <span id="submit-break" class="default green">Submit</span>
+  </div>
 
-	<div id="break-adder-overlay-box" class="overlay-box">
-		<span class="default red close"></span>
-		<h3>Add Breaks</h3>
-		<span class="default green" id="create-break-inside-add-break">Create Break</span>
-		<div id="break-cont">
-		</div>
-	</div>
+  <div id="break-adder-overlay-box" class="overlay-box">
+    <span class="default red close"></span>
+    <h3>Add Breaks</h3>
+    <span class="default green" id="create-break-inside-add-break">Create Break</span>
+    <div id="break-cont">
+    </div>
+  </div>
 
-	<div id="event-invites-panel" class="overlay-box">
+  <div id="event-invites-panel" class="overlay-box">
     <span class="default red close"></span>
 
-		<h3>Invited Users</h3>
-		<div id="event-invites-list"></div>
+    <h3>Invited Users</h3>
+    <div id="event-invites-list"></div>
 
-		<h3>Invite Others</h3>
-		<%= render 'shared/user_adder', name: 'user_ids' %>
+    <h3>Invite Others</h3>
+    <%= render 'shared/user_adder', name: 'user_ids' %>
 
-		<span id="send-event-invites" class="green button">Send Invites</span>
-	</div>
+    <span id="send-event-invites" class="green button">Send Invites</span>
+  </div>
 
-	<div id="evnt-delete" class="overlay-box">
-		<span class="default red close"></span>
-		<h3>Delete Repeating Event</h3>
-		Do you want to delete just this occurrence of this event, or all events of this repeating event?
-		<span class="default red" id="single-evnt">Only this occurrence</span>
-		<span class="default red" id="all-evnts">All occurrences</span>
-		<span class="default green" id="cancel">Cancel</span>
-	</div>
+  <div id="evnt-delete" class="overlay-box">
+    <span class="default red close"></span>
+    <h3>Delete Repeating Event</h3>
+    Do you want to delete just this occurrence of this event, or all events of this repeating event?
+    <span class="default red" id="single-evnt">Only this occurrence</span>
+    <span class="default red" id="all-evnts">All occurrences</span>
+    <span class="default green" id="cancel">Cancel</span>
+  </div>
 
-	<div id="cat-overlay-box" class="overlay-box" data-id="" >
-		<div class="cat-top-overlay">
-			<div class="cat-overlay-title" contenteditable=true ></div>
-			<%= image_tag "checkmark-wht.png", :class => "sch-evnt-save-cat sch-cat-icon no-drag" %>
-		</div>
-		<div class="cat-remainder-overlay">
+  <div id="cat-overlay-box" class="overlay-box" data-id="">
+    <div class="cat-top-overlay">
+      <div class="cat-overlay-title" contenteditable=true></div>
+      <%= image_tag "checkmark-wht.png", :class => "sch-evnt-save-cat sch-cat-icon no-drag" %>
+    </div>
+    <div class="cat-remainder-overlay">
       <div id="cat-privacy">
-        <% unless group&.private_group? or group&.secret_group?  %>
+        <% unless group&.private_group? or group&.secret_group? %>
           Privacy:
 
           <% if group&.public_group? %>
@@ -136,153 +136,152 @@
         <% end %>
       </div>
 
-			<span id="add-break-category" class="default green">Add Break</span>
-			<div class="future-colors">
-				<div class="color-swatch red" style="background-color: #FF2626;"></div> <!-- red -->
-				<div class="color-swatch orange" style="background-color: #FA6300;"></div> <!-- orange -->
-				<div class="color-swatch yellow" style="background-color: #FFB400;"></div> <!-- yellow orange -->
-				<div class="color-swatch green" style="background-color: #3EA73E;"></div> <!-- green -->
-				<br>
-				<div class="color-swatch blue" style="background-color: #4285F5;"></div> <!-- light blue -->
-				<div class="color-swatch purple" style="background-color:#7D14E6;"></div> <!-- purple -->
-				<div class="color-swatch pink" style="background-color: #FF79FF;"></div> <!-- pink -->
-				<div class="color-swatch grey" style="background-color:silver;"></div>
-			</div>
-		</div>
-	</div>
+      <span id="add-break-category" class="default green">Add Break</span>
+      <div class="future-colors">
+        <div class="color-swatch red" style="background-color: #FF2626;"></div> <!-- red -->
+        <div class="color-swatch orange" style="background-color: #FA6300;"></div> <!-- orange -->
+        <div class="color-swatch yellow" style="background-color: #FFB400;"></div> <!-- yellow orange -->
+        <div class="color-swatch green" style="background-color: #3EA73E;"></div> <!-- green -->
+        <br>
+        <div class="color-swatch blue" style="background-color: #4285F5;"></div> <!-- light blue -->
+        <div class="color-swatch purple" style="background-color:#7D14E6;"></div> <!-- purple -->
+        <div class="color-swatch pink" style="background-color: #FF79FF;"></div> <!-- pink -->
+        <div class="color-swatch grey" style="background-color:silver;"></div>
+      </div>
+    </div>
+  </div>
 
-	<div id="cont-hold" class="<%= 'iframe' if embedded %>">
-		<div id="sch-sidebar" class="sch-no-drag">
+  <div id="cont-hold" class="<%= 'iframe' if embedded %>">
+    <div id="sch-sidebar" class="sch-no-drag">
 			<span id="sidebar-title">
 				Categories
-				<% unless @read_only #don't show this text if you can't actually edit things %>
+        <% unless @read_only #don't show this text if you can't actually edit things  %>
 					<%= image_tag "question-circle.svg", width: 15, class: "question-tooltip", title: "Drag a category onto the schedule to create a calendar item." %>
 				<% end %>
 			</span>
-			<button class="cat-add main default">+ New Category</button>
-			<div id="sch-tiles">
-				<div id="sch-tiles-inside">
-					<div class="no-categories">
-						<%= image_tag "category-cards.svg", :class => "cat-card" %>
-						<div class="heading">Your calendar needs some categories!</div>
-						<div class="sub-heading">
-							Create categories like Work, Appointments, or
-							Concerts to add and organize your events.
-						</div>
-						<span class="default cat-add" id="cancel">Create a Category</span>
-					</div>
+      <button class="cat-add main default">+ New Category</button>
+      <div id="sch-tiles">
+        <div id="sch-tiles-inside">
+          <div class="no-categories">
+            <%= image_tag "category-cards.svg", :class => "cat-card" %>
+            <div class="heading">Your calendar needs some categories!</div>
+            <div class="sub-heading">
+              Create categories like Work, Appointments, or
+              Concerts to add and organize your events.
+            </div>
+            <span class="default cat-add" id="cancel">Create a Category</span>
+          </div>
 
-					<div id="cat-template" class="sch-evnt category" data-id="-1" time="0:00" style="display: none">
-						<div class="evnt-time top">7:00</div>
-						<div class="evnt-time bot">7:00</div>
-						<div class="evnt-title vertical-center center-text dis-sel" contenteditable="false"></div>
-						<div class="evnt-desc dis-sel"></div>
-						<%= image_tag "quill-wht.png", :class => "sch-evnt-edit-cat sch-cat-icon no-drag" %>
-						<%= image_tag "close-wht.png", :class => "sch-evnt-del-cat sch-cat-icon no-drag" %>
-						<%= image_tag "quill-wht.png", :class => "sch-evnt-edit sch-evnt-icon no-drag" %>
-						<%= image_tag "close-wht.png", :class => "sch-evnt-close sch-evnt-icon no-drag" %>
-						<div class="evnt-divider no-drag"></div>
-					</div>
+          <div id="cat-template" class="sch-evnt category" data-id="-1" time="0:00" style="display: none">
+            <div class="evnt-time top">7:00</div>
+            <div class="evnt-time bot">7:00</div>
+            <div class="evnt-title vertical-center center-text dis-sel" contenteditable="false"></div>
+            <div class="evnt-desc dis-sel"></div>
+            <%= image_tag "quill-wht.png", :class => "sch-evnt-edit-cat sch-cat-icon no-drag" %>
+            <%= image_tag "close-wht.png", :class => "sch-evnt-del-cat sch-cat-icon no-drag" %>
+            <%= image_tag "quill-wht.png", :class => "sch-evnt-edit sch-evnt-icon no-drag" %>
+            <%= image_tag "close-wht.png", :class => "sch-evnt-close sch-evnt-icon no-drag" %>
+            <div class="evnt-divider no-drag"></div>
+          </div>
 
-					<% #Load group's categories if we're showing a group schedule; otherwise, load user's categories %>
-					<% categories.each_with_index do |cat, index| %>
-						<div class="sch-evnt category" time="0:00" data-id="<%= cat.id %>" privacy="<%= cat.privacy %>"
-							style="background-color:<%= cat.color %>; /*top: <%= 105*index %>*/">
-							<div class="evnt-time top">7:00</div>
-							<div class="evnt-time bot">7:00</div>
-							<div class="evnt-title vertical-center center-text dis-sel" contenteditable="false"><%= cat.get_html_name.html_safe %></div>
-							<div class="evnt-desc dis-sel"></div>
-							<%= image_tag "quill-wht.png", :class => "sch-evnt-edit-cat sch-cat-icon no-drag" %>
-							<%= image_tag "close-wht.png", :class => "sch-evnt-del-cat sch-cat-icon no-drag" %>
-							<%= image_tag "quill-wht.png", :class => "sch-evnt-edit sch-evnt-icon no-drag" %>
-							<%= image_tag "close-wht.png", :class => "sch-evnt-close sch-evnt-icon no-drag" %>
-							<div class="evnt-divider no-drag"></div>
-						</div>
-					<% end %>
-				</div>
-			</div>
-		</div>
+          <% #Load group's categories if we're showing a group schedule; otherwise, load user's categories %>
+          <% categories.each_with_index do |cat, index| %>
+            <div class="sch-evnt category" time="0:00" data-id="<%= cat.id %>" privacy="<%= cat.privacy %>"
+                 style="background-color:<%= cat.color %>; /*top: <%= 105*index %>*/">
+              <div class="evnt-time top">7:00</div>
+              <div class="evnt-time bot">7:00</div>
+              <div class="evnt-title vertical-center center-text dis-sel" contenteditable="false"><%= cat.get_html_name.html_safe %></div>
+              <div class="evnt-desc dis-sel"></div>
+              <%= image_tag "quill-wht.png", :class => "sch-evnt-edit-cat sch-cat-icon no-drag" %>
+              <%= image_tag "close-wht.png", :class => "sch-evnt-del-cat sch-cat-icon no-drag" %>
+              <%= image_tag "quill-wht.png", :class => "sch-evnt-edit sch-evnt-icon no-drag" %>
+              <%= image_tag "close-wht.png", :class => "sch-evnt-close sch-evnt-icon no-drag" %>
+              <div class="evnt-divider no-drag"></div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
 
 
+    <div id="sch-main">
+      <div class="sch-but-holder">
+        <span class="default sch-week-prev">Previous</span>
+        &nbsp;
+        <span class="default sch-week-next">Next</span>
+        <input id="week-date" class="date-field" type="text"/>
 
-		<div id="sch-main">
-			<div class="sch-but-holder">
-				<span class="default sch-week-prev">Previous</span>
-				&nbsp;
-				<span class="default sch-week-next">Next</span>
-				<input id="week-date" class="date-field" type="text"/>
-
-				<% unless read_only %>
+        <% unless read_only %>
 					<span class="default green disabled" id="sch-save">Save Events
-						<%= render "shared/loading_icon", locals: {color: "#FFF", size: "22px"} %>
-						<%= image_tag "checkmark-wht.png", id: "save-checkmark" %>
+            <%= render "shared/loading_icon", locals: { color: "#FFF", size: "22px" } %>
+            <%= image_tag "checkmark-wht.png", id: "save-checkmark" %>
 					</span>
-					<span class="default green" id="manage-breaks">Manage Breaks</span>
-				<% end %>
+          <span class="default green" id="manage-breaks">Manage Breaks</span>
+        <% end %>
 
-				<span class="sch-view-btn default active" id="view-weekly">Weekly</span>
-				<span class="sch-view-btn default" id="view-monthly">Monthly</span>
-			</div>
+        <span class="sch-view-btn default active" id="view-weekly">Weekly</span>
+        <span class="sch-view-btn default" id="view-monthly">Monthly</span>
+      </div>
 
-			<div id="sch-holder" class="sch-no-drag">
-				<div id="sch-weekly-view">
-					<div class="sch-day-col">
-						<span class="col-titler"><span class="evnt-day">Monday</span></span>
-						<div class="col-snap evt-snap"></div>
-					</div>
-					<div class="sch-day-col">
-						<span class="col-titler"><span class="evnt-day">Tuesday</span></span>
-						<div class="col-snap evt-snap"></div>
-					</div>
-					<div class="sch-day-col">
-						<span class="col-titler"><span class="evnt-day">Wednesday</span></span>
-						<div class="col-snap evt-snap"></div>
-					</div>
-					<div class="sch-day-col">
-						<span class="col-titler"><span class="evnt-day">Thursday</span></span>
-						<div class="col-snap evt-snap"></div>
-					</div>
-					<div class="sch-day-col">
-						<span class="col-titler"><span class="evnt-day">Friday</span></span>
-						<div class="col-snap evt-snap"></div>
-					</div>
-					<div class="sch-day-col">
-						<span class="col-titler"><span class="evnt-day">Saturday</span></span>
-						<div class="col-snap evt-snap"></div>
-					</div>
-					<div class="sch-day-col">
-						<span class="col-titler"><span class="evnt-day">Sunday</span></span>
-						<div class="col-snap evt-snap"></div>
-					</div>
-				</div>
-				<div id="sch-monthly-view">
-					<h3 id="month-name"></h3>
-					<div id="day-labels">
-						<div class="day-label">Monday</div>
-						<div class="day-label">Tuesday</div>
-						<div class="day-label">Wednesday</div>
-						<div class="day-label">Thursday</div>
-						<div class="day-label">Friday</div>
-						<div class="day-label">Saturday</div>
-						<div class="day-label">Sunday</div>
-					</div>
-					<div id="tiles-cont"></div>
-				</div>
-			</div>
-		</div>
-	</div>
+      <div id="sch-holder" class="sch-no-drag">
+        <div id="sch-weekly-view">
+          <div class="sch-day-col">
+            <span class="col-titler"><span class="evnt-day">Monday</span></span>
+            <div class="col-snap evt-snap"></div>
+          </div>
+          <div class="sch-day-col">
+            <span class="col-titler"><span class="evnt-day">Tuesday</span></span>
+            <div class="col-snap evt-snap"></div>
+          </div>
+          <div class="sch-day-col">
+            <span class="col-titler"><span class="evnt-day">Wednesday</span></span>
+            <div class="col-snap evt-snap"></div>
+          </div>
+          <div class="sch-day-col">
+            <span class="col-titler"><span class="evnt-day">Thursday</span></span>
+            <div class="col-snap evt-snap"></div>
+          </div>
+          <div class="sch-day-col">
+            <span class="col-titler"><span class="evnt-day">Friday</span></span>
+            <div class="col-snap evt-snap"></div>
+          </div>
+          <div class="sch-day-col">
+            <span class="col-titler"><span class="evnt-day">Saturday</span></span>
+            <div class="col-snap evt-snap"></div>
+          </div>
+          <div class="sch-day-col">
+            <span class="col-titler"><span class="evnt-day">Sunday</span></span>
+            <div class="col-snap evt-snap"></div>
+          </div>
+        </div>
+        <div id="sch-monthly-view">
+          <h3 id="month-name"></h3>
+          <div id="day-labels">
+            <div class="day-label">Monday</div>
+            <div class="day-label">Tuesday</div>
+            <div class="day-label">Wednesday</div>
+            <div class="day-label">Thursday</div>
+            <div class="day-label">Friday</div>
+            <div class="day-label">Saturday</div>
+            <div class="day-label">Sunday</div>
+          </div>
+          <div id="tiles-cont"></div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
-	var readOnly = <%= read_only %>;
+  var readOnly = <%= read_only %>;
 
-	<% # this is only available for users at the moment %>
-	var IFRAME_URL = <%= raw user.present? ? "'http://www.carpe.us/schedule?iframe=true&uid=#{user.id}'" : "'NOPE'" %>;
+  <% # this is only available for users at the moment %>
+  var IFRAME_URL = <%= raw user.present? ? "'http://www.carpe.us/schedule?iframe=true&uid=#{user.id}'" : "'NOPE'" %>;
 
-	var loadedEvents = <%= raw events.to_json(include: { repeat_exceptions: { only: :id } }) %>;
-	var loadedCategories = <%= raw categories.to_json(include: { repeat_exceptions: { only: :id } }) %>;
-	var loadedBreaks = <%= raw user_or_group.repeat_exceptions.to_json %>;
+  var loadedEvents = <%= raw events.to_json(include: { repeat_exceptions: { only: :id } }) %>;
+  var loadedCategories = <%= raw categories.to_json(include: { repeat_exceptions: { only: :id } }) %>;
+  var loadedBreaks = <%= raw user_or_group.repeat_exceptions.to_json %>;
 
-	<% # if this is a group schedule, all events, categories, etc created will make use of groupID %>
-	var groupID = <%= group&.id || "null" %>;
+  <% # if this is a group schedule, all events, categories, etc created will make use of groupID %>
+  var groupID = <%= group&.id || "null" %>;
 </script>
