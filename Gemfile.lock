@@ -174,7 +174,6 @@ GEM
       sass
       thor
       tilt
-    local_time (2.0.1)
     loofah (2.2.2)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -370,7 +369,6 @@ DEPENDENCIES
   jquery-ui-rails (~> 6.0)
   kaminari (~> 1.1.1)
   livingstyleguide
-  local_time (~> 2.0)
   minitest-reporters
   mysql2
   non-stupid-digest-assets

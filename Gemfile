@@ -36,9 +36,6 @@ gem 'devise', '~> 4.3'
 gem 'omniauth', '~> 1.7'
 gem 'omniauth-google-oauth2'
 
-# Use local-time for timezone handling, most likely unused ATM
-gem 'local_time', '~> 2.0'
-
 # Use rubycritic to detect code smell and problems (https://github.com/whitesmith/rubycritic)
 gem 'rubycritic', :require => false, group: :development
 
