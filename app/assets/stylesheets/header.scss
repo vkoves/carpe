@@ -1,495 +1,562 @@
-/* Header CSS */
+// Header CSS
 @import 'colors';
 
 $header-height-desktop: 50px;
 $header-height-mobile: 60px;
 
 body {
-	padding-top: $header-height-desktop;
-}
-.header-main
-{
-	position: fixed;
-	width: 100%;
-	height: $header-height-desktop;
-	top: 0px;
-	background: rgb(242, 242, 242);
-	color: rgb(200, 200, 200);
-	font-size: 20px;
-	text-align: left;
-	box-shadow: 0px 0px 8px grey;
-	z-index: 15;
-}
-.menu
-{
-	border: solid 1px #bbbbbb;
-	border-top: none;
-	box-shadow: 0px 0px 3px grey;
-}
-.header-main a, .menu a
-{
-	color: rgb(106, 106, 106);
-	text-decoration: none;
-	font-size: 18px;
-}
-.header-main a:hover, .menu a:hover
-{
-	color: $light-orange;
+  padding-top: $header-height-desktop;
 }
 
-/* The actual main navigation at the top of the header */
-.header-text
-{
-	box-sizing: border-box;
-	padding: 10px 0px;
-	left:150px;
-	position:absolute;
-	white-space: nowrap;
-	overflow: hidden;
-	height: 50px;
-
-	a { margin-right: 25px; }
-	.active { color: $light-orange; }
+.header-main {
+  position: fixed;
+  width: 100%;
+  height: $header-height-desktop;
+  top: 0;
+  background: #f2f2f2;
+  color: rgb(200, 200, 200);
+  font-size: 20px;
+  text-align: left;
+  box-shadow: 0 0 8px #808080;
+  z-index: 15;
 }
 
-
-#user-name-panel
-{
-	float: right;
-	padding-right: 20px;
-	padding-left: 10px;
-	height: 100%;
-	box-sizing: border-box;
-
-	&.signup-links { padding: 10px; }
-	#user-menu-toggler {
-		display: inline-block;
-		cursor: pointer;
-		height: 100%;
-	}
-	.name { line-height: 50px; }
-	#user-avatar
-	{
-		float: right;
-		position: relative;
-		height: 100%;
-		margin-left: 5px;
-
-		img
-		{
-			height: 40px;
-			width: 40px;
-			border-radius: 35px;
-			border: solid $light-orange 2px;
-			margin-top: 7%;
-
-			&:hover { box-shadow: 0px 0px 3px grey; }
-		}
-	}
+.menu {
+  border: solid 1px #bbbbbb;
+  border-top: 0;
+  box-shadow: 0 0 3px #808080;
 }
 
-// TODO: Make this a child of the main header
-#user-panel
-{
-	display: none;
-	position: fixed;
-	right: 15px;
-	top: $header-height-desktop;
-	width: 270px;
-	z-index: 10;
-	background-color: rgb(230, 230, 230);
-	text-align:center;
-	padding:10px 0px;
-	margin-bottom:10px;
-
-	.link
-	{
-		padding: 5px 10px;
-		width: 250px;
-		margin-left: auto;
-		margin-right: auto;
-		transition: background 0.2s;
-
-		&:hover { background: white; }
-		&:hover > a { color: $light-orange; }
-	}
+.header-main a,
+.menu a {
+  color: #6a6a6a;
+  text-decoration: none;
+  font-size: 18px;
 }
 
-#menu-holder
-{
-	position: relative;
-	left: -54px;
-	height: 100%;
-	float: left;
-
-	#header-logo
-	{
-		float: left;
-		height: 100%;
-		border-left: solid 6px #ED7D31;
-
-		.carpeheader { height: 100%; }
-	}
-	#header-mob-menu
-	{
-		float: left;
-		position: relative;
-		background-color: #ED7D31;
-		height: 100%;
-		cursor: pointer;
-		overflow: hidden;
-		margin-right: -2px;
-		transition: left 0.25s;
-
-		img
-		{
-			box-sizing: border-box;
-			height: 100%;
-			padding: 10%;
-			z-index: 1;
-		}
-	}
-	#mobile-menu
-	{
-		display: none;
-		position: absolute;
-		z-index: 1;
-		top: 60px;
-		background-color: #FF8C3D;
-		text-align: center;
-		transition: width 0.5s;
-		width: 100vw;
-
-		a {
-			color: white;
-
-			div {
-				padding: 10px 20px;
-				margin: 10px 0px;
-				text-align: left;
-			}
-		}
-	}
+.header-main a:hover,
+.menu a:hover {
+  color: $light-orange;
 }
-/* notification stuffz */
-.bell-hold
-{
-	float: left;
-	position: relative;
-	margin-top: 8px;
-	margin-right: 15px;
-	width: 25px;
-	height: 25px;
-	padding: 5px;
-	border-radius: 50%;
-	cursor: pointer;
 
-	&:hover { background-color: #D0D0D0; }
-	img {width: 100%; }
-	#num
-	{
-		position: absolute;
-		border-radius: 100%;
-		background-color: $light-orange;
-		width: 16px;
-		height: 15px;
-		font-size: 11px;
-		font-weight: bold;
-		color: white;
-		text-align: center;
-		top: 20px;
-		left: 22px;
-		padding-bottom: 2px;
-		padding-right: 1px;
-	}
+// The actual main navigation at the top of the header
+.header-text {
+  box-sizing: border-box;
+  padding: 10px 0;
+  left: 150px;
+  position: absolute;
+  white-space: nowrap;
+  overflow: hidden;
+  height: 50px;
+
+  a {
+    margin-right: 25px;
+  }
+
+  .active {
+    color: $light-orange;
+  }
+}
+
+#user-name-panel {
+  float: right;
+  padding-right: 20px;
+  padding-left: 10px;
+  height: 100%;
+  box-sizing: border-box;
+
+  &.signup-links {
+    padding: 10px;
+  }
+
+  #user-menu-toggler {
+    display: inline-block;
+    cursor: pointer;
+    height: 100%;
+  }
+
+  .name {
+    line-height: 50px;
+  }
+}
+
+#user-avatar {
+  float: right;
+  position: relative;
+  height: 100%;
+  margin-left: 5px;
+
+  img {
+    height: 40px;
+    width: 40px;
+    border-radius: 35px;
+    border: solid $light-orange 2px;
+    margin-top: 7%;
+
+    &:hover {
+      box-shadow: 0 0 3px #808080;
+    }
+  }
 }
 
 // TODO: Make this a child of the main header
-#notif-panel
-{
-	position: fixed;
-	width: 400px;
-	top: $header-height-desktop;
-	right: 15px;
-	background: rgb(230, 230, 230);
-	display: none;
-	z-index: 10;
-	padding: 5px 5px 5px 10px;
-	color: rgb(106, 106, 106);
+#user-panel {
+  display: none;
+  position: fixed;
+  right: 15px;
+  top: $header-height-desktop;
+  width: 270px;
+  z-index: 10;
+  background-color: rgb(230, 230, 230);
+  text-align: center;
+  padding: 10px 0;
+  margin-bottom: 10px;
 
-	.notif .avatar
-	{
-		float: left;
-		margin-left: 0;
-		margin-right: 5px;
+  .link {
+    padding: 5px 10px;
+    width: 250px;
+    margin-left: auto;
+    margin-right: auto;
+    transition: background 0.2s;
 
-		img {
-			display: block;
-			width: 34px;
-			height: 34px;
-			border-width: 2px;
-		}
-	}
-	.notif
-	{
-		width: 100%;
-		padding: 3px 0px;
-		margin: 5px 0;
-	}
-	.message
-	{
-		float: left;
-		font-size: 18px;
-		position: relative;
-		top: 5px;
-	}
-	.notif.general
-	{
-		display: inline-block;
-	}
-	.notif.general div
-	{
-		font-size: 14px !important;
-	}
-	.confirm, .deny
-	{
-		width: 30px;
-		border: solid 2px white;
-		height: 30px;
-		border-radius: 100%;
-		display: inline-block;
-		float: right;
-		background-size: 100%;
-		background-repeat: no-repeat;
-	}
-	.confirm
-	{
-		background-color: #00AF00;
-		margin-left: 5px;
-		background-image: image-url("checkmark-wht.png");
-	}
-	.deny
-	{
-		background-color: #FF4242;
-		background-image: image-url("closeThick-wht.svg");
-		background-size: 60%;
-		background-position: 50%;
-	}
-	#no-notifs
-	{
-		font-size: 16px;
-		padding: 15px;
-	}
+    &:hover {
+      background: #ffffff;
+    }
+
+    &:hover > a {
+      color: $light-orange;
+    }
+  }
 }
 
-.event-invite.notif
-{
-	.context
-	{
-		display: flex;
-		align-items: center;
-	}
+#menu-holder {
+  position: relative;
+  left: -54px;
+  height: 100%;
+  float: left;
 
-	.choices
-	{
-		display: flex;
-		flex-direction: row;
-		justify-content: space-around;
-	}
+  #header-logo {
+    float: left;
+    height: 100%;
+    border-left: solid 6px #ed7d31;
+
+    .carpeheader {
+      height: 100%;
+    }
+  }
+
+  #header-mob-menu {
+    float: left;
+    position: relative;
+    background-color: #ed7d31;
+    height: 100%;
+    cursor: pointer;
+    overflow: hidden;
+    margin-right: -2px;
+    transition: left 0.25s;
+
+    img {
+      box-sizing: border-box;
+      height: 100%;
+      padding: 10%;
+      z-index: 1;
+    }
+  }
+}
+
+#mobile-menu {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  top: 60px;
+  background-color: #ff8c3d;
+  text-align: center;
+  transition: width 0.5s;
+  width: 100vw;
+
+  a {
+    color: #ffffff;
+
+    div {
+      padding: 10px 20px;
+      margin: 10px 0;
+      text-align: left;
+    }
+  }
+}
+
+
+// notification stuffz
+.bell-hold {
+  float: left;
+  position: relative;
+  margin-top: 8px;
+  margin-right: 15px;
+  width: 25px;
+  height: 25px;
+  padding: 5px;
+  border-radius: 50%;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #d0d0d0;
+  }
+
+  img {
+    width: 100%;
+  }
+
+  #num {
+    position: absolute;
+    border-radius: 100%;
+    background-color: $light-orange;
+    width: 16px;
+    height: 15px;
+    font-size: 11px;
+    font-weight: bold;
+    color: #ffffff;
+    text-align: center;
+    top: 20px;
+    left: 22px;
+    padding-bottom: 2px;
+    padding-right: 1px;
+  }
+}
+
+// TODO: Make this a child of the main header
+#notif-panel {
+  position: fixed;
+  width: 400px;
+  top: $header-height-desktop;
+  right: 15px;
+  background: #e6e6e6;
+  display: none;
+  z-index: 10;
+  padding: 5px 5px 5px 10px;
+  color: #6a6a6a;
+
+  .notif {
+    width: 100%;
+    padding: 3px 0;
+    margin: 5px 0;
+  }
+
+  .message {
+    float: left;
+    font-size: 18px;
+    position: relative;
+    top: 5px;
+  }
+
+  .notif.general {
+    display: inline-block;
+  }
+
+  .notif.general div {
+    font-size: 14px !important; // scss-lint:disable ImportantRule
+  }
+
+  .confirm,
+  .deny {
+    width: 30px;
+    border: solid 2px #ffffff;
+    height: 30px;
+    border-radius: 100%;
+    display: inline-block;
+    float: right;
+    background-size: 100%;
+    background-repeat: no-repeat;
+  }
+
+  .confirm {
+    background-color: #00af00;
+    margin-left: 5px;
+    background-image: image-url('checkmark-wht.png');
+  }
+
+  .deny {
+    background-color: #ff4242;
+    background-image: image-url('closeThick-wht.svg');
+    background-size: 60%;
+    background-position: 50%;
+  }
+}
+
+#no-notifs {
+  font-size: 16px;
+  padding: 15px;
+}
+
+.notif .avatar {
+  float: left;
+  margin-left: 0;
+  margin-right: 5px;
+
+  img {
+    display: block;
+    width: 34px;
+    height: 34px;
+    border-width: 2px;
+  }
+}
+
+.event-invite.notif {
+  .context {
+    display: flex;
+    align-items: center;
+  }
+
+  .choices {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
 }
 
 // fancy button colors
-.event-invite.notif
-{
-	// prevent :hover trigger on whitespace
-	.choices { visibility: hidden; }
+.event-invite.notif {
+  // prevent :hover trigger on whitespace
+  .choices {
+    visibility: hidden;
+  }
 
-	// gray out non-hovered buttons
-	.choices:hover span:not(:hover) { background: gray; }
+  // gray out non-hovered buttons
+  .choices:hover span:not(:hover) {
+    background: gray;
+  }
 
-	.choices span
-	{
-		transition: background 200ms linear;
-		visibility: visible; // buttons trigger .choices(:hover)
-	}
+  .choices span {
+    transition: background 200ms linear;
+    visibility: visible; // buttons trigger .choices(:hover)
+  }
 }
 
-#users-search
-{
-	display: inline-block;
-	z-index: 10;
-}
-#users-search input, #users-search-input
-{
-	box-sizing: border-box;
-	height: 30px;
-	font-size: 15px;
-	font-family: 'Open Sans', sans-serif;
-	padding-left: 10px;
-	padding-right: 30px;
-	width: 150px !important;
-	border-radius: 4px;
-	box-shadow: 0px 0px 1px #CECECE;
-	border: solid 1px #CECECE;
-	background: white;
-	background-image: image-url("search.svg");
-	background-size: auto 65%;
-	background-repeat: no-repeat;
-	background-position: 97% 45%;
-	transition: width 0.4s;
-}
-.token-input-input-token input
-{
-	border: none;
-	background: transparent;
-}
-#users-search input:focus
-{
-	outline: none;
-	width: 200px !important;
-	border-color: #C0BABA;
-}
-/* TODO: Token input styling is general and shouldn't be here with the header */
-.token-input-dropdown { text-align: center; }
-#users-search ul, .token-input-dropdown ul
-{
-	padding: 0;
-	margin: 0;
 
+#users-search {
+  display: inline-block;
+  z-index: 10;
 }
-#users-search li, .token-input-dropdown li
-{
-	position: relative;
-	list-style: none;
-}
-.token-input-dropdown li
-{
-	height: 45px;
-	padding: 5px;
-	cursor: pointer;
-}
-.token-input-dropdown .name
-{
-	position: absolute;
-	top: 15px;
-	left: 60px;
-	overflow: hidden;
-	text-align: left;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	width: 70%;
 
-	&.with-type { top: 10px; }
+#users-search input,
+#users-search-input {
+  box-sizing: border-box;
+  height: 30px;
+  font-size: 15px;
+  font-family: 'Open Sans', sans-serif;
+  padding-left: 10px;
+  padding-right: 30px;
+  width: 150px !important; // scss-lint:disable ImportantRule
+  border-radius: 4px;
+  box-shadow: 0 0 1px #cecece;
+  border: solid 1px #cecece;
+  background: #ffffff;
+  background-image: image-url('search.svg');
+  background-size: auto 65%;
+  background-repeat: no-repeat;
+  background-position: 97% 45%;
+  transition: width 0.4s;
 }
-.token-input-dropdown .type
-{
-	position: absolute;
-	left: 60px;
-	top: 28px;
-	font-size: 12px;
-	opacity: 0.9;
-}
-.token-input-selected-dropdown-item
-{
-	background: #ED7D31;
-	color: white;
-}
-.token-input-dropdown
-{
-	background: $grey;
-	width: 212px;
-	border-bottom-left-radius: 5px;
-	border-bottom-right-radius: 5px;
-	box-shadow: 0px 0px 5px grey;
-	z-index: 20;
-	overflow: hidden;
-}
-.search-avatar img
-{
-	width: 40px;
-	height: 40px;
-	border-width: 2px;
-}
-.search-avatar
-{
-	float: left;
-}
-.new-tab-icon
-{
-	width: 14px;
-	height: 14px;
-	display: inline-block;
-	background-image: image-url("new-tab.svg");
-	background-size: 100%;
-}
-#new-tab-preload { display: none; }
-a:hover > .new-tab-icon
-{
-	background-image: image-url("new-tab-orange.svg");
-}
-.tablet-br { display: none; }
 
-@media (max-width: 1000px)
-{
-	.tablet-br  { display: block; }
-	.header-text { height: 90px; }
-	#users-search
-	{
-		box-sizing: border-box;
-		background: $grey;
-		border-radius: 5px;
-		padding: 5px;
-		width: 100%;
-		margin-top: 8px;
-	}
-	#users-search input, #users-search input:focus { width: 100% !important; }
+.token-input-input-token input {
+  border: 0;
+  background: transparent;
 }
-@media (max-width: 800px)
-{
-	/* Move all absolute elements to respond to header size */
-	body { padding-top: $header-height-mobile; }
-	#user-panel, #notif-panel, #sidebar-cont { top: $header-height-mobile !important; }
 
-	/* Hide all elements tagged desktop */
-	.header-main { .desktop { display: none; } }
-
-	/* Slide the mobile menu icon in from the left */
-	#menu-holder { left: 0px !important; }
-
-	/* Increase header size */
-	.header-main {
-		height: $header-height-mobile;
-		font-size: 24px;
-
-		a { font-size: 24px; }
-		.bell-hold {
-			height: 35px;
-			width: 35px;
-
-			#num {
-				top: 25px;
-				left: 30px;
-			}
-		}
-		#user-name-panel {
-			&.signup-links { padding: 15px; }
-			.name { line-height: 60px; }
-			#user-avatar img {
-				height: 50px;
-				width: 50px;
-			}
-		}
-	}
-
-	/* Increase other menu size */
-	.menu {
-		a { font-size: 22px; }
-		.link { padding: 20px; }
-	}
-
-	/* Move down alert-holder to stay 10px below header */
-	.alert-holder {
-		top: 70px;
-	}
+#users-search input:focus {
+  outline: none;
+  width: 200px !important; // scss-lint:disable ImportantRule
+  border-color: #c0baba;
 }
-/* END HEADER CSS */
+
+// TODO: Token input styling is general and shouldn't be here with the header
+.token-input-dropdown {
+  text-align: center;
+}
+
+#users-search ul,
+.token-input-dropdown ul {
+  padding: 0;
+  margin: 0;
+}
+
+#users-search li,
+.token-input-dropdown li {
+  position: relative;
+  list-style: none;
+}
+
+.token-input-dropdown li {
+  height: 45px;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.token-input-dropdown .name {
+  position: absolute;
+  top: 15px;
+  left: 60px;
+  overflow: hidden;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 70%;
+
+  &.with-type {
+    top: 10px;
+  }
+}
+
+.token-input-dropdown .type {
+  position: absolute;
+  left: 60px;
+  top: 28px;
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+.token-input-selected-dropdown-item {
+  background: #ed7d31;
+  color: #ffffff;
+}
+
+.token-input-dropdown {
+  background: $grey;
+  width: 212px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  box-shadow: 0 0 5px #808080;
+  z-index: 20;
+  overflow: hidden;
+}
+
+.search-avatar img {
+  width: 40px;
+  height: 40px;
+  border-width: 2px;
+}
+
+.search-avatar {
+  float: left;
+}
+
+.new-tab-icon {
+  width: 14px;
+  height: 14px;
+  display: inline-block;
+  background-image: image-url('new-tab.svg');
+  background-size: 100%;
+}
+
+#new-tab-preload {
+  display: none;
+}
+
+a:hover > .new-tab-icon {
+  background-image: image-url('new-tab-orange.svg');
+}
+
+.tablet-br {
+  display: none;
+}
+
+@media (max-width: 1000px) {
+  .tablet-br {
+    display: block;
+  }
+
+  .header-text {
+    height: 90px;
+  }
+
+  #users-search {
+    box-sizing: border-box;
+    background: $grey;
+    border-radius: 5px;
+    padding: 5px;
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  #users-search input,
+  #users-search input:focus {
+    width: 100% !important; // scss-lint:disable ImportantRule
+  }
+}
+
+@media (max-width: 800px) {
+  // Move all absolute elements to respond to header size
+  body {
+    padding-top: $header-height-mobile;
+  }
+
+  #user-panel,
+  #notif-panel,
+  #sidebar-cont {
+    top: $header-height-mobile !important; // scss-lint:disable ImportantRule
+  }
+
+  // Hide all elements tagged desktop
+  .header-main {
+    .desktop {
+      display: none;
+    }
+  }
+
+  // Slide the mobile menu icon in from the left
+  #menu-holder {
+    left: 0 !important; // scss-lint:disable ImportantRule
+  }
+
+  // Increase header size
+  .header-main {
+    height: $header-height-mobile;
+    font-size: 24px;
+
+    a {
+      font-size: 24px;
+    }
+
+    .bell-hold {
+      height: 35px;
+      width: 35px;
+
+      #num {
+        top: 25px;
+        left: 30px;
+      }
+    }
+  }
+
+  // Increase other menu size
+  .menu {
+    a {
+      font-size: 22px;
+    }
+
+    .link {
+      padding: 20px;
+    }
+  }
+
+  // Move down alert-holder to stay 10px below header
+  .alert-holder {
+    top: 70px;
+  }
+
+  #user-name-panel {
+    &.signup-links {
+      padding: 15px;
+    }
+
+    .name {
+      line-height: 60px;
+    }
+
+    #user-avatar img {
+      height: 50px;
+      width: 50px;
+    }
+  }
+}
+
+// END HEADER CSS

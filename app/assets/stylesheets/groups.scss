@@ -1,415 +1,499 @@
-html, body
-{
-	height: 100%;
+@import 'colors';
+
+$black-transparent: rgba(0, 0, 0, 0.3); // for backgrounds
+
+html,
+body {
+  height: 100%;
 }
 
-#body
-{
-	display: flex;
-	flex: 1;
-	min-height: calc(100vh - 50px); /* TODO: Move this to a class for */
+#body {
+  display: flex;
+  flex: 1;
+  min-height: calc(100vh - 50px); // TODO: Move this to a class for
 
-	& > .sidebar
-	{
-		flex: 1;
-		min-width: 300px;
-		padding: 50px 10px 10px;
-		text-align: center;
-	}
+  > .sidebar {
+    flex: 1;
+    min-width: 300px;
+    padding: 10px 25px;
+    text-align: center;
+  }
 
-	& > .content
-	{
-		display: flex;
-		flex: 4;
-		flex-direction: column;
-		padding: 0 16px;
-	}
+  > .content {
+    display: flex;
+    flex: 4;
+    flex-direction: column;
+    padding: 0 16px;
+  }
+}
+
+.two-col-card-cont {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 1rem;
+  grid-row-gap: 1rem;
 }
 
 .shaded {
-	background: rgb(225, 225, 225);
+  background: #e1e1e1;
 }
 
-.with-horizontal-borders {
-	border-left: solid 2px #ACACAC;
-	border-right: solid 2px #ACACAC;
+#groups-list-header {
+  display: flex;
+  flex: 0 1 128px;
+  flex-direction: column;
+  margin-top: 20px;
+  text-align: left;
 }
 
-#groups-list-header
-{
-	display: flex;
-	flex: 0 1 128px;
-	flex-direction: column;
-	margin-top: 20px;
-	text-align: left;
+#header-info {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: space-between;
+  height: 75%;
+  padding: 0;
+  text-align: left;
 }
 
-#header-info
-{
-	display: flex;
-	flex: 1;
-	align-items: center;
-	justify-content: space-between;
-	height: 75%;
-	padding: 0;
-	text-align: left;
+.group-heading {
+  border-bottom: solid 2px #9c9c9c;
+  padding-bottom: 15px;
 }
 
-#groups-title
-{
-	display: flex;
-	align-items: center;
+.flex-list {
+  display: flex;
+  flex: 1;
+  flex-flow: row wrap;
+  align-content: flex-start;
+
+  &.vertical {
+    flex-flow: column;
+  }
+
+  &.with-space-between {
+    align-content: space-between;
+  }
 }
 
-.flex-list
-{
-	display: flex;
-	flex: 1;
-	flex-flow: row wrap;
-	align-content: flex-start;
+.flex-text-img {
+  display: flex;
+  align-items: center;
 
-	&.vertical
-	{
-		flex-flow: column;
-	}
+  &.-align-top {
+    align-items: flex-start;
+  }
 
-	&.with-space-between
-	{
-		align-content: space-between;
-	}
+  img {
+    margin-right: 10px;
+  }
 }
 
-/* base class, see .small-card and .large-card */
-.card
-{
-	display: flex;
-	align-items: center;
-	box-sizing: border-box;
-	margin: 15px;
-	text-align: left;
+// base class, see .small-group-card and .large-group-card
+%group-card {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  text-align: left;
 
-	.avatar
-	{
-		margin-left: 2.5%;
-		margin-right: 7.5%;
-	}
+  .avatar {
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+  }
 
-	.main
-	{
-		display: flex;
-		flex: 3;
-		align-items: flex-start;
-		justify-content: center;
-		flex-direction: column;
-		height: 90%;
-		overflow: hidden;
+  .main {
+    display: flex;
+    flex: 3;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+    height: 90%;
+    overflow: hidden;
 
-		/* space out all of the items to the right of the avatar evenly*/
-		& > *
-		{
-			margin-top: 5px;
-			margin-bottom: 5px;
-		}
+    // space out all of the items to the right of the avatar evenly
+    > * {
+      margin-top: 5px;
+      margin-bottom: 5px;
+    }
 
-		.title
-		{
-			max-height: 3em;
-			line-height: 1.5em;
-			font-size: 24px;
-			font-weight: bold;
-			overflow: hidden;
-		}
-	}
-}
-
-.small-card
-{
-	@extend .card;
-	width: 100%;
-	margin: 0 0 20px 0;
-	padding: 10px 0px;
-
-	.main
-	{
-		overflow-wrap: break-word;
-
-		.title
-		{
-			width: 100%;
-			font-size: 18px;
-		}
-	}
-}
-
-.large-card
-{
-	@extend .card;
-	width: 455px; /* width should be about 3x the length for a card-like shape */
-	height: 175px;
-
-	.avatar img {
-		width: 120px;
-		height: 120px;
-	}
-	.title
-	{
-		height: 3em;
-		width: 100%;
-
-		overflow: hidden;
-		overflow-wrap: break-word;
-		line-height: 1.5em;
-		font-size: 24px;
-		font-weight: bold;
-
-		color: #313131;
-		text-decoration: none;
-	}
-}
-
-.basic-member-block
-{
-	display: flex;
-	align-items: center;
-	justify-content: flex-start;
-	width: 350px;
-	height: 90px;
-
-	.avatar
-	{
-		margin-left: 5%;
-		margin-right: 5%;
-	}
-
-	.main
-	{
-		display: flex;
-		flex-direction: column;
-        align-items: flex-start;
-		flex: 3;
-		overflow: hidden;
-	}
-    .name
-    {
+    .title {
+      max-height: 3em;
+      line-height: 1.5em;
       font-size: 24px;
       font-weight: bold;
+      overflow: hidden;
     }
+  }
 }
 
-.member-stats
-{
-	display: flex;
-	align-items: center;
-	width: 100%;
+.small-group-card {
+  @extend %group-card;
 
-	h3
-	{
-		color: black;
-		margin-right: 5px;
-		font-weight: 500;
-		font-size: 20px;
-	}
+  width: 100%;
+  padding: 10px 0;
 
-	h4
-	{
-		color: dimgray;
-		margin-right: 10px;
-		font-weight: 500;
-		font-size: 24px;
-	}
+  .main {
+    overflow-wrap: break-word;
 
-	.buttons
-	{
-		display: flex;
-		margin-left: auto;
+    .title {
+      width: 100%;
+      font-size: 18px;
+    }
+  }
 
-		& > *
-		{
-			margin: 0 8px;
-		}
+  .edit-icon {
+    border: solid 1px #bfbfbf;
+    border-radius: 100%;
+    padding: 5px;
+    margin-right: 20px;
+  }
 
-		#member-search
-		{
-			min-width: 150px;
-			min-height: 30px;
-			padding-left: 10px;
-			padding-right: 40px;
-
-			background-image: url("search.svg");
-			background-size: auto 65%;
-			background-repeat: no-repeat;
-			background-position: 95%;
-			border: 1px solid dimgray;
-		}
-	}
+  .avatar img {
+    display: block;
+    width: 60px;
+    height: 60px;
+  }
 }
 
-#manage-members-container
-{
-	min-width: 720px;
-	max-width: 1080px;
-	margin: 0 auto;
-	align-self: flex-end;
+.large-group-card {
+  @extend %group-card;
+
+  display: block;
+  overflow: hidden;
+  padding-bottom: 20px;
+
+  .card-header {
+    position: relative;
+    padding-top: 50px;
+
+    .button.-join {
+      position: absolute;
+      padding: 5px 20px;
+      top: 10px;
+      right: 10px;
+      background: $grey;
+      color: $text-color;
+    }
+
+    .banner-img {
+      position: absolute;
+      top: 0;
+      z-index: 0;
+    }
+
+    .avatar {
+      position: relative;
+      z-index: 1;
+    }
+  }
+
+  .banner-img {
+    width: 100%;
+    height: 100px;
+  }
+
+  .main {
+    display: block;
+    height: auto;
+    padding: 0 15px;
+  }
+
+  .title {
+    position: absolute;
+    height: 40px;
+    width: 100%;
+    top: 60px;
+    left: 0;
+    padding-left: 125px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #ffffff;
+    z-index: 0;
+    line-height: 1.5em;
+    font-size: 24px;
+    font-weight: bold;
+    text-decoration: none;
+  }
 }
 
-.subtle-container
-{
-	margin: 0 2.5%;
+.basic-member-block {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 350px;
+  height: 90px;
+
+  .avatar {
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+
+  .main {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex: 3;
+    overflow: hidden;
+  }
+
+  .name {
+    font-size: 24px;
+    font-weight: bold;
+  }
 }
 
-.group.profile-header
-{
-	.header-block
-	{
-		z-index: 1;
-		display: flex;
-		align-items: center;
-		text-align: left;
-		width: 100%;
-		height: 100%;
+.member-stats {
+  display: flex;
+  align-items: center;
+  width: 100%;
 
-		.round-avatar
-		{
-			margin-left: 4%;
-			margin-right: 2%;
-		}
-	}
+  h3 {
+    color: #000000;
+    margin-right: 5px;
+    font-weight: 500;
+    font-size: 20px;
+  }
 
-	.profile-name-block
-	{
-		display: flex;
-		flex-direction: column;
-		color: white;
-	}
+  h4 {
+    color: #696969;
+    margin-right: 10px;
+    font-weight: 500;
+    font-size: 24px;
+  }
 
-	.privacy-block
-	{
-		display: flex;
-	}
+  .buttons {
+    display: flex;
+    margin-left: auto;
 
-	.profile-name
-	{
-		font-size: 48px;
-		font-weight: 500;
-		text-shadow: 2px 2px black;
-	}
+    > * {
+      margin: 0 8px;
+    }
 
-	.profile-privacy
-	{
-		margin: 0 20px 0 0;
-		font-size: 28px;
-		font-weight: 400;
-		text-shadow: 2px 2px black;
-	}
+    #member-search {
+      min-width: 150px;
+      min-height: 30px;
+      padding-left: 10px;
+      padding-right: 40px;
+      background-image: url('search.svg');
+      background-size: auto 65%;
+      background-repeat: no-repeat;
+      background-position: 95%;
+      border: 1px solid #696969;
+    }
+  }
 }
 
-#side-member-pane{
-	.round-avatar{
-		width: 55px;
-		height: 55px;
-		display: inline-block;
-	}
+#manage-members-container {
+  min-width: 720px;
+  max-width: 1080px;
+  margin: 0 auto;
+  align-self: flex-end;
+}
+
+.subtle-container {
+  margin: 0 2.5%;
+}
+
+.group.profile-header {
+  padding-top: 100px;
+  border-bottom: solid 2px $grey;
+
+  .profile-privacy {
+    margin: 0 20px 0 0;
+    font-size: 22px;
+    font-weight: 400;
+  }
+}
+
+.header-block {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: stretch;
+  text-align: left;
+  width: 100%;
+  padding: 20px 0;
+  height: auto;
+
+  .dark-background {
+    position: absolute;
+    width: 100%;
+    height: 50%;
+    top: 0;
+    background: $black-transparent;
+    z-index: -1;
+  }
+
+  .avatar {
+    margin-left: 4%;
+    margin-right: 2%;
+
+    img {
+      width: 150px;
+      height: 150px;
+      box-shadow: 0 3px 4px rgba(0, 0, 0, 0.42);
+    }
+  }
+}
+
+.profile-name-block {
+  display: flex;
+  flex-direction: column;
+  width: 84%; // This seems arbitrary, but is caused by the size of a typical avatar on screen.
+  padding-right: 20px;
+
+  // The type of edit that is used on groups.
+  .button {
+    float: right;
+    background: #e2e2e2;
+    color: #161616;
+    font-size: 15px;
+    padding: 8px 15px;
+    width: 150px;
+    font-weight: 600;
+
+    &.green {
+      background-color: $green;
+      color: #ffffff;
+    }
+
+    img {
+      height: 20px;
+      margin-right: 10px;
+    }
+  }
+
+  .button.manage {
+    padding-bottom: 8px;
+    font-weight: 600;
+  }
+
+  .button.leave {
+    background: #e2e2e2;
+    color: #e02837;
+    margin-left: 15px;
+  }
+}
+
+.privacy-block {
+  display: flex;
+}
+
+.profile-name {
+  color: #ffffff;
+  font-size: 36px;
+  margin-top: 10px;
+  font-weight: 600;
+  margin-bottom: 30px;
+
+  // TODO: Should likely rename profile-name to profile-section if we have a section like this.
+  .profile-name-text {
+    text-shadow: 0 3px 6px rgba(0, 0, 0, 0.46);
+    letter-spacing: 0.5px;
+    width: 50%;
+    text-overflow: ellipsis;
+    display: inline-block;
+    height: 40px;
+  }
+}
+
+#side-member-pane {
+  .round-avatar {
+    width: 55px;
+    height: 55px;
+    display: inline-block;
+  }
 }
 
 .current-header {
-	text-align: left;
-	padding: 1rem 0;
-	font-size: 1.5rem;
+  text-align: left;
+  padding: 1rem 0;
+  font-size: 1.5rem;
 }
 
-.user-with-options
-{
-	display: flex;
-	flex-direction: column;
-	width: 100%;
-	box-shadow: 0 1px 1px grey;
+.user-with-options {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  box-shadow: 0 1px 1px #808080;
 
-	.overview
-	{
-		height: 64px;
-		padding: 8px;
-		background: #efefef;
+  .overview {
+    height: 64px;
+    padding: 8px;
+    background: #efefef;
+    display: flex;
+    justify-content: space-between;
 
-		display: flex;
-		justify-content: space-between;
+    .role {
+      padding-right: 32px;
+      background-image: url('dropdown-arrow.svg');
+      background-size: auto 75%;
+      background-repeat: no-repeat;
+      background-position: 95% center;
+    }
 
-		.name-and-avatar
-		{
-			display: flex;
-			height: 100%;
-			align-items: center;
+    &:hover {
+      cursor: pointer;
+    }
+  }
 
-			.avatar
-			{
-				margin-right: 16px;
-
-				img {
-					display: block;
-					height: 60px;
-					width: 60px;
-				}
-			}
-		}
-
-		.role
-		{
-			padding-right: 32px;
-			background-image: url("dropdown-arrow.svg");
-			background-size: auto 75%;
-			background-repeat: no-repeat;
-			background-position: 95% center;
-		}
-
-		&:hover
-		{
-			cursor: pointer;
-		}
-	}
-
-	.options
-	{
-		display: flex; // starts hidden
-		justify-content: space-between;
-		padding: 8px;
-		background: #efefef;
-	}
+  .options {
+    display: flex; // starts hidden
+    justify-content: space-between;
+    padding: 8px;
+    background: #efefef;
+  }
 }
 
-#invite-members
-{
-	margin: 0 10px 0 5px;
+.name-and-avatar {
+  display: flex;
+  height: 100%;
+  align-items: center;
+
+  .avatar {
+    margin-right: 16px;
+
+    img {
+      display: block;
+      height: 60px;
+      width: 60px;
+    }
+  }
 }
 
-#group-overview-info
-{
-	*
-	{
-		text-align: left;
-	}
+#invite-members {
+  margin: 0 10px 0 5px;
+}
+
+#group-overview-info {
+  border-left: solid 2px $grey;
+
+  * {
+    text-align: left;
+  }
 }
 
 .small-activity-card {
-  padding: 5px 15px;
   margin-top: 15px;
+  padding: 5px 15px;
   display: flex;
 
   .avatar img {
-  	height: 55px;
-  	width: 55px;
+    height: 55px;
+    width: 55px;
   }
-  .user-information{
-  	flex-grow:1;
-  	margin-left: 10px;
 
-  	.user-name { font-size: 1.2rem; }
-  	.time-ago {
-  		margin-top: 30px;
-  		font-size: .7rem;
-  		color: grey;
-  	}
+  .user-information {
+    flex-grow: 1;
+    margin-left: 10px;
+
+    .user-name {
+      font-size: 1.2rem;
+    }
+
+    .time-ago {
+      margin-top: 30px;
+      font-size: 0.7rem;
+      color: #808080;
+    }
   }
-}
-
-#joinable-groups-list {
-	@extend .flex-list
 }

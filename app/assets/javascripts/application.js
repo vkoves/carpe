@@ -14,7 +14,6 @@
 //= require jquery_ujs
 //= require jquery-ui
 //= require jquery.ui.touch-punch.min
-//= require local-time
 //= require jquery.tokeninput
 //= require jsapi
 //= require chartkick
@@ -209,7 +208,7 @@ function initializeEventListeners() {
 
   // Tokenizer shenanigans for the search
   // Uses jQuery tokeninput - http://loopj.com/jquery-tokeninput/
-  $('#users-search input[type=text]').tokenInput('/search_core.json', {
+  $('#users-search input[type=text]').tokenInput('/search/all.json', {
     crossDomain: false,
     placeholder: 'Search',
     searchDelay: 0,
