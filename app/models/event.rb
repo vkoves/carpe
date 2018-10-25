@@ -2,6 +2,8 @@ require 'utilities'
 
 #An event describes a schedule item, that is a single item occuring on a person's schedule
 class Event < ApplicationRecord
+  include Utilities
+
   enum privacy: {
     public_event: 0,
     private_event: 1
@@ -10,7 +12,7 @@ class Event < ApplicationRecord
   belongs_to :user
   alias_attribute :creator, :user
 
-  belongs_to :group
+  belongs_to :group, optional: true
   belongs_to :category
   has_and_belongs_to_many :repeat_exceptions
 
