@@ -1885,7 +1885,7 @@ function editEventTitle(event, elem)
     return;
   
   // return if you cannot edit this event
-  if(!event.editable){
+  if(!scheduleItems[$(elem).parent().attr("evnt-temp-id")].editable){
     return;
   }
 
