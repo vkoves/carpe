@@ -1762,7 +1762,7 @@ function populateEvents()
 			}
 		}
 	}
-	addDrag(".col-snap .sch-evnt"); // Re-enables the events to snap onto the date columns here.
+  addDrag(".col-snap .sch-evnt:not(.uneditable)"); // Re-enables the events to snap onto the date columns here.
 
 	// Sort events in each monthly tile after they have been made
 	if(viewMode == "month")
