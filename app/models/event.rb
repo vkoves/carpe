@@ -80,6 +80,19 @@ class Event < ApplicationRecord
     self.group ? self.group : self.creator
   end
 
+  def host_event?
+    base_event_id == id
+  end
+
+  def make_host_event!
+    update(base_event_id: id)
+
+    # owners of a hosted event are explicitly invited to their
+    # own event.
+    EventInvite.create(sender: creator, user: creator,
+                       event: self, role: :host)
+  end
+
   ##########################
   ##### HELPER METHODS #####
   ##########################

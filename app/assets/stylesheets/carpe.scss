@@ -356,7 +356,7 @@ input.danger:hover {
   width: 35px;
 }
 
-.google-width span {
+.google-width {
   width: 174px;
   margin-left: auto;
   margin-right: auto;
@@ -432,13 +432,13 @@ input.danger:hover {
   }
 }
 
-// TO BE SORTED
 .user-entry {
   width: 95%;
   border-radius: 5px;
   border: solid 2px #cecece;
   text-align: left;
   margin: 15px auto;
+  background: #ffffff;
 
   ul {
     padding: 0;

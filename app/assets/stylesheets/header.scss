@@ -226,7 +226,7 @@ body {
 // TODO: Make this a child of the main header
 #notif-panel {
   position: fixed;
-  width: 350px;
+  width: 400px;
   top: $header-height-desktop;
   right: 15px;
   background: #e6e6e6;
@@ -236,12 +236,12 @@ body {
   color: #6a6a6a;
 
   .notif {
+    width: 100%;
     padding: 3px 0;
     margin: 5px 0;
-    height: 34px;
   }
 
-  span {
+  .message {
     float: left;
     font-size: 18px;
     position: relative;
@@ -280,11 +280,11 @@ body {
     background-size: 60%;
     background-position: 50%;
   }
+}
 
-  #no-notifs {
-    font-size: 16px;
-    padding: 15px;
-  }
+#no-notifs {
+  font-size: 16px;
+  padding: 15px;
 }
 
 .notif .avatar {
@@ -299,6 +299,38 @@ body {
     border-width: 2px;
   }
 }
+
+.event-invite.notif {
+  .context {
+    display: flex;
+    align-items: center;
+  }
+
+  .choices {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+}
+
+// fancy button colors
+.event-invite.notif {
+  // prevent :hover trigger on whitespace
+  .choices {
+    visibility: hidden;
+  }
+
+  // gray out non-hovered buttons
+  .choices:hover span:not(:hover) {
+    background: #808080;
+  }
+
+  .choices span {
+    transition: background 200ms linear;
+    visibility: visible; // buttons trigger .choices(:hover)
+  }
+}
+
 
 #users-search {
   display: inline-block;

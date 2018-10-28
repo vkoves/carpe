@@ -418,6 +418,10 @@ input[readonly='readonly'] {
   width: 60px;
 }
 
+.token-input-dropdown {
+  z-index: 1001;
+}
+
 .sch-but-holder {
   margin-bottom: 15px;
   padding: 0 5px;
@@ -786,6 +790,42 @@ input[readonly='readonly'] {
   .no-categories {
     display: none;
   }
+}
+
+#event-invites-list {
+  min-height: 50px;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+  display: inline-block;
+  background: #f8f8ff;
+}
+
+#event-invites-list .event-invite {
+  height: 48px;
+  margin: 5px 0;
+  padding: 0 8px;
+  display: flex;
+  justify-content: space-between;
+
+  > div {
+    display: flex;
+    align-items: center;
+	}
+}
+
+.event-invite .actions * {
+  margin-left: 8px;
+}
+
+#event-invites-panel .avatar {
+  margin-right: 8px;
+  display: inline-flex;
+
+  img {
+    width: 40px;
+    height: 40px;
+	}
 }
 
 // -----------------------------------
