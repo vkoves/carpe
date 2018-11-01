@@ -18,14 +18,13 @@ AllCops:
 Style/FrozenStringLiteralComment:
   Enabled: false
 
-# This is just a bad rule. Prefer double quoted strings.
+# Double quotes allow for string interpolation
 StringLiterals:
-  Enabled: false
+  EnforcedStyle: double_quotes
 
-# Prefer [:a, :b, :c] over %i(a b c)
-# Ruby's % operators are too obscure to require this as a rule.
+# Ruby's % operators are too obscure, prefer standard array syntax.
 Style/SymbolArray:
-  Enabled: false
+  EnforcedStyle: brackets
 
 # Requiring every class to have a comment is over-bearing.
 # Unmaintained and/or bad documentation is worse than none at all.
