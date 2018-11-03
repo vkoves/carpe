@@ -15,7 +15,7 @@ simple:
   name: Simple Event
   description: Description
   date: 2015-11-16 02:12:19
-  end_date: 2015-11-16 02:12:19
+  end_date: 2015-11-16 03:12:19
   repeat: none
   repeat_start: null
   repeat_end: null

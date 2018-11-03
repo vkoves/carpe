@@ -8,7 +8,7 @@ class GroupsController < ApplicationController
                             .eager_load(:users).references(:users_groups)
 
 
-    paginate(@joinable_groups, "big_group_card")
+    paginate(@joinable_groups, "large_group_card")
   end
 
   def show
@@ -121,21 +121,6 @@ class GroupsController < ApplicationController
     end
 
     redirect_to groups_path
-  end
-
-  def invite_users_search
-    query = params[:q]
-    render json: {} and return if query.blank?
-
-    group = Group.find(params[:id])
-    matched_users = User.where('name LIKE ?', "%#{query}%")
-                      .where.not(id: group.members).limit(10)
-
-    users_json = matched_users.map do |user|
-      { id: user.id, name: user.name, image_url: user.avatar_url(50) }
-    end
-
-    render json: users_json
   end
 
   protected

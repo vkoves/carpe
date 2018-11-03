@@ -202,8 +202,7 @@ class UserTest < ActiveSupport::TestCase
     @viktor.avatar = sample_file("sample_avatar.jpg")
     @viktor.save!
 
-    assert_includes @viktor.avatar_url(30), "sample_avatar", "avatar thumbnails don't work"
-    assert_includes @viktor.avatar_url(200), "sample_avatar", "avatar photos don't work"
+    assert_includes @viktor.avatar_url, "sample_avatar"
   end
 
   test "provider_name formats provider names as expected" do
@@ -226,23 +225,6 @@ class UserTest < ActiveSupport::TestCase
 
     @putin.follow(@norm) # norm has a private profile
     assert "pending", @putin.follow_status(@norm)
-  end
-
-  test "rank sorts users properly" do
-    users = [users(:donald1), users(:donald2), users(:donald3)] # the correct order of users
-    shuffled_users = users.shuffle # create random list of these users, always should have same order
-    assert_equal User.rank(users, "donald"), users
-  end
-
-  test "convert_to_json doesn't return IP fields" do
-    users(:viktor).current_sign_in_ip = "192.168.1.1" # set sign in IP on user
-    users(:viktor).encrypted_password = "EnCryptedPassword" # set encrypted password on user
-
-    assert_not_nil users(:viktor).current_sign_in_ip, "test user should have a sign in IP"
-    assert_not_empty users(:viktor).encrypted_password, "test user should have an encrypted password"
-
-    assert_nil users(:viktor).convert_to_json["current_sign_in_ip"], "convert_to_json should not contain sign in IP"
-    assert_nil users(:viktor).convert_to_json["encrypted_password"], "convert_to_json should not contain encrypted_password"
   end
 
   test "next_event shouldn't return past events" do

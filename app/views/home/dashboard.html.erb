@@ -6,7 +6,7 @@
 	<span class="greet-text carpe-color">
 		Greetings, <%= current_user.name.split(" ")[0] %>!
 		<span class="current-time">
-			Updated <%= local_time(Time.now, "%l:%M %p") %>
+			Updated <%= time_tag Time.current, Time.current.strftime("%-l:%M %p") %>
 		</span>
 		<div class="greet-subt">
 			Check out the new sidebar, a quick way to know if your connections are free or not.<br>

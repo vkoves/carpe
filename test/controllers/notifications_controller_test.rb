@@ -1,18 +1,21 @@
 require 'test_helper'
 
-class NotificationsControllerTest < ActionController::TestCase
-  include Devise::Test::ControllerHelpers
+class NotificationsControllerTest < ActionDispatch::IntegrationTest
+  include Devise::Test::IntegrationHelpers
 
   def setup
     @viktor, @norm = users(:viktor, :norm)
   end
 
   test "read_all works" do
-    @viktor.follow(@norm)
+    sign_in @viktor
+    post relationships_path(followed_id: @norm.id)
+    sign_out @viktor
+
     sign_in @norm
 
-    assert_equal 1, @norm.notifications.unread.count
-    post :read
-    assert_equal 0, @norm.notifications.unread.count
+    assert_not_empty @norm.notifications.unread
+    post read_notifications_path
+    assert_empty @norm.notifications.unread
   end
 end

@@ -1,34 +1,37 @@
 <%= stylesheet_link_tag "groups" %>
 <%= javascript_include_tag "groups/index" %>
-
-<div id="body">
-  <aside class="shaded sidebar">
-    <h2>Groups You Belong To</h2>
-    <% if current_user.groups.empty? %>
-      <h4> You don't belong to any groups! Join a group and it will show up here. </h4>
-    <% else %>
+<div class="page-container">
+  <h2 class="group-heading flex-text-img left-align">
+    <%= image_tag "person-one.svg", alt: "" %>
+    Your Groups
+  </h2>
+  <% if current_user.groups.empty? %>
+    <p class="left-align">
+      You don't belong to any groups! Join a group and it will show up here.
+    </p>
+  <% else %>
+    <div class="two-col-card-cont">
       <%= render partial: "small_group_card", collection: current_user.groups, as: :group %>
-    <% end %>
-  </aside>
+    </div>
+  <% end %>
 
-  <main class="content">
-    <div id="groups-list-header">
-      <div id="header-info">
-        <div id="groups-title">
-          <h2>Groups</h2>
-        </div>
-        <%= link_to "+ Create Group", new_group_path, class: "large green button" %>
-      </div>
-
-      <p>The groups listed below are all public. Check your notifications for private group invitations.</p>
+  <div id="groups-list-header">
+    <div id="header-info" class="group-heading">
+      <h2 class="flex-text-img left-align">
+        <%= image_tag "globe.svg", alt: "" %>
+        Public Groups
+      </h2>
+      <%= link_to "+ Create Group", new_group_path, class: "large green button" %>
     </div>
 
-    <% if @joinable_groups %>
-      <main id="joinable-groups-list">
-        <%= render partial: "big_group_card", collection: @joinable_groups %>
-      </main>
-    <% else %>
-      <h4> There are no public groups you don't belong to on Carpe, but that means you can make one! Create a public group and all Carpe users will see it here. </h4>
-    <% end %>
-  </main>
+    <p>The groups listed below are all public. Check your notifications for private group invitations.</p>
+  </div>
+
+  <% if @joinable_groups.any? %>
+    <div id="joinable-groups-list" class="two-col-card-cont">
+        <%= render partial: "large_group_card", collection: @joinable_groups %>
+    </div>
+  <% else %>
+    <h4> There are no public groups you don't belong to on Carpe, but that means you can make one! Create a public group and all Carpe users will see it here. </h4>
+  <% end %>
 </div>

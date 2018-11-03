@@ -8,6 +8,20 @@ class EventsController < ApplicationController
     render plain: "Event deleted."
   end
 
+  def setup_hosting
+    event = Event.find(params[:id])
+
+    unless event.host_event?
+      event_invite = event.make_host_event!
+
+      # for demonstration purposes
+      Notification.create(sender: current_user, receiver: current_user,
+                          event: :event_invite, entity: event_invite)
+    end
+
+    render EventInvite.where(event: event)
+  end
+
   private
 
   def create_params

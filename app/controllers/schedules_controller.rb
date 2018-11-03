@@ -52,7 +52,7 @@ class SchedulesController < ApplicationController
 
 
       authorize! :create, evnt
-      evnt.save
+      evnt.save!
 
       if obj["eventId"].blank? # if this is not an existing event
         new_event_ids[obj["tempId"]] = evnt.id
