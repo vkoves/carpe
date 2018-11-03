@@ -1,11 +1,32 @@
+<style>
+  .btn-cont { display: flex; }
+  .btn {
+    display: block;
+    padding: 10px 15px;
+    background: gainsboro;
+    color: black;
+    text-decoration: none;
+    border: solid 1px grey;
+  }
+  .btn:not(:first-of-type) { border-left: none; }
+  .btn.-red { background: #eb0000; color: #fff;}
+  .btn.-yellow { background: yellow; }
+  .btn.-green { background: #036d03; color: #fff; }
+</style>
+
 <tr>
   <td>
     <p>
       <h1>You have been invited to <%= @event_invite.event.name %>!</h1>
 
       <p>
-        <%= @event_invite.sender.name %> invited you to this event. Go to
-        <a href="https://carpe.us" class="complement-blue">Carpe</a> to respond to their invite!
+        <%= @event_invite.sender.name %> invited you to this event.
+
+        <div class="btn-cont">
+          <a class="btn -red" href="#accept">Accept</a>
+          <a class="btn -yellow" href="#maybe">Maybe</a>
+          <a class="btn -green" href="#decline">Decline</a>
+        </div>
       </p>
     </p>
   </td>
