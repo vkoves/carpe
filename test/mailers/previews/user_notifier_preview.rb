@@ -6,6 +6,8 @@ class UserNotifierPreview < ActionMailer::Preview
   end
 
   def event_invite_email
-    UserNotifier.event_invite_email(User.first)
+    invite = EventInvite.first
+
+    UserNotifier.event_invite_email(invite.user, invite)
   end
 end

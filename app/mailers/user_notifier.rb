@@ -10,7 +10,7 @@ class UserNotifier < ApplicationMailer
   end
 
   # Send an email about an event invite
-  def event_invite_email(user)
+  def event_invite_email(user, event_invite)
     @user = user
     mail(:to => @user.email, :subject => 'You Have Been Invited to an Event!')
   end
