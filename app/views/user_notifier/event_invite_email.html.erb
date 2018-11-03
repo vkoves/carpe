@@ -1,7 +1,12 @@
 <tr>
   <td>
     <p>
-      Event Invites Test
+      <h1>You have been invited to <%= @event_invite.event.name %>!</h1>
+
+      <p>
+        <%= @event_invite.sender.name %> invited you to this event. Go to
+        <a href="https://carpe.us" class="complement-blue">Carpe</a> to respond to their invite!
+      </p>
     </p>
   </td>
 </tr>
