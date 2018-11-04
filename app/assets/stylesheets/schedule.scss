@@ -311,7 +311,7 @@
 		text-align:left;
 		border-radius: 5px;
 	}
-	#overlay-title:focus, #overlay-title:hover
+	#overlay-title:focus, #overlay-title:not([contenteditable="false"]):hover
 	{
 		background: rgba(150, 150, 150, 0.33);
 	}
