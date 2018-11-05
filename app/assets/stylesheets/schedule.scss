@@ -42,27 +42,43 @@
 		text-align:right;
 		color:rgb(100,100,100);
 	}
-	#side-desc
-	{
-		font-size: 15px;
-		color: grey;
-	}
-	.cat-add
+	.cat-add.main
 	{
 		background-color: #CFCFCF;
-		left:0%;
-		right:0%;
 		width:100%;
-		font-size:17px;
-		opacity:0.9;
-		height:24px;
-		bottom:0px;
-		position:absolute;
+		padding: 5px 0px;
+		font-size: 16px;
 		cursor: pointer;
+		border: none;
+		color: $text-color;
+		transition: all 0.2s;
+
+		&:hover {
+			color: #fff;
+			background-color: $light-orange;
+		}
 	}
-	.cat-add:hover
-	{
-		background-color:rgb(255,220,200);
+	.no-categories {
+		height: 450px;
+		opacity: 1;
+		transition: all 0.5s;
+
+		&.hidden {
+			opacity: 0;
+			height: 0;
+		}
+		&.no-anim { transition: none; }
+		img { margin-top: 100px;}
+		.heading {
+			font-weight: 600;
+			font-size: 18px;
+			color: $carpe-orange;
+			margin-bottom: 10px;
+		}
+		.sub-heading {
+			font-size: 16px;
+			margin-bottom: 10px;
+		}
 	}
 	#sch-tiles
 	{
@@ -773,8 +789,8 @@ input[readonly="readonly"]
 	{
 		cursor: default !important;
 	}
-	/* Hide "Add Category" button */
-	.cat-add
+	/* Hide "Add Category" button & no categories placeholder */
+	.cat-add.main, .no-categories
 	{
 		display: none;
 	}
@@ -784,9 +800,9 @@ input[readonly="readonly"]
   display: none !important;
 }
 
-/***************************/
-/** MONTHLY VIEW STYLING ***/
-/***************************/
+// -----------------------------------
+// MONTHLY VIEW STYLING
+// -----------------------------------
 
 #sch-monthly-view
 {
@@ -940,9 +956,9 @@ input[readonly="readonly"]
 	cursor: default;
 }
 
-/***************************/
-/***** END MONTHLY VIEW ****/
-/***************************/
+// -----------------------------------
+// END MONTHLY VIEW
+// -----------------------------------
 
 
 /* END SCHEDULE STYLING */

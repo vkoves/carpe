@@ -6,13 +6,10 @@
     "node": "8"
   },
   "scripts": {
-    "postinstall": "run-s -ns global-installs selenium-setup",
-    "global-installs": "npm install -g codeceptjs-webdriverio selenium-standalone",
-    "selenium-setup": "selenium-standalone install",
     "jsdoc": "jsdoc app/assets/javascripts -d public/jsdoc-out -r README.md",
-    "acceptance-tests": "node run-codeceptjs-with-server.js",
-    "teaspoon": "bundle exec teaspoon --coverage=default",
-    "minitest": "bundle exec rails test"
+    "teaspoon": "RAILS_ENV=test bundle exec teaspoon --coverage=default",
+    "eslint": "eslint app/assets/javascripts spec/javascripts || true",
+    "eslint-fix": "eslint app/assets/javascripts spec/javascripts --fix || true"
   },
   "repository": {
     "type": "git",
@@ -24,13 +21,7 @@
   },
   "homepage": "https://github.com/vkoves/Carpe#readme",
   "devDependencies": {
-    "codeceptjs-webdriverio": "^1.1.0",
     "istanbul": "^0.4.5",
-    "jsdoc": "^3.5.5",
-    "mochawesome": "^2.3.1",
-    "npm-run-all": "^4.1.2",
-    "phantomjs-prebuilt": "^2.1.15",
-    "tree-kill": "^1.2.0",
-    "tcp-ping": "^0.1.1"
+    "jsdoc": "^3.5.5"
   }
 }

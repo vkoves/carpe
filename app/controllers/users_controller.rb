@@ -18,8 +18,8 @@ class UsersController < ApplicationController
       redirect_to user_path(@user), status: :moved_permanently
     end
 
-    @current_page = params[:page]&.to_sym || :schedule
-    case @current_page
+    @view = params[:page]&.to_sym || :schedule
+    case @view
     when :activity
       @page_view = "activity"
       @activity = @user.following_relationships + @user.followers_relationships

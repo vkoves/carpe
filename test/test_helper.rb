@@ -22,3 +22,52 @@ class ActiveSupport::TestCase
     File.new("#{Rails.root}/test/fixtures/files/#{filename}")
   end
 end
+
+# Capybara documentation:
+# https://github.com/teamcapybara/capybara
+#
+# Capybara cheat sheet:
+# https://gist.github.com/zhengjia/428105
+#
+# Capybara mini-test assertions documentation:
+# https://www.rubydoc.info/gems/capybara/Capybara/Minitest/Assertions
+class ActionDispatch::SystemTestCase
+  def sign_in(email, password)
+    visit new_user_session_path
+
+    within 'form' do
+      fill_in 'Email', with: email
+      fill_in 'Password', with: password
+      click_on 'Sign In'
+    end
+  end
+
+  # Clicks an element with the given text (as opposed to a css selector)
+  # in the current scope
+  def click_text(text)
+    find(:xpath, ".//*[contains(text(), '#{text}')]").click
+  end
+
+  # Similar to fill_in, but works with contenteditable and triggers javascript
+  #
+  # Note: It takes a moment for the cursor to register when clicking input.
+  # Unfortunately, there isn't any event to hook into, so waiting a little bit
+  # is an easy solution.
+  def type(text, into:)
+    node = find(into)
+
+    node.click
+    sleep 0.1 # wait 100 milliseconds
+    node.send_keys(text)
+  end
+
+  # Overrides the default capybara `click` that only works for buttons and anchors.
+  # This one works with any tag and also accepts nodes.
+  def click(selector)
+    if selector.is_a? String
+      find(selector).click
+    else
+      selector.click
+    end
+  end
+end

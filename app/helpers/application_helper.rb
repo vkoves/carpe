@@ -130,7 +130,7 @@ module ApplicationHelper
   # Adds :size parameter to html_options. This is the size of the image
   # being requested.
   def link_avatar(options, html_options = {})
-    html_options.merge!(class: " round-avatar") { |_, old, new| old + new }
+    html_options.merge!(class: " avatar") { |_, old, new| old + new }
     url = options.avatar_url(html_options[:size] || 256)
 
     link_to options, html_options do

@@ -1,7 +1,8 @@
 // Teaspoon includes some support files, but you can use anything from your own support path too.
 // require support/expect
-// require support/sinon
+//= require support/sinon
 //= require support/chai
+//= require support/sinon-chai
 // require support/chai-jq-0.0.7
 // require support/your-support-file
 //
@@ -12,7 +13,6 @@
 // You can require your own javascript files here. By default this will include everything in application, however you
 // may get better load performance if you require the specific files that are being used in the spec that tests them.
 //= require application
-//= require schedule
 //
 // Deferring execution
 // If you're using CommonJS, RequireJS or some other asynchronous library you can defer execution. Call
@@ -42,12 +42,4 @@
 
 // For help, see Mocha's Getting Started: https://mochajs.org/#getting-started
 
-window.assert = chai.assert; // add assert from Chai
-
-describe('UI Manager', function() {
-	it('should show overlay', function()
-	{
-		UIManager.showOverlay();
-		assert.equal($(".ui-widget-overlay:visible").length, 1);
-	});
-});
+window.expect = chai.expect; // add expect from Chai
