@@ -52,11 +52,9 @@ To auto-fix issues that ESLint can fix, run:
 npm run eslint-fix
 ```
 
-### Ruby on Rails (RubyCritic)
+### Ruby
 
-At the moment, Carpe uses [Ruby Critic](https://github.com/whitesmith/rubycritic) for code quality checking.
-
-To run Ruby Critic, run `rubycritic` in the Carpe directory.
+Carpe's Ruby code is linted with [RuboCop](https://github.com/rubocop-hq/rubocop). Run it by entering `rubocop` in command line.
 
 ## JSDoc
 
