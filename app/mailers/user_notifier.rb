@@ -13,6 +13,8 @@ class UserNotifier < ApplicationMailer
   def event_invite_email(user, event_invite)
     @user = user
     @event_invite = event_invite
+    @event = event_invite.event
+    @date_format = "%b. %d, %Y %l:%M %p"
     mail(:to => @user.email, :subject => 'You Have Been Invited to an Event!')
   end
 end

@@ -20,10 +20,27 @@
 <tr>
   <td>
     <p>
-      <h1>You have been invited to <%= @event_invite.event.name %>!</h1>
+      <h1>You have been invited to <%= @event.name %>!</h1>
 
       <p>
-        <%= @event_invite.sender.name %> invited you to this event.
+        <strong><%= @event_invite.sender.name %></strong> invited you to this event.
+
+        <p>
+          <strong>Description: </strong>
+          <%= @event.description %>
+        </p>
+
+        <p>
+          <strong>Location: </strong>
+          <%= @event.location %>
+        </p>
+
+        <p>
+          <strong>From: </strong>
+          <%= @event.date.strftime(@date_format) %> to
+          <%= @event.end_date.strftime(@date_format) %>
+        </p>
+
 
         <div class="btn-cont">
           <a class="btn -red" href="#accept">Going</a>
