@@ -1152,6 +1152,7 @@ function addResizing(selector) {
         resize: function(event, ui) {
           updateTime($(this), ui, true);
         },
+        // eslint-disable-next-line
         stop: function(event, ui) {
           var tempItem = scheduleItems[$(this).attr('evnt-temp-id')];
           tempItem.resizeComplete($(this));
@@ -1213,7 +1214,7 @@ function handlePosition(elem, ui) {
  * @param  {Object}   ui - UI object from jQuery drag handler
  * @returns {undefined}
  */
-function handleClone(elem, ui) {
+function handleClone(elem, ui) { // eslint-disable-line
   var clone = $(ui.helper).clone(); // create a clone
   $(elem).parent().append(clone);
   clone.css('opacity', '1'); // set the clone to be fully opaque, as it'll be 0.7 opacity by default from dragging
@@ -1551,7 +1552,7 @@ function populateEvents() {
    * @param {number} visibleDate - the index of the date the event falls on in the currently visible dates
    * @returns {undefined}
    */
-  function place(eventObject, visibleDate) {
+  function place(eventObject, visibleDate) {// eslint-disable-line
     var color = categories[eventObject.categoryId].color;
     var currentElem = eventObject.tempElement.clone();
 
@@ -1704,7 +1705,7 @@ function populateEvents() {
     /** Make each monthly event dragable (e.g. sidebar)  
      * @returns {undefined}
      */
-    function monthlyEventDraggable() {
+    function monthlyEventDraggable() { // eslint-disable-line
       $('.sch-month-evnt').draggable(
         {
           containment: '#sch-holder',
@@ -1747,7 +1748,7 @@ function populateEvents() {
     /** Make each monthly event dropable into the schedule (e.g. moving sidebar event into schedule) 
      * @returns {undefined}
      */
-    function monthlyTileDroppable() {
+    function monthlyTileDroppable() { // eslint-disable-line
       $('.sch-day-tile').droppable(
         {
           drop: function( event, ui ) { // called when event is dropped on a new column (not called on moving it in the column)
@@ -1755,9 +1756,11 @@ function populateEvents() {
             element.attr('data-date', $(this).attr('data-date'));
             $(this).removeClass('over'); // dehighlight on drop
           },
+          // eslint-disable-next-line
           over: function( event, ui ) {
             $(this).addClass('over'); // highlight
           },
+          // eslint-disable-next-line
           out: function( event, ui ) {
             $(this).removeClass('over'); // unhighlight
           }
