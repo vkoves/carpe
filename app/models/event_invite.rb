@@ -27,4 +27,10 @@ class EventInvite < ApplicationRecord
       "#{invite.user.name} has already been invited."
     }
   }
+
+  after_create :send_invite_email
+
+  def send_invite_email
+    UserNotifier.event_invite_email(self.user, self).deliver_now
+  end
 end
