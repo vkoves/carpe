@@ -1,0 +1,5 @@
+# Simple default event invite
+simple:
+  user: norm
+  sender: viktor
+  event: simple
