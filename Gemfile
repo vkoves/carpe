@@ -42,8 +42,8 @@ gem 'rubycritic', :require => false, group: :development
 # Use chartkick to make graphs using the Google Graph API
 gem 'chartkick', '~> 2.2'
 
-# Roadie, used for styling emails nicely
-gem 'roadie', '~> 3.2'
+# Premiler, used for styling emails nicely by inlining styles
+gem 'premailer-rails'
 
 # Use rack-mini-profiler for investigating site speed (https://github.com/MiniProfiler/rack-mini-profiler)
 gem 'rack-mini-profiler', group: [:development, :production]

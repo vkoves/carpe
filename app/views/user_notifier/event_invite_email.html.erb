@@ -1,0 +1,53 @@
+<style>
+  .btn-cont { display: flex; }
+  .btn {
+    display: block;
+    width: 80px;
+    padding: 10px 15px;
+    margin-right: 10px;
+    background: #f7f7f7;
+    color: #2d2d2d;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    border: solid 1px #bfbfbf;
+  }
+  .btn:hover {
+    background: #e2e2e2;
+  }
+</style>
+
+<tr>
+  <td>
+    <p>
+      <h1>You have been invited to <%= @event.name %>!</h1>
+
+      <p>
+        <strong><%= @event_invite.sender.name %></strong> invited you to this event.
+
+        <p>
+          <strong>Description: </strong>
+          <%= @event.description %>
+        </p>
+
+        <p>
+          <strong>Location: </strong>
+          <%= @event.location %>
+        </p>
+
+        <p>
+          <strong>From: </strong>
+          <%= @event.date.strftime(@date_format) %> to
+          <%= @event.end_date.strftime(@date_format) %>
+        </p>
+
+
+        <div class="btn-cont">
+          <a class="btn -red" href="#accept">Going</a>
+          <a class="btn -yellow" href="#maybe">Maybe</a>
+          <a class="btn -green" href="#decline">Decline</a>
+        </div>
+      </p>
+    </p>
+  </td>
+</tr>
