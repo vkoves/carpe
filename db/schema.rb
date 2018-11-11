@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_14_143025) do
+ActiveRecord::Schema.define(version: 2018_11_11_220005) do
 
   create_table "categories", force: :cascade do |t|
     t.string "name"
@@ -39,9 +39,11 @@ ActiveRecord::Schema.define(version: 2018_09_14_143025) do
     t.integer "event_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "token"
     t.index ["event_id", "user_id"], name: "index_event_invites_on_event_id_and_user_id", unique: true
     t.index ["event_id"], name: "index_event_invites_on_event_id"
     t.index ["sender_id"], name: "index_event_invites_on_sender_id"
+    t.index ["token"], name: "index_event_invites_on_token", unique: true
     t.index ["user_id"], name: "index_event_invites_on_user_id"
   end
 

@@ -1,4 +1,8 @@
 class EventInvite < ApplicationRecord
+  # Makes EventInvites have a token via ActiveRecord::SecureToken. Learn more:
+  # https://blog.bigbinary.com/2016/03/23/has-secure-token-to-generate-unique-random-token-in-rails-5.html
+  has_secure_token
+
   enum status: {
     accepted: 0,
     declined: 1,

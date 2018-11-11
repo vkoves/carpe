@@ -3,3 +3,4 @@ simple:
   user: norm
   sender: viktor
   event: simple
+  token: 'some-nice-token'
