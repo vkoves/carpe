@@ -917,6 +917,7 @@ function loadInitialEvents() {
       schItem.location = evnt.location;
       schItem.breaks = evnt.repeat_exceptions.map(function(brk) { return brk.id; });
       schItem.tempId = i;
+      schItem.editable = evnt.editable;
       scheduleItems[i] = schItem;
 
       var catParent = $('#sch-tiles .sch-evnt[data-id=\'' + evnt.category_id + '\']'); // fetch the category
