@@ -34,11 +34,11 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "the user path of users with a custom url should be their custom url" do
-    assert_match /.*viktor/, user_path(@viktor)
+    assert_match(/.*viktor/, user_path(@viktor))
   end
 
   test "the user path of users without a custom url should be their user id" do
-    assert_match /.*2/, user_path(@norm)
+    assert_match(/.*2/, user_path(@norm))
   end
 
   test "routes to a user's id should redirect to their custom url when present" do

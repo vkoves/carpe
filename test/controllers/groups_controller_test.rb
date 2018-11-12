@@ -282,12 +282,12 @@ class GroupsControllerTest < ActionController::TestCase
   end
 
   test "the group path of groups with a custom url should be their custom url" do
-    assert_match /.*HOOPLA/, group_path(groups(:customUrlGroup))
+    assert_match(/.*HOOPLA/, group_path(groups(:customUrlGroup)))
   end
 
   test "the group path of groups without a custom url should be their group id" do
     id = groups(:publicGroup).id
-    assert_match /.*#{id}/, group_path(groups(:publicGroup))
+    assert_match(/.*#{id}/, group_path(groups(:publicGroup)))
   end
 
   test "routes to a groups's id should redirect to their custom url when present" do
