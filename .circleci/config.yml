@@ -67,10 +67,3 @@ jobs:
             bundle exec rails test
             bundle exec teaspoon
             bundle exec rails test:system
-
-      # collect reports
-      - store_test_results:
-          path: /tmp/test-results
-      - store_artifacts:
-          path: /tmp/test-results
-          destination: test-results
