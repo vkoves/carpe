@@ -30,3 +30,7 @@ Style/SymbolArray:
 # Unmaintained and/or bad documentation is worse than none at all.
 Style/Documentation:
   Enabled: false
+
+# This is just hard to do, and will take a lot of refactoring. Disabling for now
+Metrics/LineLength:
+  Enabled: false
