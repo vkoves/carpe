@@ -56,6 +56,7 @@ npm run eslint-fix
 
 Carpe's Ruby code is linted with [RuboCop](https://github.com/rubocop-hq/rubocop).
 Run it by entering `rubocop` in command line, or to auto-fix, run `rubocop --fix`.
+To see offense counts broken down by file, run `rubocop --format worst`.
 
 ## JSDoc
 
