@@ -4,7 +4,7 @@
 # To run this test, in the project directory run the command:
 # bundle exec rails test test/models/event_test.rb
 
-require 'test_helper'
+require "test_helper"
 
 class EventTest < ActiveSupport::TestCase
   def setup
@@ -102,10 +102,10 @@ class EventTest < ActiveSupport::TestCase
   # March 12, 2017 at 2:00am - November 5, 2:00am, Chicago is in Daylight Savings Time (DST).
   # When Chicago is in DST its clock "moves ahead 1 hour".
   test "you understand how daylight savings works" do
-    user_time_zone = Time.find_zone('America/Chicago')
+    user_time_zone = Time.find_zone("America/Chicago")
 
     # typically we're given a time from a user and store it in the database in UTC time.
-    time_before_dst = user_time_zone.parse('1st March 2018 4:00:00 PM').utc
+    time_before_dst = user_time_zone.parse("1st March 2018 4:00:00 PM").utc
     assert_equal "10:00 PM", time_before_dst.strftime("%I:%M %p") # CST -> UTC offset is +6 hours
 
     # Now, UTC doesn't care about DST. If we go from CST to DST, it doesn't care.
@@ -132,8 +132,8 @@ class EventTest < ActiveSupport::TestCase
 
   # see DST EXPLAINED
   test "events_in_range_fixed_timestep preserves event time across DST" do
-    zone = Time.find_zone('America/Chicago')
-    @daily.date = zone.parse('12th Mar 2017 01:00:00 AM') # event occurs before DST
+    zone = Time.find_zone("America/Chicago")
+    @daily.date = zone.parse("12th Mar 2017 01:00:00 AM") # event occurs before DST
     @daily.end_date = @daily.date + 1.hour
 
     # get events before and after DST goes into effect
@@ -145,10 +145,10 @@ class EventTest < ActiveSupport::TestCase
 
   # see DST EXPLAINED
   test "dates_in_range_certain_weekdays preserves event time across DST" do
-    zone = Time.find_zone('America/Chicago')
+    zone = Time.find_zone("America/Chicago")
 
     event = events(:current_event_1)
-    event.date = zone.parse('1st March 2018 7:00:00 PM') # event created before DST
+    event.date = zone.parse("1st March 2018 7:00:00 PM") # event created before DST
     event.end_date = event.date + 2.hour
     event.repeat = "certain_days-1" # repeat every monday
 

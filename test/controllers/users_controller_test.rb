@@ -4,7 +4,7 @@
 # To run this test, in the project directory run the command:
 # bundle exec rails test test/controllers/users_controller_test.rb
 
-require 'test_helper'
+require "test_helper"
 
 class UsersControllerTest < ActionController::TestCase
   include Devise::Test::ControllerHelpers
@@ -14,7 +14,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "should route to user" do # test if the users route is working properly
-    assert_routing '/users/1', controller: "users", action: "show", id: "1"
+    assert_routing "/users/1", controller: "users", action: "show", id: "1"
   end
 
   test "signed in user should be able to view other user" do
@@ -102,14 +102,14 @@ class UsersControllerTest < ActionController::TestCase
 
   test "only admins (or the account owner) can delete users" do
     sign_in @norm
-    assert_no_difference 'User.count' do
+    assert_no_difference "User.count" do
       delete :destroy, params: { id: @viktor }
     end
 
     sign_out @norm
 
     sign_in @viktor
-    assert_difference 'User.count', -1 do
+    assert_difference "User.count", -1 do
       delete :destroy, params: { id: @norm }
     end
   end

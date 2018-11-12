@@ -1,6 +1,6 @@
 # Teaspoon doesn't allow you to pass client driver options to the Selenium WebDriver. This monkey patch
 # is a temporary fix until this PR is merged: https://github.com/jejacks0n/teaspoon/pull/519.
-require 'teaspoon/driver/selenium'
+require "teaspoon/driver/selenium"
 
 Teaspoon::Driver::Selenium.class_eval do
   def run_specs(runner, url)
@@ -21,7 +21,7 @@ Teaspoon::Driver::Selenium.class_eval do
       done
     end
   ensure
-    driver.quit if driver
+    driver&.quit
   end
 end
 
@@ -138,7 +138,7 @@ Teaspoon.configure do |config|
   config.driver_options = {
     client_driver: :chrome,
     options: Selenium::WebDriver::Chrome::Options.new(
-      args: ['headless', 'no-sandbox', 'disable-dev-shm-usage', 'remote-debugging-port=9222']
+      args: ["headless", "no-sandbox", "disable-dev-shm-usage", "remote-debugging-port=9222"]
     )
   }
 

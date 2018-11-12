@@ -1,4 +1,4 @@
-require 'tasky'
+require "tasky"
 
 class PagesController < ApplicationController
   before_action :authorize_admin!, only: [:admin, :sandbox]
@@ -25,14 +25,14 @@ class PagesController < ApplicationController
           when "run-rails-unit-tests"    then "rails test RAILS_ENV=test"
           end
 
-    task_id = Tasky::run cmd
+    task_id = Tasky.run cmd
     render json: params.merge(task_id: task_id)
   rescue Tasky::CommandError => e
     render json: params.merge(cmd_error: e.inspect)
   end
 
   def check_if_command_is_finished
-    task = Tasky::fetch_task params[:task_id]
+    task = Tasky.fetch_task params[:task_id]
 
     if task.finished?
       render json: { log: (task.success? ? "SUCCESS" : task.error_log) }

@@ -6,21 +6,21 @@ class Relationship < ApplicationRecord
   # Confirm this relationship
   def confirm
     self.confirmed = true
-    self.save
+    save
   end
 
   # Deny this relationship
   def deny
     self.confirmed = false
-    self.save
+    save
   end
 
   # Given a user, return the user that is not them. Useful for activity
   def other_user(user)
     if follower == user
-      return followed
+      followed
     else
-      return follower
+      follower
     end
   end
 end

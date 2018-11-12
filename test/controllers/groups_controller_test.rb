@@ -1,11 +1,11 @@
-require 'test_helper'
+require "test_helper"
 
 class GroupsControllerTest < ActionController::TestCase
   include Devise::Test::ControllerHelpers
 
   # called before every test
   def setup
-    @request.env['HTTP_REFERER'] = '/groups'
+    @request.env["HTTP_REFERER"] = "/groups"
   end
 
   # create
@@ -16,7 +16,7 @@ class GroupsControllerTest < ActionController::TestCase
 
   test "signed in users can create a group" do
     sign_in users(:loserLarry)
-    assert_difference 'Group.count', +1 do
+    assert_difference "Group.count", +1 do
       get :create, params: { group: { name: "Test Group" } }
     end
   end

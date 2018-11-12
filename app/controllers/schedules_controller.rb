@@ -10,7 +10,7 @@ class SchedulesController < ApplicationController
       @user = User.find(params[:uid])
     else # user viewing their own schedule
       unless user_signed_in?
-        redirect_to user_session_path, alert: "You have to be signed in to do that!" and return
+        redirect_to(user_session_path, alert: "You have to be signed in to do that!") && return
       end
 
       @user = current_user
@@ -53,17 +53,15 @@ class SchedulesController < ApplicationController
       authorize! :create, evnt
       evnt.save!
 
-      if obj["eventId"].blank? # if this is not an existing event
-        new_event_ids[obj["tempId"]] = evnt.id
-      end
+      new_event_ids[obj["tempId"]] = evnt.id if obj["eventId"].blank? # if this is not an existing event
     end
 
-    render :json => new_event_ids
+    render json: new_event_ids
   end
 
   private
 
   def allow_iframe
-    response.headers.except! 'X-Frame-Options'
+    response.headers.except! "X-Frame-Options"
   end
 end

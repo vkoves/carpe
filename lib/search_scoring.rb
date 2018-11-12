@@ -17,6 +17,6 @@ module SearchScore
     return 3 if name.include?(query)
 
     # ¯\_(ツ)_/¯ it's a poor match
-    return 4
+    4
   end
 end

@@ -10,7 +10,7 @@ class NotificationsController < ApplicationController
     @notification = Notification.find(params[:id])
 
     # dispatches call to private method (if implemented)
-    self.send(@notification.event) if self.respond_to?(@notification.event, true)
+    send(@notification.event) if respond_to?(@notification.event, true)
 
     @notification.destroy
     render json: {}, status: :ok

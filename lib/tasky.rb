@@ -6,7 +6,7 @@
 #
 # The API is targeted towards polling-based web-server actions.
 
-require 'tempfile'
+require "tempfile"
 
 class Tasky
   class CommandError < StandardError
@@ -17,7 +17,7 @@ class Tasky
 
   class Task
     def initialize(cmd)
-      @output_log = Tempfile.new('tasky_output')
+      @output_log = Tempfile.new("tasky_output")
 
       begin
         @pid = Process.spawn cmd, [:out, :err] => @output_log
@@ -30,9 +30,7 @@ class Tasky
       @successful
     end
 
-    def error_log
-      @error_log
-    end
+    attr_reader :error_log
 
     # Returns true if task has finished executing, false otherwise.
     def finished?
@@ -60,11 +58,11 @@ class Tasky
   def self.run(cmd)
     task = Task.new cmd
     @@tasks[task.object_id] = task
-    return task.object_id
+    task.object_id
   end
 
   # Returns a Task object that provides methods to check the status of the task.
   def self.fetch_task(task_id)
-    return @@tasks[task_id.to_i]
+    @@tasks[task_id.to_i]
   end
 end

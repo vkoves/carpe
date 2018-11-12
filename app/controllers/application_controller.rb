@@ -1,4 +1,4 @@
-require 'overridden_helpers'
+require "overridden_helpers"
 
 class ApplicationController < ActionController::Base
   include OverriddenHelpers
@@ -8,14 +8,12 @@ class ApplicationController < ActionController::Base
 
   # Enable rack-mini-profiler for signed in admin
   before_action do
-    if current_user && current_user.admin
+    if current_user&.admin
       if Rails.env.production?
         Rack::MiniProfiler.config.start_hidden = true # hide profiler by default on production (Alt+P to show)
       end
 
-      unless Rails.env.test?
-        Rack::MiniProfiler.authorize_request
-      end
+      Rack::MiniProfiler.authorize_request unless Rails.env.test?
     end
   end
 
@@ -24,9 +22,9 @@ class ApplicationController < ActionController::Base
 
   rescue_from CanCan::AccessDenied do |exception|
     respond_to do |format|
-      format.json { head :forbidden, content_type: 'text/html' }
+      format.json { head :forbidden, content_type: "text/html" }
       format.html { redirect_to request.referrer || home_path, alert: exception.message }
-      format.js   { head :forbidden, content_type: 'text/html' }
+      format.js   { head :forbidden, content_type: "text/html" }
     end
   end
 
@@ -35,7 +33,7 @@ class ApplicationController < ActionController::Base
   end
 
   def not_found
-    raise ActiveRecord::RecordNotFound, 'Not Found'
+    raise ActiveRecord::RecordNotFound, "Not Found"
   end
 
   # convenience method for controller actions using scrolling pagination
@@ -57,9 +55,7 @@ class ApplicationController < ActionController::Base
 
   # Authorize if a user is signed in and is admin before viewing a pge
   def authorize_admin!
-    unless current_user&.admin
-      redirect_to home_path
-    end
+    redirect_to home_path unless current_user&.admin
   end
 
   # Authorize if a user is signed in

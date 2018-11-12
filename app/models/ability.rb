@@ -8,10 +8,10 @@ class Ability
     alias_action :manage_members, :edit_schedule, :invite_members, to: :moderator_actions
 
     can :show, Group do |grp|
-      grp.public_group? or grp.private_group? or (grp.secret_group? and user&.in_group?(grp))
+      grp.public_group? || grp.private_group? || (grp.secret_group? && user&.in_group?(grp))
     end
 
-    can(:view_details, Group) { |grp| grp.public_group? or user&.in_group?(grp) }
+    can(:view_details, Group) { |grp| grp.public_group? || user&.in_group?(grp) }
 
     # must be signed in past this point
     return false unless user.present?

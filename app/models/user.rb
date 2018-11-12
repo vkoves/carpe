@@ -13,8 +13,8 @@ class User < ApplicationRecord
   has_many :all_followers, through: :passive_relationships, source: :follower # all followers, including pending
 
   has_many :users_groups, dependent: :destroy
-  has_many :groups, -> { where users_groups: { accepted: true } }, :through => :users_groups
-  has_many :notifications, :class_name => 'Notification', :foreign_key => 'receiver_id'
+  has_many :groups, -> { where users_groups: { accepted: true } }, through: :users_groups
+  has_many :notifications, class_name: "Notification", foreign_key: "receiver_id"
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -63,21 +63,21 @@ class User < ApplicationRecord
 
   # Returns a url to the avatar with the width in pixels.
   def avatar_url(size = 256)
-    return "#{image_url.split("?")[0]}?sz=#{size}" if has_google_avatar? # google avatar
+    return "#{image_url.split('?')[0]}?sz=#{size}" if has_google_avatar? # google avatar
     return avatar.url(size <= 60 ? :thumb : :profile) if avatar.exists? # uploaded avatar
 
     gravatar_url(size) # default avatar
   end
 
-  DEFAULT_GOOGLE_AVATAR_URL = "/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M"
+  DEFAULT_GOOGLE_AVATAR_URL = "/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M".freeze
 
   def has_google_avatar?
-    provider.present? and image_url.present? and image_url.exclude?(DEFAULT_GOOGLE_AVATAR_URL)
+    provider.present? && image_url.present? && image_url.exclude?(DEFAULT_GOOGLE_AVATAR_URL)
   end
 
   # Returns whether the user has a non-default avatar.
   def has_avatar?
-    avatar.exists? or has_google_avatar?
+    avatar.exists? || has_google_avatar?
   end
 
   ##########################
@@ -113,52 +113,50 @@ class User < ApplicationRecord
 
   # Returns true if the current user is following the other user.
   def following?(other_user)
-    if following.include?(other_user) and active_relationships.find_by(followed_id: other_user.id).confirmed # if following and confirmed
-      return true
+    if following.include?(other_user) && active_relationships.find_by(followed_id: other_user.id).confirmed # if following and confirmed
+      true
     else
-      return false
+      false
     end
   end
 
   def follow_status(other_user) # returns text indicating friendship status
     if active_relationships.find_by(followed_id: other_user.id)
       if active_relationships.find_by(followed_id: other_user.id).confirmed
-        return "confirmed"
+        "confirmed"
       else
-        return "pending"
+        "pending"
       end
-    else
-      return nil
     end
   end
 
   def followers # Fetch followers that are confirmed
-    return passive_relationships.includes(:follower).where(:confirmed => true).map { |r| r.follower }
+    passive_relationships.includes(:follower).where(confirmed: true).map(&:follower)
   end
 
   def followers_count # Fetch count of followers. Doesn't eager load for optimization
-    return passive_relationships.where(:confirmed => true).size
+    passive_relationships.where(confirmed: true).size
   end
 
   def following # Fetch users being followed that are confirmed
-    return active_relationships.includes(:followed).where(:confirmed => true).map { |r| r.followed }
+    active_relationships.includes(:followed).where(confirmed: true).map(&:followed)
   end
 
   def following_count # Fetch count of following. Doesn't eager load for optimization
-    return active_relationships.where(:confirmed => true).size
+    active_relationships.where(confirmed: true).size
   end
 
   def followers_relationships
-    passive_relationships.includes(:follower).where(:confirmed => true)
+    passive_relationships.includes(:follower).where(confirmed: true)
   end
 
   def following_relationships
-    active_relationships.includes(:followed).where(:confirmed => true)
+    active_relationships.includes(:followed).where(confirmed: true)
   end
 
   # returns followers of this user that the current user "knows", as in is following
   def known_followers(other_user)
-    return followers & other_user.followers # this finds items in both arrays
+    followers & other_user.followers # this finds items in both arrays
   end
 
   ##########################
@@ -175,17 +173,17 @@ class User < ApplicationRecord
     notifications.destroy_all # destroy all our notifications
     active_relationships.destroy_all # destroy all following relationships
     passive_relationships.destroy_all # destroy all followed relationships
-    self.delete # and then get rid of ourselves
+    delete # and then get rid of ourselves
   end
 
-  def self.find_for_google_oauth2(access_token, signed_in_resource = nil)
+  def self.find_for_google_oauth2(access_token, _signed_in_resource = nil)
     data = access_token.info
 
-    user = User.where(:provider => access_token.provider, :uid => access_token.uid).first
+    user = User.where(provider: access_token.provider, uid: access_token.uid).first
     if user
       return user
     else
-      registered_user = User.where(:email => data.email).first
+      registered_user = User.where(email: data.email).first
       if registered_user
         return registered_user
       else
@@ -202,11 +200,9 @@ class User < ApplicationRecord
   # Return nice text for the auth provider used by this user
   def provider_name
     if provider == "google_oauth2" # if google oauth
-      return "Google" # return Google
+      "Google" # return Google
     elsif provider # if we don't recognize the provider
-      return provider # just return it
-    else
-      return nil
+      provider # just return it
     end
   end
 

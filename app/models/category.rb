@@ -6,32 +6,32 @@ class Category < ApplicationRecord
 
   def destroy
     events.destroy_all
-    self.delete
+    delete
    end
 
   # returns whether the current user can see this category
   def accessible_by?(user)
-    return true if user == self.owner
+    return true if user == owner
     return true if privacy == "public"
 
     # must be signed in to view categories past this point
     return false if user.nil?
 
     # only fellow group members can see 'private' categories
-    return self.group&.member?(user) if privacy == "private"
+    return group&.member?(user) if privacy == "private"
 
     # only followers can see categories with a 'follower' privacy
-    return user.following?(self.owner) if privacy == "followers"
+    return user.following?(owner) if privacy == "followers"
   end
 
   def private_version # returns the event with details hidden
-    private_category = self.dup
-    private_category.id = self.id # categories still need IDs even when private
+    private_category = dup
+    private_category.id = id # categories still need IDs even when private
     private_category.name = "Private Category"
     private_category.created_at = nil
     private_category.updated_at = nil
     private_category.color = "grey"
-    return private_category
+    private_category
   end
 
   def get_html_name
@@ -39,6 +39,6 @@ class Category < ApplicationRecord
   end
 
   def owner
-    self.group ? self.group : self.user
+    group || user
   end
 end
