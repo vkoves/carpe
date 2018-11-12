@@ -49,18 +49,18 @@ jobs:
 
       # Database setup
       - run:
-        name: Setup Test Database
-        command: |
-          bundle exec rake db:create
-          bundle exec rake db:schema:load
-          RAILS_ENV=test bundle exec rake db:migrate
+          name: Setup Test Database
+          command: |
+            bundle exec rake db:create
+            bundle exec rake db:schema:load
+            RAILS_ENV=test bundle exec rake db:migrate
 
       # run linting!
       - run:
-        name: Run Linting
-        command: |
-            bundle exec scss-lint
-            eslint app/assets/javascripts spec/javascripts
+          name: Run Linting
+          command: |
+              bundle exec scss-lint
+              eslint app/assets/javascripts spec/javascripts
 
       # run tests!
       - run:
