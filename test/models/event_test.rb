@@ -9,7 +9,7 @@ require "test_helper"
 class EventTest < ActiveSupport::TestCase
   def setup
     @daily = events(:repeat_daily)
-    @morning = @daily.date.to_datetime.at_beginning_of_day
+    @morning = @daily.date.at_beginning_of_day
   end
 
   test "repeat start and end shouldn't impact original event if repeat type is none" do
@@ -29,9 +29,12 @@ class EventTest < ActiveSupport::TestCase
   end
 
   test "repeat clones should have proper date" do
+    # DateTime is needed here, otherwise things just won't work
+    # rubocop:disable DateTime
     start_date = (@daily.date - 2.days).to_datetime
     end_date = (@daily.end_date + 2.days).to_datetime
     repeat_dates = (start_date...end_date).map(&:to_date)
+    # rubocop:enable DateTime
 
     # get the dates the repeat instances fall on
     event_dates = @daily.events_in_range(start_date, end_date).map { |r| r.date.to_date }
@@ -161,7 +164,7 @@ class EventTest < ActiveSupport::TestCase
 
   test "events can be repeated daily, weekly, monthly, and yearly" do
     event = events(:repeat_daily)
-    start = event.date.to_datetime
+    start = event.date
     event.end_date = start + 2.hours
 
     event.repeat = "daily"
@@ -187,8 +190,8 @@ class EventTest < ActiveSupport::TestCase
   end
 
   test "events can occur on certain days" do
-    start_date = DateTime.current.at_beginning_of_week
-    end_date = DateTime.current.at_end_of_week
+    start_date = Time.current.at_beginning_of_week
+    end_date = Time.current.at_end_of_week
 
     event = events(:repeat_daily)
     event.repeat = "certain_days-1,3,4,5" # M,W,R,F, totally an implementation detail
@@ -205,7 +208,7 @@ class EventTest < ActiveSupport::TestCase
     event.date = 1.hour.from_now
     event.end_date = 2.hours.from_now
 
-    event.repeat_start = DateTime.current
+    event.repeat_start = Time.current
     event.repeat_end = 3.days.from_now
 
     events = event.events_in_range 1.week.ago.to_date, 1.week.from_now.to_date

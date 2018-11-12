@@ -34,3 +34,7 @@ Style/Documentation:
 # This is just hard to do, and will take a lot of refactoring. Disabling for now
 Metrics/LineLength:
   Enabled: false
+
+# This only impacted ActionDispatch::SystemTestCase in test_helper, which is fine
+Style/ClassAndModuleChildren:
+  Enabled: false

@@ -66,7 +66,7 @@ class UserTest < ActiveSupport::TestCase
     @curr_event1.end_date = 3.hours.from_now
     @curr_event1.save!
 
-    included = @norm.events_in_range DateTime.current, 2.hours.from_now
+    included = @norm.events_in_range Time.current, 2.hours.from_now
     assert_not_empty included
 
     excluded = @norm.events_in_range 2.hours.from_now, 4.hours.from_now
@@ -75,8 +75,8 @@ class UserTest < ActiveSupport::TestCase
 
   test "events_in_range includes repeating events" do
     daily = events(:repeat_daily)
-    from  = daily.date.to_datetime - 1.hour
-    to    = daily.date.to_datetime + 1.hour
+    from  = daily.date - 1.hour
+    to    = daily.date + 1.hour
 
     base_event = @viktor.events_in_range(from, to).first
     assert_equal daily.name, base_event.name

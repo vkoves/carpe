@@ -41,19 +41,19 @@ class User < ApplicationRecord
 
   # return events that are currently going on
   def current_events
-    events_in_range(1.day.ago, DateTime.current, home_time_zone)
+    events_in_range(1.day.ago, Time.current, home_time_zone)
       .select(&:current?).sort_by(&:end_date)
   end
 
   # returns the next upcoming event within the next day
   def next_event
-    events_in_range(DateTime.current, 1.day.from_now, home_time_zone)
+    events_in_range(Time.current, 1.day.from_now, home_time_zone)
       .min_by(&:date)
   end
 
   # returns whether the user is currently busy (has an event going on)
   def is_busy?
-    current_events.count > 0
+    current_events.count.positive?
   end
 
   ##########################
@@ -125,12 +125,14 @@ class User < ApplicationRecord
 
   # returns text indicating friendship status
   def follow_status(other_user)
-    if active_relationships.find_by(followed_id: other_user.id)
-      if active_relationships.find_by(followed_id: other_user.id).confirmed
-        "confirmed"
-      else
-        "pending"
-      end
+    relationship = active_relationships.find_by(followed_id: other_user.id)
+
+    return unless relationship
+
+    if relationship.confirmed
+      "confirmed"
+    else
+      "pending"
     end
   end
 
@@ -189,21 +191,21 @@ class User < ApplicationRecord
     data = access_token.info
 
     user = User.where(provider: access_token.provider, uid: access_token.uid).first
-    if user
-      return user
-    else
-      registered_user = User.where(email: data.email).first
-      if registered_user
-        return registered_user
-      else
-        user = User.create(name: data["name"],
-                           provider: access_token.provider,
-                           email: data["email"],
-                           uid: access_token.uid,
-                           password: Devise.friendly_token[0, 20],
-                           image_url: data["image"])
-      end
-   end
+
+    # return if we find an Oauth user by the token and provider
+    return user if user
+
+    registered_user = User.where(email: data.email).first
+
+    # return user with the email specified, if we find one
+    return registered_user if registered_user
+
+    user = User.create(name: data["name"],
+                       provider: access_token.provider,
+                       email: data["email"],
+                       uid: access_token.uid,
+                       password: Devise.friendly_token[0, 20],
+                       image_url: data["image"])
   end
 
   # Return nice text for the auth provider used by this user

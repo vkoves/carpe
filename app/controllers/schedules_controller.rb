@@ -34,8 +34,8 @@ class SchedulesController < ApplicationController
 
       evnt.name = obj["name"]
       evnt.repeat = obj["repeatType"]
-      evnt.date = DateTime.parse(obj["startDateTime"])
-      evnt.end_date = DateTime.parse(obj["endDateTime"])
+      evnt.date = Time.parse(obj["startDateTime"])
+      evnt.end_date = Time.parse(obj["endDateTime"])
 
       evnt.repeat_start = obj["repeatStart"].blank? ? nil : Date.parse(obj["repeatStart"])
       evnt.repeat_end = obj["repeatEnd"].blank? ? nil : Date.parse(obj["repeatEnd"])

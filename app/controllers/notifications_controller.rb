@@ -42,13 +42,13 @@ class NotificationsController < ApplicationController
   def group_invite_request
     group = @notification.entity
 
-    if params[:response] == "accepted"
-      group.add(@notification.sender)
+    return unless params[:response] == "accepted"
 
-      Notification.create!(
-        receiver: @notification.sender,
-        message: "You're now a member of #{group.name}!"
-      )
-    end
+    group.add(@notification.sender)
+
+    Notification.create!(
+      receiver: @notification.sender,
+      message: "You're now a member of #{group.name}!"
+    )
   end
 end

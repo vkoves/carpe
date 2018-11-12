@@ -52,7 +52,7 @@ class Tasky
     end
   end
 
-  @@tasks = {}
+  @@tasks = {} # rubocop:disable Style/ClassVars
 
   # Returns task id to fetch the command at a later time.
   def self.run(cmd)

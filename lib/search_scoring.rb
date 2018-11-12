@@ -16,7 +16,7 @@ module SearchScore
     # then on general, partial matches
     return 3 if name.include?(query)
 
-    # ¯\_(ツ)_/¯ it's a poor match
+    # it's a poor match
     4
   end
 end
