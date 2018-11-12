@@ -10,7 +10,7 @@ require 'tempfile'
 
 class Tasky
   class CommandError < StandardError
-    def initialize(msg="The command is invalid or the program missing.")
+    def initialize(msg = "The command is invalid or the program missing.")
       super(msg)
     end
   end
@@ -22,7 +22,7 @@ class Tasky
       begin
         @pid = Process.spawn cmd, [:out, :err] => @output_log
       rescue StandardError => e
-          raise CommandError, e.inspect
+        raise CommandError, e.inspect
       end
     end
 
@@ -38,6 +38,7 @@ class Tasky
     def finished?
       # use cached results
       return true unless @successful.nil?
+
       _pid, status = Process.waitpid2 @pid, Process::WNOHANG
 
       if status.nil?

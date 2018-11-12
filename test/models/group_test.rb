@@ -5,7 +5,7 @@ class GroupTest < ActiveSupport::TestCase
     @viktor, @norm = users(:viktor, :norm)
     @group1, @group2 = groups(:one, :two)
   end
-  
+
   test "#avatar_url uses correct avatar" do
     assert_match /gravatar/, @group1.avatar_url,
                  "Expected group without avatar to use gravatar as a default avatar"

@@ -10,7 +10,6 @@ class SearchesController < ApplicationController
     @users = User.where('LOWER(name) LIKE ?', "%#{@query}%").limit(5)
                  .sort_by { |user| SearchScore.name(user.name, @query) }
 
-
     @groups = Group.where.not(privacy: :secret_group)
                    .where('LOWER(name) LIKE ?', "%#{@query}%").limit(5)
                    .sort_by { |user| SearchScore.name(user.name, @query) }

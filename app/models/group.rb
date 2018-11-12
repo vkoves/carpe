@@ -1,4 +1,3 @@
-
 class Group < ApplicationRecord
   include Profile
 
@@ -23,6 +22,7 @@ class Group < ApplicationRecord
   # Returns a url to the avatar with the width in pixels.
   def avatar_url(size = 256)
     return avatar.url(size <= 60 ? :thumb : :profile) if has_avatar? # uploaded avatar
+
     gravatar_url(size) # default avatar
   end
 
@@ -58,6 +58,7 @@ class Group < ApplicationRecord
 
   def membership(user)
     return nil if user.nil?
+
     UsersGroup.find_by group_id: id, user_id: user.id
   end
 

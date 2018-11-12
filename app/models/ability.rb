@@ -17,7 +17,7 @@ class Ability
     return false unless user.present?
 
     can :manage, RepeatException, group: nil, user: user
-    can :manage, RepeatException, group: { users_groups: { user: user, role: [:owner, :moderator, :editor]} }
+    can :manage, RepeatException, group: { users_groups: { user: user, role: [:owner, :moderator, :editor] } }
 
     can :manage, Event, group: nil, user: user
     can :manage, Event, group: { users_groups: { user: user, role: [:owner, :moderator, :editor, :member] } }

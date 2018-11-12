@@ -47,7 +47,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-	protected
+  protected
 
   # Allow sign up and edit profile to take the name parameter. Needed by devise
   def configure_permitted_parameters

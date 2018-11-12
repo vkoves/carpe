@@ -7,7 +7,6 @@ class GroupsController < ApplicationController
                             .page(params[:page]).per(25)
                             .eager_load(:users).references(:users_groups)
 
-
     paginate(@joinable_groups, "large_group_card")
   end
 
@@ -35,7 +34,7 @@ class GroupsController < ApplicationController
 
       @upcoming_events = visible_upcoming_events
       @activities = (@group.members + categories + events)
-                      .sort_by(&:created_at).reverse.first(2)
+                    .sort_by(&:created_at).reverse.first(2)
     when :schedule
       @read_only = cannot? :edit_schedule, @group
     end
@@ -112,7 +111,7 @@ class GroupsController < ApplicationController
       elsif old_role == :owner
         # looks like you're today's winner!
         UsersGroup.where(group: group, accepted: true).where.not(user: current_user)
-            .first.update(role: :owner)
+                  .first.update(role: :owner)
       end
 
     else
@@ -140,6 +139,6 @@ class GroupsController < ApplicationController
 
   def visible_upcoming_events
     @group.upcoming_events(current_user&.home_time_zone || "Central Time (US & Canada)")
-      .select { |event| event.accessible_by?(current_user) }
+          .select { |event| event.accessible_by?(current_user) }
   end
 end

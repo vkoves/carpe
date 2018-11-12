@@ -5,12 +5,12 @@ class OmniauthCallbacksControllerTest < ActionController::TestCase
 
   def setup
     mock = {
-        provider: 'google_oauth2',
-        uid: '12345',
-        info: {
-            name: 'fake',
-            email: 'fake@yahoo.com'
-        }
+      provider: 'google_oauth2',
+      uid: '12345',
+      info: {
+        name: 'fake',
+        email: 'fake@yahoo.com'
+      }
     }
 
     OmniAuth.config.test_mode = true

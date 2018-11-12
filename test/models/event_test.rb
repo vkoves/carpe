@@ -52,7 +52,6 @@ class EventTest < ActiveSupport::TestCase
     assert_equal events(:simple).name, events(:simple).get_html_name,
                  "Named event did not return it's name"
 
-
     html_name = events(:nameless_event).get_html_name
     assert_not_empty html_name, "Nameless event should return some placeholder name"
     assert html_name.valid_html?, "Placeholder name must be valid html"
@@ -229,7 +228,7 @@ class EventTest < ActiveSupport::TestCase
     assert_equal 4, event.events_in_range(start, start + 1.week).length
 
     # negative test
-    assert_empty event.events_in_range(start - 4.weeks, start  - 2.weeks),
+    assert_empty event.events_in_range(start - 4.weeks, start - 2.weeks),
                  "events_in_range returned events outside of the event's range"
 
     assert_empty event.events_in_range(start + 2.weeks, start  + 4.weeks),
@@ -237,7 +236,6 @@ class EventTest < ActiveSupport::TestCase
 
     # randomly specific test
     assert_equal 2, event.events_in_range(start - 2.day, start + 4.days).length
-
 
     # every n weeks
     event.repeat = "custom-2-weeks"
@@ -247,9 +245,8 @@ class EventTest < ActiveSupport::TestCase
                  "event should appear every other week over the course of the next 4 weeks"
 
     # negative test
-    assert_empty event.events_in_range(start - 4.weeks, start  - 2.weeks),
+    assert_empty event.events_in_range(start - 4.weeks, start - 2.weeks),
                  "events_in_range returned events outside of the event's range"
-
 
     # every n months
     event.repeat = "custom-2-months"
@@ -258,9 +255,8 @@ class EventTest < ActiveSupport::TestCase
     assert_equal 2, event.events_in_range(start, start + 4.month).length
 
     # negative test
-    assert_empty event.events_in_range(start - 4.weeks, start  - 2.weeks),
+    assert_empty event.events_in_range(start - 4.weeks, start - 2.weeks),
                  "events_in_range returned events outside of the event's range"
-
 
     # every n years
     event.repeat = "custom-2-years"
@@ -269,7 +265,7 @@ class EventTest < ActiveSupport::TestCase
     assert_equal 2, event.events_in_range(start, start + 3.year).length
 
     # negative test
-    assert_empty event.events_in_range(start - 4.weeks, start  - 2.weeks),
+    assert_empty event.events_in_range(start - 4.weeks, start - 2.weeks),
                  "events_in_range returned events outside of the event's range"
   end
 

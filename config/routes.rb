@@ -10,33 +10,33 @@ Rails.application.routes.draw do
     end
   end
 
-  #General page routes
+  # General page routes
   get "/home" => 'home#index', :as => :home
   get "/userviewer" => 'pages#userviewer'
   get "/about" => 'pages#about'
   get "/status" => 'pages#status'
 
-  #Follow Routes
+  # Follow Routes
   resources :relationships
 
-  #Group Routes
+  # Group Routes
   resources :groups
   resources :user_groups, only: [:create, :update, :destroy]
   post "/invite_to_group", to: 'user_groups#invite_to_group', as: :invite_to_group
   get "join_group/:id", to: 'groups#join', as: :join_group
   get "leave_group/:id", to: 'groups#leave', as: :leave_group
 
-  #Admin Routes
+  # Admin Routes
   get "/sandbox" => 'pages#sandbox'
   get "/admin" => 'pages#admin', :as => :admin_panel
   post "/run_command" => 'pages#run_command'
   post "/check_if_command_is_finished" => 'pages#check_if_command_is_finished'
 
-  #User Routes
+  # User Routes
   post "/deny_friend" => 'friendships#deny'
   post "/confirm_friend" => 'friendships#confirm'
 
-  #Event backend commands
+  # Event backend commands
   resources :events, only: [:destroy]
   resources :categories, only: [:create, :update, :destroy]
   resources :repeat_exceptions, only: [:create, :update, :destroy]
@@ -44,7 +44,6 @@ Rails.application.routes.draw do
   resource :schedule, only: [:show] do
     post :save
   end
-
 
   resources :notifications, only: [:destroy] do
     post "update(/:response)", to: "notifications#updated", as: :update, on: :member
@@ -56,5 +55,4 @@ Rails.application.routes.draw do
   end
 
   root 'home#index'
-
 end

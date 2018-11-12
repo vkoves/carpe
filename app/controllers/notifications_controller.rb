@@ -44,7 +44,7 @@ class NotificationsController < ApplicationController
 
     if params[:response] == "accepted"
       group.add(@notification.sender)
-      
+
       Notification.create!(
         receiver: @notification.sender,
         message: "You're now a member of #{group.name}!"

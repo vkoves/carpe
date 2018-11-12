@@ -1,6 +1,6 @@
 require 'utilities'
 
-#An event describes a schedule item, that is a single item occuring on a person's schedule
+# An event describes a schedule item, that is a single item occuring on a person's schedule
 class Event < ApplicationRecord
   include Utilities
 
@@ -11,11 +11,11 @@ class Event < ApplicationRecord
   belongs_to :category
   has_and_belongs_to_many :repeat_exceptions
 
-  def get_html_name #returns the event name, or an italicized untitled
+  def get_html_name # returns the event name, or an italicized untitled
     name.present? ? ERB::Util.html_escape(name) : "<i>Untitled</i>"
   end
 
-  def get_name #returns the event name as a plain string
+  def get_name # returns the event name as a plain string
     name.empty? ? "Untitled" : name
   end
 
@@ -42,17 +42,17 @@ class Event < ApplicationRecord
     event_days.select { |day| can_occur_on? day }.map { |day| repeat_clone day }
   end
 
-  #returns all repeat_exceptions that apply to this event, a combination of event and category level ones
+  # returns all repeat_exceptions that apply to this event, a combination of event and category level ones
   def all_repeat_exceptions
     return repeat_exceptions + category.repeat_exceptions
   end
 
-  #returns whether the event is currently going on
+  # returns whether the event is currently going on
   def current?
-    if self.date.past? and self.end_date.future? #if it started some time ago and ends some time from now
-      return true #then this is indeed current
-    else #otherwise
-      return false #it is not
+    if self.date.past? and self.end_date.future? # if it started some time ago and ends some time from now
+      return true # then this is indeed current
+    else # otherwise
+      return false # it is not
     end
   end
 
@@ -60,7 +60,7 @@ class Event < ApplicationRecord
     category.accessible_by?(user)
   end
 
-  def private_version #returns the event with details hidden
+  def private_version # returns the event with details hidden
     private_event = self.dup
     private_event.name = "Private"
     private_event.description = ""

@@ -42,7 +42,7 @@ class UserGroupsController < ApplicationController
     # an owner demoting themself makes someone else the new owner
     if group.owner.nil?
       UsersGroup.where(group: group, accepted: true).where.not(user: current_user)
-          .first.update(role: :owner)
+                .first.update(role: :owner)
     end
 
     redirect_to request.referrer

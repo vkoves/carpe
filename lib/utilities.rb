@@ -76,7 +76,7 @@ module Utilities
     else raise "Congratulations, you won a bug!"
     end
   end
-  
+
   private
 
   # Alias for pluralize. This allows it to be used outside of views.

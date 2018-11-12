@@ -1,5 +1,5 @@
-#The controller for schedule related pages and actions, such as the schedule page
-#as well as creating and editing categories
+# The controller for schedule related pages and actions, such as the schedule page
+# as well as creating and editing categories
 
 # TODO: Most requests should enforce user being signed in, as data can't be made anonymously
 class SchedulesController < ApplicationController
@@ -49,7 +49,6 @@ class SchedulesController < ApplicationController
       evnt.description = obj["description"] || ""
       evnt.location = obj["location"] || ""
       evnt.category_id = obj["categoryId"].to_i
-
 
       authorize! :create, evnt
       evnt.save!
