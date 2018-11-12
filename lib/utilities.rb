@@ -49,7 +49,7 @@ module Utilities
   #
   # This method has many different, customizable outputs that can't be avoided
   # So, it's coded as a flat, dumb lookup table.
-  def relative_time(to_time) # rubocop:disable MethodLength, AbcSize, CyclomaticComplexity
+  def relative_time(to_time)
     duration = to_time - Time.current # it's in seconds
     secs, mins, days, months = duration_parts(duration)
     time = "%-l:%M %p" # time format

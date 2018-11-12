@@ -4,9 +4,9 @@
 AllCops:
   TargetRubyVersion: 2.4
 
-  # Ignore database migrations
   Exclude:
-  - 'db/**/*'
+  - 'db/**/*' # Ignore database migrations
+  - 'bin/**/*' # Ignore bin files, we don't write them
 
 # The default line ending is based on your OS.
 # If you are using LF on windows you'll need this rule.
@@ -31,10 +31,19 @@ Style/SymbolArray:
 Style/Documentation:
   Enabled: false
 
-# This is just hard to do, and will take a lot of refactoring. Disabling for now
-Metrics/LineLength:
+# All Metrics are just hard to do, and will take a lot of refactoring. Disabling for now
+Metrics:
   Enabled: false
 
 # This only impacted ActionDispatch::SystemTestCase in test_helper, which is fine
 Style/ClassAndModuleChildren:
   Enabled: false
+
+# get_html_name is fine for now, honestly
+Naming/AccessorMethodName:
+  Enabled: false
+
+# Using is_busy? or has_avatar? are fine
+Naming/PredicateName:
+  Enabled: false
+

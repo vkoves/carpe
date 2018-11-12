@@ -14,7 +14,7 @@ class Ability
     can(:view_details, Group) { |grp| grp.public_group? || user&.in_group?(grp) }
 
     # must be signed in past this point
-    return false unless user.present?
+    return unless user.present?
 
     can :manage, RepeatException, group: nil, user: user
     can :manage, RepeatException, group: { users_groups: { user: user, role: [:owner, :moderator, :editor] } }

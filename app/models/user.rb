@@ -200,12 +200,12 @@ class User < ApplicationRecord
     # return user with the email specified, if we find one
     return registered_user if registered_user
 
-    user = User.create(name: data["name"],
-                       provider: access_token.provider,
-                       email: data["email"],
-                       uid: access_token.uid,
-                       password: Devise.friendly_token[0, 20],
-                       image_url: data["image"])
+    User.create(name: data["name"],
+                provider: access_token.provider,
+                email: data["email"],
+                uid: access_token.uid,
+                password: Devise.friendly_token[0, 20],
+                image_url: data["image"])
   end
 
   # Return nice text for the auth provider used by this user

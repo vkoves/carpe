@@ -52,7 +52,7 @@ class GroupsController < ApplicationController
     @group = Group.new group_create_params
 
     if @group.save
-      @group.add(current_user, as: :owner)
+      @group.add(current_user, role: :owner)
       redirect_to @group, notice: "Group was successfully created."
     else
       render :new

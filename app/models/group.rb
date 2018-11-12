@@ -52,8 +52,8 @@ class Group < ApplicationRecord
     members.size
   end
 
-  def add(user, as: :member)
-    UsersGroup.create group_id: id, user_id: user.id, accepted: true, role: as
+  def add(user, role: :member)
+    UsersGroup.create group_id: id, user_id: user.id, accepted: true, role: role
   end
 
   def membership(user)

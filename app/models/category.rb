@@ -7,7 +7,7 @@ class Category < ApplicationRecord
   def destroy
     events.destroy_all
     delete
-   end
+  end
 
   # returns whether the current user can see this category
   def accessible_by?(user)
