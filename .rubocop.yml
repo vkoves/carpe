@@ -6,7 +6,7 @@ AllCops:
 
   # Ignore database migrations
   Exclude:
-  - db/**
+  - 'db/**/*'
 
 # The default line ending is based on your OS.
 # If you are using LF on windows you'll need this rule.
