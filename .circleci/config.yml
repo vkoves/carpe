@@ -27,7 +27,7 @@ jobs:
           - v1-dependencies-
 
       - run:
-          name: install dependencies
+          name: Install Rails Dependencies
           command: |
             bundle install --jobs=4 --retry=3 --path vendor/bundle
       - run:
@@ -37,27 +37,36 @@ jobs:
             sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
             sudo apt-get update
             sudo apt-get -y install google-chrome-stable
+          name: Install eslint
+          command: |
+            sudo npm install -g eslint
       - save_cache:
           paths:
             - ./vendor/bundle
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
 
       # Database setup
-      - run: bundle exec rake db:create
-      - run: bundle exec rake db:schema:load
+      - run:
+        name: Setup Test Database
+        command: |
+          bundle exec rake db:create
+          bundle exec rake db:schema:load
+          RAILS_ENV=test bundle exec rake db:migrate
+
+      # run linting!
+      - run:
+        name: Run Linting
+        command: |
+            bundle exec scss-lint
+            eslint app/assets/javascripts spec/javascripts
 
       # run tests!
       - run:
           name: run tests
           command: |
-            sudo npm install -g eslint
-
-            bundle exec scss-lint
-            RAILS_ENV=test bundle exec rake db:migrate
             bundle exec rails test
             bundle exec teaspoon
             bundle exec rails test:system
-            eslint app/assets/javascripts spec/javascripts
 
       # collect reports
       - store_test_results:
