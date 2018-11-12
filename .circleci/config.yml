@@ -44,7 +44,7 @@ jobs:
       - run:
           name: run tests
           command: |
-            npm install -g eslint
+            sudo npm install -g eslint
 
             bundle exec scss-lint
             RAILS_ENV=test bundle exec rake db:migrate
