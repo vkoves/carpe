@@ -1,6 +1,7 @@
 <img src="app/assets/images/pages/CarpeLetter.png?raw=true" width="100" align="right">
 
-# Carpe [![Build Status](https://travis-ci.com/vkoves/carpe.svg?token=Wt2br9iC8tszQJNifjNG&branch=master)](https://travis-ci.com/vkoves/carpe)
+# Carpe
+[![CircleCI](https://circleci.com/gh/vkoves/carpe.svg?style=svg&circle-token=5aac24bfc3b54e541f0d5640d143563f64d97e59)](https://circleci.com/gh/vkoves/carpe)
 
 A socially networked, intuitive calendar created in Ruby on Rails with a jQuery powered front end.
 
@@ -20,7 +21,7 @@ Carpe is setup with the default testing suite for Ruby, [Minitest](https://githu
 
 Carpe is also setup with Javascript testing via [Teaspoon](https://github.com/jejacks0n/teaspoon) and acceptance tests via [Capybara](https://github.com/teamcapybara/capybara). We also use [Istanbul](https://github.com/gotwarlost/istanbul) for checking Teaspoon Javascript test code coverage.
 
-The Carpe repository also is setup with Travis CI, which automatically runs builds on push or on a pull request being made. You can see the build status at the top of the README, and can click on it to see build progress and logs.
+The Carpe repository also is setup with CircleCI, which automatically runs builds on push or on a pull request being made. You can see the build status at the top of the README, and can click on it to see build progress and logs.
 
 ### Running Ruby Tests
 
