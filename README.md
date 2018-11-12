@@ -1,7 +1,6 @@
 <img src="app/assets/images/pages/CarpeLetter.png?raw=true" width="100" align="right">
 
-# Carpe
-[![CircleCI](https://circleci.com/gh/vkoves/carpe.svg?style=svg&circle-token=5aac24bfc3b54e541f0d5640d143563f64d97e59)](https://circleci.com/gh/vkoves/carpe)
+# Carpe [![CircleCI](https://circleci.com/gh/vkoves/carpe.svg?style=svg&circle-token=5aac24bfc3b54e541f0d5640d143563f64d97e59)](https://circleci.com/gh/vkoves/carpe)
 
 A socially networked, intuitive calendar created in Ruby on Rails with a jQuery powered front end.
 
