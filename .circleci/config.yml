@@ -44,14 +44,14 @@ jobs:
       - run:
           name: run tests
           command: |
-            mkdir /tmp/test-results
-            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
+            npm install -g eslint
 
-            bundle exec rspec --format progress \
-                            --format RspecJunitFormatter \
-                            --out /tmp/test-results/rspec.xml \
-                            --format progress \
-                            $TEST_FILES
+            bundle exec scss-lint
+            RAILS_ENV=test bundle exec rake db:migrate
+            bundle exec rails test
+            bundle exec teaspoon
+            bundle exec rails test:system
+            eslint app/assets/javascripts spec/javascripts
 
       # collect reports
       - store_test_results:
