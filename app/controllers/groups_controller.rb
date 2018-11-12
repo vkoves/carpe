@@ -14,9 +14,7 @@ class GroupsController < ApplicationController
     @group = Group.from_param(params[:id])
 
     # forces custom urls to be displayed (when applicable)
-    if params[:id].is_int? && @group.has_custom_url?
-      redirect_to group_path(@group), status: :moved_permanently
-    end
+    redirect_to group_path(@group), status: :moved_permanently if params[:id].is_int? && @group.has_custom_url?
 
     @view = params[:view]&.to_sym || :overview
     @membership = @group.membership(current_user)

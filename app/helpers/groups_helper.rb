@@ -26,8 +26,6 @@ module GroupsHelper
   end
 
   def remove_confirmation(user_group)
-    if user_group.user == current_user
-      "You want to kick yourself? #{leave_warning user_group}"
-    end
+    "You want to kick yourself? #{leave_warning user_group}" if user_group.user == current_user
   end
 end

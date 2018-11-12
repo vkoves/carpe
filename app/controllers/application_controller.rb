@@ -60,9 +60,7 @@ class ApplicationController < ActionController::Base
 
   # Authorize if a user is signed in
   def authorize_signed_in!
-    unless current_user
-      redirect_to user_session_path, alert: "You have to be signed in to do that!"
-    end
+    redirect_to user_session_path, alert: "You have to be signed in to do that!" unless current_user
   end
 
   private

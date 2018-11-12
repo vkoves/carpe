@@ -9,9 +9,7 @@ class SchedulesController < ApplicationController
     if params[:uid] # user viewing another user's schedule
       @user = User.find(params[:uid])
     else # user viewing their own schedule
-      unless user_signed_in?
-        redirect_to(user_session_path, alert: "You have to be signed in to do that!") && return
-      end
+      redirect_to(user_session_path, alert: "You have to be signed in to do that!") && return unless user_signed_in?
 
       @user = current_user
       @read_only = false
@@ -42,9 +40,7 @@ class SchedulesController < ApplicationController
       evnt.repeat_start = obj["repeatStart"].blank? ? nil : Date.parse(obj["repeatStart"])
       evnt.repeat_end = obj["repeatEnd"].blank? ? nil : Date.parse(obj["repeatEnd"])
 
-      if obj["breaks"]
-        evnt.repeat_exceptions = obj["breaks"].map { |id| RepeatException.find(id) }
-      end
+      evnt.repeat_exceptions = obj["breaks"].map { |id| RepeatException.find(id) } if obj["breaks"]
 
       evnt.description = obj["description"] || ""
       evnt.location = obj["location"] || ""

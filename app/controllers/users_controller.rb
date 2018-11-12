@@ -14,9 +14,7 @@ class UsersController < ApplicationController
     @profile = current_user == @user
 
     # forces custom urls to be displayed (when applicable)
-    if params[:id].is_int? && @user.has_custom_url?
-      redirect_to user_path(@user), status: :moved_permanently
-    end
+    redirect_to user_path(@user), status: :moved_permanently if params[:id].is_int? && @user.has_custom_url?
 
     @view = params[:page]&.to_sym || :schedule
     case @view

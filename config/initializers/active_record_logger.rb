@@ -8,6 +8,4 @@ class CacheFreeLogger < ActiveSupport::Logger
 end
 
 # Overwrite ActiveRecord’s logger
-if Rails.env.development?
-  ActiveRecord::Base.logger = CacheFreeLogger.new(STDOUT)
-end
+ActiveRecord::Base.logger = CacheFreeLogger.new(STDOUT) if Rails.env.development?

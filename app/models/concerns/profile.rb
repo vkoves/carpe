@@ -63,9 +63,7 @@ module Profile
 
   def events_accessible_by(user)
     # optimization: user or group member viewing their own events/categories
-    if (user == self) || try(:member?, user)
-      return events.includes(:repeat_exceptions)
-    end
+    return events.includes(:repeat_exceptions) if (user == self) || try(:member?, user)
 
     events.includes(:repeat_exceptions).map do |event|
       event.accessible_by?(user) ? event : event.private_version
