@@ -3,7 +3,8 @@ require "tasky"
 class PagesController < ApplicationController
   before_action :authorize_admin!, only: [:admin, :sandbox]
 
-  def admin # admin page
+  # admin page
+  def admin
     @data_time_range = 1.month.ago.to_date..Date.current
 
     @past_month_users = User.where(created_at: @data_time_range)

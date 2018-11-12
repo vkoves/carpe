@@ -47,7 +47,8 @@ module Profile
     "https://www.gravatar.com/avatar/?default=mm&size=#{size}"
   end
 
-  def events_in_range(start_date_time, end_date_time, home_time_zone = "UTC") # returns all instances of events, including cloned version of repeating events
+  # returns all instances of events, including cloned version of repeating events
+  def events_in_range(start_date_time, end_date_time, home_time_zone = "UTC")
     # fetch not repeating events first
     event_instances = events.where(date: start_date_time...end_date_time, repeat: nil).to_a
 

@@ -11,11 +11,13 @@ class Event < ApplicationRecord
   belongs_to :category
   has_and_belongs_to_many :repeat_exceptions
 
-  def get_html_name # returns the event name, or an italicized untitled
+  # returns the event name, or an italicized untitled
+  def get_html_name
     name.present? ? ERB::Util.html_escape(name) : "<i>Untitled</i>"
   end
 
-  def get_name # returns the event name as a plain string
+  # returns the event name as a plain string
+  def get_name
     name.empty? ? "Untitled" : name
   end
 
@@ -60,7 +62,8 @@ class Event < ApplicationRecord
     category.accessible_by?(user)
   end
 
-  def private_version # returns the event with details hidden
+  # returns the event with details hidden
+  def private_version
     private_event = dup
     private_event.name = "Private"
     private_event.description = ""

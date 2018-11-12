@@ -24,7 +24,8 @@ class Category < ApplicationRecord
     return user.following?(owner) if privacy == "followers"
   end
 
-  def private_version # returns the event with details hidden
+  # returns the event with details hidden
+  def private_version
     private_category = dup
     private_category.id = id # categories still need IDs even when private
     private_category.name = "Private Category"

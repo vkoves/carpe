@@ -39,17 +39,20 @@ class User < ApplicationRecord
   ##### EVENT METHODS ######
   ##########################
 
-  def current_events # return events that are currently going on
+  # return events that are currently going on
+  def current_events
     events_in_range(1.day.ago, DateTime.current, home_time_zone)
       .select(&:current?).sort_by(&:end_date)
   end
 
-  def next_event # returns the next upcoming event within the next day
+  # returns the next upcoming event within the next day
+  def next_event
     events_in_range(DateTime.current, 1.day.from_now, home_time_zone)
       .min_by(&:date)
   end
 
-  def is_busy? # returns whether the user is currently busy (has an event going on)
+  # returns whether the user is currently busy (has an event going on)
+  def is_busy?
     current_events.count > 0
   end
 
@@ -120,7 +123,8 @@ class User < ApplicationRecord
     end
   end
 
-  def follow_status(other_user) # returns text indicating friendship status
+  # returns text indicating friendship status
+  def follow_status(other_user)
     if active_relationships.find_by(followed_id: other_user.id)
       if active_relationships.find_by(followed_id: other_user.id).confirmed
         "confirmed"
@@ -130,19 +134,23 @@ class User < ApplicationRecord
     end
   end
 
-  def followers # Fetch followers that are confirmed
+  # Fetch followers that are confirmed
+  def followers
     passive_relationships.includes(:follower).where(confirmed: true).map(&:follower)
   end
 
-  def followers_count # Fetch count of followers. Doesn't eager load for optimization
+  # Fetch count of followers. Doesn't eager load for optimization
+  def followers_count
     passive_relationships.where(confirmed: true).size
   end
 
-  def following # Fetch users being followed that are confirmed
+  # Fetch users being followed that are confirmed
+  def following
     active_relationships.includes(:followed).where(confirmed: true).map(&:followed)
   end
 
-  def following_count # Fetch count of following. Doesn't eager load for optimization
+  # Fetch count of following. Doesn't eager load for optimization
+  def following_count
     active_relationships.where(confirmed: true).size
   end
 
@@ -167,7 +175,8 @@ class User < ApplicationRecord
   ## GENERAL USER METHODS ##
   ##########################
 
-  def destroy # destroys this user and all assocaited data
+  # destroys this user and all assocaited data
+  def destroy
     categories.destroy_all # destroy all our categories
     events.destroy_all # destroy all our events as well, though cats should cover that
     notifications.destroy_all # destroy all our notifications
