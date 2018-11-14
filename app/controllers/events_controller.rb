@@ -10,16 +10,9 @@ class EventsController < ApplicationController
 
   def setup_hosting
     event = Event.find(params[:id])
+    event.make_host_event! unless event.host_event?
 
-    unless event.host_event?
-      event_invite = event.make_host_event!
-
-      # for demonstration purposes
-      Notification.create(sender: current_user, receiver: current_user,
-                          event: :event_invite, entity: event_invite)
-    end
-
-    render EventInvite.where(event: event)
+    render event.event_invites
   end
 
   private

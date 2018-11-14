@@ -11,7 +11,9 @@ class EventInvite < ApplicationRecord
     host: 1
   }
 
-  belongs_to :sender, class_name: 'User', foreign_key: :sender_id
+  belongs_to :sender, class_name: 'User', foreign_key: :sender_id,
+                      default: -> { Current.user }
+
   belongs_to :user
   belongs_to :event
 
@@ -23,4 +25,26 @@ class EventInvite < ApplicationRecord
       "#{invite.user.name} has already been invited."
     }
   }
+
+  def make_hosted_event_for_user!
+    new_event = event.dup
+    new_event.user_id = user.id
+    new_event.base_event_id = event.id
+    new_event.category_id = user.event_invite_category!.id
+    new_event.save!
+  end
+
+  def accept!
+    update(status: :accepted)
+    make_hosted_event_for_user!
+  end
+
+  def maybe!
+    update(status: :maybe)
+    make_hosted_event_for_user!
+  end
+
+  def decline!
+    update(status: :declined)
+  end
 end

@@ -51,4 +51,15 @@ class NotificationsController < ApplicationController
       )
     end
   end
+
+  def event_invite
+    invite = @notification.entity
+
+    case params[:response]
+    when "accepted" then invite.accept!
+    when "maybe" then invite.maybe!
+    when "declined" then invite.decline!
+    else raise "invalid response: #{params[:response]}"
+    end
+  end
 end

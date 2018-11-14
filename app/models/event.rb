@@ -80,6 +80,13 @@ class Event < ApplicationRecord
     self.group ? self.group : self.creator
   end
 
+  def hosted_event?
+    !host_event? && base_event_id.present?
+  end
+
+  # Optimization:
+  # Rather than querying EventInvites to determine if this event is hosting
+  # any other events, base_event_id is set to itself to indicate that.
   def host_event?
     base_event_id == id
   end
@@ -87,10 +94,8 @@ class Event < ApplicationRecord
   def make_host_event!
     update(base_event_id: id)
 
-    # owners of a hosted event are explicitly invited to their
-    # own event.
-    EventInvite.create(sender: creator, user: creator,
-                       event: self, role: :host)
+    # owners of a hosted event are explicitly invited to their own event.
+    EventInvite.create(user: creator, event: self, role: :host)
   end
 
   ##########################

@@ -101,7 +101,7 @@
     <div id="event-invites-list"></div>
 
     <h3>Invite Others</h3>
-    <%= render 'shared/user_adder', name: 'user_ids' %>
+    <%= render 'shared/user_adder', name: 'event_invite_user_ids', search_path: users_search_path %>
 
     <span id="send-event-invites" class="green button">Send Invites</span>
   </div>

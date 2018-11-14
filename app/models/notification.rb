@@ -4,7 +4,9 @@ class Notification < ApplicationRecord
 
   belongs_to :entity, polymorphic: true, optional: true
 
-  belongs_to :sender, class_name: 'User', foreign_key: 'sender_id', optional: true
+  belongs_to :sender, class_name: 'User', foreign_key: 'sender_id',
+             optional: true, default: -> { Current.user }
+
   belongs_to :receiver, class_name: 'User', foreign_key: 'receiver_id'
 
   scope :unread, -> { where(viewed: false) }
@@ -13,4 +15,12 @@ class Notification < ApplicationRecord
     scope: [:receiver_id, :sender_id, :entity_id, :message],
     message: "This notification already exists"
   }
+
+  def self.send_event_invite(invite)
+    Notification.create(
+      receiver: invite.user,
+      event: :event_invite,
+      entity: invite
+    )
+  end
 end

@@ -80,4 +80,44 @@ class NotificationsTest < ActionDispatch::IntegrationTest
       sign_out invited_user
     end
   end
+
+  test "users can invite other users to their event" do
+    sign_in @viktor
+
+    assert_difference -> { @norm.notifications.count }, +1 do
+      post event_invites_path(events(:simple), user_ids: [@norm.id])
+    end
+
+    assert @norm.invited_to_event?(events(:simple))
+  end
+
+  test "users can accept event invites" do
+    sign_in @viktor
+    post event_invites_path(events(:simple), user_ids: [@norm.id])
+
+    sign_in @norm
+    post update_notification_path(@norm.notifications.last, "accepted")
+
+    assert @norm.attending_event?(events(:simple))
+  end
+
+  test "users can respond 'maybe' to event invite" do
+    sign_in @viktor
+    post event_invites_path(events(:simple), user_ids: [@norm.id])
+
+    sign_in @norm
+    post update_notification_path(@norm.notifications.last, "maybe")
+
+    assert @norm.attending_event?(events(:simple))
+  end
+
+  test "users can decline event invites" do
+    sign_in @viktor
+    post event_invites_path(events(:simple), user_ids: [@norm.id])
+
+    sign_in @norm
+    post update_notification_path(@norm.notifications.last, "declined")
+
+    assert_not @norm.attending_event?(events(:simple))
+  end
 end

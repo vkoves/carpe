@@ -226,6 +226,23 @@ class User < ApplicationRecord
     groups.include?(group)
   end
 
+  def attending_event?(event)
+    EventInvite.exists?(user: self, event: event, status: [:accepted, :maybe])
+  end
+
+  def invited_to_event?(event)
+    EventInvite.exists?(user: self, event: event)
+  end
+
+  def event_invite_category!
+    if categories.empty?
+      categories.create(name: "Event Invites", color: "rgb(192, 192, 192)")
+    else
+      # TODO: make this the default event invite category
+      categories.first
+    end
+  end
+
   ##########################
   ## END GEN USER METHODS ##
   ##########################

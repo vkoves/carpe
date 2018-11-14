@@ -22,8 +22,8 @@ module ApplicationHelper
   end
 
   def link_to_block(name = nil, options = nil, html_options = nil)
-    link_to options do
-      content_tag :span, name, html_options
+    link_to options, html_options do
+      content_tag :span, name
     end
   end
 

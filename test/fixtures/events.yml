@@ -60,6 +60,15 @@ nameless_event:
   category: main
   user: norm
 
+music_convention:
+  name: "Music Convention"
+  description: "There's going to be music"
+  user: viktor
+  category: main
+  date: 2015-12-16 02:00:00
+  end_date: 2015-12-16 06:00:00
+  base_event_id: <%= ActiveRecord::FixtureSet.identify(:music_convention) %>
+
 public_group_event:
   name: ""
   category: groupCategory
