@@ -63,9 +63,9 @@ On Carpe there are: <br>
 The average user has: <%= Event.count/User.count %> events and <%= Category.count/User.count %> categories.
 
 <div class="chart-cont">
-	<%= line_chart date_chart_fix(@past_month_users, @past, @now), library: {"title":"User Signups in past Month"} %>
-	<%= line_chart date_chart_fix(@past_month_events, @past, @now), library: {"title":"Events made in past Month"} %>
-	<%= line_chart date_chart_fix(@past_month_events_modified, @past, @now), library: {"title":"Events changed in past Month"} %>
+	<%= line_chart daily_date_data(@past_month_users, @data_time_range), library: { "title":"User Signups in past Month"} %>
+	<%= line_chart daily_date_data(@past_month_events, @data_time_range), library: { "title":"Events made in past Month"} %>
+	<%= line_chart daily_date_data(@past_month_events_modified, @data_time_range), library: { "title":"Events changed in past Month"} %>
 </div>
 
 <h4>Admins</h4>

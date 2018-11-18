@@ -7,7 +7,11 @@ class ScheduleControllerTest < ActionDispatch::IntegrationTest
     # this gets created when a user makes a new event on their scheduler
     @unsaved_events = {
       events: [
-        { eventId: "", groupId: groups(:publicGroup).id, startDateTime: Date.current, endDateTime: Date.current }
+        {
+          eventId: "", categoryId: categories(:groupCategory).id,
+          groupId: groups(:publicGroup).id,
+          startDateTime: Date.current, endDateTime: Date.current
+        }
       ]
     }
   end
@@ -40,7 +44,7 @@ class ScheduleControllerTest < ActionDispatch::IntegrationTest
     sign_in users(:loserLarry)
 
     assert_no_difference -> { Event.count } do
-      post save_schedule_path, params: @unsaved_events
+      post save_schedule_path, params: @unsaved_events, as: :json
     end
   end
 end

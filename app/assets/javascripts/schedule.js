@@ -288,6 +288,18 @@ function ScheduleItem() {
   };
 
   /**
+   * set the category id for this event
+   * @param {Date} newCategoryId - new category ID
+   * @return {undefined}
+   */
+  this.setCategory = function(newCategoryId) {
+    if (this.categoryId != newCategoryId) {
+      this.categoryId = newCategoryId;
+      updatedEvents(this.tempId, 'category');
+    }
+  };
+
+  /**
    * Runs once user has stoped dragging an event, either to resize or move
    * @param {JQuery} elem - element that was dragged
    * @param {boolean} resize - true if the object is being resized, false if the object is being moved
@@ -857,6 +869,11 @@ function loadInitialCategories() {
       catInstance.breaks = currCat.repeat_exceptions.map(function(brk) {return brk.id;});
 
       categories[catInstance.id] = catInstance;
+
+      // add the category to to options list only if it's name is not blank
+      if (currCat.name !== '') {
+        $('#cat-title-selector').append('<option value="' + currCat.id + '">' + currCat.name + '</option>');
+      }
     }
   }
 }
@@ -1846,8 +1863,10 @@ function editCategory(elem) {
 function editEvent(elem) {
   var editingEvent = $(document.activeElement).hasClass('evnt-title');
 
-  if (inColumn(elem) && !editingEvent && elem.attr('data-id') != -1) { // make sure this is a placed event that isn't private and we aren't already editing
-    currEvent = scheduleItems[elem.attr('evnt-temp-id')];
+  // make sure this is a placed event that isn't private and we aren't already editing
+  if (inColumn(elem) && !editingEvent && elem.attr('data-id') != -1) {
+    var evntId = elem.attr('evnt-temp-id');
+    currEvent = scheduleItems[evntId];
 
     var editable = !readOnly && currEvent.editable;
     if (editable) {// allow viewing of all events with single click
@@ -1855,12 +1874,21 @@ function editEvent(elem) {
     } else {
       $('.edit, #repeat, #add-break-event').hide(); // remove repeat functionality, and adding breaks
     }
+
     $('#overlay-title').attr('contenteditable', editable); // disable editing on location title and description
     $('#overlay-loc, #overlay-desc').prop('disabled', !editable);
     $('#time-start, #time-end').attr('readonly', !editable); // disable editing of time
 
-    var categoryName = $('#sch-tiles .sch-evnt.category[data-id=' + currEvent.categoryId + ']').find('.evnt-title').text();
-    $('#cat-title').html('In category <b>' + categoryName + '</b>');
+    // selects the current category of the event as the default option
+    $('#cat-title-selector option[value=\'' + currEvent.categoryId + '\']').attr('selected', 'selected');
+    $('#cat-title-selector').off();
+    $('#cat-title-selector').change(function() {
+      var val = $(this).val();
+      currEvent.setCategory(val);
+      // changes the background color of event and changes all references to past events
+      $('.sch-evnt[evnt-temp-id=\'' + evntId + '\'], #overlay-color-bar').css('background-color', categories[currEvent.categoryId].color);
+      $('.sch-evnt[evnt-temp-id=\'' + evntId + '\']').attr('data-id', val);
+    });
 
     // Select the proper repeat button
     $('.repeat-option').removeClass('red');
@@ -2335,6 +2363,8 @@ function deleteCategory(event, elem, id) {
             }
           }
         });
+
+        $('#cat-title-selector option[value=\'' + id + '\']').remove();
       },
       error: function() {
         alertUI('Deleting category failed :(');
@@ -2374,6 +2404,9 @@ function saveCategory(event, elem, id) {
       $('#sch-sidebar .sch-evnt[data-id=' + id + ']').find('.evnt-title').html($('.cat-overlay-title').html()); // Update name in sidebar
       $('.sch-evnt[data-id=' + id + ']').css('background-color', $('.cat-top-overlay').css('background-color')); // Update color of events
       sideHTML = $('#sch-tiles').html(); // the sidebar html for restoration upon drops
+
+      $('#cat-title-selector option[value=\'' + id + '\']').remove();
+      $('#cat-title-selector').append('<option value="' + id + '">' + currCategory.name + '</option>');
 
       UIManager.slideOutHideOverlay('#cat-overlay-box'); // Hide category editing panel
       currCategory = null; // and indicate there's no current category

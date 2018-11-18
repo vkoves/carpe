@@ -1,0 +1,41 @@
+# Documentation on each linter rule is available here:
+# https://github.com/brigade/scss-lint/blob/master/lib/scss_lint/linter/README.md
+scss_files: 'app/assets/stylesheets/**/*.scss'
+
+linters:
+  # TODO: Refactor and remove this.
+  # Right now, Carpe's design is still too fuzzy to only use color variables.
+  ColorVariable:
+    enabled: false
+
+  # Force all colors to use the same hex code to make them easier to search.
+  HexLength:
+    style: long
+
+  # This is unideal, but Carpe already uses a bunch of styling IDs.
+  IdSelector:
+    enabled: false
+
+  # 0.5 is more visible/explicit than .5.
+  LeadingZero:
+    style: include_zero
+
+  # Forcing everything into a single selector isn't conducive to re-use.
+  MergeableSelector:
+    enabled: false
+
+  # Layout | Typography | Styling is nicer than alphabetic order.
+  PropertySortOrder:
+    enabled: false
+
+  # Too obscure for many use-cases. prefer input[type='submit'] over [type='submit'].
+  QualifyingElement:
+    enabled: false
+
+  # Forcing `margin: 1px 2px 3px 0` to be `margin: 1px 2px 3px` is overkill.
+  Shorthand:
+    enabled: false
+
+  # Carpe targets the latest browsers (excluding IE), so use prefixes as needed.
+  VendorPrefix:
+    enabled: false

@@ -1,0 +1,36 @@
+<% group = large_group_card %>
+
+<div class="large-group-card grey-box">
+  <div class="card-header">
+    <% if group.banner.exists? %>
+      <div class="banner-img" style="background-image:url(<%= group.banner.url(:mobile) %>);"></div>
+    <% else %>
+      <div class="banner-img"></div>
+    <% end %>
+
+    <%= link_avatar group %>
+
+    <%= link_to group.name, group, class: "normal title" %>
+
+    <% if group.pending_invite_request? current_user %>
+      <h3>Invite Request Sent!</h3>
+    <% else %>
+      <%= link_to "+ Join", join_group_path(group), class: "button -join" %>
+    <% end %>
+  </div>
+
+  <div class="main">
+    <div class="flex-text-img -align-top">
+      <%= image_tag "description.svg", alt: "" %>
+      <% if group.description.present? # If the description is provided %>
+        <%= group.description %>
+      <% else %>
+        <em>This group has no description.</em>
+      <% end %>
+    </div>
+    <div class="flex-text-img">
+      <%= image_tag "person-multiple.png", alt: "" %>
+      <%= group.size %> <%= 'Member'.pluralize(group.size) %>
+    </div>
+  </div>
+</div>

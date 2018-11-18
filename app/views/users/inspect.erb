@@ -7,7 +7,7 @@
   <br>
   <div class="avatar">
     <%= link_to(@user) do %>
-        <img src="<%= @user.avatar_url(100) %>">
+      <%= image_tag @user.avatar_url(100) %>
     <% end %>
   </div>
   <br>

@@ -7,9 +7,9 @@
 		<% end %>
 			<div class="avatar">
 				<% if @home %>
-					<img src="<%= user.avatar_url(60) %>" class="width-60">
+					<%= image_tag user.avatar_url(60), class: "width-60" %>
 				<% else %>
-					<img src="<%= user.avatar_url(100) %>">
+					<%= image_tag user.avatar_url(100) %>
 				<% end %>
 			</div>
 		<% unless @home %>
@@ -41,12 +41,12 @@
 						<% else %>
 							Busy
 						<% end %>
-						until <%= relative_time_ago(user.current_events[0].end_date, false) %>
+						until <%= relative_time_tag(user.current_events[0].end_date) %>
 					<% else %>
 						<% next_event = user.next_event %>
 						<div class="green circle"></div>
 						<% if next_event %>
-							Free until <%= relative_time_ago(next_event.date, false) %>
+							Free until <%= relative_time_tag(next_event.date) %>
 						<% else %>
 							Free the rest of the day
 						<% end %>
