@@ -1870,14 +1870,15 @@ function editEvent(elem) {
 
     var editable = !readOnly && currEvent.editable;
     if (editable) {// allow viewing of all events with single click
-      $('.edit, #repeat, #add-break-event').show();
+      $('.edit, #repeat, #add-break-event, #event-invites-setup').show();
     } else {
-      $('.edit, #repeat, #add-break-event').hide(); // remove repeat functionality, and adding breaks
+      $('.edit, #repeat, #add-break-event, #event-invites-setup').hide(); // remove repeat functionality, and adding breaks
     }
 
     $('#overlay-title').attr('contenteditable', editable); // disable editing on location title and description
     $('#overlay-loc, #overlay-desc').prop('disabled', !editable);
     $('#time-start, #time-end').attr('readonly', !editable); // disable editing of time
+    $('#cat-title-selector').attr("disabled", !editable);
 
     // selects the current category of the event as the default option
     $('#cat-title-selector option[value=\'' + currEvent.categoryId + '\']').attr('selected', 'selected');
