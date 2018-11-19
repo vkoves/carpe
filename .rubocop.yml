@@ -1,0 +1,32 @@
+# Explanations for each linter rule and their defaults can be found here:
+# https://rubocop.readthedocs.io/en/latest/cops_style/
+
+AllCops:
+  TargetRubyVersion: 2.4
+
+  # Ignore database migrations
+  Exclude:
+  - db/**
+
+# The default line ending is based on your OS.
+# If you are using LF on windows you'll need this rule.
+#
+# Layout/EndOfLine:
+#   EnforcedStyle: lf
+
+# Once Ruby makes immutable strings the default, this can be removed.
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+# Double quotes allow for string interpolation
+StringLiterals:
+  EnforcedStyle: double_quotes
+
+# Ruby's % operators are too obscure, prefer standard array syntax.
+Style/SymbolArray:
+  EnforcedStyle: brackets
+
+# Requiring every class to have a comment is over-bearing.
+# Unmaintained and/or bad documentation is worse than none at all.
+Style/Documentation:
+  Enabled: false
