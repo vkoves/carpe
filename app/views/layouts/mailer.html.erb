@@ -1,5 +1,123 @@
+<!DOCTYPE html>
 <html>
+  <head>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    <style>
+      body {
+        font-family: 'Open Sans', sans-serif;
+        margin: 0px;
+        background-color: lightgrey;
+        width:100%;
+      }
+      .carpe-color {
+        color: #ff7400;
+        font-weight: bold;
+      }
+      #carpe-logo {
+        padding-top: 10px;
+      }
+      .inner {
+        padding: 0px 20px;
+        margin-left:auto;
+        margin-right:auto;
+        width: 100%;
+        background-color: silver;
+      }
+      h1 {
+        margin-top: 20px;
+        margin-bottom: 0px;
+        font-size: 22px;
+        font-weight: 400;
+      }
+      h1, h2, h3, h4, h5, h6, p { color: rgb(80,80,80); }
+      p {
+        font-size:16px;
+      }
+      .break {line-height:16px; }
+      #unique {
+        margin-left: auto;
+        margin-right: auto;
+        padding-top:60px;
+        padding-bottom:60px;
+        width:100%;
+        background-color:rgb(234,234,234);
+      }
+      #top {
+        background-color: #FF7400;
+        color: white;
+        font-weight: bold;
+        font-size: 20px;
+        max-width:600px;
+      }
+      #main {
+        background-color: white;
+        padding-bottom: 30px;
+        max-width:600px;
+      }
+      #footer {
+        text-align: center;
+        color: rgb(80,80,80);
+        padding-top:20px;
+      }
+      #footer-ibs {
+        max-width:100%;
+        max-height:50px;
+      }
+      .visit-ibs {
+        color: rgb(191,191,191);
+        font-size: 12px;
+      }
+      .complement-blue {
+        color: #31A1ED !important;
+        text-decoration: none;
+      }
+      .dash-button {
+        display: inline-block;
+        cursor: pointer;
+        position: relative;
+        padding: 6px 90px 6px 90px;
+        background: #31A1ED;
+        color: #FFF !important;
+        text-decoration: none;
+        font-weight: 600;
+        border-radius: 5px;
+        transition: background 0.3s;
+        border: none;
+        font-size: 18px;
+        margin-bottom:16px;
+      }
+      image {background: white;}
+    </style>
+  </head>
   <body>
-    <%= yield %>
+    <table id="unique">
+      <tbody>
+        <tr><td>
+          <table id="top" class="inner">
+            <tbody>
+              <tr>
+                <td><img id="carpe-logo" height="50" alt="Carpe Logo" src="https://s3-us-west-2.amazonaws.com/carpe-indigobox/email/CarpeMailLogo2.png"></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <table id="main" class="inner">
+            <tbody>
+              <%= yield %>
+
+              <tr>
+                <td id="footer">
+                  <img id="footer-ibs" alt="Carpe Logo" src="https://s3-us-west-2.amazonaws.com/carpe-indigobox/email/email-foot-top.png"><br><br>
+                  Made by IndigoBox in Chicago.
+                  <span class="break"><br><br></span>
+                  <span class="visit-ibs"> IndigoBox Studios - <%= Time.current.year %>  ·  <a href="http://indigobox.us" class="complement-blue">Visit Our Site</a></span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td></tr>
+      </tbody>
+    </table>
   </body>
 </html>
