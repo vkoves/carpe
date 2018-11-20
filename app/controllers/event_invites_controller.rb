@@ -8,15 +8,16 @@ class EventInvitesController < ApplicationController
       # Require the invite token
       if params[:token] == invite.token
         if invite.update(status: params[:new_status])
-          flash[:notice] = "We have updated that event invite, you are now marked as \"#{params[:new_status]}\""
+          flash[:notice] = I18n.t('event_invites.success', status: params[:new_status])
         else
-          flash[:alert] = "Something went wrong responding to that event invite!"
+          flash[:alert] = I18n.t('event_invites.update_error')
         end
       else
-        flash[:alert] = "You don't have permission to update that event invite!"
+        # Token is invalid or empty, no permission to update
+        flash[:alert] = I18n.t('event_invites.no_permission')
       end
     else
-      flash[:alert] = "You cannot mark yourself as pending response on an event invite!"
+      flash[:alert] = I18n.t('event_invites.pending_error')
     end
 
     redirect_to home_path
