@@ -61,6 +61,7 @@ jobs:
           command: |
               bundle exec scss-lint
               eslint app/assets/javascripts spec/javascripts
+              rubocop
 
       # run tests!
       - run:
