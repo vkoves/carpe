@@ -7,6 +7,7 @@ AllCops:
   Exclude:
   - 'db/**/*' # Ignore database migrations
   - 'bin/**/*' # Ignore bin files, we don't write them
+  - 'vendor/**/*'
 
 # The default line ending is based on your OS.
 # If you are using LF on windows you'll need this rule.
