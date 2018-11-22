@@ -59,8 +59,9 @@ jobs:
       - run:
           name: Run Linting
           command: |
-              bundle exec scss-lint
+              rubocop
               eslint app/assets/javascripts spec/javascripts
+              bundle exec scss-lint
 
       # run tests!
       - run:

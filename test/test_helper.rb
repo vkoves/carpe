@@ -1,5 +1,5 @@
 # Add SimpleCov
-require 'simplecov'
+require "simplecov"
 SimpleCov.start do
   add_filter "/test/"
   coverage_dir "public/coverage"
@@ -7,11 +7,11 @@ end
 
 # Add Minitest reporting
 require "minitest/reporters"
-Minitest::Reporters.use! [Minitest::Reporters::HtmlReporter.new(:reports_dir => "public/html_reports"), Minitest::Reporters::DefaultReporter.new]
+Minitest::Reporters.use! [Minitest::Reporters::HtmlReporter.new(reports_dir: "public/html_reports"), Minitest::Reporters::DefaultReporter.new]
 
-ENV['RAILS_ENV'] ||= 'test'
-require File.expand_path('../../config/environment', __FILE__)
-require 'rails/test_help'
+ENV["RAILS_ENV"] ||= "test"
+require File.expand_path("../config/environment", __dir__)
+require "rails/test_help"
 
 class ActiveSupport::TestCase
   # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
@@ -35,10 +35,10 @@ class ActionDispatch::SystemTestCase
   def sign_in(email, password)
     visit new_user_session_path
 
-    within 'form' do
-      fill_in 'Email', with: email
-      fill_in 'Password', with: password
-      click_on 'Sign In'
+    within "form" do
+      fill_in "Email", with: email
+      fill_in "Password", with: password
+      click_on "Sign In"
     end
   end
 

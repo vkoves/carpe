@@ -1,5 +1,4 @@
 class Users::RegistrationsController < Devise::RegistrationsController
-
   # Overwrite update_resource to let users to update their user without giving their password
   def update_resource(resource, params)
     if current_user.provider
@@ -10,8 +9,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
   end
 
-
-  #Add new field
+  # Add new field
   private
 
   def sign_up_params

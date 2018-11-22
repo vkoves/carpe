@@ -10,7 +10,7 @@ class NotificationsController < ApplicationController
     @notification = Notification.find(params[:id])
 
     # dispatches call to private method (if implemented)
-    self.send(@notification.event) if self.respond_to?(@notification.event, true)
+    send(@notification.event) if respond_to?(@notification.event, true)
 
     @notification.destroy
     render json: {}, status: :ok
@@ -42,13 +42,13 @@ class NotificationsController < ApplicationController
   def group_invite_request
     group = @notification.entity
 
-    if params[:response] == "accepted"
-      group.add(@notification.sender)
-      
-      Notification.create!(
-        receiver: @notification.sender,
-        message: "You're now a member of #{group.name}!"
-      )
-    end
+    return unless params[:response] == "accepted"
+
+    group.add(@notification.sender)
+
+    Notification.create!(
+      receiver: @notification.sender,
+      message: "You're now a member of #{group.name}!"
+    )
   end
 end

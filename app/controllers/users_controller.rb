@@ -14,9 +14,7 @@ class UsersController < ApplicationController
     @profile = current_user == @user
 
     # forces custom urls to be displayed (when applicable)
-    if params[:id].is_int? and @user.has_custom_url?
-      redirect_to user_path(@user), status: :moved_permanently
-    end
+    redirect_to user_path(@user), status: :moved_permanently if params[:id].is_int? && @user.has_custom_url?
 
     @view = params[:page]&.to_sym || :schedule
     case @view
@@ -40,13 +38,13 @@ class UsersController < ApplicationController
   def promote
     @user = User.find(params[:id])
     @user.update(admin: true)
-    render json: { action: "promote", uid: @user.id, new_href: demote_user_path(@user)}
+    render json: { action: "promote", uid: @user.id, new_href: demote_user_path(@user) }
   end
 
   def demote
     @user = User.find(params[:id])
     @user.update(admin: false)
-    render json: { action: "demote", uid: @user.id, new_href: promote_user_path(@user)}
+    render json: { action: "demote", uid: @user.id, new_href: promote_user_path(@user) }
   end
 
   def destroy
