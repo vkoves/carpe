@@ -29,7 +29,7 @@ event = Event.create(
   category: category
 )
 
-event.update(base_event: event)
+event.update(base_event_id: event.id)
 
 EventInvite.create(
   sender: test1,

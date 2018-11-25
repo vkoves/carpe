@@ -7,8 +7,8 @@
   </div>
 
   <div class="choices">
-    <%= link_to_block "I'm attending", update_notification_path(notification, "accepted"), method: :post, remote: true, class: "green button" %>
-    <%= link_to_block "Maybe", update_notification_path(notification, "maybe"), method: :post, remote: true, class: "button" %>
-    <%= link_to_block "No, thanks", update_notification_path(notification, "declined"), method: :post, remote: true, class: "red button" %>
+    <%= link_to "I'm attending", update_notification_path(notification, "accepted"), method: :post, remote: true, class: "green button" %>
+    <%= link_to "Maybe", update_notification_path(notification, "maybe"), method: :post, remote: true, class: "button" %>
+    <%= link_to "No, thanks", update_notification_path(notification, "declined"), method: :post, remote: true, class: "red button" %>
   </div>
 </div>
