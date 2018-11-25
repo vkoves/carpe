@@ -630,131 +630,130 @@ input[readonly='readonly'] {
     background: #d3cece;
   }
 }
-#sch-holder
-{
-	width: 100%;
-	// height: 93%;
-	height: 662px;
-	border-radius: 5px;
-	overflow-x: auto;
-	overflow-y: auto;
+
+#sch-holder {
+  width: 100%;
+  // height: 93%;
+  height: 662px;
+  border-radius: 5px;
+  overflow-x: auto;
+  overflow-y: auto;
 }
-.sch-evnt.uneditable
-{
+
+.sch-evnt.uneditable {
   cursor: pointer;
 }
-.sch-evnt
-{
-	transition: box-shadow 0.3s, border-color 0.3s;
-	position: relative;
-	width: 190px;
-	height: 88px; /* This should be 90px - borders top and bottom */
-	min-height: 25px;
-	background: #BDBDBD;
-	left: 0;
-	right: 0;
-	font-size: 16px;
-	overflow: hidden;
-	cursor: grab;
-	cursor: move;
 
-	.evnt-desc
-	{
-		display: none;
-		width: 100%;
-		height: 100%;
-		margin-left: auto;
-		margin-right: auto;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-		overflow: hidden;
-	}
-	.evnt-divider
-	{
-		width:1px;
-		left:48px;
-		height:90%;
-		top:5%;
-		position:absolute;
-		background-color: white;
-	}
-	.evnt-time
-	{
-		position: absolute;
-		float: left;
-		margin-left: 2px;
-		width:50px;
-		text-align: left;
-		font-size: 10px;
-		color: rgb(240, 240, 240);
-		line-height: 1;
-	}
-	.evnt-time.top
-	{
-		top: 5%;
-	}
-	.evnt-time.bot
-	{
-		bottom: 6%;
-	}
-	.evnt-title
-	{
-		font-size: 14px;
-		font-weight:bold;
-		width: 69%;
-		margin-left: 52px;
-		margin-right: auto;
-		text-align:left;
-		overflow: hidden;
-		overflow-wrap: break-word; /* chrome does this by default - firefox doesn't */
-		transition: all 0.3s;
-		max-height: 95%;
-		min-height: 19px;
+.sch-evnt {
+  transition: box-shadow 0.3s, border-color 0.3s;
+  position: relative;
+  width: 190px;
+  height: 88px; // This should be 90px - borders top and bottom
+  min-height: 25px;
+  background: #bdbdbd;
+  left: 0;
+  right: 0;
+  font-size: 16px;
+  overflow: hidden;
+  cursor: grab;
+
+  .evnt-desc {
+    display: none;
+    width: 100%;
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
-  
-  .evnt-title-editable{
+
+  .evnt-divider {
+    width: 1px;
+    left: 48px;
+    height: 90%;
+    top: 5%;
+    position: absolute;
+    background-color: #ffffff;
+  }
+
+  .evnt-time {
+    position: absolute;
+    float: left;
+    margin-left: 2px;
+    width: 50px;
+    text-align: left;
+    font-size: 10px;
+    color: rgb(240, 240, 240);
+    line-height: 1;
+  }
+
+  .evnt-time.top {
+    top: 5%;
+  }
+
+  .evnt-time.bot {
+    bottom: 6%;
+  }
+
+  .evnt-title {
+    font-size: 14px;
+    font-weight: bold;
+    width: 69%;
+    margin-left: 52px;
+    margin-right: auto;
+    text-align: left;
+    overflow: hidden;
+    overflow-wrap: break-word; // chrome does this by default - firefox doesn't
+    transition: all 0.3s;
+    max-height: 95%;
+    min-height: 19px;
+  }
+
+  .evnt-title-editable {
     cursor: pointer;
   }
 
-	/* Give editable text fields proper cursor */
-	.evnt-title:focus, .cat-overlay-title:focus
-	{
-		cursor: text !important;
-	}
-}
-.col-snap
-{
-	position: absolute;
-	height: calc(100% - 50px);
-	max-height: 600px;
-	width: 192px;
-	margin-left: auto;
-	margin-right: auto;
-	left: -1px;
-	right: 0px;
-	top: 50px;
-	padding-bottom: 1px;
+  // Give editable text fields proper cursor
+  .evnt-title:focus,
+  .cat-overlay-title:focus {
+    cursor: text !important; // sass-lint:disable-line no-important
+  }
 
-	/* Style events that have been placed */
-	.sch-evnt
-	{
-		position: absolute;
-	}
-	.sch-evnt:hover > .sch-evnt-icon
-	{
-		display: block;
-		opacity: 1;
-	}
-	.sch-evnt:not(.uneditable):hover
-	{
-		box-shadow: 0px 0px 5px rgb(0, 0, 0);
-		border-color: rgba(0,0,0,0);
-	}
-	.evnt-title-editable:hover, .evnt-title-editable:focus
-	{
-		background: rgba(0,0,0,0.25);
-		box-shadow: 0px 0px 3px black;
-	}
+}
+
+.col-snap {
+  position: absolute;
+  height: calc(100% - 50px);
+  max-height: 600px;
+  width: 192px;
+  margin-left: auto;
+  margin-right: auto;
+  left: -1px;
+  right: 0;
+  top: 50px;
+  padding-bottom: 1px;
+
+  // Style events that have been placed
+  .sch-evnt {
+    position: absolute;
+  }
+
+  .sch-evnt:hover > .sch-evnt-icon {
+    display: block;
+    opacity: 1;
+  }
+
+  .sch-evnt:not(.uneditable):hover {
+    box-shadow: 0 0 5px rgb(0, 0, 0);
+    border-color: rgba(0, 0, 0, 0);
+  }
+
+  .evnt-title-editable:hover,
+  .evnt-title-editable:focus {
+    background: rgba(0, 0, 0, 0.25);
+    box-shadow: 0 0 3px #000000;
+  }
 }
 
 .overlay-box #repeat {
@@ -778,89 +777,90 @@ input[readonly='readonly'] {
   margin-top: 10px;
 }
 
-/* Overlay CSS */
-#event-overlay-box
-{
-	#overlay-title
-	{
-		font-size: 24px;
-		min-height: 33px;
-		width: 85%;
-		margin-left: 20px;
-		margin-right: auto;
-		padding-left: 5px;
-		text-align:left;
-		border-radius: 5px;
-	}
-	#overlay-title:focus, #overlay-title:not([contenteditable="false"]):hover
-	{
-		background: rgba(150, 150, 150, 0.33);
-	}
-	#overlay-color-bar
-	{
-		width: 100%;
-		padding: 10px 0px;
-		color: white;
-		margin-bottom: 5px;
-		text-align: right;
-	}
-	#cat-title
-	{
-		top: 20px;
-		right: 45px;
-		font-weight: 600;
-		font-size: 18px;
-		margin-right: 10px;
-		margin-left: 50px;
-	}
-	.small-title
-	{
-		color: #6B6B6B;
-		text-align: left;
-		margin-left: 20px;
-		margin-top: 5px;
-		margin-bottom: 3px;
-		clear: left /* make sure title appears on separate line after using 'float' */
-	}
-	.small-title .edit
-	{
-		cursor: pointer;
-		color: #eb8f00;
-		text-decoration: underline;
-	}
-	.small-title .edit:hover
-	{
-		color: #EB8F00;
-	}
-	#overlay-desc, #overlay-loc
-	{
-		min-height: 22px;
-		margin: 0px 20px;
-		width: calc(100% - 40px);
-		resize: none;
-		border: none;
-		color: inherit;
-		font-size: inherit;
-		text-align: left;
-		padding: 3px 0px;
-
-		/* Disable hover background effect */
-		&:hover:not(:focus) { background: none; }
-		&:focus { padding: 3px 5px; }
-	}
-	.overlay-time
-	{
-		float: left;
-		margin-top: 5px;
-		margin-left: 20px;
-	}
-	.overlay-time input
-	{
-		width: 65px;
-		padding-left: 2px;
-		font-size: 14px;
-		/* font-family:Open Sans, sans-serif; */
+// Overlay CSS
+#event-overlay-box {
+  #overlay-title {
+    font-size: 24px;
+    min-height: 33px;
+    width: 85%;
+    margin-left: 20px;
+    margin-right: auto;
+    padding-left: 5px;
+    text-align: left;
+    border-radius: 5px;
   }
+
+  #overlay-title:focus,
+  #overlay-title:not([contenteditable="false"]):hover {
+    background: rgba(150, 150, 150, 0.33);
+  }
+
+  #overlay-color-bar {
+    width: 100%;
+    padding: 10px 0;
+    color: #ffffff;
+    margin-bottom: 5px;
+    text-align: right;
+  }
+
+  #cat-title {
+    top: 20px;
+    right: 45px;
+    font-weight: 600;
+    font-size: 18px;
+    margin-right: 10px;
+    margin-left: 50px;
+  }
+
+  .small-title {
+    color: #6b6b6b;
+    text-align: left;
+    margin-left: 20px;
+    margin-top: 5px;
+    margin-bottom: 3px;
+    clear: left; // make sure title appears on separate line after using 'float'
+  }
+
+  .small-title .edit {
+    cursor: pointer;
+    color: #eb8f00;
+    text-decoration: underline;
+  }
+
+  .small-title .edit:hover {
+    color: #eb8f00;
+  }
+
+  #overlay-desc,
+  #overlay-loc {
+    min-height: 22px;
+    margin: 0 20px;
+    width: calc(100% - 40px);
+    resize: none;
+    border: 0;
+    color: inherit;
+    font-size: inherit;
+    text-align: left;
+    padding: 3px 0;
+
+    // Disable hover background effect
+    &:hover:not(:focus) { background: none; }
+    &:focus { padding: 3px 5px; }
+  }
+
+  .overlay-time {
+    float: left;
+    margin-top: 5px;
+    margin-left: 20px;
+  }
+
+  .overlay-time input {
+    width: 65px;
+    padding-left: 2px;
+    font-size: 14px;
+    // font-family:Open Sans, sans-serif;
+  }
+
 }
 
 .repeat-option {
@@ -1013,7 +1013,7 @@ input[readonly='readonly'] {
 }
 
 .sch-evnt-icon-hide {
-  display: none !important;
+  display: none !important; // sass-lint:disable-line no-important
 }
 
 // -----------------------------------
@@ -1029,7 +1029,7 @@ input[readonly='readonly'] {
   > div {
     display: flex;
     align-items: center;
-	}
+  }
 }
 
 .event-invite .actions * {
@@ -1043,7 +1043,7 @@ input[readonly='readonly'] {
   img {
     width: 40px;
     height: 40px;
-	}
+  }
 }
 
 // -----------------------------------
