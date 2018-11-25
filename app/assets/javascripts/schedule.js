@@ -1878,7 +1878,7 @@ function editEvent(elem) {
     $('#overlay-title').attr('contenteditable', editable); // disable editing on location title and description
     $('#overlay-loc, #overlay-desc').prop('disabled', !editable);
     $('#time-start, #time-end').attr('readonly', !editable); // disable editing of time
-    $('#cat-title-selector').attr("disabled", !editable);
+    $('#cat-title-selector').attr('disabled', !editable);
 
     // selects the current category of the event as the default option
     $('#cat-title-selector option[value=\'' + currEvent.categoryId + '\']').attr('selected', 'selected');
