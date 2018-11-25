@@ -234,6 +234,9 @@ class User < ApplicationRecord
     EventInvite.exists?(user: self, event: event)
   end
 
+  # Returns the the default category that hosted events will be placed under.
+  # If a default event invite category is not set in the profile settings,
+  # a new default category is automatically created.
   def event_invite_category!
     if categories.empty?
       categories.create(name: "Event Invites", color: "rgb(192, 192, 192)")

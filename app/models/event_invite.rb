@@ -26,6 +26,9 @@ class EventInvite < ApplicationRecord
     }
   }
 
+  # Creates a duplicate event on the invited user's schedule
+  # (referred to as a hosted event) that will need to be kept
+  # in sync with the host event (base_event_id).
   def make_hosted_event_for_user!
     new_event = event.dup
     new_event.user_id = user.id
