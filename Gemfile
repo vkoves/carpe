@@ -96,3 +96,6 @@ gem 'selenium-webdriver', '~> 3'
 gem 'chromedriver-helper', '~> 1'
 
 gem 'scss_lint', require: false
+
+# Ruby linter
+gem 'rubocop', '~> 0.60.0', require: false
