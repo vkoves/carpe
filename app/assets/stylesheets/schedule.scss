@@ -717,7 +717,8 @@ input[readonly='readonly'] {
   // Give editable text fields proper cursor
   .evnt-title:focus,
   .cat-overlay-title:focus {
-    cursor: text !important; // sass-lint:disable-line no-important
+    // scss-lint:disable ImportantRule
+    cursor: text !important;
   }
 
 }
@@ -1013,7 +1014,8 @@ input[readonly='readonly'] {
 }
 
 .sch-evnt-icon-hide {
-  display: none !important; // sass-lint:disable-line no-important
+  // scss-lint:disable ImportantRule
+  display: none !important;
 }
 
 // -----------------------------------
