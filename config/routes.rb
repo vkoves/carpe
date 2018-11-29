@@ -26,6 +26,11 @@ Rails.application.routes.draw do
   get "join_group/:id", to: 'groups#join', as: :join_group
   get "leave_group/:id", to: 'groups#leave', as: :leave_group
 
+  # Event Invite Routes
+
+  get "/event-invite/:id/email-action/:new_status", to: 'event_invites#email_action', as: :event_invite_email_action
+
+
   #Admin Routes
   get "/sandbox" => 'pages#sandbox'
   get "/admin" => 'pages#admin', :as => :admin_panel

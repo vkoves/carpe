@@ -1,0 +1,10 @@
+# WARNING! Make sure to have a token on each invite, otherwise email actions
+# will always work. This isn't an issue normally (ActiveRecord handles it), but
+# it is with tests.
+
+# Simple default event invite
+simple:
+  user: norm
+  sender: viktor
+  event: simple
+  token: 'some-nice-token'
