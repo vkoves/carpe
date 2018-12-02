@@ -1,5 +1,5 @@
-#The controller for schedule related pages and actions, such as the schedule page
-#as well as creating and editing categories
+# The controller for schedule related pages and actions, such as the schedule page
+# as well as creating and editing categories
 
 # TODO: Most requests should enforce user being signed in, as data can't be made anonymously
 class SchedulesController < ApplicationController
@@ -9,9 +9,7 @@ class SchedulesController < ApplicationController
     if params[:uid] # user viewing another user's schedule
       @user = User.find(params[:uid])
     else # user viewing their own schedule
-      unless user_signed_in?
-        redirect_to user_session_path, alert: "You have to be signed in to do that!" and return
-      end
+      redirect_to(user_session_path, alert: "You have to be signed in to do that!") && return unless user_signed_in?
 
       @user = current_user
       @read_only = false
@@ -36,35 +34,30 @@ class SchedulesController < ApplicationController
 
       evnt.name = obj["name"]
       evnt.repeat = obj["repeatType"]
-      evnt.date = DateTime.parse(obj["startDateTime"])
-      evnt.end_date = DateTime.parse(obj["endDateTime"])
+      evnt.date = Time.find_zone("UTC").parse(obj["startDateTime"])
+      evnt.end_date = Time.find_zone("UTC").parse(obj["endDateTime"])
 
       evnt.repeat_start = obj["repeatStart"].blank? ? nil : Date.parse(obj["repeatStart"])
       evnt.repeat_end = obj["repeatEnd"].blank? ? nil : Date.parse(obj["repeatEnd"])
 
-      if obj["breaks"]
-        evnt.repeat_exceptions = obj["breaks"].map { |id| RepeatException.find(id) }
-      end
+      evnt.repeat_exceptions = obj["breaks"].map { |id| RepeatException.find(id) } if obj["breaks"]
 
       evnt.description = obj["description"] || ""
       evnt.location = obj["location"] || ""
       evnt.category_id = obj["categoryId"].to_i
 
-
       authorize! :create, evnt
       evnt.save!
 
-      if obj["eventId"].blank? # if this is not an existing event
-        new_event_ids[obj["tempId"]] = evnt.id
-      end
+      new_event_ids[obj["tempId"]] = evnt.id if obj["eventId"].blank? # if this is not an existing event
     end
 
-    render :json => new_event_ids
+    render json: new_event_ids
   end
 
   private
 
   def allow_iframe
-    response.headers.except! 'X-Frame-Options'
+    response.headers.except! "X-Frame-Options"
   end
 end
