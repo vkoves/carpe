@@ -66,7 +66,7 @@ Run JSDoc by entering `npm run jsdoc` in command line.
 
 ### SCSS Linting
 
-Carpe uses [stylelint](https://github.com/brigade/scss-lint). The rules are explained in the [documentation](https://www.rubydoc.info/github/brigade/scss-lint/master/frames). Custom rules are defined in `.scss-lint.yml`.
+Carpe uses [scss-lint](https://github.com/brigade/scss-lint). The rules are explained in the [documentation](https://www.rubydoc.info/github/brigade/scss-lint/master/frames). Custom rules are defined in `.scss-lint.yml`.
 
 Run it by entering `scss-lint` in the command line.
 
