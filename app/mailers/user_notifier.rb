@@ -24,6 +24,6 @@ class UserNotifier < ApplicationMailer
     @event = event
     @changes = changes
     @date_format = "%b. %d, %Y %l:%M %p"
-    mail(:to => @user.email, :subject => "#{@event.name} Has Been Updated")
+    mail(:to => @user.email, :subject => "\"#{@event.name}\" Has Been Updated")
   end
 end
