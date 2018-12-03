@@ -17,4 +17,13 @@ class UserNotifier < ApplicationMailer
     @date_format = "%b. %d, %Y %l:%M %p"
     mail(:to => @user.email, :subject => "You Have Been Invited to #{@event.name}")
   end
+
+  # Send an email that an event a user owns or is invited to was updated
+  def event_update_email(user, event, changes)
+    @user = user
+    @event = event
+    @changes = changes
+    @date_format = "%b. %d, %Y %l:%M %p"
+    mail(:to => @user.email, :subject => "#{@event.name} Has Been Updated")
+  end
 end

@@ -19,6 +19,8 @@ class Event < ApplicationRecord
   has_many :event_invites, dependent: :destroy
   has_many :invited_users, through: :event_invites, source: :user
 
+  after_validation :notify_guests, on: :update
+
   def get_html_name #returns the event name, or an italicized untitled
     name.present? ? ERB::Util.html_escape(name) : "<i>Untitled</i>"
   end
@@ -188,6 +190,22 @@ class Event < ApplicationRecord
       dates_in_range_certain_weekdays(start_time, end_time, time_zone)
     else # this event doesn't repeat
       date.between?(start_time, end_time) ? [date] : []
+    end
+  end
+
+  # Called when an update is correctly updated. Notifies all users invited to
+  # this event, and the event owner EXCEPT the current_user (since they know
+  # the event changed)
+  def notify_guests(current_user = nil)
+    # Make sure the event owner is notified
+    notify_targets = self.invited_users + [self.creator]
+
+    # If we know who changed the event, ensure they are not notified
+    # notify_targets -= [current_user] if current_user
+
+    # Send an event_update_email to all notify targets
+    notify_targets.each do |recipient |
+      UserNotifier.event_update_email(recipient, self, self.changes).deliver_later
     end
   end
 end
