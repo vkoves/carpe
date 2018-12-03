@@ -60,6 +60,7 @@ nameless_event:
   category: main
   user: norm
 
+# An event that people have been invited to (see event_invites.yml)
 music_convention:
   name: "Music Convention"
   description: "There's going to be music"

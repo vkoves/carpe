@@ -295,4 +295,18 @@ class EventTest < ActiveSupport::TestCase
     # in right month but after event
     assert_empty event.events_in_range(Date.new(2017, 10, 22), Date.new(2017, 10, 29))
   end
+
+  test "changing event gives guest a notification" do
+    event = events(:music_convention) # Has several invited users, but we just check one
+    guest = users(:norm)
+
+
+    event.name += " Changed"
+    event.save
+
+    guest_notif_count = Notification.where(entity: event, receiver: guest, event: Notification.events['event_update']).count
+
+    # Ensure there is one notification for this event being updated
+    assert_equal 1, guest_notif_count
+  end
 end

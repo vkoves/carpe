@@ -19,7 +19,8 @@ class Event < ApplicationRecord
   has_many :event_invites, dependent: :destroy
   has_many :invited_users, through: :event_invites, source: :user
 
-  after_validation :notify_guests, on: :update
+  # Notify guests on update if there are invited users
+  after_validation :notify_guests, on: :update, if: :has_guests?
 
   def get_html_name #returns the event name, or an italicized untitled
     name.present? ? ERB::Util.html_escape(name) : "<i>Untitled</i>"
@@ -98,6 +99,11 @@ class Event < ApplicationRecord
 
     # owners of a hosted event are explicitly invited to their own event.
     EventInvite.create(user: creator, event: self, role: :host)
+  end
+
+  # Returns true if users have been invited to this event
+  def has_guests?
+    invited_users.count > 0
   end
 
   ##########################
