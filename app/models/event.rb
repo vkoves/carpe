@@ -196,12 +196,12 @@ class Event < ApplicationRecord
   # Called when an update is correctly updated. Notifies all users invited to
   # this event, and the event owner EXCEPT the current_user (since they know
   # the event changed)
-  def notify_guests(current_user = nil)
+  def notify_guests
     # Make sure the event owner is notified
     notify_targets = self.invited_users + [self.creator]
 
     # If we know who changed the event, ensure they are not notified
-    # notify_targets -= [current_user] if current_user
+    notify_targets -= [Current.user] if Current.user
 
     # Send an event_update_email to all notify targets
     notify_targets.each do |recipient |
