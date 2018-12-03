@@ -1,4 +1,6 @@
 class EventInvite < ApplicationRecord
+  has_secure_token
+
   enum status: {
     accepted: 0,
     declined: 1,
@@ -26,6 +28,8 @@ class EventInvite < ApplicationRecord
     }
   }
 
+  after_create :send_invite_email
+
   # Creates a duplicate event on the invited user's schedule
   # (referred to as a hosted event) that will need to be kept
   # in sync with the host event (base_event_id).
@@ -49,5 +53,11 @@ class EventInvite < ApplicationRecord
 
   def decline!
     update(status: :declined)
+  end
+
+  private
+
+  def send_invite_email
+    UserNotifier.event_invite_email(self.user, self).deliver_now
   end
 end

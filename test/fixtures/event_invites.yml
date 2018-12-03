@@ -1,3 +1,6 @@
+# WARNING! Invites used for testing emails must include
+# a token - it isn't automatically generated during tests.
+
 putin_music:
   user: putin
   sender: viktor
@@ -9,10 +12,15 @@ accepted_music:
   event: music_convention
   status: 0 # accepted
 
-
 host_music:
   user: viktors_friend
   sender: viktor
   event: music_convention
   role: 1 # host
   status: 0 # accepted
+
+repeat_daily:
+  user: norm
+  sender: viktor
+  event: repeat_daily
+  token: 'some-nice-token'

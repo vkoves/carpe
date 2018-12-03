@@ -9,10 +9,11 @@ class UserNotifier < ApplicationMailer
     mail(:to => @user.email, :subject => 'Welcome to Carpe')
   end
 
-  # Send an email about an event invite
+  # Send an email about an event invite. The user is separate to allow for
+  # testing, but should generally be event_invite.user
   def event_invite_email(user, event_invite)
     @user = user
-    @event_invite = event_invite
+    @invite = event_invite
     @event = event_invite.event
     @date_format = "%b. %d, %Y %l:%M %p"
     mail(:to => @user.email, :subject => "You Have Been Invited to #{@event.name}")
