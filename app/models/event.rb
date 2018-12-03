@@ -206,6 +206,7 @@ class Event < ApplicationRecord
     # Send an event_update_email to all notify targets
     notify_targets.each do |recipient |
       UserNotifier.event_update_email(recipient, self, self.changes).deliver_later
+      Notification.send_event_update(recipient, self)
     end
   end
 end

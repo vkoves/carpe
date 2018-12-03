@@ -1,6 +1,7 @@
 class Notification < ApplicationRecord
+  # Events define the types of notifications. DO NOT CHANGE EXISTING EVENTS
   enum event: { system_message: 0, follow_request: 1, user_message: 2, group_invite: 3,
-                group_invite_request: 4, event_invite: 5 }
+                group_invite_request: 4, event_invite: 5, event_update: 6 }
 
   belongs_to :entity, polymorphic: true, optional: true
 
@@ -21,6 +22,15 @@ class Notification < ApplicationRecord
       receiver: invite.user,
       event: :event_invite,
       entity: invite
+    )
+  end
+
+  def self.send_event_update(user, event)
+    Notification.create(
+      receiver: user,
+      event: :event_update,
+      entity: event,
+      message: "The event \"#{event.name}\" has been updated. Review the event in your schedule."
     )
   end
 end
