@@ -1,4 +1,13 @@
+# WARNING! Invites used for testing emails must include
+# a token - it isn't automatically generated during tests.
+
 putin_music:
   user: putin
   sender: viktor
   event: music_convention
+
+simple:
+  user: norm
+  sender: viktor
+  event: simple
+  token: 'some-nice-token'
