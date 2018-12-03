@@ -16,7 +16,7 @@ class UserNotifierPreview < ActionMailer::Preview
   	event = Event.first
 
   	# Change the name and start time (but don't save) for the preview
-  	event.name += ' - changed';
+  	event.name += ' The Sequel';
   	event.date += 1.hour;
   	changes = event.changes
 
