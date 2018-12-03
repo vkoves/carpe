@@ -6,8 +6,8 @@ putin_music:
   sender: viktor
   event: music_convention
 
-simple:
+repeat_daily:
   user: norm
   sender: viktor
-  event: simple
+  event: repeat_daily
   token: 'some-nice-token'

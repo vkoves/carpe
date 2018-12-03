@@ -4,7 +4,7 @@ class EventInvitesControllerTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
 
   def setup
-    @invite = event_invites(:simple)
+    @invite = event_invites(:repeat_daily)
   end
 
   test "duplicate event invites are rejected" do
