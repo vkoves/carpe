@@ -300,7 +300,6 @@ class EventTest < ActiveSupport::TestCase
     event = events(:music_convention) # Has several invited users, but we just check one
     guest = users(:norm)
 
-
     event.name += " Changed"
     event.save
 
@@ -308,5 +307,18 @@ class EventTest < ActiveSupport::TestCase
 
     # Ensure there is one notification for this event being updated
     assert_equal 1, guest_notif_count
+  end
+
+  test "changing event does not notify current user" do
+    current_user = Current.user = users(:viktor) # set current user globals
+    event = events(:music_convention) # Has several invited users, but we just check one
+
+    event.name += " Changed"
+    event.save
+
+    owner_notif_count = Notification.where(entity: event, receiver: current_user, event: Notification.events['event_update']).count
+
+    # Ensure there are no notifications for this event being updated
+    assert_equal 0, owner_notif_count
   end
 end
