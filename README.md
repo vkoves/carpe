@@ -64,6 +64,12 @@ Carpe uses JSDoc to document Javascript, which you can learn more about at [JSDo
 
 Run JSDoc by entering `npm run jsdoc` in command line.
 
+### SCSS Linting
+
+Carpe uses [scss-lint](https://github.com/brigade/scss-lint). The rules are explained in the [documentation](https://www.rubydoc.info/github/brigade/scss-lint/master/frames). Custom rules are defined in `.scss-lint.yml`.
+
+Run it by entering `scss-lint` in the command line.
+
 ## Checking Site Speed
 
 Carpe uses [rack-mini-profiler](https://github.com/MiniProfiler/rack-mini-profiler) as a way of understanding site speed and optimizing queries. When running Carpe locally, a site speed badge will show up in the top left, allowing you to explore site speed. On production, this badge is hidden by defualt, and can be made visible using *Alt + P*. This shortcut can also be used to hide the profiler when running Carpe locally.
