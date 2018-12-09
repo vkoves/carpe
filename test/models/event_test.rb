@@ -303,10 +303,10 @@ class EventTest < ActiveSupport::TestCase
     event.name += " Changed"
     event.save
 
-    guest_notif_count = Notification.where(entity: event, receiver: guest, event: Notification.events['event_update']).count
-
     # Ensure there is one notification for this event being updated
-    assert_equal 1, guest_notif_count
+    assert Notification.exists?(entity: event,
+      receiver: guest,
+      event: Notification.events['event_update'])
   end
 
   test "changing event does not notify current user" do
@@ -316,9 +316,9 @@ class EventTest < ActiveSupport::TestCase
     event.name += " Changed"
     event.save
 
-    owner_notif_count = Notification.where(entity: event, receiver: current_user, event: Notification.events['event_update']).count
-
     # Ensure there are no notifications for this event being updated
-    assert_equal 0, owner_notif_count
+    assert_not Notification.exists?(entity: event,
+      receiver: current_user,
+      event: Notification.events['event_update'])
   end
 end

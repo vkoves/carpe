@@ -203,8 +203,8 @@ class Event < ApplicationRecord
   # this event, and the event owner EXCEPT the current_user (since they know
   # the event changed)
   def notify_guests
-    # Make sure the event owner is notified
-    notify_targets = self.invited_users + [self.creator]
+    # Note: If this is a hosted event (non-orig), the creator is an invited_user
+    notify_targets = self.invited_users
 
     # If we know who changed the event, ensure they are not notified
     notify_targets -= [Current.user] if Current.user
