@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class NotificationsTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
@@ -69,14 +69,14 @@ class NotificationsTest < ActionDispatch::IntegrationTest
 
     groups.each do |group|
       sign_in group.owner
-        post invite_to_group_path(group_id: group.id, user_id: invited_user.id)
+      post invite_to_group_path(group_id: group.id, user_id: invited_user.id)
       sign_out group.owner
 
       sign_in invited_user
-        group_invite = invited_user.notifications.group_invite.first
-        post update_notification_path(group_invite, "accepted")
+      group_invite = invited_user.notifications.group_invite.first
+      post update_notification_path(group_invite, "accepted")
 
-        assert invited_user.in_group?(group)
+      assert invited_user.in_group?(group)
       sign_out invited_user
     end
   end

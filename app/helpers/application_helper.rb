@@ -1,5 +1,5 @@
-require 'overridden_helpers'
-require 'utilities'
+require "overridden_helpers"
+require "utilities"
 
 module ApplicationHelper
   include OverriddenHelpers

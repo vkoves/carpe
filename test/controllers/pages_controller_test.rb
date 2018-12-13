@@ -4,7 +4,7 @@
 # To run this test, in the project directory run the command:
 # bundle exec rake test test/controllers/pages_controller_test.rb
 
-require 'test_helper'
+require "test_helper"
 
 class PagesControllerTest < ActionController::TestCase
   include Devise::Test::ControllerHelpers

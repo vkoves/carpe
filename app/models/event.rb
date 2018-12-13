@@ -1,6 +1,6 @@
-require 'utilities'
+require "utilities"
 
-#An event describes a schedule item, that is a single item occuring on a person's schedule
+# An event describes a schedule item, that is a single item occuring on a person's schedule
 class Event < ApplicationRecord
   include Utilities
 
@@ -19,17 +19,19 @@ class Event < ApplicationRecord
   has_many :event_invites, dependent: :destroy
   has_many :invited_users, through: :event_invites, source: :user
 
-  def get_html_name #returns the event name, or an italicized untitled
+  # returns the event name, or an italicized untitled
+  def get_html_name
     name.present? ? ERB::Util.html_escape(name) : "<i>Untitled</i>"
   end
 
-  def get_name #returns the event name as a plain string
+  # returns the event name as a plain string
+  def get_name
     name.empty? ? "Untitled" : name
   end
 
   # Returns true if this event is a repeating event, false otherwise.
   def repeats?
-    repeat.present? and repeat != 'none'
+    repeat.present? && (repeat != "none")
   end
 
   # Returns true if this event is on break at the given time, false otherwise.
@@ -50,17 +52,17 @@ class Event < ApplicationRecord
     event_days.select { |day| can_occur_on? day }.map { |day| repeat_clone day }
   end
 
-  #returns all repeat_exceptions that apply to this event, a combination of event and category level ones
+  # returns all repeat_exceptions that apply to this event, a combination of event and category level ones
   def all_repeat_exceptions
-    return repeat_exceptions + category.repeat_exceptions
+    repeat_exceptions + category.repeat_exceptions
   end
 
-  #returns whether the event is currently going on
+  # returns whether the event is currently going on
   def current?
-    if self.date.past? and self.end_date.future? #if it started some time ago and ends some time from now
-      return true #then this is indeed current
-    else #otherwise
-      return false #it is not
+    if date.past? && end_date.future? # if it started some time ago and ends some time from now
+      true # then this is indeed current
+    else # otherwise
+      false # it is not
     end
   end
 
@@ -68,16 +70,17 @@ class Event < ApplicationRecord
     category.accessible_by?(user)
   end
 
-  def private_version #returns the event with details hidden
-    private_event = self.dup
+  # returns the event with details hidden
+  def private_version
+    private_event = dup
     private_event.name = "Private"
     private_event.description = ""
     private_event.location = ""
-    return private_event
+    private_event
   end
 
   def owner
-    self.group ? self.group : self.creator
+    group || creator
   end
 
   def host_event?
@@ -105,18 +108,18 @@ class Event < ApplicationRecord
 
     # what days a repeating event can occur on can be optionally limited
     if repeats?
-      return false if repeat_start and day < repeat_start
-      return false if repeat_end and day > repeat_end
+      return false if repeat_start && (day < repeat_start)
+      return false if repeat_end && (day > repeat_end)
     end
 
-    return true
+    true
   end
 
   # Returns a copy of the this event with a new starting time.
   def repeat_clone(start_time)
-    new_event = self.dup
+    new_event = dup
     new_event.attributes = { date: start_time, end_date: start_time + duration }
-    return new_event
+    new_event
   end
 
   # Returns the first date this event will repeat on for a given
@@ -127,11 +130,11 @@ class Event < ApplicationRecord
     step = repeat_interval
     offset = (start_time.to_time - date.to_time).abs
 
-    if start_time >= date
-      first_repeat_date = origin + (offset / step).ceil * step
-    else
-      first_repeat_date = origin - (offset / step).floor * step
-    end
+    first_repeat_date = if start_time >= date
+                          origin + (offset / step).ceil * step
+                        else
+                          origin - (offset / step).floor * step
+                        end
 
     return first_repeat_date if first_repeat_date.between?(start_time, end_time)
   end
@@ -141,10 +144,10 @@ class Event < ApplicationRecord
   # on a fixed interval, nil is returned instead.
   def repeat_interval
     case repeat
-    when 'daily' then 1.day
-    when 'weekly' then 1.week
-    when 'monthly' then 1.month
-    when 'yearly' then 1.year
+    when "daily" then 1.day
+    when "weekly" then 1.week
+    when "monthly" then 1.month
+    when "yearly" then 1.year
     when /custom/ then
       _, repeat_num, repeat_unit = repeat.split("-")
       repeat_num.to_i.send(repeat_unit) # e.g. 1.day, 5.weeks
@@ -170,7 +173,7 @@ class Event < ApplicationRecord
     dates = range(first_time, end_time, 1.day)
 
     # e.g. "certain_days-0,1,2,6" / 0-6 represent weekdays - sunday being 0
-    weekdays = repeat.split('-')[1].split(',').map(&:to_i)
+    weekdays = repeat.split("-")[1].split(",").map(&:to_i)
     dates.select { |day| weekdays.include?(day.wday) }
   end
 

@@ -6,23 +6,23 @@
 #
 # The API is targeted towards polling-based web-server actions.
 
-require 'tempfile'
+require "tempfile"
 
 class Tasky
   class CommandError < StandardError
-    def initialize(msg="The command is invalid or the program missing.")
+    def initialize(msg = "The command is invalid or the program missing.")
       super(msg)
     end
   end
 
   class Task
     def initialize(cmd)
-      @output_log = Tempfile.new('tasky_output')
+      @output_log = Tempfile.new("tasky_output")
 
       begin
         @pid = Process.spawn cmd, [:out, :err] => @output_log
       rescue StandardError => e
-          raise CommandError, e.inspect
+        raise CommandError, e.inspect
       end
     end
 
@@ -30,14 +30,13 @@ class Tasky
       @successful
     end
 
-    def error_log
-      @error_log
-    end
+    attr_reader :error_log
 
     # Returns true if task has finished executing, false otherwise.
     def finished?
       # use cached results
       return true unless @successful.nil?
+
       _pid, status = Process.waitpid2 @pid, Process::WNOHANG
 
       if status.nil?
@@ -53,17 +52,17 @@ class Tasky
     end
   end
 
-  @@tasks = {}
+  @@tasks = {} # rubocop:disable Style/ClassVars
 
   # Returns task id to fetch the command at a later time.
   def self.run(cmd)
     task = Task.new cmd
     @@tasks[task.object_id] = task
-    return task.object_id
+    task.object_id
   end
 
   # Returns a Task object that provides methods to check the status of the task.
   def self.fetch_task(task_id)
-    return @@tasks[task_id.to_i]
+    @@tasks[task_id.to_i]
   end
 end
