@@ -23,7 +23,7 @@
       <h1>You have been invited to <%= @event.name %>!</h1>
 
       <p>
-        <strong><%= @event_invite.sender.name %></strong> invited you to this event.
+        <strong><%= @invite.sender.name %></strong> invited you to this event.
 
         <p>
           <strong>Description: </strong>
@@ -41,11 +41,10 @@
           <%= @event.end_date.strftime(@date_format) %>
         </p>
 
-
         <div class="btn-cont">
-          <a class="btn -red" href="#accept">Going</a>
-          <a class="btn -yellow" href="#maybe">Maybe</a>
-          <a class="btn -green" href="#decline">Decline</a>
+          <%= link_to "Going", event_invite_email_action_url(id: @invite.id, new_status: 'accepted', token: @invite.token), class: "btn" %>
+          <%= link_to "Maybe", event_invite_email_action_url(id: @invite.id, new_status: 'maybe', token: @invite.token), class: "btn" %>
+          <%= link_to "Decline", event_invite_email_action_url(id: @invite.id, new_status: 'declined', token: @invite.token), class: "btn" %>
         </div>
       </p>
     </p>
