@@ -13,7 +13,7 @@ class EventInvite < ApplicationRecord
     host: 1
   }
 
-  belongs_to :sender, class_name: 'User', foreign_key: :sender_id
+  belongs_to :sender, class_name: "User", foreign_key: :sender_id
   belongs_to :user
   belongs_to :event
 
@@ -21,14 +21,14 @@ class EventInvite < ApplicationRecord
 
   validates :event_id, uniqueness: {
     scope: :user_id,
-    message: ->(invite, _data) {
+    message: lambda do |invite, _data|
       "#{invite.user.name} has already been invited."
-    }
+    end
   }
 
   after_create :send_invite_email
 
   def send_invite_email
-    UserNotifier.event_invite_email(self.user, self).deliver_now
+    UserNotifier.event_invite_email(user, self).deliver_now
   end
 end
