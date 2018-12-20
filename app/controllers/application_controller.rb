@@ -64,6 +64,11 @@ class ApplicationController < ActionController::Base
     redirect_to user_session_path, alert: "You have to be signed in to do that!" unless current_user
   end
 
+  # Used for feature flagging controller actions
+  def disable_on_production
+    redirect_to home_path, alert: "This action is currently disabled" if Rails.env.production?
+  end
+
   private
 
   def set_time_zone

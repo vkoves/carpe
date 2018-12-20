@@ -71,7 +71,9 @@
     </div>
     <textarea id="overlay-loc" class="auto-resize-vertically">Location goes here</textarea>
 
-    <span id="event-invites-setup" class="button">Invite People</span>
+    <% unless Rails.env.production? %>
+      <span id="event-invites-setup" class="button">Invite People</span>
+    <% end %>
   </div>
 
   <div id="break-overlay-box" class="overlay-box">
@@ -94,17 +96,19 @@
     </div>
   </div>
 
-  <div id="event-invites-panel" class="overlay-box">
-    <span class="default red close"></span>
+  <% unless Rails.env.production? %>
+    <div id="event-invites-panel" class="overlay-box">
+      <span class="default red close"></span>
 
-    <h3>Invited Users</h3>
-    <div id="event-invites-list"></div>
+      <h3>Invited Users</h3>
+      <div id="event-invites-list"></div>
 
-    <h3>Invite Others</h3>
-    <%= render 'shared/user_adder', name: 'event_invite_user_ids', search_path: users_search_path %>
+      <h3>Invite Others</h3>
+      <%= render 'shared/user_adder', name: 'event_invite_user_ids', search_path: users_search_path %>
 
-    <span id="send-event-invites" class="green button">Send Invites</span>
-  </div>
+      <span id="send-event-invites" class="green button">Send Invites</span>
+    </div>
+  <% end %>
 
   <div id="evnt-delete" class="overlay-box">
     <span class="default red close"></span>
