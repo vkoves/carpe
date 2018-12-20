@@ -295,4 +295,30 @@ class EventTest < ActiveSupport::TestCase
     # in right month but after event
     assert_empty event.events_in_range(Date.new(2017, 10, 22), Date.new(2017, 10, 29))
   end
+
+  test "changing event gives guest a notification" do
+    event = events(:music_convention) # Has several invited users, but we just check one
+    guest = users(:norm)
+
+    event.name += " Changed"
+    event.save
+
+    # Ensure there is one notification for this event being updated
+    assert Notification.exists?(entity: event,
+      receiver: guest,
+      event: Notification.events['event_update'])
+  end
+
+  test "changing event does not notify current user" do
+    current_user = Current.user = users(:viktor) # set current user globals
+    event = events(:music_convention) # Has several invited users, but we just check one
+
+    event.name += " Changed"
+    event.save
+
+    # Ensure there are no notifications for this event being updated
+    assert_not Notification.exists?(entity: event,
+      receiver: current_user,
+      event: Notification.events['event_update'])
+  end
 end

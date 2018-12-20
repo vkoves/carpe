@@ -6,6 +6,19 @@ putin_music:
   sender: viktor
   event: music_convention
 
+accepted_music:
+  user: norm
+  sender: viktor
+  event: music_convention
+  status: 0 # accepted
+
+host_music:
+  user: viktors_friend
+  sender: viktor
+  event: music_convention
+  role: 1 # host
+  status: 0 # accepted
+
 repeat_daily:
   user: norm
   sender: viktor
