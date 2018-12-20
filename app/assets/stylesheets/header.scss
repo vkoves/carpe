@@ -310,27 +310,12 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+
+    a {
+      color: #ffffff;
+    }
   }
 }
-
-// fancy button colors
-.event-invite.notif {
-  // prevent :hover trigger on whitespace
-  .choices {
-    visibility: hidden;
-  }
-
-  // gray out non-hovered buttons
-  .choices:hover span:not(:hover) {
-    background: #808080;
-  }
-
-  .choices span {
-    transition: background 200ms linear;
-    visibility: visible; // buttons trigger .choices(:hover)
-  }
-}
-
 
 #users-search {
   display: inline-block;

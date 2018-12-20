@@ -10,4 +10,16 @@ class UserNotifierPreview < ActionMailer::Preview
 
     UserNotifier.event_invite_email(invite.user, invite)
   end
+
+  def event_update_email
+    user = User.first
+    event = Event.first
+
+    # Change the name and start time (but don't save) for the preview
+    event.name += " The Sequel"
+    event.date += 1.hour
+    changes = event.changes
+
+    UserNotifier.event_update_email(user, event, changes)
+  end
 end

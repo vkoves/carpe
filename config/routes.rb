@@ -42,6 +42,7 @@ Rails.application.routes.draw do
   # Event backend commands
   resources :events, only: [:destroy] do
     post :setup_hosting, on: :member
+    resources :event_invites, only: [:create], as: :invites
   end
 
   resources :categories, only: [:create, :update, :destroy]

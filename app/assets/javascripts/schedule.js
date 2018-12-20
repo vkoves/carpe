@@ -144,6 +144,14 @@ function ScheduleItem() {
   this.needsSaving = false;
 
   /**
+   * Returns true if this event hasn't been saved to the server, false otherwise.
+   * @return {boolean} True the event is unsaved, false if it's saved
+   */
+  this.isTemporary = function() {
+    return this.eventId === undefined || this.eventId === null;
+  };
+
+  /**
    * Returns an float of the length of the event in hours
    * @return {number} The float length of the event in hours
    */

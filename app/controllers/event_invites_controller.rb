@@ -1,5 +1,12 @@
 class EventInvitesController < ApplicationController
+  before_action :authorize_signed_in!, only: [:create]
   before_action :validate_token, only: [:email_action]
+
+  def create
+    batch_create && return if params[:user_ids]
+
+    render plain: "only batch creation is currently supported"
+  end
 
   # Called when clicking the links in an event invite email
   def email_action
@@ -20,6 +27,22 @@ class EventInvitesController < ApplicationController
   end
 
   private
+
+  def batch_create
+    invites = EventInvite.create(batch_create_params)
+
+    sent = invites.select(&:persisted?)
+    sent.each { |invite| Notification.send_event_invite(invite) }
+
+    render invites
+  end
+
+  def batch_create_params
+    users = User.find(params[:user_ids].split(","))
+    event = Event.find(params[:event_id])
+
+    users.map { |user| { user: user, event: event } }
+  end
 
   # Ensures that an action has the event invite's token specified
   def validate_token

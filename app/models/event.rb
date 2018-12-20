@@ -19,6 +19,9 @@ class Event < ApplicationRecord
   has_many :event_invites, dependent: :destroy
   has_many :invited_users, through: :event_invites, source: :user
 
+  # Notify guests on update if there are invited users
+  after_validation :notify_guests, on: :update, if: :has_guests?
+
   # returns the event name, or an italicized untitled
   def get_html_name
     name.present? ? ERB::Util.html_escape(name) : "<i>Untitled</i>"
@@ -83,6 +86,13 @@ class Event < ApplicationRecord
     group || creator
   end
 
+  def hosted_event?
+    !host_event? && base_event_id.present?
+  end
+
+  # Optimization:
+  # Rather than querying EventInvites to determine if this event is hosting
+  # any other events, base_event_id is set to itself to indicate that.
   def host_event?
     base_event_id == id
   end
@@ -90,10 +100,13 @@ class Event < ApplicationRecord
   def make_host_event!
     update(base_event_id: id)
 
-    # owners of a hosted event are explicitly invited to their
-    # own event.
-    EventInvite.create(sender: creator, user: creator,
-                       event: self, role: :host)
+    # owners of a hosted event are explicitly invited to their own event.
+    EventInvite.create(user: creator, event: self, role: :host)
+  end
+
+  # Returns true if users have been invited to this event
+  def has_guests?
+    invited_users.count.positive?
   end
 
   ##########################
@@ -186,6 +199,23 @@ class Event < ApplicationRecord
       dates_in_range_certain_weekdays(start_time, end_time, time_zone)
     else # this event doesn't repeat
       date.between?(start_time, end_time) ? [date] : []
+    end
+  end
+
+  # Called when an update is correctly updated. Notifies all users invited to
+  # this event, and the event owner EXCEPT the current_user (since they know
+  # the event changed)
+  def notify_guests
+    # Note: If this is a hosted event (non-orig), the creator is an invited_user
+    notify_targets = invited_users
+
+    # If we know who changed the event, ensure they are not notified
+    notify_targets -= [Current.user] if Current.user
+
+    # Send an event_update_email to all notify targets
+    notify_targets.each do |recipient|
+      UserNotifier.event_update_email(recipient, self, changes).deliver_later
+      Notification.send_event_update(recipient, self)
     end
   end
 end

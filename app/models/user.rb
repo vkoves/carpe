@@ -230,6 +230,26 @@ class User < ApplicationRecord
     groups.include?(group)
   end
 
+  def attending_event?(event)
+    EventInvite.exists?(user: self, event: event, status: [:accepted, :maybe])
+  end
+
+  def invited_to_event?(event)
+    EventInvite.exists?(user: self, event: event)
+  end
+
+  # Returns the the default category that hosted events will be placed under.
+  # If a default event invite category is not set in the profile settings,
+  # a new default category is automatically created.
+  def event_invite_category!
+    if categories.empty?
+      categories.create(name: "Event Invites", color: "rgb(192, 192, 192)")
+    else
+      # TODO: make this the default event invite category
+      categories.first
+    end
+  end
+
   ##########################
   ## END GEN USER METHODS ##
   ##########################

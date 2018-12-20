@@ -12,8 +12,8 @@ AllCops:
 # The default line ending is based on your OS.
 # If you are using LF on windows you'll need this rule.
 #
-# Layout/EndOfLine:
-#   EnforcedStyle: lf
+Layout/EndOfLine:
+ EnforcedStyle: lf
 
 # Once Ruby makes immutable strings the default, this can be removed.
 Style/FrozenStringLiteralComment:
