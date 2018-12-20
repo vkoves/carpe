@@ -106,7 +106,7 @@ class Event < ApplicationRecord
 
   # Returns true if users have been invited to this event
   def has_guests?
-    invited_users.count > 0
+    invited_users.count.positive?
   end
 
   ##########################
@@ -207,14 +207,14 @@ class Event < ApplicationRecord
   # the event changed)
   def notify_guests
     # Note: If this is a hosted event (non-orig), the creator is an invited_user
-    notify_targets = self.invited_users
+    notify_targets = invited_users
 
     # If we know who changed the event, ensure they are not notified
     notify_targets -= [Current.user] if Current.user
 
     # Send an event_update_email to all notify targets
-    notify_targets.each do |recipient |
-      UserNotifier.event_update_email(recipient, self, self.changes).deliver_later
+    notify_targets.each do |recipient|
+      UserNotifier.event_update_email(recipient, self, changes).deliver_later
       Notification.send_event_update(recipient, self)
     end
   end

@@ -303,9 +303,11 @@ class EventTest < ActiveSupport::TestCase
     event.save
 
     # Ensure there is one notification for this event being updated
-    assert Notification.exists?(entity: event,
+    assert Notification.exists?(
+      entity: event,
       receiver: guest,
-      event: Notification.events['event_update'])
+      event: Notification.events["event_update"]
+    )
   end
 
   test "changing event does not notify current user" do
@@ -316,8 +318,10 @@ class EventTest < ActiveSupport::TestCase
     event.save
 
     # Ensure there are no notifications for this event being updated
-    assert_not Notification.exists?(entity: event,
+    assert_not Notification.exists?(
+      entity: event,
       receiver: current_user,
-      event: Notification.events['event_update'])
+      event: Notification.events["event_update"]
+    )
   end
 end
