@@ -6,7 +6,7 @@ module CoreExtensions
       end
 
       def is_int?
-        self.to_i.to_s == self
+        to_i.to_s == self
       end
     end
   end

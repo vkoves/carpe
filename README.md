@@ -54,13 +54,21 @@ npm run eslint-fix
 
 ### Ruby
 
-Carpe's Ruby code is linted with [RuboCop](https://github.com/rubocop-hq/rubocop). Run it by entering `rubocop` in command line.
+Carpe's Ruby code is linted with [RuboCop](https://github.com/rubocop-hq/rubocop).
+Run it by entering `rubocop` in command line, or to auto-fix, run `rubocop --a`.
+To see offense counts broken down by file, run `rubocop --format worst`.
 
 ## JSDoc
 
 Carpe uses JSDoc to document Javascript, which you can learn more about at [JSDoc's Getting Started](http://usejsdoc.org/about-getting-started.html).
 
 Run JSDoc by entering `npm run jsdoc` in command line.
+
+### SCSS Linting
+
+Carpe uses [scss-lint](https://github.com/brigade/scss-lint). The rules are explained in the [documentation](https://www.rubydoc.info/github/brigade/scss-lint/master/frames). Custom rules are defined in `.scss-lint.yml`.
+
+Run it by entering `scss-lint` in the command line.
 
 ## Checking Site Speed
 

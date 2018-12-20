@@ -6,7 +6,7 @@ DISABLE_ANIMATIONS_HTML = <<~HTML.freeze
   <script type="text/javascript">
     (typeof jQuery !== 'undefined') && (jQuery.fx.off = true);
   </script>
-  
+
   <style>
     * {
       -o-transition: none !important;
@@ -26,13 +26,14 @@ HTML
 
 module Rack
   class NoAnimations
-    def initialize(app, options = {})
+    def initialize(app, _options = {})
       @app = app
     end
 
     def call(env)
       @status, @headers, @body = @app.call(env)
       return [@status, @headers, @body] unless html?
+
       response = Rack::Response.new([], @status, @headers)
 
       @body.each { |fragment| response.write inject(fragment) }

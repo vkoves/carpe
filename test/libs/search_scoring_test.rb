@@ -1,5 +1,5 @@
-require 'test_helper'
-require 'search_scoring'
+require "test_helper"
+require "search_scoring"
 
 class SearchScoringTest < ActiveSupport::TestCase
   test "#name prioritizes exact matches" do

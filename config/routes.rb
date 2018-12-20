@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   resources :categories
 
-  devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks", :registrations => "users/registrations" }
+  devise_for :users, controllers: { omniauth_callbacks: "omniauth_callbacks", registrations: "users/registrations" }
   resources :users, only: [:index, :destroy, :show] do
     member do
       get "promote"
@@ -10,38 +10,36 @@ Rails.application.routes.draw do
     end
   end
 
-  #General page routes
-  get "/home" => 'home#index', :as => :home
-  get "/userviewer" => 'pages#userviewer'
-  get "/about" => 'pages#about'
-  get "/status" => 'pages#status'
+  # General page routes
+  get "/home" => "home#index", :as => :home
+  get "/userviewer" => "pages#userviewer"
+  get "/about" => "pages#about"
+  get "/status" => "pages#status"
 
-  #Follow Routes
+  # Follow Routes
   resources :relationships
 
-  #Group Routes
+  # Group Routes
   resources :groups
   resources :user_groups, only: [:create, :update, :destroy]
-  post "/invite_to_group", to: 'user_groups#invite_to_group', as: :invite_to_group
-  get "join_group/:id", to: 'groups#join', as: :join_group
-  get "leave_group/:id", to: 'groups#leave', as: :leave_group
+  post "/invite_to_group", to: "user_groups#invite_to_group", as: :invite_to_group
+  get "join_group/:id", to: "groups#join", as: :join_group
+  get "leave_group/:id", to: "groups#leave", as: :leave_group
+
+  # Admin Routes
+  get "/sandbox" => "pages#sandbox"
+  get "/admin" => "pages#admin", :as => :admin_panel
+  post "/run_command" => "pages#run_command"
+  post "/check_if_command_is_finished" => "pages#check_if_command_is_finished"
+
+  # User Routes
+  post "/deny_friend" => "friendships#deny"
+  post "/confirm_friend" => "friendships#confirm"
 
   # Event Invite Routes
+  get "/event-invite/:id/email-action/:new_status", to: "event_invites#email_action", as: :event_invite_email_action
 
-  get "/event-invite/:id/email-action/:new_status", to: 'event_invites#email_action', as: :event_invite_email_action
-
-
-  #Admin Routes
-  get "/sandbox" => 'pages#sandbox'
-  get "/admin" => 'pages#admin', :as => :admin_panel
-  post "/run_command" => 'pages#run_command'
-  post "/check_if_command_is_finished" => 'pages#check_if_command_is_finished'
-
-  #User Routes
-  post "/deny_friend" => 'friendships#deny'
-  post "/confirm_friend" => 'friendships#confirm'
-
-  #Event backend commands
+  # Event backend commands
   resources :events, only: [:destroy] do
     post :setup_hosting, on: :member
     resources :event_invites, only: [:create], as: :invites
@@ -54,7 +52,6 @@ Rails.application.routes.draw do
     post :save
   end
 
-
   resources :notifications, only: [:destroy] do
     post "update(/:response)", to: "notifications#updated", as: :update, on: :member
     post :read, on: :collection
@@ -64,6 +61,5 @@ Rails.application.routes.draw do
     get :all, :users, :group_invitable_users
   end
 
-  root 'home#index'
-
+  root "home#index"
 end
