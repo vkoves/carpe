@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
 
   before_action :configure_permitted_parameters, if: :devise_controller?
   around_action :set_time_zone, if: :current_user
+  before_action :set_global_current_user
 
   # Enable rack-mini-profiler for signed in admin
   before_action do
@@ -63,9 +64,19 @@ class ApplicationController < ActionController::Base
     redirect_to user_session_path, alert: "You have to be signed in to do that!" unless current_user
   end
 
+  # Used for feature flagging controller actions
+  def disable_on_production
+    redirect_to home_path, alert: "This action is currently disabled" if Rails.env.production?
+  end
+
   private
 
   def set_time_zone
     Time.use_zone(current_user.home_time_zone) { yield }
+  end
+
+  # Current.user is accessible everywhere. Use it sparingly.
+  def set_global_current_user
+    Current.user = current_user
   end
 end

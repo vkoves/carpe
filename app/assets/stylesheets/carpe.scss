@@ -223,6 +223,7 @@ a.default {
   display: inline-block;
 }
 
+.button span,
 a.default *,
 span.default,
 input.default {
@@ -356,7 +357,7 @@ input.danger:hover {
   width: 35px;
 }
 
-.google-width span {
+.google-width {
   width: 174px;
   margin-left: auto;
   margin-right: auto;
@@ -432,13 +433,13 @@ input.danger:hover {
   }
 }
 
-// TO BE SORTED
 .user-entry {
   width: 95%;
   border-radius: 5px;
   border: solid 2px #cecece;
   text-align: left;
   margin: 15px auto;
+  background: #ffffff;
 
   ul {
     padding: 0;
@@ -902,6 +903,7 @@ form.thin {
   font-weight: bold;
   color: #ffffff;
   text-decoration: none;
+  white-space: nowrap;
   border: 0;
   border-radius: 3px;
   box-shadow: 0 1px 3px #b4afaf;
@@ -921,20 +923,25 @@ form.thin {
 }
 
 // custom button styling options
+.default,
 .button {
   // button coloring options
-  &.red {
+  &.red,
+  &.red span {
     background: #fd1a1a;
 
-    &:hover {
+    &:hover,
+    &.red span:hover {
       background: #ff4a4a;
     }
   }
 
-  &.green {
+  &.green,
+  &.green span {
     background: #18b918;
 
-    &:hover {
+    &:hover,
+    &.red span:hover {
       background: #39da39;
     }
   }

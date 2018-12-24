@@ -16,6 +16,15 @@ class User < ApplicationRecord
   has_many :groups, -> { where users_groups: { accepted: true } }, through: :users_groups
   has_many :notifications, class_name: "Notification", foreign_key: "receiver_id"
 
+  has_many :event_invites_received, class_name: "EventInvite",
+                                    foreign_key: :user_id,
+                                    dependent: :destroy
+
+  has_many :event_invites_sent, class_name: "EventInvite",
+                                foreign_key: "sender_id"
+
+  has_many :events_invited_to, through: :event_invites_received, source: :event
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -219,6 +228,26 @@ class User < ApplicationRecord
 
   def in_group?(group)
     groups.include?(group)
+  end
+
+  def attending_event?(event)
+    EventInvite.exists?(user: self, event: event, status: [:accepted, :maybe])
+  end
+
+  def invited_to_event?(event)
+    EventInvite.exists?(user: self, event: event)
+  end
+
+  # Returns the the default category that hosted events will be placed under.
+  # If a default event invite category is not set in the profile settings,
+  # a new default category is automatically created.
+  def event_invite_category!
+    if categories.empty?
+      categories.create(name: "Event Invites", color: "rgb(192, 192, 192)")
+    else
+      # TODO: make this the default event invite category
+      categories.first
+    end
   end
 
   ##########################

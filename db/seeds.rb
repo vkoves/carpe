@@ -9,3 +9,30 @@
 for i in 1..5
   User.create name: "test#{i}", email: "test#{i}@yahoo.com", password: "testing123", admin: true
 end
+
+test1 = User.find_by(name: "test1")
+test2 = User.find_by(name: "test2")
+
+category = Category.create(
+  name: "Fun Times",
+  user: test1,
+  privacy: "public"
+)
+
+event = Event.create(
+  name: "Music Festival",
+  description: "There will be bands playing music!",
+  location: "In the middle of nowhere",
+  date: Time.parse('30th Oct 2018 3:00:00 PM'),
+  end_date: Time.parse('30th Oct 2018 9:00:00 PM'),
+  user: test1,
+  category: category
+)
+
+event.update(base_event_id: event.id)
+
+EventInvite.create(
+  sender: test1,
+  user: test2,
+  event: event
+)

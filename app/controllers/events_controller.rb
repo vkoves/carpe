@@ -1,4 +1,6 @@
 class EventsController < ApplicationController
+  before_action :disable_on_production, only: [:setup_hosting]
+
   def destroy
     @event = Event.find(params[:id])
 
@@ -6,6 +8,13 @@ class EventsController < ApplicationController
     @event.destroy!
 
     render plain: "Event deleted."
+  end
+
+  def setup_hosting
+    event = Event.find(params[:id])
+    event.make_host_event! unless event.host_event?
+
+    render event.event_invites
   end
 
   private

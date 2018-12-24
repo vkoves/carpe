@@ -36,8 +36,15 @@ Rails.application.routes.draw do
   post "/deny_friend" => "friendships#deny"
   post "/confirm_friend" => "friendships#confirm"
 
+  # Event Invite Routes
+  get "/event-invite/:id/email-action/:new_status", to: "event_invites#email_action", as: :event_invite_email_action
+
   # Event backend commands
-  resources :events, only: [:destroy]
+  resources :events, only: [:destroy] do
+    post :setup_hosting, on: :member
+    resources :event_invites, only: [:create], as: :invites
+  end
+
   resources :categories, only: [:create, :update, :destroy]
   resources :repeat_exceptions, only: [:create, :update, :destroy]
 

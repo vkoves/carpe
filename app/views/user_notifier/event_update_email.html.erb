@@ -1,0 +1,29 @@
+<style>
+.strike {
+  text-decoration: line-through;
+}
+</style>
+
+<tr>
+  <td>
+    <p>
+      An event you were invited to has been updated!
+    </p>
+
+    <% @changes.each do |field_name, change_arr| %>
+      <p>
+        <strong><%= field_name.titlecase %>:</strong>
+        <% is_date = change_arr[0].methods.include? :strftime %>
+
+
+        <span class="strike">
+           <%= is_date ? change_arr[0].strftime(@date_format) : change_arr[0] %>
+        </span>
+        &nbsp;
+        <span>
+          <%= is_date ? change_arr[1].strftime(@date_format) : change_arr[1] %>
+        </span>
+      </p>
+    <% end %>
+  </td>
+</tr>
