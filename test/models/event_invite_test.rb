@@ -24,6 +24,7 @@ class EventInviteTest < ActiveSupport::TestCase
     event_invites(:putin_music).accept!
 
     assert @putin.events.last.hosted_event?
+    assert_equal @putin.events.last, event_invites(:putin_music).hosted_event
     assert_not event_invites(:putin_music).host_event.hosted_event?
     assert_not events(:event_to_delete).hosted_event?
   end

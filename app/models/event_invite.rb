@@ -41,6 +41,8 @@ class EventInvite < ApplicationRecord
     new_event.base_event_id = host_event_id
     new_event.category_id = user.event_invite_category!.id
     new_event.save!
+
+    update(hosted_event: new_event)
   end
 
   def accept!
