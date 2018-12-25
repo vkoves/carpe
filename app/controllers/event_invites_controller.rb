@@ -53,7 +53,7 @@ class EventInvitesController < ApplicationController
     users.map { |user| { user: user, host_event: event } }
   end
 
-  # Ensures that an invite hasn't been revoked and has the correct token
+  # Ensures that an invite hasn't been revoked and has the correct token.
   def validate_token
     invite = EventInvite.find_by(id: params[:id])
 
