@@ -45,6 +45,7 @@ Rails.application.routes.draw do
     resources :event_invites, only: [:create], as: :invites
   end
 
+  resources :event_invites, only: [:destroy]
   resources :categories, only: [:create, :update, :destroy]
   resources :repeat_exceptions, only: [:create, :update, :destroy]
 

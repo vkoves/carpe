@@ -14,7 +14,7 @@ class UserNotifier < ApplicationMailer
   def event_invite_email(user, event_invite)
     @user = user
     @invite = event_invite
-    @event = event_invite.event
+    @event = event_invite.host_event
     @date_format = "%b. %d, %Y %l:%M %p"
     mail(to: @user.email, subject: "You Have Been Invited to #{@event.name}")
   end

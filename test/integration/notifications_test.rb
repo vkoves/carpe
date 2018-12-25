@@ -120,4 +120,17 @@ class NotificationsTest < ActionDispatch::IntegrationTest
 
     assert_not @norm.attending_event?(events(:simple))
   end
+
+  test "revoking event invite deletes invite notification" do
+    sign_in @viktor
+    post event_invites_path(events(:simple), user_ids: [@norm.id])
+
+    invite = EventInvite.find_by sender: @viktor,
+                                 user: @norm,
+                                 host_event: events(:simple)
+
+    assert_difference -> { Notification.count }, -1 do
+      invite.destroy!
+    end
+  end
 end

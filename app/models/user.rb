@@ -23,7 +23,8 @@ class User < ApplicationRecord
   has_many :event_invites_sent, class_name: "EventInvite",
                                 foreign_key: "sender_id"
 
-  has_many :events_invited_to, through: :event_invites_received, source: :event
+  has_many :events_invited_to, through: :event_invites_received,
+                               source: :host_event
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -231,11 +232,13 @@ class User < ApplicationRecord
   end
 
   def attending_event?(event)
-    EventInvite.exists?(user: self, event: event, status: [:accepted, :maybe])
+    EventInvite.exists? user: self,
+                        host_event: event,
+                        status: [:accepted, :maybe]
   end
 
   def invited_to_event?(event)
-    EventInvite.exists?(user: self, event: event)
+    EventInvite.exists?(user: self, host_event: event)
   end
 
   # Returns the the default category that hosted events will be placed under.

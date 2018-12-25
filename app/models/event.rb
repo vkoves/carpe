@@ -16,8 +16,18 @@ class Event < ApplicationRecord
   belongs_to :category
   has_and_belongs_to_many :repeat_exceptions
 
-  has_many :event_invites, dependent: :destroy
+  # Host Event
+  has_many :event_invites, foreign_key: "host_event_id", dependent: :destroy
   has_many :invited_users, through: :event_invites, source: :user
+  has_many :hosted_events, class_name: "Event", foreign_key: :base_event_id,
+                           dependent: :destroy
+
+  # Hosted Event
+  has_one :host_event, class_name: "Event", foreign_key: :base_event_id,
+                       dependent: :destroy
+
+  has_one :event_invite, foreign_key: "hosted_event_id",
+                         dependent: :destroy
 
   # Notify guests on update if there are invited users
   after_validation :notify_guests, on: :update, if: :has_guests?
@@ -87,21 +97,16 @@ class Event < ApplicationRecord
   end
 
   def hosted_event?
-    !host_event? && base_event_id.present?
+    base_event_id.present? && !host_event?
   end
 
-  # Optimization:
-  # Rather than querying EventInvites to determine if this event is hosting
-  # any other events, base_event_id is set to itself to indicate that.
   def host_event?
-    base_event_id == id
+    EventInvite.exists?(host_event: self)
   end
 
   def make_host_event!
-    update(base_event_id: id)
-
     # owners of a hosted event are explicitly invited to their own event.
-    EventInvite.create(user: creator, event: self, role: :host)
+    EventInvite.create(user: creator, host_event: self, role: :host)
   end
 
   # Returns true if users have been invited to this event

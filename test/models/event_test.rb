@@ -324,4 +324,20 @@ class EventTest < ActiveSupport::TestCase
       event: Notification.events["event_update"]
     )
   end
+
+  test "deleting host event removes hosted event" do
+    host_event = events(:music_convention) # owned by viktor
+
+    assert_difference -> { Event.count }, -2 do
+      host_event.destroy!
+    end
+  end
+
+  test "delete a hosted event" do
+    hosted_event = events(:music_convention_joe)
+
+    assert_difference -> { Event.count }, -1 do
+      hosted_event.destroy!
+    end
+  end
 end

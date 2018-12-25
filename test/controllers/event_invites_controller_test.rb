@@ -12,7 +12,7 @@ class EventInvitesControllerTest < ActionDispatch::IntegrationTest
 
     # existing event invite
     event_invite = event_invites(:putin_music)
-    event = event_invite.event
+    event = event_invite.host_event
     user = event_invite.user
 
     assert_no_difference -> { EventInvite.count } do
@@ -40,5 +40,11 @@ class EventInvitesControllerTest < ActionDispatch::IntegrationTest
     assert_equal EventInvite.find(@invite.id).status, "pending_response"
     assert_redirected_to home_path
     assert_match(/You don't have permission/, flash[:alert])
+  end
+
+  test "event owner can remove guest" do
+    sign_in users(:viktor)
+    delete event_invite_path(event_invites(:joe_music))
+    assert_response :success
   end
 end

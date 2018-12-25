@@ -1,26 +1,38 @@
 # WARNING! Invites used for testing emails must include
 # a token - it isn't automatically generated during tests.
 
+viktor_music:
+  user: viktor
+  sender: viktor
+  host_event: music_convention
+
 putin_music:
   user: putin
   sender: viktor
-  event: music_convention
+  host_event: music_convention
+
+joe_music:
+  user: joe
+  sender: viktor
+  status: accepted
+  host_event: music_convention
+  hosted_event: music_convention_joe
 
 accepted_music:
   user: norm
   sender: viktor
-  event: music_convention
-  status: 0 # accepted
+  host_event: music_convention
+  status: accepted
 
 host_music:
   user: viktors_friend
   sender: viktor
-  event: music_convention
-  role: 1 # host
-  status: 0 # accepted
+  host_event: music_convention
+  role: host
+  status: accepted
 
 repeat_daily:
   user: norm
   sender: viktor
-  event: repeat_daily
+  host_event: repeat_daily
   token: 'some-nice-token'

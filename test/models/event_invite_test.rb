@@ -24,15 +24,23 @@ class EventInviteTest < ActiveSupport::TestCase
     event_invites(:putin_music).accept!
 
     assert @putin.events.last.hosted_event?
-    assert_not event_invites(:putin_music).event.hosted_event?
+    assert_not event_invites(:putin_music).host_event.hosted_event?
     assert_not events(:event_to_delete).hosted_event?
   end
 
   test "#host_event?" do
     event_invites(:putin_music).accept!
 
-    assert event_invites(:putin_music).event.host_event?
+    assert event_invites(:putin_music).host_event.host_event?
     assert_not @putin.events.last.host_event?
     assert_not events(:event_to_delete).host_event?
+  end
+
+  test "deleting event invite removes associated hosted event" do
+    invite = event_invites(:joe_music)
+
+    assert_difference -> { Event.count }, -1 do
+      invite.destroy!
+    end
   end
 end
