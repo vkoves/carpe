@@ -333,10 +333,10 @@ class EventTest < ActiveSupport::TestCase
     end
   end
 
-  test "delete a hosted event" do
+  test "deleting a hosted event removes the associated invite" do
     hosted_event = events(:music_convention_joe)
 
-    assert_difference -> { Event.count }, -1 do
+    assert_difference -> { EventInvite.count }, -1 do
       hosted_event.destroy!
     end
   end
