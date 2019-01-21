@@ -333,8 +333,15 @@
     width: 100%;
     padding: 10px 0;
     color: #ffffff;
-    margin-bottom: 5px;
     text-align: right;
+  }
+
+  #host-info {
+    padding: 5px 15px;
+    margin-bottom: 5px;
+    background: #d4d4d4;
+    text-align: left;
+    font-size: 14px;
   }
 
   #cat-title {

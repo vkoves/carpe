@@ -120,6 +120,8 @@ function ScheduleItem() {
   this.eventId = undefined;
   /** The id of the event in the hashmap */
   this.tempId = undefined;
+  /** If this is a hosted event, this is the event ID of the host event **/
+  this.baseEventId = undefined;
   /** The start date and time, as a js Date() */
   this.startDateTime = undefined;
   /** The end date and time */
@@ -166,6 +168,15 @@ function ScheduleItem() {
   this.hoursSpanned = function() {
     return this.endDateTime.getHours() - this.startDateTime.getHours();
   };
+
+  /**
+   * Returns whether this is a hosted event - an event the current user was
+   * invited to.
+   * @return {booelan} Whether this event is a hosted event or not
+   */
+  this.hosted = function() {
+    return this.baseEventId && this.baseEventId !== currEvent.eventId;
+  }
 
   /**
    * Deletes the schedule item from the frontend
@@ -966,6 +977,7 @@ function loadInitialEvents() {
       schItem.name = evnt.name;
       schItem.eventId = evnt.id;
       schItem.categoryId = evnt.category_id;
+      schItem.baseEventId = evnt.base_event_id;
       schItem.setRepeatType(evnt.repeat);
       schItem.description = evnt.description;
       schItem.location = evnt.location;
@@ -1920,7 +1932,7 @@ function editEvent(elem) {
   if (inColumn(elem) && !editingEvent && elem.attr('data-id') != -1) {
     var evntId = elem.attr('evnt-temp-id');
     currEvent = scheduleItems[evntId];
-    
+
     // selects the current category of the event as the default option
     $('#cat-title-selector option[value=\'' + currEvent.categoryId + '\']').attr('selected', 'selected');
     $('#cat-title-selector').off();
@@ -1931,6 +1943,14 @@ function editEvent(elem) {
       $('.sch-evnt[evnt-temp-id=\'' + evntId + '\'], #overlay-color-bar').css('background-color', categories[currEvent.categoryId].color);
       $('.sch-evnt[evnt-temp-id=\'' + evntId + '\']').attr('data-id', val);
     });
+
+    // Indicate if the event is hosted
+    if (currEvent.hosted()) {
+      $('#host-info').show();
+    }
+    else {
+      $('#host-info').hide();
+    }
 
     // Select the proper repeat button
     $('.repeat-option').removeClass('red');
