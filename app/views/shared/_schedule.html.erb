@@ -16,6 +16,13 @@
   user_or_group = user || group
   events = user_or_group.events_accessible_by(current_user)
   categories = user_or_group.categories_accessible_by(current_user)
+
+  events.each do |event|
+    is_editable = (!EventInvite.exists?(user: user_or_group, event: event) ||
+                   EventInvite.exists?(user: user_or_group, event: event, role: :host))
+    event.class.module_eval { attr_accessor :editable }
+    event.editable = is_editable
+  end
 %>
 
 <div class="sch-all-cont <%= 'read-only' if read_only %>">
@@ -299,7 +306,7 @@
   <% # this is only available for users at the moment %>
   var IFRAME_URL = <%= raw user.present? ? "'http://www.carpe.us/schedule?iframe=true&uid=#{user.id}'" : "'NOPE'" %>;
 
-  var loadedEvents = <%= raw events.to_json(include: { repeat_exceptions: { only: :id } }) %>;
+  var loadedEvents = <%= raw events.to_json(include: { repeat_exceptions: { only: :id } }, methods: :editable) %>;
   var loadedCategories = <%= raw categories.to_json(include: { repeat_exceptions: { only: :id } }) %>;
   var loadedBreaks = <%= raw user_or_group.repeat_exceptions.to_json %>;
 

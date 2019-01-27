@@ -196,9 +196,12 @@
     overflow: hidden;
     overflow-wrap: break-word; // chrome does this by default - firefox doesn't
     transition: all 0.3s;
-    cursor: pointer;
     max-height: 95%;
     min-height: 19px;
+  }
+
+  .evnt-title-editable {
+    cursor: pointer;
   }
 
   // Give editable text fields proper cursor
@@ -230,13 +233,13 @@
     opacity: 1;
   }
 
-  .sch-evnt:hover {
+  .sch-evnt:not(.uneditable):hover {
     box-shadow: 0 0 5px #000000;
     border-color: rgba(0, 0, 0, 0);
   }
 
-  .evnt-title:hover,
-  .evnt-title:focus {
+  .evnt-title-editable:hover,
+  .evnt-title-editable:focus {
     background: rgba(0, 0, 0, 0.25);
     box-shadow: 0 0 3px #000000;
   }
@@ -306,11 +309,6 @@
   }
 }
 
-.page-container .evnt-title {
-  background: none !important; // scss-lint:disable ImportantRule
-  box-shadow: none !important; // scss-lint:disable ImportantRule
-}
-
 // Overlay CSS
 #event-overlay-box {
   #overlay-title {
@@ -325,7 +323,7 @@
   }
 
   #overlay-title:focus,
-  #overlay-title:hover {
+  #overlay-title:not([contenteditable="false"]):hover {
     background: rgba(150, 150, 150, 0.33);
   }
 
@@ -834,6 +832,14 @@ input[readonly='readonly'] {
     width: 40px;
     height: 40px;
 	}
+}
+
+.sch-evnt-icon-hide {
+  display: none !important; // scss-lint:disable ImportantRule
+}
+
+.sch-evnt.uneditable {
+  cursor: pointer;
 }
 
 // -----------------------------------
