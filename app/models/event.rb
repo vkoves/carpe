@@ -1,6 +1,31 @@
 require "utilities"
 
 # An event describes a schedule item, that is a single item occuring on a person's schedule
+#
+# There are a couple of different types of events to consider:
+#
+# 1) Repeating or Non-Repeating
+# 2) User or Group
+# 3) Host, Hosted, or Non-Hosted
+#
+# Explanation:
+#
+# 1) Rather than copying the same event onto multiple dates, Repeating events utilize
+#    a `repeat` database column and to indicate which dates an event should occur on.
+#    Non-Repeating only occur once between `date` and `end_date`.
+#
+# 2) Events have ownership. User events belong to `user` and do not have a
+#    `group`. This kind of event belongs to `user` who is both the event's
+#    creator and owner. Group events belong to `group` and are modifiable by
+#    anybody in who has permission to do so. In this case, `user` represents
+#    the event's creator, but not its owner.
+#
+# 3) Events can be shared between users. A Host event is an event that other
+#    users have been invited to. When a user is invited, a duplicate of the
+#    host event is created on the invited user's schedule. That newly created
+#    event is called a Hosted event. Hosted events are kept in sync with their
+#    parent host event - which is identified by the `base_event` column.
+#
 class Event < ApplicationRecord
   include Utilities
 
