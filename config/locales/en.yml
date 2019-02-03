@@ -44,3 +44,4 @@ en:
     no_permission: "You don't have permission to update that event invite!"
     update_error: "Something went wrong responding to that event invite!"
     pending_error: "You cannot mark yourself as pending response on an event invite!"
+    not_found: "The invitation has been revoked!"

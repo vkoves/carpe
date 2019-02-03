@@ -17,11 +17,13 @@ class EventInvite < ApplicationRecord
                       default: -> { Current.user }
 
   belongs_to :user
-  belongs_to :event
+  belongs_to :host_event, class_name: "Event", optional: true
+  belongs_to :hosted_event, class_name: "Event", optional: true,
+                            dependent: :destroy
 
   has_many :notifications, as: :entity, dependent: :destroy
 
-  validates :event_id, uniqueness: {
+  validates :host_event_id, uniqueness: {
     scope: :user_id,
     message: lambda do |invite, _data|
       "#{invite.user.name} has already been invited."
@@ -34,11 +36,13 @@ class EventInvite < ApplicationRecord
   # (referred to as a hosted event) that will need to be kept
   # in sync with the host event (base_event_id).
   def make_hosted_event_for_user!
-    new_event = event.dup
-    new_event.user_id = user.id
-    new_event.base_event_id = event.id
+    new_event = host_event.dup
+    new_event.user_id = user_id
+    new_event.base_event_id = host_event_id
     new_event.category_id = user.event_invite_category!.id
     new_event.save!
+
+    update(hosted_event: new_event)
   end
 
   def accept!

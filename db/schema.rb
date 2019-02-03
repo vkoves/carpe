@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_11_220005) do
+ActiveRecord::Schema.define(version: 2018_11_24_064632) do
 
   create_table "categories", force: :cascade do |t|
     t.string "name"
@@ -36,12 +36,14 @@ ActiveRecord::Schema.define(version: 2018_11_11_220005) do
     t.integer "status", default: 3, null: false
     t.integer "sender_id", null: false
     t.integer "user_id", null: false
-    t.integer "event_id", null: false
+    t.integer "host_event_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "token"
-    t.index ["event_id", "user_id"], name: "index_event_invites_on_event_id_and_user_id", unique: true
-    t.index ["event_id"], name: "index_event_invites_on_event_id"
+    t.integer "hosted_event_id"
+    t.index ["host_event_id", "user_id"], name: "index_event_invites_on_host_event_id_and_user_id", unique: true
+    t.index ["host_event_id"], name: "index_event_invites_on_host_event_id"
+    t.index ["hosted_event_id"], name: "index_event_invites_on_hosted_event_id"
     t.index ["sender_id"], name: "index_event_invites_on_sender_id"
     t.index ["token"], name: "index_event_invites_on_token", unique: true
     t.index ["user_id"], name: "index_event_invites_on_user_id"

@@ -68,6 +68,15 @@ music_convention:
   category: main
   date: 2015-12-16 02:00:00
   end_date: 2015-12-16 06:00:00
+
+# this is a child to music_convention
+music_convention_joe:
+  name: "Music Convention"
+  description: "There's going to be music"
+  user: joe
+  category: joe_group_events
+  date: 2015-12-16 02:00:00
+  end_date: 2015-12-16 06:00:00
   base_event_id: <%= ActiveRecord::FixtureSet.identify(:music_convention) %>
 
 public_group_event:

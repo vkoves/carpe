@@ -1,6 +1,31 @@
 require "utilities"
 
 # An event describes a schedule item, that is a single item occuring on a person's schedule
+#
+# There are a couple of different types of events to consider:
+#
+# 1) Repeating or Non-Repeating
+# 2) User or Group
+# 3) Host, Hosted, or Non-Hosted
+#
+# Explanation:
+#
+# 1) Rather than copying the same event onto multiple dates, Repeating events utilize
+#    a `repeat` database column and to indicate which dates an event should occur on.
+#    Non-Repeating only occur once between `date` and `end_date`.
+#
+# 2) Events have ownership. User events belong to `user` and do not have a
+#    `group`. This kind of event belongs to `user` who is both the event's
+#    creator and owner. Group events belong to `group` and are modifiable by
+#    anybody in who has permission to do so. In this case, `user` represents
+#    the event's creator, but not its owner.
+#
+# 3) Events can be shared between users. A Host event is an event that other
+#    users have been invited to. When a user is invited, a duplicate of the
+#    host event is created on the invited user's schedule. That newly created
+#    event is called a Hosted event. Hosted events are kept in sync with their
+#    parent host event - which is identified by the `base_event` column.
+#
 class Event < ApplicationRecord
   include Utilities
 
@@ -16,8 +41,18 @@ class Event < ApplicationRecord
   belongs_to :category
   has_and_belongs_to_many :repeat_exceptions
 
-  has_many :event_invites, dependent: :destroy
+  # Host Event
+  has_many :event_invites, foreign_key: "host_event_id", dependent: :destroy
   has_many :invited_users, through: :event_invites, source: :user
+  has_many :hosted_events, class_name: "Event", foreign_key: :base_event_id,
+                           dependent: :destroy
+
+  # Hosted Event
+  has_one :host_event, class_name: "Event", foreign_key: :base_event_id,
+                       dependent: :destroy
+
+  has_one :event_invite, foreign_key: "hosted_event_id",
+                         dependent: :destroy
 
   # Notify guests on update if there are invited users
   after_validation :notify_guests, on: :update, if: :has_guests?
@@ -87,21 +122,16 @@ class Event < ApplicationRecord
   end
 
   def hosted_event?
-    !host_event? && base_event_id.present?
+    base_event_id.present? && !host_event?
   end
 
-  # Optimization:
-  # Rather than querying EventInvites to determine if this event is hosting
-  # any other events, base_event_id is set to itself to indicate that.
   def host_event?
-    base_event_id == id
+    EventInvite.exists?(host_event: self)
   end
 
   def make_host_event!
-    update(base_event_id: id)
-
     # owners of a hosted event are explicitly invited to their own event.
-    EventInvite.create(user: creator, event: self, role: :host)
+    EventInvite.create(user: creator, host_event: self, role: :host)
   end
 
   # Returns true if users have been invited to this event

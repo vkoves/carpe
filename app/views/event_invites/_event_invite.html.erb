@@ -5,7 +5,7 @@
   </div>
 
   <div class="actions">
-    <% if event_invite.event.creator %>
+    <% if event_invite.host_event.creator %>
       <span class="role">Owner</span>
     <% else %>
       <%= select '_', '_', event_invite_roles, { selected: event_invite.role } %>
