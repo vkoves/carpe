@@ -31,17 +31,17 @@ class Event < ApplicationRecord
 
   # These are the attributes that should be updated on hosted events
   # when their host/base event is modified.
-  SYNCED_EVENT_ATTRIBUTES = [
-    "name",
-    "description",
-    "date",
-    "end_date",
-    "repeat",
-    "location",
-    "repeat_start",
-    "repeat_end",
-    "guests_can_invite",
-    "guest_list_hidden"
+  SYNCED_EVENT_ATTRIBUTES = %w[
+    name
+    description
+    date
+    end_date
+    repeat
+    location
+    repeat_start
+    repeat_end
+    guests_can_invite
+    guest_list_hidden
   ].freeze
 
   enum privacy: {
