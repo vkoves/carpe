@@ -56,6 +56,7 @@ class Event < ApplicationRecord
 
   # Notify guests on update if there are invited users
   after_validation :notify_guests, on: :update, if: :has_guests?
+  after_commit :update_hosted_events, on: :update, if: :host_event?
 
   # returns the event name, or an italicized untitled
   def get_html_name
@@ -246,6 +247,19 @@ class Event < ApplicationRecord
     notify_targets.each do |recipient|
       UserNotifier.event_update_email(recipient, self, changes).deliver_later
       Notification.send_event_update(recipient, self)
+    end
+  end
+
+  # When a Host Event is updated, all of the associated Hosted Events
+  # are updated as well.
+  def update_hosted_events
+    synced_attributes = attributes.slice(
+      "name", "description", "date", "end_date", "repeat", "location",
+      "repeat_start", "repeat_end", "guests_can_invite", "guest_list_hidden"
+    )
+
+    hosted_events.each do |hosted_event|
+      hosted_event.update!(synced_attributes)
     end
   end
 end
