@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class EventsControllerTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
@@ -39,5 +39,15 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
     assert_no_difference -> { Event.count } do
       delete event_path(events(:public_group_event))
     end
+  end
+
+  test "plain events can be initialized into host events" do
+    sign_in users(:viktor)
+
+    assert_difference -> { EventInvite.count }, +1 do
+      post setup_hosting_event_path(events(:simple))
+    end
+
+    assert_response :success
   end
 end

@@ -22,3 +22,8 @@ groupCategory:
   user: ownerAlice
   privacy: "public"
   group: publicGroup
+
+joe_group_events:
+  name: Group Activities
+  user: joe
+  privacy: "private"

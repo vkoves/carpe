@@ -1,20 +1,20 @@
-require 'overridden_helpers'
+require "overridden_helpers"
 
 class ApplicationController < ActionController::Base
   include OverriddenHelpers
 
   before_action :configure_permitted_parameters, if: :devise_controller?
+  around_action :set_time_zone, if: :current_user
+  before_action :set_global_current_user
 
   # Enable rack-mini-profiler for signed in admin
   before_action do
-    if current_user && current_user.admin
+    if current_user&.admin
       if Rails.env.production?
         Rack::MiniProfiler.config.start_hidden = true # hide profiler by default on production (Alt+P to show)
       end
 
-      unless Rails.env.test?
-        Rack::MiniProfiler.authorize_request
-      end
+      Rack::MiniProfiler.authorize_request unless Rails.env.test?
     end
   end
 
@@ -23,9 +23,9 @@ class ApplicationController < ActionController::Base
 
   rescue_from CanCan::AccessDenied do |exception|
     respond_to do |format|
-      format.json { head :forbidden, content_type: 'text/html' }
+      format.json { head :forbidden, content_type: "text/html" }
       format.html { redirect_to request.referrer || home_path, alert: exception.message }
-      format.js   { head :forbidden, content_type: 'text/html' }
+      format.js   { head :forbidden, content_type: "text/html" }
     end
   end
 
@@ -34,7 +34,7 @@ class ApplicationController < ActionController::Base
   end
 
   def not_found
-    raise ActiveRecord::RecordNotFound, 'Not Found'
+    raise ActiveRecord::RecordNotFound, "Not Found"
   end
 
   # convenience method for controller actions using scrolling pagination
@@ -46,7 +46,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-	protected
+  protected
 
   # Allow sign up and edit profile to take the name parameter. Needed by devise
   def configure_permitted_parameters
@@ -56,15 +56,27 @@ class ApplicationController < ActionController::Base
 
   # Authorize if a user is signed in and is admin before viewing a pge
   def authorize_admin!
-    unless current_user&.admin
-      redirect_to home_path
-    end
+    redirect_to home_path unless current_user&.admin
   end
 
   # Authorize if a user is signed in
   def authorize_signed_in!
-    unless current_user
-      redirect_to user_session_path, alert: "You have to be signed in to do that!"
-    end
+    redirect_to user_session_path, alert: "You have to be signed in to do that!" unless current_user
+  end
+
+  # Used for feature flagging controller actions
+  def disable_on_production
+    redirect_to home_path, alert: "This action is currently disabled" if Rails.env.production?
+  end
+
+  private
+
+  def set_time_zone
+    Time.use_zone(current_user.home_time_zone) { yield }
+  end
+
+  # Current.user is accessible everywhere. Use it sparingly.
+  def set_global_current_user
+    Current.user = current_user
   end
 end

@@ -4,15 +4,15 @@
 # To run this test, in the project directory run the command:
 # bundle exec rails test test/controllers/event_test.rb
 
-require 'test_helper'
+require "test_helper"
 
 class UserTest < ActiveSupport::TestCase
   def setup
     @viktor, @norm, @putin = users(:viktor, :norm, :putin)
 
-    @curr_event_1 = events(:current_event_1)
-    @curr_event_2 = events(:current_event_2)
-    @curr_event_3 = events(:current_event_3)
+    @curr_event1 = events(:current_event_1)
+    @curr_event2 = events(:current_event_2)
+    @curr_event3 = events(:current_event_3)
   end
 
   test "follow and unfollow should work" do
@@ -62,11 +62,11 @@ class UserTest < ActiveSupport::TestCase
 
   # TODO: is this actually the desired behaviour?
   test "events_in_range only uses the event starting date (rather than a range)" do
-    @curr_event_1.date     = 1.hour.from_now
-    @curr_event_1.end_date = 3.hours.from_now
-    @curr_event_1.save!
+    @curr_event1.date     = 1.hour.from_now
+    @curr_event1.end_date = 3.hours.from_now
+    @curr_event1.save!
 
-    included = @norm.events_in_range DateTime.current, 2.hours.from_now
+    included = @norm.events_in_range Time.current, 2.hours.from_now
     assert_not_empty included
 
     excluded = @norm.events_in_range 2.hours.from_now, 4.hours.from_now
@@ -75,8 +75,8 @@ class UserTest < ActiveSupport::TestCase
 
   test "events_in_range includes repeating events" do
     daily = events(:repeat_daily)
-    from  = daily.date.to_datetime - 1.hour
-    to    = daily.date.to_datetime + 1.hour
+    from  = daily.date - 1.hour
+    to    = daily.date + 1.hour
 
     base_event = @viktor.events_in_range(from, to).first
     assert_equal daily.name, base_event.name
@@ -116,19 +116,19 @@ class UserTest < ActiveSupport::TestCase
     # First event that we make into a current event; this one should be first in
     # the current events array, since it ends in one hour from the current time
     # (the time when the test is run), and the list is sorted by ending time
-    @curr_event_1.date     = 1.hour.ago
-    @curr_event_1.end_date = 1.hour.from_now
-    @curr_event_1.save!
+    @curr_event1.date     = 1.hour.ago
+    @curr_event1.end_date = 1.hour.from_now
+    @curr_event1.save!
 
     # This will be second in the current events array, since it ends in two hours
-    @curr_event_2.date     = 2.hours.ago
-    @curr_event_2.end_date = 2.hours.from_now
-    @curr_event_2.save!
+    @curr_event2.date     = 2.hours.ago
+    @curr_event2.end_date = 2.hours.from_now
+    @curr_event2.save!
 
     # This will be a non-current event - a negative test case.
-    @curr_event_3.date     = 2.hours.from_now
-    @curr_event_3.end_date = 4.hours.from_now
-    @curr_event_3.save!
+    @curr_event3.date     = 2.hours.from_now
+    @curr_event3.end_date = 4.hours.from_now
+    @curr_event3.save!
 
     # Get the list of current events from the function we're testing
     current_events = @norm.current_events
@@ -141,11 +141,11 @@ class UserTest < ActiveSupport::TestCase
     # Make sure we got the right event as the first event (to check sorting order,
     # and make sure that we didn't get any events returned as "current events" that
     # shouldn't be)
-    assert_equal @curr_event_1, current_events[0],
+    assert_equal @curr_event1, current_events[0],
                  "First current event is wrong or out of order"
 
     # Make sure that second event is also the right one, and in the right order
-    assert_equal @curr_event_2, current_events[1],
+    assert_equal @curr_event2, current_events[1],
                  "Secord current event is wrong or out of order"
   end
 
@@ -153,34 +153,34 @@ class UserTest < ActiveSupport::TestCase
     # three events - one yesterday, two today
 
     # This is the yesterday event
-    @curr_event_1.date     = 30.hours.ago
-    @curr_event_1.end_date = 28.hours.ago
-    @curr_event_1.save!
+    @curr_event1.date     = 30.hours.ago
+    @curr_event1.end_date = 28.hours.ago
+    @curr_event1.save!
 
     # This event is currently going on, but not the next event
-    @curr_event_2.date     = 1.hour.ago
-    @curr_event_2.end_date = 1.hour.from_now
-    @curr_event_2.save!
+    @curr_event2.date     = 1.hour.ago
+    @curr_event2.end_date = 1.hour.from_now
+    @curr_event2.save!
 
     # This event should be the next event
-    @curr_event_3.date     = 1.hour.from_now
-    @curr_event_3.end_date = 2.hours.from_now
-    @curr_event_3.save!
+    @curr_event3.date     = 1.hour.from_now
+    @curr_event3.end_date = 2.hours.from_now
+    @curr_event3.save!
 
     # Make sure that the next event is the right one
-    assert_equal @curr_event_3, @norm.next_event,
+    assert_equal @curr_event3, @norm.next_event,
                  "Wrong event was returned as the next event!"
   end
 
   test "is_busy should reflect user's current events" do
     # Make two events - one currently going on, one not
-    @curr_event_1.date     = 2.hours.ago
-    @curr_event_1.end_date = 1.hour.from_now
-    @curr_event_1.save!
+    @curr_event1.date     = 2.hours.ago
+    @curr_event1.end_date = 1.hour.from_now
+    @curr_event1.save!
 
-    @curr_event_2.date     = 36.hours.from_now
-    @curr_event_2.end_date = 38.hours.from_now
-    @curr_event_2.save!
+    @curr_event2.date     = 36.hours.from_now
+    @curr_event2.end_date = 38.hours.from_now
+    @curr_event2.save!
 
     assert @norm.is_busy?,
            "One event is going on. 'is_busy?' should have returned true"
@@ -229,14 +229,14 @@ class UserTest < ActiveSupport::TestCase
 
   test "next_event shouldn't return past events" do
     event = events(:current_event_1)
-    event.date = Time.parse('4th Jun 2018 10:00:00 PM')
+    event.date = Time.parse("4th Jun 2018 10:00:00 PM")
     event.end_date = event.date + 2.hour
     event.repeat = "certain_days-0" # repeat every sunday
 
     event.save!
     event.reload
 
-    current_time = Time.parse('28th May 2018 5:00:00 PM') # a monday
+    current_time = Time.parse("28th May 2018 5:00:00 PM") # a monday
     travel_to current_time do
       next_event = users(:norm).next_event
       assert_nil next_event, "found 'current event' date #{next_event&.date} between #{Time.current} and #{1.day.from_now}"

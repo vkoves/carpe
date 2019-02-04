@@ -2,9 +2,9 @@ class HomeController < ApplicationController
   def index
     if current_user
       @home = true
-      render 'dashboard'
+      render "dashboard"
     else
-      render 'home'
+      render "home"
     end
   end
 end

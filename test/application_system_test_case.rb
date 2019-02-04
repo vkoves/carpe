@@ -1,7 +1,6 @@
 require "test_helper"
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
-
   # Chrome Options Explained
   #
   # headless:

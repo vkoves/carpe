@@ -1,0 +1,50 @@
+# Explanations for each linter rule and their defaults can be found here:
+# https://rubocop.readthedocs.io/en/latest/cops_style/
+
+AllCops:
+  TargetRubyVersion: 2.4
+
+  Exclude:
+  - 'db/**/*' # Ignore database migrations
+  - 'bin/**/*' # Ignore bin files, we don't write them
+  - 'vendor/**/*'
+
+# The default line ending is based on your OS.
+# If you are using LF on windows you'll need this rule.
+#
+Layout/EndOfLine:
+ EnforcedStyle: lf
+
+# Once Ruby makes immutable strings the default, this can be removed.
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+# Double quotes allow for string interpolation
+StringLiterals:
+  EnforcedStyle: double_quotes
+
+# Ruby's % operators are too obscure, prefer standard array syntax.
+Style/SymbolArray:
+  EnforcedStyle: brackets
+
+# Requiring every class to have a comment is over-bearing.
+# Unmaintained and/or bad documentation is worse than none at all.
+Style/Documentation:
+  Enabled: false
+
+# All Metrics are just hard to do, and will take a lot of refactoring. Disabling for now
+Metrics:
+  Enabled: false
+
+# This only impacted ActionDispatch::SystemTestCase in test_helper, which is fine
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+# get_html_name is fine for now, honestly
+Naming/AccessorMethodName:
+  Enabled: false
+
+# Using is_busy? or has_avatar? are fine
+Naming/PredicateName:
+  Enabled: false
+
