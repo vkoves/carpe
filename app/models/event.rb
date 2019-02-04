@@ -29,6 +29,21 @@ require "utilities"
 class Event < ApplicationRecord
   include Utilities
 
+  # These are the attributes that should be updated on hosted events
+  # when their host/base event is modified.
+  SYNCED_EVENT_ATTRIBUTES = [
+    "name",
+    "description",
+    "date",
+    "end_date",
+    "repeat",
+    "location",
+    "repeat_start",
+    "repeat_end",
+    "guests_can_invite",
+    "guest_list_hidden"
+  ].freeze
+
   enum privacy: {
     public_event: 0,
     private_event: 1
@@ -250,16 +265,10 @@ class Event < ApplicationRecord
     end
   end
 
-  # When a Host Event is updated, all of the associated Hosted Events
-  # are updated as well.
+  # Copies the relevant event attributes from a host event to all of
+  # its child events. This is done whenever a host event is updated.
   def update_hosted_events
-    synced_attributes = attributes.slice(
-      "name", "description", "date", "end_date", "repeat", "location",
-      "repeat_start", "repeat_end", "guests_can_invite", "guest_list_hidden"
-    )
-
-    hosted_events.each do |hosted_event|
-      hosted_event.update!(synced_attributes)
-    end
+    host_event_attrs = attributes.slice(*SYNCED_EVENT_ATTRIBUTES)
+    hosted_events.update_all(host_event_attrs)
   end
 end
