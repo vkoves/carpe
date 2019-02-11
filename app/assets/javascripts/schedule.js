@@ -176,7 +176,7 @@ function ScheduleItem() {
    */
   this.hosted = function() {
     return this.baseEventId && this.baseEventId !== currEvent.eventId;
-  }
+  };
 
   /**
    * Deletes the schedule item from the frontend
@@ -1947,8 +1947,7 @@ function editEvent(elem) {
     // Indicate if the event is hosted
     if (currEvent.hosted()) {
       $('#host-info').show();
-    }
-    else {
+    } else {
       $('#host-info').hide();
     }
 
