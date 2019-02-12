@@ -146,6 +146,22 @@ function ScheduleItem() {
   this.needsSaving = false;
 
   /**
+   * Returns true if this event is a Hosted Event that the client does not actually own.
+   * @return {boolean} True the event is a Hosted Event, false otherwise.
+   */
+  this.isHostedEvent = function() {
+    return false;
+  };
+
+  /**
+   * Returns true if this specific event instance can be modified by the client.
+   * @return {boolean} True the event can be modified, false otherwise.
+   */
+  this.isEditable = function() {
+    return !readOnly;
+  };
+
+  /**
    * Returns true if this event hasn't been saved to the server, false otherwise.
    * @return {boolean} True the event is unsaved, false if it's saved
    */
@@ -564,10 +580,7 @@ function scheduleReady() {
 
   // allow viewing of all events with single click
   if (readOnly) {
-    $('.edit, #repeat, #add-break-event').remove(); // remove repeat functionality, and adding breaks
-    $('#overlay-title').attr('contenteditable', 'false'); // disable editing on location title and description
-    $('#overlay-loc, #overlay-desc').prop('disabled', true);
-    $('#time-start, #time-end').attr('readonly', true); // disable editing of time
+    disableEventPanelEditOptions();
   }
 
   $('#sch-save').addClass('disabled');
@@ -998,6 +1011,11 @@ function loadInitialEvents() {
       var time = dateE.getHours() + ':' + paddedMinutes(dateE);
 
       clone.children('.evnt-title').text(evnt.name);
+
+      if (!schItem.isEditable()) {
+        clone.addClass('read-only');
+      }
+
       clone.attr('time', time);
       clone.attr('event-id', evnt.id);
       clone.attr('evnt-temp-id', i); // Set the temp id
@@ -1749,7 +1767,7 @@ function populateEvents() {
       }
     }
   }
-  addDrag('.col-snap .sch-evnt'); // Re-enables the events to snap onto the date columns here.
+  addDrag('.col-snap .sch-evnt:not(.read-only)'); // Re-enables the events to snap onto the date columns here.
 
   // Sort events in each monthly tile after they have been made
   if (viewMode == 'month') {
@@ -1777,7 +1795,7 @@ function populateEvents() {
       editEvent($(this));
     });
 
-    if (!readOnly) {
+    if (eventObj.isEditable()) {
       $('.sch-month-evnt .close').click(function(event) {
         deleteEvent(event, $(this));
       });
@@ -1787,10 +1805,20 @@ function populateEvents() {
     }
   }
 
-  if (readOnly) {
+  if (!eventObj.isEditable()) {
     $('.col-snap .sch-evnt').click(function() {
       editEvent($(this));
     });
+
+
+    // TODO: Not sure where to add this. Users don't always have permission
+    //       to edit hosted events on their schedule, but they always have
+    //       permission to delete the event.
+    if (eventObj.isHostedEvent()) {
+      $('.col-snap .sch-evnt .sch-evnt-close').click(function(event) {
+        deleteEvent(event, $(this));
+      });
+    }
   }
 }
 
@@ -1933,6 +1961,12 @@ function editEvent(elem) {
     var evntId = elem.attr('evnt-temp-id');
     currEvent = scheduleItems[evntId];
 
+    if (currEvent.isEditable()) {
+      enableEventPanelEditOptions();
+    } else {
+      disableEventPanelEditOptions();
+    }
+
     // selects the current category of the event as the default option
     $('#cat-title-selector option[value=\'' + currEvent.categoryId + '\']').attr('selected', 'selected');
     $('#cat-title-selector').off();
@@ -1990,14 +2024,14 @@ function editEvent(elem) {
     $('#overlay-loc').val(loc);
 
     // if this is readOnly and there is no description
-    if (desc.length == 0 && readOnly) {
+    if (desc.length == 0 && readOnly && !currEvent.isHostedEvent()) {
       $('#overlay-desc, #desc-title').hide(); // hide the field and the title
     } else {
       $('#overlay-desc, #desc-title').show();
     }
 
     // do the same for the location
-    if (loc.length == 0 && readOnly) {
+    if (loc.length == 0 && readOnly && !currEvent.isHostedEvent()) {
       $('#overlay-loc, #loc-title').hide();
     } else {
       $('#overlay-loc, #loc-title').show();
@@ -2625,6 +2659,33 @@ function paddedMinutes(date) {
  */
 function removeHighlight() {
   window.getSelection().removeAllRanges();
+}
+
+
+/**
+ * Updates Event info panel to hide and disable editing options.
+ * @return {undefined}
+ */
+function disableEventPanelEditOptions() {
+  $('.edit, #repeat, #add-break-event').hide(); // remove repeat functionality, and adding breaks
+  $('#overlay-title').attr('contenteditable', false); // disable editing on location title and description
+  $('#overlay-loc, #overlay-desc').prop('disabled', true);
+  $('#time-start, #time-end').attr('readonly', true); // disable editing of time
+  $('#event-invites-setup').hide(); // remove event invites functionality
+  $('#cat-title-selector').prop('disabled', true); // prevent modifying event category
+}
+
+/**
+ * Updates Event info panel to show and enable editing options.
+ * @return {undefined}
+ */
+function enableEventPanelEditOptions() {
+  $('.edit, #repeat, #add-break-event').show();
+  $('#overlay-title').attr('contenteditable', true);
+  $('#overlay-loc, #overlay-desc').prop('disabled', false);
+  $('#time-start, #time-end').attr('readonly', false);
+  $('#time-start, #time-end').attr('readonly', false);
+  $('#cat-title-selector').prop('disabled', false);
 }
 
 /**
