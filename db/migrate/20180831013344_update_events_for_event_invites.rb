@@ -2,6 +2,7 @@ class UpdateEventsForEventInvites < ActiveRecord::Migration[5.1]
   def change
     change_table :events do |t|
       t.integer :privacy,
+                # This is the private Event privacy (Event.privacies[:privacy_private])
                 default: 1, null: false,
                 comment: "used by event invites"
 
