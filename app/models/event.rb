@@ -4,12 +4,11 @@ require "utilities"
 class Event < ApplicationRecord
   include Utilities
 
-  # With prefix: true, these are accessed like .privacy_public?
   enum privacy: {
-    public: 0,
-    private: 1,
-    followers: 2
-  }, _prefix: true
+    privacy_public: 0,
+    privacy_private: 1,
+    privacy_followers: 2
+  }
 
   belongs_to :user
   alias_attribute :creator, :user
