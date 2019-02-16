@@ -20,7 +20,7 @@
 
       <div class="field">
         <%= f.check_box :public_profile %>
-        <%= f.label :public_profile %>
+        <%= f.label :public_profile, class: 'inline' %>
         <%= image_tag "question-circle.svg", width: 15, class: "question-tooltip right", title: "Public profiles auto accept followers. Use this if you don't want to confirm each follower you receive." %>
         <br>
       </div>
@@ -58,6 +58,15 @@
         <%= f.file_field :banner, accept: 'image/png,image/gif,image/jpeg' %>
       </div>
 
+      <!-- Event invites feature flag -->
+      <% unless Rails.env.production? %>
+        <div class="field">
+          <%= f.label :default_event_invite_category %><br>
+          <%= f.select(:default_event_invite_category_id, options_from_collection_for_select(current_user.categories, 'id', 'name', f.object.default_event_invite_category_id)) %>
+        </div>
+      <% end %>
+
+      <!-- Password Change Section -->
       <% unless current_user.provider %>
           <div class="pass-holder">
             Change Password

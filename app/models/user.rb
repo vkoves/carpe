@@ -39,6 +39,8 @@ class User < ApplicationRecord
   has_many :events, -> { where group_id: nil }
   has_many :repeat_exceptions, -> { where group_id: nil }
 
+  belongs_to :default_event_invite_category, class_name: "Category"
+
   def send_signup_email
     UserNotifier.send_signup_email(self).deliver_now
   end
