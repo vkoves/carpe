@@ -98,7 +98,8 @@ label {
 
   .field { margin-top: 15px; }
 
-  select, label:not(.inline) {
+  select,
+  label:not(.inline) {
     width: 100%;
   }
 
