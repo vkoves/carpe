@@ -247,11 +247,10 @@ class User < ApplicationRecord
   # If a default event invite category is not set in the profile settings,
   # a new default category is automatically created.
   def event_invite_category!
-    if categories.empty?
-      categories.create(name: "Event Invites", color: "rgb(192, 192, 192)")
+    if default_event_invite_category
+      return default_event_invite_category
     else
-      # TODO: make this the default event invite category
-      categories.first
+      return categories.create(name: "Event Invites", color: "rgb(192, 192, 192)")
     end
   end
 
