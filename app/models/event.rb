@@ -30,8 +30,9 @@ class Event < ApplicationRecord
   include Utilities
 
   enum privacy: {
-    public_event: 0,
-    private_event: 1
+    privacy_public: 0,
+    privacy_private: 1,
+    privacy_followers: 2
   }
 
   belongs_to :user

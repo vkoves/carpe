@@ -329,12 +329,20 @@
     background: rgba(150, 150, 150, 0.33);
   }
 
+  #event-header { margin-bottom: 5px; }
+
   #overlay-color-bar {
     width: 100%;
     padding: 10px 0;
     color: #ffffff;
-    margin-bottom: 5px;
     text-align: right;
+  }
+
+  #host-info {
+    padding: 5px 15px;
+    background: #d4d4d4;
+    text-align: left;
+    font-size: 14px;
   }
 
   #cat-title {

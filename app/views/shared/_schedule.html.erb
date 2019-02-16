@@ -20,16 +20,28 @@
 
 <div class="sch-all-cont <%= 'read-only' if read_only %>">
   <div id="event-overlay-box" class="overlay-box">
-    <div id="overlay-color-bar">
-      <div id="overlay-title" contenteditable="true">Event Title</div>
-      <div id="cat-title">In category <select id="cat-title-selector"></select></div>
+    <!-- Close button -->
+    <span class="default red close"></span>
+
+    <div id="event-header">
+      <!-- Top colored event section -->
+      <div id="overlay-color-bar">
+        <div id="overlay-title" contenteditable="true">Event Title</div>
+        <div id="cat-title">In category <select id="cat-title-selector"></select></div>
+      </div>
+
+      <div id="host-info">
+        This is an event you were invited to!
+      </div>
     </div>
+
     <div class="overlay-time">
       <input id="time-start" type="text" value="10:00am"></input> -
       <input id="time-end" type="text" value="12:00pm"></input>
     </div>
-    <span class="default red close"></span>
+
     <span id="repeat" class="default green">Edit Repeat Type</span>
+
     <div id="repeat-menu">
       <span id="repeat-none" class="default repeat-option">None</span>
       <span id="repeat-daily" class="default repeat-option">Daily</span>
@@ -59,16 +71,21 @@
       Repeat From: <input id="repeat-start" class="date-field" type="text">
       To: <input id="repeat-end" class="date-field" type="text"/>
     </div>
+
     <span id="add-break-event" class="default green">Add Break</span>
+
     <div id="desc-title" class="small-title">
       Description:
       <span id="edit-desc" class="edit">Edit</span>
     </div>
+
     <textarea id="overlay-desc" class="auto-resize-vertically">Description goes here</textarea>
+
     <div id="loc-title" class="small-title">
       Location:
       <span id="edit-loc" class="edit">Edit</span>
     </div>
+
     <textarea id="overlay-loc" class="auto-resize-vertically">Location goes here</textarea>
 
     <% unless Rails.env.production? %>
