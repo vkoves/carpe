@@ -1,0 +1,11 @@
+<% if Rails.env.production? %>
+  <%= javascript_include_tag "https://cdn.jsdelivr.net/npm/vue@2.6.6/dist/vue.js" %>
+<% else %>
+  <%= javascript_include_tag "https://cdn.jsdelivr.net/npm/vue@2.6.6" %>
+<% end %>
+
+<h1>Scheduler Beta</h1>
+<p>
+  This is an beta version of the core scheduler. It is being fully overhauled,
+  so not everything will work! Please, report bugs using the bug icon.
+</p>

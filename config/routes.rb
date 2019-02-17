@@ -51,6 +51,7 @@ Rails.application.routes.draw do
 
   resource :schedule, only: [:show] do
     post :save
+    get "/beta", to: "schedules#show_beta"
   end
 
   resources :notifications, only: [:destroy] do
