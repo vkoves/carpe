@@ -59,6 +59,6 @@ class SchedulesController < ApplicationController
 
   # Allow any site to embed this page in an <iframe>
   def allow_iframe
-    response.headers['X-Frame-Options'] = 'ALLOWALL'
+    response.headers['X-Frame-Options'] = "ALLOWALL"
   end
 end
