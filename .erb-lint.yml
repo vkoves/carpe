@@ -1,4 +1,3 @@
----
 linters:
   SelfClosingTag:
     # Configuring this doesn't seem to work yet, and we prefer <br> over <br />
