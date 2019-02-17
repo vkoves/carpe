@@ -1,0 +1,7 @@
+linters:
+  ErbSafety:
+    # Need to configure a better HTML config for this to work
+    enabled: false
+  Rubocop:
+    # Rubocop is already run as part of CI
+    enabled: false

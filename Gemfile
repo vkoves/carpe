@@ -99,3 +99,6 @@ gem "scss_lint", require: false
 
 # Ruby linter
 gem "rubocop", "~> 0.60.0", require: false
+
+# ERB Linter
+gem 'erb_lint', require: false
