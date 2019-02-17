@@ -13,6 +13,17 @@
   so not everything will work! Please, report bugs using the bug icon.
 </p>
 
-<div id="app">
-  {{message}}
+<div id="vue-app">
+  <ul>
+    <li v-for="category in categories"
+      v-bind:style="{ backgroundColor: category.color }">
+      {{ category.name }}
+    </li>
+  </ul>
 </div>
+
+<script>
+  // TODO: Move category retrieval to a network request, so that it doesn't delay
+  // loading and have this ugliness
+  var categories = <%= raw current_user.categories.to_json(include: { repeat_exceptions: { only: :id } }) %>;
+</script>
