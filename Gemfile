@@ -95,7 +95,6 @@ gem "capybara", "~> 3"
 gem "chromedriver-helper", "~> 1"
 gem "selenium-webdriver", "~> 3"
 
-
 # Linters:
 # Not required since they are only for CI/development
 gem "erb_lint", require: false
