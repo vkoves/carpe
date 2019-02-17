@@ -98,7 +98,6 @@ gem "selenium-webdriver", "~> 3"
 
 # Linters:
 # Not required since they are only for CI/development
-
-gem "scss_lint", require: false
-gem "rubocop", "~> 0.60.0", require: false
 gem "erb_lint", require: false
+gem "rubocop", "~> 0.60.0", require: false
+gem "scss_lint", require: false
