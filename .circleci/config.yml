@@ -66,7 +66,7 @@ jobs:
               rubocop
               eslint app/assets/javascripts spec/javascripts
               bundle exec scss-lint
-              bundle exec erblint --lint-all
+              bundle exec erblint app/
 
       # run tests!
       - run:
