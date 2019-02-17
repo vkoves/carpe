@@ -32,6 +32,7 @@ Rails.application.config.assets.precompile += %w[home.css]
 Rails.application.config.assets.precompile += %w[groups.css]
 Rails.application.config.assets.precompile += %w[schedule/event-invites.js]
 Rails.application.config.assets.precompile += %w[schedule/scheduler-beta.js]
+Rails.application.config.assets.precompile += %w[scheduler-beta.css]
 
 # Pages
 Rails.application.config.assets.precompile += %w[pages/admin.css]
