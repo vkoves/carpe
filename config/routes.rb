@@ -2,11 +2,13 @@ Rails.application.routes.draw do
   resources :categories
 
   devise_for :users, controllers: { omniauth_callbacks: "omniauth_callbacks", registrations: "users/registrations" }
+
   resources :users, only: [:index, :destroy, :show] do
     member do
       get "promote"
       get "demote"
       get "inspect"
+      get "categories"
     end
   end
 

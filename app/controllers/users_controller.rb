@@ -2,14 +2,14 @@ class UsersController < ApplicationController
   before_action :authorize_admin!, only: [:index, :promote, :demote, :inspect]
   before_action :authorize_signed_in!, only: [:destroy]
 
+  before_action :get_user, except: [:index]
+
   def index
     @users = User.all.sort_by(&:name)
     @admin_tiles = true
   end
 
   def show
-    @user = User.from_param(params[:id])
-
     # is this a user looking at their own profile?
     @profile = current_user == @user
 
@@ -36,20 +36,21 @@ class UsersController < ApplicationController
   end
 
   def promote
-    @user = User.find(params[:id])
     @user.update(admin: true)
     render json: { action: "promote", uid: @user.id, new_href: demote_user_path(@user) }
   end
 
   def demote
-    @user = User.find(params[:id])
     @user.update(admin: false)
     render json: { action: "demote", uid: @user.id, new_href: promote_user_path(@user) }
   end
 
-  def destroy
-    @user = User.from_param(params[:id])
+  # Returns the user's categories as JSON for the JS
+  def categories
+    render :json => @user.categories.to_json
+  end
 
+  def destroy
     if current_user.admin
       @user.destroy
       redirect_to admin_panel_path, notice: "User deleted"
@@ -62,7 +63,12 @@ class UsersController < ApplicationController
   end
 
   def inspect
-    @user = User.find(params[:id])
     @user_groups = UsersGroup.where(user_id: @user.id)
+  end
+
+  protected
+
+  def get_user
+    @user = User.from_param(params[:id])
   end
 end
