@@ -1,9 +1,10 @@
-var app;
+/* Setup globals from _schedule_beta.html.erb <script> blocks */
+/* global Vue, userId */
 
 const userCategoriesBaseURL = '/users/:id/categories';
 
 window.onload = function () {
-  app = new Vue({
+  new Vue({
     el: '#vue-app',
     data: {
       categories: []
@@ -16,12 +17,20 @@ window.onload = function () {
 };
 
 
-// Fetches a URL and returns the .json() of it
+/**
+ * Fetches a URL and returns the .json() of it
+ * @param  {string}   url The URL to request
+ * @return {Promise}      A promise resolving to JSON
+ */
 function fetchJSON(url) {
   return fetch(url).then(stream => stream.json());
 }
 
-// Returns the URL to retrieve the categories for a user
+/**
+ * Returns the URL to retrieve the categories for a user
+ * @param  {string} userId The user's ID
+ * @return {string}        The URL to request
+ */
 function userCategoriesURL(userId) {
   return userCategoriesBaseURL.replace(':id', userId);
 }
