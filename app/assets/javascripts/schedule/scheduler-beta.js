@@ -14,6 +14,15 @@ window.onload = function () {
         .then(categories => this.categories = categories);
     }
   });
+
+  Vue.component('category', {
+    props: {
+      category: Object
+    },
+    template: '<div v-bind:style="{ backgroundColor: category.color }" class="category">' +
+      '{{ category.name }}' +
+    '</div>'
+  })
 };
 
 

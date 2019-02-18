@@ -19,10 +19,8 @@
 <!-- The VueJS app -->
 <div id="vue-app" class="scheduler-beta">
   <ul class="category-list">
-    <li v-for="category in categories"
-      v-bind:style="{ backgroundColor: category.color }"
-      class="category">
-      {{ category.name }}
+    <li v-for="category in categories">
+      <category v-bind:category="category"></category>
     </li>
   </ul>
 </div>
