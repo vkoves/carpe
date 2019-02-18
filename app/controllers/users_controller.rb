@@ -47,7 +47,7 @@ class UsersController < ApplicationController
 
   # Returns the user's categories as JSON for the JS
   def categories
-    render :json => @user.categories.to_json
+    render json: @user.categories.to_json
   end
 
   def destroy
