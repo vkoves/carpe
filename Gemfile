@@ -99,3 +99,6 @@ gem "scss_lint", require: false
 
 # Ruby linter
 gem "rubocop", "~> 0.60.0", require: false
+
+# Webpacker for packing Vue
+gem 'webpacker', '~> 3.5'
