@@ -5,25 +5,20 @@
   <%= javascript_include_tag "https://cdn.jsdelivr.net/npm/vue@2.6.6" %>
 <% end %>
 
-<!-- Include beta scheduler JS and SCSS-->
-<%= javascript_include_tag "schedule/scheduler-beta" %>
+<!-- Include beta scheduler SCSS-->
 <%= stylesheet_link_tag "scheduler-beta" %>
 
-<%= javascript_pack_tag 'hello_vue' %>
+<!-- Include scheduler Vue webpacks -->
+<%= javascript_pack_tag 'scheduler_vue' %>
+<%= stylesheet_pack_tag 'scheduler_vue' %>
 
 <h1>Scheduler Beta</h1>
 <p>
   This is an beta version of the core scheduler. It is being fully overhauled,
   so not everything will work! Please, report bugs using the bug icon.
 </p>
-
-<!-- The VueJS app -->
-<div id="vue-app" class="scheduler-beta">
-  <ul class="category-list">
-    <li v-for="category in categories">
-      <category v-bind:category="category"></category>
-    </li>
-  </ul>
+<div id="scheduler-vue">
+  <scheduler><scheduler/>
 </div>
 
 <script>

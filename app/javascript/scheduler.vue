@@ -1,30 +1,31 @@
+<template>
+  <div id="scheduler-vue" class="scheduler-beta">
+    <ul class="category-list">
+      <li v-for="category in categories">
+        <category v-bind:category="category"></category>
+      </li>
+    </ul>
+  </div>
+</template>
+
+<script>
+import Category from 'category.vue'
+
 /* Setup globals from _schedule_beta.html.erb <script> blocks */
 /* global Vue, userId */
 
 const userCategoriesBaseURL = '/users/:id/categories';
 
-window.onload = function () {
-  new Vue({
-    el: '#vue-app',
-    data: {
-      categories: []
-    },
-    mounted: function() {
-      fetchJSON(userCategoriesURL(userId))
-        .then(categories => this.categories = categories);
-    }
-  });
-
-  Vue.component('category', {
-    props: {
-      category: Object
-    },
-    template: '<div v-bind:style="{ backgroundColor: category.color }" class="category">' +
-      '{{ category.name }}' +
-    '</div>'
-  })
-};
-
+export default {
+  data: () => ({
+    categories: []
+  }),
+  mounted: function() {
+    fetchJSON(userCategoriesURL(userId))
+      .then(categories => this.categories = categories);
+  },
+  components: { Category }
+}
 
 /**
  * Fetches a URL and returns the .json() of it
@@ -43,3 +44,11 @@ function fetchJSON(url) {
 function userCategoriesURL(userId) {
   return userCategoriesBaseURL.replace(':id', userId);
 }
+</script>
+
+
+<style scoped>
+h1 {
+  color: red;
+}
+</style>
