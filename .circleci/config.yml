@@ -59,14 +59,20 @@ jobs:
       - run:
           name: Run Linting
           command: |
+              echo 'Running Rubocop'
               rubocop
+              echo 'Running ESLint'
               eslint app/assets/javascripts spec/javascripts
+              echo 'Running SCSS Lint'
               bundle exec scss-lint
 
       # run tests!
       - run:
           name: Run Tests
           command: |
+            echo 'Running Rails Tests'
             bundle exec rails test
+            echo 'Running Teaspoon Javascript Tests'
             bundle exec teaspoon
+            echo 'Running Rails System Tests'
             bundle exec rails test:system
