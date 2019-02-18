@@ -28,7 +28,5 @@
 </div>
 
 <script>
-  // TODO: Move category retrieval to a network request, so that it doesn't delay
-  // loading and have this ugliness
-  var categories = <%= raw current_user.categories.to_json(include: { repeat_exceptions: { only: :id } }) %>;
+  var userId = <%= current_user.id %>;
 </script>
