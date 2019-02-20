@@ -340,4 +340,14 @@ class EventTest < ActiveSupport::TestCase
       hosted_event.destroy!
     end
   end
+
+  test "updating a host event updates associated hosted events" do
+    host_event = events(:music_convention)
+    hosted_event = events(:music_convention_joe)
+
+    host_event.update! name: "Pub Crawl"
+    hosted_event.reload
+
+    assert_equal "Pub Crawl", hosted_event.name
+  end
 end
