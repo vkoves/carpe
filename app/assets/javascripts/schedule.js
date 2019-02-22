@@ -121,7 +121,7 @@ function ScheduleItem() {
   /** The id of the event in the hashmap */
   this.tempId = undefined;
   /** If this is a hosted event, this is the event ID of the host event **/
-  this.baseEventId = undefined;
+  this.baseEventId = null;
   /** The start date and time, as a js Date() */
   this.startDateTime = undefined;
   /** The end date and time */
@@ -146,11 +146,12 @@ function ScheduleItem() {
   this.needsSaving = false;
 
   /**
-   * Returns true if this event is a Hosted Event that the client does not actually own.
-   * @return {boolean} True the event is a Hosted Event, false otherwise.
+   * Returns whether this is a hosted event - an event the current user was
+   * invited to.
+   * @return {booelan} Whether this event is a hosted event or not
    */
-  this.isHostedEvent = function() {
-    return false;
+  this.isHosted = function() {
+    return this.baseEventId !== null;
   };
 
   /**
@@ -158,7 +159,7 @@ function ScheduleItem() {
    * @return {boolean} True the event can be modified, false otherwise.
    */
   this.isEditable = function() {
-    return !readOnly;
+    return !readOnly && !this.isHosted();
   };
 
   /**
@@ -183,15 +184,6 @@ function ScheduleItem() {
    */
   this.hoursSpanned = function() {
     return this.endDateTime.getHours() - this.startDateTime.getHours();
-  };
-
-  /**
-   * Returns whether this is a hosted event - an event the current user was
-   * invited to.
-   * @return {booelan} Whether this event is a hosted event or not
-   */
-  this.hosted = function() {
-    return this.baseEventId && this.baseEventId !== currEvent.eventId;
   };
 
   /**
@@ -1814,7 +1806,7 @@ function populateEvents() {
     // TODO: Not sure where to add this. Users don't always have permission
     //       to edit hosted events on their schedule, but they always have
     //       permission to delete the event.
-    if (eventObj.isHostedEvent()) {
+    if (eventObj.isHosted()) {
       $('.col-snap .sch-evnt .sch-evnt-close').click(function(event) {
         deleteEvent(event, $(this));
       });
@@ -1965,6 +1957,11 @@ function editEvent(elem) {
       enableEventPanelEditOptions();
     } else {
       disableEventPanelEditOptions();
+
+      // the category on hosted events is an exception
+      if (currEvent.isHosted()) {
+        $('#cat-title-selector').prop('disabled', false);
+      }
     }
 
     // selects the current category of the event as the default option
@@ -1979,7 +1976,7 @@ function editEvent(elem) {
     });
 
     // Indicate if the event is hosted
-    if (currEvent.hosted()) {
+    if (currEvent.isHosted()) {
       $('#host-info').show();
     } else {
       $('#host-info').hide();
@@ -2024,14 +2021,14 @@ function editEvent(elem) {
     $('#overlay-loc').val(loc);
 
     // if this is readOnly and there is no description
-    if (desc.length == 0 && readOnly && !currEvent.isHostedEvent()) {
+    if (desc.length == 0 && readOnly && !currEvent.isHosted()) {
       $('#overlay-desc, #desc-title').hide(); // hide the field and the title
     } else {
       $('#overlay-desc, #desc-title').show();
     }
 
     // do the same for the location
-    if (loc.length == 0 && readOnly && !currEvent.isHostedEvent()) {
+    if (loc.length == 0 && readOnly && !currEvent.isHosted()) {
       $('#overlay-loc, #loc-title').hide();
     } else {
       $('#overlay-loc, #loc-title').show();
