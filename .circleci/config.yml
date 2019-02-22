@@ -59,20 +59,37 @@ jobs:
       - run:
           name: Run Linting
           command: |
-              echo 'Running Rubocop'
+              YL='\033[1;33m' # Yellow
+              NC='\033[0m' # No Color
+
+              echo
+              echo -e "${YL}Carpe CI:${NC} Running Rubocop"
               rubocop
-              echo 'Running ESLint'
+
+              echo
+              echo -e "${YL}Carpe CI:${NC} Running ESLint"
               eslint app/assets/javascripts spec/javascripts
-              echo 'Running SCSS Lint'
+
+              echo
+              echo -e "${YL}Carpe CI:${NC} Running SCSS Lint"
               bundle exec scss-lint
+
 
       # run tests!
       - run:
           name: Run Tests
           command: |
-            echo 'Running Rails Tests'
+            YL='\033[1;33m' # Yellow
+            NC='\033[0m' # No Color
+
+            echo
+            echo -e "${YL}Carpe CI:${NC} Running Rails Tests"
             RAILS_ENV=test bundle exec rails test
-            echo 'Running Teaspoon Javascript Tests'
+
+            echo
+            echo -e "${YL}Carpe CI:${NC} Running Teaspoon Javascript Tests"
             RAILS_ENV=test bundle exec teaspoon
-            echo 'Running Rails System Tests'
+
+            echo
+            echo -e "${YL}Carpe CI:${NC} Running Rails System Tests"
             RAILS_ENV=test bundle exec rails test:system
