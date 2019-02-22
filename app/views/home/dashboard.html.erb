@@ -3,40 +3,40 @@
 <%= stylesheet_link_tag "profile" %>
 
 <div id="greeting">
-	<span class="greet-text carpe-color">
-		Greetings, <%= current_user.name.split(" ")[0] %>!
-		<span class="current-time">
-			Updated <%= time_tag Time.current, Time.current.strftime("%-l:%M %p") %>
-		</span>
-		<div class="greet-subt">
-			Check out the new sidebar, a quick way to know if your connections are free or not.<br>
-			To keep up with Carpe updates, check out <a href="https://blog.carpe.us" target="_blank" class="normal carpe-color">our blog!</a>
+  <span class="greet-text carpe-color">
+    Greetings, <%= current_user.name.split(" ")[0] %>!
+    <span class="current-time">
+      Updated <%= time_tag Time.current, Time.current.strftime("%-l:%M %p") %>
+    </span>
+    <div class="greet-subt">
+      Check out the new sidebar, a quick way to know if your connections are free or not.<br>
+      To keep up with Carpe updates, check out <a href="https://blog.carpe.us" target="_blank" class="normal carpe-color">our blog!</a>
 
-			<h3>Current &amp; Upcoming Events</h3>
-			<% if current_user.upcoming_events.empty? %>
-				You don't have any events going on or coming up soon! Go to <%= link_to "your schedule", "/schedule", class: "normal carpe-color" %> to add some.
-			<% else %>
+      <h3>Current &amp; Upcoming Events</h3>
+      <% if current_user.upcoming_events.empty? %>
+        You don't have any events going on or coming up soon! Go to <%= link_to "your schedule", "/schedule", class: "normal carpe-color" %> to add some.
+      <% else %>
         <%= render partial: "shared/event_tile",
-                   collection: current_user.upcoming_events(current_user.home_time_zone).first(10),
-                   as: :event %>
-			<% end %>
-		</div>
-	</span>
-	<br>
+          collection: current_user.upcoming_events(current_user.home_time_zone).first(10),
+          as: :event %>
+      <% end %>
+    </div>
+  </span>
+  <br>
 </div>
 
 <div id="sidebar-cont">
-	<div id="sidebar-button"><<</div>
-	<div id="sidebar">
-		<div id="following-list">
-			<% unless current_user.following.empty? %>
-				<% current_user.following.each do |user| %>
-					<%= render "shared/user_box_horizontal", user: user, free: true %>
-				<% end %>
-			<% else %>
-				<h3 class="no-bold">You're not following anyone!</h3>
-				To see who is busy and free, follow some users.
-			<% end %>
-		</div>
-	</div>
+  <div id="sidebar-button">&lt;&lt;</div>
+  <div id="sidebar">
+    <div id="following-list">
+      <% unless current_user.following.empty? %>
+        <% current_user.following.each do |user| %>
+          <%= render "shared/user_box_horizontal", user: user, free: true %>
+        <% end %>
+      <% else %>
+        <h3 class="no-bold">You're not following anyone!</h3>
+        To see who is busy and free, follow some users.
+      <% end %>
+    </div>
+  </div>
 </div>
