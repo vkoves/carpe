@@ -75,7 +75,14 @@ jobs:
               bundle exec scss-lint
 
 
-      # run tests!
+      # Confirm DB seeding works - this isn't a code quality thing, but it's
+      # important for local development
+      - run:
+          name: Test DB Seeding
+          command: |
+            bundle exec rake db:seed
+
+      # Run all tests
       - run:
           name: Run Tests
           command: |
