@@ -63,15 +63,15 @@ jobs:
               NC='\033[0m' # No Color
 
               echo
-              echo -e "${YL}Carpe CI:${NC} Running Rubocop"
+              echo -e "${YL}🤖 Carpe CI:${NC} Running Rubocop"
               rubocop
 
               echo
-              echo -e "${YL}Carpe CI:${NC} Running ESLint"
+              echo -e "${YL}🤖 Carpe CI:${NC} Running ESLint"
               eslint app/assets/javascripts spec/javascripts
 
               echo
-              echo -e "${YL}Carpe CI:${NC} Running SCSS Lint"
+              echo -e "${YL}🤖 Carpe CI:${NC} Running SCSS Lint"
               bundle exec scss-lint
 
 
@@ -83,13 +83,13 @@ jobs:
             NC='\033[0m' # No Color
 
             echo
-            echo -e "${YL}Carpe CI:${NC} Running Rails Tests"
+            echo -e "${YL}🤖 Carpe CI:${NC} Running Rails Tests"
             RAILS_ENV=test bundle exec rails test
 
             echo
-            echo -e "${YL}Carpe CI:${NC} Running Teaspoon Javascript Tests"
+            echo -e "${YL}🤖 Carpe CI:${NC} Running Teaspoon Javascript Tests"
             RAILS_ENV=test bundle exec teaspoon
 
             echo
-            echo -e "${YL}Carpe CI:${NC} Running Rails System Tests"
+            echo -e "${YL}🤖 Carpe CI:${NC} Running Rails System Tests"
             RAILS_ENV=test bundle exec rails test:system
