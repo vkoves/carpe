@@ -71,8 +71,8 @@ jobs:
           name: Run Tests
           command: |
             echo 'Running Rails Tests'
-            bundle exec rails test
+            RAILS_ENV=test bundle exec rails test
             echo 'Running Teaspoon Javascript Tests'
-            bundle exec teaspoon
+            RAILS_ENV=test bundle exec teaspoon
             echo 'Running Rails System Tests'
-            bundle exec rails test:system
+            RAILS_ENV=test bundle exec rails test:system
