@@ -80,7 +80,7 @@ jobs:
       - run:
           name: Test DB Seeding
           command: |
-            bundle exec rake db:seed
+            RAILS_ENV=test bundle exec rake db:seed
 
       # Run all tests
       - run:
