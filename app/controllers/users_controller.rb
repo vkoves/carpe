@@ -45,9 +45,10 @@ class UsersController < ApplicationController
     render json: { action: "demote", uid: @user.id, new_href: promote_user_path(@user) }
   end
 
-  # Returns the user's categories as JSON for the JS
+  # Returns the user's categories as JSON for the JS, making sure to only show
+  # categories the current_user can access
   def categories
-    render json: @user.categories.to_json
+    render json: @user.categories_accessible_by(current_user).to_json
   end
 
   def destroy
