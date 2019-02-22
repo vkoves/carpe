@@ -71,7 +71,7 @@ class Event < ApplicationRecord
                          dependent: :destroy
 
   # Notify guests on update if there are invited users
-  after_validation :notify_guests, on: :update, if: :has_guests?
+  after_commit :notify_guests, on: :update, if: :should_notify_guests?
   after_commit :update_hosted_events, on: :update, if: :host_event?
 
   # returns the event name, or an italicized untitled
@@ -264,6 +264,13 @@ class Event < ApplicationRecord
       UserNotifier.event_update_email(recipient, self, changes).deliver_later
       Notification.send_event_update(recipient, self)
     end
+  end
+
+  def should_notify_guests?
+    return false unless has_guests?
+
+    relevant_changes = previous_changes.keys & SYNCED_EVENT_ATTRIBUTES
+    relevant_changes.any?
   end
 
   # Copies the relevant event attributes from a host event to all of
