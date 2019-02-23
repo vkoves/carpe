@@ -65,7 +65,7 @@
           <br>
           <%= f.select(
                 :default_event_invite_category_id,
-                options_from_collection_for_select(current_user.categories, 'id', 'name', f.object.default_event_invite_category_id),
+                categories_for_select(current_user.categories),
                 { :include_blank => 'None' }
               ) %>
         </div>
