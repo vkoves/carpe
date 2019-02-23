@@ -1,0 +1,10 @@
+linters:
+  SelfClosingTag:
+    # Configuring this doesn't seem to work yet, and we prefer <br> over <br />
+    enabled: false
+  ErbSafety:
+    # Need to configure a better HTML config for this to work
+    enabled: false
+  Rubocop:
+    # Rubocop is already run as part of CI
+    enabled: false

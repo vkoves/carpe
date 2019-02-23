@@ -55,13 +55,18 @@ jobs:
             bundle exec rake db:schema:load
             RAILS_ENV=test bundle exec rake db:migrate
 
-      # run linting!
+      # Run Linters:
+      # - Rubocop for Ruby code
+      # - ESLint for JS
+      # - SCSS Lint for SCSS
+      # - ERBLint for ERB (HTML)
       - run:
           name: Run Linting
           command: |
               rubocop
               eslint app/assets/javascripts spec/javascripts
               bundle exec scss-lint
+              bundle exec erblint app/
 
       # Confirm DB seeding works - this isn't a code quality thing, but it's
       # important for local development

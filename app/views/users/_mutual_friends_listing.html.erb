@@ -1,12 +1,12 @@
 <h2 class="no-bold">Mutual Friends</h2>
 <% if @mutual_friends.empty? %>
-	<span class="empty-text">
-		It looks like you don't have any shared connections with <%= @user.name %>!
-	</span>
+  <span class="empty-text">
+    It looks like you don't have any shared connections with <%= @user.name %>!
+  </span>
 <% else %>
-	<div id="friend-list">
-		<% for user in @mutual_friends %>
-			<%= render "shared/user_box_horizontal", user: user %>
-		<% end %>
-	</div>
+  <div id="friend-list">
+    <% for user in @mutual_friends %>
+      <%= render "shared/user_box_horizontal", user: user %>
+    <% end %>
+  </div>
 <% end %>
