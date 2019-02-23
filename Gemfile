@@ -95,7 +95,8 @@ gem "capybara", "~> 3"
 gem "chromedriver-helper", "~> 1"
 gem "selenium-webdriver", "~> 3"
 
-gem "scss_lint", require: false
-
-# Ruby linter
+# Linters:
+# Not required since they are only for CI/development
+gem "erb_lint", require: false
 gem "rubocop", "~> 0.60.0", require: false
+gem "scss_lint", require: false

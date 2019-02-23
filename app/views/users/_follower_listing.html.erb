@@ -1,17 +1,17 @@
 <h2 class="no-bold">Followers</h2>
 <div id="friend-list">
-<% if @all_friends.empty? %>
-	<span class="empty-text">
-		<% if @profile %>
-			It looks like you don't have any followers yet.
-		<% else %>
-			It looks like <%= @user.name.split(" ")[0] %> doesn't have any followers yet.
-		<% end %>
-	</span>
-<% else %>
-	<%#  List followers %>
-	<% for active_relationship in @all_friends %>
-		<%= render "shared/user_box_horizontal", user: active_relationship.follower, relationship: active_relationship %>
-	<% end %>
-<% end%>
+  <% if @all_friends.empty? %>
+    <span class="empty-text">
+      <% if @profile %>
+        It looks like you don't have any followers yet.
+      <% else %>
+        It looks like <%= @user.name.split(" ")[0] %> doesn't have any followers yet.
+      <% end %>
+    </span>
+  <% else %>
+    <%#  List followers %>
+    <% for active_relationship in @all_friends %>
+      <%= render "shared/user_box_horizontal", user: active_relationship.follower, relationship: active_relationship %>
+    <% end %>
+  <% end %>
 </div>
