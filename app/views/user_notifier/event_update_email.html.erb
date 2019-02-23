@@ -15,7 +15,6 @@
         <strong><%= field_name.titlecase %>:</strong>
         <% is_date = change_arr[0].methods.include? :strftime %>
 
-
         <span class="strike">
            <%= is_date ? change_arr[0].strftime(@date_format) : change_arr[0] %>
         </span>
