@@ -74,4 +74,26 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :redirect
   end
+
+  test "event guest can destroy their host event" do
+    sign_in users(:joe)
+
+    # Assert Joe has one less event
+    assert_difference -> { users(:joe).events.count }, -1 do
+      delete event_path(events(:music_convention_joe))
+    end
+
+    assert_response :success
+  end
+
+  test "event guest destroying their host event removes them from guest list" do
+    sign_in users(:joe)
+
+    # Assert the main event has one less guest
+    assert_difference -> { events(:music_convention).invited_users.count }, -1 do
+      delete event_path(events(:music_convention_joe))
+    end
+
+    assert_response :success
+  end
 end
