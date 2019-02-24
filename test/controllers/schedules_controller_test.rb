@@ -47,4 +47,24 @@ class ScheduleControllerTest < ActionDispatch::IntegrationTest
       post save_schedule_path, params: @unsaved_events, as: :json
     end
   end
+
+  test "event guest cannot change their host event's details" do
+    host_event_id = events(:music_convention_joe).id
+    sign_in users(:joe)
+
+    edits = {
+      events: [
+        eventId: host_event_id,
+        description: 'Some new description',
+        startDateTime: Date.current, endDateTime: Date.current,
+        categoryId: users(:joe).categories.first.id
+      ]
+    }
+
+    assert_no_changes -> { Event.find(host_event_id).description } do
+      post save_schedule_path, params: edits, as: :json
+    end
+
+    assert_response :redirect
+  end
 end
