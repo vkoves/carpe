@@ -266,8 +266,15 @@ class Event < ApplicationRecord
     end
   end
 
+  # Returns true if participating guests should be notified when a host
+  # event's attributes change, false otherwise. In particular, changing
+  # attributes such as `name` that are in `SYNCED_EVENT_ATTRIBUTES` should
+  # trigger notifications while changes to an event's `category` should not.
   def should_notify_guests?
-    has_guests?
+    return false unless has_guests?
+
+    notifiable_changes = previous_changes.keys & SYNCED_EVENT_ATTRIBUTES
+    notifiable_changes.any?
   end
 
   # Copies the relevant event attributes from a host event to all of
