@@ -24,7 +24,7 @@ class Ability
 
     # Can edit events they own, UNLESS it is hosted (they are a guest), in which
     # case only the category_id can be changed.
-    can(:update, Event) { |event, change_params| can_edit_event?(user, event) }
+    can(:update, Event) { |event| can_edit_event?(user, event) }
 
     # Can destroy events they own
     can :destroy, Event, group: nil, user: user
@@ -65,23 +65,12 @@ class Ability
 
     event.changes.each do |key, value|
       # Filter out changes from nil to "", since schedules_controller does that
-      changed_keys.push(key) unless value ===  "" && event[key] === nil
+      changed_keys.push(key) unless value ==  "" && event[key].nil?
     end
-
-    puts '****'
-    puts 'CHANGED KEYS'
-    puts changed_keys
-
-    puts 'CHANGES'
-    puts event.changes
-
 
     # Check for intersection of change keys and the synced event attibutes. We
     # consider those to be protected
     invalid_change_keys = changed_keys & Event::SYNCED_EVENT_ATTRIBUTES
-
-    puts 'INVALID KEYS'
-    puts invalid_change_keys
 
     # Change is valid for hosted event ONLY if nothing was changed that is synced
     invalid_change_keys.empty?
