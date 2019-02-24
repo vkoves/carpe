@@ -22,9 +22,15 @@ class SchedulesController < ApplicationController
     new_event_ids = {}
 
     params[:events].each do |obj|
-      if obj["eventId"].present? # if this is an existing item
+      # If an event ID is passed, this event is already in the DB and exists
+      existing_event = obj["eventId"].present?
+
+      if existing_event
         evnt = Event.find(obj["eventId"].to_i)
-        authorize! :edit, evnt
+
+        # Pass the original event and the requested changes to CanCan to
+        # validate
+        authorize! :edit, evnt, obj
       else
         evnt = Event.new
 
@@ -46,7 +52,7 @@ class SchedulesController < ApplicationController
       evnt.location = obj["location"] || ""
       evnt.category_id = obj["categoryId"].to_i
 
-      authorize! :create, evnt
+      authorize! :create, evnt unless existing_event
       evnt.save!
 
       new_event_ids[obj["tempId"]] = evnt.id if obj["eventId"].blank? # if this is not an existing event

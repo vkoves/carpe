@@ -65,7 +65,7 @@ class ScheduleControllerTest < ActionDispatch::IntegrationTest
       post save_schedule_path, params: edits, as: :json
     end
 
-    assert_response :redirect
+    assert_response 403 # Unauthorized error
   end
 
   test "event guest can change their hosted event's category" do
