@@ -74,7 +74,7 @@ class ScheduleControllerTest < ActionDispatch::IntegrationTest
     edits = {
       events: [
         eventId: host_event_id,
-        description: 'Some new description',
+        description: "Some new description",
         startDateTime: Date.current, endDateTime: Date.current,
         categoryId: users(:joe).categories.first.id
       ]
@@ -97,7 +97,7 @@ class ScheduleControllerTest < ActionDispatch::IntegrationTest
         description: events(:music_convention_joe).description,
         categoryId: users(:joe).categories.last.id,
         startDateTime: events(:music_convention_joe).date,
-        endDateTime: events(:music_convention_joe).end_date,
+        endDateTime: events(:music_convention_joe).end_date
       ]
     }
 

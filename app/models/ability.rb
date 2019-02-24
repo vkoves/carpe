@@ -73,6 +73,6 @@ class Ability
     invalid_change_keys = changed_keys & Event::SYNCED_EVENT_ATTRIBUTES
 
     # Change is valid for hosted event ONLY if nothing was changed that is synced
-    return invalid_change_keys.empty?
+    invalid_change_keys.empty?
   end
 end
