@@ -27,3 +27,8 @@ joe_group_events:
   name: Group Activities
   user: joe
   privacy: "private"
+
+joe_other_category:
+  name: Other Joe Category
+  user: joe
+  privacy: "private"

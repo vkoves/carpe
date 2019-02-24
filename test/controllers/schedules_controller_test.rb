@@ -48,7 +48,7 @@ class ScheduleControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "event guest cannot change their host event's details" do
+  test "event guest cannot change their hosted event's details" do
     host_event_id = events(:music_convention_joe).id
     sign_in users(:joe)
 
@@ -66,5 +66,26 @@ class ScheduleControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_response :redirect
+  end
+
+  test "event guest can change their hosted event's category" do
+    host_event_id = events(:music_convention_joe).id
+    sign_in users(:joe)
+
+    edits = {
+      events: [
+        eventId: host_event_id,
+        description: events(:music_convention_joe).description,
+        categoryId: users(:joe).categories.last.id,
+        startDateTime: events(:music_convention_joe).date,
+        endDateTime: events(:music_convention_joe).end_date,
+      ]
+    }
+
+    assert_changes -> { Event.find(host_event_id).category } do
+      post save_schedule_path, params: edits, as: :json
+    end
+
+    assert_response :success
   end
 end
