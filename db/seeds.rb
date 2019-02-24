@@ -34,5 +34,5 @@ event.update(base_event_id: event.id)
 EventInvite.create(
   sender: test1,
   user: test2,
-  event: event
+  host_event: event
 )

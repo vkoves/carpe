@@ -29,6 +29,21 @@ require "utilities"
 class Event < ApplicationRecord
   include Utilities
 
+  # These are the attributes that should be updated on hosted events
+  # when their host/base event is modified.
+  SYNCED_EVENT_ATTRIBUTES = %w[
+    name
+    description
+    date
+    end_date
+    repeat
+    location
+    repeat_start
+    repeat_end
+    guests_can_invite
+    guest_list_hidden
+  ].freeze
+
   enum privacy: {
     privacy_public: 0,
     privacy_private: 1,
@@ -57,6 +72,7 @@ class Event < ApplicationRecord
 
   # Notify guests on update if there are invited users
   after_validation :notify_guests, on: :update, if: :has_guests?
+  after_commit :update_hosted_events, on: :update, if: :host_event?
 
   # returns the event name, or an italicized untitled
   def get_html_name
@@ -248,5 +264,12 @@ class Event < ApplicationRecord
       UserNotifier.event_update_email(recipient, self, changes).deliver_later
       Notification.send_event_update(recipient, self)
     end
+  end
+
+  # Copies the relevant event attributes from a host event to all of
+  # its child events. This is done whenever a host event is updated.
+  def update_hosted_events
+    host_event_attrs = attributes.slice(*SYNCED_EVENT_ATTRIBUTES)
+    hosted_events.update_all(host_event_attrs)
   end
 end
