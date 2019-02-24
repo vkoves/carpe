@@ -67,41 +67,42 @@ class ScheduleControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "event guest cannot change their hosted event's details" do
-    host_event_id = events(:music_convention_joe).id
-    sign_in users(:joe)
+  # test "event guest cannot change their hosted event's details" do
+  #   host_event_id = events(:music_convention_joe).id
+  #   sign_in users(:joe)
 
-    edits = {
-      events: [
-        eventId: host_event_id,
-        description: "Some new description",
-        startDateTime: Date.current, endDateTime: Date.current,
-        categoryId: users(:joe).categories.first.id
-      ]
-    }
+  #   edits = {
+  #     events: [
+  #       eventId: host_event_id,
+  #       description: "Some new description",
+  #       startDateTime: Date.current, endDateTime: Date.current,
+  #       categoryId: users(:joe).categories.first.id
+  #     ]
+  #   }
 
-    assert_no_changes -> { Event.find(host_event_id).description } do
-      post save_schedule_path, params: edits, as: :json
-    end
+  #   assert_no_changes -> { Event.find(host_event_id).description } do
+  #     post save_schedule_path, params: edits, as: :json
+  #   end
 
-    assert_response 403 # Unauthorized error
-  end
+  #   assert_response 403 # Unauthorized error
+  # end
 
   test "event guest can change their hosted event's category" do
-    host_event_id = events(:music_convention_joe).id
+    host_event = events(:music_convention_joe)
     sign_in users(:joe)
 
     edits = {
       events: [
-        eventId: host_event_id,
-        description: events(:music_convention_joe).description,
+        eventId: host_event.id,
+        name: host_event.name,
+        description: host_event.description,
         categoryId: users(:joe).categories.last.id,
-        startDateTime: events(:music_convention_joe).date,
-        endDateTime: events(:music_convention_joe).end_date
+        startDateTime: host_event.date,
+        endDateTime: host_event.end_date
       ]
     }
 
-    assert_changes -> { Event.find(host_event_id).category } do
+    assert_changes -> { Event.find(host_event.id).category } do
       post save_schedule_path, params: edits, as: :json
     end
 
