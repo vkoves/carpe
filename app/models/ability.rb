@@ -63,9 +63,9 @@ class Ability
 
     changed_keys = []
 
-    event.changes.each do |key, value|
+    event.changes.each do |key, changes|
       # Filter out changes from nil to "", since schedules_controller does that
-      changed_keys.push(key) unless value ==  "" && event[key].nil?
+      changed_keys.push(key) unless changes[0].nil? && changes[1] == ""
     end
 
     # Check for intersection of change keys and the synced event attibutes. We
