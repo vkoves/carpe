@@ -50,4 +50,28 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
   end
+
+  test "event host can destroy original event" do
+    sign_in users(:viktor)
+
+    # Assert Viktor has one less event, since we don't know guest count and
+    # those events also get deleted
+    assert_difference -> { users(:viktor).events.count }, -1 do
+      delete event_path(events(:music_convention))
+    end
+
+    assert_response :success
+  end
+
+  test "event guest cannot destroy original event" do
+    sign_in users(:joe)
+
+    # Assert Viktor has the same amount of events to confirm the original event
+    # did not change
+    assert_no_difference -> { users(:viktor).events.count } do
+      delete event_path(events(:music_convention))
+    end
+
+    assert_response :redirect
+  end
 end
