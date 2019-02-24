@@ -28,6 +28,7 @@ class Ability
 
     # Can destroy events they own
     can :destroy, Event, group: nil, user: user
+    can :create, Event, group: nil, user: user
 
     can :manage, Category, group: nil, user: user
     can :manage, Category, group: { users_groups: { user: user, role: [:owner, :moderator, :editor] } }
