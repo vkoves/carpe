@@ -152,10 +152,10 @@ class UsersControllerTest < ActionController::TestCase
     get :categories, params: { id: @viktor }
 
     resp_json = JSON.parse(response.body)
-    resp_category = resp_json.find{ |c| c['id'] === private_cat.id }
+    resp_category = resp_json.find { |c| c["id"] == private_cat.id }
 
     # Ensure the returned cateogry name is NOT the real name
-    assert_not_equal resp_category['name'], private_cat.name
+    assert_not_equal resp_category["name"], private_cat.name
   end
 
   test "categories shows private category details to owner" do
@@ -166,9 +166,9 @@ class UsersControllerTest < ActionController::TestCase
     get :categories, params: { id: @viktor }
 
     resp_json = JSON.parse(response.body)
-    resp_category = resp_json.find{ |c| c['id'] === private_cat.id }
+    resp_category = resp_json.find { |c| c["id"] == private_cat.id }
 
     # Ensure the returned cateogry name IS the real name
-    assert_equal resp_category['name'], private_cat.name
+    assert_equal resp_category["name"], private_cat.name
   end
 end
