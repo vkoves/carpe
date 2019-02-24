@@ -16,6 +16,25 @@ class ScheduleControllerTest < ActionDispatch::IntegrationTest
     }
   end
 
+  test "user can make an event" do
+    test_user = users(:viktor)
+
+    sign_in test_user
+
+    unsaved_event = {
+      events: [
+        categoryId: test_user.categories.first.id,
+        startDateTime: Date.current, endDateTime: Date.current
+      ]
+    }
+
+    assert_difference -> { test_user.events.count }, +1 do
+      post save_schedule_path, params: unsaved_event
+    end
+
+    assert_response :success
+  end
+
   test "group owner can add events" do
     sign_in users(:ownerAlice)
 
