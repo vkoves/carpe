@@ -267,10 +267,7 @@ class Event < ApplicationRecord
   end
 
   def should_notify_guests?
-    return false unless has_guests?
-
-    relevant_changes = previous_changes.keys & SYNCED_EVENT_ATTRIBUTES
-    relevant_changes.any?
+    has_guests?
   end
 
   # Copies the relevant event attributes from a host event to all of

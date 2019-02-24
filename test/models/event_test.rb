@@ -325,6 +325,14 @@ class EventTest < ActiveSupport::TestCase
     )
   end
 
+  test "changing host(ed) event category should not notify guests" do
+    event = events(:music_convention)
+
+    assert_no_difference -> { Notification.count } do
+      event.update!(category: categories(:followers))
+    end
+  end
+
   test "deleting host event removes hosted event" do
     host_event = events(:music_convention) # owned by viktor
 
