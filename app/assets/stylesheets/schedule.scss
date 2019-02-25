@@ -306,9 +306,46 @@
   }
 }
 
-.page-container .evnt-title {
-  background: none !important; // scss-lint:disable ImportantRule
-  box-shadow: none !important; // scss-lint:disable ImportantRule
+// Scheduler-wide read-only styling
+.sch-all-cont.read-only {
+  // Hide edit and close icons
+  .sch-cat-icon,
+  .sch-evnt-icon {
+    display: none !important; // scss-lint:disable ImportantRule
+  }
+
+  // Make it clear you can't drag schedule events and can't edit titles
+  .sch-evnt,
+  .evnt-title {
+    cursor: default !important; // scss-lint:disable ImportantRule
+  }
+
+  // Get rid of the default hover effect
+  .evnt-title {
+    background: none !important; // scss-lint:disable ImportantRule
+    box-shadow: none !important; // scss-lint:disable ImportantRule
+  }
+
+  // Hide "Add Category" button & no categories placeholder
+  .cat-add.main,
+  .no-categories {
+    display: none;
+  }
+}
+
+// Specific events read-only styling
+.sch-evnt.read-only {
+  cursor: default !important; // scss-lint:disable ImportantRule
+
+  .sch-evnt-edit {
+    display: none !important; // scss-lint:disable ImportantRule
+  }
+
+  .evnt-title {
+    cursor: default !important; // scss-lint:disable ImportantRule
+    background: none !important; // scss-lint:disable ImportantRule
+    box-shadow: none !important; // scss-lint:disable ImportantRule
+  }
 }
 
 // Overlay CSS
@@ -771,27 +808,6 @@ input[readonly='readonly'] {
     > #save-checkmark {
       opacity: 1;
     }
-  }
-}
-
-// Read only styling
-.read-only {
-  // Hide edit and close icons
-  .sch-cat-icon,
-  .sch-evnt-icon {
-    display: none !important; // scss-lint:disable ImportantRule
-  }
-
-  // Make it clear you can't drag schedule events and can't edit titles
-  .sch-evnt,
-  .evnt-title {
-    cursor: default !important; // scss-lint:disable ImportantRule
-  }
-
-  // Hide "Add Category" button & no categories placeholder
-  .cat-add.main,
-  .no-categories {
-    display: none;
   }
 }
 
