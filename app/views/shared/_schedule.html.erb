@@ -295,9 +295,6 @@
 <script>
   var readOnly = <%= read_only %>;
 
-  <% # this is only available for users at the moment %>
-  var IFRAME_URL = <%= raw user.present? ? "'http://www.carpe.us/schedule?iframe=true&uid=#{user.id}'" : "'NOPE'" %>;
-
   var loadedEvents = <%= raw events.to_json(include: { repeat_exceptions: { only: :id } }) %>;
   var loadedCategories = <%= raw categories.to_json(include: { repeat_exceptions: { only: :id } }) %>;
   var loadedBreaks = <%= raw user_or_group.repeat_exceptions.to_json %>;
