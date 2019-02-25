@@ -1,5 +1,5 @@
 /* Setup globals from _schedule.html.erb <script> block */
-/* global readOnly, IFRAME_URL, loadedEvents, loadedCategories, loadedBreaks, groupID */
+/* global readOnly, loadedEvents, loadedCategories, loadedBreaks, groupID */
 
 /*
  * Instantiates and handles the Carpe scheduling interface, populating
@@ -832,13 +832,6 @@ function addStartingListeners() {
   $('#edit-loc').click(function() {
     $('#overlay-loc').focus();
     highlightCurrent();
-  });
-
-  $('#embed-button').click(function() {
-    var iframeCode = '<iframe src=\'' + IFRAME_URL + '\' width=\'900px\' height=\'600\'>';
-
-    customAlertUI('Embed your schedule!', '<input id=\'iframe-embed\' class=\'text-input\' type=\'text\' style=\'width: 90%;\'></input><br><br>');
-    $('#iframe-embed').val(iframeCode);
   });
 
 
