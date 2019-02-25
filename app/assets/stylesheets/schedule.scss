@@ -811,27 +811,6 @@ input[readonly='readonly'] {
   }
 }
 
-// Read only styling
-.read-only {
-  // Hide edit and close icons
-  .sch-cat-icon,
-  .sch-evnt-icon {
-    display: none !important; // scss-lint:disable ImportantRule
-  }
-
-  // Make it clear you can't drag schedule events and can't edit titles
-  .sch-evnt,
-  .evnt-title {
-    cursor: default !important; // scss-lint:disable ImportantRule
-  }
-
-  // Hide "Add Category" button & no categories placeholder
-  .cat-add.main,
-  .no-categories {
-    display: none;
-  }
-}
-
 #event-invites-list {
   min-height: 50px;
   width: 95%;
