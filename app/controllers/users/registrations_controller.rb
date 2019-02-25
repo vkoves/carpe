@@ -12,13 +12,15 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # Add new field
   private
 
+  # Form fields allowed on sign up
   def sign_up_params
     params.require(:user).permit(:name, :email, :password, :password_confirmation, :avatar, :banner, :home_time_zone)
   end
 
+  # Form fields allowed on the edit profile page
   def account_update_params
     params.require(:user).permit(:name, :email, :public_profile, :password, :password_confirmation, :current_password,
-                                 :avatar, :banner, :home_time_zone, :custom_url)
+                                 :avatar, :banner, :home_time_zone, :custom_url, :default_event_invite_category_id)
   end
 
   protected

@@ -39,6 +39,8 @@ class User < ApplicationRecord
   has_many :events, -> { where group_id: nil }
   has_many :repeat_exceptions, -> { where group_id: nil }
 
+  belongs_to :default_event_invite_category, class_name: "Category", optional: true
+
   def send_signup_email
     UserNotifier.send_signup_email(self).deliver_now
   end
@@ -245,12 +247,15 @@ class User < ApplicationRecord
   # If a default event invite category is not set in the profile settings,
   # a new default category is automatically created.
   def event_invite_category!
-    if categories.empty?
-      categories.create(name: "Event Invites", color: "rgb(192, 192, 192)")
-    else
-      # TODO: make this the default event invite category
-      categories.first
-    end
+    return default_event_invite_category if default_event_invite_category
+
+    new_category = categories.create(name: "Event Invites", color: "rgb(192, 192, 192)")
+
+    # Save the new category as the default
+    self.default_event_invite_category = new_category
+    save!
+
+    new_category
   end
 
   ##########################
