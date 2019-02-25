@@ -100,3 +100,6 @@ gem "selenium-webdriver", "~> 3"
 gem "erb_lint", require: false
 gem "rubocop", "~> 0.60.0", require: false
 gem "scss_lint", require: false
+
+# Webpacker for packing Vue
+gem "webpacker", "~> 3.5"

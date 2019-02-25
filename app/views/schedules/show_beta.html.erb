@@ -1,0 +1,26 @@
+<!-- Load VueJS, the dist for prod, dev otherwise -->
+<% if Rails.env.production? %>
+  <%= javascript_include_tag "https://cdn.jsdelivr.net/npm/vue@2.6.6/dist/vue.js" %>
+<% else %>
+  <%= javascript_include_tag "https://cdn.jsdelivr.net/npm/vue@2.6.6" %>
+<% end %>
+
+<!-- Include beta scheduler SCSS-->
+<%= stylesheet_link_tag "scheduler-beta" %>
+
+<!-- Include scheduler Vue webpacks -->
+<%= javascript_pack_tag 'scheduler_vue' %>
+<%= stylesheet_pack_tag 'scheduler_vue' %>
+
+<h1>Scheduler Beta</h1>
+<p>
+  This is an beta version of the core scheduler. It is being fully overhauled,
+  so not everything will work! Please, report bugs using the bug icon.
+</p>
+<div id="scheduler-vue">
+  <scheduler></scheduler>
+</div>
+
+<script>
+  var userId = <%= current_user.id %>;
+</script>

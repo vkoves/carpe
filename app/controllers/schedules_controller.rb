@@ -3,6 +3,9 @@
 
 # TODO: Most requests should enforce user being signed in, as data can't be made anonymously
 class SchedulesController < ApplicationController
+  # Only admins can access the beta scheduler
+  before_action :authorize_admin!, only: [:show_beta]
+
   after_action :allow_iframe, only: :show
 
   def show

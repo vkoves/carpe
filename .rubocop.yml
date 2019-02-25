@@ -7,6 +7,7 @@ AllCops:
   Exclude:
   - 'db/**/*' # Ignore database migrations
   - 'bin/**/*' # Ignore bin files, we don't write them
+  - 'node_modules/**/*' # Ignore node modules, we don't write them either
   - 'vendor/**/*'
 
 # The default line ending is based on your OS.

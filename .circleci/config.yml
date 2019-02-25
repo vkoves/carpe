@@ -51,8 +51,8 @@ jobs:
       - run:
           name: Setup Test Database
           command: |
-            bundle exec rake db:create
-            bundle exec rake db:schema:load
+            RAILS_ENV=test bundle exec rake db:create
+            RAILS_ENV=test bundle exec rake db:schema:load
             RAILS_ENV=test bundle exec rake db:migrate
 
       # Run Linters:
@@ -63,22 +63,48 @@ jobs:
       - run:
           name: Run Linting
           command: |
+              YL='\033[1;33m' # Yellow
+              NC='\033[0m' # No Color
+
+              echo
+              echo -e "${YL}Carpe CI:${NC} Running Rubocop"
               rubocop
+
+              echo
+              echo -e "${YL}Carpe CI:${NC} Running ESLint"
               eslint app/assets/javascripts spec/javascripts
+
+              echo
+              echo -e "${YL}Carpe CI:${NC} Running SCSS Lint"
               bundle exec scss-lint
+
+              echo
+              echo -e "${YL}Carpe CI:${NC} Running ERB Lint"
               bundle exec erblint app/
+
 
       # Confirm DB seeding works - this isn't a code quality thing, but it's
       # important for local development
       - run:
           name: Test DB Seeding
           command: |
-            bundle exec rake db:seed
+            RAILS_ENV=test bundle exec rake db:seed
 
       # Run all tests
       - run:
           name: Run Tests
           command: |
-            bundle exec rails test
-            bundle exec teaspoon
-            bundle exec rails test:system
+            YL='\033[1;33m' # Yellow
+            NC='\033[0m' # No Color
+
+            echo
+            echo -e "${YL}Carpe CI:${NC} Running Rails Tests"
+            RAILS_ENV=test bundle exec rails test
+
+            echo
+            echo -e "${YL}Carpe CI:${NC} Running Teaspoon Javascript Tests"
+            RAILS_ENV=test bundle exec teaspoon
+
+            echo
+            echo -e "${YL}Carpe CI:${NC} Running Rails System Tests"
+            RAILS_ENV=test bundle exec rails test:system

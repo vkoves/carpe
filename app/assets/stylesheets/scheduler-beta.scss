@@ -1,0 +1,17 @@
+%center-flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scheduler-beta {
+  .category {
+    @extend %center-flex;
+    width: 200px;
+    height: 80px;
+    color: #ffffff;
+    margin-bottom: 10px;
+  }
+
+  .category-list { list-style: none; }
+}
