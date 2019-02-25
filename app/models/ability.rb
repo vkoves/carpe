@@ -1,4 +1,4 @@
-# :manage = every action (:create, :update, :destroy, etc)
+# :manage = every action (: , :update, :destroy, etc)
 # :all = every resource
 
 class Ability
@@ -19,8 +19,16 @@ class Ability
     can :manage, RepeatException, group: nil, user: user
     can :manage, RepeatException, group: { users_groups: { user: user, role: [:owner, :moderator, :editor] } }
 
-    can :manage, Event, group: nil, user: user
+    # Can manage events in groups where the user is of any role IF the user is the owner
     can :manage, Event, group: { users_groups: { user: user, role: [:owner, :moderator, :editor, :member] } }
+
+    # Can edit events they own, UNLESS it is hosted (they are a guest), in which
+    # case only the category_id can be changed.
+    can(:update, Event) { |event| can_edit_event?(user, event) }
+
+    # Can destroy events they own
+    can :destroy, Event, group: nil, user: user
+    can :create, Event, group: nil, user: user
 
     can :manage, Category, group: nil, user: user
     can :manage, Category, group: { users_groups: { user: user, role: [:owner, :moderator, :editor] } }
@@ -29,7 +37,7 @@ class Ability
     can :moderator_actions, Group, users_groups: { user: user, role: :moderator }
 
     can :manage, UsersGroup, group: { users_groups: { user: user, role: :owner } }
-    can(:update, UsersGroup) { |*args| can_assign_role?(user, *args) }
+    can(:update, UsersGroup) { |membership, to_role| can_assign_role?(user, membership, to_role) }
   end
 
   private
@@ -42,5 +50,29 @@ class Ability
 
     # moderators can only assign roles that are below their own (i.e. member and editor)
     return true if UsersGroup.role_priority(to_role) < UsersGroup.role_priority(assigner_role)
+  end
+
+  # Given an event and the requested changes, returns whether the changes can be
+  # mader
+  def can_edit_event?(user, event)
+    # If user is not the owner, return
+    return false unless event.user == user
+
+    # If not a hosted_event, user can change ANYTHING
+    return true unless event.hosted_event?
+
+    changed_keys = []
+
+    event.changes.each do |key, changes|
+      # Filter out changes from nil to "", since schedules_controller does that
+      changed_keys.push(key) unless changes[0].nil? && changes[1] == ""
+    end
+
+    # Check for intersection of change keys and the synced event attibutes. We
+    # consider those to be protected
+    invalid_change_keys = changed_keys & Event::SYNCED_EVENT_ATTRIBUTES
+
+    # Change is valid for hosted event ONLY if nothing was changed that is synced
+    invalid_change_keys.empty?
   end
 end
