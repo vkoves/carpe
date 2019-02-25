@@ -22,10 +22,14 @@
 
     <div class="field">
       <%= f.check_box :public_profile %>
-      <%= f.label :public_profile %>
+      <%= f.label :public_profile, class: 'inline' %>
       <%= image_tag "question-circle.svg", width: 15, class: "question-tooltip right", title: "Public profiles auto accept followers. Use this if you don't want to confirm each follower you receive." %>
       <br>
     </div>
+
+    <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+      <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+    <% end %>
 
     <div class="field">
       <%= f.label :home_time_zone %><br>
@@ -40,17 +44,6 @@
         <%= f.label :email %><br>
         <%= f.email_field :email, class: "text-input", autofocus: true %>
       </div>
-
-      <div class="field">
-        <%= f.check_box :public_profile %>
-        <%= f.label :public_profile, class: 'inline' %>
-        <%= image_tag "question-circle.svg", width: 15, class: "question-tooltip right", title: "Public profiles auto accept followers. Use this if you don't want to confirm each follower you receive." %>
-        <br>
-      </div>
-
-      <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-        <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-      <% end %>
 
       <div class="field">
         <%= f.label :avatar %>
