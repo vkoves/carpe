@@ -10,6 +10,10 @@
           dateFromDashesToSlashes, dateToString, verboseDateToString,
           datesToTimeRange */
 
+/* Setup globals from constants */
+/* global MONTH_NAMES, FULL_MONTH_NAMES, DAY_NAMES, GRID_HEIGHT, BORDER_WIDTH,
+          PLACEHOLDER_NAME */
+
 /*
  * Instantiates and handles the Carpe scheduling interface, populating
  * the users schedule, handling switching between weeks, and communicating
@@ -19,13 +23,6 @@
 
 var sideHTML; // Instantiates sideHTML variable
 var schHTML; // Instantiates schedule HTML variable, which will contain the "Mon-Sun" html on the main scheduler div.
-
-/**
- * Scheduler specific constants
- */
-var GRID_HEIGHT = 25; // the height of the grid of resizing and dragging
-var BORDER_WIDTH = 2; // the border width at the bottom for height stuff
-var PLACEHOLDER_NAME = '<i>Untitled</i>'; // used by newly created categories and events
 
 // ctrlPressed is used for event cloning, which is temporarily disabled.
 // Thus we ignore the ESLint unused vars here
@@ -46,13 +43,6 @@ var currCategory; // Category Object - the category being currently edited
 var currMins; // the current top value offset caused by the minutes of the current item
 
 var readied = false; // whether the ready function has been called
-
-/**
- * Generic date constants
- */
-var MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']; // Three letter month abbreviations
-var FULL_MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-var DAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']; // the names of the days
 
 var viewMode = 'week'; // either "week" or "month"
 
