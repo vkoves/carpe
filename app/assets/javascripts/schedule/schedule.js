@@ -1,6 +1,9 @@
 /* Setup globals from _schedule.html.erb <script> block */
 /* global readOnly, loadedEvents, loadedCategories, loadedBreaks, groupID */
 
+/* Setup globals from classes */
+/* global ScheduleItem, Category, Break */
+
 /*
  * Instantiates and handles the Carpe scheduling interface, populating
  * the users schedule, handling switching between weeks, and communicating

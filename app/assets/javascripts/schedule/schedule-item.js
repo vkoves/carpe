@@ -1,9 +1,17 @@
+/* Setup globals from _schedule.html.erb <script> block */
+/* global readOnly, groupID */
+
+/* Setup globals from schedule.js */
+/* global scheduleItems, updatedEvents, BORDER_WIDTH, cloneDate, convertTo12Hour,
+          currEvent, GRID_HEIGHT, paddedMinutes, PLACEHOLDER_NAME, repopulateEvents,
+          updatedEvents, viewMode  */
+
 /**
  * Defines the class for schedule items.
  * @class
  * @see Written with help from {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript|Mozilla Developer Network's Introduction to Object-Oriented JavaScript}
  */
-function ScheduleItem() {
+function ScheduleItem() { // eslint-disable-line no-unused-vars
   /** The id of the associated category */
   this.categoryId = undefined;
   this.eventId = undefined;
