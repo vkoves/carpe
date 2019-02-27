@@ -1,3 +1,6 @@
+/* Disable no-unsued-vars since this file is meant for exporting */
+/* eslint no-unused-vars: "off" */
+
 /* Setup globals from _schedule.html.erb <script> block */
 /* global readOnly, groupID */
 
@@ -11,7 +14,7 @@
  * @class
  * @see Written with help from {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript|Mozilla Developer Network's Introduction to Object-Oriented JavaScript}
  */
-function ScheduleItem() { // eslint-disable-line no-unused-vars
+function ScheduleItem() {
   /** The id of the associated category */
   this.categoryId = undefined;
   this.eventId = undefined;

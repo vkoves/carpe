@@ -1,3 +1,6 @@
+/* Disable no-unsued-vars since this file is meant for exporting */
+/* eslint no-unused-vars: "off" */
+
 /* Setup globals from _schedule.html.erb <script> block */
 /* global groupID */
 
@@ -5,7 +8,7 @@
  * The class definition for breaks and repeat exceptions.
  * @class
  */
-function Break() { // eslint-disable-line no-unused-vars
+function Break() {
   this.id = undefined; // the id of the associated repeat_exception in the db
   this.name = undefined; // the name of the break
   this.startDate = undefined; // the date the break starts. Any time on this variable should be ignored

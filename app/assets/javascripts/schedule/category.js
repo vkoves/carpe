@@ -1,12 +1,15 @@
+/* Disable no-unsued-vars since this file is meant for exporting */
+/* eslint no-unused-vars: "off" */
+
 /* Setup globals from _schedule.html.erb <script> block */
 /* global PLACEHOLDER_NAME, groupID */
 
 /**
  * Defines the class for category items.
- * @param {number} id The category ID from the database (optional)
+ * @param {number} id @this {[type]}he category ID from the database (optional)
  * @class
  */
-function Category(id) { // eslint-disable-line no-unused-vars
+function Category(id) {
   this.id = id; // the id of the category in the db
   this.name = undefined; // the name of the category, as a string.
   this.color = undefined; // the color of the category, as a CSS acceptable string
