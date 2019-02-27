@@ -1,3 +1,4 @@
+//= require schedule/constants
 //= require schedule/schedule
 //= require schedule/schedule-item
 
