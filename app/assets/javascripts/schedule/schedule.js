@@ -11,8 +11,8 @@
 var sideHTML; // Instantiates sideHTML variable
 var schHTML; // Instantiates schedule HTML variable, which will contain the "Mon-Sun" html on the main scheduler div.
 
-var gridHeight = 25; // the height of the grid of resizing and dragging
-var border = 2; // the border at the bottom for height stuff
+var GRID_HEIGHT = 25; // the height of the grid of resizing and dragging
+var BORDER_WIDTH = 2; // the border width at the bottom for height stuff
 
 // ctrlPressed is used for event cloning, which is temporarily disabled.
 // Thus we ignore the ESLint unused vars here
@@ -34,9 +34,9 @@ var currMins; // the current top value offset caused by the minutes of the curre
 
 var readied = false; // whether the ready function has been called
 
-var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']; // Three letter month abbreviations
-var fullMonthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-var dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']; // the names of the days
+var MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']; // Three letter month abbreviations
+var FULL_MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+var DAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']; // the names of the days
 
 var viewMode = 'week'; // either "week" or "month"
 
@@ -345,9 +345,9 @@ function ScheduleItem() {
     var dateString = elem.parent().siblings('.col-titler').children('.evnt-fulldate').html();
     var hours = 0;
     if (resize) {
-      hours = Math.floor((parseInt(elem.css('top'))) / gridHeight);
+      hours = Math.floor((parseInt(elem.css('top'))) / GRID_HEIGHT);
     } else {
-      hours = (parseInt(elem.css('top'))) / gridHeight;
+      hours = (parseInt(elem.css('top'))) / GRID_HEIGHT;
     }
     var newDate = new Date(dateString + ' ' + hours + ':' + paddedMinutes(this.startDateTime));
     this.setStartDateTime(newDate, resize);
@@ -367,7 +367,7 @@ function ScheduleItem() {
   this.resizeComplete = function(elem) {
     this.dragComplete(elem, true);
     var endDT = new Date(this.startDateTime.getTime());
-    endDT.setHours(this.startDateTime.getHours() + Math.round(($(elem).outerHeight() + this.getMinutesOffsets()[0] - this.getMinutesOffsets()[1]) / gridHeight)); // TODO: Move this crazy way of getting height in hours somewhere else (used twice)
+    endDT.setHours(this.startDateTime.getHours() + Math.round(($(elem).outerHeight() + this.getMinutesOffsets()[0] - this.getMinutesOffsets()[1]) / GRID_HEIGHT)); // TODO: Move this crazy way of getting height in hours somewhere else (used twice)
     endDT.setMinutes(this.endDateTime.getMinutes()); // minutes can't change from resize, so keep them consistent
     this.endDateTime = endDT;
     updatedEvents(this.tempId, 'resizeComplete');
@@ -379,7 +379,7 @@ function ScheduleItem() {
    */
   this.getTop = function() {
     var hourStart = this.startDateTime.getHours() + (this.startDateTime.getMinutes() / 60);
-    var height = gridHeight * hourStart;
+    var height = GRID_HEIGHT * hourStart;
     return height;
   };
 
@@ -389,8 +389,8 @@ function ScheduleItem() {
    */
   this.getMinutesOffsets = function() {
     var offsets = [];
-    offsets.push(gridHeight * (this.startDateTime.getMinutes() / 60));
-    offsets.push(gridHeight * (this.endDateTime.getMinutes() / 60));
+    offsets.push(GRID_HEIGHT * (this.startDateTime.getMinutes() / 60));
+    offsets.push(GRID_HEIGHT * (this.endDateTime.getMinutes() / 60));
     return offsets;
   };
   /**
@@ -400,7 +400,7 @@ function ScheduleItem() {
   this.updateHeight = function() {
     // only update height in view mode's where size indicates duration
     if (viewMode == 'week') {
-      this.element().css('height', gridHeight * this.lengthInHours() - border);
+      this.element().css('height', GRID_HEIGHT * this.lengthInHours() - BORDER_WIDTH);
       updatedEvents(this.tempId, 'updateHeight');
     }
   };
@@ -458,7 +458,7 @@ function ScheduleItem() {
     // only set the startDateTime if we are not resizing or starting
     if (isStart || !resize) {
       schItem.startDateTime = topDT;
-      elem.css('top', schItem.getTop()); // set the top position by gridHeight times the hour
+      elem.css('top', schItem.getTop()); // set the top position by GRID_HEIGHT times the hour
       elem.children('.evnt-time.top').text(convertTo12Hour(topDT)).show();
     }
 
@@ -567,8 +567,8 @@ function scheduleReady() {
   addDates(new Date(), false, true);
   readied = true;
 
-  $('.col-snap').css('height', gridHeight * 24); // set drop columns
-  $('.sch-day-col').css('height', gridHeight * 24 + 50); // set day columns, which have the divider line
+  $('.col-snap').css('height', GRID_HEIGHT * 24); // set drop columns
+  $('.sch-day-col').css('height', GRID_HEIGHT * 24 + 50); // set day columns, which have the divider line
 
   // allow viewing of all events with single click
   if (readOnly) {
@@ -1163,7 +1163,7 @@ function addDrag(selector) {
 
       // if opacity is 1, this is a new event
       if (viewMode == 'week' && $(this).css('opacity') == 1) {
-        $(this).css('height', gridHeight * 3 - border);
+        $(this).css('height', GRID_HEIGHT * 3 - BORDER_WIDTH);
         handleNewEvent(this);
         newItem = true;
       } else if (viewMode == 'month' && $(this).attr('data-date')) {
@@ -1220,7 +1220,7 @@ function addResizing(selector) {
   if (selector != '#sch-sidebar .sch-evnt') {
     $(selector).resizable({
       handles: 'n, s',
-      grid: [0, gridHeight],
+      grid: [0, GRID_HEIGHT],
       containment: 'parent',
       resize: function(event, ui) {
         updateTime($(this), ui, true);
@@ -1262,7 +1262,7 @@ function handlePosition(elem, ui) {
   var offset = $(elem).parent().offset().top;
   var topVal = ui.position.top - offset - currMins;
 
-  if (topVal % gridHeight != 0) {
+  if (topVal % GRID_HEIGHT != 0) {
     topVal += dropScroll;
   }
 
@@ -1275,7 +1275,7 @@ function handlePosition(elem, ui) {
   } else if (topVal > $(elem).parent().height() - $(elem).outerHeight()) {
     // or bottom
     topVal = $(elem).parent().height() - $(elem).outerHeight();
-    topVal = topVal - (topVal % gridHeight);
+    topVal = topVal - (topVal % GRID_HEIGHT);
   }
 
   $(elem).css('top', topVal);
@@ -1377,15 +1377,15 @@ function updateTime(elem, ui, resize) {
 
     currMins = 0;
     if (item) {
-      currMins = gridHeight * (item.startDateTime.getMinutes() / 60);
+      currMins = GRID_HEIGHT * (item.startDateTime.getMinutes() / 60);
     }
 
     if (!resize) {
-      var topRemainder = (ui.position.top + offsetDiff) % gridHeight;
+      var topRemainder = (ui.position.top + offsetDiff) % GRID_HEIGHT;
       ui.position.top = ui.position.top - topRemainder;
-      arr[0] = (ui.position.top + offsetDiff) / gridHeight;
+      arr[0] = (ui.position.top + offsetDiff) / GRID_HEIGHT;
     } else {
-      arr[0] = Math.ceil(ui.position.top - currMins + offsetDiff) / gridHeight;
+      arr[0] = Math.ceil(ui.position.top - currMins + offsetDiff) / GRID_HEIGHT;
     }
 
     if (!resize) {
@@ -1403,7 +1403,7 @@ function updateTime(elem, ui, resize) {
   if (!resize) {
     end_arr[0] = arr[0] + hoursSpanned; // and add the height to the hours of the end time
   } else {
-    end_arr[0] = arr[0] + Math.round(($(elem).outerHeight() + item.getMinutesOffsets()[0] - item.getMinutesOffsets()[1]) / gridHeight);
+    end_arr[0] = arr[0] + Math.round(($(elem).outerHeight() + item.getMinutesOffsets()[0] - item.getMinutesOffsets()[1]) / GRID_HEIGHT);
   }
 
 
@@ -1461,10 +1461,10 @@ function addDates(newDateObj, refresh, startToday) {
     $('.sch-day-col').each(function(index, col) {
       $(col).attr('data-date', verboseDateToString(currDate));
 
-      var fullDate = monthNames[currDate.getMonth()] + ' ' + currDate.getDate() + ', ' + currDate.getFullYear();
+      var fullDate = MONTH_NAMES[currDate.getMonth()] + ' ' + currDate.getDate() + ', ' + currDate.getFullYear();
 
       $(col).children('.col-titler').prepend('<div class=\'evnt-date\'>' + currDate.getDate() + '</div> '); // prepend the numeric date (e.g. 25)
-      $(col).children('.col-titler').find('.evnt-day').text(dayNames[currDate.getDay()]);
+      $(col).children('.col-titler').find('.evnt-day').text(DAY_NAMES[currDate.getDay()]);
       $(col).children('.col-titler').append('<div class=\'evnt-fulldate\'>' + fullDate + '</div>'); // append the long form date to columns
 
       // if this is today
@@ -1482,7 +1482,7 @@ function addDates(newDateObj, refresh, startToday) {
     currDate = startDateData.startDate;
 
     $('.sch-day-tile').remove(); // remove old tiles
-    $('#sch-monthly-view #month-name').text(fullMonthNames[newDateObj.getMonth()] + ' ' + currDate.getFullYear());
+    $('#sch-monthly-view #month-name').text(FULL_MONTH_NAMES[newDateObj.getMonth()] + ' ' + currDate.getFullYear());
 
     var oldDatesCount = 0;
     if (startDateData.lastMonth) {
@@ -1637,7 +1637,7 @@ function populateEvents() {
       currentElem.find('.evnt-title').html(eventObject.getHtmlName());
       currentElem.find('.evnt-time.top').text(convertTo12Hour(eventObject.startDateTime));
       currentElem.find('.evnt-time.bot').text(convertTo12Hour(eventObject.endDateTime));
-      currentElem.css('height', gridHeight * eventObject.lengthInHours() - border);
+      currentElem.css('height', GRID_HEIGHT * eventObject.lengthInHours() - BORDER_WIDTH);
       currentElem.css('top', eventObject.getTop());
       currentElem.attr('evnt-temp-id', eventObject.tempId);
 
@@ -2162,8 +2162,8 @@ function changeCategoryColor(elem) {
  */
 function placeInSchedule(elem, hours, lengthHours) {
   // console.log("Length: " + lengthHours);
-  $(elem).css('height', (gridHeight * lengthHours) - border); // set the height using the length in hours
-  $(elem).css('top', hours); // set the top position by gridHeight times the hour
+  $(elem).css('height', (GRID_HEIGHT * lengthHours) - BORDER_WIDTH); // set the height using the length in hours
+  $(elem).css('top', hours); // set the top position by GRID_HEIGHT times the hour
 }
 
 /**
@@ -2608,7 +2608,7 @@ function inColumn(elem) {
 
 /**
  * Set the height of an element if the height of another element
- * is not a proper height (divisible by gridheight)
+ * is not a proper height (divisible by GRID_HEIGHT)
  * @param {jQuery} getElem - element to check the height of
  * @param {jQuery} setElem - element to set height of
  * @param {number} hoursLength - hours to set the height too
@@ -2617,8 +2617,8 @@ function inColumn(elem) {
 function setHeight(getElem, setElem, hoursLength) {
   var height = parseFloat($(getElem).css('height'));
 
-  if ((height + border) % gridHeight != 0) {
-    $(setElem).css('height', (gridHeight * hoursLength) - border);
+  if ((height + BORDER_WIDTH) % GRID_HEIGHT != 0) {
+    $(setElem).css('height', (GRID_HEIGHT * hoursLength) - BORDER_WIDTH);
   }
 }
 
