@@ -864,45 +864,6 @@ function handlePosition(elem, ui) {
   $(elem).css('top', topVal);
 }
 
-// /**
-//  * Called when creating a clone, copying a specified element. This function
-//  * isn't used right now, but will be brought back, so disabled unused var ESLint
-//  * rule.
-//  *
-//  * @param  {jQuery} elem - The element being copied
-//  * @param  {Object}   ui - UI object from jQuery drag handler
-//  * @return {undefined}
-//  */
-// function handleClone(elem, ui) {
-//   var clone = $(ui.helper).clone(); // create a clone
-//   $(elem).parent().append(clone);
-//   clone.css('opacity', '1'); // set the clone to be fully opaque, as it'll be 0.7 opacity by default from dragging
-//
-//   $(elem).removeAttr('event-id'); // clear event id
-//
-//   $(elem).attr('evnt-temp-id', eventTempId); // the clone needs a new temp id, but in reality, this is the clone
-//
-//   var schItem = new ScheduleItem();
-//   var oldItem = scheduleItems[$(clone).attr('evnt-temp-id')];
-//   schItem.startDateTime = oldItem.startDateTime;
-//   schItem.endDateTime = oldItem.endDateTime;
-//   schItem.name = oldItem.name;
-//   schItem.eventId = null; // this is a new element so don't copy that
-//   schItem.categoryId = oldItem.categoryId;
-//   schItem.setRepeatType(oldItem.repeatType);
-//   schItem.location = oldItem.location;
-//   schItem.description = oldItem.description;
-//   schItem.tempId = eventTempId;
-//   scheduleItems[eventTempId] = schItem;
-//
-//
-//   eventTempId++;
-//
-//
-//   clone.removeClass('ui-draggable ui-draggable-handle ui-resizable ui-draggable-dragging'); // remove dragging stuff
-//   addDrag(clone); // and redo dragging
-// }
-
 /**
  * Called when new events are dragged from the sidebar
  * @param {jQuery} elem - The element that was dragged

@@ -37,20 +37,19 @@ function convertTo12HourFromArray(timeArr) {
  * @return {String} minutes in padded form (e.g. 03 instead of just 3)
  */
 function paddedMinutes(date) {
-  var minutes = (date.getMinutes() < 10 ? '0' : '') + date.getMinutes(); // add zero the the beginning of minutes if less than 10
-  return minutes;
+  return paddedNumber(date.getMinutes());
 }
 
-// /**
-//  * Zero pads a number to two digits.
-//  *
-//  * @param {number} num - number to be zero padded
-//  * @return {String} zero padded number (e.g. 3 to 03 or 13 to 13)
-//  */
-// function paddedNumber(num) {
-//   var paddedNum = (num < 10 ? '0' : '') + num; // add zero the the beginning of minutes if less than 10
-//   return paddedNum;
-// }
+/**
+ * Zero pads a number to two digits.
+ *
+ * @param {number} num - number to be zero padded
+ * @return {String} zero padded number (e.g. 3 to 03 or 13 to 13)
+ */
+function paddedNumber(num) {
+  var paddedNum = (num < 10 ? '0' : '') + num; // add zero the the beginning of minutes if less than 10
+  return paddedNum;
+}
 
 /**
  * Removes cursor highlight on page
