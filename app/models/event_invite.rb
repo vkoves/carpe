@@ -62,6 +62,6 @@ class EventInvite < ApplicationRecord
   private
 
   def send_invite_email
-    UserNotifier.event_invite_email(user, self).deliver_now
+    UserNotifier.event_invite_email(user, self).deliver_later
   end
 end
