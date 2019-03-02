@@ -1324,21 +1324,15 @@ function populateEvents() {
     }
   }
 
-  if (!eventObj.isEditable()) {
+  if (!readOnly) {
     $('.col-snap .sch-evnt').click(function() {
       editEvent($(this));
     });
-
-
-    // TODO: Not sure where to add this. Users don't always have permission
-    //       to edit hosted events on their schedule, but they always have
-    //       permission to delete the event.
-    if (eventObj.isHosted()) {
-      $('.col-snap .sch-evnt .sch-evnt-close').click(function(event) {
-        deleteEvent(event, $(this));
-      });
-    }
   }
+
+  $('.col-snap .sch-evnt .sch-evnt-close').click(function(event) {
+    deleteEvent(event, $(this));
+  });
 }
 
 /**
