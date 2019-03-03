@@ -1,5 +1,5 @@
 <template>
-  <div v-bind:style="{ backgroundColor: category.color }" class="category">
+  <div class="category" v-bind:style="{ backgroundColor: category.color }">
     {{ category.name }}
   </div>
 </template>

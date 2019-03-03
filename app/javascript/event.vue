@@ -1,5 +1,5 @@
 <template>
-  <div class="event">
+  <div class="event" v-bind:style="{ backgroundColor: categoryColor }">
     {{ event.name }}
   </div>
 </template>
@@ -7,7 +7,10 @@
 <script>
 export default {
   props: {
-    event: Object
+    // The event being displayed
+    event: Object,
+    // The color of the category this event is a part of
+    categoryColor: String
   }
 }
 </script>

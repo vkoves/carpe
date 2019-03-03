@@ -10,7 +10,9 @@
     <h2>Events</h2>
     <ul class="event-list">
       <li v-for="event in events">
-        <event v-bind:event="event"></event>
+        <event
+          v-bind:event="event"
+          v-bind:categoryColor="findCategory(event.category_id).color"></event>
       </li>
     </ul>
   </div>
@@ -40,7 +42,13 @@ export default {
     fetchJSON(userEventsURL(userId))
       .then(events => this.events = events);
   },
-  components: { Category, Event }
+  components: { Category, Event },
+  methods: {
+    // Given an ID returns the matching category
+    findCategory: function(catId) {
+      return this.categories.find(cat => cat.id === catId);
+    }
+  }
 }
 
 /**
