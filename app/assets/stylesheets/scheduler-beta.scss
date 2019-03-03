@@ -5,7 +5,7 @@
 }
 
 .scheduler-beta {
-  .category
+  .category,
   .event {
     @extend %center-flex;
     width: 200px;
@@ -15,6 +15,6 @@
     color: #ffffff;
   }
 
-  .category-list
+  .category-list,
   .event-list { list-style: none; }
 }
