@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   before_action :authorize_admin!, only: [:index, :promote, :demote, :inspect]
   before_action :authorize_signed_in!, only: [:destroy]
 
+  # Get a User via params[:id] and assign to @user unless viewing multiple users
   before_action :get_user, except: [:index]
 
   def index
@@ -45,10 +46,16 @@ class UsersController < ApplicationController
     render json: { action: "demote", uid: @user.id, new_href: promote_user_path(@user) }
   end
 
-  # Returns the user's categories as JSON for the JS, making sure to only show
+  # Returns the user's categories as JSON for FE JS, making sure to only show
   # categories the current_user can access
   def categories
     render json: @user.categories_accessible_by(current_user).to_json
+  end
+
+  # Returns the user's events as JSON for FE JS, making sure to only show events
+  # the current_user can access
+  def events
+    render json: @user.events_accessible_by(current_user)
   end
 
   def destroy
