@@ -1,17 +1,24 @@
 <template>
   <div id="scheduler-vue" class="scheduler-beta">
+    <h2>Categories</h2>
     <ul class="category-list">
       <li v-for="category in categories">
         <category v-bind:category="category"></category>
       </li>
     </ul>
 
-    {{events}}
+    <h2>Events</h2>
+    <ul class="event-list">
+      <li v-for="event in events">
+        <event v-bind:event="event"></event>
+      </li>
+    </ul>
   </div>
 </template>
 
 <script>
 import Category from 'category.vue'
+import Event from 'event.vue'
 
 /* Setup globals from _schedule_beta.html.erb <script> blocks */
 /* global Vue, userId */
@@ -33,7 +40,7 @@ export default {
     fetchJSON(userEventsURL(userId))
       .then(events => this.events = events);
   },
-  components: { Category }
+  components: { Category, Event }
 }
 
 /**

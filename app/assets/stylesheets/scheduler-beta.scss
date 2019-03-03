@@ -5,13 +5,16 @@
 }
 
 .scheduler-beta {
-  .category {
+  .category
+  .event {
     @extend %center-flex;
     width: 200px;
     height: 80px;
-    color: #ffffff;
     margin-bottom: 10px;
+    background-color: #555555;
+    color: #ffffff;
   }
 
-  .category-list { list-style: none; }
+  .category-list
+  .event-list { list-style: none; }
 }
