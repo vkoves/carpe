@@ -10,6 +10,16 @@ function setupEventInvitesHandlers() {
   $('#event-invites-setup').click(openEventInvitesPanel);
   $('#event-invites-panel .close').click(closeEventInvitesPanel);
   $('#send-event-invites').click(sendEventInvites);
+  $('#event-invites-list').on('ajax:success', '.js-delete-event-invite', deleteEventInvite);
+}
+
+/**
+ * Removes the event invite tile associated with the clicked button.
+ * @return {undefined}
+ */
+function deleteEventInvite() {
+  const $deleteButton = $(this);
+  $deleteButton.closest('.event-invite').fadeOut();
 }
 
 /**
@@ -52,7 +62,7 @@ function sendEventInvites() {
   const data = { user_ids: $('#event_invite_user_ids').val() };
 
   $.post(`/events/${eventId}/event_invites`, data, participantsHtml => {
-    $('#invited-people').append(participantsHtml);
+    $(participantsHtml).hide().appendTo('#event-invites-list').fadeIn();
     alertUI('Event Invites Sent!');
   });
 }

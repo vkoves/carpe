@@ -5,11 +5,16 @@
   </div>
 
   <div class="actions">
-    <% if event_invite.host_event.creator %>
+    <% if event_invite.user == event_invite.host_event.creator %>
       <span class="role">Owner</span>
     <% else %>
-      <%= select '_', '_', event_invite_roles, { selected: event_invite.role } %>
-      <span class="red button js-delete-event-invite">Banish</span>
+      <span>Guest</span>
+      <%#= select '_', '_', event_invite_roles, { selected: event_invite.role } %>
+
+      <% if can? :destroy, event_invite %>
+        <%= link_to "", event_invite_path(event_invite), method: :delete,
+                    remote: true, class: "cross-icon js-delete-event-invite" %>
+      <% end %>
     <% end %>
   </div>
 </div>
