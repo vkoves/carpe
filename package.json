@@ -9,7 +9,7 @@
   "scripts": {
     "jsdoc": "jsdoc app/assets/javascripts -d public/jsdoc-out -r README.md",
     "teaspoon": "RAILS_ENV=test bundle exec teaspoon --coverage=default",
-    "eslint": "eslint app/assets/javascripts spec/javascripts || true",
+    "eslint": "eslint app/assets/javascripts app/javascript spec/javascripts || true",
     "eslint-fix": "eslint app/assets/javascripts spec/javascripts --fix || true"
   },
   "repository": {

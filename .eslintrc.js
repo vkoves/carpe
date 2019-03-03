@@ -23,7 +23,8 @@ module.exports = {
     'customAlertUI': true
   },
   'parserOptions': {
-    'ecmaVersion': 2016
+    'ecmaVersion': 2016,
+    'sourceType': 'module'
   },
   'rules': {
     // Learn more at: https://eslint.org/docs/rules/
