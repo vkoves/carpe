@@ -9,7 +9,7 @@
   "scripts": {
     "jsdoc": "jsdoc app/assets/javascripts -d public/jsdoc-out -r README.md",
     "teaspoon": "RAILS_ENV=test bundle exec teaspoon --coverage=default",
-    "eslint": "eslint app/assets/javascripts app/javascript spec/javascripts || true",
+    "eslint": "eslint app/assets/javascripts app/javascript spec/javascripts --ext .js,.vue || true",
     "eslint-fix": "eslint app/assets/javascripts spec/javascripts --fix || true"
   },
   "repository": {
@@ -22,6 +22,8 @@
   },
   "homepage": "https://github.com/vkoves/Carpe#readme",
   "devDependencies": {
+    "eslint": "^5.15.0",
+    "eslint-plugin-vue": "^5.2.2",
     "istanbul": "^0.4.5",
     "jsdoc": "^3.5.5",
     "webpack-dev-server": "2.11.2"

@@ -5,7 +5,10 @@ module.exports = {
     'jquery': true,
     'mocha': true
   },
-  'extends': 'eslint:recommended',
+  'extends': [
+    'eslint:recommended',
+    'plugin:vue/recommended'
+  ],
   'globals': {
     // Handle globals from Chai
     'chai': true,
@@ -24,7 +27,6 @@ module.exports = {
   },
   'parserOptions': {
     'ecmaVersion': 2016,
-    'sourceType': 'module'
   },
   'rules': {
     // Learn more at: https://eslint.org/docs/rules/
