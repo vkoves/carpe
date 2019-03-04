@@ -1,5 +1,6 @@
-/* Indicate to ESLint that functions and UIManager are a global "export" */
-/* exported confirmUI, alertUI, customAlertUI, UIManager */
+// This file exports functions, and due to modules from Vue we need to disable
+// the ESLint unused vars rule
+/* eslint no-unused-vars:0 */
 
 /**
  * Show a custom confirm with the given message, calling the callback with the value of whether the user confirmed
