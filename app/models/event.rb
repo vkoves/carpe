@@ -64,8 +64,8 @@ class Event < ApplicationRecord
                            dependent: :destroy
 
   # Hosted Event
-  has_one :host_event, class_name: "Event", foreign_key: :base_event_id,
-                       dependent: :destroy
+  belongs_to :host_event, class_name: "Event", foreign_key: :base_event_id,
+                          optional: true
 
   has_one :event_invite, foreign_key: "hosted_event_id",
                          dependent: :destroy
