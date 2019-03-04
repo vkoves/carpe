@@ -31,6 +31,14 @@ jobs:
           command: |
             bundle install --jobs=4 --retry=3 --path vendor/bundle
       - run:
+          name: Install Node.js 10
+          command: |
+            curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+            sudo apt-get install -y nodejs
+      - run:
+          name: Check current version of node
+          command: node -v
+      - run:
           name: Install Chrome
           command: |
             wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
@@ -40,8 +48,6 @@ jobs:
       - run:
           name: Install ESLint
           command: |
-            echo "NODE VERSION"
-            node -v
             yarn install
 
       - save_cache:
