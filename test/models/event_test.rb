@@ -23,6 +23,15 @@ class EventTest < ActiveSupport::TestCase
            "user does not have access to their own events (according to accessible_by?)"
   end
 
+  test "hosted event privacy can be restricted by the host event" do
+    host_event = events(:music_convention)
+    host_event.update!(category: categories(:private))
+    hosted_event = events(:music_convention_joe)
+
+    assert hosted_event.accessible_by? users(:joe)
+    assert_not hosted_event.accessible_by? users(:putin)
+  end
+
   test "private_version should return an event with its details hidden" do
     private_event = events(:simple).private_version
     assert_empty private_event.description, "event details were not hidden"

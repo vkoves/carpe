@@ -549,6 +549,7 @@ function loadInitialEvents() {
       schItem.eventId = evnt.id;
       schItem.categoryId = evnt.category_id;
       schItem.baseEventId = evnt.base_event_id;
+      schItem.hostEventPrivacy = evnt.host_event_privacy;
       schItem.setRepeatType(evnt.repeat);
       schItem.description = evnt.description;
       schItem.location = evnt.location;
@@ -1499,6 +1500,7 @@ function editEvent(elem) {
     // Indicate if the event is hosted
     if (currEvent.isHosted()) {
       $('#host-info').show();
+       $('privacy-notice').toggle(currEvent.hostEventPrivacy === "private");
     } else {
       $('#host-info').hide();
     }

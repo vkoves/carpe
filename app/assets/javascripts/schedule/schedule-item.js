@@ -44,6 +44,8 @@ function ScheduleItem() {
   this.groupId = groupID;
   /** Whether this object has bee updated since last save */
   this.needsSaving = false;
+  /** This is only relevant to hosted events. It overrides normal category privacy */
+  this.hostEventPrivacy = undefined;
 
   /**
    * Returns whether this is a hosted event - an event the current user was

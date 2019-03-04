@@ -39,7 +39,8 @@
       </div>
 
       <div id="host-info">
-        This is an event you were invited to!
+        <span>This is an event you were invited to!</span>
+        <span class="privacy-notice">It is a private event on your schedule since the host made the event private.</span>
       </div>
     </div>
 
@@ -303,7 +304,9 @@
 <script>
   var readOnly = <%= read_only %>;
 
-  var loadedEvents = <%= raw events.to_json(include: { repeat_exceptions: { only: :id } }) %>;
+  var loadedEvents = <%= raw events.to_json(include: { repeat_exceptions: { only: :id } },
+                                            methods: :host_event_privacy) %>;
+
   var loadedCategories = <%= raw categories.to_json(include: { repeat_exceptions: { only: :id } }) %>;
   var loadedBreaks = <%= raw user_or_group.repeat_exceptions.to_json %>;
 
