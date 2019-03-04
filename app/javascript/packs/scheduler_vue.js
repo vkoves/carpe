@@ -9,6 +9,8 @@ const userEventsBaseURL     = '/users/:id/events';
 
 document.addEventListener('DOMContentLoaded', () => {
   new Vue({
+    el: '#scheduler-vue',
+    components: { Scheduler },
     data: () => ({
       categories: [],
       events: []
@@ -22,8 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
       this.fetchJSON(this.userEventsURL(userId))
         .then(events => this.events = events);
     },
-    el: '#scheduler-vue',
-    components: { Scheduler },
     methods: {
       /**
        * Fetches a URL and returns the .json() of it
