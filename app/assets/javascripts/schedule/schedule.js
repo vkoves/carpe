@@ -683,7 +683,9 @@ function addDrag(selector) {
     setTimeout(highlightCurrent, 100); // highlight the whole name after focus
   });
 
-  $(selector).find('.sch-evnt-edit').click(function() {
+  $(selector).find('.sch-evnt-edit').click(function(event) {
+    event.stopImmediatePropagation();
+
     editEvent($(this).parent());
   });
 
