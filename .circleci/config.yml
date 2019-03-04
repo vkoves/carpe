@@ -49,6 +49,7 @@ jobs:
           name: Install ESLint
           command: |
             yarn install
+            npm install -g eslint
 
       - save_cache:
           paths:
