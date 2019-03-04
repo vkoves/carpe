@@ -52,7 +52,7 @@ export default {
     // Given an ID returns the category's color or undefined if not found
     findCategoryColor(catId) {
       // Find the category, and if not found use {} and color returns undefined
-      return (this.FIND_ERROR(catId) || {}).color;
+      return (this.findCategory(catId) || {}).color;
     }
   }
 };
