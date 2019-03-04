@@ -1500,7 +1500,7 @@ function editEvent(elem) {
     // Indicate if the event is hosted
     if (currEvent.isHosted()) {
       $('#host-info').show();
-       $('privacy-notice').toggle(currEvent.hostEventPrivacy === "private");
+      $('privacy-notice').toggle(currEvent.hostEventPrivacy === 'private');
     } else {
       $('#host-info').hide();
     }
