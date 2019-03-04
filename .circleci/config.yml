@@ -40,7 +40,7 @@ jobs:
       - run:
           name: Install ESLint
           command: |
-            sudo npm install -g eslint
+            yarn install
 
       - save_cache:
           paths:
