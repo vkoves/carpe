@@ -4,7 +4,7 @@
   "description": "The social scheduler",
   "license": "UNLICENSED",
   "engines": {
-    "node": "10"
+    "node": ">= 10"
   },
   "scripts": {
     "jsdoc": "jsdoc app/assets/javascripts -d public/jsdoc-out -r README.md",
