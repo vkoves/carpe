@@ -47,10 +47,9 @@ jobs:
             sudo apt-get update
             sudo apt-get -y install google-chrome-stable
       - run:
-          name: Install ESLint
+          name: Install Node Packages
           command: |
             yarn install
-            sudo npm install -g eslint
 
       - save_cache:
           paths:
@@ -82,7 +81,7 @@ jobs:
 
               echo
               echo -e "${YL}Carpe CI:${NC} Running ESLint"
-              eslint app/assets/javascripts spec/javascripts
+              npm run eslint --silent
 
               echo
               echo -e "${YL}Carpe CI:${NC} Running SCSS Lint"

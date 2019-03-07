@@ -9,8 +9,8 @@
   "scripts": {
     "jsdoc": "jsdoc app/assets/javascripts -d public/jsdoc-out -r README.md",
     "teaspoon": "RAILS_ENV=test bundle exec teaspoon --coverage=default",
-    "eslint": "eslint app/assets/javascripts app/javascript spec/javascripts --ext .js,.vue || true",
-    "eslint-fix": "eslint app/assets/javascripts app/javascript spec/javascripts --ext .js,.vue --fix || true"
+    "eslint": "eslint app/assets/javascripts app/javascript spec/javascripts --ext .js,.vue",
+    "eslint-fix": "eslint app/assets/javascripts app/javascript spec/javascripts --ext .js,.vue --fix"
   },
   "repository": {
     "type": "git",
