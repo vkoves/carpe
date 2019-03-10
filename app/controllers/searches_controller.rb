@@ -7,14 +7,16 @@ class SearchesController < ApplicationController
 
   # searches users and groups by name
   def all
+    # Grab first five matching users
     @users = User.where("LOWER(name) LIKE ?", "%#{@query}%").limit(5)
-                 .sort_by { |user| SearchScore.name(user.name, @query) }
 
+    # Grab first five matching groups
     @groups = Group.where.not(privacy: :secret_group)
                    .where("LOWER(name) LIKE ?", "%#{@query}%").limit(5)
-                   .sort_by { |user| SearchScore.name(user.name, @query) }
 
-    @users_and_groups = @users + @groups
+    # Sort the users and groups together
+    @users_and_groups = (@users + @groups)
+                          .sort_by { |item| SearchScore.name(item.name, @query) }
   end
 
   # searches all users by name
