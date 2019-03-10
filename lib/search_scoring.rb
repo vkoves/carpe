@@ -7,13 +7,13 @@ module SearchScore
 
     # Split the name into words so we can easily check for full matches on
     # middle or last names
-    name_words = name.split(' ');
+    name_words = name.split(" ")
 
     # prioritize EXACT matches to the WHOLE name
     return 0 if name == query
 
     # then EXACT matches on the FIRST name
-    return 1 if name_words[0] === query
+    return 1 if name_words[0] == query
 
     # then EXACT matches on MIDDLE/LAST name
     return 2 if name_words.include?(query)

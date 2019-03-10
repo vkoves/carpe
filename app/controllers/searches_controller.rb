@@ -15,8 +15,7 @@ class SearchesController < ApplicationController
                    .where("LOWER(name) LIKE ?", "%#{@query}%").limit(5)
 
     # Sort the users and groups together
-    @users_and_groups = (@users + @groups)
-                          .sort_by { |item| SearchScore.name(item.name, @query) }
+    @users_and_groups = (@users + @groups).sort_by { |item| SearchScore.name(item.name, @query) }
   end
 
   # searches all users by name
