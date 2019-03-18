@@ -304,6 +304,13 @@
 <script>
   var readOnly = <%= read_only %>;
 
+
+  // Repeat exception ids are included to identify which breaks in loadedBreaks
+  // apply to the given event.
+  //
+  // The host event privacy property is included in order to determine whether a
+  // hosted event is forced to be a private event. This happens when the host
+  // event is private.
   var loadedEvents = <%= raw events.to_json(include: { repeat_exceptions: { only: :id } },
                                             methods: :host_event_privacy) %>;
 
