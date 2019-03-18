@@ -12,8 +12,9 @@
       <%#= select '_', '_', event_invite_roles, { selected: event_invite.role } %>
 
       <% if can? :destroy, event_invite %>
-        <%= link_to "", event_invite_path(event_invite), method: :delete,
-                    remote: true, class: "cross-icon js-delete-event-invite" %>
+        <%= link_to(event_invite_path(event_invite), method: :delete, remote: true, class: "js-delete-event-invite") do %>
+          <%= image_tag "close.png", class: "icon" %>
+        <% end %>
       <% end %>
     <% end %>
   </div>
