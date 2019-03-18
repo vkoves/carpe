@@ -9,8 +9,6 @@
       <span class="role">Owner</span>
     <% else %>
       <span>Guest</span>
-      <%#= select '_', '_', event_invite_roles, { selected: event_invite.role } %>
-
       <% if can? :destroy, event_invite %>
         <%= link_to(event_invite_path(event_invite), method: :delete, remote: true, class: "js-delete-event-invite") do %>
           <%= image_tag "close.png", class: "icon" %>
