@@ -17,9 +17,11 @@ function setupEventInvitesHandlers() {
  * Removes the event invite tile associated with the clicked button.
  * @return {undefined}
  */
-function deleteEventInvite() {
-  const $deleteButton = $(this);
-  $deleteButton.closest('.event-invite').fadeOut();
+function deleteEventInvite(event, data) {
+  if (data && data.id) {
+    const $eventInvite = $(`.event-invite[data-id=${data.id}]`)
+    $eventInvite.fadeOut();
+  }
 }
 
 /**

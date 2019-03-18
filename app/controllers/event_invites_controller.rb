@@ -14,7 +14,7 @@ class EventInvitesController < ApplicationController
 
     invite.destroy!
 
-    render plain: "Event Invite deleted"
+    render json: { id: invite.id }
   end
 
   # Called when clicking the links in an event invite email
