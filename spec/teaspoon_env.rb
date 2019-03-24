@@ -138,7 +138,7 @@ Teaspoon.configure do |config|
   config.driver_options = {
     client_driver: :chrome,
     options: Selenium::WebDriver::Chrome::Options.new(
-      args: ["headless", "no-sandbox", "disable-dev-shm-usage", "remote-debugging-port=9222"]
+      args: ["headless"]
     )
   }
 
