@@ -92,8 +92,8 @@ gem "non-stupid-digest-assets"
 gem "capybara", "~> 3"
 
 # Used for acceptance tests & teaspoon tests
-gem "chromedriver-helper", "~> 1"
 gem "selenium-webdriver", "~> 3"
+gem "webdrivers", "~> 3"
 
 # Linters:
 # Not required since they are only for CI/development
