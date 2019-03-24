@@ -249,7 +249,9 @@ class User < ApplicationRecord
   def event_invite_category!
     return default_event_invite_category if default_event_invite_category
 
-    new_category = categories.create(name: "Event Invites", color: "rgb(192, 192, 192)")
+    new_category = categories.create(name: "Event Invites",
+                                     color: "rgb(192, 192, 192)",
+                                     privacy: "private")
 
     # Save the new category as the default
     self.default_event_invite_category = new_category

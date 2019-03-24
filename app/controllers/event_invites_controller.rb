@@ -14,7 +14,7 @@ class EventInvitesController < ApplicationController
 
     invite.destroy!
 
-    render plain: "Event Invite deleted"
+    render json: { id: invite.id }
   end
 
   # Called when clicking the links in an event invite email
@@ -43,7 +43,7 @@ class EventInvitesController < ApplicationController
     sent = invites.select(&:persisted?)
     sent.each { |invite| Notification.send_event_invite(invite) }
 
-    render invites
+    render sent
   end
 
   def batch_create_params

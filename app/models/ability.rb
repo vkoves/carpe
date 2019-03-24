@@ -38,6 +38,8 @@ class Ability
 
     can :manage, UsersGroup, group: { users_groups: { user: user, role: :owner } }
     can(:update, UsersGroup) { |membership, to_role| can_assign_role?(user, membership, to_role) }
+
+    can :manage, EventInvite, host_event: { user: user }
   end
 
   private

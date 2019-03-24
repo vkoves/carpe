@@ -549,6 +549,7 @@ function loadInitialEvents() {
       schItem.eventId = evnt.id;
       schItem.categoryId = evnt.category_id;
       schItem.baseEventId = evnt.base_event_id;
+      schItem.hostEventPrivacy = evnt.host_event_privacy;
       schItem.setRepeatType(evnt.repeat);
       schItem.description = evnt.description;
       schItem.location = evnt.location;
@@ -682,7 +683,9 @@ function addDrag(selector) {
     setTimeout(highlightCurrent, 100); // highlight the whole name after focus
   });
 
-  $(selector).find('.sch-evnt-edit').click(function() {
+  $(selector).find('.sch-evnt-edit').click(function(event) {
+    event.stopImmediatePropagation();
+
     editEvent($(this).parent());
   });
 
@@ -1324,21 +1327,15 @@ function populateEvents() {
     }
   }
 
-  if (!eventObj.isEditable()) {
+  if (!readOnly) {
     $('.col-snap .sch-evnt').click(function() {
       editEvent($(this));
     });
-
-
-    // TODO: Not sure where to add this. Users don't always have permission
-    //       to edit hosted events on their schedule, but they always have
-    //       permission to delete the event.
-    if (eventObj.isHosted()) {
-      $('.col-snap .sch-evnt .sch-evnt-close').click(function(event) {
-        deleteEvent(event, $(this));
-      });
-    }
   }
+
+  $('.col-snap .sch-evnt .sch-evnt-close').click(function(event) {
+    deleteEvent(event, $(this));
+  });
 }
 
 /**
@@ -1505,6 +1502,7 @@ function editEvent(elem) {
     // Indicate if the event is hosted
     if (currEvent.isHosted()) {
       $('#host-info').show();
+      $('privacy-notice').toggle(currEvent.hostEventPrivacy === 'private');
     } else {
       $('#host-info').hide();
     }

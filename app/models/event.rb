@@ -64,8 +64,8 @@ class Event < ApplicationRecord
                            dependent: :destroy
 
   # Hosted Event
-  has_one :host_event, class_name: "Event", foreign_key: :base_event_id,
-                       dependent: :destroy
+  belongs_to :host_event, class_name: "Event", foreign_key: :base_event_id,
+                          optional: true
 
   has_one :event_invite, foreign_key: "hosted_event_id",
                          dependent: :destroy
@@ -122,6 +122,11 @@ class Event < ApplicationRecord
   end
 
   def accessible_by?(user)
+    return true if user == owner
+
+    # hosted event privacy can be overridden by the host event
+    return false if hosted_event? && host_event_privacy == "private"
+
     category.accessible_by?(user)
   end
 
@@ -144,6 +149,10 @@ class Event < ApplicationRecord
 
   def host_event?
     EventInvite.exists?(host_event: self)
+  end
+
+  def host_event_privacy
+    host_event.category.privacy if hosted_event?
   end
 
   def make_host_event!
