@@ -171,4 +171,32 @@ class UsersControllerTest < ActionController::TestCase
     # Ensure the returned cateogry name IS the real name
     assert_equal resp_category["name"], private_cat.name
   end
+
+  test "events action hides private event from other user" do
+    private_event = events(:private)
+
+    sign_in @norm
+
+    get :events, params: { id: @viktor }
+
+    resp_json = JSON.parse(response.body)
+    resp_event = resp_json.find { |e| e["id"] == private_event.id }
+
+    # Ensure we couldn't find the event with that ID
+    assert_nil resp_event
+  end
+
+  test "events action show private event details to owner" do
+    private_event = events(:private)
+
+    sign_in @viktor
+
+    get :events, params: { id: @viktor }
+
+    resp_json = JSON.parse(response.body)
+    resp_event = resp_json.find { |e| e["id"] == private_event.id }
+
+    # Ensure the returned name is real name, confirming we got the event
+    assert_equal resp_event["name"], private_event.name
+  end
 end

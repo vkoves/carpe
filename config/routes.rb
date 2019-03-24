@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       get "demote"
       get "inspect"
       get "categories"
+      get "events"
     end
   end
 

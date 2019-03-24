@@ -1,5 +1,8 @@
 <template>
-  <div v-bind:style="{ backgroundColor: category.color }" class="category">
+  <div
+    class="category"
+    :style="{ backgroundColor: category.color }"
+  >
     {{ category.name }}
   </div>
 </template>
@@ -7,7 +10,10 @@
 <script>
 export default {
   props: {
-    category: Object
+    category: {
+      type: Object,
+      required: true
+    }
   }
-}
+};
 </script>

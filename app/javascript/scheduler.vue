@@ -1,54 +1,63 @@
 <template>
-  <div id="scheduler-vue" class="scheduler-beta">
+  <div
+    id="scheduler-vue"
+    class="scheduler-beta"
+  >
+    <h2>Categories</h2>
     <ul class="category-list">
-      <li v-for="category in categories">
-        <category v-bind:category="category"></category>
+      <li
+        v-for="category in categories"
+        :key="category.id"
+      >
+        <Category :category="category" />
+      </li>
+    </ul>
+
+    <h2>Events</h2>
+    <ul class="event-list">
+      <li
+        v-for="event in events"
+        :key="event.id"
+      >
+        <Event
+          :event="event"
+          :category-color="findCategoryColor(event.category_id)"
+        />
       </li>
     </ul>
   </div>
 </template>
 
 <script>
-import Category from 'category.vue'
-
-/* Setup globals from _schedule_beta.html.erb <script> blocks */
-/* global Vue, userId */
-
-const userCategoriesBaseURL = '/users/:id/categories';
+import Category from 'category.vue';
+import Event from 'event.vue';
 
 export default {
-  data: () => ({
-    categories: []
-  }),
-  mounted: function() {
-    fetchJSON(userCategoriesURL(userId))
-      .then(categories => this.categories = categories);
+  components: { Category, Event },
+  props: {
+    categories: {
+      type: Array,
+      required: true
+    },
+    events: {
+      type: Array,
+      required: true
+    }
   },
-  components: { Category }
-}
-
-/**
- * Fetches a URL and returns the .json() of it
- * @param  {string}   url The URL to request
- * @return {Promise}      A promise resolving to JSON
- */
-function fetchJSON(url) {
-  return fetch(url).then(stream => stream.json());
-}
-
-/**
- * Returns the URL to retrieve the categories for a user
- * @param  {string} userId The user's ID
- * @return {string}        The URL to request
- */
-function userCategoriesURL(userId) {
-  return userCategoriesBaseURL.replace(':id', userId);
-}
+  methods: {
+    // Given an ID returns the matching category
+    findCategory: function(catId) {
+      return this.categories.find(cat => cat.id === catId);
+    },
+    // Given an ID returns the category's color or undefined if not found
+    findCategoryColor(catId) {
+      // Find the category, and if not found use {} and color returns undefined
+      return (this.findCategory(catId) || {}).color;
+    }
+  }
+};
 </script>
 
 
 <style scoped>
-h1 {
-  color: red;
-}
 </style>

@@ -1,4 +1,6 @@
-/* exported sendInvites */
+// This file exports functions, and due to modules from Vue we need to disable
+// the ESLint unused vars rule
+/* eslint no-unused-vars:0 */
 
 $(document).ready(setupEvents);
 

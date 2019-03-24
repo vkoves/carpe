@@ -31,6 +31,15 @@ jobs:
           command: |
             bundle install --jobs=4 --retry=3 --path vendor/bundle
       - run:
+          name: Install Node.js 11 & Yarn
+          command: |
+            curl -sSL "https://nodejs.org/dist/v11.10.0/node-v11.10.0-linux-x64.tar.xz" | sudo tar --strip-components=2 -xJ -C /usr/local/bin/ node-v11.10.0-linux-x64/bin/node
+            curl https://www.npmjs.com/install.sh | sudo bash
+            sudo npm install -g yarn
+      - run:
+          name: Check current version of node
+          command: node -v
+      - run:
           name: Install Chrome
           command: |
             wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
@@ -38,9 +47,9 @@ jobs:
             sudo apt-get update
             sudo apt-get -y install google-chrome-stable
       - run:
-          name: Install ESLint
+          name: Install Node Packages
           command: |
-            sudo npm install -g eslint
+            yarn install
 
       - save_cache:
           paths:
@@ -72,7 +81,7 @@ jobs:
 
               echo
               echo -e "${YL}Carpe CI:${NC} Running ESLint"
-              eslint app/assets/javascripts spec/javascripts
+              npm run eslint --silent
 
               echo
               echo -e "${YL}Carpe CI:${NC} Running SCSS Lint"

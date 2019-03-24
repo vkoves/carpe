@@ -23,6 +23,11 @@ simple:
   category: main
   user: viktor
 
+private:
+  name: An Event In A Private Category
+  category: private
+  user: viktor
+
 repeat_daily:
   name: Test Repeat None with Start
   description: MyText
