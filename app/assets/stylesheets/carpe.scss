@@ -369,11 +369,12 @@ input.danger:hover {
   width: 35px;
 }
 
-.google-width {
+.button.google-width {
   width: 174px;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 10px;
+  white-space: normal;
 }
 
 // Devise's error stuff when forms have errors
