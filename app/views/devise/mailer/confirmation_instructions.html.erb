@@ -1,9 +1,27 @@
 <tr>
   <td>
-    <p>Welcome <%= @resource.name %>!</p>
+    <p>Hi, <%= @resource.name %>!</p>
+
+    <% # Show custom explainer to "old" users %>
+    <% # TODO: Remove this after deploy sine this won't apply later %>
+    <% if @resource.created_at < Date.new(2019, 03, 31) %>
+      <p>
+        To prevent spam accounts and make the platform more secure, Carpe has
+        rolled out a new email confirmation system. As an existing user, this
+        email
+
+      <p>
+        <strong>Be warned:</strong> you will not be able to access your Carpe
+        account until you confirm your email! If you do not confirm your account
+        within a week of this email being sent, your Carpe account may be
+        subject to deletion.
+      </p>
+    <% end %>
 
     <p>You can confirm your account email by clicking the link below:</p>
 
-    <p><%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token) %></p>
+    <p class="centered">
+      <%= link_to 'Confirm My Account', confirmation_url(@resource, confirmation_token: @token), :class => 'cta-button' %>
+    </p>
   </td>
 </tr>
