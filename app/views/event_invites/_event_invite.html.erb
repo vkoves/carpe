@@ -1,18 +1,12 @@
 <div class="event-invite" data-id="<%= event_invite.id %>">
-  <div class="user">
-    <%= link_avatar event_invite.user %>
-    <span class="name"><%= event_invite.user.name %></span>
-  </div>
+  <%= link_avatar event_invite.user %>
+  <span class="name"><%= event_invite.user.name %></span>
+  <span class="role"><%= event_invite.role.capitalize %></span>
 
-  <div class="actions">
-    <% if event_invite.user == event_invite.host_event.creator %>
-      <span class="role">Owner</span>
-    <% else %>
-      <span>Guest</span>
-      <% if can? :destroy, event_invite %>
-        <%= link_to(event_invite_path(event_invite), method: :delete, remote: true, class: "js-delete-event-invite") do %>
-          <%= image_tag "close.png", class: "icon" %>
-        <% end %>
+  <div>
+    <% if can? :destroy, event_invite %>
+      <%= link_to(event_invite_path(event_invite), method: :delete, remote: true, class: "kick-button js-delete-event-invite") do %>
+        <%= image_tag "close.png", class: "flex icon" %>
       <% end %>
     <% end %>
   </div>
