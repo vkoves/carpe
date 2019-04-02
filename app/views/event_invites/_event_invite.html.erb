@@ -4,8 +4,8 @@
   <span class="role"><%= event_invite.role.capitalize %></span>
 
   <div>
-    <% if can? :destroy, event_invite %>
-      <%= link_to(event_invite_path(event_invite), method: :delete, remote: true, class: "kick-button js-delete-event-invite") do %>
+    <% if show_event_invite_delete? event_invite %>
+      <%= link_to(event_invite_path(event_invite), method: :delete, remote: true, class: "js-delete-event-invite") do %>
         <%= image_tag "close.png", class: "flex icon" %>
       <% end %>
     <% end %>

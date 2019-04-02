@@ -820,7 +820,7 @@ input[readonly='readonly'] {
 
 #event-invites-list .event-invite {
   display: grid;
-  grid-template-columns: min-content 1fr 75px min-content;
+  grid-template-columns: 65px auto 60px 32px;
   align-items: center;
   text-align: left;
 
@@ -829,7 +829,6 @@ input[readonly='readonly'] {
 }
 
 #event-invites-list .avatar {
-  margin-right: 8px;
   display: inline-flex;
 
   img {
