@@ -13,14 +13,14 @@
 <% end -%>
 
 <%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
-  <%= link_to new_confirmation_path(resource_name), :class => "default" do %><br /></div>
-    <span>Didn't receive confirmation instructions?</span>
+  <%= link_to new_confirmation_path(resource_name), :class => "button google-width" do %>
+    Resend email confirmation
   <% end %>
 <% end -%>
 
 <%- if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks' %>
-  <%= link_to new_unlock_path(resource_name), :class => "default" do %>
-    <span>Didn't receive unlock instructions?</span>
+  <%= link_to new_unlock_path(resource_name), :class => "button google-width" do %>
+    Resend email unlock
   <% end %>
 <% end -%>
 
@@ -36,9 +36,8 @@
         <% end %>
     <% else %>
       <div class="link-default">
-        <%= link_to "Sign in with #{provider.to_s.titleize.split.first}", omniauth_authorize_path(resource_name, provider), :class => "default" %>
+        <%= link_to "Sign in with #{provider.to_s.titleize.split.first}", omniauth_authorize_path(resource_name, provider), :class => "button google-width" %>
       </div>
     <% end %>
-    <br>
   <% end -%>
 <% end -%>
