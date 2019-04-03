@@ -92,11 +92,11 @@ ActiveRecord::Schema.define(version: 2019_03_31_214009) do
     t.string "custom_url"
     t.string "avatar_file_name"
     t.string "avatar_content_type"
-    t.bigint "avatar_file_size"
+    t.integer "avatar_file_size"
     t.datetime "avatar_updated_at"
     t.string "banner_file_name"
     t.string "banner_content_type"
-    t.bigint "banner_file_size"
+    t.integer "banner_file_size"
     t.datetime "banner_updated_at"
   end
 
