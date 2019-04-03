@@ -41,6 +41,9 @@ function openEventInvitesPanel() {
     return;
   }
 
+  // clear previous state
+  $('#event_invite_user_ids').tokenInput('clear');
+
   UIManager.slideInShowOverlay('#event-invites-panel');
 
   $.post(`/events/${event.eventId}/setup_hosting`, participantsHtml => {
@@ -70,4 +73,7 @@ function sendEventInvites() {
     $(participantsHtml).hide().appendTo('#event-invites-list').fadeIn();
     alertUI('Event Invites Sent!');
   });
+
+  $('#event_invite_user_ids').tokenInput('clear');
+  $('#event_invite_user_ids').blur(); // unfocus to hide token suggestions
 }
