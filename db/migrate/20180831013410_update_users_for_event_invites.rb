@@ -1,4 +1,4 @@
-class UpdateUsersForEventInvites < ActiveRecord::Migration[5.1]
+class UpdateUsersForEventInvites < ActiveRecord::Migration[5.0]
   def change
     add_reference :users,
                   :default_event_invite_category,
