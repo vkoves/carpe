@@ -814,31 +814,21 @@ input[readonly='readonly'] {
 #event-invites-list {
   min-height: 50px;
   width: 95%;
-  margin-left: auto;
-  margin-right: auto;
-  display: inline-block;
+  margin: 0 auto;
   background: #f8f8ff;
 }
 
 #event-invites-list .event-invite {
+  display: grid;
+  grid-template-columns: 65px auto 60px 32px;
+  align-items: center;
+  text-align: left;
+
   height: 48px;
-  margin: 5px 0;
-  padding: 0 8px;
-  display: flex;
-  justify-content: space-between;
-
-  > div {
-    display: flex;
-    align-items: center;
-	}
-}
-
-.event-invite .actions * {
-  margin-left: 8px;
+  padding: 5px 8px;
 }
 
 #event-invites-list .avatar {
-  margin-right: 8px;
   display: inline-flex;
 
   img {
