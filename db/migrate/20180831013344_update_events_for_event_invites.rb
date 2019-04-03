@@ -1,4 +1,4 @@
-class UpdateEventsForEventInvites < ActiveRecord::Migration[5.1]
+class UpdateEventsForEventInvites < ActiveRecord::Migration[5.0]
   def change
     change_table :events do |t|
       t.integer :privacy,

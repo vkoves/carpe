@@ -13,11 +13,6 @@ gem "uglifier", ">= 1.3.0"
 gem "bootsnap", "~> 1.3"
 gem "tzinfo-data", platforms: [:mswin, :mingw, :x64_mingw]
 
-# Note:
-# The mingw version of bcrypt does not work correctly on Windows.
-# A temporary workaround is to run the following command:
-# gem uninstall bcrypt --all --force && gem install bcrypt --platform=ruby
-
 #####################################
 ####### Actual Carpe Gems ###########
 #####################################

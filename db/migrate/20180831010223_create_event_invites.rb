@@ -1,4 +1,4 @@
-class CreateEventInvites < ActiveRecord::Migration[5.1]
+class CreateEventInvites < ActiveRecord::Migration[5.0]
   def change
     create_table :event_invites do |t|
       t.integer :role, default: EventInvite.roles[:guest], null: false
