@@ -1,5 +1,4 @@
 class EventInvitesController < ApplicationController
-  before_action :disable_on_production, except: [:email_action]
   before_action :authorize_signed_in!, except: [:email_action]
   before_action :validate_token, only: [:email_action]
 
