@@ -39,7 +39,6 @@ The assignee should complete this checklist from [deploying Carpe][contrib-guide
 - [ ] Before Release/Hotfix: I have verified that this PR meets the [requirements for reviews][contrib-guide-prs]
 - [ ] Before Release: I have moved all issuses labelled `development` to `release-candidate`
 - [ ] Before Release: I have verified the release candidate has been frozen for at least 48 hours
-- [ ] Before Release: I have verified the release candidate has been in review for at least one week
 - [ ] After Release: I have removed the `release-candidate` label from all issues marked with it
 - [ ] After Release/Hotfix: I have created a PR from `master` into `dev` to update dev with changes made on a release/hotfix branch
 
