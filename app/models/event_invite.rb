@@ -30,7 +30,7 @@ class EventInvite < ApplicationRecord
     end
   }
 
-  after_create :send_invite_email
+  after_commit :send_invite_email, on: :create
 
   # Creates a duplicate event on the invited user's schedule
   # (referred to as a hosted event) that will need to be kept
@@ -62,6 +62,9 @@ class EventInvite < ApplicationRecord
   private
 
   def send_invite_email
+    # you can't send invitations to yourself
+    return if sender == user
+
     UserNotifier.event_invite_email(user, self).deliver_later
   end
 end
