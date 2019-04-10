@@ -27,12 +27,20 @@
 
         <p>
           <strong>Description: </strong>
-          <%= @event.description %>
+          <% if @event.description.empty? %>
+            <em>Not specified</em>
+          <% else %>
+            <%= @event.description %>
+          <% end %>
         </p>
 
         <p>
           <strong>Location: </strong>
-          <%= @event.location %>
+          <% if @event.location.empty? %>
+            <em>Not specified</em>
+          <% else %>
+            <%= @event.location %>
+          <% end %>
         </p>
 
         <p>
