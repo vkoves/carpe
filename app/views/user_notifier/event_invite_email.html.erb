@@ -27,7 +27,7 @@
 
         <p>
           <strong>Description: </strong>
-          <% if @event.description.empty? %>
+          <% if @event.description.blank? %>
             <em>Not specified</em>
           <% else %>
             <%= @event.description %>
@@ -36,7 +36,7 @@
 
         <p>
           <strong>Location: </strong>
-          <% if @event.location.empty? %>
+          <% if @event.location.blank? %>
             <em>Not specified</em>
           <% else %>
             <%= @event.location %>
