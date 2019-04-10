@@ -33,4 +33,9 @@ event = Event.create(
 )
 
 event.make_host_event!
-EventInvite.create(sender: test1, user: test2, host_event: event).accept!
+
+EventInvite.create(
+  sender: test1,
+  user: test2,
+  host_event: event
+)
