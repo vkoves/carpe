@@ -47,4 +47,12 @@ class EventInvitesControllerTest < ActionDispatch::IntegrationTest
     delete event_invite_path(event_invites(:joe_music))
     assert_response :success
   end
+
+  test "event host shouldn't receive an event invitation email" do
+    sign_in users(:viktor)
+
+    assert_no_difference -> { ActionMailer::Base.deliveries.size } do
+      post setup_hosting_event_path(events(:simple))
+    end
+  end
 end
