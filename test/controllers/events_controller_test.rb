@@ -44,6 +44,7 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
   test "plain events can be initialized into host events" do
     sign_in users(:viktor)
 
+    # the host gets invited to their own event
     assert_difference -> { EventInvite.count }, +1 do
       post setup_hosting_event_path(events(:simple))
     end
@@ -95,5 +96,29 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_response :success
+  end
+
+  test "event host shouldn't receive an event invitation email" do
+    sign_in users(:viktor)
+
+    assert_no_difference -> { ActionMailer::Base.deliveries.size } do
+      post setup_hosting_event_path(events(:simple))
+    end
+  end
+
+  test "event owner can host their event" do
+    sign_in users(:viktor)
+    event = events(:simple) # owned by viktor
+
+    post setup_hosting_event_path(event)
+    assert_response :success
+  end
+
+  test "only the event owner can host their event" do
+    sign_in users(:putin)
+    event = events(:simple) # owned by viktor
+
+    post setup_hosting_event_path(event)
+    assert_response :unauthorized
   end
 end
