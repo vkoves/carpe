@@ -42,17 +42,34 @@ class EventInvitesControllerTest < ActionDispatch::IntegrationTest
     assert_match(/You don't have permission/, flash[:alert])
   end
 
+  test "event owner can invite guests" do
+    sign_in users(:viktor)
+    event = events(:music_convention)
+    user = users(:ownerAlice)
+
+    assert_difference -> { EventInvite.count }, +1 do
+      post event_invites_path(event, user_ids: [user.id])
+    end
+  end
+
   test "event owner can remove guest" do
     sign_in users(:viktor)
     delete event_invite_path(event_invites(:joe_music))
     assert_response :success
   end
 
-  test "event host shouldn't receive an event invitation email" do
-    sign_in users(:viktor)
+  test "only the event owner can remove guests" do
+    sign_in users(:putin)
+    delete event_invite_path(event_invites(:joe_music))
+    assert_response :unauthorized
+  end
 
-    assert_no_difference -> { ActionMailer::Base.deliveries.size } do
-      post setup_hosting_event_path(events(:simple))
-    end
+  test "only the event owner can invite people" do
+    sign_in users(:putin)
+    event = events(:music_convention)
+    user = users(:ownerAlice)
+
+    post event_invites_path(event, user_ids: [user.id])
+    assert_response :unauthorized
   end
 end
