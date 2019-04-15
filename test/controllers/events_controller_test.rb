@@ -119,6 +119,6 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
     event = events(:simple) # owned by viktor
 
     post setup_hosting_event_path(event)
-    assert_response :unauthorized
+    assert_response :redirect
   end
 end

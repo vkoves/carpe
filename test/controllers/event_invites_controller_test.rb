@@ -61,7 +61,7 @@ class EventInvitesControllerTest < ActionDispatch::IntegrationTest
   test "only the event owner can remove guests" do
     sign_in users(:putin)
     delete event_invite_path(event_invites(:joe_music))
-    assert_response :unauthorized
+    assert_response :redirect
   end
 
   test "only the event owner can invite people" do
@@ -70,6 +70,6 @@ class EventInvitesControllerTest < ActionDispatch::IntegrationTest
     user = users(:ownerAlice)
 
     post event_invites_path(event, user_ids: [user.id])
-    assert_response :unauthorized
+    assert_response :redirect
   end
 end

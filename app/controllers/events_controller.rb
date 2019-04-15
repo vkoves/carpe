@@ -10,6 +10,8 @@ class EventsController < ApplicationController
 
   def setup_hosting
     event = Event.find(params[:id])
+    authorize! :host, event
+
     event.make_host_event! unless event.host_event?
 
     render event.event_invites

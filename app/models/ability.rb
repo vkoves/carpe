@@ -27,8 +27,9 @@ class Ability
     can(:update, Event) { |event| can_edit_event?(user, event) }
 
     # Can destroy events they own
-    can :destroy, Event, group: nil, user: user
-    can :create, Event, group: nil, user: user
+    can [:destroy, :create, :host], Event, group: nil, user: user
+
+    can :batch_invite_users, Event, group: nil, user: user
 
     can :manage, Category, group: nil, user: user
     can :manage, Category, group: { users_groups: { user: user, role: [:owner, :moderator, :editor] } }
