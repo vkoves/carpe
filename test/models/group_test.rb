@@ -29,7 +29,7 @@ class GroupTest < ActiveSupport::TestCase
     assert_not users(:viktors_friend).in_group?(@group1)
   end
 
-  test "only owner can promote users in group" do
+  test "group owners can promote group members" do
     ability = Ability.new(users(:joe))
     assert ability.can? :update, groups(:four)
   end
