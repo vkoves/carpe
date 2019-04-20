@@ -58,13 +58,13 @@ class EventInvitesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "only the event owner can remove guests" do
+  test "users cannot remove guests from events they do not own" do
     sign_in users(:putin)
     delete event_invite_path(event_invites(:joe_music))
     assert_response :redirect
   end
 
-  test "only the event owner can invite people" do
+  test "users cannot invite people to events they do not own" do
     sign_in users(:putin)
     event = events(:music_convention)
     user = users(:ownerAlice)

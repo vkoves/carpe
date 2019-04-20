@@ -84,12 +84,6 @@ class UsersControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  # mutual_friends not fully implemented yet
-  # test "users can navigate to the mutual friends tab" do
-  #   get :show, id: @norm, page: 'mutual_friends'
-  #   assert_response :success
-  # end
-
   test "users will navigate to the schedule tab by default" do
     get :show, params: { id: @norm }
     assert_response :success
@@ -100,48 +94,42 @@ class UsersControllerTest < ActionController::TestCase
     assert_response :missing
   end
 
-  test "only admins (or the account owner) can delete users" do
-    sign_in @norm
-    assert_no_difference "User.count" do
-      delete :destroy, params: { id: @viktor }
-    end
-
-    sign_out @norm
-
+  test "admins (or the account owner) can delete users" do
     sign_in @viktor
     assert_difference "User.count", -1 do
       delete :destroy, params: { id: @norm }
     end
   end
 
-  test "only admins can promote users" do
+  test "users cannot delete other users" do
     sign_in @norm
-    get :promote, params: { id: @putin }
-    assert_not User.find(@putin.id).admin, "non-admin successfully promoted a user"
+    assert_no_difference "User.count" do
+      delete :destroy, params: { id: @viktor }
+    end
+  end
 
-    sign_out @norm
-
+  test "admins can promote users" do
     sign_in @viktor
     get :promote, params: { id: @putin }
     assert User.find(@putin.id).admin, "admin was unable to promote user"
   end
 
-  test "only admins can view user information" do
+  test "users cannot promote other users" do
     sign_in @norm
+    get :promote, params: { id: @putin }
+    assert_not User.find(@putin.id).admin, "non-admin successfully promoted a user"
+  end
 
-    get :inspect, params: { id: @viktor }
-    assert_response :redirect
-
-    sign_out @norm
+  test "admins can view detailed user information" do
     sign_in @viktor
-
-    # user without custom url
     get :inspect, params: { id: @norm }
     assert_response :success
+  end
 
-    # user with custom url
+  test "users cannot view detailed user information" do
+    sign_in @norm
     get :inspect, params: { id: @viktor }
-    assert_response :success
+    assert_response :redirect
   end
 
   test "categories hides private category details from other user" do

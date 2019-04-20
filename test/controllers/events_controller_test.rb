@@ -114,7 +114,7 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "only the event owner can host their event" do
+  test "users cannot host other users' events" do
     sign_in users(:putin)
     event = events(:simple) # owned by viktor
 
