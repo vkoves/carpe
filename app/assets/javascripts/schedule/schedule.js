@@ -1186,6 +1186,10 @@ function populateEvents() {
         className = ' private';
       }
 
+      if (!eventObject.isEditable()) {
+        className += ' read-only'
+      }
+
       var eventId = '';
       if (eventObject.eventId) {
         eventId = 'event-id=\'' + eventObject.eventId + '\'';
@@ -1317,7 +1321,7 @@ function populateEvents() {
       editEvent($(this));
     });
 
-    if (eventObj.isEditable()) {
+    if (!readOnly) {
       $('.sch-month-evnt .close').click(function(event) {
         deleteEvent(event, $(this));
       });
@@ -1327,11 +1331,9 @@ function populateEvents() {
     }
   }
 
-  if (!readOnly) {
-    $('.col-snap .sch-evnt').click(function() {
-      editEvent($(this));
-    });
-  }
+  $('.col-snap .sch-evnt').click(function() {
+    editEvent($(this));
+  });
 
   $('.col-snap .sch-evnt .sch-evnt-close').click(function(event) {
     deleteEvent(event, $(this));
@@ -1343,7 +1345,7 @@ function populateEvents() {
  * @return {undefined}
  */
 function monthlyEventDraggable() {
-  $('.sch-month-evnt').draggable({
+  $('.sch-month-evnt:not(.read-only)').draggable({
     containment: '#sch-holder',
     appendTo: 'body',
     cancel: 'img',
