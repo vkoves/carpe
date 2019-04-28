@@ -1187,7 +1187,7 @@ function populateEvents() {
       }
 
       if (!eventObject.isEditable()) {
-        className += ' read-only'
+        className += ' read-only';
       }
 
       var eventId = '';
