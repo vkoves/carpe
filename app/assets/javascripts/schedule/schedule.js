@@ -1496,7 +1496,7 @@ function editEvent(elem) {
       var val = $(this).val();
       currEvent.setCategory(val);
       // changes the background color of event and changes all references to past events
-      const categoryColor = categories[currEvent.categoryId].color
+      const categoryColor = categories[currEvent.categoryId].color;
 
       $('.sch-evnt[evnt-temp-id=\'' + evntId + '\'], #overlay-color-bar').css('background-color', categoryColor);
       $('.sch-evnt[evnt-temp-id=\'' + evntId + '\']').attr('data-id', val);
