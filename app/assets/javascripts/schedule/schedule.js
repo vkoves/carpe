@@ -882,9 +882,10 @@ function handleNewEvent(elem) {
     $(elem).children('.evnt-title').trigger('focus');
     highlightCurrent(); // Suggests to the user to change the schedule item title by making it editable upon drop here.
     document.execCommand('delete', false, null); // Suggests to the user to change the schedule item title by making it editable upon drop here.
-    $(elem).attr('evnt-temp-id', eventTempId);
     addResizing($(elem)); // since the sidebar events don't have resizing, we have to add it on stop
   }
+
+  $(elem).attr('evnt-temp-id', eventTempId);
 
   eventTempId++;
 }
@@ -1497,8 +1498,12 @@ function editEvent(elem) {
       var val = $(this).val();
       currEvent.setCategory(val);
       // changes the background color of event and changes all references to past events
-      $('.sch-evnt[evnt-temp-id=\'' + evntId + '\'], #overlay-color-bar').css('background-color', categories[currEvent.categoryId].color);
+      const categoryColor = categories[currEvent.categoryId].color;
+
+      $('.sch-evnt[evnt-temp-id=\'' + evntId + '\'], #overlay-color-bar').css('background-color', categoryColor);
       $('.sch-evnt[evnt-temp-id=\'' + evntId + '\']').attr('data-id', val);
+      $(`.sch-month-evnt[evnt-temp-id='${evntId}']`).css('color', categoryColor);
+      $(`.sch-month-evnt[evnt-temp-id='${evntId}']`).attr('data-id', val);
     });
 
     // Indicate if the event is hosted
