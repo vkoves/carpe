@@ -4,12 +4,12 @@
 # To run this test, in the project directory run the command:
 # bundle exec rails test test/models/event_test.rb
 
-require 'test_helper'
+require "test_helper"
 
 class EventTest < ActiveSupport::TestCase
   def setup
     @daily = events(:repeat_daily)
-    @morning = @daily.date.to_datetime.at_beginning_of_day
+    @morning = @daily.date.at_beginning_of_day
   end
 
   test "repeat start and end shouldn't impact original event if repeat type is none" do
@@ -23,15 +23,27 @@ class EventTest < ActiveSupport::TestCase
            "user does not have access to their own events (according to accessible_by?)"
   end
 
+  test "hosted event privacy can be restricted by the host event" do
+    host_event = events(:music_convention)
+    host_event.update!(category: categories(:private))
+    hosted_event = events(:music_convention_joe)
+
+    assert hosted_event.accessible_by? users(:joe)
+    assert_not hosted_event.accessible_by? users(:putin)
+  end
+
   test "private_version should return an event with its details hidden" do
     private_event = events(:simple).private_version
     assert_empty private_event.description, "event details were not hidden"
   end
 
   test "repeat clones should have proper date" do
+    # DateTime is needed here, otherwise things just won't work
+    # rubocop:disable DateTime
     start_date = (@daily.date - 2.days).to_datetime
     end_date = (@daily.end_date + 2.days).to_datetime
     repeat_dates = (start_date...end_date).map(&:to_date)
+    # rubocop:enable DateTime
 
     # get the dates the repeat instances fall on
     event_dates = @daily.events_in_range(start_date, end_date).map { |r| r.date.to_date }
@@ -51,7 +63,6 @@ class EventTest < ActiveSupport::TestCase
   test "get_html_name will return either the event name or an html placeholder" do
     assert_equal events(:simple).name, events(:simple).get_html_name,
                  "Named event did not return it's name"
-
 
     html_name = events(:nameless_event).get_html_name
     assert_not_empty html_name, "Nameless event should return some placeholder name"
@@ -103,10 +114,10 @@ class EventTest < ActiveSupport::TestCase
   # March 12, 2017 at 2:00am - November 5, 2:00am, Chicago is in Daylight Savings Time (DST).
   # When Chicago is in DST its clock "moves ahead 1 hour".
   test "you understand how daylight savings works" do
-    user_time_zone = Time.find_zone('America/Chicago')
+    user_time_zone = Time.find_zone("America/Chicago")
 
     # typically we're given a time from a user and store it in the database in UTC time.
-    time_before_dst = user_time_zone.parse('1st March 2018 4:00:00 PM').utc
+    time_before_dst = user_time_zone.parse("1st March 2018 4:00:00 PM").utc
     assert_equal "10:00 PM", time_before_dst.strftime("%I:%M %p") # CST -> UTC offset is +6 hours
 
     # Now, UTC doesn't care about DST. If we go from CST to DST, it doesn't care.
@@ -133,8 +144,8 @@ class EventTest < ActiveSupport::TestCase
 
   # see DST EXPLAINED
   test "events_in_range_fixed_timestep preserves event time across DST" do
-    zone = Time.find_zone('America/Chicago')
-    @daily.date = zone.parse('12th Mar 2017 01:00:00 AM') # event occurs before DST
+    zone = Time.find_zone("America/Chicago")
+    @daily.date = zone.parse("12th Mar 2017 01:00:00 AM") # event occurs before DST
     @daily.end_date = @daily.date + 1.hour
 
     # get events before and after DST goes into effect
@@ -146,10 +157,10 @@ class EventTest < ActiveSupport::TestCase
 
   # see DST EXPLAINED
   test "dates_in_range_certain_weekdays preserves event time across DST" do
-    zone = Time.find_zone('America/Chicago')
+    zone = Time.find_zone("America/Chicago")
 
     event = events(:current_event_1)
-    event.date = zone.parse('1st March 2018 7:00:00 PM') # event created before DST
+    event.date = zone.parse("1st March 2018 7:00:00 PM") # event created before DST
     event.end_date = event.date + 2.hour
     event.repeat = "certain_days-1" # repeat every monday
 
@@ -162,7 +173,7 @@ class EventTest < ActiveSupport::TestCase
 
   test "events can be repeated daily, weekly, monthly, and yearly" do
     event = events(:repeat_daily)
-    start = event.date.to_datetime
+    start = event.date
     event.end_date = start + 2.hours
 
     event.repeat = "daily"
@@ -188,8 +199,8 @@ class EventTest < ActiveSupport::TestCase
   end
 
   test "events can occur on certain days" do
-    start_date = DateTime.current.at_beginning_of_week
-    end_date = DateTime.current.at_end_of_week
+    start_date = Time.current.at_beginning_of_week
+    end_date = Time.current.at_end_of_week
 
     event = events(:repeat_daily)
     event.repeat = "certain_days-1,3,4,5" # M,W,R,F, totally an implementation detail
@@ -206,7 +217,7 @@ class EventTest < ActiveSupport::TestCase
     event.date = 1.hour.from_now
     event.end_date = 2.hours.from_now
 
-    event.repeat_start = DateTime.current
+    event.repeat_start = Time.current
     event.repeat_end = 3.days.from_now
 
     events = event.events_in_range 1.week.ago.to_date, 1.week.from_now.to_date
@@ -229,7 +240,7 @@ class EventTest < ActiveSupport::TestCase
     assert_equal 4, event.events_in_range(start, start + 1.week).length
 
     # negative test
-    assert_empty event.events_in_range(start - 4.weeks, start  - 2.weeks),
+    assert_empty event.events_in_range(start - 4.weeks, start - 2.weeks),
                  "events_in_range returned events outside of the event's range"
 
     assert_empty event.events_in_range(start + 2.weeks, start  + 4.weeks),
@@ -237,7 +248,6 @@ class EventTest < ActiveSupport::TestCase
 
     # randomly specific test
     assert_equal 2, event.events_in_range(start - 2.day, start + 4.days).length
-
 
     # every n weeks
     event.repeat = "custom-2-weeks"
@@ -247,9 +257,8 @@ class EventTest < ActiveSupport::TestCase
                  "event should appear every other week over the course of the next 4 weeks"
 
     # negative test
-    assert_empty event.events_in_range(start - 4.weeks, start  - 2.weeks),
+    assert_empty event.events_in_range(start - 4.weeks, start - 2.weeks),
                  "events_in_range returned events outside of the event's range"
-
 
     # every n months
     event.repeat = "custom-2-months"
@@ -258,9 +267,8 @@ class EventTest < ActiveSupport::TestCase
     assert_equal 2, event.events_in_range(start, start + 4.month).length
 
     # negative test
-    assert_empty event.events_in_range(start - 4.weeks, start  - 2.weeks),
+    assert_empty event.events_in_range(start - 4.weeks, start - 2.weeks),
                  "events_in_range returned events outside of the event's range"
-
 
     # every n years
     event.repeat = "custom-2-years"
@@ -269,7 +277,7 @@ class EventTest < ActiveSupport::TestCase
     assert_equal 2, event.events_in_range(start, start + 3.year).length
 
     # negative test
-    assert_empty event.events_in_range(start - 4.weeks, start  - 2.weeks),
+    assert_empty event.events_in_range(start - 4.weeks, start - 2.weeks),
                  "events_in_range returned events outside of the event's range"
   end
 
@@ -294,5 +302,69 @@ class EventTest < ActiveSupport::TestCase
 
     # in right month but after event
     assert_empty event.events_in_range(Date.new(2017, 10, 22), Date.new(2017, 10, 29))
+  end
+
+  test "changing event gives guest a notification" do
+    event = events(:music_convention) # Has several invited users, but we just check one
+    guest = users(:norm)
+
+    event.name += " Changed"
+    event.save
+
+    # Ensure there is one notification for this event being updated
+    assert Notification.exists?(
+      entity: event,
+      receiver: guest,
+      event: Notification.events["event_update"]
+    )
+  end
+
+  test "changing event does not notify current user" do
+    current_user = Current.user = users(:viktor) # set current user globals
+    event = events(:music_convention) # Has several invited users, but we just check one
+
+    event.name += " Changed"
+    event.save
+
+    # Ensure there are no notifications for this event being updated
+    assert_not Notification.exists?(
+      entity: event,
+      receiver: current_user,
+      event: Notification.events["event_update"]
+    )
+  end
+
+  test "changing host(ed) event category should not notify guests" do
+    event = events(:music_convention)
+
+    assert_no_difference -> { Notification.count } do
+      event.update!(category: categories(:followers))
+    end
+  end
+
+  test "deleting host event removes hosted event" do
+    host_event = events(:music_convention) # owned by viktor
+
+    assert_difference -> { Event.count }, -2 do
+      host_event.destroy!
+    end
+  end
+
+  test "deleting a hosted event removes the associated invite" do
+    hosted_event = events(:music_convention_joe)
+
+    assert_difference -> { EventInvite.count }, -1 do
+      hosted_event.destroy!
+    end
+  end
+
+  test "updating a host event updates associated hosted events" do
+    host_event = events(:music_convention)
+    hosted_event = events(:music_convention_joe)
+
+    host_event.update! name: "Pub Crawl"
+    hosted_event.reload
+
+    assert_equal "Pub Crawl", hosted_event.name
   end
 end

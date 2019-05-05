@@ -1,6 +1,6 @@
 <img src="app/assets/images/pages/CarpeLetter.png?raw=true" width="100" align="right">
 
-# Carpe [![Build Status](https://travis-ci.com/vkoves/carpe.svg?token=Wt2br9iC8tszQJNifjNG&branch=master)](https://travis-ci.com/vkoves/carpe)
+# Carpe [![CircleCI](https://circleci.com/gh/vkoves/carpe.svg?style=svg&circle-token=5aac24bfc3b54e541f0d5640d143563f64d97e59)](https://circleci.com/gh/vkoves/carpe)
 
 A socially networked, intuitive calendar created in Ruby on Rails with a jQuery powered front end.
 
@@ -20,7 +20,7 @@ Carpe is setup with the default testing suite for Ruby, [Minitest](https://githu
 
 Carpe is also setup with Javascript testing via [Teaspoon](https://github.com/jejacks0n/teaspoon) and acceptance tests via [Capybara](https://github.com/teamcapybara/capybara). We also use [Istanbul](https://github.com/gotwarlost/istanbul) for checking Teaspoon Javascript test code coverage.
 
-The Carpe repository also is setup with Travis CI, which automatically runs builds on push or on a pull request being made. You can see the build status at the top of the README, and can click on it to see build progress and logs.
+The Carpe repository also is setup with CircleCI, which automatically runs builds on push or on a pull request being made. You can see the build status at the top of the README, and can click on it to see build progress and logs.
 
 ### Running Ruby Tests
 
@@ -52,11 +52,33 @@ To auto-fix issues that ESLint can fix, run:
 npm run eslint-fix
 ```
 
-### Ruby on Rails (RubyCritic)
+### Ruby
 
-At the moment, Carpe uses [Ruby Critic](https://github.com/whitesmith/rubycritic) for code quality checking.
+Carpe's Ruby code is linted with [RuboCop](https://github.com/rubocop-hq/rubocop).
+Run it by entering `rubocop` in command line, or to auto-fix, run `rubocop --a`.
+To see offense counts broken down by file, run `rubocop --format worst`.
 
-To run Ruby Critic, run `rubycritic` in the Carpe directory.
+### SCSS Linting
+
+Carpe uses [scss-lint](https://github.com/brigade/scss-lint). The rules are explained in the [documentation](https://www.rubydoc.info/github/brigade/scss-lint/master/frames). Custom rules are defined in `.scss-lint.yml`.
+
+Run it by entering `scss-lint` in the command line.
+
+### ERB Lint
+
+Carpe uses [erb_lint](https://github.com/Shopify/erb-lint) to lint HTML ERB files.
+
+Run it on all files by running:
+
+```
+bundle exec erblint --lint-all
+```
+
+Run it on a folder or specific file by running:
+
+```
+bundle exec erblint [file/folder]
+```
 
 ## JSDoc
 

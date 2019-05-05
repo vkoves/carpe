@@ -15,12 +15,17 @@ simple:
   name: Simple Event
   description: Description
   date: 2015-11-16 02:12:19
-  end_date: 2015-11-16 02:12:19
+  end_date: 2015-11-16 03:12:19
   repeat: none
   repeat_start: null
   repeat_end: null
   repeat_exceptions: null
   category: main
+  user: viktor
+
+private:
+  name: An Event In A Private Category
+  category: private
   user: viktor
 
 repeat_daily:
@@ -59,6 +64,25 @@ nameless_event:
   name: ""
   category: main
   user: norm
+
+# An event that people have been invited to (see event_invites.yml)
+music_convention:
+  name: "Music Convention"
+  description: "There's going to be music"
+  user: viktor
+  category: main
+  date: 2015-12-16 02:00:00
+  end_date: 2015-12-16 06:00:00
+
+# this is a child to music_convention
+music_convention_joe:
+  name: "Music Convention"
+  description: "There's going to be music"
+  user: joe
+  category: joe_group_events
+  date: 2015-12-16 02:00:00
+  end_date: 2015-12-16 06:00:00
+  base_event_id: <%= ActiveRecord::FixtureSet.identify(:music_convention) %>
 
 public_group_event:
   name: ""

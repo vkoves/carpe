@@ -1,5 +1,5 @@
-<div class="event-tile <%= "current" if event.current? %>">
-  <div class="inner"  style="border-color: <%= event.category.color %>">
+  <div class="event-tile <%= "current" if event.current? %>">
+  <div class="inner" style="border-color: <%= event.category.color %>">
     <div class="tile-text">
       <b><%= event.get_html_name.html_safe %></b>
       <% if event.location.present? %>
@@ -7,14 +7,14 @@
       <% end %>
       <br>
       <% if event.current? #print full info about current events %>
-      <%= relative_event_time(event) %>
+       <%= relative_event_time_tag(event) %>
       <% else #and print start for future events %>
-      <%= time_string = relative_time_ago(event.date, true) %>
+        <%= relative_time_tag(event.date, true) %>
       <% end %>
       <span class="toggle-details">Toggle Details</span>
     </div>
     <div class="details">
-      <%= relative_time_ago(event.date, true) %> to <%= relative_time_ago(event.end_date, false) %>. <br>
+      <%= relative_time_tag(event.date, true) %> to <%= relative_time_tag(event.end_date) %>. <br>
       <% unless event.description.empty? %>
       Description: <%= event.description %>
       <% end %>

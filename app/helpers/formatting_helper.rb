@@ -6,6 +6,6 @@
 
 module FormattingHelper
   def format_time(time, format = :long_ordinal, default = "not available")
-    time&.to_s(format) or default
+    time&.to_s(format) || default
   end
 end

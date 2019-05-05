@@ -5,72 +5,71 @@
 <% end %>
 
 <div class="profile-header">
-	<% if @user.banner.exists? # check if user specified a custom banner %>
-		<div class="banner-img" style="background-image:url(<%= @user.banner.url(:desktop) %>);"></div>
-	<% else %>
-		<div class="banner-img"></div>
-	<% end %>
+  <% if @user.banner.exists? # check if user specified a custom banner %>
+    <div class="banner-img" style="background-image:url(<%= @user.banner.url(:desktop) %>);"></div>
+  <% else %>
+    <div class="banner-img"></div>
+  <% end %>
 
-	<div class="page-container">
-		<div class="profile-avatar avatar">
-			<%= link_to edit_user_registration_path do %>
-				<% if @profile %>
-					<div class="profile-overlay avatar">
-						<%= image_tag "camera.svg", class: "camera-profile" %>
-						<span class="upload-profile">Upload Avatar</span>
-					</div>
-				<% end %>
-			<%end%>
-			<%= image_tag @user.avatar_url %>
-		</div>
-		<div id="profile-text">
-			<h1 id="profile-name" class="zero-top zero-bot"><a href="?"><%= @user.name %></a></h1>
-			<div id="profile-follow">
-				<% if current_user %>
-					<%= render "follow_button", user: @user %>
-				<% end %>
-				<div id="profile-info">
-					<% if @user.following?(current_user) %>
-						Follows You
-					<% end %>
-				</div>
-				<br>
-			</div>
-			<% if current_user and !@profile %>
-				<div id="profile-info">
-					<%= pluralize(@user.known_followers(current_user).length, "Follower") %> You Know
-				</div>
-			<% end %>
-		</div>
-		<% if @profile %>
-			<%= link_to edit_user_registration_path do %>
-				<div class="profile-overlay cover">
-					<%= image_tag "camera.svg", class: "camera-profile" %>
-					<span class="upload-profile">Upload Cover</span>
-				</div>
-			<% end %>
-		<% end %>
-		<div id="profile-buttons">
-			<%= link_to user_path(@user, page: "schedule") do %>
-				<div class="<%= "curr" if @view == :schedule %>">Schedule</div>
-			<% end %>
-			<%= link_to user_path(@user, page: "followers") do %>
-				<div class="<%= "curr" if @view == :followers %>"><%= @user.followers_count %> Followers</div>
-			<% end %>
-			<%= link_to user_path(@user, page: "following") do %>
-				<div class="<%= "curr" if @view == :following %>"><%= @user.following_count %> Following </div>
-			<% end %>
-			<%= link_to user_path(@user, page: "activity") do %>
-				<div class="<%= "curr" if @view == :activity %>">Activity</div>
-			<% end %>
-		</div>
+  <div class="page-container">
+    <div class="profile-avatar avatar">
+      <%= link_to edit_user_registration_path do %>
+        <% if @profile %>
+          <div class="profile-overlay avatar">
+            <%= image_tag "camera.svg", class: "camera-profile" %>
+            <span class="upload-profile">Upload Avatar</span>
+          </div>
+        <% end %>
+      <% end %>
+      <%= image_tag @user.avatar_url %>
+    </div>
+    <div id="profile-text">
+      <h1 id="profile-name" class="zero-top zero-bot"><a href="?"><%= @user.name %></a></h1>
+      <div id="profile-follow">
+        <% if current_user %>
+          <%= render "follow_button", user: @user %>
+        <% end %>
+        <div id="profile-info">
+          <% if @user.following?(current_user) %>
+            Follows You
+          <% end %>
+        </div>
+        <br>
+      </div>
+      <% if current_user and !@profile %>
+        <div id="profile-info">
+          <%= pluralize(@user.known_followers(current_user).length, "Follower") %> You Know
+        </div>
+      <% end %>
+    </div>
+    <% if @profile %>
+      <%= link_to edit_user_registration_path do %>
+        <div class="profile-overlay cover">
+          <%= image_tag "camera.svg", class: "camera-profile" %>
+          <span class="upload-profile">Upload Cover</span>
+        </div>
+      <% end %>
+    <% end %>
+    <div id="profile-buttons">
+      <%= link_to user_path(@user, page: "schedule") do %>
+        <div class="<%= "curr" if @view == :schedule %>">Schedule</div>
+      <% end %>
+      <%= link_to user_path(@user, page: "followers") do %>
+        <div class="<%= "curr" if @view == :followers %>"><%= @user.followers_count %> Followers</div>
+      <% end %>
+      <%= link_to user_path(@user, page: "following") do %>
+        <div class="<%= "curr" if @view == :following %>"><%= @user.following_count %> Following </div>
+      <% end %>
+      <%= link_to user_path(@user, page: "activity") do %>
+        <div class="<%= "curr" if @view == :activity %>">Activity</div>
+      <% end %>
+    </div>
   </div>
 </div>
 
 <div class="page-container">
   <br>
   <div style="text-align: left">
-    <!-- Joined Carpe: <%= relative_time_ago(@user.created_at, true) %> <br> -->
   </div>
 
   <%= render @page_view %>

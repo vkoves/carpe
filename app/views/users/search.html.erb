@@ -1,28 +1,30 @@
 <% content_for :title do %> - Find People<% end %>
 
 <div class="page-container">
-	<h1 class="page-titler">Find People</h1>
-	<h3 class="page-desc">
-		Looking for someone? Type their name here.
-		<%= form_tag("/search_users", method: "get") do %>
-		  <%= text_field_tag(:q, params[:q], id: "users-search-input") %>
-		  <%= submit_tag("Search") %>
-		<% end %>
-	</h3>
-	<% if @users != nil %>
-		<% users = @users %>
-		<h3>Showing results for "<%= params[:q] %>"</h3>
-	<% else
-		users = User.all
-	end %>
+  <h1 class="page-titler">Find People</h1>
+  <h3 class="page-desc">
+    Looking for someone? Type their name here.
+    <%= form_tag("/search_users", method: "get") do %>
+      <%= text_field_tag(:q, params[:q], id: "users-search-input") %>
+      <%= submit_tag("Search") %>
+    <% end %>
+  </h3>
 
-	<% if users.size > 0 %>
-		<% users.each do |user| %>
-			<% if user != current_user%>
-				<%= render "shared/user_box", user: user %>
-			<% end%>
-		<% end %>
-	<% else %>
-		Sorry, we didn't find any users with that name.
-	<% end %>
+  <!-- TODO: Move this logic into the controller -->
+  <% if @users != nil %>
+    <% users = @users %>
+    <h3>Showing results for "<%= params[:q] %>"</h3>
+  <% else %>
+    <% users = User.all %>
+  <% end %>
+
+  <% if users.size > 0 %>
+    <% users.each do |user| %>
+      <% if user != current_user %>
+        <%= render "shared/user_box", user: user %>
+      <% end %>
+    <% end %>
+  <% else %>
+    Sorry, we didn't find any users with that name.
+  <% end %>
 </div>

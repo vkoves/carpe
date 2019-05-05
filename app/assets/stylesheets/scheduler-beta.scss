@@ -1,0 +1,20 @@
+%center-flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scheduler-beta {
+  .category,
+  .event {
+    @extend %center-flex;
+    width: 200px;
+    height: 80px;
+    margin-bottom: 10px;
+    background-color: #555555;
+    color: #ffffff;
+  }
+
+  .category-list,
+  .event-list { list-style: none; }
+}

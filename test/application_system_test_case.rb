@@ -1,7 +1,6 @@
 require "test_helper"
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
-
   # Chrome Options Explained
   #
   # headless:
@@ -18,7 +17,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   Capybara.register_driver :custom_chrome do |app|
     capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
       chromeOptions: {
-        args: %w[headless window-size=1920,1080 no-sandbox disable-dev-shm-usage]
+        args: %w[headless window-size=1920,1080]
       }
     )
 

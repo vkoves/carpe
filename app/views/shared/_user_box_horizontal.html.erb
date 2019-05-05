@@ -1,60 +1,60 @@
 <% if @home # make the whole tile link if on home %>
-	<a href="<%= user_path(user) %>">
+  <a href="<%= user_path(user) %>">
 <% end %>
-	<div class="user-listing grey-box <%= @profile ? "profile" : "" %>">
-		<% unless @home # don't make avatar link if on home %>
-			<a href="<%= user_path(user) %>">
-		<% end %>
-			<div class="avatar">
-				<% if @home %>
-					<%= image_tag user.avatar_url(60), class: "width-60" %>
-				<% else %>
-					<%= image_tag user.avatar_url(100) %>
-				<% end %>
-			</div>
-		<% unless @home %>
-			</a>
-		<% end %>
+  <div class="user-listing grey-box <%= @profile ? "profile" : "" %>">
+    <% unless @home # don't make avatar link if on home %>
+      <a href="<%= user_path(user) %>">
+    <% end %>
+      <div class="avatar">
+        <% if @home %>
+          <%= image_tag user.avatar_url(60), class: "width-60" %>
+        <% else %>
+          <%= image_tag user.avatar_url(100) %>
+        <% end %>
+      </div>
+    <% unless @home %>
+      </a>
+    <% end %>
 
-		<div class="user-details">
+    <div class="user-details">
 
-			<span class="user-name"><%= user.name %></span><br>
-			<% if @profile%>
-				Following since: <%= relationship.created_at.strftime("%b. %d, %Y")%> <br>
+      <span class="user-name"><%= user.name %></span><br>
+      <% if @profile %>
+        Following since: <%= relationship.created_at.strftime("%b. %d, %Y") %> <br>
 
-				<% if current_user == relationship.follower # if the current user is following this person, let them unfollow %>
-					<%= link_to "Unfollow", relationship_path(relationship), class: "red button js-unfollow-user" %>
-				<% else %>
-					<%= link_to "Remove", relationship_path(relationship), class: "red button js-unfollow-user" %>
-				<% end %>
-			<% elsif current_user %>
-				<% if !@home %>
-					<span id="mutual-friends"><%= user.followers.length %> followers</span>
-					<br>
-					<%= render "/users/follow_button", user: user %>
-				<% else %>
-					<% if user.is_busy? %>
-						<div class="red circle"></div>
-						<% if user.current_events[0].accessible_by?(current_user) %>
-							<% event_name = user.current_events[0].get_html_name.html_safe %>
-							<span class="carpe-color"><%= event_name %></span>
-						<% else %>
-							Busy
-						<% end %>
-						until <%= relative_time_ago(user.current_events[0].end_date, false) %>
-					<% else %>
-						<% next_event = user.next_event %>
-						<div class="green circle"></div>
-						<% if next_event %>
-							Free until <%= relative_time_ago(next_event.date, false) %>
-						<% else %>
-							Free the rest of the day
-						<% end %>
-					<% end %>
-				<% end %>
-			<% end %>
-		</div>
-	</div>
+        <% if current_user == relationship.follower # if the current user is following this person, let them unfollow %>
+          <%= link_to "Unfollow", relationship_path(relationship), class: "red button js-unfollow-user" %>
+        <% else %>
+          <%= link_to "Remove", relationship_path(relationship), class: "red button js-unfollow-user" %>
+        <% end %>
+      <% elsif current_user %>
+        <% if !@home %>
+          <span id="mutual-friends"><%= user.followers.length %> followers</span>
+          <br>
+          <%= render "/users/follow_button", user: user %>
+        <% else %>
+          <% if user.is_busy? %>
+            <div class="red circle"></div>
+            <% if user.current_events[0].accessible_by?(current_user) %>
+              <% event_name = user.current_events[0].get_html_name.html_safe %>
+              <span class="carpe-color"><%= event_name %></span>
+            <% else %>
+              Busy
+            <% end %>
+            until <%= relative_time_tag(user.current_events[0].end_date) %>
+          <% else %>
+            <% next_event = user.next_event %>
+            <div class="green circle"></div>
+            <% if next_event %>
+              Free until <%= relative_time_tag(next_event.date) %>
+            <% else %>
+              Free the rest of the day
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
 <% if @home %>
-	</a>
+  </a>
 <% end %>

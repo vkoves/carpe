@@ -35,14 +35,12 @@ class UserGroupsController < ApplicationController
     membership.update(params.permit(:role))
 
     # owners who give away their role become moderators
-    if params[:role] == "owner"
-      group.membership(current_user).update(role: :moderator)
-    end
+    group.membership(current_user).update(role: :moderator) if params[:role] == "owner"
 
     # an owner demoting themself makes someone else the new owner
     if group.owner.nil?
       UsersGroup.where(group: group, accepted: true).where.not(user: current_user)
-          .first.update(role: :owner)
+                .first.update(role: :owner)
     end
 
     redirect_to request.referrer

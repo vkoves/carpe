@@ -1,140 +1,31 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-	<meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
-	<style>
-		body {
-			font-family: 'Open Sans', sans-serif;
-			margin: 0px;
-			background-color: lightgrey;
-			width:100%;
-		}
-		#welcome {
-			margin-top:7px;
-			margin-bottom:-14px;
-		}
-		.carpe-color {
-			color: #ff7400;
-			font-weight: bold;
-		}
-		#carpe-logo {
-			border-radius: 5px;
-			padding: 1px 5px 0px 8px;
-			margin: 5px 10px 5px -7px;
-		}
-		.inner { padding: 0px 20px; margin-left:auto; margin-right:auto; width: 100%; background-color: silver;}
-		h1 {margin-top: 20px; margin-bottom: 20px; font-size:22px; font-weight:400;}
-		p {color: rgb(80,80,80); font-size:16px;}
-		.break {line-height:16px; }
-		#unique {
-			margin-left: auto;
-			margin-right: auto;
-			padding-top:60px;
-			padding-bottom:60px;
-			width:100%;
-			background-color:rgb(234,234,234);
-		}
-		#top {
-			background-color: #FF7400;
-			color: white;
-			font-weight: bold;
-			font-size: 20px;
-			max-width:600px;
+<style>
+  #welcome {
+    margin-top:7px;
+    margin-bottom:-14px;
+  }
+</style>
 
-		    /*border-top-left-radius: 15px;
-		    border-top-right-radius: 15px;*/
-		}
-		#main {
-			background-color: white;
-			padding-bottom: 30px;
-			max-width:600px;
-		    /*border-bottom-left-radius: 15px;
-		    border-bottom-right-radius: 15px;*/
-		}
-		#footer {
-			text-align: center;
-			color: rgb(80,80,80);
-			padding-top:20px;
-		}
-		#footer-ibs {
-			max-width:100%;
-			max-height:50px;
-		}
-		.visit-ibs {
-			color: rgb(191,191,191);
-			font-size: 12px;
-
-		}
-		.complement-blue {
-			color: #31A1ED;
-			text-decoration: none;
-		}
-		.dash-button {
-			display: inline-block;
-		    cursor: pointer;
-		    position: relative;
-		    padding: 6px 90px 6px 90px;
-		    background: #31A1ED;
-		    color: #FFF;
-		    text-decoration: none;
-		    font-weight: 600;
-		    border-radius: 5px;
-		    transition: background 0.3s;
-		    border: none;
-		    font-size: 18px;
-			margin-bottom:16px;
-		}
-		image {background: white;}
-	</style>
-</head>
-<body>
-	<table id="unique">
-	<tbody>
-	<tr><td>
-	<table id="top" class="inner">
-		<tbody>
-			<tr>
-				<td><img id="carpe-logo" height="50" alt="Carpe Logo" src="https://s3-us-west-2.amazonaws.com/carpe-indigobox/email/CarpeMailLogo2.png"></td>
-
-			</tr>
-		</tbody>
-	</table>
-	<table id="main" class="inner">
-		<tbody>
-			<tr>
-				<td colspan="2" id="welcome">
-					<h1>Welcome to Carpe, <%= @user.name %>!</h1>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2">
-					<p>
-						Thanks for joining. Your account is all set up under this email: <%= @user.email %>.
-						<span class="break"><br><br></span>
-						Now that you're here, you can get started at the <a href="http://www.carpe.us" class="complement-blue">Dashboard</a>, where you'll find
-						what's coming up in your schedule and what your friends are up to.
-						<span class="break"><br><br></span>
-						Thanks again for signing up in the early stages, and we hope you enjoy Carpe!
-						<span class="break"><br><br></span>
-						<center><a href="http://www.carpe.us" class="dash-button">Go to Dashboard</a></center>
-					</p>
-				</td>
-			</tr>
-			<tr>
-
-				<td colspan="2" id="footer">
-					<img id="footer-ibs" alt="Carpe Logo" src="https://s3-us-west-2.amazonaws.com/carpe-indigobox/email/email-foot-top.png"><br><br>
-					Made by IndigoBox in Chicago.
-					<span class="break"><br><br></span>
-					<span class="visit-ibs"> IndigoBox Studios - <%= Time.current.year %>  ·  <a href="http://indigobox.us" class="complement-blue">Visit Our Site</a></span>
-				</td>
-
-			</tr>
-		</tbody>
-	</table>
-	</td></tr>
-	</tbody>
-	</table>
-</body>
-</html>
+<tr>
+  <td id="welcome">
+    <h1>Welcome to Carpe, <%= @user.name %>!</h1>
+  </td>
+</tr>
+<tr>
+  <td>
+    <p>
+      Thanks for joining. Your account has been set up under this email: <strong><%= @user.email %></strong>.
+    </p>
+    <p>
+      You should receive an email to confirm your email address on Carpe.
+      You'll need to confirm your email to continue using Carpe, as after
+      <strong>24 hours</strong> you won't be able to login without confirming
+      your email!
+    </p>
+    <p>
+      Thanks again for signing up in the early stages, and we hope you enjoy Carpe!
+    </p>
+    <p class="centered">
+      <%= link_to "Go to Dashboard", root_url, :class => "cta-button" %>
+    </p>
+  </td>
+</tr>

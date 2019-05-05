@@ -45,4 +45,12 @@ jsdoc-out
 *.db
 
 # Ignore node modules
-node_modules/
+node_modules//public/packs
+
+# Ignore outputted packs
+/public/packs-test
+/public/packs
+
+/node_modules
+yarn-debug.log*
+.yarn-integrity

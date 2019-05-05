@@ -2,14 +2,15 @@
   "name": "carpe",
   "version": "1.0.0",
   "description": "The social scheduler",
+  "license": "UNLICENSED",
   "engines": {
-    "node": "8"
+    "node": ">= 10"
   },
   "scripts": {
     "jsdoc": "jsdoc app/assets/javascripts -d public/jsdoc-out -r README.md",
     "teaspoon": "RAILS_ENV=test bundle exec teaspoon --coverage=default",
-    "eslint": "eslint app/assets/javascripts spec/javascripts || true",
-    "eslint-fix": "eslint app/assets/javascripts spec/javascripts --fix || true"
+    "eslint": "eslint app/assets/javascripts app/javascript spec/javascripts --ext .js,.vue",
+    "eslint-fix": "eslint app/assets/javascripts app/javascript spec/javascripts --ext .js,.vue --fix"
   },
   "repository": {
     "type": "git",
@@ -21,7 +22,16 @@
   },
   "homepage": "https://github.com/vkoves/Carpe#readme",
   "devDependencies": {
+    "eslint": "^5.15.0",
+    "eslint-plugin-vue": "^5.2.2",
     "istanbul": "^0.4.5",
-    "jsdoc": "^3.5.5"
+    "jsdoc": "^3.5.5",
+    "webpack-dev-server": "2.11.2"
+  },
+  "dependencies": {
+    "@rails/webpacker": "3.5",
+    "vue": "^2.6.6",
+    "vue-loader": "14.2.2",
+    "vue-template-compiler": "^2.6.6"
   }
 }

@@ -1,0 +1,13 @@
+<div class="event-invite" data-id="<%= event_invite.id %>">
+  <%= link_avatar event_invite.user %>
+  <span class="name"><%= event_invite.user.name %></span>
+  <span class="role"><%= event_invite.role.capitalize %></span>
+
+  <div>
+    <% if show_event_invite_delete? event_invite %>
+      <%= link_to(event_invite_path(event_invite), method: :delete, remote: true, class: "js-delete-event-invite") do %>
+        <%= image_tag "close.png", class: "flex icon" %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

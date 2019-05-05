@@ -1,7 +1,55 @@
-require 'utilities'
+require "utilities"
 
-#An event describes a schedule item, that is a single item occuring on a person's schedule
+# An event describes a schedule item, that is a single item occuring on a person's schedule
+#
+# There are a couple of different types of events to consider:
+#
+# 1) Repeating or Non-Repeating
+# 2) User or Group
+# 3) Host, Hosted, or Non-Hosted
+#
+# Explanation:
+#
+# 1) Rather than copying the same event onto multiple dates, Repeating events utilize
+#    a `repeat` database column and to indicate which dates an event should occur on.
+#    Non-Repeating only occur once between `date` and `end_date`.
+#
+# 2) Events have ownership. User events belong to `user` and do not have a
+#    `group`. This kind of event belongs to `user` who is both the event's
+#    creator and owner. Group events belong to `group` and are modifiable by
+#    anybody in who has permission to do so. In this case, `user` represents
+#    the event's creator, but not its owner.
+#
+# 3) Events can be shared between users. A Host event is an event that other
+#    users have been invited to. When a user is invited, a duplicate of the
+#    host event is created on the invited user's schedule. That newly created
+#    event is called a Hosted event. Hosted events are kept in sync with their
+#    parent host event - which is identified by the `base_event` column.
+#
 class Event < ApplicationRecord
+  include Utilities
+
+  # These are the attributes that should be updated on hosted events
+  # when their host/base event is modified.
+  SYNCED_EVENT_ATTRIBUTES = %w[
+    name
+    description
+    date
+    end_date
+    repeat
+    location
+    repeat_start
+    repeat_end
+    guests_can_invite
+    guest_list_hidden
+  ].freeze
+
+  enum privacy: {
+    privacy_public: 0,
+    privacy_private: 1,
+    privacy_followers: 2
+  }
+
   belongs_to :user
   alias_attribute :creator, :user
 
@@ -9,17 +57,36 @@ class Event < ApplicationRecord
   belongs_to :category
   has_and_belongs_to_many :repeat_exceptions
 
-  def get_html_name #returns the event name, or an italicized untitled
+  # Host Event
+  has_many :event_invites, foreign_key: "host_event_id", dependent: :destroy
+  has_many :invited_users, through: :event_invites, source: :user
+  has_many :hosted_events, class_name: "Event", foreign_key: :base_event_id,
+                           dependent: :destroy
+
+  # Hosted Event
+  belongs_to :host_event, class_name: "Event", foreign_key: :base_event_id,
+                          optional: true
+
+  has_one :event_invite, foreign_key: "hosted_event_id",
+                         dependent: :destroy
+
+  # Notify guests on update if there are invited users
+  after_commit :notify_guests, on: :update, if: :should_notify_guests?
+  after_commit :update_hosted_events, on: :update, if: :host_event?
+
+  # returns the event name, or an italicized untitled
+  def get_html_name
     name.present? ? ERB::Util.html_escape(name) : "<i>Untitled</i>"
   end
 
-  def get_name #returns the event name as a plain string
+  # returns the event name as a plain string
+  def get_name
     name.empty? ? "Untitled" : name
   end
 
   # Returns true if this event is a repeating event, false otherwise.
   def repeats?
-    repeat.present? and repeat != 'none'
+    repeat.present? && (repeat != "none")
   end
 
   # Returns true if this event is on break at the given time, false otherwise.
@@ -40,34 +107,62 @@ class Event < ApplicationRecord
     event_days.select { |day| can_occur_on? day }.map { |day| repeat_clone day }
   end
 
-  #returns all repeat_exceptions that apply to this event, a combination of event and category level ones
+  # returns all repeat_exceptions that apply to this event, a combination of event and category level ones
   def all_repeat_exceptions
-    return repeat_exceptions + category.repeat_exceptions
+    repeat_exceptions + category.repeat_exceptions
   end
 
-  #returns whether the event is currently going on
+  # returns whether the event is currently going on
   def current?
-    if self.date.past? and self.end_date.future? #if it started some time ago and ends some time from now
-      return true #then this is indeed current
-    else #otherwise
-      return false #it is not
+    if date.past? && end_date.future? # if it started some time ago and ends some time from now
+      true # then this is indeed current
+    else # otherwise
+      false # it is not
     end
   end
 
   def accessible_by?(user)
+    return true if user == owner
+
+    # hosted event privacy can be overridden by the host event
+    return false if hosted_event? && host_event_privacy == "private"
+
     category.accessible_by?(user)
   end
 
-  def private_version #returns the event with details hidden
-    private_event = self.dup
+  # returns the event with details hidden
+  def private_version
+    private_event = dup
     private_event.name = "Private"
     private_event.description = ""
     private_event.location = ""
-    return private_event
+    private_event
   end
 
   def owner
-    self.group ? self.group : self.creator
+    group || creator
+  end
+
+  def hosted_event?
+    base_event_id.present? && !host_event?
+  end
+
+  def host_event?
+    EventInvite.exists?(host_event: self)
+  end
+
+  def host_event_privacy
+    host_event.category.privacy if hosted_event?
+  end
+
+  def make_host_event!
+    # owners of a hosted event are explicitly invited to their own event.
+    EventInvite.create(user: creator, host_event: self, role: :host)
+  end
+
+  # Returns true if users have been invited to this event
+  def has_guests?
+    invited_users.count.positive?
   end
 
   ##########################
@@ -82,18 +177,18 @@ class Event < ApplicationRecord
 
     # what days a repeating event can occur on can be optionally limited
     if repeats?
-      return false if repeat_start and day < repeat_start
-      return false if repeat_end and day > repeat_end
+      return false if repeat_start && (day < repeat_start)
+      return false if repeat_end && (day > repeat_end)
     end
 
-    return true
+    true
   end
 
   # Returns a copy of the this event with a new starting time.
   def repeat_clone(start_time)
-    new_event = self.dup
+    new_event = dup
     new_event.attributes = { date: start_time, end_date: start_time + duration }
-    return new_event
+    new_event
   end
 
   # Returns the first date this event will repeat on for a given
@@ -104,11 +199,11 @@ class Event < ApplicationRecord
     step = repeat_interval
     offset = (start_time.to_time - date.to_time).abs
 
-    if start_time >= date
-      first_repeat_date = origin + (offset / step).ceil * step
-    else
-      first_repeat_date = origin - (offset / step).floor * step
-    end
+    first_repeat_date = if start_time >= date
+                          origin + (offset / step).ceil * step
+                        else
+                          origin - (offset / step).floor * step
+                        end
 
     return first_repeat_date if first_repeat_date.between?(start_time, end_time)
   end
@@ -118,10 +213,10 @@ class Event < ApplicationRecord
   # on a fixed interval, nil is returned instead.
   def repeat_interval
     case repeat
-    when 'daily' then 1.day
-    when 'weekly' then 1.week
-    when 'monthly' then 1.month
-    when 'yearly' then 1.year
+    when "daily" then 1.day
+    when "weekly" then 1.week
+    when "monthly" then 1.month
+    when "yearly" then 1.year
     when /custom/ then
       _, repeat_num, repeat_unit = repeat.split("-")
       repeat_num.to_i.send(repeat_unit) # e.g. 1.day, 5.weeks
@@ -147,7 +242,7 @@ class Event < ApplicationRecord
     dates = range(first_time, end_time, 1.day)
 
     # e.g. "certain_days-0,1,2,6" / 0-6 represent weekdays - sunday being 0
-    weekdays = repeat.split('-')[1].split(',').map(&:to_i)
+    weekdays = repeat.split("-")[1].split(",").map(&:to_i)
     dates.select { |day| weekdays.include?(day.wday) }
   end
 
@@ -161,5 +256,40 @@ class Event < ApplicationRecord
     else # this event doesn't repeat
       date.between?(start_time, end_time) ? [date] : []
     end
+  end
+
+  # Called when an update is correctly updated. Notifies all users invited to
+  # this event, and the event owner EXCEPT the current_user (since they know
+  # the event changed)
+  def notify_guests
+    # Note: If this is a hosted event (non-orig), the creator is an invited_user
+    notify_targets = invited_users
+
+    # If we know who changed the event, ensure they are not notified
+    notify_targets -= [Current.user] if Current.user
+
+    # Send an event_update_email to all notify targets
+    notify_targets.each do |recipient|
+      UserNotifier.event_update_email(recipient, self, changes).deliver_later
+      Notification.send_event_update(recipient, self)
+    end
+  end
+
+  # Returns true if participating guests should be notified when a host
+  # event's attributes change, false otherwise. In particular, changing
+  # attributes such as `name` that are in `SYNCED_EVENT_ATTRIBUTES` should
+  # trigger notifications while changes to an event's `category` should not.
+  def should_notify_guests?
+    return false unless has_guests?
+
+    notifiable_changes = previous_changes.keys & SYNCED_EVENT_ATTRIBUTES
+    notifiable_changes.any?
+  end
+
+  # Copies the relevant event attributes from a host event to all of
+  # its child events. This is done whenever a host event is updated.
+  def update_hosted_events
+    host_event_attrs = attributes.slice(*SYNCED_EVENT_ATTRIBUTES)
+    hosted_events.update_all(host_event_attrs)
   end
 end

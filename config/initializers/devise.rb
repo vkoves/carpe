@@ -12,16 +12,19 @@ Devise.setup do |config|
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
-  config.mailer_sender = 'Carpe <do-not-reply@carpe.us>'
+  config.mailer_sender = "Carpe <do-not-reply@carpe.us>"
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
+
+  # Make Devise use the Carpe email layout so it looks nicer
+  Devise::Mailer.layout "mailer"
 
   # ==> ORM configuration
   # Load and configure the ORM. Supports :active_record (default) and
   # :mongoid (bson_ext recommended) by default. Other ORMs may be
   # available as additional gems.
-  require 'devise/orm/active_record'
+  require "devise/orm/active_record"
 
   # ==> Configuration for any authentication mechanism
   # Configure which keys are used when authenticating a user. The default is
@@ -107,7 +110,7 @@ Devise.setup do |config|
   # able to access the website for two days without confirming their account,
   # access will be blocked just in the third day. Default is 0.days, meaning
   # the user cannot access the website without confirming their account.
-  # config.allow_unconfirmed_access_for = 2.days
+  config.allow_unconfirmed_access_for = 1.days
 
   # A period that the user is allowed to confirm their account before their
   # token becomes invalid. For example, if set to 3.days, the user can confirm
@@ -121,7 +124,7 @@ Devise.setup do |config|
   # initial account confirmation) to be applied. Requires additional unconfirmed_email
   # db field (see migrations). Until confirmed, new email is stored in
   # unconfirmed_email column, and copied to email column on successful confirmation.
-  config.reconfirmable = true
+  config.reconfirmable = false
 
   # Defines which key will be used when confirming an account
   # config.confirmation_keys = [:email]
@@ -181,7 +184,7 @@ Devise.setup do |config|
   # config.unlock_in = 1.hour
 
   # Warn on the last attempt before the account is locked.
-  # config.last_attempt_warning = true
+  # config.lastst_attempt_warning = true
 
   # ==> Configuration for :recoverable
   #
@@ -240,8 +243,8 @@ Devise.setup do |config|
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
 
-	require 'omniauth-google-oauth2'
-	config.omniauth :google_oauth2, "691236853053-d74vecl5lkc73seoi1qhgta87irllcak.apps.googleusercontent.com", "eK9EIkCjW0Gw5RLX8vbwgp0F", { access_type: "offline", approval_prompt: "" }
+  require "omniauth-google-oauth2"
+  config.omniauth :google_oauth2, "691236853053-d74vecl5lkc73seoi1qhgta87irllcak.apps.googleusercontent.com", "eK9EIkCjW0Gw5RLX8vbwgp0F", access_type: "offline", approval_prompt: ""
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

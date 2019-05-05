@@ -1,12 +1,14 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+# NOTE: All users need a confirmed_at timestamp, as otherwise they can't sign in!
 
-#Viktor is an admin user
+# Viktor is an admin user
 viktor:
   name: "Viktor"
   admin: true
   email: "viktorkoves@gmail.com"
   encrypted_password: <%= User.new.send(:password_digest, 'trombone321') %>
   custom_url: "viktor"
+  confirmed_at: 2019-01-01
   # friends: [viktors_friend]
 
 #Norman is a normal, non-admin user, so his admin field is null
@@ -17,14 +19,17 @@ norm:
   public_profile: false
   image_url: <%= "#{Rails.root}/test/fixtures/files/sample_avatar.jpg" %>
   home_time_zone: 'Central Time (US & Canada)'
+  confirmed_at: 2019-01-01
 
 joe:
   name: "Joe joe"
   email: "joe@joe.joe"
+  confirmed_at: 2019-01-01
 
 viktors_friend:
   name: "Vim"
   email: "t@friends.com"
+  confirmed_at: 2019-01-01
 
 putin:
   name: "Pladimir Vutin"
@@ -32,39 +37,47 @@ putin:
   custom_url: "motherland"
   public_profile: true
   image_url: <%= "#{Rails.root}/test/fixtures/files/sample_avatar.jpg" %>
-
   provider: "google_oauth2"
+  confirmed_at: 2019-01-01
 
 # Users for testing search
 donald1:
   name: "Donald Jones"
   email: "donald1@emai.com"
+  confirmed_at: 2019-01-01
 
 donald2:
   name: "Jones Donald"
   email: "donald2@emai.com"
+  confirmed_at: 2019-01-01
 
 donald3:
   name: "Lily McDonald"
   email: "donald3@emai.com"
+  confirmed_at: 2019-01-01
 
-
+# Event invites users
 ownerAlice:
   name: "alice"
   email: "alice@alice.alicea"
+  confirmed_at: 2019-01-01
 
 memberMike:
   name: "mike"
   email: "mike@mike.mike"
+  confirmed_at: 2019-01-01
 
 moderatorMaven:
   name: "maven"
   email: "maven@maven.maven"
+  confirmed_at: 2019-01-01
 
 loserLarry:
   name: "larry"
   email: "larry@larry.larry"
+  confirmed_at: 2019-01-01
 
 inviteIvan:
   name: "Ivan"
   email: "Ivan@Ivan.Ivan"
+  confirmed_at: 2019-01-01

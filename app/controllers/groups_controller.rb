@@ -7,7 +7,6 @@ class GroupsController < ApplicationController
                             .page(params[:page]).per(25)
                             .eager_load(:users).references(:users_groups)
 
-
     paginate(@joinable_groups, "large_group_card")
   end
 
@@ -15,9 +14,7 @@ class GroupsController < ApplicationController
     @group = Group.from_param(params[:id])
 
     # forces custom urls to be displayed (when applicable)
-    if params[:id].is_int? and @group.has_custom_url?
-      redirect_to group_path(@group), status: :moved_permanently
-    end
+    redirect_to group_path(@group), status: :moved_permanently if params[:id].is_int? && @group.has_custom_url?
 
     @view = params[:view]&.to_sym || :overview
     @membership = @group.membership(current_user)
@@ -35,7 +32,7 @@ class GroupsController < ApplicationController
 
       @upcoming_events = visible_upcoming_events
       @activities = (@group.members + categories + events)
-                      .sort_by(&:created_at).reverse.first(2)
+                    .sort_by(&:created_at).reverse.first(2)
     when :schedule
       @read_only = cannot? :edit_schedule, @group
     end
@@ -55,7 +52,7 @@ class GroupsController < ApplicationController
     @group = Group.new group_create_params
 
     if @group.save
-      @group.add(current_user, as: :owner)
+      @group.add(current_user, role: :owner)
       redirect_to @group, notice: "Group was successfully created."
     else
       render :new
@@ -112,7 +109,7 @@ class GroupsController < ApplicationController
       elsif old_role == :owner
         # looks like you're today's winner!
         UsersGroup.where(group: group, accepted: true).where.not(user: current_user)
-            .first.update(role: :owner)
+                  .first.update(role: :owner)
       end
 
     else
@@ -140,6 +137,6 @@ class GroupsController < ApplicationController
 
   def visible_upcoming_events
     @group.upcoming_events(current_user&.home_time_zone || "Central Time (US & Canada)")
-      .select { |event| event.accessible_by?(current_user) }
+          .select { |event| event.accessible_by?(current_user) }
   end
 end

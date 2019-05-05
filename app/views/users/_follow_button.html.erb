@@ -1,13 +1,13 @@
 <% if user == current_user %>
-	<span class="friend-label">You</span>
+  <span class="friend-label">You</span>
 <% else %>
-	<% status = current_user.follow_status(user) %>
-	<% if status == nil #not following %>
-		<%= link_to "Follow", relationships_path(followed_id: user.id), class: "green button js-follow-user" %>
-	<% elsif status == "confirmed" %>
-		<% relationship = Relationship.where(followed_id: user.id, follower_id: current_user.id).first %>
-		<%= link_to "Following", relationship_path(relationship), class: "purple button js-unfollow-user" %>
-	<% elsif status == "pending" || status == "denied" %>
-		<span class="friend-label">Pending</span>
-	<% end %>
+  <% status = current_user.follow_status(user) %>
+  <% if status == nil #not following %>
+    <%= link_to "Follow", relationships_path(followed_id: user.id), class: "green button js-follow-user" %>
+  <% elsif status == "confirmed" %>
+    <% relationship = Relationship.where(followed_id: user.id, follower_id: current_user.id).first %>
+    <%= link_to "Following", relationship_path(relationship), class: "purple button js-unfollow-user" %>
+  <% elsif status == "pending" || status == "denied" %>
+    <span class="friend-label">Pending</span>
+  <% end %>
 <% end %>

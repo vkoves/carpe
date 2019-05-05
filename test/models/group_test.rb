@@ -1,20 +1,20 @@
-require 'test_helper'
+require "test_helper"
 
 class GroupTest < ActiveSupport::TestCase
   def setup
     @viktor, @norm = users(:viktor, :norm)
     @group1, @group2 = groups(:one, :two)
   end
-  
+
   test "#avatar_url uses correct avatar" do
-    assert_match /gravatar/, @group1.avatar_url,
-                 "Expected group without avatar to use gravatar as a default avatar"
+    assert_match(/gravatar/, @group1.avatar_url,
+                 "Expected group without avatar to use gravatar as a default avatar")
 
     @group2.avatar = sample_file("sample_avatar.jpg")
     @group2.save!
 
-    assert_match /sample_avatar/, @group2.avatar_url,
-                 "Expected url to be the path to the group's uploaded avatar"
+    assert_match(/sample_avatar/, @group2.avatar_url,
+                 "Expected url to be the path to the group's uploaded avatar")
   end
 
   test "#role returns the correct group member roles" do
@@ -29,7 +29,7 @@ class GroupTest < ActiveSupport::TestCase
     assert_not users(:viktors_friend).in_group?(@group1)
   end
 
-  test "only owner can promote users in group" do
+  test "group owners can promote group members" do
     ability = Ability.new(users(:joe))
     assert ability.can? :update, groups(:four)
   end

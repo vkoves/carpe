@@ -1,0 +1,118 @@
+# Ruby CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-ruby/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      # specify the version you desire here
+       - image: circleci/ruby:2.4.2-node-browsers
+
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/postgres:9.4
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "Gemfile.lock" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+
+      - run:
+          name: Install Rails Dependencies
+          command: |
+            bundle install --jobs=4 --retry=3 --path vendor/bundle
+      - run:
+          name: Install Node.js 11 & Yarn
+          command: |
+            curl -sSL "https://nodejs.org/dist/v11.10.0/node-v11.10.0-linux-x64.tar.xz" | sudo tar --strip-components=2 -xJ -C /usr/local/bin/ node-v11.10.0-linux-x64/bin/node
+            curl https://www.npmjs.com/install.sh | sudo bash
+            sudo npm install -g yarn
+      - run:
+          name: Check current version of node
+          command: node -v
+      - run:
+          name: Install Chrome
+          command: |
+            wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+            sudo apt-get install libappindicator3-1
+            sudo dpkg -i google-chrome-stable_current_amd64.deb
+      - run:
+          name: Install Node Packages
+          command: |
+            yarn install
+
+      - save_cache:
+          paths:
+            - ./vendor/bundle
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+
+      # Database setup
+      - run:
+          name: Setup Test Database
+          command: |
+            RAILS_ENV=test bundle exec rake db:create
+            RAILS_ENV=test bundle exec rake db:schema:load
+            RAILS_ENV=test bundle exec rake db:migrate
+
+      # Run Linters:
+      # - Rubocop for Ruby code
+      # - ESLint for JS
+      # - SCSS Lint for SCSS
+      # - ERBLint for ERB (HTML)
+      - run:
+          name: Run Linting
+          command: |
+              YL='\033[1;33m' # Yellow
+              NC='\033[0m' # No Color
+
+              echo
+              echo -e "${YL}Carpe CI:${NC} Running Rubocop"
+              rubocop
+
+              echo
+              echo -e "${YL}Carpe CI:${NC} Running ESLint"
+              npm run eslint --silent
+
+              echo
+              echo -e "${YL}Carpe CI:${NC} Running SCSS Lint"
+              bundle exec scss-lint
+
+              echo
+              echo -e "${YL}Carpe CI:${NC} Running ERB Lint"
+              bundle exec erblint app/
+
+
+      # Confirm DB seeding works - this isn't a code quality thing, but it's
+      # important for local development
+      - run:
+          name: Test DB Seeding
+          command: |
+            RAILS_ENV=test bundle exec rake db:seed
+
+      # Run all tests
+      - run:
+          name: Run Tests
+          command: |
+            YL='\033[1;33m' # Yellow
+            NC='\033[0m' # No Color
+
+            echo
+            echo -e "${YL}Carpe CI:${NC} Running Rails Tests"
+            RAILS_ENV=test bundle exec rails test
+
+            echo
+            echo -e "${YL}Carpe CI:${NC} Running Teaspoon Javascript Tests"
+            RAILS_ENV=test bundle exec teaspoon
+
+            echo
+            echo -e "${YL}Carpe CI:${NC} Running Rails System Tests"
+            RAILS_ENV=test bundle exec rails test:system

@@ -1,31 +1,30 @@
 <div class="user-box">
-	<div class="avatar">
-		<%= link_to(user) do %>
-			<img src="<%= user.avatar_url(100) %>">
-		<% end %>
-	</div>
+  <div class="avatar">
+    <%= link_to(user) do %>
+      <img src="<%= user.avatar_url(100) %>">
+    <% end %>
+  </div>
 
-	<div class="name">
-		<%= user.name %>
-	</div>
+  <div class="name">
+    <%= user.name %>
+  </div>
 
-	<% if @admin_tiles %>
-		<!-- Show promotion and demotion admin buttons -->
-		<div class="promotion">
-			<% if user.admin and user != current_user %>
-				<%= link_to_block "Demote", demote_user_path(user), :class => "default red", :remote => true, "uid" => user.id %>
-			<% elsif user != current_user %>
-				<%= link_to_block "Promote", promote_user_path(user), :class => "default", :remote => true, "uid" => user.id %>
-			<% end %>
-		</div>
-		<%= link_to_block "Delete", user_path(user), :method => :delete, data: { confirm: 'Are you sure?' }, :class => "default red" %>
-		<%= link_to_block "Info", inspect_user_path(user), :class => "default green" %>
-	<% else %>
+  <% if @admin_tiles %>
+    <!-- Show promotion and demotion admin buttons -->
+    <div class="promotion">
+      <% if user.admin and user != current_user %>
+        <%= link_to_block "Demote", demote_user_path(user), :class => "default red", :remote => true, "uid" => user.id %>
+      <% elsif user != current_user %>
+        <%= link_to_block "Promote", promote_user_path(user), :class => "default", :remote => true, "uid" => user.id %>
+      <% end %>
+    </div>
+    <%= link_to_block "Delete", user_path(user), :method => :delete, data: { confirm: 'Are you sure?' }, :class => "default red" %>
+    <%= link_to_block "Info", inspect_user_path(user), :class => "default green" %>
+  <% else %>
     <% if current_user.present? %>
       <%= render "/users/follow_button", user: user %>
     <% end %>
-	<% end %>
-
+  <% end %>
 
   <% if @group %>
     <% if user.in_group? @group %>

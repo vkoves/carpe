@@ -39,3 +39,9 @@ en:
         "As a 'public' group, anyone can join without invitation.
          As a 'private' group, members must be invited to join.
          As a 'secret' group, other (non-invited) users cannot view this group."
+  event_invites:
+    success: "We have updated that event invite, you are now marked as \"%{status}\""
+    no_permission: "You don't have permission to update that event invite!"
+    update_error: "Something went wrong responding to that event invite!"
+    pending_error: "You cannot mark yourself as pending response on an event invite!"
+    not_found: "The invitation has been revoked!"

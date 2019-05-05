@@ -1,15 +1,15 @@
 <h2 class="no-bold zero-bot">Forgot your password?</h2>
 
 <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-  <%= devise_error_messages! %>
+  <%= validation_error_messages! resource %>
 
   <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, :class=>"text-input" %>
+    <%= f.label :email %><br>
+    <%= f.email_field :email, autofocus: true, :class => "text-input" %>
   </div>
 
   <div class="actions">
-    <%= f.submit "Send me password reset instructions", :class=>"default" %>
+    <%= f.submit "Send me password reset instructions", :class => "default" %>
   </div>
 <% end %>
 <br>

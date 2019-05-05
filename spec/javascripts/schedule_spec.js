@@ -1,12 +1,14 @@
-//= require schedule
+//= require schedule/constants
+//= require schedule/schedule
+//= require schedule/schedule-item
 
 // Setup schedule.js globals we are testing
-/* globals monthNames, isSafeToLeave, ScheduleItem, scheduleItems,
+/* globals MONTH_NAMES, isSafeToLeave, ScheduleItem, scheduleItems,
 	updatedEvents: true, PLACEHOLDER_NAME */
 
 describe('Schedule', () => {
   it('Should have defined months', () => {
-    expect(monthNames.length).to.equal(12);
+    expect(MONTH_NAMES.length).to.equal(12);
   });
 
   it('Should be safe to leave', () => {

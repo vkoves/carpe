@@ -1,796 +1,839 @@
-/* SCHEDULE CSS */
+// SCHEDULE CSS
 @import 'colors';
 
-#cont-hold
-{
-	width: 96%;
-	height: 90vh;
-	margin-top: 10px;
-	margin-left: auto;
-	margin-right: auto;
+#cont-hold {
+  width: 96%;
+  height: 90vh;
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
 
-	&.iframe
-	{
-		width: 100%;
-		height: calc(100vh - 11px);
-		margin-top: 0px;
-		padding-top: 10px;
-	}
-}
-#sch-main
-{
-	width: calc(100% - 254px);
-	height: 100%;
-	max-height: 710px;
-	float: right;
-}
-#sch-sidebar
-{
-	width: 250px;
-	// height: 100%;
-	height: 706px;
-	background: rgb(239, 239, 239);
-	font-size: 24px;
-	border-radius: 5px;
-	float: left;
-	position:relative;
-
-	#sidebar-title
-	{
-		font-size:18px;
-		font-weight:900;
-		text-align:right;
-		color:rgb(100,100,100);
-	}
-	.cat-add.main
-	{
-		background-color: #CFCFCF;
-		width:100%;
-		padding: 5px 0px;
-		font-size: 16px;
-		cursor: pointer;
-		border: none;
-		color: $text-color;
-		transition: all 0.2s;
-
-		&:hover {
-			color: #fff;
-			background-color: $light-orange;
-		}
-	}
-	.no-categories {
-		height: 450px;
-		opacity: 1;
-		transition: all 0.5s;
-
-		&.hidden {
-			opacity: 0;
-			height: 0;
-		}
-		&.no-anim { transition: none; }
-		img { margin-top: 100px;}
-		.heading {
-			font-weight: 600;
-			font-size: 18px;
-			color: $carpe-orange;
-			margin-bottom: 10px;
-		}
-		.sub-heading {
-			font-size: 16px;
-			margin-bottom: 10px;
-		}
-	}
-	#sch-tiles
-	{
-		position: relative;
-		margin-left: auto;
-		margin-right: auto;
-		width: 100%;
-		height: calc(100% - 98px);
-		overflow-y: auto;
-		overflow-x: hidden;
-		/*background: gainsboro;*/
-
-		#sch-tiles-inside
-		{
-			position: relative;
-			width: 190px;
-			margin-left: auto;
-			margin-right: auto;
-			margin-top: 10px;
-			margin-bottom: 10px;
-		}
-		.sch-evnt-icon, .evnt-time
-		{
-			display: none;
-		}
-		.sch-evnt
-		{
-			margin-top: 10px;
-		}
-		.category
-		{
-			box-shadow: 0.5px 0.5px 10px rgb(185, 185, 185);
-		}
-		.evnt-title
-		{
-			height: auto;
-			font-size: 16px;
-		}
-		.sch-cat-icon
-		{
-			display: block;
-		}
-	}
-}
-#sch-holder
-{
-	width: 100%;
-	// height: 93%;
-	height: 662px;
-	border-radius: 5px;
-	overflow-x: auto;
-	overflow-y: auto;
-}
-.sch-evnt
-{
-	transition: box-shadow 0.3s, border-color 0.3s;
-	position: relative;
-	width: 190px;
-	height: 88px; /* This should be 90px - borders top and bottom */
-	min-height: 25px;
-	background: #BDBDBD;
-	left: 0;
-	right: 0;
-	font-size: 16px;
-	overflow: hidden;
-	cursor: grab;
-	cursor: move;
-
-	.evnt-desc
-	{
-		display: none;
-		width: 100%;
-		height: 100%;
-		margin-left: auto;
-		margin-right: auto;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-		overflow: hidden;
-	}
-	.evnt-divider
-	{
-		width:1px;
-		left:48px;
-		height:90%;
-		top:5%;
-		position:absolute;
-		background-color: white;
-	}
-	.evnt-time
-	{
-		position: absolute;
-		float: left;
-		margin-left: 2px;
-		width:50px;
-		text-align: left;
-		font-size: 10px;
-		color: rgb(240, 240, 240);
-		line-height: 1;
-	}
-	.evnt-time.top
-	{
-		top: 5%;
-	}
-	.evnt-time.bot
-	{
-		bottom: 6%;
-	}
-	.evnt-title
-	{
-		font-size: 14px;
-		font-weight:bold;
-		width: 69%;
-		margin-left: 52px;
-		margin-right: auto;
-		text-align:left;
-		overflow: hidden;
-		overflow-wrap: break-word; /* chrome does this by default - firefox doesn't */
-		transition: all 0.3s;
-		cursor: pointer;
-		max-height: 95%;
-		min-height: 19px;
-	}
-	/* Give editable text fields proper cursor */
-	.evnt-title:focus, .cat-overlay-title:focus
-	{
-		cursor: text !important;
-	}
-}
-.col-snap
-{
-	position: absolute;
-	height: calc(100% - 50px);
-	max-height: 600px;
-	width: 192px;
-	margin-left: auto;
-	margin-right: auto;
-	left: -1px;
-	right: 0px;
-	top: 50px;
-	padding-bottom: 1px;
-
-	/* Style events that have been placed */
-	.sch-evnt
-	{
-		position: absolute;
-	}
-	.sch-evnt:hover > .sch-evnt-icon
-	{
-		display: block;
-		opacity: 1;
-	}
-	.sch-evnt:hover
-	{
-		box-shadow: 0px 0px 5px rgb(0, 0, 0);
-		border-color: rgba(0,0,0,0);
-	}
-	.evnt-title:hover, .evnt-title:focus
-	{
-		background: rgba(0,0,0,0.25);
-		box-shadow: 0px 0px 3px black;
-	}
+  &.iframe {
+    width: 100%;
+    height: calc(100vh - 11px);
+    margin-top: 0;
+    padding-top: 10px;
+  }
 }
 
-.sch-evnt-icon, .sch-cat-icon
-{
-	display: none;
-	position: absolute;
-	opacity: 0;
-	transition: opacity 0.3s;
-	right: 3px;
-	top: 3px;
-	border-radius: 500px;
-	width: 20px;
-	cursor: pointer;
-}
-.sch-cat-icon
-{
-	opacity: 1;
-}
-.sch-evnt-close
-{
-	right: 3px;
-	top: 3px;
-}
-.sch-evnt-edit
-{
-	right: 20px;
-	top: 5px;
-	width: 18px;
-}
-.sch-evnt-edit-cat
-{
-	left: 3px;
-	top:3px;
-}
-.sch-evnt-del-cat
-{
-	left: 20px;
-	top:2px;
-}
-#sch-weekly-view
-{
-	height: 100%;
-	width: 1410px;
-}
-.sch-day-col
-{
-	position: relative;
-	height: 100%;
-	width: 200px;
-	float: left;
-	min-width:160px;
-	border-right: solid 1px rgb(150,150,150);
-
-	&#sch-today
-	{
-		background-color: rgb(255, 255, 115);
-
-		.col-titler { font-weight: bold; }
-	}
-	&.over /* Hover class */
-	{
-		background: rgb(255, 255, 151);
-	}
+#sch-main {
+  width: calc(100% - 254px);
+  height: 100%;
+  max-height: 710px;
+  float: right;
 }
 
-.page-container .evnt-title
-{
-	background: none !important;
-	box-shadow: none !important;
+#sch-sidebar {
+  width: 250px;
+  height: 706px;
+  background: #efefef;
+  font-size: 24px;
+  border-radius: 5px;
+  float: left;
+  position: relative;
+
+  #sidebar-title {
+    font-size: 18px;
+    font-weight: 900;
+    text-align: right;
+    color: #646464;
+  }
+
+  .cat-add.main {
+    background-color: #cfcfcf;
+    width: 100%;
+    padding: 5px 0;
+    font-size: 16px;
+    cursor: pointer;
+    border: 0;
+    color: $text-color;
+    transition: all 0.2s;
+
+    &:hover {
+      color: #ffffff;
+      background-color: $light-orange;
+    }
+  }
+
+  .no-categories {
+    height: 450px;
+    opacity: 1;
+    transition: all 0.5s;
+
+    &.hidden {
+      opacity: 0;
+      height: 0;
+    }
+
+    &.no-anim {
+      transition: none;
+    }
+
+    img {
+      margin-top: 100px;
+    }
+
+    .heading {
+      font-weight: 600;
+      font-size: 18px;
+      color: $carpe-orange;
+      margin-bottom: 10px;
+    }
+
+    .sub-heading {
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+  }
+
+  #sch-tiles {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    height: calc(100% - 98px);
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    #sch-tiles-inside {
+      position: relative;
+      width: 190px;
+      margin: 10px auto;
+    }
+
+    .sch-evnt-icon,
+    .evnt-time {
+      display: none;
+    }
+
+    .sch-evnt {
+      margin-top: 10px;
+    }
+
+    .category {
+      box-shadow: 0.5px 0.5px 10px #b9b9b9;
+    }
+
+    .evnt-title {
+      height: auto;
+      font-size: 16px;
+    }
+
+    .sch-cat-icon {
+      display: block;
+    }
+  }
 }
 
-/* Overlay CSS */
-#event-overlay-box
-{
-	#overlay-title
-	{
-		font-size: 24px;
-		min-height: 33px;
-		width: 85%;
-		margin-left: 20px;
-		margin-right: auto;
-		padding-left: 5px;
-		text-align:left;
-		border-radius: 5px;
-	}
-	#overlay-title:focus, #overlay-title:hover
-	{
-		background: rgba(150, 150, 150, 0.33);
-	}
-	#overlay-color-bar
-	{
-		width: 100%;
-		padding: 10px 0px;
-		color: white;
-		margin-bottom: 5px;
-		text-align: right;
-	}
-	#cat-title
-	{
-		top: 20px;
-		right: 45px;
-		font-weight: 600;
-		font-size: 18px;
-		margin-right: 10px;
-		margin-left: 50px;
-	}
-	.small-title
-	{
-		color: #6B6B6B;
-		text-align: left;
-		margin-left: 20px;
-		margin-top: 5px;
-		margin-bottom: 3px;
-		clear: left /* make sure title appears on separate line after using 'float' */
-	}
-	.small-title .edit
-	{
-		cursor: pointer;
-		color: #eb8f00;
-		text-decoration: underline;
-	}
-	.small-title .edit:hover
-	{
-		color: #EB8F00;
-	}
-	#overlay-desc, #overlay-loc
-	{
-		min-height: 22px;
-		margin: 0px 20px;
-		width: calc(100% - 40px);
-		resize: none;
-		border: none;
-		color: inherit;
-		font-size: inherit;
-		text-align: left;
-		padding: 3px 0px;
+#sch-holder {
+  width: 100%;
 
-		/* Disable hover background effect */
-		&:hover:not(:focus) { background: none; }
-		&:focus { padding: 3px 5px; }
-	}
-	.overlay-time
-	{
-		float: left;
-		margin-top: 5px;
-		margin-left: 20px;
-	}
-	.overlay-time input
-	{
-		width: 65px;
-		padding-left: 2px;
-		font-size: 14px;
-		/* font-family:Open Sans, sans-serif; */
-	}
+  height: 662px;
+  border-radius: 5px;
+  overflow-x: auto;
+  overflow-y: auto;
 }
 
-#evnt-delete.overlay-box
-{
-	/* Add spacing to the options */
-	span.default:not(.close)
-	{
-		display: block;
-		margin: 5px auto;
-		width: 200px;
-	}
-	#single-evnt { margin-top: 20px; }
+.sch-evnt {
+  transition: box-shadow 0.3s, border-color 0.3s;
+  position: relative;
+  width: 190px;
+  height: 88px; // This should be 90px - borders top and bottom
+  min-height: 25px;
+  background: #bdbdbd;
+  left: 0;
+  right: 0;
+  font-size: 16px;
+  overflow: hidden;
+  cursor: move;
+
+  .evnt-desc {
+    display: none;
+    width: 100%;
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  .evnt-divider {
+    width: 1px;
+    left: 48px;
+    height: 90%;
+    top: 5%;
+    position: absolute;
+    background-color: #ffffff;
+  }
+
+  .evnt-time {
+    position: absolute;
+    float: left;
+    margin-left: 2px;
+    width: 50px;
+    text-align: left;
+    font-size: 10px;
+    color: #f0f0f0;
+    line-height: 1;
+  }
+
+  .evnt-time.top {
+    top: 5%;
+  }
+
+  .evnt-time.bot {
+    bottom: 6%;
+  }
+
+  .evnt-title {
+    font-size: 14px;
+    font-weight: bold;
+    width: 69%;
+    margin-left: 52px;
+    margin-right: auto;
+    text-align: left;
+    overflow: hidden;
+    overflow-wrap: break-word; // chrome does this by default - firefox doesn't
+    transition: all 0.3s;
+    cursor: pointer;
+    max-height: 95%;
+    min-height: 19px;
+  }
+
+  // Give editable text fields proper cursor
+  .evnt-title:focus,
+  .cat-overlay-title:focus {
+    cursor: text !important; // scss-lint:disable ImportantRule
+  }
 }
 
-input[readonly="readonly"]
-{
-	background: transparent;
-	border: none;
-	width: 60px;
+.col-snap {
+  position: absolute;
+  height: calc(100% - 50px);
+  max-height: 600px;
+  width: 192px;
+  margin-left: auto;
+  margin-right: auto;
+  left: -1px;
+  right: 0;
+  top: 50px;
+  padding-bottom: 1px;
+
+  // Style events that have been placed
+  .sch-evnt {
+    position: absolute;
+  }
+
+  .sch-evnt:hover > .sch-evnt-icon {
+    display: block;
+    opacity: 1;
+  }
+
+  .sch-evnt:hover {
+    box-shadow: 0 0 5px #000000;
+    border-color: rgba(0, 0, 0, 0);
+  }
+
+  .evnt-title:hover,
+  .evnt-title:focus {
+    background: rgba(0, 0, 0, 0.25);
+    box-shadow: 0 0 3px #000000;
+  }
 }
 
-
-.sch-but-holder /* The container for the buttons at the top of the scheduler */
-{
-	margin-bottom: 15px;
-	padding: 0px 5px;
-
-	.sch-week-prev
-	{
-		float: left;
-	}
-	.sch-week-next
-	{
-		float: right;
-	}
-	.sch-view-btn
-	{
-		background: #ffc354;
-		box-shadow: none;
-
-		&.active
-		{
-			background: $light-orange;
-			box-shadow: 1px 1px 3px grey inset;
-		}
-	}
+.sch-evnt-icon,
+.sch-cat-icon {
+  display: none;
+  position: absolute;
+  opacity: 0;
+  transition: opacity 0.3s;
+  right: 3px;
+  top: 3px;
+  border-radius: 500px;
+  width: 20px;
+  cursor: pointer;
 }
 
-
-.category
-{
-	border:solid 1px #EEE;
-	color:#FFF;
+.sch-cat-icon {
+  opacity: 1;
 }
 
-.color-swatch
-{
-	display:inline-block;
-	position: relative;
-	top: 2px;
-	width:25px;
-	height:25px;
-	border-radius: 50px;
-	cursor: pointer;
-
-	&.selected
-	{
-		background-image:image-url("checkmark-wht.png");
-		background-size:cover;
-	}
-	&:hover
-	{
-		border: solid 2px grey;
-		width:21px;
-		height:21px;
-	}
+.sch-evnt-close {
+  right: 3px;
+  top: 3px;
 }
 
-.col-titler
-{
-	float: left;
-	padding:5px;
-	width:90%;
-	left:10px;
-	text-align:left;
-
-	.evnt-date
-	{
-		font-size: 24px;
-		color: $light-orange;
-		float: left;
-		left: 10px;
-		top:2px;
-		position: relative;
-	}
-	.evnt-fulldate, .evnt-day
-	{
-		font-size:14px;
-		text-align:left;
-		float:left;
-		width: 50%;
-		margin-left:20px;
-		color: grey;
-	}
+.sch-evnt-edit {
+  right: 20px;
+  top: 5px;
+  width: 18px;
 }
 
-
-.ui-resizable-handle
-{
-	height: 10px !important;
+.sch-evnt-edit-cat {
+  left: 3px;
+  top: 3px;
 }
 
-
-#break-adder-overlay-box
-{
-	width: 420px;
-	min-height: 300px;
-	margin-top: 50px;
-	padding-bottom: 0px;
-	z-index: 1002;
-
-	#break-cont
-	{
-		text-align: left;
-		padding-left: 20px;
-		padding-top: 5px;
-		max-height: 300px;
-		overflow-y: auto;
-	}
-	.break-elem
-	{
-		color: black;
-		display: inline-block;
-		padding: 5px 15px;
-		border-radius: 5px;
-		margin: 2px 0px;
-		cursor: pointer;
-	}
-	.break-elem.active
-	{
-		background: #3EC73E;
-		color: white;
-	}
+.sch-evnt-del-cat {
+  left: 20px;
+  top: 2px;
 }
 
-#cat-overlay-box
-{
-	top: 30%;
-	width: 500px;
-
-	#cat-privacy
-	{
-		margin: 10px 0px;
-	}
-	#cat-privacy .default
-	{
-		margin: 0px 5px;
-	}
-	.future-colors
-	{
-		width: 100%;
-	}
-	.sch-cat-icon
-	{
-		display: block;
-		width: 30px;
-		height: 30px;
-		top: 10px;
-		right: 10px;
-	}
-	.cat-top-overlay
-	{
-		width:100%;
-		background-color:grey;
-		display: inline-block;
-	}
-	.cat-overlay-title
-	{
-		font-family:"Open Sans", cursive;
-		font-size:30px;
-		font-weight:600;
-		margin-top:24px;
-		margin-left:20px;
-		color:White;
-		width: calc(100% - 90px);
-		text-align: left;
-		padding: 0px 10px;
-		border-radius: 5px;
-		margin-bottom: 25px;
-		min-height: 41px;
-	}
-	.cat-overlay-title:focus, .cat-overlay-title:hover
-	{
-		background: rgba(255, 255, 255, 0.4);
-	}
-	.cat-remainder-overlay
-	{
-		left:0px;
-		width:100%;
-	}
-	#add-break-category
-	{
-		margin-bottom: 10px;
-	}
+#sch-weekly-view {
+  height: 100%;
+  width: 1410px;
 }
 
-#sch-holder::-webkit-scrollbar, #sch-tiles::-webkit-scrollbar
-{
-	width: 9px;
-	height: 9px;
+.sch-day-col {
+  position: relative;
+  height: 100%;
+  width: 200px;
+  float: left;
+  min-width: 160px;
+  border-right: solid 1px #969696;
+
+  &#sch-today {
+    background-color: #ffff73;
+
+    .col-titler {
+      font-weight: bold;
+    }
+  }
+
+  &.over {
+    background: #ffff97;
+  }
 }
 
-/* Scroll Bar Styling */
-#sch-holder::-webkit-scrollbar-track, #sch-tiles::-webkit-scrollbar-track /* Track */
-{
-	/* -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); */
-	background: rgba(100,100,100,0.2);
-	-webkit-border-radius: 12px;
-	border-radius: 10px;
-}
-#sch-holder::-webkit-scrollbar-thumb, #sch-tiles::-webkit-scrollbar-thumb /* Handle */
-{
-	-webkit-border-radius: 10px;
-	border-radius: 10px;
-	background: rgba(255,140,43,0.8);
-}
-#sch-holder::-webkit-scrollbar-thumb:window-inactive
-{
-	/* background: rgba(255,0,0,0.4); */
-}
-/* End Scroll Bar Styling */
-.overlay-box textarea
-{
-	border-radius: 5px;
-	cursor: pointer;
-	outline: none;
-	font-family: inherit;
-	background: none;
-	transition: all 0.3s;
-	&:focus
-	{
-		cursor: text;
-		background: #D3CECE;
-		box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5) inset;
-	}
-	&:hover
-	{
-		background: #D3CECE;
-	}
-}
-.overlay-box #repeat
-{
-	position: relative;
-	margin-top: 5px;
-	margin-bottom: 10px;
-}
-.overlay-box #repeat-menu
-{
-	display: none;
-	position: relative;
-	margin-left: auto;
-	margin-right: auto;
-	left: 0;
-	right: 0;
-	margin-bottom: 15px;
-}
-#repeat-start, #repeat-end
-{
-	margin-top: 10px;
-}
-.repeat-option
-{
-	margin-bottom: 5px;
-}
-#repeat-custom-options
-{
-	display: none;
+// Scheduler-wide read-only styling
+.sch-all-cont.read-only {
+  // Hide edit and close icons
+  .sch-cat-icon,
+  .sch-evnt-icon {
+    display: none !important; // scss-lint:disable ImportantRule
+  }
 
-	input, select
-	{
-		height: 25px;
-		box-sizing: border-box;
-	}
-	input
-	{
-		width: 50px;
-	}
-}
-#repeat-certain-days-options { margin: 10px 0px; display: none;}
+  // Make it clear you can't drag schedule events and can't edit titles
+  .sch-evnt,
+  .evnt-title {
+    cursor: default !important; // scss-lint:disable ImportantRule
+  }
 
-/* Date Picker Styling */
-.date-field /* general class for things that have the date picker calendar */
-{
-	position: relative;
-	top: -1px;
-	width: 75px;
-	height: 20px;
-	padding: 3px 30px 2px 10px;
-	font-family: 'Open Sans', sans-serif;
-	font-size: 14px;
-	color: #999999;
-	background-image: image-url("calendar.svg");
-	background-repeat: no-repeat;
-	background-size: auto 80%;
-	background-position: 97% 50%;
-	border-radius: 3px;
-	box-shadow: 0px 0px 1px #CECECE;
-	border: solid 1px #CECECE;
-}
-.date-field:focus
-{
-	color: #4E4E4E;
-}
-#ui-datepicker-div
-{
-	font-family: 'Open Sans', sans-serif;
-	margin-top: 5px;
-}
-.ui-datepicker th
-{
-	padding: .4em .3em;
-	color: #595959;
-}
-#ui-datepicker-div .ui-state-default
-{
-	color: #BBBBBB;
-	background: #F9F9F9;
-}
-#ui-datepicker-div .ui-state-active, #ui-datepicker-div .ui-state-hover
-{
-	color: #ED7D31;
-	background: #FFFFFF;
-}
-#ui-datepicker-div .ui-state-highlight
-{
-	background: #FFF4E1;
-}
-.ui-datepicker .ui-datepicker-header
-{
-	background: $light-orange;
-}
-/* End Date Picker Styling */
+  // Get rid of the default hover effect
+  .evnt-title {
+    background: none !important; // scss-lint:disable ImportantRule
+    box-shadow: none !important; // scss-lint:disable ImportantRule
+  }
 
-#save-checkmark
-{
-	opacity: 0;
-	width: 24px;
-	position: absolute;
-	top: 2px;
-	right: 5px;
-	transition: opacity 0.5s;
+  // Hide "Add Category" button & no categories placeholder
+  .cat-add.main,
+  .no-categories {
+    display: none;
+  }
 }
-#sch-save
-{
-	transition: padding-right 0.5s, background 0.3s;
 
-	&.loading
-	{
-		padding-right: 32px;
-		.loading-spinner { opacity: 1; }
-	}
-	.loading-spinner
-	{
-		opacity: 0;
-		position: absolute;
-		top: 2px;
-		right: 5px;
-		transition: opacity 0.5s;
-	}
-	&.active
-	{
-		padding-right: 32px;
-		> #save-checkmark
-		{
-			opacity: 1;
-		}
-	}
+// Specific events read-only styling
+.sch-evnt.read-only {
+  cursor: default !important; // scss-lint:disable ImportantRule
+
+  .sch-evnt-edit {
+    display: none !important; // scss-lint:disable ImportantRule
+  }
+
+  .evnt-title {
+    cursor: default !important; // scss-lint:disable ImportantRule
+    background: none !important; // scss-lint:disable ImportantRule
+    box-shadow: none !important; // scss-lint:disable ImportantRule
+  }
 }
-#embed-button { position: relative; top: -5px;}
 
-/* Read only styling */
-.read-only
-{
-	/* Hide edit and close icons */
-	.sch-cat-icon, .sch-evnt-icon
-	{
-		display: none !important;
-	}
-	/* Make it clear you can't drag schedule events and can't edit titles */
-	.sch-evnt, .evnt-title
-	{
-		cursor: default !important;
-	}
-	/* Hide "Add Category" button & no categories placeholder */
-	.cat-add.main, .no-categories
-	{
-		display: none;
+// Overlay CSS
+#event-overlay-box {
+  #overlay-title {
+    font-size: 24px;
+    min-height: 33px;
+    width: 85%;
+    margin-left: 20px;
+    margin-right: auto;
+    padding-left: 5px;
+    text-align: left;
+    border-radius: 5px;
+  }
+
+  #overlay-title:focus,
+  #overlay-title:hover {
+    background: rgba(150, 150, 150, 0.33);
+  }
+
+  #event-header { margin-bottom: 5px; }
+
+  #overlay-color-bar {
+    width: 100%;
+    padding: 10px 0;
+    color: #ffffff;
+    text-align: right;
+  }
+
+  #host-info {
+    padding: 5px 15px;
+    background: #d4d4d4;
+    text-align: left;
+    font-size: 14px;
+  }
+
+  #cat-title {
+    top: 20px;
+    right: 45px;
+    font-weight: 600;
+    font-size: 18px;
+    margin-right: 10px;
+    margin-left: 50px;
+  }
+
+  .small-title {
+    color: #6b6b6b;
+    text-align: left;
+    margin-left: 20px;
+    margin-top: 5px;
+    margin-bottom: 3px;
+    clear: left;
+  }
+
+  .small-title .edit {
+    cursor: pointer;
+    color: #eb8f00;
+    text-decoration: underline;
+  }
+
+  .small-title .edit:hover {
+    color: #eb8f00;
+  }
+
+  #overlay-desc,
+  #overlay-loc {
+    min-height: 22px;
+    margin: 0 20px;
+    width: calc(100% - 40px);
+    resize: none;
+    border: 0;
+    color: inherit;
+    font-size: inherit;
+    text-align: left;
+    padding: 3px 0;
+
+    // Disable hover background effect
+    &:hover:not(:focus) {
+      background: none;
+    }
+
+    &:focus {
+      padding: 3px 5px;
+    }
+  }
+
+  .overlay-time {
+    float: left;
+    margin-top: 5px;
+    margin-left: 20px;
+  }
+
+  .overlay-time input {
+    width: 65px;
+    padding-left: 2px;
+    font-size: 14px;
+  }
+}
+
+#evnt-delete.overlay-box {
+  span.default:not(.close) {
+    display: block;
+    margin: 5px auto;
+    width: 200px;
+  }
+
+  #single-evnt {
+    margin-top: 20px;
+  }
+}
+
+input[readonly='readonly'] {
+  background: transparent;
+  border: 0;
+  width: 60px;
+}
+
+.token-input-dropdown {
+  z-index: 1001;
+}
+
+.sch-but-holder {
+  margin-bottom: 15px;
+  padding: 0 5px;
+
+  .sch-week-prev {
+    float: left;
+  }
+
+  .sch-week-next {
+    float: right;
+  }
+
+  .sch-view-btn {
+    background: #ffc354;
+    box-shadow: none;
+
+    &.active {
+      background: $light-orange;
+      box-shadow: 1px 1px 3px #808080 inset;
+    }
+  }
+}
+
+.category {
+  border: solid 1px #eeeeee;
+  color: #ffffff;
+}
+
+.color-swatch {
+  display: inline-block;
+  position: relative;
+  top: 2px;
+  width: 25px;
+  height: 25px;
+  border-radius: 50px;
+  cursor: pointer;
+
+  &.selected {
+    background-image: image-url('checkmark-wht.png');
+    background-size: cover;
+  }
+
+  &:hover {
+    border: solid 2px #808080;
+    width: 21px;
+    height: 21px;
+  }
+}
+
+.col-titler {
+  float: left;
+  padding: 5px;
+  width: 90%;
+  left: 10px;
+  text-align: left;
+
+  .evnt-date {
+    font-size: 24px;
+    color: $light-orange;
+    float: left;
+    left: 10px;
+    top: 2px;
+    position: relative;
+  }
+
+  .evnt-fulldate,
+  .evnt-day {
+    font-size: 14px;
+    text-align: left;
+    float: left;
+    width: 50%;
+    margin-left: 20px;
+    color: #808080;
+  }
+}
+
+.ui-resizable-handle {
+  height: 10px !important; // scss-lint:disable ImportantRule
+}
+
+#break-adder-overlay-box {
+  width: 420px;
+  min-height: 300px;
+  margin-top: 50px;
+  padding-bottom: 0;
+  z-index: 1002;
+
+  #break-cont {
+    text-align: left;
+    padding-left: 20px;
+    padding-top: 5px;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+
+  .break-elem {
+    color: #000000;
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 5px;
+    margin: 2px 0;
+    cursor: pointer;
+  }
+
+  .break-elem.active {
+    background: #3ec73e;
+    color: #ffffff;
+  }
+}
+
+#cat-overlay-box {
+  top: 30%;
+  width: 500px;
+
+  #cat-privacy {
+    margin: 10px 0;
+  }
+
+  #cat-privacy .default {
+    margin: 0 5px;
+  }
+
+  .future-colors {
+    width: 100%;
+  }
+
+  .sch-cat-icon {
+    display: block;
+    width: 30px;
+    height: 30px;
+    top: 10px;
+    right: 10px;
+  }
+
+  .cat-top-overlay {
+    width: 100%;
+    background-color: #808080;
+    display: inline-block;
+  }
+
+  .cat-overlay-title {
+    font-family: 'Open Sans', cursive;
+    font-size: 30px;
+    font-weight: 600;
+    margin-top: 24px;
+    margin-left: 20px;
+    color: #ffffff;
+    width: calc(100% - 90px);
+    text-align: left;
+    padding: 0 10px;
+    border-radius: 5px;
+    margin-bottom: 25px;
+    min-height: 41px;
+  }
+
+  .cat-overlay-title:focus,
+  .cat-overlay-title:hover {
+    background: rgba(255, 255, 255, 0.4);
+  }
+
+  .cat-remainder-overlay {
+    left: 0;
+    width: 100%;
+  }
+
+  #add-break-category {
+    margin-bottom: 10px;
+  }
+}
+
+#sch-holder::-webkit-scrollbar,
+#sch-tiles::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+
+// Scroll Bar Styling
+#sch-holder::-webkit-scrollbar-track,
+#sch-tiles::-webkit-scrollbar-track {
+  background: rgba(100, 100, 100, 0.2);
+  border-radius: 10px;
+}
+
+#sch-holder::-webkit-scrollbar-thumb,
+#sch-tiles::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: rgba(255, 140, 43, 0.8);
+}
+
+// End Scroll Bar Styling
+.overlay-box textarea {
+  border-radius: 5px;
+  cursor: pointer;
+  outline: none;
+  font-family: inherit;
+  background: none;
+  transition: all 0.3s;
+
+  &:focus {
+    cursor: text;
+    background: #d3cece;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5) inset;
+  }
+
+  &:hover {
+    background: #d3cece;
+  }
+}
+
+.overlay-box #repeat {
+  position: relative;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+.overlay-box #repeat-menu {
+  display: none;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  margin-bottom: 15px;
+}
+
+#repeat-start,
+#repeat-end {
+  margin-top: 10px;
+}
+
+.repeat-option {
+  margin-bottom: 5px;
+}
+
+#repeat-custom-options {
+  display: none;
+
+  input,
+  select {
+    height: 25px;
+    box-sizing: border-box;
+  }
+
+  input {
+    width: 50px;
+  }
+}
+
+#repeat-certain-days-options {
+  margin: 10px 0;
+  display: none;
+}
+
+// Date Picker Styling
+.date-field {
+  position: relative;
+  top: -1px;
+  width: 75px;
+  height: 20px;
+  padding: 3px 30px 2px 10px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  color: #999999;
+  background-image: image-url('calendar.svg');
+  background-repeat: no-repeat;
+  background-size: auto 80%;
+  background-position: 97% 50%;
+  border-radius: 3px;
+  box-shadow: 0 0 1px #cecece;
+  border: solid 1px #cecece;
+}
+
+.date-field:focus {
+  color: #4e4e4e;
+}
+
+#ui-datepicker-div {
+  font-family: 'Open Sans', sans-serif;
+  margin-top: 5px;
+}
+
+.ui-datepicker th {
+  padding: 0.4em 0.3em;
+  color: #595959;
+}
+
+#ui-datepicker-div .ui-state-default {
+  color: #bbbbbb;
+  background: #f9f9f9;
+}
+
+#ui-datepicker-div .ui-state-active,
+#ui-datepicker-div .ui-state-hover {
+  color: #ed7d31;
+  background: #ffffff;
+}
+
+#ui-datepicker-div .ui-state-highlight {
+  background: #fff4e1;
+}
+
+.ui-datepicker .ui-datepicker-header {
+  background: $light-orange;
+}
+
+// End Date Picker Styling
+
+#save-checkmark {
+  opacity: 0;
+  width: 24px;
+  position: absolute;
+  top: 2px;
+  right: 5px;
+  transition: opacity 0.5s;
+}
+
+#sch-save {
+  transition: padding-right 0.5s, background 0.3s;
+
+  &.loading {
+    padding-right: 32px;
+
+    .loading-spinner {
+      opacity: 1;
+    }
+  }
+
+  .loading-spinner {
+    opacity: 0;
+    position: absolute;
+    top: 2px;
+    right: 5px;
+    transition: opacity 0.5s;
+  }
+
+  &.active {
+    padding-right: 32px;
+
+    > #save-checkmark {
+      opacity: 1;
+    }
+  }
+}
+
+#event-invites-list {
+  min-height: 50px;
+  width: 95%;
+  margin: 0 auto;
+  background: #f8f8ff;
+}
+
+#event-invites-list .event-invite {
+  display: grid;
+  grid-template-columns: 65px auto 60px 32px;
+  align-items: center;
+  text-align: left;
+
+  height: 48px;
+  padding: 5px 8px;
+}
+
+#event-invites-list .avatar {
+  display: inline-flex;
+
+  img {
+    width: 40px;
+    height: 40px;
 	}
 }
 
@@ -798,161 +841,165 @@ input[readonly="readonly"]
 // MONTHLY VIEW STYLING
 // -----------------------------------
 
-#sch-monthly-view
-{
-	display: none;
-	height: 100%;
-	#month-name
-	{
-		height: 30px;
-		margin: 0px;
-	}
-	#tiles-cont
-	{
-		height: calc(100% - 30px);
-	}
-}
-.sch-day-tile
-{
-	float: left;
-	// Removed precision due to Edge over-calculating value, shifting tile off screen.
-	// Formerly written as 100 % / 7, but this is kept as a fairly equivalent value
-	// to still ensure ~ 7 items can show in a row.
-	width: 14.28%;
-	height: 25%;
-	padding: 2px;
-	box-sizing: border-box;
-	overflow: hidden;
+#sch-monthly-view {
+  display: none;
+  height: 100%;
 
-	.inner
-	{
-		height: 100%;
-		background: $grey;
-	}
-	&.in-past
-	{
-		.sch-month-evnt
-		{
-			// opacity: 0.5;
-			// transition: opacity 0.25s;
-		}
-	}
-	&.over {
-		.inner { background: rgb(255, 255, 151); }
-		&.last-month, &.next-month {
-			.inner { background: rgba(255, 255, 151, 0.5); }
-		}
-	}
-	.day-of-month
-	{
-		font-size: 16px;
-		text-align: left;
-		margin-left: 5px;
-	}
-	/* Give special styling to days outside this month */
-	&.last-month, &.next-month
-	{
-		.inner { background-color: #d9d9d9; }
-		.day-of-month { color: gray;}
-	}
-	&#sch-today
-	{
-		background-color: #E0E0E0;
-		border: solid 1px #9E9E9E;
+  #month-name {
+    height: 30px;
+    margin: 0;
+  }
 
-		.day-of-month { font-weight: bold; }
-	}
+  #tiles-cont {
+    height: calc(100% - 30px);
+  }
 }
 
-.sch-month-evnt
-{
-	margin: 0px 2px 4px 2px;
-	position: relative;
-	color: grey;
-	border-left: solid 3px;
-	padding-left: 5px;
-	background: white;
-	text-align: left;
-	line-height: 1.1;
-	font-size: 14px;
-	transition: box-shadow 0.3s;
-	cursor: pointer;
+.sch-day-tile {
+  float: left;
 
-	.time
-	{
-		font-size: 10px;
-		color: grey;
-	}
-	.close
-	{
-		opacity: 0;
-		background-image: image-url("close-wht.png");
-		background-repeat: no-repeat;
-		background-size: 90%;
-		background-position: center;
-		background-color: rgba(54, 54, 54, 0.5);
-		position: absolute;
-		border-radius: 100px;
-		cursor: pointer;
-		top: 2px;
-		right: 2px;
-		width: 15px;
-		height: 15px;
-		transition: background-color 0.3s, opacity 0.3s;
+  // Removed precision due to Edge over-calculating value, shifting tile off screen.
+  // Formerly written as 100 % / 7, but this is kept as a fairly equivalent value
+  // to still ensure ~ 7 items can show in a row.
+  width: 14.28%;
+  height: 25%;
+  padding: 2px;
+  box-sizing: border-box;
+  overflow: hidden;
 
-		&:hover { background-color: rgb(54, 54, 54); }
-	}
-	/* Show close button when hovering over an event, but not when dragging it */
-	&:not(.ui-draggable-dragging):hover
-	{
-		box-shadow: 0px 0px 5px black;
+  .inner {
+    height: 100%;
+    background: $grey;
+  }
 
-		.close { opacity: 1; }
-	}
-	&.ui-draggable-dragging
-	{
-		box-shadow: 0px 0px 5px black;
-	}
+  &.over {
+    .inner {
+      background: #ffff97;
+    }
+
+    &.last-month,
+    &.next-month .inner {
+      background: rgba(255, 255, 151, 0.5);
+    }
+  }
+
+  .day-of-month {
+    font-size: 16px;
+    text-align: left;
+    margin-left: 5px;
+  }
+
+  // Give special styling to days outside this month
+  &.last-month,
+  &.next-month {
+    .inner {
+      background-color: #d9d9d9;
+    }
+
+    .day-of-month {
+      color: #808080;
+    }
+  }
+
+  &#sch-today {
+    background-color: #e0e0e0;
+    border: solid 1px #9e9e9e;
+
+    .day-of-month {
+      font-weight: bold;
+    }
+  }
 }
 
-/* On hover show all events */
-.sch-day-tile:hover
-{
-	overflow: visible;
+.sch-month-evnt {
+  margin: 0 2px 4px 2px;
+  position: relative;
+  color: #808080;
+  border-left: solid 3px;
+  padding-left: 5px;
+  background: #ffffff;
+  text-align: left;
+  line-height: 1.1;
+  font-size: 14px;
+  transition: box-shadow 0.3s;
+  cursor: pointer;
 
-	.sch-month-evnt
-	{
-		opacity: 1;
-		z-index: 10;
-	}
+  .time {
+    font-size: 10px;
+    color: #808080;
+  }
+
+  .close {
+    opacity: 0;
+    background: rgba(54, 54, 54, 0.5) image-url('close-wht.png') no-repeat center;
+    background-size: 90%;
+    position: absolute;
+    border-radius: 100px;
+    cursor: pointer;
+    top: 2px;
+    right: 2px;
+    width: 15px;
+    height: 15px;
+    transition: background-color 0.3s, opacity 0.3s;
+
+    &:hover {
+      background-color: rgb(54, 54, 54);
+    }
+  }
+
+  // Show close button when hovering over an event, but not when dragging it
+  &:not(.ui-draggable-dragging):hover {
+    box-shadow: 0 0 5px #000000;
+
+    .close {
+      opacity: 1;
+    }
+  }
+
+  &.ui-draggable-dragging {
+    box-shadow: 0 0 5px #000000;
+  }
 }
+
+// On hover show all events
+.sch-day-tile:hover {
+  overflow: visible;
+
+  .sch-month-evnt {
+    opacity: 1;
+    z-index: 10;
+  }
+}
+
 #day-labels {
-	font-size: 0px;
-}
-.day-label {
-	width: 14.28%;
-	display: inline-block;
-	font-size: 14px;
-	text-align: left;
-	padding-left: 5px;
-	box-sizing: border-box;
-	color: grey;
+  font-size: 0;
 }
 
-/* No drag properties, applied to schedule and sidebar */
+.day-label {
+  width: 14.28%;
+  display: inline-block;
+  font-size: 14px;
+  text-align: left;
+  padding-left: 5px;
+  box-sizing: border-box;
+  color: #808080;
+}
+
+// No drag properties, applied to schedule and sidebar
 .sch-no-drag {
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	cursor: default;
+  // block touch and hold link info in ios and safari
+  -webkit-touch-callout: none;
+
+  user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+
+  cursor: default;
 }
 
 // -----------------------------------
 // END MONTHLY VIEW
 // -----------------------------------
 
-
-/* END SCHEDULE STYLING */
+// END SCHEDULE STYLING

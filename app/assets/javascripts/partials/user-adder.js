@@ -1,5 +1,6 @@
-/* Indicate to ESLint that functions are a global "export" */
-/* exported initializeUserAdder, tokenHtml */
+// This file exports functions, and due to modules from Vue we need to disable
+// the ESLint unused vars rule
+/* eslint no-unused-vars:0 */
 
 /**
  * Tokenizer implementation for the user entry

@@ -1,44 +1,43 @@
 <%- if controller_name != 'sessions' %>
-  <%= link_to_block "Sign In", new_session_path(resource_name), :class => "default google-width" %>
+  <%= link_to "Sign In", new_session_path(resource_name), :class => "button google-width" %>
   <br>
 <% end -%>
 
 <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
-  <%= link_to_block "Sign Up", new_registration_path(resource_name, :refer => "dvs-lnks"), :class => "default google-width" %>
+  <%= link_to "Sign Up", new_registration_path(resource_name, :refer => "dvs-lnks"), :class => "button google-width" %>
   <br>
 <% end -%>
 
 <%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
-  <%= link_to_block "Forgot your password?", new_password_path(resource_name), :class => "default google-width" %>
+  <%= link_to "Forgot your password?", new_password_path(resource_name), :class => "button google-width" %>
 <% end -%>
 
 <%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
-  <%= link_to new_confirmation_path(resource_name), :class => "default" do %><br /></div>
-	<span>Didn't receive confirmation instructions?</span>
+  <%= link_to new_confirmation_path(resource_name), :class => "button google-width" do %>
+    Resend email confirmation
   <% end %>
 <% end -%>
 
 <%- if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks' %>
-  <%= link_to new_unlock_path(resource_name), :class => "default" do %>
-	<span>Didn't receive unlock instructions?</span>
+  <%= link_to new_unlock_path(resource_name), :class => "button google-width" do %>
+    Resend email unlock
   <% end %>
 <% end -%>
 
 <%- if devise_mapping.omniauthable? %>
   <%- resource_class.omniauth_providers.each do |provider| %>
-  	<% if provider.to_s.titleize.split.first == "Google" %>
+    <% if provider.to_s.titleize.split.first == "Google" %>
 
-	    	<%= link_to  omniauth_authorize_path(resource_name, provider), :class=>"google-sign-in" do %>
-	    	 <div>
-	    	<%= image_tag "google.png" %>
-	    	<span>Sign in with Google</span>
-			</div>
-	    	<% end %>
-	<% else %>
-     	<div class="link-default">
-			<%= link_to "Sign in with #{provider.to_s.titleize.split.first}", omniauth_authorize_path(resource_name, provider), :class => "default" %>
-		</div>
-    <% end%>
-    <br>
+        <%= link_to  omniauth_authorize_path(resource_name, provider), :class=>"google-sign-in" do %>
+          <div>
+            <%= image_tag "google.png" %>
+            <span>Sign in with Google</span>
+          </div>
+        <% end %>
+    <% else %>
+      <div class="link-default">
+        <%= link_to "Sign in with #{provider.to_s.titleize.split.first}", omniauth_authorize_path(resource_name, provider), :class => "button google-width" %>
+      </div>
+    <% end %>
   <% end -%>
 <% end -%>
