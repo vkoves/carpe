@@ -42,9 +42,34 @@ class EventInvitesControllerTest < ActionDispatch::IntegrationTest
     assert_match(/You don't have permission/, flash[:alert])
   end
 
+  test "event owner can invite guests" do
+    sign_in users(:viktor)
+    event = events(:music_convention)
+    user = users(:ownerAlice)
+
+    assert_difference -> { EventInvite.count }, +1 do
+      post event_invites_path(event, user_ids: [user.id])
+    end
+  end
+
   test "event owner can remove guest" do
     sign_in users(:viktor)
     delete event_invite_path(event_invites(:joe_music))
     assert_response :success
+  end
+
+  test "users cannot remove guests from events they do not own" do
+    sign_in users(:putin)
+    delete event_invite_path(event_invites(:joe_music))
+    assert_response :redirect
+  end
+
+  test "users cannot invite people to events they do not own" do
+    sign_in users(:putin)
+    event = events(:music_convention)
+    user = users(:ownerAlice)
+
+    post event_invites_path(event, user_ids: [user.id])
+    assert_response :redirect
   end
 end

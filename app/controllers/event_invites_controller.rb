@@ -3,6 +3,8 @@ class EventInvitesController < ApplicationController
   before_action :validate_token, only: [:email_action]
 
   def create
+    authorize! :batch_invite_users, Event.find(params[:event_id])
+
     batch_create && return if params[:user_ids]
 
     render plain: "only batch creation is currently supported"
@@ -10,6 +12,7 @@ class EventInvitesController < ApplicationController
 
   def destroy
     invite = EventInvite.find(params[:id])
+    authorize! :destroy, invite
 
     invite.destroy!
 
