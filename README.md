@@ -4,6 +4,8 @@
 
 A socially networked, intuitive calendar created in Ruby on Rails with a jQuery powered front end.
 
+**WARNING :warning:** - This app is no longer maintained as of June 9th, 2019. Feel free to fork it and use it for your own benefit, but it is not receiving new updates. We will likely archive it later on.
+
 ## Setup
 
 1) Install the latest versions of [Ruby](https://rvm.io/) and [npm](https://nodejs.org/en/download/)
