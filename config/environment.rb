@@ -2,8 +2,8 @@
 require_relative "application"
 
 ActionMailer::Base.smtp_settings = {
-  user_name: "indigobox",
-  password: "swimmingMail13",
+  user_name: ENV["SENDGRID_USERNAME"],
+  password: ENV["SENDGRID_PASSWORD"],
   domain: "carpe.us",
   address: "smtp.sendgrid.net",
   port: 587,
