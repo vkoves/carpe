@@ -2,7 +2,7 @@ require "application_system_test_case"
 
 class SchedulersTest < ApplicationSystemTestCase
   def setup
-    sign_in "viktorkoves@gmail.com", "trombone321"
+    sign_in "viktorsemail@example.com", "trombone321"
     visit "/schedule"
   end
 
