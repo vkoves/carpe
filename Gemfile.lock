@@ -217,7 +217,7 @@ GEM
     mysql2 (0.5.2)
     net_http_ssl_fix (0.0.10)
     nio4r (2.3.1)
-    nokogiri (1.10.2)
+    nokogiri (1.10.4)
       mini_portile2 (~> 2.4.0)
     non-stupid-digest-assets (1.0.9)
       sprockets (>= 2.0)
